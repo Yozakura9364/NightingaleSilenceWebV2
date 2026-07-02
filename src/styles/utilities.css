@@ -1,0 +1,28 @@
+@layer utilities {
+  .ns-stack {
+    display: grid;
+    gap: var(--ns-space-4);
+  }
+
+  .ns-cluster {
+    display: flex;
+    align-items: center;
+    gap: var(--ns-space-3);
+    flex-wrap: wrap;
+  }
+
+  .ns-muted {
+    color: var(--ns-color-text-muted);
+  }
+
+  .ns-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}

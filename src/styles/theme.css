@@ -1,0 +1,49 @@
+@layer theme {
+  :root {
+    color-scheme: light;
+
+    --ns-color-bg: #fbf8ff;
+    --ns-color-bg-soft: #fff4fb;
+    --ns-color-surface: rgba(255, 255, 255, 0.82);
+    --ns-color-surface-solid: #ffffff;
+    --ns-color-surface-tint: #f7efff;
+    --ns-color-text: #241b2f;
+    --ns-color-text-muted: #766a83;
+    --ns-color-border: rgba(88, 68, 105, 0.18);
+    --ns-color-border-strong: rgba(88, 68, 105, 0.32);
+    --ns-color-accent: #ef6fb2;
+    --ns-color-accent-strong: #d94d9d;
+    --ns-color-accent-soft: #ffe1f1;
+    --ns-color-cyan: #63d9dc;
+    --ns-color-cyan-soft: #d9fbfb;
+    --ns-color-warning: #f1a748;
+    --ns-color-danger: #d64f72;
+    --ns-color-success: #39a887;
+
+    --ns-font-sans: "Inter", "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    --ns-font-display: "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+
+    --ns-radius-xs: 6px;
+    --ns-radius-sm: 8px;
+    --ns-radius-md: 12px;
+    --ns-radius-lg: 8px;
+    --ns-radius-pill: 999px;
+
+    --ns-space-1: 4px;
+    --ns-space-2: 8px;
+    --ns-space-3: 12px;
+    --ns-space-4: 16px;
+    --ns-space-5: 24px;
+    --ns-space-6: 32px;
+    --ns-space-7: 48px;
+    --ns-space-8: 64px;
+
+    --ns-shadow-soft: 0 18px 50px rgba(70, 45, 90, 0.12);
+    --ns-shadow-panel: 0 12px 32px rgba(70, 45, 90, 0.1);
+    --ns-focus-ring: 0 0 0 3px rgba(99, 217, 220, 0.42);
+
+    --ns-content-width: 1120px;
+    --ns-transition-fast: 140ms ease;
+    --ns-transition: 220ms ease;
+  }
+}

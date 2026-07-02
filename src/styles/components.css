@@ -1,0 +1,97 @@
+@layer components {
+  .ns-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0 18px;
+    border: 1px solid var(--ns-color-border-strong);
+    border-radius: var(--ns-radius-pill);
+    background: var(--ns-color-surface-solid);
+    color: var(--ns-color-text);
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      transform var(--ns-transition-fast),
+      border-color var(--ns-transition-fast),
+      background var(--ns-transition-fast),
+      box-shadow var(--ns-transition-fast);
+  }
+
+  .ns-button:hover {
+    transform: translateY(-1px);
+    border-color: rgba(239, 111, 178, 0.6);
+    box-shadow: 0 10px 24px rgba(239, 111, 178, 0.15);
+  }
+
+  .ns-button--primary {
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--ns-color-accent), var(--ns-color-cyan));
+    color: #ffffff;
+    text-shadow: 0 1px 0 rgba(35, 20, 42, 0.2);
+  }
+
+  .ns-panel {
+    border: 1px solid var(--ns-color-border);
+    border-radius: var(--ns-radius-lg);
+    background: var(--ns-color-surface);
+    box-shadow: var(--ns-shadow-panel);
+    backdrop-filter: blur(14px);
+  }
+
+  .ns-tool-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 34px;
+  }
+
+  .ns-tool-card {
+    display: flex;
+    min-height: 180px;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 22px;
+    color: var(--ns-color-text);
+    transition:
+      transform var(--ns-transition),
+      border-color var(--ns-transition),
+      box-shadow var(--ns-transition);
+  }
+
+  .ns-tool-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(99, 217, 220, 0.5);
+    box-shadow: var(--ns-shadow-soft);
+  }
+
+  .ns-tool-card__title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 900;
+  }
+
+  .ns-tool-card__text {
+    margin: 12px 0 22px;
+    color: var(--ns-color-text-muted);
+  }
+
+  .ns-status {
+    display: inline-flex;
+    align-self: flex-start;
+    padding: 5px 10px;
+    border-radius: var(--ns-radius-pill);
+    background: var(--ns-color-cyan-soft);
+    color: #237579;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  @media (max-width: 760px) {
+    .ns-tool-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
