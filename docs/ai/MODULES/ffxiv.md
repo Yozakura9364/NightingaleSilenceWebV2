@@ -20,7 +20,7 @@
 #/                 Home 纯视觉首页
 #/ffxiv            FFXIV 分类导航页
 #/ffxiv/glamour    NSGlamour 幻化工具
-#/ffxiv/plate      NSPortable 铭牌工具
+#/ffxiv/plate      Plate 铭牌工具
 ```
 
 ## 与首页的分工

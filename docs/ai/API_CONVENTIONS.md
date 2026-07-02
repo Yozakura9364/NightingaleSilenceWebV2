@@ -8,6 +8,7 @@
 - `src/services/apiBoundaries.ts`：已实现旧项目 API 边界配置读取。
 - 页面组件：FFXIV 工具占位页已接入统一工具页外壳，真实业务请求待后续迁移。
 - Vite proxy：用于开发期连接旧项目后端。
+- API 契约草案：`docs/api/plate.md`、`docs/api/glamour.md`。
 
 后续业务页面应优先通过 `useFetch.ts` 发起请求，不要在组件中散落裸 `fetch`。
 
@@ -27,7 +28,7 @@
 server: {
   proxy: {
     '/api/plate': {
-      target: 'http://localhost:3456',         // NSPortable
+      target: 'http://localhost:3456',         // Plate / 旧 NSPortable
       changeOrigin: true,
       rewrite: (path) => path.replace(/^\/api\/plate(?=\/|$)/, '/api')
     },
@@ -36,8 +37,8 @@ server: {
       changeOrigin: true,
       rewrite: (path) => path.replace(/^\/api\/glamour(?=\/|$)/, '/api')
     },
-    '/img':         'http://localhost:3456',   // NSPortable 游戏素材
-    '/img-preview': 'http://localhost:3456',   // NSPortable 预览缩略图
+    '/img':         'http://localhost:3456',   // 旧 NSPortable 游戏素材
+    '/img-preview': 'http://localhost:3456',   // 旧 NSPortable 预览缩略图
   }
 }
 ```
@@ -46,7 +47,7 @@ server: {
 
 | 服务 | 端口 | 说明 |
 |------|------|------|
-| `NSPortable` | `3456` | 铭牌后端和素材服务 |
+| `Plate` | `3456` | 当前接旧 `NSPortable` 铭牌后端和素材服务 |
 | `NSGlamour` | `8765` | 幻化后端，本机项目长期使用该端口 |
 
 ## 已实现：fetch 封装
@@ -85,7 +86,7 @@ server: {
 | `plate` | `/api/plate` | `/presets` | `3456` |
 
 `NSGlamour` 旧后端有 `/api/health`，因此 V2 通过 `/api/glamour/health` 检查连通性。
-`NSPortable` 旧后端没有 `/api/health`，当前使用 `/api/plate/presets` 作为轻量连通性检查；不要臆造旧后端不存在的 health 接口。
+旧 `NSPortable` 后端没有 `/api/health`，当前使用 `/api/plate/presets` 作为轻量连通性检查；不要臆造旧后端不存在的 health 接口。
 
 规则：
 

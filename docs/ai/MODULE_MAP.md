@@ -14,7 +14,7 @@
 - `src/styles/`：已建立第一版 reset/theme/base/components/utilities 公共 CSS。
 - `src/components/`：已建立第一版 `AppButton.vue`、`AppPanel.vue`、`AppTopNav.vue`。
 - `src/pages/ffxiv/components/ToolApiStatus.vue`：为工具占位页提供统一 API 边界和连通性检查展示。
-- `src/pages/`：已建立首页、FFXIV 分类页、NSGlamour 占位页、NSPortable 占位页和 About 占位页。
+- `src/pages/`：已建立首页、FFXIV 分类页、NSGlamour 占位页、Plate 占位页和 About 占位页。
 
 当前尚未实现：
 
@@ -22,10 +22,14 @@
 - `src/lib/glamour/`
 - 旧项目真实业务页面和 Canvas 渲染迁移
 - UI 本地化文案加载和切换控件
+- `#/oc` 原创角色档案分类和详情页
 
 当前已存在：
 
 - `docs/ai/MODULES/`：模块文档目录，具体模块文档逐步补齐。
+- `docs/api/`：API 契约草案目录，当前包含 `plate.md` 和 `glamour.md`。
+- `docs/ai/CODE_STRUCTURE_RULES.md`：复杂业务拆分和防止单文件膨胀规则。
+- `docs/ai/REVIEW_GUIDE.md`：项目评估指南。
 
 ## 计划路由总览
 
@@ -33,10 +37,12 @@
 |---------|---------|---------|
 | `#/` | `src/pages/home/HomePage.vue` | 已接入占位视觉首页 |
 | `#/ffxiv` | `src/pages/ffxiv/FfxivIndexPage.vue` | 已接入分类导航骨架 |
-| `#/ffxiv/plate` | `src/pages/plate/PlatePage.vue` | 已接入 NSPortable 迁移占位页和统一工具页外壳 |
+| `#/ffxiv/plate` | `src/pages/plate/PlatePage.vue` | 已接入 Plate 迁移占位页和统一工具页外壳 |
 | `#/ffxiv/glamour` | `src/pages/glamour/GlamourPage.vue` | 已接入 NSGlamour 迁移占位页和统一工具页外壳 |
 | `#/about` | `src/pages/about/AboutPage.vue` | 已接入 About 占位页 |
 | `#/style-lab` | `src/pages/style-lab/StyleLabPage.vue` | 隐藏内部样式探索页，不写入导航 |
+| `#/oc` | `src/pages/oc/OcIndexPage.vue` | 未接入代码，规划文档已建立 |
+| `#/oc/:characterId` | `src/pages/oc/OcCharacterPage.vue` | 未接入代码，规划文档已建立 |
 
 > 注意：当前页面只是 V2 骨架和迁移入口，不代表旧项目功能已经完成迁移。
 
@@ -80,10 +86,10 @@
   - 只代表当前第一阶段 FFXIV 分类，不代表整站长期只服务 FFXIV。
 - **模块文档**：`docs/ai/MODULES/ffxiv.md`。
 
-## NSPortable 铭牌编辑器（迁移占位页已接入）
+## Plate 铭牌编辑器（迁移占位页已接入）
 
 - **计划路由**：`#/ffxiv/plate`
-- **来源项目路径**：`H:\NightingaleSilenceWeb\NSPortable\`
+- **来源项目路径**：旧 `NSPortable`，`H:\NightingaleSilenceWeb\NSPortable\`
 - **后端**：Node.js HTTP server，开发端口 `3456`
 - **核心能力**：Canvas 铭牌合成、PNG/ZIP/PSD/JSX 导出、多语言、主题/外观配置。
 - **当前状态**：仅接入迁移占位页、统一工具页外壳和 API 边界信息，未迁移旧业务。
@@ -112,6 +118,22 @@
   - API 通过 `/api/glamour` 接入。
 - **模块文档**：`docs/ai/MODULES/glamour.md`。
 
+## OC 原创角色档案（规划文档已建立）
+
+- **计划路由**：`#/oc`
+- **推荐详情路由**：`#/oc/:characterId`
+- **计划页面入口**：`src/pages/oc/OcIndexPage.vue`、`src/pages/oc/OcCharacterPage.vue`
+- **页面类型**：创作信息分类 / 原创角色档案 / 角色图鉴
+- **当前状态**：仅建立规划文档，尚未接入代码、路由、站点配置或公开导航。
+- **迁移目标**：
+  - 承接首页未来的创作信息入口。
+  - 展示原创角色索引、分组、标签和单角色档案。
+  - 使用本地结构化数据作为第一阶段数据来源，不默认接后端。
+  - 参考动漫官网角色介绍页的信息架构，但不复刻具体商业 IP 的美术、素材或文案。
+  - 公开文案和角色设定必须由用户提供或确认；未确认内容实现时统一使用 `占位用，待编辑`。
+  - 样式作为 OC 模块或页面专属样式处理，不污染全站公共组件默认外观。
+- **模块文档**：`docs/ai/MODULES/oc.md`。
+
 ## 模块文档规则
 
 新增页面或迁移复杂模块前，先在 `docs/ai/MODULES/` 建立对应文档，至少说明：
@@ -137,5 +159,5 @@
   - 不写入首页、顶部导航或 `src/config/site.ts` 公开入口。
   - 候选皮肤必须通过容器选择器或可选 class 隔离。
   - 不覆盖 `body`、`button`、`input`、`a` 等全局标签默认行为。
-  - 不影响 `NSGlamour`、`NSPortable` 等工具页迁移默认样式。
+  - 不影响 `NSGlamour`、`Plate` 等工具页迁移默认样式。
 - **模块文档**：`docs/ai/MODULES/style-lab.md`。

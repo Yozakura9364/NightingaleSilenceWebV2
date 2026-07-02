@@ -2,7 +2,7 @@
 
 ## 目的
 
-本文件记录第一阶段将 `NSHome`、`NSPortable`、`NSGlamour` 迁入 V2 的顺序、边界和验证标准，避免 `ARCHITECTURE_PLAN.md` 越写越大。
+本文件记录第一阶段将 `NSHome`、旧 `NSPortable`、`NSGlamour` 迁入 V2 的顺序、边界和验证标准，避免 `ARCHITECTURE_PLAN.md` 越写越大。旧 `NSPortable` 在 V2 中的新模块名统一为 `Plate`。
 
 整站愿景以 `docs/OWNER_VISION.md` 为准：夜莺不语是个人/工具网站，`FFXIV` 只是当前第一阶段分类。迁移原则是先保留旧项目可用，再逐步在 V2 中建立等价能力。旧项目后端在早期作为临时兼容 API、行为契约和回归样本保留；最终后端可以按 V2 的新规则重写。未完成等价验证前，不删除旧项目和旧部署入口。
 
@@ -12,7 +12,7 @@
 |---------|---------|---------|
 | `NSHome` | `#/` 首页 | 迁入为个人站视觉入口，旧目录可暂时保留备份 |
 | V2 新增 | `#/ffxiv` FFXIV 分类导航页 | 只做工具导航，不承接旧项目业务逻辑 |
-| `NSPortable` | `#/ffxiv/plate` 铭牌编辑器 | 旧 Node.js 后端先继续独立运行，端口 `3456`，同时作为新后端契约参考 |
+| 旧 `NSPortable` / V2 `Plate` | `#/ffxiv/plate` 铭牌编辑器 | 旧 Node.js 后端先继续独立运行，端口 `3456`，同时作为新后端契约参考 |
 | `NSGlamour` | `#/ffxiv/glamour` 幻化工具 | 旧 Flask 后端先继续独立运行，端口 `8765`，同时作为新后端契约参考 |
 
 ## 总体顺序
@@ -65,7 +65,7 @@
 
 边界：
 
-- 不承接 `NSPortable` 或 `NSGlamour` 的复杂业务逻辑。
+- 不承接 `Plate` 或 `NSGlamour` 的复杂业务逻辑。
 - 不在首页展开工具列表。
 - 不继承首页强像素装饰；分类页使用公共组件和模块/分类级布局。
 
@@ -78,12 +78,12 @@
 
 NSHome 完成后，由用户决定先迁移：
 
-- `NSPortable` 铭牌编辑器。
+- `Plate` 铭牌编辑器。
 - 或 `NSGlamour` 幻化工具。
 
 不要在未确认优先级时同时大规模迁移两个复杂工具。
 
-### 阶段 3A：NSPortable 迁移
+### 阶段 3A：Plate 迁移
 
 目标：
 
@@ -168,7 +168,7 @@ NSHome 完成后，由用户决定先迁移：
 
 ## 新后端重写原则
 
-如果决定重写 `NSPortable` 或 `NSGlamour` 后端，应遵守：
+如果决定重写 `Plate` 或 `NSGlamour` 后端，应遵守：
 
 1. 不从空白想象接口，先把旧后端行为整理成 API 契约和样本集。
 2. V2 对外路径保持 `/api/plate/*` 和 `/api/glamour/*` 稳定，后端实现可以在代理后替换。

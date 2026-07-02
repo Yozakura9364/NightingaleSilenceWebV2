@@ -1,11 +1,11 @@
-# NSPortable 模块计划
+# Plate 模块计划
 
 ## 当前状态
 
 - 模块状态：迁移占位页已接入，真实业务待重写/迁移。
 - 目标路由：`#/ffxiv/plate`。
 - 当前页面入口：`src/pages/plate/PlatePage.vue`。
-- 来源项目路径：`H:\NightingaleSilenceWeb\NSPortable`。
+- 来源项目路径：旧 `NSPortable`，`H:\NightingaleSilenceWeb\NSPortable`。
 - 当前 API 边界：V2 使用 `/api/plate/*`，开发代理 rewrite 到旧服务 `/api/*`。
 - 当前连通性检查：`/api/plate/presets`，对应旧服务 `/api/presets`。
 - 当前旧服务端口：`3456`。
@@ -13,9 +13,9 @@
 
 ## 定位
 
-`#/ffxiv/plate` 是 FFXIV 铭牌/肖像相关编辑器模块，目标是承接旧 `NSPortable` 的核心能力。
+`#/ffxiv/plate` 是 FFXIV 铭牌/肖像相关编辑器模块，模块名统一为 `Plate`，目标是承接旧 `NSPortable` 的核心能力。
 
-本模块不要求机械迁移旧前端代码。优先按 V2 的 Vue、公共组件、公共 CSS、API 边界和安全规则重新整理前端；后端也可以按新规则重写，但旧项目行为必须先被抽取为契约和回归样本。
+本模块不要求机械迁移旧前端代码。优先按 V2 的 Vue、公共组件、公共 CSS、API 边界和安全规则重新整理前端；后端也可以按新规则重写，但旧 `NSPortable` 行为必须先被抽取为契约和回归样本。
 
 核心目标：
 
@@ -26,7 +26,7 @@
 
 ## 后端重写策略
 
-本模块允许按新规则重写后端，但旧 Node 服务在一段时间内应作为行为契约和临时兼容 API。
+本模块允许按新规则重写后端，但旧 `NSPortable` Node 服务在一段时间内应作为行为契约和临时兼容 API。
 
 推荐顺序：
 
@@ -66,7 +66,7 @@ H:\NightingaleSilenceWeb\NSPortable\src\server\routes\image-routes.js
 | `GET /img/*` | `GET /img/*` | 游戏素材原图 |
 | `GET /img-preview/*` | `GET /img-preview/*` | 游戏素材预览图 |
 
-`NSPortable` 旧服务没有 `/api/health`，不要臆造 health 接口。当前 V2 使用 `/api/plate/presets` 作为轻量连通性检查。
+旧 `NSPortable` 服务没有 `/api/health`，不要臆造 health 接口。当前 V2 使用 `/api/plate/presets` 作为轻量连通性检查。
 
 ## 核心数据和功能契约
 

@@ -6,7 +6,7 @@
 
 站点愿景源文档是用户手写的 `docs/OWNER_VISION.md`。AI 文档和实现计划必须与该文档保持一致。
 
-当前阶段目标是逐步承接原有 `NSHome`、`NSPortable`、`NSGlamour` 的页面入口、交互和前端渲染能力。原后端服务早期作为独立临时兼容 API、行为契约和回归样本保留；最终后端可以按 V2 新规则重写。
+当前阶段目标是逐步承接原有 `NSHome`、旧 `NSPortable`、`NSGlamour` 的页面入口、交互和前端渲染能力；其中旧 `NSPortable` 在 V2 中的新模块名统一为 `Plate`。原后端服务早期作为独立临时兼容 API、行为契约和回归样本保留；最终后端可以按 V2 新规则重写。
 
 FFXIV 分类强调游戏数据严谨性：装备、染剂、图像、Canvas 渲染、语言数据和导出结果都必须尽量贴近原项目已经验证过的行为。
 
@@ -43,9 +43,11 @@ NightingaleSilenceWebV2/
 │   └── ai/
 │       ├── PROJECT_CONTEXT.md
 │       ├── ARCHITECTURE_PLAN.md
+│       ├── CODE_STRUCTURE_RULES.md
 │       ├── MIGRATION_PLAN.md
 │       ├── MODULE_MAP.md
 │       ├── API_CONVENTIONS.md
+│       ├── REVIEW_GUIDE.md
 │       └── PAGE_DEVELOPMENT_GUIDE.md
 └── src/
     ├── config/
@@ -98,7 +100,7 @@ npm run preview
 
 | 服务 | 原项目 | 本地端口 | 备注 |
 |------|--------|---------|------|
-| 铭牌后端 | `NSPortable` | `3456` | Node.js 服务，素材路径也由它提供 |
+| 铭牌后端 | 旧 `NSPortable` / V2 `Plate` | `3456` | Node.js 服务，素材路径也由它提供 |
 | 幻化后端 | `NSGlamour` | `8765` | Flask 服务，沿用当前本机项目约定 |
 
 ## 目标架构
@@ -129,7 +131,7 @@ src/
 |---------|------|------|
 | `#/` | 首页 / 个人站入口 | `NSHome` + V2 新视觉 |
 | `#/ffxiv` | FFXIV 分类导航页 | V2 新增 |
-| `#/ffxiv/plate` | 铭牌编辑器 | `NSPortable` |
+| `#/ffxiv/plate` | 铭牌编辑器 | V2 `Plate`，来源为旧 `NSPortable` |
 | `#/ffxiv/glamour` | 幻化工具 | `NSGlamour` |
 | `#/about` | About 占位页 | V2 新增 |
 
@@ -154,7 +156,9 @@ src/
 
 - 每次新会话先读 `docs/OWNER_VISION.md`，确认用户手写的整站愿景和分类边界。
 - 涉及整体架构、路由、主题、端口：读 `docs/ai/ARCHITECTURE_PLAN.md`。
+- 涉及复杂业务拆分、模块边界、重构：读 `docs/ai/CODE_STRUCTURE_RULES.md`。
 - 涉及旧项目迁移顺序和边界：读 `docs/ai/MIGRATION_PLAN.md`。
 - 涉及页面、模块状态：读 `docs/ai/MODULE_MAP.md`。
 - 涉及 API 调用：读 `docs/ai/API_CONVENTIONS.md`。
+- 涉及项目评估或给外部朋友说明当前状态：读 `docs/ai/REVIEW_GUIDE.md`。
 - 新增页面或组件：读 `docs/ai/PAGE_DEVELOPMENT_GUIDE.md`，并先建立或更新对应模块文档。
