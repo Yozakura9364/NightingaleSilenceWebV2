@@ -85,7 +85,7 @@ export const ffxivTools: ToolEntry[] = [
   {
     id: 'plate',
     title: '铭牌工房',
-    projectName: 'NSPortable',
+    projectName: 'Plate',
     route: siteRoutes.plate,
     summary: placeholderCopy,
     sourcePath: 'H:\\NightingaleSilenceWeb\\NSPortable',

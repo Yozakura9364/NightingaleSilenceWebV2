@@ -10,7 +10,7 @@ import { getApiBoundary } from '@/services/apiBoundaries'
 const tool = getFfxivTool('plate') ?? {
   id: 'plate',
   title: '铭牌工房',
-  projectName: 'NSPortable',
+  projectName: 'Plate',
   route: '/ffxiv/plate',
   summary: '',
   sourcePath: 'H:\\NightingaleSilenceWeb\\NSPortable',

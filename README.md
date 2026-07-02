@@ -21,7 +21,7 @@
 | `#/` | 首页 | 占位视觉首页已接入 |
 | `#/ffxiv` | FFXIV 分类导航页 | 工具入口骨架已接入 |
 | `#/ffxiv/glamour` | 幻化工房 / NSGlamour | 迁移占位页已接入 |
-| `#/ffxiv/plate` | 铭牌工房 / NSPortable | 迁移占位页已接入 |
+| `#/ffxiv/plate` | 铭牌工房 / Plate | 迁移占位页已接入 |
 | `#/about` | About | 占位页已接入 |
 
 ## 技术栈
@@ -59,8 +59,8 @@ npm run preview
 | 模块 | V2 API | 本地旧服务 | 说明 |
 |------|--------|------------|------|
 | NSGlamour | `/api/glamour/*` | `http://localhost:8765/api/*` | Flask 后端 |
-| NSPortable | `/api/plate/*` | `http://localhost:3456/api/*` | Node.js 后端 |
-| NSPortable 素材 | `/img/*`、`/img-preview/*` | `http://localhost:3456` | 游戏素材与预览图 |
+| Plate | `/api/plate/*` | `http://localhost:3456/api/*` | 旧 NSPortable Node.js 后端 |
+| Plate 素材 | `/img/*`、`/img-preview/*` | `http://localhost:3456` | 旧 NSPortable 游戏素材与预览图 |
 
 旧后端不是最终架构的限制，而是当前阶段的契约来源。后续重写后端时，应保持 V2 对外 API 路径稳定，并用旧项目真实样本做回归验证。
 
@@ -69,12 +69,16 @@ npm run preview
 给评估项目的朋友可以优先看：
 
 - `docs/OWNER_VISION.md`：站点愿景和用户手写需求。
+- `docs/ROADMAP.md`：当前阶段、短中长期计划和暂缓事项。
 - `docs/ai/PROJECT_CONTEXT.md`：当前真实状态和目标架构。
 - `docs/ai/ARCHITECTURE_PLAN.md`：路由、CSS、组件、端口和代理策略。
+- `docs/ai/CODE_STRUCTURE_RULES.md`：防止复杂业务再次写成大坨代码的结构规则。
 - `docs/ai/MIGRATION_PLAN.md`：旧项目迁移顺序和后端重写边界。
 - `docs/ai/MODULE_MAP.md`：页面和模块状态。
+- `docs/ai/REVIEW_GUIDE.md`：给评估者看的检查重点。
 - `docs/ai/MODULES/glamour.md`：NSGlamour 迁移计划。
-- `docs/ai/MODULES/plate.md`：NSPortable 迁移计划。
+- `docs/ai/MODULES/plate.md`：Plate 迁移计划。
+- `docs/api/glamour.md`、`docs/api/plate.md`：API 契约草案。
 
 ## 当前评估重点
 
@@ -88,7 +92,7 @@ npm run preview
 
 暂时不适合评估：
 
-- 旧 NSGlamour / NSPortable 的完整功能可用性。
+- 旧 NSGlamour / 旧 NSPortable 的完整功能可用性。
 - 最终首页视觉设计。
 - 最终生产部署方案。
 
