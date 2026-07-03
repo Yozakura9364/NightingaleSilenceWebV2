@@ -4,7 +4,7 @@
       <label class="nsplate-portrait-upload__pick">
         <span class="nsplate-portrait-upload__thumb" aria-hidden="true">
           <img v-if="modelValue" :src="modelValue.dataUrl" :alt="modelValue.fileName" />
-          <span v-else>+</span>
+          <span v-else class="nsplate-portrait-upload__empty-icon" :style="emptyIconStyle" />
         </span>
         <span class="nsplate-portrait-upload__text">
           <strong>{{ t(textKeys.nsplateCustomPortraitUpload) }}</strong>
@@ -26,7 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type CSSProperties } from 'vue'
+import image2PlusIcon from '@/assets/icons/image-2-plus.svg'
 import { textKeys } from '@/config/site'
 import { createCustomPortraitImageFromFile } from '@/lib/plate/customPortrait'
 import type { NSPlateCustomPortraitImage } from '@/lib/plate/types'
@@ -43,6 +44,9 @@ const emit = defineEmits<{
 
 const { t } = useLocale()
 const errorText = ref('')
+const emptyIconStyle = {
+  '--nsplate-portrait-upload-empty-icon': `url("${image2PlusIcon}")`
+} as CSSProperties
 
 async function onFileChange(event: Event) {
   const input = event.target as HTMLInputElement
@@ -84,8 +88,8 @@ async function onFileChange(event: Event) {
 }
 
 .nsplate-portrait-upload__pick:hover {
-  border-color: rgba(57, 168, 135, 0.52);
-  background: color-mix(in srgb, var(--ns-color-success) 10%, var(--ns-color-surface-solid));
+  border-color: color-mix(in srgb, var(--ns-color-cyan) 58%, var(--ns-color-border));
+  background: color-mix(in srgb, var(--ns-color-cyan) 10%, var(--ns-color-surface-solid));
 }
 
 .nsplate-portrait-upload__thumb {
@@ -97,10 +101,23 @@ async function onFileChange(event: Event) {
   border: 1px solid var(--ns-color-border-strong);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-decorative);
-  font-size: 24px;
-  font-weight: 900;
-  line-height: 1;
+  image-rendering: pixelated;
+  transition:
+    border-color var(--ns-transition-fast),
+    color var(--ns-transition-fast);
+}
+
+.nsplate-portrait-upload__pick:hover .nsplate-portrait-upload__thumb {
+  border-color: color-mix(in srgb, var(--ns-color-cyan) 66%, var(--ns-color-border-strong));
+  color: var(--ns-color-cyan);
+}
+
+.nsplate-portrait-upload__empty-icon {
+  width: 28px;
+  height: 28px;
+  background: currentColor;
+  mask: var(--nsplate-portrait-upload-empty-icon) center / contain no-repeat;
+  -webkit-mask: var(--nsplate-portrait-upload-empty-icon) center / contain no-repeat;
 }
 
 .nsplate-portrait-upload__thumb img {
