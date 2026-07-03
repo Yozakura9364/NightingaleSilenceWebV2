@@ -41,6 +41,8 @@ const activeTab = computed({
 
 <style scoped>
 .nsplate-config-panel {
+  --nsplate-config-scroll-padding: 10px;
+
   display: flex;
   width: var(--nsplate-panel-width, clamp(340px, 31vw, 460px));
   min-width: 0;
@@ -55,7 +57,7 @@ const activeTab = computed({
 .nsplate-config-panel__tabs {
   display: block;
   flex: 0 0 auto;
-  padding: 0;
+  padding: 10px 10px 8px;
   border-bottom: 2px solid var(--ns-pixel-divider);
 }
 
@@ -63,7 +65,7 @@ const activeTab = computed({
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: 10px;
+  padding: var(--nsplate-config-scroll-padding);
   scrollbar-width: thin;
 }
 

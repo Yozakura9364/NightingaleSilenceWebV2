@@ -3,6 +3,8 @@
     :mode="mode"
     :selected-assets="selectedAssets"
     :custom-portrait="customPortrait"
+    :can-clear-custom-portrait="false"
+    :can-clear-all="false"
   />
 </template>
 

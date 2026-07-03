@@ -15,26 +15,16 @@
         :mode="activeCanvasMode"
         :selected-assets="selectedAssets"
         :custom-portrait="customPortrait"
+        :can-clear-custom-portrait="customPortrait !== null"
+        :can-clear-all="hasAnySelection"
+        @clear-custom-portrait="clearCustomPortrait"
+        @clear-all="clearWorkbenchSelections"
       />
 
       <NSPlateResizeHandle @start="startPanelResize" @step="resizePanelBy" />
 
       <NSPlateConfigPanel v-model="activeTab" :tabs="tabs">
         <template v-if="activeTab !== 'info'">
-          <div class="nsplate-group-title" :class="`nsplate-group-title--${activeCanvasMode}`">
-            <span class="nsplate-dot" />
-            <span>{{ activeGroupTitle }}</span>
-          </div>
-          <div class="nsplate-action-row">
-            <button
-              class="nsplate-action-button"
-              type="button"
-              :disabled="!hasAnySelection"
-              @click="clearWorkbenchSelections"
-            >
-              {{ t(textKeys.nsplateClearAllSelections) }}
-            </button>
-          </div>
           <NSPlatePortraitUpload
             v-if="activeTab === 'portrait'"
             v-model="customPortrait"
@@ -140,11 +130,6 @@ const activeAssetGroups = computed(() =>
   )
 )
 const activeSelectedPresetId = computed(() => selectedPresetIdsByKind.value[activePresetKind.value])
-const activeGroupTitle = computed(() =>
-  activeCanvasMode.value === 'portrait'
-    ? t(textKeys.nsplatePortraitAssets)
-    : t(textKeys.nsplateNameplateAssets)
-)
 const hasAnySelection = computed(
   () =>
     customPortrait.value !== null ||
@@ -172,6 +157,10 @@ function applyPresetById(presetId: string) {
 function clearWorkbenchSelections() {
   customPortrait.value = null
   clearAllSelections()
+}
+
+function clearCustomPortrait() {
+  customPortrait.value = null
 }
 </script>
 
@@ -217,59 +206,6 @@ function clearWorkbenchSelections() {
   flex: 1;
   overflow: hidden;
   background: var(--ns-color-bg-soft);
-}
-
-.nsplate-group-title {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin: 8px 0;
-  color: var(--ns-color-text);
-  font-size: 13px;
-  font-weight: 900;
-}
-
-.nsplate-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--ns-color-accent);
-}
-
-.nsplate-group-title--portrait .nsplate-dot {
-  background: var(--ns-color-success);
-}
-
-.nsplate-group-title--nameplate .nsplate-dot {
-  background: var(--ns-color-cyan);
-}
-
-.nsplate-action-row {
-  display: flex;
-  justify-content: flex-end;
-  min-width: 0;
-}
-
-.nsplate-action-button {
-  min-height: 30px;
-  padding: 6px 10px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-sans);
-  font-size: 12px;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-.nsplate-action-button:hover:not(:disabled) {
-  border-color: rgba(214, 79, 114, 0.46);
-  color: var(--ns-color-danger);
-}
-
-.nsplate-action-button:disabled {
-  opacity: 0.46;
-  cursor: not-allowed;
 }
 
 @media (max-width: 980px) {
