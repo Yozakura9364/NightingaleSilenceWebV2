@@ -1,7 +1,22 @@
+@font-face {
+  font-family: 'NS Fusion Pixel Trial';
+  src: url('/vendor/fonts/fusion-pixel-font/fusion-pixel-12px-proportional-zh_hans.otf.woff2')
+    format('woff2');
+  font-display: swap;
+}
+
 @layer theme {
   :root {
     color-scheme: light;
 
+    --ns-body-background:
+      linear-gradient(
+        115deg,
+        rgba(255, 244, 251, 0.92) 0%,
+        rgba(247, 251, 255, 0.96) 52%,
+        rgba(217, 251, 251, 0.72) 100%
+      ),
+      linear-gradient(135deg, var(--ns-color-bg) 0%, #f7fbff 100%);
     --ns-color-bg: #fbf8ff;
     --ns-color-bg-soft: #fff4fb;
     --ns-color-surface: rgba(255, 255, 255, 0.82);
@@ -21,13 +36,16 @@
     --ns-color-success: #39a887;
 
     --ns-font-sans: 'Inter', 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
-    --ns-font-display: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+    --ns-font-decorative: 'NS Fusion Pixel Trial', 'Microsoft YaHei', 'PingFang SC', system-ui,
+      sans-serif;
+    --ns-font-display: var(--ns-font-decorative);
+    --ns-font-mono: 'Cascadia Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 
-    --ns-radius-xs: 6px;
-    --ns-radius-sm: 8px;
-    --ns-radius-md: 12px;
-    --ns-radius-lg: 8px;
-    --ns-radius-pill: 999px;
+    --ns-radius-xs: 0;
+    --ns-radius-sm: 0;
+    --ns-radius-md: 0;
+    --ns-radius-lg: 0;
+    --ns-radius-pill: 0;
 
     --ns-space-1: 4px;
     --ns-space-2: 8px;
@@ -38,12 +56,137 @@
     --ns-space-7: 48px;
     --ns-space-8: 64px;
 
-    --ns-shadow-soft: 0 18px 50px rgba(70, 45, 90, 0.12);
-    --ns-shadow-panel: 0 12px 32px rgba(70, 45, 90, 0.1);
+    --ns-shadow-soft: 6px 6px 0 rgba(42, 33, 56, 0.12);
+    --ns-shadow-panel: 4px 4px 0 rgba(42, 33, 56, 0.1);
     --ns-focus-ring: 0 0 0 3px rgba(99, 217, 220, 0.42);
+
+    --ns-top-nav-bg:
+      linear-gradient(90deg, rgba(255, 233, 246, 0.9), rgba(224, 249, 255, 0.92)),
+      rgba(255, 255, 255, 0.88);
+    --ns-pixel-border: rgba(42, 33, 56, 0.9);
+    --ns-pixel-border-soft: rgba(42, 33, 56, 0.36);
+    --ns-pixel-divider: rgba(42, 33, 56, 0.28);
+    --ns-pixel-surface: rgba(255, 255, 255, 0.82);
+    --ns-pixel-window-bg: rgba(255, 255, 255, 0.98);
+    --ns-pixel-window-bar-bg: linear-gradient(90deg, #ffe9f6, #e1fbff);
+    --ns-pixel-hover-surface: #ffe8f6;
+    --ns-pixel-pink-surface: #fff0f8;
+    --ns-pixel-cyan-surface: #d9fbff;
+    --ns-pixel-warm-surface: #fffaf0;
+    --ns-pixel-muted: rgba(88, 68, 105, 0.72);
+    --ns-pixel-disabled: rgba(88, 68, 105, 0.56);
+    --ns-pixel-panel-grid-bg: rgba(255, 255, 255, 0.72);
+    --ns-pixel-nav-shadow: 0 2px 0 rgba(42, 33, 56, 0.08);
+    --ns-pixel-button-shadow: 3px 3px 0 rgba(42, 33, 56, 0.16);
+    --ns-pixel-button-shadow-hover: 4px 4px 0 rgba(42, 33, 56, 0.18);
+    --ns-pixel-soft-shadow: 2px 2px 0 rgba(42, 33, 56, 0.1);
+    --ns-pixel-window-shadow: 6px 6px 0 rgba(42, 33, 56, 0.16);
+
+    --ns-home-background:
+      linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.55) 1px, transparent 1px),
+      linear-gradient(
+        120deg,
+        rgba(255, 223, 242, 0.92) 0%,
+        rgba(255, 248, 253, 0.86) 46%,
+        rgba(220, 250, 252, 0.94) 100%
+      ),
+      linear-gradient(135deg, #fff1f9 0%, #eefcff 100%);
+    --ns-home-top-bar-bg: rgba(255, 255, 255, 0.72);
+    --ns-home-top-bar-border: rgba(239, 111, 178, 0.28);
+    --ns-home-top-bar-shadow: 0 14px 36px rgba(239, 111, 178, 0.14);
+    --ns-home-title-shadow:
+      3px 3px 0 rgba(99, 217, 220, 0.42), -2px -2px 0 rgba(255, 255, 255, 0.82);
+    --ns-home-character-bg:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(217, 251, 251, 0.72)),
+      repeating-linear-gradient(0deg, transparent 0 6px, rgba(239, 111, 178, 0.08) 6px 7px);
+    --ns-home-character-border: rgba(92, 37, 80, 0.85);
+    --ns-home-character-shadow:
+      10px 10px 0 rgba(99, 217, 220, 0.38), 0 22px 55px rgba(70, 45, 90, 0.18);
+    --ns-home-floating-bg: rgba(255, 255, 255, 0.68);
+    --ns-home-floating-border: rgba(92, 37, 80, 0.72);
+    --ns-home-floating-shadow: 6px 6px 0 rgba(99, 217, 220, 0.32);
 
     --ns-content-width: 1120px;
     --ns-transition-fast: 140ms ease;
     --ns-transition: 220ms ease;
+  }
+
+  :root[data-theme='night'] {
+    color-scheme: dark;
+
+    --ns-body-background:
+      linear-gradient(
+        115deg,
+        rgba(240, 128, 189, 0.14) 0%,
+        rgba(19, 22, 42, 0.96) 48%,
+        rgba(127, 217, 227, 0.14) 100%
+      ),
+      linear-gradient(135deg, var(--ns-color-bg) 0%, #111d32 100%);
+    --ns-color-bg: #111426;
+    --ns-color-bg-soft: #171b32;
+    --ns-color-surface: rgba(26, 30, 50, 0.9);
+    --ns-color-surface-solid: #1c2036;
+    --ns-color-surface-tint: #24203f;
+    --ns-color-text: #f7f1fb;
+    --ns-color-text-muted: #bdb3ca;
+    --ns-color-border: rgba(236, 196, 229, 0.2);
+    --ns-color-border-strong: rgba(144, 213, 221, 0.32);
+    --ns-color-accent: #f080bd;
+    --ns-color-accent-strong: #ffacd6;
+    --ns-color-accent-soft: #332236;
+    --ns-color-cyan: #7fd9e3;
+    --ns-color-cyan-soft: #173943;
+    --ns-color-warning: #f2c86b;
+    --ns-color-danger: #f47ca1;
+    --ns-color-success: #7bd8bc;
+
+    --ns-shadow-soft: 6px 6px 0 rgba(0, 0, 0, 0.28);
+    --ns-shadow-panel: 4px 4px 0 rgba(0, 0, 0, 0.24);
+    --ns-focus-ring: 0 0 0 3px rgba(127, 217, 227, 0.32);
+
+    --ns-top-nav-bg:
+      linear-gradient(90deg, rgba(49, 36, 67, 0.92), rgba(29, 61, 70, 0.88)), rgba(17, 20, 38, 0.94);
+    --ns-pixel-border: rgba(245, 224, 246, 0.78);
+    --ns-pixel-border-soft: rgba(180, 164, 194, 0.28);
+    --ns-pixel-divider: rgba(180, 164, 194, 0.26);
+    --ns-pixel-surface: rgba(30, 34, 57, 0.88);
+    --ns-pixel-window-bg: rgba(24, 28, 48, 0.98);
+    --ns-pixel-window-bar-bg: linear-gradient(90deg, #332441, #1f3c48);
+    --ns-pixel-hover-surface: #33233f;
+    --ns-pixel-pink-surface: #2b2038;
+    --ns-pixel-cyan-surface: #183744;
+    --ns-pixel-warm-surface: #2d2a38;
+    --ns-pixel-muted: rgba(209, 197, 218, 0.72);
+    --ns-pixel-disabled: rgba(209, 197, 218, 0.46);
+    --ns-pixel-panel-grid-bg: rgba(24, 29, 50, 0.9);
+    --ns-pixel-nav-shadow: 0 2px 0 rgba(0, 0, 0, 0.24);
+    --ns-pixel-button-shadow: 3px 3px 0 rgba(0, 0, 0, 0.34);
+    --ns-pixel-button-shadow-hover: 4px 4px 0 rgba(0, 0, 0, 0.4);
+    --ns-pixel-soft-shadow: 2px 2px 0 rgba(0, 0, 0, 0.22);
+    --ns-pixel-window-shadow: 6px 6px 0 rgba(0, 0, 0, 0.34);
+
+    --ns-home-background:
+      linear-gradient(
+        120deg,
+        rgba(50, 31, 56, 0.94) 0%,
+        rgba(19, 22, 42, 0.95) 46%,
+        rgba(22, 54, 62, 0.9) 100%
+      ),
+      linear-gradient(135deg, #201528 0%, #102433 100%);
+    --ns-home-top-bar-bg: rgba(24, 28, 48, 0.78);
+    --ns-home-top-bar-border: rgba(127, 217, 227, 0.26);
+    --ns-home-top-bar-shadow: 0 14px 36px rgba(0, 0, 0, 0.26);
+    --ns-home-title-shadow:
+      3px 3px 0 rgba(127, 217, 227, 0.28), -2px -2px 0 rgba(240, 128, 189, 0.2);
+    --ns-home-character-bg:
+      linear-gradient(135deg, rgba(30, 34, 57, 0.88), rgba(24, 55, 68, 0.58)),
+      rgba(24, 28, 48, 0.86);
+    --ns-home-character-border: rgba(245, 224, 246, 0.7);
+    --ns-home-character-shadow:
+      10px 10px 0 rgba(127, 217, 227, 0.2), 0 22px 55px rgba(0, 0, 0, 0.3);
+    --ns-home-floating-bg: rgba(30, 34, 57, 0.76);
+    --ns-home-floating-border: rgba(245, 224, 246, 0.62);
+    --ns-home-floating-shadow: 6px 6px 0 rgba(127, 217, 227, 0.2);
   }
 }

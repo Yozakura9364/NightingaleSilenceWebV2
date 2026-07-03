@@ -5,13 +5,15 @@
     justify-content: center;
     min-height: 42px;
     padding: 0 18px;
-    border: 1px solid var(--ns-color-border-strong);
+    border: 2px solid var(--ns-pixel-border);
     border-radius: var(--ns-radius-pill);
     background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
+    font-family: var(--ns-font-decorative);
     font-size: 14px;
     font-weight: 800;
     line-height: 1;
+    box-shadow: var(--ns-pixel-soft-shadow);
     cursor: pointer;
     transition:
       transform var(--ns-transition-fast),
@@ -23,18 +25,19 @@
   .ns-button:hover {
     transform: translateY(-1px);
     border-color: rgba(239, 111, 178, 0.6);
-    box-shadow: 0 10px 24px rgba(239, 111, 178, 0.15);
+    background: var(--ns-pixel-hover-surface);
+    box-shadow: var(--ns-pixel-button-shadow-hover);
   }
 
   .ns-button--primary {
-    border-color: transparent;
+    border-color: var(--ns-pixel-border);
     background: linear-gradient(135deg, var(--ns-color-accent), var(--ns-color-cyan));
     color: #ffffff;
     text-shadow: 0 1px 0 rgba(35, 20, 42, 0.2);
   }
 
   .ns-panel {
-    border: 1px solid var(--ns-color-border);
+    border: 2px solid var(--ns-pixel-border-soft);
     border-radius: var(--ns-radius-lg);
     background: var(--ns-color-surface);
     box-shadow: var(--ns-shadow-panel);
@@ -69,6 +72,7 @@
 
   .ns-tool-card__title {
     margin: 0;
+    font-family: var(--ns-font-decorative);
     font-size: 24px;
     font-weight: 900;
   }
@@ -83,8 +87,10 @@
     align-self: flex-start;
     padding: 5px 10px;
     border-radius: var(--ns-radius-pill);
+    border: 2px solid var(--ns-pixel-border-soft);
     background: var(--ns-color-cyan-soft);
     color: #237579;
+    font-family: var(--ns-font-decorative);
     font-size: 12px;
     font-weight: 800;
   }

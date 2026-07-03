@@ -1,13 +1,6 @@
 @layer base {
   body {
-    background:
-      linear-gradient(
-        115deg,
-        rgba(255, 244, 251, 0.92) 0%,
-        rgba(247, 251, 255, 0.96) 52%,
-        rgba(217, 251, 251, 0.72) 100%
-      ),
-      linear-gradient(135deg, var(--ns-color-bg) 0%, #f7fbff 100%);
+    background: var(--ns-body-background);
     color: var(--ns-color-text);
     font-family: var(--ns-font-sans);
     line-height: 1.5;
@@ -24,6 +17,24 @@
 
   button {
     color: inherit;
+    font-family: var(--ns-font-decorative);
+  }
+
+  input,
+  select,
+  textarea {
+    font-family: var(--ns-font-sans);
+  }
+
+  label {
+    font-family: var(--ns-font-decorative);
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--ns-font-mono);
   }
 
   :focus-visible {
@@ -44,6 +55,7 @@
   .ns-eyebrow {
     margin: 0 0 8px;
     color: var(--ns-color-accent-strong);
+    font-family: var(--ns-font-decorative);
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 0;

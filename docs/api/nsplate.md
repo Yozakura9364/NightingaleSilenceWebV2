@@ -1,6 +1,6 @@
-# Plate API 契约草案
+# NSPlate API 契约草案
 
-本文件记录 V2 `Plate` 模块的 API 契约方向。当前接口仍由旧 `NSPortable` 后端提供，V2 通过 `/api/plate/*` 命名空间接入。
+本文件记录 V2 `NSPlate` 模块的 API 契约方向。当前接口仍由旧 `NSPortable` 后端提供，V2 通过 `/api/plate/*` 命名空间接入。
 
 ## 基本信息
 
@@ -10,6 +10,17 @@
 | 当前旧服务 | `http://localhost:3456/api` |
 | 当前连通性检查 | `GET /api/plate/presets` |
 | 图片资源 | `/img/*`、`/img-preview/*` |
+
+## 本机代理验证
+
+最近验证时间：2026-07-03。
+
+| V2 路径 | 状态 | 结果摘要 |
+|---------|------|----------|
+| `GET /api/plate/presets` | 200 | 顶层字段 `banner`、`charcard`；当前样本 `banner=421`、`charcard=143`。 |
+| `GET /api/plate/files` | 200 | 顶层字段 `portrait`、`nameplate`、`_meta`；返回素材分类和图片 base。 |
+
+本机验证通过 V2 dev server 代理访问：`http://127.0.0.1:5173/api/plate/*`。
 
 ## 迁移原则
 
@@ -33,17 +44,21 @@
 当前已知字段：
 
 ```ts
-interface PlatePresetsResponse {
-  banner: unknown[]
-  charcard: unknown[]
+interface NSPlatePresetsResponse {
+  banner: NSPlatePreset[]
+  charcard: NSPlatePreset[]
+}
+
+interface NSPlatePreset {
+  name: string
+  names?: Record<string, string>
+  layers: unknown[]
 }
 ```
 
 待补充：
 
-- 预设条目结构。
 - 图层结构。
-- 多语言名称字段。
 - 空预设和错误返回。
 
 ### `GET /api/plate/files`
@@ -58,19 +73,35 @@ interface PlatePresetsResponse {
 当前已知字段：
 
 ```ts
-interface PlateFilesResponse {
-  portrait?: Record<string, unknown>
-  nameplate?: Record<string, unknown>
+interface NSPlateFilesResponse {
+  portrait?: Record<string, NSPlateAsset[]>
+  nameplate?: Record<string, NSPlateAsset[]>
   _meta?: {
     imgBase?: string
     previewImgBase?: string
+    previewMaxEdge?: number
   }
+}
+
+interface NSPlateAsset {
+  id: string | number
+  file: string
+  path: string
+  name: string
+  names?: Record<string, string>
 }
 ```
 
+当前样本：
+
+- `portrait` 分类示例：`肖像背景`、`肖像装饰框`、`肖像装饰物`。
+- `nameplate` 分类示例：`铭牌背衬`、`铭牌底色`、`铭牌花纹`、`铭牌外框`、`肖像外框`、`职业图标`。
+- `_meta.imgBase` 当前为 `/portable/img`。
+- `_meta.previewImgBase` 当前为 `/portable/img-preview/256`。
+- `_meta.previewMaxEdge` 当前为 `256`。
+
 待补充：
 
-- 素材分类结构。
 - 图标 ID / 文件名规则。
 - 未发布素材过滤规则。
 - 缓存字段。
@@ -86,8 +117,8 @@ interface PlateFilesResponse {
 当前已知请求：
 
 ```ts
-interface PlateExportPsdRequest {
-  layers: PlateExportLayer[]
+interface NSPlateExportPsdRequest {
+  layers: NSPlateExportLayer[]
   canvasWidth: number
   canvasHeight: number
 }
@@ -124,8 +155,8 @@ interface PlateExportPsdRequest {
 当前已知请求：
 
 ```ts
-interface PlateExportLayeredZipRequest {
-  layers: PlateExportLayer[]
+interface NSPlateExportLayeredZipRequest {
+  layers: NSPlateExportLayer[]
   canvasWidth: number
   canvasHeight: number
   composerConfigFull?: unknown
@@ -135,7 +166,7 @@ interface PlateExportLayeredZipRequest {
 ## 共享类型草案
 
 ```ts
-interface PlateExportLayer {
+interface NSPlateExportLayer {
   name?: string
   x: number
   y: number
@@ -147,8 +178,8 @@ interface PlateExportLayer {
 
 ## 验证样本待收集
 
-- 一组默认预设响应。
-- 一组带预览图 base 的素材响应。
+- 一组默认预设响应。（已确认顶层结构和数量，仍需固化为小样本文件）
+- 一组带预览图 base 的素材响应。（已确认顶层结构，仍需固化为小样本文件）
 - 一个最小 PSD 导出 payload。
 - 一个多图层 ZIP 导出 payload。
 - 一个超限 payload 错误样本。

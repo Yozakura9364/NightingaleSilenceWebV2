@@ -1,5 +1,9 @@
 <template>
-  <section class="tool-api-status" aria-live="polite">
+  <section
+    class="tool-api-status"
+    :class="{ 'tool-api-status--compact': compact }"
+    aria-live="polite"
+  >
     <div class="tool-api-status__header">
       <div class="tool-api-status__title-block">
         <p class="tool-api-status__label">API</p>
@@ -11,11 +15,11 @@
         :disabled="isChecking"
         @click="checkHealth"
       >
-        {{ placeholderCopy }}
+        {{ isChecking ? '检查中' : '检查' }}
       </button>
     </div>
 
-    <dl class="tool-api-status__meta">
+    <dl v-if="!compact" class="tool-api-status__meta">
       <div>
         <dt>{{ placeholderCopy }}</dt>
         <dd>{{ boundary.projectName }}</dd>
@@ -45,9 +49,15 @@ import { ApiError, useFetch } from '@/composables/useFetch'
 
 type ApiStatus = 'idle' | 'checking' | 'ready' | 'error'
 
-const props = defineProps<{
-  boundary: ApiBoundary
-}>()
+const props = withDefaults(
+  defineProps<{
+    boundary: ApiBoundary
+    compact?: boolean
+  }>(),
+  {
+    compact: false
+  }
+)
 
 const { createClient } = useFetch()
 const status = ref<ApiStatus>('idle')
@@ -63,7 +73,7 @@ const statusText = computed(() => {
     return detail.value
   }
 
-  return placeholderCopy
+  return status.value === 'checking' ? '检查中' : placeholderCopy
 })
 
 async function checkHealth() {
@@ -92,11 +102,25 @@ onMounted(() => {
   gap: 16px;
 }
 
+.tool-api-status--compact {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  min-width: 0;
+}
+
 .tool-api-status__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+}
+
+.tool-api-status--compact .tool-api-status__header {
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
 }
 
 .tool-api-status__title-block {
@@ -123,6 +147,11 @@ onMounted(() => {
   min-height: 34px;
   padding: 0 12px;
   font-size: 12px;
+}
+
+.tool-api-status--compact .tool-api-status__button {
+  min-height: 30px;
+  padding: 0 10px;
 }
 
 .tool-api-status__button:disabled {
@@ -169,6 +198,10 @@ onMounted(() => {
   font-weight: 850;
 }
 
+.tool-api-status--compact .tool-api-status__state {
+  flex: 0 0 auto;
+}
+
 .tool-api-status__dot {
   width: 8px;
   height: 8px;
@@ -191,6 +224,14 @@ onMounted(() => {
 @media (max-width: 520px) {
   .tool-api-status__header {
     display: grid;
+  }
+
+  .tool-api-status--compact {
+    justify-content: flex-start;
+  }
+
+  .tool-api-status--compact .tool-api-status__header {
+    display: flex;
   }
 
   .tool-api-status__button {

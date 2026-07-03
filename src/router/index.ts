@@ -4,6 +4,7 @@ import {
   getCategory,
   getFfxivTool,
   placeholderCopy,
+  siteLabels,
   siteMeta,
   siteRoutes
 } from '@/config/site'
@@ -24,20 +25,20 @@ const router = createRouter({
     {
       path: siteRoutes.ffxiv,
       name: 'ffxiv',
-      meta: { title: ffxivCategory?.title ?? 'FF14 工具' },
+      meta: { title: ffxivCategory?.title ?? siteLabels.ffxivWorkshop },
       component: () => import('@/pages/ffxiv/FfxivIndexPage.vue')
     },
     {
       path: siteRoutes.glamour,
       name: 'ffxiv-glamour',
       meta: { title: glamourTool?.title ?? '幻化工房' },
-      component: () => import('@/pages/glamour/GlamourPage.vue')
+      component: () => import('@/pages/glamour/NSGlamourPage.vue')
     },
     {
       path: siteRoutes.plate,
       name: 'ffxiv-plate',
       meta: { title: plateTool?.title ?? '铭牌工房' },
-      component: () => import('@/pages/plate/PlatePage.vue')
+      component: () => import('@/pages/plate/NSPlatePage.vue')
     },
     {
       path: siteRoutes.about,

@@ -10,6 +10,18 @@
 | 当前旧服务 | `http://localhost:8765/api` |
 | 当前连通性检查 | `GET /api/glamour/health` |
 
+## 本机代理验证
+
+最近验证时间：2026-07-03。
+
+| V2 路径 | 状态 | 结果摘要 |
+|---------|------|----------|
+| `GET /api/glamour/health` | 200 | 返回 `{ ok: true }`。 |
+| `GET /api/glamour/stains` | 200 | 顶层字段 `locale`、`results`；当前样本 `locale=zh`、`results=126`。 |
+| `GET /api/glamour/ui-localization` | 200 | 顶层字段 `version`、`description`、`generatedAt`、`locales`、`autoFillSources`、`strings`、`scope`。 |
+
+本机验证通过 V2 dev server 代理访问：`http://127.0.0.1:5173/api/glamour/*`。
+
 ## 迁移原则
 
 1. V2 对外路径保持 `/api/glamour/*`。
@@ -28,9 +40,16 @@
 
 - 连通性检查。
 
+当前已知字段：
+
+```ts
+interface NSGlamourHealthResponse {
+  ok: boolean
+}
+```
+
 待补充：
 
-- 标准成功响应。
 - 版本号或数据版本字段。
 
 ### `GET /api/glamour/ui-localization`
@@ -41,9 +60,30 @@
 
 - 获取 UI 本地化数据。
 
+当前已知字段：
+
+```ts
+interface NSGlamourUiLocalizationResponse {
+  version: number
+  description?: string
+  generatedAt?: string
+  locales: unknown
+  autoFillSources: unknown[]
+  strings: Record<string, unknown>
+  scope: unknown[]
+}
+```
+
+当前样本：
+
+- `version` 当前为 `2`。
+- `generatedAt` 当前为 `2026-06-20T07:20:00.000Z`。
+- `strings` 是以点分 key 命名的对象，例如 `common.ui.language`、`equipinfo.ui.import_equipment_info`。
+- `autoFillSources` 当前是数组，样本长度为 `4`。
+- `scope` 当前是数组，样本长度为 `7`。
+
 待补充：
 
-- 字符串结构。
 - 支持语言列表。
 - 缺失键 fallback 规则。
 
@@ -127,12 +167,38 @@
 
 - 获取染剂数据。
 
+当前已知字段：
+
+```ts
+interface NSGlamourStainsResponse {
+  locale: string
+  results: NSGlamourStain[]
+}
+
+interface NSGlamourStain {
+  group: number
+  group_name: string
+  hex: string
+  id: number
+  name: string
+  names: Record<string, string>
+  rgb: number
+  sub_order: number
+}
+```
+
 契约重点：
 
 - 染剂 ID。
 - 多语言名称。
 - 颜色。
 - 空染色表示。
+
+当前样本：
+
+- `locale` 当前为 `zh`。
+- `results` 当前为 `126` 条。
+- `id=0` 表示 `无染色`，`hex=#000000`，`names` 包含 `de/en/fr/ja/ko/tc/zh` 等语言名。
 
 ### `GET /api/glamour/icon/<icon_id>`
 
@@ -153,7 +219,7 @@
 这些字段语义必须稳定：
 
 ```ts
-interface GlamourResolvedEquipment {
+interface NSGlamourResolvedEquipment {
   resolved_equipment?: unknown
   candidates?: unknown
   dye_entries?: unknown
@@ -183,6 +249,8 @@ interface GlamourResolvedEquipment {
 - Eorzea Collection 链接样本。
 - 成段文字多格式样本。
 - 未识别装备和未知染剂样本。
+- `stains` 小样本。（已确认顶层结构和字段，仍需固化为小样本文件）
+- `ui-localization` 小样本。（已确认顶层结构和字符串 key 形态，仍需固化为小样本文件）
 
 ## 安全边界
 

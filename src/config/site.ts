@@ -3,6 +3,7 @@ export type RoutePath = '/' | '/ffxiv' | '/ffxiv/glamour' | '/ffxiv/plate' | '/a
 export interface NavItem {
   id: string
   label: string
+  command?: string
   route: RoutePath
   variant?: 'default' | 'primary'
 }
@@ -30,6 +31,24 @@ export interface ToolEntry {
 
 export const placeholderCopy = '占位用，待编辑'
 
+export const siteLabels = {
+  menu: '菜单',
+  menuCommand: 'MENU',
+  homeCommand: 'HOME',
+  config: '设置',
+  configCommand: 'CONFIG',
+  themeMode: '显示模式',
+  day: '白天',
+  dayCommand: 'DAY',
+  night: '黑夜',
+  nightCommand: 'NIGHT',
+  ffxivWorkshop: '狒狒14工房',
+  ffxivWorkshopShort: '狒狒14',
+  about: '关于',
+  aboutCommand: 'ABOUT',
+  home: '回到主页'
+} as const
+
 export const siteMeta = {
   zhName: '夜莺不语',
   enName: 'Nightingale Silence',
@@ -48,13 +67,14 @@ export const siteRoutes = {
 export const homeNavItems: NavItem[] = [
   {
     id: 'ffxiv',
-    label: 'FF14工具',
+    label: siteLabels.ffxivWorkshop,
     route: siteRoutes.ffxiv,
     variant: 'primary'
   },
   {
     id: 'about',
-    label: '关于 About',
+    label: siteLabels.about,
+    command: siteLabels.aboutCommand,
     route: siteRoutes.about
   }
 ]
@@ -62,8 +82,8 @@ export const homeNavItems: NavItem[] = [
 export const siteCategories: SiteCategory[] = [
   {
     id: 'ffxiv',
-    title: 'FF14 工具',
-    shortTitle: 'FF14',
+    title: siteLabels.ffxivWorkshop,
+    shortTitle: siteLabels.ffxivWorkshopShort,
     kicker: placeholderCopy,
     description: placeholderCopy,
     route: siteRoutes.ffxiv
@@ -85,7 +105,7 @@ export const ffxivTools: ToolEntry[] = [
   {
     id: 'plate',
     title: '铭牌工房',
-    projectName: 'Plate',
+    projectName: 'NSPlate',
     route: siteRoutes.plate,
     summary: placeholderCopy,
     sourcePath: '../NSPortable',
@@ -101,6 +121,16 @@ export function getCategory(id: string): SiteCategory | undefined {
 
 export function getFfxivTool(id: string): ToolEntry | undefined {
   return ffxivTools.find((tool) => tool.id === id)
+}
+
+export function getRequiredFfxivTool(id: string): ToolEntry {
+  const tool = getFfxivTool(id)
+
+  if (!tool) {
+    throw new Error(`Unknown FFXIV tool: ${id}`)
+  }
+
+  return tool
 }
 
 export function formatDocumentTitle(title?: string): string {

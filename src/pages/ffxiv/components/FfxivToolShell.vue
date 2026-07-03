@@ -1,30 +1,8 @@
 <template>
-  <main class="ns-page ffxiv-tool-page">
+  <main class="ns-page ffxiv-tool-page" :class="`ffxiv-tool-page--${variant}`">
     <div class="ns-page-shell">
-      <RouterLink class="ffxiv-tool-back" :to="siteRoutes.ffxiv"
-        >← {{ placeholderCopy }}</RouterLink
-      >
-
-      <section class="ns-panel ffxiv-tool-hero">
-        <p class="ns-eyebrow">{{ tool.projectName }}</p>
-        <h1 class="ns-title">{{ tool.title }}</h1>
-        <p class="ns-lead">{{ placeholderCopy }}</p>
-      </section>
-
-      <div class="ffxiv-tool-layout">
-        <section class="ns-panel ffxiv-tool-panel">
-          <h2>{{ placeholderCopy }}</h2>
-          <ToolApiStatus :boundary="boundary" />
-          <dl class="ffxiv-tool-meta">
-            <div>
-              <dt>{{ placeholderCopy }}</dt>
-              <dd>{{ boundary.sourcePath }}</dd>
-            </div>
-          </dl>
-        </section>
-
-        <section class="ns-panel ffxiv-tool-panel ffxiv-tool-workspace">
-          <h2>{{ placeholderCopy }}</h2>
+      <template v-if="variant === 'workspace'">
+        <section class="ffxiv-tool-workspace ffxiv-tool-workspace--wide">
           <slot>
             <div class="ffxiv-tool-placeholder" aria-hidden="true">
               <span />
@@ -33,7 +11,43 @@
             </div>
           </slot>
         </section>
-      </div>
+      </template>
+
+      <template v-else>
+        <RouterLink class="ffxiv-tool-back" :to="siteRoutes.ffxiv"
+          >← {{ placeholderCopy }}</RouterLink
+        >
+
+        <section class="ns-panel ffxiv-tool-hero">
+          <p class="ns-eyebrow">{{ tool.projectName }}</p>
+          <h1 class="ns-title">{{ tool.title }}</h1>
+          <p class="ns-lead">{{ placeholderCopy }}</p>
+        </section>
+
+        <div class="ffxiv-tool-layout">
+          <section class="ns-panel ffxiv-tool-panel">
+            <h2>{{ placeholderCopy }}</h2>
+            <ToolApiStatus :boundary="boundary" />
+            <dl class="ffxiv-tool-meta">
+              <div>
+                <dt>{{ placeholderCopy }}</dt>
+                <dd>{{ boundary.sourcePath }}</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section class="ns-panel ffxiv-tool-panel ffxiv-tool-workspace">
+            <h2>{{ placeholderCopy }}</h2>
+            <slot>
+              <div class="ffxiv-tool-placeholder" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+            </slot>
+          </section>
+        </div>
+      </template>
     </div>
   </main>
 </template>
@@ -43,30 +57,33 @@ import { placeholderCopy, siteRoutes, type ToolEntry } from '@/config/site'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import ToolApiStatus from '@/pages/ffxiv/components/ToolApiStatus.vue'
 
-defineProps<{
-  tool: ToolEntry
-  boundary: ApiBoundary
-}>()
+withDefaults(
+  defineProps<{
+    tool: ToolEntry
+    boundary: ApiBoundary
+    variant?: 'default' | 'workspace'
+  }>(),
+  {
+    variant: 'default'
+  }
+)
 </script>
 
 <style scoped>
 .ffxiv-tool-page {
-  background:
-    linear-gradient(
-      125deg,
-      rgba(217, 251, 251, 0.5),
-      rgba(255, 244, 251, 0.58) 58%,
-      rgba(255, 255, 255, 0.7)
-    ),
-    var(--ns-color-bg);
+  background: var(--ns-body-background);
 }
 
 .ffxiv-tool-back {
   display: inline-flex;
-  margin-bottom: 24px;
   color: var(--ns-color-text-muted);
+  font-family: var(--ns-font-decorative);
   font-size: 14px;
   font-weight: 800;
+}
+
+.ffxiv-tool-page--default .ffxiv-tool-back {
+  margin-bottom: 24px;
 }
 
 .ffxiv-tool-back:hover {
@@ -90,6 +107,7 @@ defineProps<{
 
 .ffxiv-tool-panel h2 {
   margin: 0 0 16px;
+  font-family: var(--ns-font-decorative);
   font-size: 18px;
   font-weight: 900;
 }
@@ -115,10 +133,12 @@ defineProps<{
 
 .ffxiv-tool-meta dt {
   color: var(--ns-color-text);
+  font-family: var(--ns-font-decorative);
   font-weight: 900;
 }
 
 .ffxiv-tool-meta dd {
+  font-family: var(--ns-font-mono);
   overflow-wrap: anywhere;
 }
 
@@ -126,9 +146,28 @@ defineProps<{
   min-height: 260px;
 }
 
+.ffxiv-tool-page--workspace {
+  min-height: calc(100vh - 58px);
+}
+
+.ffxiv-tool-page--workspace .ns-page-shell {
+  width: 100%;
+  padding: 0;
+}
+
+.ffxiv-tool-workspace--wide {
+  display: flex;
+  height: calc(100vh - 58px);
+  min-height: 500px;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .ffxiv-tool-placeholder {
   display: grid;
   gap: 12px;
+  flex: 1;
+  padding: 16px;
 }
 
 .ffxiv-tool-placeholder span {
@@ -136,12 +175,18 @@ defineProps<{
   height: 42px;
   border: 1px dashed var(--ns-color-border-strong);
   border-radius: var(--ns-radius-sm);
-  background: rgba(255, 255, 255, 0.46);
+  background: var(--ns-pixel-surface);
 }
 
 @media (max-width: 860px) {
   .ffxiv-tool-layout {
     grid-template-columns: 1fr;
+  }
+
+  .ffxiv-tool-workspace--wide {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
   }
 }
 </style>

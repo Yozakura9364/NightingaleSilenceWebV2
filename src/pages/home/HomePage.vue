@@ -7,7 +7,10 @@
         :to="item.route"
         :variant="item.variant"
       >
-        {{ item.label }}
+        <span>{{ item.label }}</span>
+        <span v-if="item.command" class="home-top-bar__command" aria-hidden="true">
+          {{ item.command }}
+        </span>
       </AppButton>
     </nav>
 
@@ -50,16 +53,7 @@ import { homeNavItems, placeholderCopy, siteMeta, siteRoutes } from '@/config/si
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.55) 1px, transparent 1px),
-    linear-gradient(
-      120deg,
-      rgba(255, 223, 242, 0.92) 0%,
-      rgba(255, 248, 253, 0.86) 46%,
-      rgba(220, 250, 252, 0.94) 100%
-    ),
-    linear-gradient(135deg, #fff1f9 0%, #eefcff 100%);
+  background: var(--ns-home-background);
   background-size:
     18px 18px,
     18px 18px,
@@ -75,11 +69,24 @@ import { homeNavItems, placeholderCopy, siteMeta, siteRoutes } from '@/config/si
   display: inline-flex;
   gap: 10px;
   padding: 8px;
-  border: 1px solid rgba(239, 111, 178, 0.28);
+  border: 2px solid var(--ns-home-top-bar-border);
   border-radius: var(--ns-radius-pill);
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 14px 36px rgba(239, 111, 178, 0.14);
+  background: var(--ns-home-top-bar-bg);
+  box-shadow: var(--ns-home-top-bar-shadow);
   backdrop-filter: blur(16px);
+}
+
+.home-top-bar :deep(.ns-button) {
+  gap: 6px;
+}
+
+.home-top-bar__command {
+  padding-left: 6px;
+  border-left: 1px solid var(--ns-pixel-divider);
+  color: var(--ns-color-text-muted);
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 0.02em;
 }
 
 .home-stage {
@@ -104,7 +111,7 @@ import { homeNavItems, placeholderCopy, siteMeta, siteRoutes } from '@/config/si
   width: 310px;
   height: 220px;
   opacity: 0.22;
-  background-image: radial-gradient(circle, #ef6fb2 1px, transparent 1px);
+  background-image: radial-gradient(circle, var(--ns-color-accent) 1px, transparent 1px);
   background-size: 10px 10px;
 }
 
@@ -115,7 +122,8 @@ import { homeNavItems, placeholderCopy, siteMeta, siteRoutes } from '@/config/si
 
 .home-kicker {
   margin: 0 0 12px;
-  color: #d94d9d;
+  color: var(--ns-color-accent-strong);
+  font-family: var(--ns-font-decorative);
   font-size: 14px;
   font-weight: 900;
   letter-spacing: 0;
@@ -124,21 +132,20 @@ import { homeNavItems, placeholderCopy, siteMeta, siteRoutes } from '@/config/si
 
 .home-title {
   margin: 0;
-  color: #2b1f35;
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-display);
   font-size: 112px;
   font-weight: 950;
   line-height: 0.92;
   letter-spacing: 0;
   white-space: nowrap;
-  text-shadow:
-    3px 3px 0 rgba(99, 217, 220, 0.42),
-    -2px -2px 0 rgba(255, 255, 255, 0.82);
+  text-shadow: var(--ns-home-title-shadow);
 }
 
 .home-lead {
   max-width: 560px;
   margin: 24px 0 0;
-  color: #62566d;
+  color: var(--ns-color-text-muted);
   font-size: 18px;
 }
 
@@ -167,15 +174,12 @@ import { homeNavItems, placeholderCopy, siteMeta, siteRoutes } from '@/config/si
   width: min(420px, 70vw);
   aspect-ratio: 3 / 4;
   place-items: center;
-  border: 3px solid rgba(92, 37, 80, 0.85);
-  border-radius: 28px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(217, 251, 251, 0.72)),
-    repeating-linear-gradient(0deg, transparent 0 6px, rgba(239, 111, 178, 0.08) 6px 7px);
-  box-shadow:
-    10px 10px 0 rgba(99, 217, 220, 0.38),
-    0 22px 55px rgba(70, 45, 90, 0.18);
-  color: rgba(88, 68, 105, 0.52);
+  border: 3px solid var(--ns-home-character-border);
+  border-radius: var(--ns-radius-lg);
+  background: var(--ns-home-character-bg);
+  box-shadow: var(--ns-home-character-shadow);
+  color: var(--ns-color-text-muted);
+  font-family: var(--ns-font-decorative);
   font-weight: 900;
 }
 
@@ -185,13 +189,14 @@ import { homeNavItems, placeholderCopy, siteMeta, siteRoutes } from '@/config/si
   width: 62px;
   height: 62px;
   place-items: center;
-  border: 2px solid rgba(92, 37, 80, 0.72);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.68);
-  color: #d94d9d;
+  border: 2px solid var(--ns-home-floating-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-home-floating-bg);
+  color: var(--ns-color-accent-strong);
+  font-family: var(--ns-font-decorative);
   font-size: 32px;
   font-weight: 900;
-  box-shadow: 6px 6px 0 rgba(99, 217, 220, 0.32);
+  box-shadow: var(--ns-home-floating-shadow);
   animation: home-icon-float 5s ease-in-out infinite;
 }
 

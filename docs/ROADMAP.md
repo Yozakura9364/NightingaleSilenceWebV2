@@ -10,7 +10,7 @@
 
 - Vue 3 + Vite + TypeScript 基础项目。
 - Vue Router hash 路由。
-- 首页、FFXIV 分类页、Glamour 占位页、Plate 占位页、About 占位页。
+- 首页、FFXIV 分类页、NSGlamour 占位页、NSPlate 占位页、About 占位页。
 - 轻量全局导航。
 - 公共 CSS 初版。
 - 基础公共组件。
@@ -36,7 +36,7 @@
    - 使用 GitHub Actions 验证构建。
 
 2. 明确复杂业务边界。
-   - 为 Plate 和 NSGlamour 补 API 契约。
+   - 为 NSPlate 和 NSGlamour 补 API 契约。
    - 为导入、渲染、导出准备真实样本。
    - 先定义模块边界，再迁移业务代码。
 
@@ -48,7 +48,7 @@
 
 ## 中期计划
 
-### Plate
+### NSPlate
 
 目标：
 

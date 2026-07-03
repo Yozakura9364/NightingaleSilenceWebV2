@@ -1,25 +1,12 @@
 <template>
   <main
     class="style-lab-page"
-    :data-style-preview="stylePreview"
+    data-style-preview="pixel-soft"
     :data-font-mode="fontMode"
     :data-pixel-tone="pixelTone"
   >
-    <div v-if="stylePreview === 'pixel-soft'" class="ns-pixel-stage">
+    <div class="ns-pixel-stage">
       <div class="ns-pixel-shell">
-        <div class="style-lab-picker" aria-label="Style preview">
-          <button
-            v-for="option in stylePreviewOptions"
-            :key="option.value"
-            class="style-lab-picker__button"
-            :class="{ 'style-lab-picker__button--active': stylePreview === option.value }"
-            type="button"
-            @click="stylePreview = option.value"
-          >
-            {{ option.label }}
-          </button>
-        </div>
-
         <div class="ns-pixel-switch-row">
           <div class="ns-pixel-mode-switch" aria-label="Pixel tone">
             <button
@@ -52,7 +39,7 @@
           <div class="ns-pixel-panel">
             <h1 class="ns-pixel-title">Pixel Soft</h1>
             <p class="ns-pixel-lead">
-              粉/蓝候选皮肤预览。这里用于比较公共按钮、面板、表单和工具卡的像素风方向。
+              粉/蓝像素强度预览。这里用于比较公共按钮、面板、表单和工具卡的像素风方向。
             </p>
 
             <div class="ns-pixel-actions">
@@ -124,7 +111,7 @@
                   class="ns-pixel-popup-menu__item ns-pixel-popup-menu__item--active"
                   href="#/ffxiv"
                 >
-                  <span>FF14工具</span>
+                  <span>{{ siteLabels.ffxivWorkshop }}</span>
                   <span>OPEN</span>
                 </a>
 
@@ -284,10 +271,65 @@
               Module
               <select class="ns-pixel-select">
                 <option>FFXIV</option>
-                <option>Glamour</option>
-                <option>Plate</option>
+                <option>NSGlamour</option>
+                <option>NSPlate</option>
               </select>
             </label>
+          </div>
+        </section>
+
+        <section class="ns-pixel-window">
+          <div class="ns-pixel-window__bar">
+            <span class="ns-pixel-window__title">
+              <span class="ns-pixel-window__icon" aria-hidden="true"></span>
+              common.components
+            </span>
+            <span class="ns-pixel-window__controls" aria-hidden="true">
+              <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
+              <span class="ns-pixel-window__control ns-pixel-window__control--max"></span>
+              <span class="ns-pixel-window__control ns-pixel-window__control--close"></span>
+            </span>
+          </div>
+
+          <div class="style-common-components">
+            <AppToolbar title="AppToolbar" aria-label="公共组件工具栏预览">
+              <AppButton variant="primary">占位用，待编辑</AppButton>
+              <AppButton>占位用，待编辑</AppButton>
+
+              <template #end>
+                <AppStatus compact tone="success" message="占位用，待编辑" />
+              </template>
+            </AppToolbar>
+
+            <AppTabs
+              v-model="commonTab"
+              :items="commonTabs"
+              aria-label="公共组件选项卡预览"
+              stretch
+            />
+
+            <div class="style-common-components__grid">
+              <AppField
+                label="占位用，待编辑"
+                for-id="style-lab-common-title"
+                description="占位用，待编辑"
+              >
+                <input id="style-lab-common-title" type="text" value="占位用，待编辑" />
+              </AppField>
+
+              <AppField label="占位用，待编辑" for-id="style-lab-common-module">
+                <select id="style-lab-common-module">
+                  <option>NSGlamour</option>
+                  <option>NSPlate</option>
+                </select>
+              </AppField>
+            </div>
+
+            <AppStatus tone="info" title="AppStatus" message="占位用，待编辑">
+              <template #actions>
+                <AppButton>占位用，待编辑</AppButton>
+              </template>
+            </AppStatus>
           </div>
         </section>
 
@@ -317,114 +359,24 @@
         </section>
       </div>
     </div>
-
-    <div v-else class="ns-fantasy-stage">
-      <div class="ns-fantasy-shell">
-        <div class="style-lab-picker" aria-label="Style preview">
-          <button
-            v-for="option in stylePreviewOptions"
-            :key="option.value"
-            class="style-lab-picker__button"
-            :class="{ 'style-lab-picker__button--active': stylePreview === option.value }"
-            type="button"
-            @click="stylePreview = option.value"
-          >
-            {{ option.label }}
-          </button>
-        </div>
-
-        <section class="ns-fantasy-card" aria-label="Fantasy original character card sample">
-          <aside class="ns-fantasy-portrait-panel">
-            <div class="ns-fantasy-portrait" aria-hidden="true">
-              <span>OC</span>
-            </div>
-
-            <div class="ns-fantasy-seal">
-              <span>星海记录</span>
-            </div>
-          </aside>
-
-          <div class="ns-fantasy-profile">
-            <div class="ns-fantasy-heading">
-              <p class="ns-fantasy-kicker">Final Fantasy XIV Original Character</p>
-              <h1 class="ns-fantasy-title">夜莺不语</h1>
-              <p class="ns-fantasy-subtitle">占星术士 / 星海旅人 / 水晶档案持有者</p>
-            </div>
-
-            <p class="ns-fantasy-lead">
-              从艾欧泽亚的星图边缘走来，把每一次启程都写进银蓝色的手札。
-              她收藏旧城的钟声、战场后的花瓣，以及没人愿意说出口的愿望。
-            </p>
-
-            <div class="ns-fantasy-tags" aria-label="Character keywords">
-              <span>水晶</span>
-              <span>月白</span>
-              <span>蔷薇金</span>
-              <span>远行</span>
-            </div>
-
-            <div class="ns-fantasy-stat-grid">
-              <article class="ns-fantasy-stat">
-                <span>JOB</span>
-                <strong>占星术士</strong>
-              </article>
-              <article class="ns-fantasy-stat">
-                <span>ROLE</span>
-                <strong>Healer</strong>
-              </article>
-              <article class="ns-fantasy-stat">
-                <span>HOME</span>
-                <strong>伊修加德</strong>
-              </article>
-              <article class="ns-fantasy-stat">
-                <span>MOOD</span>
-                <strong>银蓝 / 酒红</strong>
-              </article>
-            </div>
-
-            <div class="ns-fantasy-ledger">
-              <section class="ns-fantasy-section">
-                <h2>装备印象</h2>
-                <ul>
-                  <li>星盘边缘镶着细碎水晶，转动时像小型星河。</li>
-                  <li>长外套带旧书页一样的纹理，袖口压着暗金线。</li>
-                  <li>耳坠是旅途中换来的银色小坠饰。</li>
-                </ul>
-              </section>
-
-              <section class="ns-fantasy-section">
-                <h2>角色片段</h2>
-                <p>
-                  她总在黎明前整理行装。星图、墨水和一小束干花被放进同一个皮质匣子里，
-                  像是给下一次相遇留下坐标。
-                </p>
-              </section>
-            </div>
-
-            <div class="ns-fantasy-actions" aria-label="Fantasy card action samples">
-              <button class="ns-fantasy-button ns-fantasy-button--primary" type="button">
-                档案
-              </button>
-              <button class="ns-fantasy-button" type="button">装备</button>
-              <button class="ns-fantasy-button" type="button">故事</button>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
   </main>
 </template>
 
 <script setup lang="ts">
+import '@/styles/experiments/pixel-soft.css'
 import { ref } from 'vue'
+import AppButton from '@/components/AppButton.vue'
+import AppField from '@/components/AppField.vue'
+import AppStatus from '@/components/AppStatus.vue'
+import AppTabs from '@/components/AppTabs.vue'
+import AppToolbar from '@/components/AppToolbar.vue'
+import { siteLabels } from '@/config/site'
 
 type FontMode = 'decorative' | 'all-pixel'
-type PixelTone = 'classic' | 'light'
-type StylePreview = 'pixel-soft' | 'fantasy-card'
+type PixelTone = 'classic' | 'light' | 'cyber-night'
 
 const fontMode = ref<FontMode>('decorative')
 const pixelTone = ref<PixelTone>('classic')
-const stylePreview = ref<StylePreview>('pixel-soft')
 
 const fontModeOptions: Array<{ label: string; value: FontMode }> = [
   { label: '装饰像素', value: 'decorative' },
@@ -433,12 +385,16 @@ const fontModeOptions: Array<{ label: string; value: FontMode }> = [
 
 const pixelToneOptions: Array<{ label: string; value: PixelTone }> = [
   { label: '当前像素', value: 'classic' },
-  { label: '轻像素', value: 'light' }
+  { label: '轻像素', value: 'light' },
+  { label: '赛博夜色', value: 'cyber-night' }
 ]
 
-const stylePreviewOptions: Array<{ label: string; value: StylePreview }> = [
-  { label: 'Pixel Soft', value: 'pixel-soft' },
-  { label: 'Fantasy Card', value: 'fantasy-card' }
+const commonTab = ref('field')
+
+const commonTabs = [
+  { label: 'AppField', value: 'field', meta: '01' },
+  { label: 'AppToolbar', value: 'toolbar', meta: '02' },
+  { label: 'AppStatus', value: 'status', meta: '03' }
 ]
 </script>
 
@@ -447,28 +403,21 @@ const stylePreviewOptions: Array<{ label: string; value: StylePreview }> = [
   min-height: 100vh;
 }
 
-.style-lab-picker {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 18px;
+.style-common-components {
+  display: grid;
+  min-width: 0;
+  gap: 16px;
 }
 
-.style-lab-picker__button {
-  min-height: 34px;
-  padding: 0 14px;
-  border: 1px solid var(--style-lab-picker-accent, #2a2138);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.76);
-  color: var(--style-lab-picker-accent, #2a2138);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
+.style-common-components__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.style-lab-picker__button--active {
-  background: var(--style-lab-picker-accent, #2a2138);
-  color: var(--style-lab-picker-active, #ffffff);
+@media (max-width: 620px) {
+  .style-common-components__grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
