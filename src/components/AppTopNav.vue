@@ -258,7 +258,8 @@ const isFfxivRoute = computed(
 )
 const isSilenceRoute = computed(
   () =>
-    route.path === siteRoutes.silence || silenceGroups.some((group) => route.path === group.route)
+    route.path === siteRoutes.silence ||
+    silenceGroups.some((group) => route.path === group.route || route.path.startsWith(`${group.route}/`))
 )
 const isMenuRoute = computed(
   () => isFfxivRoute.value || isSilenceRoute.value || route.path === siteRoutes.about

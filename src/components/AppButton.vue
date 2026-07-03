@@ -1,8 +1,8 @@
 <template>
-  <RouterLink v-if="to" :to="to" class="ns-button" :class="variantClass">
+  <RouterLink v-if="to" v-bind="$attrs" :to="to" class="ns-button" :class="variantClass">
     <slot />
   </RouterLink>
-  <button v-else class="ns-button" :class="variantClass" type="button">
+  <button v-else v-bind="$attrs" class="ns-button" :class="variantClass" type="button">
     <slot />
   </button>
 </template>

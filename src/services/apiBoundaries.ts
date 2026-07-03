@@ -11,14 +11,16 @@ export interface ApiBoundary {
   sourcePath: string
 }
 
-export const apiBoundaries = ffxivTools.map((tool) => ({
-  id: tool.id as FfxivToolId,
-  projectName: tool.projectName,
-  apiBase: tool.apiBase,
-  healthPath: tool.id === 'glamour' ? '/health' : '/presets',
-  devPort: tool.devPort,
-  sourcePath: tool.sourcePath
-})) satisfies ApiBoundary[]
+export const apiBoundaries = ffxivTools
+  .filter((tool) => tool.apiBase && tool.devPort)
+  .map((tool) => ({
+    id: tool.id as FfxivToolId,
+    projectName: tool.projectName,
+    apiBase: tool.apiBase ?? '',
+    healthPath: tool.id === 'glamour' ? '/health' : '/presets',
+    devPort: tool.devPort ?? 0,
+    sourcePath: tool.sourcePath
+  })) satisfies ApiBoundary[]
 
 export function getApiBoundary(id: FfxivToolId): ApiBoundary {
   const boundary = apiBoundaries.find((item) => item.id === id)

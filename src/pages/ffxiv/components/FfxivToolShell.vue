@@ -27,11 +27,11 @@
         <div class="ffxiv-tool-layout">
           <section class="ns-panel ffxiv-tool-panel">
             <h2>{{ t(textKeys.placeholder) }}</h2>
-            <ToolApiStatus :boundary="boundary" />
+            <ToolApiStatus v-if="boundary" :boundary="boundary" />
             <dl class="ffxiv-tool-meta">
               <div>
                 <dt>{{ t(textKeys.placeholder) }}</dt>
-                <dd>{{ boundary.sourcePath }}</dd>
+                <dd>{{ boundary?.sourcePath ?? tool.sourcePath }}</dd>
               </div>
             </dl>
           </section>
@@ -63,7 +63,7 @@ const { t } = useLocale()
 withDefaults(
   defineProps<{
     tool: ToolEntry
-    boundary: ApiBoundary
+    boundary?: ApiBoundary
     variant?: 'default' | 'workspace'
   }>(),
   {

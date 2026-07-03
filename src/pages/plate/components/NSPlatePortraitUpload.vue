@@ -30,7 +30,7 @@ import { ref } from 'vue'
 import { textKeys } from '@/config/site'
 import { NSPLATE_CANVAS_DIMENSIONS } from '@/lib/plate/render'
 import { useLocale } from '@/stores/locale'
-import type { NSPlateCustomPortraitImage } from '@/pages/plate/types'
+import type { NSPlateCustomPortraitImage } from '@/lib/plate/types'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 
 defineProps<{

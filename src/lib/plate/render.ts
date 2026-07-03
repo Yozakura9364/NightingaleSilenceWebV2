@@ -6,7 +6,7 @@ import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage
-} from '@/pages/plate/types'
+} from '@/lib/plate/types'
 
 export type NSPlatePortraitSide = 'left' | 'right'
 

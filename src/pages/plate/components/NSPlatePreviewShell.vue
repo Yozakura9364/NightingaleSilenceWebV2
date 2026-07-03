@@ -13,7 +13,7 @@ import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage
-} from '@/pages/plate/types'
+} from '@/lib/plate/types'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 
 defineProps<{

@@ -6,6 +6,7 @@ export type RoutePath =
   | '/ffxiv'
   | '/ffxiv/glamour'
   | '/ffxiv/plate'
+  | '/ffxiv/armoire'
   | '/silence'
   | '/silence/angel'
   | '/silence/glitch'
@@ -35,8 +36,8 @@ export interface ToolEntry {
   route: RoutePath
   summaryKey: string
   sourcePath: string
-  apiBase: string
-  devPort: number
+  apiBase?: string
+  devPort?: number
   statusLabelKey: string
 }
 
@@ -118,10 +119,55 @@ export const textKeys = {
   oc: 'site.menu.oc',
   silenceAngel: 'silence.group.angel.title',
   silenceGlitch: 'silence.group.glitch.title',
+  silenceCharacterProfile: 'silence.character.profile',
+  silenceCharacterVisual: 'silence.character.visual',
+  silenceCharacterArchive: 'silence.character.archive',
+  silenceCharacterNotes: 'silence.character.notes',
+  silenceCharacterNavigation: 'silence.character.navigation',
+  silenceCharacterMissing: 'silence.character.missing',
   ffxivWorkshop: 'ffxiv.workshop.title',
   ffxivWorkshopShort: 'ffxiv.workshop.short',
   glamourTitle: 'ffxiv.tool.glamour.title',
   plateTitle: 'ffxiv.tool.plate.title',
+  armoireTitle: 'ffxiv.tool.armoire.title',
+  nsarmoireImport: 'nsarmoire.panel.import',
+  nsarmoireOverview: 'nsarmoire.panel.overview',
+  nsarmoireDistribution: 'nsarmoire.panel.distribution',
+  nsarmoireImportSnapshot: 'nsarmoire.action.importSnapshot',
+  nsarmoireClearSnapshot: 'nsarmoire.action.clearSnapshot',
+  nsarmoireSnapshotInput: 'nsarmoire.input.snapshot',
+  nsarmoireSnapshotReady: 'nsarmoire.status.snapshotReady',
+  nsarmoireSnapshotEmpty: 'nsarmoire.status.snapshotEmpty',
+  nsarmoireSnapshotError: 'nsarmoire.status.snapshotError',
+  nsarmoireSnapshotFileTooLarge: 'nsarmoire.error.fileTooLarge',
+  nsarmoireSnapshotInvalidJson: 'nsarmoire.error.invalidJson',
+  nsarmoireSnapshotInvalidRoot: 'nsarmoire.error.invalidRoot',
+  nsarmoireSnapshotInvalidSchema: 'nsarmoire.error.invalidSchema',
+  nsarmoireSnapshotInvalidSource: 'nsarmoire.error.invalidSource',
+  nsarmoireSnapshotInvalidGeneratedAt: 'nsarmoire.error.invalidGeneratedAt',
+  nsarmoireSnapshotInvalidItems: 'nsarmoire.error.invalidItems',
+  nsarmoireSnapshotTooManyItems: 'nsarmoire.error.tooManyItems',
+  nsarmoireSnapshotInvalidItem: 'nsarmoire.error.invalidItem',
+  nsarmoireSnapshotInvalidItemId: 'nsarmoire.error.invalidItemId',
+  nsarmoireSnapshotInvalidContainer: 'nsarmoire.error.invalidContainer',
+  nsarmoireSnapshotInvalidQuantity: 'nsarmoire.error.invalidQuantity',
+  nsarmoireSnapshotInvalidDyes: 'nsarmoire.error.invalidDyes',
+  nsarmoireMetricEntries: 'nsarmoire.metric.entries',
+  nsarmoireMetricUniqueItems: 'nsarmoire.metric.uniqueItems',
+  nsarmoireMetricTotalQuantity: 'nsarmoire.metric.totalQuantity',
+  nsarmoireMetricDyedEntries: 'nsarmoire.metric.dyedEntries',
+  nsarmoireMetricGlamourDresser: 'nsarmoire.metric.glamourDresser',
+  nsarmoireMetricArmoire: 'nsarmoire.metric.armoire',
+  nsarmoireGeneratedAt: 'nsarmoire.field.generatedAt',
+  nsarmoireSource: 'nsarmoire.field.source',
+  nsarmoireCharacter: 'nsarmoire.field.character',
+  nsarmoireContainerInventory: 'nsarmoire.container.inventory',
+  nsarmoireContainerSaddlebag: 'nsarmoire.container.saddlebag',
+  nsarmoireContainerRetainer: 'nsarmoire.container.retainer',
+  nsarmoireContainerArmoury: 'nsarmoire.container.armoury',
+  nsarmoireContainerGlamourDresser: 'nsarmoire.container.glamourDresser',
+  nsarmoireContainerArmoire: 'nsarmoire.container.armoire',
+  nsarmoireContainerManual: 'nsarmoire.container.manual',
   nsplatePortrait: 'nsplate.tab.portrait',
   nsplateNameplate: 'nsplate.tab.nameplate',
   nsplateInfo: 'nsplate.tab.info',
@@ -250,6 +296,7 @@ export const siteRoutes = {
   ffxiv: '/ffxiv',
   glamour: '/ffxiv/glamour',
   plate: '/ffxiv/plate',
+  armoire: '/ffxiv/armoire',
   silence: '/silence',
   silenceAngel: '/silence/angel',
   silenceGlitch: '/silence/glitch',
@@ -341,6 +388,15 @@ export const ffxivTools: ToolEntry[] = [
     sourcePath: '../NSPortable',
     apiBase: '/api/plate',
     devPort: 3456,
+    statusLabelKey: textKeys.placeholder
+  },
+  {
+    id: 'armoire',
+    titleKey: textKeys.armoireTitle,
+    projectName: 'NSArmoire',
+    route: siteRoutes.armoire,
+    summaryKey: textKeys.placeholder,
+    sourcePath: 'docs/ARMOIRE_PLAN.md',
     statusLabelKey: textKeys.placeholder
   }
 ]
