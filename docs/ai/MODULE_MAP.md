@@ -46,7 +46,7 @@
 | `#/silence`                     | `src/pages/silence/SilenceIndexPage.vue`     | 已接入左右分割海报式双入口页                |
 | `#/silence/angel`               | `src/pages/silence/SilenceGroupPage.vue`     | 已接入全屏分组舞台占位页                    |
 | `#/silence/glitch`              | `src/pages/silence/SilenceGroupPage.vue`     | 已接入全屏分组舞台占位页                    |
-| `#/silence/angel/:characterId`  | `src/pages/silence/SilenceCharacterPage.vue` | 已接入动态路由和六个测试角色数据骨架        |
+| `#/silence/angel/:characterId`  | `src/pages/silence/SilenceCharacterPage.vue` | 已接入动态路由和六个多区块测试角色数据骨架  |
 | `#/silence/glitch/:characterId` | `src/pages/silence/SilenceCharacterPage.vue` | 未接入代码，规划文档已建立                  |
 
 > 注意：当前页面只是 V2 骨架和迁移入口，不代表旧项目功能已经完成迁移。
@@ -152,7 +152,7 @@
 - **推荐详情路由**：`#/silence/angel/:characterId`、`#/silence/glitch/:characterId`
 - **计划页面入口**：`src/pages/silence/SilenceIndexPage.vue`、`src/pages/silence/SilenceGroupPage.vue`、`src/pages/silence/SilenceCharacterPage.vue`
 - **页面类型**：创作信息分类 / 原创角色档案 / 角色图鉴
-- **当前状态**：`#/silence` 左右分割海报式双入口、`#/silence/angel` 和 `#/silence/glitch` 全屏分组舞台占位页已接入代码、路由、站点配置和公开导航；`angel` 六个角色的动态详情页和测试数据骨架已接入，正式角色资料和正式素材尚未接入。
+- **当前状态**：`#/silence` 左右分割海报式双入口、`#/silence/angel` 和 `#/silence/glitch` 全屏分组舞台占位页已接入代码、路由、站点配置和公开导航；`angel` 六个角色的动态详情页、多区块测试数据骨架和详情页私有组件已接入，正式角色资料和正式素材尚未接入。
 - **迁移目标**：
   - 承接首页未来的创作信息入口。
   - 展示 `不语·silence`、`幽灵·silence` 两组角色索引、标签和单角色档案。

@@ -190,6 +190,60 @@ export const uiMessages: UiMessageMap = {
     ja: 'キャラクターが見つかりません',
     ko: '캐릭터를 찾을 수 없음'
   }),
+  'silence.character.sections': msg({
+    zh: '档案分区',
+    en: 'Profile sections',
+    ja: 'プロフィール区分',
+    ko: '프로필 섹션'
+  }),
+  'silence.character.basicProfile': msg({
+    zh: '基础档案',
+    en: 'Basic profile',
+    ja: '基本プロフィール',
+    ko: '기본 프로필'
+  }),
+  'silence.character.worlds': msg({
+    zh: '世界线',
+    en: 'World lines',
+    ja: '世界線',
+    ko: '세계선'
+  }),
+  'silence.character.gallery': msg({
+    zh: '图像资料',
+    en: 'Visual archive',
+    ja: '画像資料',
+    ko: '이미지 자료'
+  }),
+  'silence.character.relationships': msg({
+    zh: '关系网',
+    en: 'Relationships',
+    ja: '関係',
+    ko: '관계'
+  }),
+  'silence.character.spoiler': msg({
+    zh: '剧透区',
+    en: 'Spoilers',
+    ja: 'ネタバレ',
+    ko: '스포일러'
+  }),
+  'silence.character.preview': msg({
+    zh: '预览',
+    en: 'Preview',
+    ja: 'プレビュー',
+    ko: '미리보기'
+  }),
+  'silence.character.color': msg({
+    zh: '代表色',
+    en: 'Signature color',
+    ja: '代表色',
+    ko: '대표색'
+  }),
+  'silence.character.draftStatus': msg({
+    zh: '资料状态',
+    en: 'Archive status',
+    ja: '資料ステータス',
+    ko: '자료 상태'
+  }),
 
   'ffxiv.workshop.title': msg({
     zh: '狒狒14工房',

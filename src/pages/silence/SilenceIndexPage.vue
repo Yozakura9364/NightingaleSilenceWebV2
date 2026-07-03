@@ -21,8 +21,18 @@
         >
           <div class="silence-poster__art" aria-hidden="true">
             <template v-if="group.id === 'angel'">
-              <span v-for="slot in angelFigureSlots" :key="slot" class="silence-poster__figure">
-                <span class="silence-poster__figure-head"></span>
+              <span
+                v-for="character in angelPreviewCharacters"
+                :key="character.id"
+                class="silence-poster__figure"
+                :style="{ '--silence-poster-character-color': character.color }"
+              >
+                <img
+                  v-if="character.portraitSrc"
+                  :src="character.portraitSrc"
+                  alt=""
+                  decoding="async"
+                />
               </span>
               <span class="silence-poster__stage-line"></span>
             </template>
@@ -51,11 +61,12 @@
 
 <script setup lang="ts">
 import { silenceGroups, siteRoutes, textKeys } from '@/config/site'
+import { getSilenceCharactersByGroup } from '@/data/silence/characters'
 import { useLocale } from '@/stores/locale'
 
 const { t } = useLocale()
-const angelFigureSlots = 6
 const glitchGhostSlots = 2
+const angelPreviewCharacters = getSilenceCharactersByGroup('angel')
 </script>
 
 <style scoped>
@@ -222,81 +233,58 @@ const glitchGhostSlots = 2
 
 .silence-poster__figure {
   position: absolute;
-  bottom: 35%;
-  width: clamp(58px, 8.4vw, 126px);
-  border: 2px solid rgba(42, 33, 56, 0.5);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(239, 111, 178, 0.2)),
-    var(--ns-color-cyan-soft);
-  box-shadow:
-    5px 5px 0 rgba(99, 217, 220, 0.22),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.42);
-}
-
-.silence-poster__figure::after {
-  position: absolute;
-  right: 18%;
-  bottom: -18px;
-  left: 18%;
-  height: 18px;
-  border: 2px solid rgba(42, 33, 56, 0.34);
-  border-top: 0;
-  background: rgba(255, 255, 255, 0.38);
-  content: '';
-}
-
-.silence-poster__figure-head {
-  position: absolute;
-  top: clamp(-52px, -4vw, -34px);
-  left: 50%;
-  width: 46%;
-  aspect-ratio: 1;
-  border: 2px solid rgba(42, 33, 56, 0.48);
-  background: rgba(255, 250, 253, 0.86);
-  box-shadow: 4px 4px 0 rgba(239, 111, 178, 0.18);
-  transform: translateX(-50%);
+  bottom: 17%;
+  width: clamp(128px, 13.5vw, 244px);
+  height: clamp(300px, 58vh, 660px);
+  filter:
+    drop-shadow(0 24px 28px rgba(42, 33, 56, 0.18))
+    drop-shadow(0 0 22px color-mix(in srgb, var(--silence-poster-character-color), transparent 72%));
 }
 
 .silence-poster__figure:nth-child(1) {
-  left: 8%;
-  height: 30%;
+  left: 3%;
+  z-index: 1;
+  transform: translateY(18px) scale(0.92);
 }
 
 .silence-poster__figure:nth-child(2) {
-  left: 22%;
-  height: 41%;
+  left: 15%;
+  z-index: 3;
+  transform: translateY(2px) scale(1.02);
 }
 
 .silence-poster__figure:nth-child(3) {
-  left: 35%;
-  height: 35%;
+  left: 29%;
+  z-index: 2;
+  transform: translateY(22px) scale(0.94);
 }
 
 .silence-poster__figure:nth-child(4) {
-  left: 48%;
-  height: 45%;
+  left: 42%;
+  z-index: 4;
+  transform: translateY(-8px) scale(1.06);
 }
 
 .silence-poster__figure:nth-child(5) {
-  left: 61%;
-  height: 34%;
+  left: 56%;
+  z-index: 2;
+  transform: translateY(24px) scale(0.96);
 }
 
 .silence-poster__figure:nth-child(6) {
-  left: 74%;
-  height: 39%;
+  left: 70%;
+  z-index: 3;
+  transform: translateY(10px) scale(1);
 }
 
-.silence-poster__figure:nth-child(even) {
-  transform: translateY(20px);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(99, 217, 220, 0.2)),
-    var(--ns-color-accent-soft);
-}
-
-.silence-poster__figure:nth-child(2),
-.silence-poster__figure:nth-child(4) {
-  z-index: 2;
+.silence-poster__figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  transform: translateY(7%) scale(1.72);
+  transform-origin: bottom center;
 }
 
 .silence-poster__stage-line {
@@ -591,12 +579,9 @@ const glitchGhostSlots = 2
   }
 
   .silence-poster__figure {
-    bottom: 39%;
-    width: clamp(36px, 11vw, 58px);
-  }
-
-  .silence-poster__figure-head {
-    top: -30px;
+    bottom: 42%;
+    width: clamp(58px, 15vw, 92px);
+    height: clamp(180px, 36vh, 320px);
   }
 
   .silence-poster__stage-line,

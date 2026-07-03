@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-- 模块状态：`#/silence` 左右分割海报式入口页、`#/silence/angel`、`#/silence/glitch` 全屏分组舞台占位页，以及 `angel` 六个角色的详情页动态路由和测试数据骨架已接入；正式角色资料和正式素材尚未接入。
+- 模块状态：`#/silence` 左右分割海报式入口页、`#/silence/angel`、`#/silence/glitch` 全屏分组舞台占位页，以及 `angel` 六个角色的详情页动态路由、多区块测试数据骨架和详情页私有组件已接入；正式角色资料和正式素材尚未接入。
 - 计划入口路由：`#/silence`。
 - 推荐分组路由：`#/silence/angel`、`#/silence/glitch`。
 - 推荐详情路由：`#/silence/angel/:characterId`、`#/silence/glitch/:characterId`。
@@ -177,6 +177,16 @@ salvance
 #/silence/angel/salvance
 ```
 
+当前测试数据骨架已覆盖以下模板区块，便于先检查页面结构和响应式，而不是提前写正式设定：
+
+- 首屏角色主视觉：角色名、代表色、标签、基础档案入口。
+- 基础档案：资料状态、代表色、资料、笔记等占位字段。
+- 世界线：同一角色未来可填写多个世界线或版本。
+- 图像资料：立绘、表情差分、旧设 / 新设等图像槽位。
+- 关系网：通过 `characterId` 关联其他角色，详情页会自动生成跳转。
+- 创作笔记：设计来源、版本记录、废案记录等文字块。
+- 剧透区：使用折叠区块，避免默认首屏暴露。
+
 如果实现时项目尚未建立 `src/data/`，需要在计划中确认目录归属；不要把大量角色数据直接写进页面组件。
 
 角色数据建议包含：
@@ -228,7 +238,7 @@ interface SilenceCharacter {
 
 ## 组件拆分计划
 
-建议页面结构：
+当前页面结构：
 
 ```text
 src/pages/silence/
@@ -236,16 +246,20 @@ src/pages/silence/
 ├── SilenceGroupPage.vue
 ├── SilenceCharacterPage.vue
 └── components/
-    ├── SilenceCharacterCard.vue
-    ├── SilenceCharacterGrid.vue
-    ├── SilenceCharacterFilters.vue
     ├── SilenceProfilePanel.vue
     ├── SilenceGallery.vue
     ├── SilenceRelationshipList.vue
     └── SilenceSpoilerBlock.vue
 ```
 
-如果第一版角色数量很少，可以先少拆组件，但角色卡片、档案面板和剧透块很可能会复用，适合尽早保持边界清楚。
+已拆出的组件目前只服务单角色详情页：
+
+- `SilenceProfilePanel.vue`：基础档案和代表色块。
+- `SilenceGallery.vue`：图像资料槽位。
+- `SilenceRelationshipList.vue`：关系卡片和角色详情跳转。
+- `SilenceSpoilerBlock.vue`：默认折叠的剧透区。
+
+`SilenceGroupPage.vue` 当前仍在页面内直接渲染角色舞台；如果后续分组页交互复杂化，再考虑补 `SilenceCharacterCard.vue`、`SilenceCharacterGrid.vue` 或 `SilenceCharacterFilters.vue`。
 
 ## 模板和数据复用关系
 
