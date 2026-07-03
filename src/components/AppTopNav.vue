@@ -229,8 +229,8 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
 import { useRoute } from 'vue-router'
-import themeMoonIcon from '../../moon.svg'
-import themeSunIcon from '../../sun-alt.svg'
+import themeMoonIcon from '@/assets/icons/moon.svg'
+import themeSunIcon from '@/assets/icons/sun-alt.svg'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
 import {
   ffxivTools,
