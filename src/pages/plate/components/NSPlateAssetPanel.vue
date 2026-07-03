@@ -218,7 +218,7 @@ watch(
 
 .nsplate-asset-section[data-open='true'] .nsplate-asset-section__header {
   position: sticky;
-  top: 0;
+  top: calc(var(--nsplate-config-scroll-padding, 10px) * -1);
   z-index: 3;
   border-bottom: 1px solid color-mix(in srgb, var(--ns-color-border) 76%, transparent);
   background: color-mix(in srgb, var(--ns-color-surface-solid) 94%, var(--ns-color-cyan-soft));

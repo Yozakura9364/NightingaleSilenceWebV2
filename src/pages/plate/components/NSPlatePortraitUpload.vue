@@ -17,15 +17,6 @@
           @change="onFileChange"
         />
       </label>
-
-      <button
-        v-if="modelValue"
-        class="nsplate-portrait-upload__clear"
-        type="button"
-        @click="clearCustomPortrait"
-      >
-        {{ t(textKeys.nsplateCustomPortraitClear) }}
-      </button>
     </div>
 
     <p v-if="errorText" class="nsplate-portrait-upload__error">
@@ -77,11 +68,6 @@ async function onFileChange(event: Event) {
   } catch {
     errorText.value = t(textKeys.nsplateCustomPortraitError)
   }
-}
-
-function clearCustomPortrait() {
-  errorText.value = ''
-  emit('update:modelValue', null)
 }
 
 async function createPortraitDataUrl(file: File) {
@@ -212,24 +198,6 @@ function loadImage(source: string) {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
-}
-
-.nsplate-portrait-upload__clear {
-  justify-self: start;
-  min-height: 30px;
-  padding: 6px 10px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-sans);
-  font-size: 12px;
-  font-weight: 850;
-  cursor: pointer;
-}
-
-.nsplate-portrait-upload__clear:hover {
-  border-color: rgba(214, 79, 114, 0.46);
-  color: var(--ns-color-danger);
 }
 
 .nsplate-portrait-upload__error {
