@@ -4,6 +4,6 @@
 @import './theme.css' layer(theme);
 @import './base.css' layer(base);
 @import './components.css' layer(components);
-@import './experiments/pixel-soft.css' layer(components);
-@import './experiments/fantasy-card.css' layer(components);
+/* @import './experiments/pixel-soft.css' layer(components); — 实验样式，后续按需引入 */
+/* @import './experiments/fantasy-card.css' layer(components); — 实验样式，后续按需引入 */
 @import './utilities.css' layer(utilities);
