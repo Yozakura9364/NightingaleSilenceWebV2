@@ -21,7 +21,7 @@ import { computed } from 'vue'
 import AppTabs from '@/components/AppTabs.vue'
 import { textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
-import type { NSPlatePanelTab } from '@/pages/plate/types'
+import type { NSPlatePanelTab } from '@/lib/plate/types'
 
 const props = defineProps<{
   modelValue: NSPlatePanelTab

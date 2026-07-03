@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-- 模块状态：仅有用户需求文档，尚未接入代码、路由、站点配置或 API 边界。
+- 模块状态：已接入第一阶段页面入口、站点配置、路由、手动 snapshot 导入和基础容器分布统计；本地 helper、静态 catalog 和正式分析能力尚未接入。
 - 用户需求来源：`docs/ARMOIRE_PLAN.md`。
 - 目标路由：`#/ffxiv/armoire`。
 - 计划页面入口：`src/pages/armoire/NSArmoirePage.vue`。
@@ -10,7 +10,7 @@
 - 计划工具名：`衣柜清理大师`。
 - 计划形态：V2 网页工具 + 用户本机本地助手。
 - 后续可选形态：独立卫月 / Dalamud 插件项目。该项目暂不放入 V2 仓库，真正启动前必须先阅读官方 Dalamud 开发者指南并单独规划。
-- 当前 V2 后端状态：V2 自身没有后端，现阶段只通过 Vite proxy 接旧 `NSGlamour` 和 `NSPlate` 服务。
+- 当前 V2 后端状态：V2 自身没有后端，现阶段只通过 Vite proxy 接旧 `NSGlamour` 和 `NSPlate` 服务；`NSArmoire` 第一阶段不接后端，只处理手动导入 JSON。
 - 计划本地助手端口：待确认。实现前必须先确认端口、CORS、公开站点访问本机 helper 的浏览器限制和开发代理策略。
 
 ## 已读取文件
@@ -27,6 +27,7 @@
 - `docs/ai/MODULES/nsglamour.md`
 - `docs/ai/MODULES/nsplate.md`
 - `docs/ARMOIRE_PLAN.md`
+- `docs/api/nsarmoire.md`
 - `../NSGlamour/scripts/build_item_mapping.py`
 - `../NSGlamour/scripts/resolve_chara.py`
 - `../NSGlamour/scripts/app.py`
@@ -93,6 +94,14 @@ interface AsvelDresserItem {
   - 已拥有物品的基础统计。
   - 套装残缺状态：投影台里存在 `ItemUICategory=112` 的套装幻影化物品时，只表示存在一个套装收纳容器/篓子，不等同于套装内全部散件已收集。
 5. 收藏柜收集度的正式口径是“收藏柜现有个数 / 可放入收藏柜的个数”。如果第一版 snapshot 还不能读取真实收藏柜状态，只能展示“已拥有/未拥有”的估算视图，不能把估算值标为正式收藏柜收集度。
+
+当前已完成的第一阶段 A：
+
+1. V2 接入 `#/ffxiv/armoire` 页面入口和 FFXIV 工具导航入口。
+2. 支持手动导入 `NSArmoire snapshot` JSON。
+3. 支持简化 Asvel dresser JSON 归一为 `container: 'glamourDresser'`。
+4. 实现 snapshot 基础校验、容器分布统计、条目数、不同物品数、总数量、染色条目数、投影台条目数和收藏柜条目数。
+5. 不接本地 helper，不读取游戏进程，不保存完整 snapshot 到 `localStorage`。
 
 MVP 暂不做：
 
@@ -385,24 +394,24 @@ interface ArmoireHelperHealth {
 
 ## 需要修改的文件
 
-等用户确认本计划后，第一阶段预计涉及：
+第一阶段预计/实际涉及：
 
 ```text
 docs/ai/MODULES/nsarmoire.md
 docs/api/nsarmoire.md
 src/config/site.ts
 src/router/index.ts
+src/locales/ui.ts
 src/services/apiBoundaries.ts
-vite.config.ts
 src/pages/armoire/NSArmoirePage.vue
-src/pages/armoire/services/nsarmoireApi.ts
 src/pages/armoire/composables/useArmoireSnapshot.ts
-src/pages/armoire/composables/useArmoireAnalysis.ts
 src/pages/armoire/components/*
 src/lib/armoire/*
 ```
 
 如果第一阶段只做手动导入和前端分析，可以暂不修改 `vite.config.ts` 和 `apiBoundaries.ts` 的 helper 代理，只在后续本地助手接入阶段补。
+
+当前第一阶段 A 没有修改 `vite.config.ts`，也没有为 `NSArmoire` 创建 helper API 边界；`apiBoundaries.ts` 只调整为允许没有 API 的工具入口存在。
 
 ## 实施步骤
 

@@ -43,7 +43,7 @@ import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage
-} from '@/pages/plate/types'
+} from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
 
 const props = defineProps<{

@@ -79,7 +79,7 @@ import type {
   NSPlateCustomPortraitImage,
   NSPlatePanelTab,
   NSPlatePresetKind
-} from '@/pages/plate/types'
+} from '@/lib/plate/types'
 
 const props = defineProps<{
   boundary: ApiBoundary

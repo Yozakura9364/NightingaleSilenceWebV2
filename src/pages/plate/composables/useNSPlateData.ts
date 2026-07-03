@@ -17,7 +17,7 @@ import type {
   NSPlatePresetGroup,
   NSPlatePresetSummary,
   NSPlatePresetsResponse
-} from '@/pages/plate/types'
+} from '@/lib/plate/types'
 import { normalizeFiles, normalizePresets, useNSPlateApi } from '@/pages/plate/services/nsplateApi'
 
 export function useNSPlateData(boundary: ApiBoundary) {

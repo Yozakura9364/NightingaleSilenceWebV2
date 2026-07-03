@@ -4,7 +4,7 @@ import type {
   NSPlateAssetSummary,
   NSPlatePresetKind,
   NSPlatePresetSummary
-} from '@/pages/plate/types'
+} from '@/lib/plate/types'
 
 export const NSPLATE_PORTRAIT_CATEGORIES = ['肖像背景', '肖像装饰框', '肖像装饰物'] as const
 

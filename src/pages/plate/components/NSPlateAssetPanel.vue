@@ -94,7 +94,7 @@ import {
   type NSPlateAssetSelectionMap
 } from '@/lib/plate/draft'
 import { useLocale } from '@/stores/locale'
-import type { NSPlateAssetGroup, NSPlateAssetScope, NSPlateAssetSummary } from '@/pages/plate/types'
+import type { NSPlateAssetGroup, NSPlateAssetScope, NSPlateAssetSummary } from '@/lib/plate/types'
 import NSPlateChoiceButton from '@/pages/plate/components/NSPlateChoiceButton.vue'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 

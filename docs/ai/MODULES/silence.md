@@ -2,15 +2,15 @@
 
 ## 当前状态
 
-- 模块状态：`#/silence` 入口页和 `#/silence/angel`、`#/silence/glitch` 分组占位页已接入代码、路由和公开导航；单角色详情页和角色数据尚未接入。
+- 模块状态：`#/silence` 左右分割海报式入口页、`#/silence/angel`、`#/silence/glitch` 全屏分组舞台占位页，以及 `angel` 六个角色的详情页动态路由和测试数据骨架已接入；正式角色资料和正式素材尚未接入。
 - 计划入口路由：`#/silence`。
 - 推荐分组路由：`#/silence/angel`、`#/silence/glitch`。
 - 推荐详情路由：`#/silence/angel/:characterId`、`#/silence/glitch/:characterId`。
 - 已接入页面入口：`src/pages/silence/SilenceIndexPage.vue`、`src/pages/silence/SilenceGroupPage.vue`。
-- 计划单角色页面入口：`src/pages/silence/SilenceCharacterPage.vue`。
+- 单角色页面入口：`src/pages/silence/SilenceCharacterPage.vue`。
 - 模块类型：创作信息分类 / 原创角色档案 / 角色图鉴。
 - 当前不涉及后端 API。
-- 当前正式展示文案尚未确认；页面骨架中未由用户提供的公开文案统一使用 `占位用，待编辑`。
+- 当前正式展示文案尚未确认；页面骨架中未由用户提供的公开文案统一使用 `占位用，待编辑`。当前 `src/data/silence/characters.ts` 中的六个 `angel` 角色只作为测试数据骨架，用于即时检查模板、路由和排版。
 
 ## 定位
 
@@ -56,29 +56,56 @@ Silence 模块第一层按角色所属叙事层分组，不按世界观分组。
 
 `#/silence` 负责 `不语·silence` 与 `幽灵·silence` 两组总览，不承担单个角色的完整长档案。`#/silence/angel` 与 `#/silence/glitch` 负责组内角色列表和组内视觉气质。
 
-当前已接入的 `#/silence` 第一版采用“双入口门厅”结构，不直接展示八个角色，避免把 `angel` 与 `glitch` 两组风格硬拼在同一屏。`angel` 用抽象六人剪影暗示六个主 OC，`glitch` 用像素窗口和故障视觉暗示两个 meta 角色。
+当前已接入的 `#/silence` 第一版采用“双入口门厅”结构，但视觉形态应是一张左右分割的大海报，而不是两个完全独立的卡片。海报应铺满 `#/silence` 的可视区域，不放在页面中间的受限展示框里；返回入口、标题和占位说明作为海报上的浮层处理。左侧约三分之二给 `不语·silence`，用抽象六人群像或后续正式立绘暗示六个主 OC；右侧约三分之一给 `幽灵·silence`，用两个像素 / 故障 / 窗口化角色占位暗示两个 meta 角色；中间使用柔和渐变、像素扫描线或轻微故障切口过渡，不做生硬黑色分割线。
+
+`#/silence` 仍然不直接承担八个角色的完整索引，不把所有角色信息平铺出来。两侧整块区域都可以作为入口：左侧进入 `#/silence/angel`，右侧进入 `#/silence/glitch`。正式角色图接入前，页面只能使用占位剪影和占位文案；正式立绘接入后优先替换海报中的占位形体，不推翻整体左右分割结构。
 
 建议结构：
 
 ```text
-SilenceIndexPage / SilenceGroupPage
-├── 分类视觉区：Silence / 角色档案入口
-├── 角色分组或筛选：angel / glitch、状态、标签
-├── 角色卡片网格
-│   ├── 头像或半身图
-│   ├── 角色名和别名
-│   ├── 所属作品 / 阵营 / 关键词
-│   └── 进入档案按钮
-└── 最近更新或待补全状态
+SilenceIndexPage
+├── 全屏左右分割海报
+├── 海报浮层：返回首页入口、Silence 标题和占位说明
+└── 海报入口区
+    ├── 左侧：不语·silence，六个主 OC 群像占位，整块点击进入分组页
+    ├── 中间：渐变 / 像素故障过渡
+    └── 右侧：幽灵·silence，两个 meta 角色占位，整块点击进入分组页
+
+SilenceGroupPage
+├── 全屏分组角色舞台
+├── 组内立绘交互层
+├── 隐藏式角色导航或当前角色信息浮层
+└── 进入单角色档案入口
 ```
 
 首页第一屏应直接出现角色图像或明确角色视觉信号，不要做成纯文字目录。若第一阶段还没有正式角色图，页面实现时只能使用占位状态，不能由 AI 自行编写正式角色介绍。
+
+`#/silence/angel` 和 `#/silence/glitch` 进入后也应采用全屏或近全屏角色舞台，不做成普通居中内容框、卡片网格或资料列表页。分组页的核心交互对象是角色立绘本身：用户通过 hover、focus、tap、方向键或隐藏式导航选择角色；被选中的角色应前移、变亮、放大或获得更高层级，其他角色退到后景、降低亮度或轻微错位。点击或确认当前角色后，再进入 `#/silence/angel/:characterId` 或 `#/silence/glitch/:characterId` 的完整档案页。
+
+分组页交互约定：
+
+```text
+SilenceGroupStage
+├── 全屏背景和分组标题浮层
+├── 角色立绘层：每个角色是可聚焦 / 可点击目标
+├── 当前角色状态：selectedCharacterId
+├── 角色信息浮层：角色名、标签、占位说明、进入档案按钮
+├── 隐藏式导航：hover/focus/tap 后浮出，不抢占默认画面
+└── 移动端：默认纵向或横向滑动舞台，tap 第一次选中，第二次进入档案
+```
+
+键盘和可访问性要求：
+
+- 每个角色目标必须能键盘聚焦。
+- `Enter` 或 `Space` 应进入当前角色档案，或在尚未实现档案页时触发明确占位状态。
+- 左右方向键可在同组角色间移动选中项；移动端可用 swipe 或横向滚动作为补充。
+- 不把重要信息只放在 hover 状态；touch 设备必须能通过 tap 看见同等信息。
 
 `#/silence/angel` 的首屏建议采用横向群像主视觉：
 
 ```text
 SilenceAngelGroupView
-├── 全屏或超宽横幅舞台
+├── 全屏角色舞台
 ├── 六个主 OC 立绘同屏出现，允许遮挡、前后错位和不同层级深度
 ├── 大色块 / 图形切割 / 细线分隔作为背景，不使用首页像素窗口舞台
 ├── 推荐使用隐藏式角色导航：默认弱化或隐藏，用户 hover、移动指针、点击或聚焦时浮出
@@ -87,6 +114,19 @@ SilenceAngelGroupView
 ```
 
 该页的重点是“六人全员同屏的存在感”，不是卡片列表、资料柜或宗教化空间。可参考“横向群像 + 隐藏式导航 + 边缘少量 UI”的结构，但不得复刻外部作品的美术、角色、品牌符号、文案或设定体系。
+
+`#/silence/glitch` 的首屏也应采用全屏角色舞台，但视觉语言可以更接近站点 meta 层：
+
+```text
+SilenceGlitchGroupView
+├── 全屏故障 / 像素 / 窗口化舞台
+├── 两个 meta 角色立绘或窗口化形象同屏出现
+├── 角色可作为窗口、幽灵投影、像素层或界面残影与页面互动
+├── 选中角色时，当前窗口稳定、变亮或前置，另一个角色变成残影或后台窗口
+└── 进入档案按钮，跳转到 `#/silence/glitch/:characterId`
+```
+
+`glitch` 组可以使用更强的像素窗口、扫描线、错位、闪烁和界面残影，但交互仍需稳定可读：不能因为故障效果导致按钮、标题、当前选中角色或返回入口难以辨认。
 
 ### 单角色档案页
 
@@ -109,10 +149,32 @@ SilenceCharacterPage
 
 ## 数据来源和字段建议
 
-第一阶段建议使用本地结构化数据，不接后端：
+第一阶段使用本地结构化数据，不接后端：
 
 ```text
 src/data/silence/characters.ts
+```
+
+当前已接入的 `angel` 角色顺序按用户确认的从左到右排列：
+
+```text
+goelia
+glynne
+chihaya
+ney
+nightingale
+salvance
+```
+
+对应可直接检查的测试路由：
+
+```text
+#/silence/angel/goelia
+#/silence/angel/glynne
+#/silence/angel/chihaya
+#/silence/angel/ney
+#/silence/angel/nightingale
+#/silence/angel/salvance
 ```
 
 如果实现时项目尚未建立 `src/data/`，需要在计划中确认目录归属；不要把大量角色数据直接写进页面组件。

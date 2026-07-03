@@ -154,6 +154,42 @@ export const uiMessages: UiMessageMap = {
   'site.menu.oc': same('OC'),
   'silence.group.angel.title': same('不语·silence'),
   'silence.group.glitch.title': same('幽灵·silence'),
+  'silence.character.profile': msg({
+    zh: '档案',
+    en: 'Profile',
+    ja: 'プロフィール',
+    ko: '프로필'
+  }),
+  'silence.character.visual': msg({
+    zh: '视觉',
+    en: 'Visual',
+    ja: 'ビジュアル',
+    ko: '비주얼'
+  }),
+  'silence.character.archive': msg({
+    zh: '资料',
+    en: 'Archive',
+    ja: '資料',
+    ko: '자료'
+  }),
+  'silence.character.notes': msg({
+    zh: '笔记',
+    en: 'Notes',
+    ja: 'ノート',
+    ko: '노트'
+  }),
+  'silence.character.navigation': msg({
+    zh: '角色导航',
+    en: 'Character navigation',
+    ja: 'キャラクターナビゲーション',
+    ko: '캐릭터 탐색'
+  }),
+  'silence.character.missing': msg({
+    zh: '角色未找到',
+    en: 'Character not found',
+    ja: 'キャラクターが見つかりません',
+    ko: '캐릭터를 찾을 수 없음'
+  }),
 
   'ffxiv.workshop.title': msg({
     zh: '狒狒14工房',
@@ -164,6 +200,216 @@ export const uiMessages: UiMessageMap = {
   'ffxiv.workshop.short': msg({ zh: '狒狒14', en: 'FFXIV', ja: 'FFXIV', ko: 'FFXIV' }),
   'ffxiv.tool.glamour.title': same('幻化工房'),
   'ffxiv.tool.plate.title': same('铭牌工房'),
+  'ffxiv.tool.armoire.title': same('衣柜清理大师'),
+
+  'nsarmoire.panel.import': msg({
+    zh: '导入',
+    en: 'Import',
+    ja: 'インポート',
+    ko: '가져오기'
+  }),
+  'nsarmoire.panel.overview': msg({
+    zh: '概览',
+    en: 'Overview',
+    ja: '概要',
+    ko: '개요'
+  }),
+  'nsarmoire.panel.distribution': msg({
+    zh: '容器分布',
+    en: 'Container distribution',
+    ja: 'コンテナ分布',
+    ko: '컨테이너 분포'
+  }),
+  'nsarmoire.action.importSnapshot': msg({
+    zh: '导入 snapshot',
+    en: 'Import snapshot',
+    ja: 'snapshotをインポート',
+    ko: 'snapshot 가져오기'
+  }),
+  'nsarmoire.action.clearSnapshot': msg({
+    zh: '清空 snapshot',
+    en: 'Clear snapshot',
+    ja: 'snapshotをクリア',
+    ko: 'snapshot 지우기'
+  }),
+  'nsarmoire.input.snapshot': msg({
+    zh: '选择 NSArmoire snapshot JSON',
+    en: 'Choose an NSArmoire snapshot JSON',
+    ja: 'NSArmoire snapshot JSONを選択',
+    ko: 'NSArmoire snapshot JSON 선택'
+  }),
+  'nsarmoire.status.snapshotReady': msg({
+    zh: 'snapshot 已导入',
+    en: 'Snapshot imported',
+    ja: 'snapshotをインポートしました',
+    ko: 'snapshot을 가져왔습니다'
+  }),
+  'nsarmoire.status.snapshotEmpty': msg({
+    zh: '等待 snapshot',
+    en: 'Waiting for snapshot',
+    ja: 'snapshot待機中',
+    ko: 'snapshot 대기 중'
+  }),
+  'nsarmoire.status.snapshotError': msg({
+    zh: 'snapshot 无法导入',
+    en: 'Snapshot import failed',
+    ja: 'snapshotをインポートできません',
+    ko: 'snapshot을 가져올 수 없습니다'
+  }),
+  'nsarmoire.error.fileTooLarge': msg({
+    zh: '文件过大',
+    en: 'File is too large',
+    ja: 'ファイルが大きすぎます',
+    ko: '파일이 너무 큽니다'
+  }),
+  'nsarmoire.error.invalidJson': msg({
+    zh: 'JSON 格式无效',
+    en: 'Invalid JSON',
+    ja: 'JSON形式が無効です',
+    ko: 'JSON 형식이 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidRoot': msg({
+    zh: '根结构无效',
+    en: 'Invalid root structure',
+    ja: 'ルート構造が無効です',
+    ko: '루트 구조가 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidSchema': msg({
+    zh: 'schemaVersion 无效',
+    en: 'Invalid schemaVersion',
+    ja: 'schemaVersionが無効です',
+    ko: 'schemaVersion이 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidSource': msg({
+    zh: 'source 无效',
+    en: 'Invalid source',
+    ja: 'sourceが無効です',
+    ko: 'source가 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidGeneratedAt': msg({
+    zh: 'generatedAt 无效',
+    en: 'Invalid generatedAt',
+    ja: 'generatedAtが無効です',
+    ko: 'generatedAt이 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidItems': msg({
+    zh: 'items 无效',
+    en: 'Invalid items',
+    ja: 'itemsが無効です',
+    ko: 'items가 잘못되었습니다'
+  }),
+  'nsarmoire.error.tooManyItems': msg({
+    zh: 'items 数量过多',
+    en: 'Too many items',
+    ja: 'itemsが多すぎます',
+    ko: 'items가 너무 많습니다'
+  }),
+  'nsarmoire.error.invalidItem': msg({
+    zh: '物品条目无效',
+    en: 'Invalid item entry',
+    ja: 'アイテム項目が無効です',
+    ko: '아이템 항목이 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidItemId': msg({
+    zh: 'itemId 无效',
+    en: 'Invalid itemId',
+    ja: 'itemIdが無効です',
+    ko: 'itemId가 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidContainer': msg({
+    zh: 'container 无效',
+    en: 'Invalid container',
+    ja: 'containerが無効です',
+    ko: 'container가 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidQuantity': msg({
+    zh: 'quantity 无效',
+    en: 'Invalid quantity',
+    ja: 'quantityが無効です',
+    ko: 'quantity가 잘못되었습니다'
+  }),
+  'nsarmoire.error.invalidDyes': msg({
+    zh: 'dyes 无效',
+    en: 'Invalid dyes',
+    ja: 'dyesが無効です',
+    ko: 'dyes가 잘못되었습니다'
+  }),
+  'nsarmoire.metric.entries': msg({ zh: '条目', en: 'Entries', ja: '項目', ko: '항목' }),
+  'nsarmoire.metric.uniqueItems': msg({
+    zh: '不同物品',
+    en: 'Unique items',
+    ja: '固有アイテム',
+    ko: '고유 아이템'
+  }),
+  'nsarmoire.metric.totalQuantity': msg({
+    zh: '总数量',
+    en: 'Total quantity',
+    ja: '総数',
+    ko: '총수량'
+  }),
+  'nsarmoire.metric.dyedEntries': msg({
+    zh: '染色条目',
+    en: 'Dyed entries',
+    ja: '染色項目',
+    ko: '염색 항목'
+  }),
+  'nsarmoire.metric.glamourDresser': msg({
+    zh: '投影台条目',
+    en: 'Glamour dresser entries',
+    ja: 'ミラージュドレッサー項目',
+    ko: '투영대 항목'
+  }),
+  'nsarmoire.metric.armoire': msg({
+    zh: '收藏柜条目',
+    en: 'Armoire entries',
+    ja: '愛蔵品キャビネット項目',
+    ko: '애장품 보관함 항목'
+  }),
+  'nsarmoire.field.generatedAt': msg({
+    zh: '生成时间',
+    en: 'Generated at',
+    ja: '生成日時',
+    ko: '생성 시간'
+  }),
+  'nsarmoire.field.source': msg({ zh: '来源', en: 'Source', ja: 'ソース', ko: '출처' }),
+  'nsarmoire.field.character': msg({
+    zh: '角色',
+    en: 'Character',
+    ja: 'キャラクター',
+    ko: '캐릭터'
+  }),
+  'nsarmoire.container.inventory': msg({ zh: '背包', en: 'Inventory', ja: '所持品', ko: '소지품' }),
+  'nsarmoire.container.saddlebag': msg({
+    zh: '陆行鸟鞍囊',
+    en: 'Saddlebag',
+    ja: 'チョコボかばん',
+    ko: '초코보 가방'
+  }),
+  'nsarmoire.container.retainer': msg({ zh: '雇员', en: 'Retainer', ja: 'リテイナー', ko: '고용인' }),
+  'nsarmoire.container.armoury': msg({
+    zh: '兵装库',
+    en: 'Armoury chest',
+    ja: 'アーマリーチェスト',
+    ko: '장비함'
+  }),
+  'nsarmoire.container.glamourDresser': msg({
+    zh: '投影台',
+    en: 'Glamour dresser',
+    ja: 'ミラージュドレッサー',
+    ko: '투영대'
+  }),
+  'nsarmoire.container.armoire': msg({
+    zh: '收藏柜',
+    en: 'Armoire',
+    ja: '愛蔵品キャビネット',
+    ko: '애장품 보관함'
+  }),
+  'nsarmoire.container.manual': msg({
+    zh: '手动',
+    en: 'Manual',
+    ja: '手動',
+    ko: '수동'
+  }),
 
   'nsplate.tab.portrait': msg({ zh: '肖像', en: 'Portrait', ja: 'ポートレート', ko: '초상화' }),
   'nsplate.tab.nameplate': msg({ zh: '铭牌', en: 'Nameplate', ja: 'ネームプレート', ko: '명패' }),

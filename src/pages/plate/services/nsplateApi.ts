@@ -18,7 +18,7 @@ import type {
   NSPlatePresetKind,
   NSPlatePresetSummary,
   NSPlatePresetsResponse
-} from '@/pages/plate/types'
+} from '@/lib/plate/types'
 
 const presetKindLabels = {
   banner: textKeys.nsplatePortrait,

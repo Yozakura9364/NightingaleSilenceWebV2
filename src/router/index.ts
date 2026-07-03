@@ -14,6 +14,7 @@ const ffxivCategory = getCategory('ffxiv')
 const silenceCategory = getCategory('silence')
 const glamourTool = getFfxivTool('glamour')
 const plateTool = getFfxivTool('plate')
+const armoireTool = getFfxivTool('armoire')
 const { current: locale, messages, t } = useLocale()
 
 const router = createRouter({
@@ -44,6 +45,12 @@ const router = createRouter({
       component: () => import('@/pages/plate/NSPlatePage.vue')
     },
     {
+      path: siteRoutes.armoire,
+      name: 'ffxiv-armoire',
+      meta: { titleKey: armoireTool?.titleKey ?? textKeys.armoireTitle },
+      component: () => import('@/pages/armoire/NSArmoirePage.vue')
+    },
+    {
       path: siteRoutes.silence,
       name: 'silence',
       meta: { titleKey: silenceCategory?.titleKey ?? textKeys.silence },
@@ -56,10 +63,22 @@ const router = createRouter({
       component: () => import('@/pages/silence/SilenceGroupPage.vue')
     },
     {
+      path: '/silence/angel/:characterId',
+      name: 'silence-angel-character',
+      meta: { titleKey: textKeys.silenceAngel },
+      component: () => import('@/pages/silence/SilenceCharacterPage.vue')
+    },
+    {
       path: siteRoutes.silenceGlitch,
       name: 'silence-glitch',
       meta: { titleKey: textKeys.silenceGlitch },
       component: () => import('@/pages/silence/SilenceGroupPage.vue')
+    },
+    {
+      path: '/silence/glitch/:characterId',
+      name: 'silence-glitch-character',
+      meta: { titleKey: textKeys.silenceGlitch },
+      component: () => import('@/pages/silence/SilenceCharacterPage.vue')
     },
     {
       path: siteRoutes.about,
