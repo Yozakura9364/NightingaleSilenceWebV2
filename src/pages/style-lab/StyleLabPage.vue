@@ -63,7 +63,7 @@
       class="style-lab-experiment"
       data-style-preview="pixel-soft"
       :data-font-mode="fontMode"
-      :data-pixel-tone="pixelTone"
+      :data-pixel-tone="effectivePixelTone"
     >
       <div class="ns-pixel-stage">
         <div class="ns-pixel-shell">
@@ -73,9 +73,9 @@
                 v-for="option in pixelToneOptions"
                 :key="option.value"
                 class="ns-pixel-mode-button"
-                :class="{ 'ns-pixel-mode-button--active': pixelTone === option.value }"
+                :class="{ 'ns-pixel-mode-button--active': effectivePixelTone === option.value }"
                 type="button"
-                @click="pixelTone = option.value"
+                @click="setPixelTone(option.value)"
               >
                 {{ t(option.labelKey) }}
               </button>
@@ -481,7 +481,7 @@
 
 <script setup lang="ts">
 import '@/styles/experiments/pixel-soft.css'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
@@ -490,14 +490,16 @@ import AppTabs from '@/components/AppTabs.vue'
 import AppToolbar from '@/components/AppToolbar.vue'
 import { ffxivTools, siteLocaleOptions, textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
+import { useTheme, type ThemeMode } from '@/stores/theme'
 
 type FontMode = 'decorative' | 'all-pixel'
 type PixelTone = 'classic' | 'light' | 'cyber-night'
 type StyleLabModuleOption = { id: string; label?: string; labelKey?: string }
 
-const fontMode = ref<FontMode>('decorative')
-const pixelTone = ref<PixelTone>('classic')
 const { t } = useLocale()
+const { current: themeMode, setThemeMode } = useTheme()
+const fontMode = ref<FontMode>('decorative')
+const pixelTone = ref<PixelTone>(defaultPixelTone(themeMode.value))
 const styleLabCanvasSize = '1440 x 1920'
 const styleLabToolOptions: StyleLabModuleOption[] = ffxivTools.map((tool) => ({
   id: tool.id,
@@ -518,7 +520,6 @@ const pixelToneOptions: Array<{ labelKey: string; value: PixelTone }> = [
   { labelKey: textKeys.styleLabLightPixel, value: 'light' },
   { labelKey: textKeys.styleLabCyberNight, value: 'cyber-night' }
 ]
-
 const commonTab = ref('field')
 const formalTab = ref('field')
 
@@ -531,6 +532,26 @@ const commonTabs = computed(() =>
 )
 
 const formalTabs = commonTabs
+const effectivePixelTone = computed<PixelTone>(() =>
+  defaultPixelTone(themeMode.value, pixelTone.value)
+)
+
+watch(themeMode, (mode) => {
+  pixelTone.value = defaultPixelTone(mode, pixelTone.value)
+})
+
+function defaultPixelTone(mode: ThemeMode, preferredTone: PixelTone = 'classic'): PixelTone {
+  if (mode === 'night') {
+    return 'cyber-night'
+  }
+
+  return preferredTone === 'cyber-night' ? 'classic' : preferredTone
+}
+
+function setPixelTone(tone: PixelTone) {
+  pixelTone.value = tone
+  setThemeMode(tone === 'cyber-night' ? 'night' : 'day')
+}
 
 function moduleOptionLabel(option: StyleLabModuleOption) {
   return option.labelKey ? t(option.labelKey) : (option.label ?? option.id)
@@ -540,6 +561,8 @@ function moduleOptionLabel(option: StyleLabModuleOption) {
 <style scoped>
 .style-lab-page {
   min-height: 100vh;
+  background: var(--ns-body-background);
+  color: var(--ns-color-text);
 }
 
 .style-formal-sample {
@@ -562,6 +585,10 @@ function moduleOptionLabel(option: StyleLabModuleOption) {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] :deep(.ns-pixel-stage) {
+  background: transparent;
 }
 
 .style-common-components {

@@ -20,6 +20,13 @@
 6. 实验样式文件只能由隐藏实验页或调试页按路由加载，不从 `src/styles/index.css` 全站入口导入。
 7. `NSGlamour`、`NSPlate` 等工具页继承全站像素风基础控件，但不默认继承首页舞台式强装饰。
 
+## 日夜模式联动规则
+
+1. 修改 Style Lab 的主题表现时，必须同时检查顶部正式公共组件基准区和下方 `pixel-soft` 实验区，不允许只验证其中一块。
+2. 全局 `day / night` 与 `pixel-soft` 的实际生效 tone 需要保持一致：tone 按钮必须保持可见且可点击；点击 `cyber-night` 同步切到全局 `night`，点击 `classic / light` 同步切到全局 `day`，避免出现上半屏黑夜、下半屏白天的黑白分裂。
+3. Style Lab 漏色修复优先限制在 `src/pages/style-lab/StyleLabPage.vue` 或 `src/styles/experiments/pixel-soft.css`，不要为了单页实验问题扩大修改公共组件、公共 token 或其他页面。
+4. Style Lab 视觉修改不能只靠 `npm run build` 或 `npm run check` 判断；至少需要截图验证白天和黑夜两种状态，确认首屏正式基准区和实验区都符合当前模式。
+
 ## 当前实验内容
 
 ### 正式公共组件基准区
