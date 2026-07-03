@@ -2,7 +2,7 @@
 
 ## 项目核心定位
 
-- 本机项目位于：`H:\NightingaleSilenceWeb\NightingaleSilenceWebV2`
+- 本机项目位于：`D:\NightingaleSilenceWebV2`
 - 站点愿景源文档是 `docs/OWNER_VISION.md`，这是用户手写的高层产品/内容方向。
 - 夜莺不语 / Nightingale Silence 是个人/工具网站，可承载多个分类，包括工具、博客和创作信息。
 - 当前第一阶段分类是 `FFXIV`，路径为 `#/ffxiv`。

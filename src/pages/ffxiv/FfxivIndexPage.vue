@@ -41,7 +41,12 @@ const ffxivCategory = getCategory('ffxiv') ?? {
 <style scoped>
 .ffxiv-page {
   background:
-    linear-gradient(125deg, rgba(217, 251, 251, 0.5), rgba(255, 244, 251, 0.58) 58%, rgba(255, 255, 255, 0.7)),
+    linear-gradient(
+      125deg,
+      rgba(217, 251, 251, 0.5),
+      rgba(255, 244, 251, 0.58) 58%,
+      rgba(255, 255, 255, 0.7)
+    ),
     var(--ns-color-bg);
 }
 

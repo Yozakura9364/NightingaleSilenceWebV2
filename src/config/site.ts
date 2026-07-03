@@ -77,7 +77,7 @@ export const ffxivTools: ToolEntry[] = [
     projectName: 'NSGlamour',
     route: siteRoutes.glamour,
     summary: placeholderCopy,
-    sourcePath: 'H:\\NightingaleSilenceWeb\\NSGlamour',
+    sourcePath: '../NSGlamour',
     apiBase: '/api/glamour',
     devPort: 8765,
     statusLabel: placeholderCopy
@@ -88,7 +88,7 @@ export const ffxivTools: ToolEntry[] = [
     projectName: 'Plate',
     route: siteRoutes.plate,
     summary: placeholderCopy,
-    sourcePath: 'H:\\NightingaleSilenceWeb\\NSPortable',
+    sourcePath: '../NSPortable',
     apiBase: '/api/plate',
     devPort: 3456,
     statusLabel: placeholderCopy

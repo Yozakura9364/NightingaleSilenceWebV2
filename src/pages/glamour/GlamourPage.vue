@@ -13,7 +13,7 @@ const tool = getFfxivTool('glamour') ?? {
   projectName: 'NSGlamour',
   route: '/ffxiv/glamour',
   summary: '',
-  sourcePath: 'H:\\NightingaleSilenceWeb\\NSGlamour',
+  sourcePath: '../NSGlamour',
   apiBase: '/api/glamour',
   devPort: 8765,
   statusLabel: ''

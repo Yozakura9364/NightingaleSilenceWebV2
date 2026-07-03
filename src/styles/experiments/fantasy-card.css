@@ -24,7 +24,13 @@
   padding: 42px 0 72px;
   background:
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 18px),
-    linear-gradient(135deg, var(--ns-fantasy-bg) 0%, #3d2443 34%, #253f42 72%, var(--ns-fantasy-bg-deep) 100%);
+    linear-gradient(
+      135deg,
+      var(--ns-fantasy-bg) 0%,
+      #3d2443 34%,
+      #253f42 72%,
+      var(--ns-fantasy-bg-deep) 100%
+    );
 }
 
 [data-style-preview='fantasy-card'] .ns-fantasy-shell {
@@ -57,7 +63,7 @@
   width: 132px;
   height: 132px;
   border: 1px solid rgba(168, 119, 50, 0.38);
-  content: "";
+  content: '';
   pointer-events: none;
 }
 
@@ -92,8 +98,7 @@
   border: 1px solid rgba(74, 45, 64, 0.26);
   border-radius: 8px;
   background:
-    linear-gradient(180deg, rgba(65, 35, 63, 0.96), rgba(23, 21, 34, 0.96)),
-    var(--ns-fantasy-plum);
+    linear-gradient(180deg, rgba(65, 35, 63, 0.96), rgba(23, 21, 34, 0.96)), var(--ns-fantasy-plum);
   box-shadow: inset 0 0 0 1px rgba(255, 250, 253, 0.14);
 }
 
@@ -110,7 +115,7 @@
     linear-gradient(160deg, rgba(122, 47, 69, 0.6), rgba(49, 95, 90, 0.55)),
     linear-gradient(180deg, #352744, #151521);
   color: rgba(255, 250, 253, 0.86);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, 'Times New Roman', serif;
   font-size: clamp(48px, 9vw, 82px);
   font-weight: 700;
 }
@@ -119,7 +124,7 @@
   position: absolute;
   inset: 18px;
   border: 1px solid rgba(255, 250, 253, 0.28);
-  content: "";
+  content: '';
 }
 
 [data-style-preview='fantasy-card'] .ns-fantasy-portrait::after {
@@ -130,7 +135,7 @@
   height: 34%;
   border-top: 1px solid rgba(255, 250, 253, 0.24);
   background: linear-gradient(180deg, rgba(255, 250, 253, 0.08), rgba(255, 250, 253, 0.18));
-  content: "";
+  content: '';
 }
 
 [data-style-preview='fantasy-card'] .ns-fantasy-portrait span {
@@ -147,7 +152,7 @@
   border-radius: 999px;
   background: rgba(255, 250, 253, 0.08);
   color: #fffafd;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Georgia, 'Times New Roman', serif;
   font-size: 15px;
   letter-spacing: 0.08em;
 }
@@ -174,7 +179,7 @@
 [data-style-preview='fantasy-card'] .ns-fantasy-title {
   margin: 0;
   color: var(--ns-fantasy-ink);
-  font-family: Georgia, "Times New Roman", "SimSun", serif;
+  font-family: Georgia, 'Times New Roman', 'SimSun', serif;
   font-size: clamp(40px, 7vw, 72px);
   font-weight: 700;
   line-height: 0.98;
@@ -264,7 +269,7 @@
 [data-style-preview='fantasy-card'] .ns-fantasy-section h2 {
   margin: 0 0 12px;
   color: var(--ns-fantasy-plum);
-  font-family: Georgia, "Times New Roman", "SimSun", serif;
+  font-family: Georgia, 'Times New Roman', 'SimSun', serif;
   font-size: 22px;
   line-height: 1.2;
 }

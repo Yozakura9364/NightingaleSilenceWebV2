@@ -1,8 +1,5 @@
 <template>
-  <header
-    v-if="showNav"
-    class="app-top-nav"
-  >
+  <header v-if="showNav" class="app-top-nav">
     <nav class="app-top-nav__inner" aria-label="Site navigation">
       <RouterLink class="app-top-nav__brand" :to="siteRoutes.home">
         {{ siteMeta.zhName }}
@@ -23,11 +20,7 @@
             <span class="app-top-nav__chevron" aria-hidden="true">⌄</span>
           </button>
 
-          <div
-            v-if="menuOpen"
-            class="app-top-nav__dropdown"
-            role="menu"
-          >
+          <div v-if="menuOpen" class="app-top-nav__dropdown" role="menu">
             <RouterLink
               class="app-top-nav__dropdown-link"
               :class="{ 'app-top-nav__dropdown-link--active': route.path === siteRoutes.ffxiv }"
@@ -64,7 +57,9 @@ const route = useRoute()
 const menuOpen = ref(false)
 const menuRoot = ref<HTMLElement | null>(null)
 const showNav = computed(() => route.path !== siteRoutes.home && route.meta.hideTopNav !== true)
-const isFfxivRoute = computed(() => route.path === siteRoutes.ffxiv || ffxivTools.some((tool) => route.path === tool.route))
+const isFfxivRoute = computed(
+  () => route.path === siteRoutes.ffxiv || ffxivTools.some((tool) => route.path === tool.route)
+)
 
 function closeMenu() {
   menuOpen.value = false
@@ -156,7 +151,7 @@ onBeforeUnmount(() => {
 
 .app-top-nav__menu-button:hover,
 .app-top-nav__menu-button--active,
-.app-top-nav__menu-button[aria-expanded="true"] {
+.app-top-nav__menu-button[aria-expanded='true'] {
   background: var(--ns-color-accent-soft);
   color: var(--ns-color-accent-strong);
 }

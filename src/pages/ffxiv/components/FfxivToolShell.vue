@@ -1,7 +1,9 @@
 <template>
   <main class="ns-page ffxiv-tool-page">
     <div class="ns-page-shell">
-      <RouterLink class="ffxiv-tool-back" :to="siteRoutes.ffxiv">← {{ placeholderCopy }}</RouterLink>
+      <RouterLink class="ffxiv-tool-back" :to="siteRoutes.ffxiv"
+        >← {{ placeholderCopy }}</RouterLink
+      >
 
       <section class="ns-panel ffxiv-tool-hero">
         <p class="ns-eyebrow">{{ tool.projectName }}</p>
@@ -50,7 +52,12 @@ defineProps<{
 <style scoped>
 .ffxiv-tool-page {
   background:
-    linear-gradient(125deg, rgba(217, 251, 251, 0.5), rgba(255, 244, 251, 0.58) 58%, rgba(255, 255, 255, 0.7)),
+    linear-gradient(
+      125deg,
+      rgba(217, 251, 251, 0.5),
+      rgba(255, 244, 251, 0.58) 58%,
+      rgba(255, 255, 255, 0.7)
+    ),
     var(--ns-color-bg);
 }
 

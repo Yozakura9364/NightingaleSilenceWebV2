@@ -1,7 +1,12 @@
 @layer base {
   body {
     background:
-      linear-gradient(115deg, rgba(255, 244, 251, 0.92) 0%, rgba(247, 251, 255, 0.96) 52%, rgba(217, 251, 251, 0.72) 100%),
+      linear-gradient(
+        115deg,
+        rgba(255, 244, 251, 0.92) 0%,
+        rgba(247, 251, 255, 0.96) 52%,
+        rgba(217, 251, 251, 0.72) 100%
+      ),
       linear-gradient(135deg, var(--ns-color-bg) 0%, #f7fbff 100%);
     color: var(--ns-color-text);
     font-family: var(--ns-font-sans);

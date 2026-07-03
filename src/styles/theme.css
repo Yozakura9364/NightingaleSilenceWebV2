@@ -20,8 +20,8 @@
     --ns-color-danger: #d64f72;
     --ns-color-success: #39a887;
 
-    --ns-font-sans: "Inter", "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
-    --ns-font-display: "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    --ns-font-sans: 'Inter', 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+    --ns-font-display: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
 
     --ns-radius-xs: 6px;
     --ns-radius-sm: 8px;
