@@ -20,5 +20,11 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
+# local-only character art previews
+/*-art-*.png
+/*-art-*.jpg
+/*-art-*.jpeg
+/*-art-*.webp
+
 # local AI / IDE settings
 .claude/settings.local.json

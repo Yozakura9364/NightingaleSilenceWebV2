@@ -41,8 +41,17 @@
           @keydown.right.prevent="selectNext"
         >
           <template v-if="currentGroup.id === 'angel'">
-            <span class="silence-group-stage__figure-head"></span>
-            <span class="silence-group-stage__figure-body"></span>
+            <img
+              v-if="item.character?.portraitSrc"
+              class="silence-group-stage__portrait"
+              :src="item.character.portraitSrc"
+              alt=""
+              decoding="async"
+            />
+            <template v-else>
+              <span class="silence-group-stage__figure-head"></span>
+              <span class="silence-group-stage__figure-body"></span>
+            </template>
           </template>
           <template v-else>
             <span class="silence-group-stage__window-bar"></span>
@@ -341,44 +350,63 @@ watch(
 }
 
 .silence-group-stage__character--angel {
-  bottom: 12vh;
-  width: clamp(86px, 9vw, 146px);
+  bottom: 6vh;
+  width: clamp(148px, 15vw, 286px);
 }
 
 .silence-group-stage__character--angel-1 {
-  left: 8%;
-  height: 42vh;
+  left: 2%;
+  height: 66vh;
 }
 
 .silence-group-stage__character--angel-2 {
-  left: 21%;
-  height: 56vh;
+  left: 15%;
+  height: 74vh;
 }
 
 .silence-group-stage__character--angel-3 {
-  left: 34%;
-  height: 48vh;
+  left: 29%;
+  height: 66vh;
 }
 
 .silence-group-stage__character--angel-4 {
-  left: 48%;
-  height: 60vh;
+  left: 43%;
+  height: 76vh;
 }
 
 .silence-group-stage__character--angel-5 {
-  left: 62%;
-  height: 46vh;
+  left: 57%;
+  height: 66vh;
 }
 
 .silence-group-stage__character--angel-6 {
-  left: 75%;
-  height: 52vh;
+  left: 70%;
+  height: 70vh;
 }
 
 .silence-group-stage__character--angel:nth-child(even) .silence-group-stage__figure-body {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(99, 217, 220, 0.2)),
     var(--ns-color-accent-soft);
+}
+
+.silence-group-stage__portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  filter:
+    drop-shadow(0 24px 30px rgba(42, 33, 56, 0.2))
+    drop-shadow(0 0 24px rgba(255, 252, 255, 0.45));
+}
+
+.silence-group-page--angel .silence-group-stage__info {
+  top: clamp(130px, 18vh, 190px);
+  right: clamp(18px, 5vw, 72px);
+  bottom: auto;
+  left: auto;
+  width: min(360px, calc(100vw - 36px));
 }
 
 .silence-group-stage--glitch .silence-group-stage__visual::after {
@@ -550,38 +578,38 @@ button.silence-group-stage__action {
   }
 
   .silence-group-stage__character--angel {
-    bottom: 330px;
-    width: clamp(48px, 13vw, 74px);
+    bottom: 300px;
+    width: clamp(80px, 21vw, 140px);
   }
 
   .silence-group-stage__character--angel-1 {
-    left: 4%;
-    height: 27vh;
-  }
-
-  .silence-group-stage__character--angel-2 {
-    left: 18%;
-    height: 34vh;
-  }
-
-  .silence-group-stage__character--angel-3 {
-    left: 32%;
-    height: 30vh;
-  }
-
-  .silence-group-stage__character--angel-4 {
-    left: 47%;
+    left: -4%;
     height: 36vh;
   }
 
+  .silence-group-stage__character--angel-2 {
+    left: 12%;
+    height: 42vh;
+  }
+
+  .silence-group-stage__character--angel-3 {
+    left: 28%;
+    height: 36vh;
+  }
+
+  .silence-group-stage__character--angel-4 {
+    left: 44%;
+    height: 44vh;
+  }
+
   .silence-group-stage__character--angel-5 {
-    left: 62%;
-    height: 29vh;
+    left: 60%;
+    height: 36vh;
   }
 
   .silence-group-stage__character--angel-6 {
-    left: 76%;
-    height: 32vh;
+    left: 75%;
+    height: 39vh;
   }
 
   .silence-group-stage__character--glitch {
@@ -603,6 +631,13 @@ button.silence-group-stage__action {
     bottom: 88px;
   }
 
+  .silence-group-page--angel .silence-group-stage__info {
+    top: auto;
+    right: auto;
+    bottom: 84px;
+    left: 14px;
+  }
+
   .silence-group-stage__nav {
     right: 18px;
     bottom: 36px;
@@ -615,7 +650,7 @@ button.silence-group-stage__action {
   }
 
   .silence-group-stage__character--angel {
-    width: clamp(42px, 12vw, 58px);
+    width: clamp(62px, 19vw, 94px);
   }
 
   .silence-group-stage__info {
