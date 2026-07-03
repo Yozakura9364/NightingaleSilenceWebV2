@@ -13,7 +13,7 @@ const tool = getFfxivTool('plate') ?? {
   projectName: 'Plate',
   route: '/ffxiv/plate',
   summary: '',
-  sourcePath: 'H:\\NightingaleSilenceWeb\\NSPortable',
+  sourcePath: '../NSPortable',
   apiBase: '/api/plate',
   devPort: 3456,
   statusLabel: ''
