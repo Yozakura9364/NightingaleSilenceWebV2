@@ -1,20 +1,16 @@
 <template>
-  <NSPlatePanel title="预设" :meta="`${totalCount} 项`">
+  <NSPlatePanel :title="t(textKeys.nsplatePresets)">
     <div class="nsplate-preset-selects">
       <label v-for="group in groups" :key="group.kind" class="nsplate-preset-select">
-        <span class="nsplate-preset-select__label">
-          <span>{{ group.label }}</span>
-          <small>{{ group.presets.length }}</small>
-        </span>
-
         <select
           :value="selectedValueForGroup(group)"
           :disabled="group.presets.length === 0"
+          :aria-label="`${t(textKeys.nsplatePresets)} ${group.label}`"
           @change="onPresetChange"
         >
-          <option value="" disabled>请选择预设</option>
+          <option value="" disabled>{{ t(textKeys.selectPreset) }}</option>
           <option v-for="preset in group.presets" :key="preset.id" :value="preset.id">
-            {{ preset.label }} · {{ preset.layerCount }} 层
+            {{ preset.label }}
           </option>
         </select>
       </label>
@@ -23,7 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 import type { NSPlatePresetGroup } from '@/pages/plate/types'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 
@@ -36,12 +33,12 @@ const emit = defineEmits<{
   'update:selectedId': [value: string]
 }>()
 
-const totalCount = computed(() =>
-  props.groups.reduce((count, group) => count + group.presets.length, 0)
-)
+const { t } = useLocale()
 
 function selectedValueForGroup(group: NSPlatePresetGroup) {
-  return group.presets.some((preset) => preset.id === props.selectedId) ? props.selectedId ?? '' : ''
+  return group.presets.some((preset) => preset.id === props.selectedId)
+    ? (props.selectedId ?? '')
+    : ''
 }
 
 function onPresetChange(event: Event) {
@@ -65,23 +62,6 @@ function onPresetChange(event: Event) {
   min-width: 0;
 }
 
-.nsplate-preset-select__label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  color: var(--ns-color-text-muted);
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.nsplate-preset-select__label small {
-  color: var(--ns-color-text-soft);
-  font-family: var(--ns-font-mono);
-  font-size: 11px;
-  font-weight: 900;
-}
-
 .nsplate-preset-select select {
   width: 100%;
   min-height: 36px;
@@ -91,7 +71,7 @@ function onPresetChange(event: Event) {
   border-radius: var(--ns-radius-xs);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: inherit;
+  font-family: var(--ns-font-sans);
   font-size: 12px;
   font-weight: 850;
 }

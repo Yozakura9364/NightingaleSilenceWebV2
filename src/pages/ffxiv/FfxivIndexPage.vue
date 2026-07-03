@@ -1,12 +1,12 @@
 <template>
   <main class="ns-page ffxiv-page">
     <div class="ns-page-shell">
-      <RouterLink class="ffxiv-back" :to="siteRoutes.home">← {{ placeholderCopy }}</RouterLink>
+      <RouterLink class="ffxiv-back" :to="siteRoutes.home">← {{ t(textKeys.back) }}</RouterLink>
 
-      <p class="ns-eyebrow">{{ ffxivCategory.kicker }}</p>
-      <h1 class="ns-title">{{ ffxivCategory.title }}</h1>
+      <p class="ns-eyebrow">{{ t(ffxivCategory.kickerKey) }}</p>
+      <h1 class="ns-title">{{ t(ffxivCategory.titleKey) }}</h1>
       <p class="ns-lead">
-        {{ ffxivCategory.description }}
+        {{ t(ffxivCategory.descriptionKey) }}
       </p>
 
       <div class="ns-tool-grid">
@@ -17,10 +17,10 @@
           :to="tool.route"
         >
           <div>
-            <h2 class="ns-tool-card__title">{{ tool.title }}</h2>
-            <p class="ns-tool-card__text">{{ tool.summary }}</p>
+            <h2 class="ns-tool-card__title">{{ t(tool.titleKey) }}</h2>
+            <p class="ns-tool-card__text">{{ t(tool.summaryKey) }}</p>
           </div>
-          <span class="ns-status">{{ tool.statusLabel }}</span>
+          <span class="ns-status">{{ t(tool.statusLabelKey) }}</span>
         </RouterLink>
       </div>
     </div>
@@ -28,14 +28,15 @@
 </template>
 
 <script setup lang="ts">
-import { ffxivTools, getCategory, siteLabels, siteRoutes } from '@/config/site'
-import { placeholderCopy } from '@/config/site'
+import { ffxivTools, getCategory, siteRoutes, textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 
 const ffxivCategory = getCategory('ffxiv') ?? {
-  title: siteLabels.ffxivWorkshop,
-  kicker: placeholderCopy,
-  description: placeholderCopy
+  titleKey: textKeys.ffxivWorkshop,
+  kickerKey: textKeys.placeholder,
+  descriptionKey: textKeys.placeholder
 }
+const { t } = useLocale()
 </script>
 
 <style scoped>

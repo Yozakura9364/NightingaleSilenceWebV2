@@ -2,7 +2,7 @@
   <div
     class="nsplate-resize-handle"
     role="separator"
-    aria-label="调整 NSPlate 配置面板宽度"
+    :aria-label="t(textKeys.nsplateResizeConfigPanel)"
     aria-orientation="vertical"
     tabindex="0"
     @keydown="handleKeydown"
@@ -11,10 +11,14 @@
 </template>
 
 <script setup lang="ts">
+import { textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
+
 const emit = defineEmits<{
   start: [event: PointerEvent]
   step: [delta: number]
 }>()
+const { t } = useLocale()
 
 function handleKeydown(event: KeyboardEvent) {
   if (event.key === 'ArrowLeft') {

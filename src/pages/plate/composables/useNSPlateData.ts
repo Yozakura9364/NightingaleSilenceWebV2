@@ -1,11 +1,19 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { ApiError } from '@/composables/useFetch'
 import { useLocale } from '@/stores/locale'
+import {
+  applyPresetToAssetSelection,
+  createEmptyAssetSelection,
+  getSelectedAssetsByCategory,
+  toggleAssetInSelection,
+  type NSPlateAssetSelectionMap
+} from '@/lib/plate/draft'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import type {
   NSPlateAssetGroup,
   NSPlateAssetSummary,
   NSPlateFilesResponse,
+  NSPlatePresetKind,
   NSPlatePresetGroup,
   NSPlatePresetSummary,
   NSPlatePresetsResponse
@@ -20,8 +28,13 @@ export function useNSPlateData(boundary: ApiBoundary) {
   const errorText = ref<string | null>(null)
   const presetsResponse = ref<NSPlatePresetsResponse | null>(null)
   const filesResponse = ref<NSPlateFilesResponse | null>(null)
-  const selectedPresetId = ref<string | null>(null)
-  const selectedAssetId = ref<string | null>(null)
+  const selectedPresetIdsByKind = ref<Record<NSPlatePresetKind, string | null>>({
+    banner: null,
+    charcard: null
+  })
+  const selectedAssetIdsByCategory = ref<NSPlateAssetSelectionMap>({})
+  const lastPresetMatchedCount = ref(0)
+  const lastPresetMissingCount = ref(0)
 
   const presetGroups = computed<NSPlatePresetGroup[]>(() =>
     normalizePresets(presetsResponse.value, current.value)
@@ -30,12 +43,17 @@ export function useNSPlateData(boundary: ApiBoundary) {
     normalizeFiles(filesResponse.value, current.value)
   )
   const presets = computed(() => presetGroups.value.flatMap((group) => group.presets))
-  const assets = computed(() => assetGroups.value.flatMap((group) => group.assets))
-  const selectedPreset = computed<NSPlatePresetSummary | null>(
-    () => presets.value.find((preset) => preset.id === selectedPresetId.value) ?? null
+  const selectedPresetsByKind = computed<Record<NSPlatePresetKind, NSPlatePresetSummary | null>>(
+    () => ({
+      banner:
+        presets.value.find((preset) => preset.id === selectedPresetIdsByKind.value.banner) ?? null,
+      charcard:
+        presets.value.find((preset) => preset.id === selectedPresetIdsByKind.value.charcard) ??
+        null
+    })
   )
-  const selectedAsset = computed<NSPlateAssetSummary | null>(
-    () => assets.value.find((asset) => asset.id === selectedAssetId.value) ?? null
+  const selectedAssets = computed<NSPlateAssetSummary[]>(() =>
+    getSelectedAssetsByCategory(assetGroups.value, selectedAssetIdsByCategory.value)
   )
 
   async function reload() {
@@ -54,34 +72,66 @@ export function useNSPlateData(boundary: ApiBoundary) {
   }
 
   watch(
-    presets,
-    (items) => {
-      if (!items.length) {
-        selectedPresetId.value = null
-        return
+    presetGroups,
+    (groups) => {
+      const nextIds: Record<NSPlatePresetKind, string | null> = { ...selectedPresetIdsByKind.value }
+
+      for (const group of groups) {
+        const selectedId = nextIds[group.kind]
+        nextIds[group.kind] =
+          selectedId && group.presets.some((preset) => preset.id === selectedId) ? selectedId : null
       }
 
-      if (!selectedPresetId.value || !items.some((item) => item.id === selectedPresetId.value)) {
-        selectedPresetId.value = items[0].id
-      }
+      selectedPresetIdsByKind.value = nextIds
     },
     { immediate: true }
   )
 
-  watch(
-    assets,
-    (items) => {
-      if (!items.length) {
-        selectedAssetId.value = null
-        return
-      }
+  watch(assetGroups, syncAssetSelectionKeys, { immediate: true })
 
-      if (!selectedAssetId.value || !items.some((item) => item.id === selectedAssetId.value)) {
-        selectedAssetId.value = items[0].id
-      }
-    },
-    { immediate: true }
-  )
+  function syncAssetSelectionKeys(groups: NSPlateAssetGroup[]) {
+    const emptySelection = createEmptyAssetSelection(groups)
+    const nextSelection: NSPlateAssetSelectionMap = { ...emptySelection }
+
+    for (const group of groups) {
+      const key = `${group.scope}:${group.category}`
+      const selectedId = selectedAssetIdsByCategory.value[key]
+      nextSelection[key] = selectedId && group.assets.some((asset) => asset.id === selectedId) ? selectedId : null
+    }
+
+    selectedAssetIdsByCategory.value = nextSelection
+  }
+
+  function toggleAsset(asset: NSPlateAssetSummary) {
+    selectedAssetIdsByCategory.value = toggleAssetInSelection(selectedAssetIdsByCategory.value, asset)
+  }
+
+  function applyPreset(preset: NSPlatePresetSummary) {
+    selectedPresetIdsByKind.value = {
+      ...selectedPresetIdsByKind.value,
+      [preset.kind]: preset.id
+    }
+
+    const result = applyPresetToAssetSelection(
+      selectedAssetIdsByCategory.value,
+      assetGroups.value,
+      preset
+    )
+
+    selectedAssetIdsByCategory.value = result.selection
+    lastPresetMatchedCount.value = result.matchedCount
+    lastPresetMissingCount.value = result.missingCount
+  }
+
+  function clearAllSelections() {
+    selectedPresetIdsByKind.value = {
+      banner: null,
+      charcard: null
+    }
+    selectedAssetIdsByCategory.value = createEmptyAssetSelection(assetGroups.value)
+    lastPresetMatchedCount.value = 0
+    lastPresetMissingCount.value = 0
+  }
 
   onMounted(() => {
     void reload()
@@ -92,10 +142,16 @@ export function useNSPlateData(boundary: ApiBoundary) {
     errorText,
     reload,
     presetGroups,
+    presets,
     assetGroups,
-    selectedPresetId,
-    selectedPreset,
-    selectedAssetId,
-    selectedAsset
+    selectedPresetIdsByKind,
+    selectedPresetsByKind,
+    selectedAssetIdsByCategory,
+    selectedAssets,
+    lastPresetMatchedCount,
+    lastPresetMissingCount,
+    toggleAsset,
+    applyPreset,
+    clearAllSelections
   }
 }

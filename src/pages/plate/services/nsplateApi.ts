@@ -1,4 +1,12 @@
 import { useFetch } from '@/composables/useFetch'
+import { textKeys } from '@/config/site'
+import {
+  NSPLATE_NAMEPLATE_CATEGORIES,
+  NSPLATE_PORTRAIT_CATEGORIES,
+  NSPLATE_PORTRAIT_FRAME_CATEGORY
+} from '@/lib/plate/draft'
+import { uiMessages } from '@/locales/ui'
+import type { Locale } from '@/stores/locale'
 import type {
   NSPlateAsset,
   NSPlateAssetGroup,
@@ -13,14 +21,29 @@ import type {
 } from '@/pages/plate/types'
 
 const presetKindLabels = {
-  banner: '肖像',
-  charcard: '铭牌'
+  banner: textKeys.nsplatePortrait,
+  charcard: textKeys.nsplateNameplate
 } satisfies Record<NSPlatePresetKind, string>
 
 const assetScopeLabels = {
-  portrait: '肖像',
-  nameplate: '铭牌'
+  portrait: textKeys.nsplatePortrait,
+  nameplate: textKeys.nsplateNameplate
 } satisfies Record<NSPlateAssetScope, string>
+
+const assetCategoryLabelKeys: Record<string, string> = {
+  [NSPLATE_PORTRAIT_CATEGORIES[0]]: textKeys.nsplateCategoryPortraitBackground,
+  [NSPLATE_PORTRAIT_CATEGORIES[1]]: textKeys.nsplateCategoryPortraitDecorFrame,
+  [NSPLATE_PORTRAIT_CATEGORIES[2]]: textKeys.nsplateCategoryPortraitDecoration,
+  [NSPLATE_PORTRAIT_FRAME_CATEGORY]: textKeys.nsplateCategoryPortraitFrame,
+  [NSPLATE_NAMEPLATE_CATEGORIES[0]]: textKeys.nsplateCategoryNameplateBase,
+  [NSPLATE_NAMEPLATE_CATEGORIES[1]]: textKeys.nsplateCategoryNameplateColor,
+  [NSPLATE_NAMEPLATE_CATEGORIES[2]]: textKeys.nsplateCategoryNameplatePattern,
+  [NSPLATE_NAMEPLATE_CATEGORIES[3]]: textKeys.nsplateCategoryNameplateFrame,
+  [NSPLATE_NAMEPLATE_CATEGORIES[4]]: textKeys.nsplateCategoryNameplateTopDecor,
+  [NSPLATE_NAMEPLATE_CATEGORIES[5]]: textKeys.nsplateCategoryNameplateBottomDecor,
+  [NSPLATE_NAMEPLATE_CATEGORIES[6]]: textKeys.nsplateCategoryNameplateDecoration,
+  [NSPLATE_NAMEPLATE_CATEGORIES[7]]: textKeys.nsplateCategoryNameplateDecorationAlt
+}
 
 export function useNSPlateApi(apiBase: string) {
   const { createClient } = useFetch()
@@ -38,7 +61,7 @@ export function normalizePresets(
 ): NSPlatePresetGroup[] {
   return (['banner', 'charcard'] as const).map((kind) => ({
     kind,
-    label: presetKindLabels[kind],
+    label: pickUiMessage(presetKindLabels[kind], locale),
     presets: normalizePresetList(kind, response?.[kind] ?? [], locale)
   }))
 }
@@ -54,9 +77,9 @@ export function normalizeFiles(
 
     return Object.entries(groups).map(([category, assets]) => ({
       scope,
-      scopeLabel: assetScopeLabels[scope],
+      scopeLabel: pickUiMessage(assetScopeLabels[scope], locale),
       category,
-      label: category,
+      label: pickAssetCategoryLabel(category, locale),
       assets: normalizeAssetList(scope, category, Array.isArray(assets) ? assets : [], meta, locale)
     }))
   })
@@ -71,14 +94,13 @@ function normalizePresetList(
     const label =
       pickLocalizedName(preset.names, locale) ??
       normalizeText(preset.name) ??
-      `${presetKindLabels[kind]} ${index + 1}`
+      `${pickUiMessage(presetKindLabels[kind], locale)} ${index + 1}`
 
     return {
       id: `${kind}:${index}:${label}`,
       kind,
-      kindLabel: presetKindLabels[kind],
+      kindLabel: pickUiMessage(presetKindLabels[kind], locale),
       label,
-      layerCount: Array.isArray(preset.layers) ? preset.layers.length : 0,
       raw: preset
     }
   })
@@ -104,7 +126,7 @@ function normalizeAssetList(
     return {
       id: `${scope}:${category}:${index}:${normalizeText(asset.id) ?? file ?? path}`,
       scope,
-      scopeLabel: assetScopeLabels[scope],
+      scopeLabel: pickUiMessage(assetScopeLabels[scope], locale),
       category,
       label,
       file,
@@ -141,6 +163,16 @@ function getLocaleCandidates(locale: string) {
   const short = normalized.split('-')[0]
 
   return [normalized, short, 'zh-CN', 'zh', 'cn', 'en', 'ja', 'ko']
+}
+
+function pickUiMessage(key: string, locale: string) {
+  const normalized = locale.trim() as Locale
+  return uiMessages[key]?.[normalized] ?? uiMessages[key]?.['zh-CN'] ?? key
+}
+
+function pickAssetCategoryLabel(category: string, locale: string) {
+  const key = assetCategoryLabelKeys[category]
+  return key ? pickUiMessage(key, locale) : category
 }
 
 function normalizeText(value: unknown) {

@@ -1,10 +1,10 @@
 <template>
   <header v-if="showNav" class="app-top-nav">
-    <nav class="app-top-nav__inner" aria-label="Site navigation">
+    <nav class="app-top-nav__inner" :aria-label="t(textKeys.primaryNavigation)">
       <RouterLink class="app-top-nav__brand" :to="siteRoutes.home">
-        <span>{{ siteMeta.zhName }}</span>
+        <span>{{ t(siteMeta.zhNameKey) }}</span>
         <span class="app-top-nav__brand-command" aria-hidden="true">
-          {{ siteLabels.homeCommand }}
+          {{ t(textKeys.homeCommand) }}
         </span>
       </RouterLink>
 
@@ -12,29 +12,29 @@
         <div class="app-top-nav__menu">
           <button
             class="app-top-nav__menu-button"
-            :class="{ 'app-top-nav__menu-button--active': isFfxivRoute }"
+            :class="{ 'app-top-nav__menu-button--active': isMenuRoute }"
             type="button"
             :aria-expanded="menuOpen"
             aria-haspopup="true"
             @click="toggleMenu"
             @keydown.esc="closeMenu"
           >
-            <span>{{ siteLabels.menu }}</span>
+            <span>{{ t(textKeys.menu) }}</span>
             <span class="app-top-nav__menu-command" aria-hidden="true">
-              {{ siteLabels.menuCommand }}
+              {{ t(textKeys.menuCommand) }}
             </span>
           </button>
 
           <AppPixelWindow
             v-if="menuOpen"
             class="app-top-nav__window"
-            title="MENU.EXE"
-            close-label="关闭菜单"
+            :title="t(textKeys.menuTitle)"
+            :close-label="t(textKeys.closeMenu)"
             role="menu"
             @close="closeMenu"
             @keydown.esc="closeMenu"
           >
-            <div class="app-top-nav__launcher-tabs" aria-label="菜单分类">
+            <div class="app-top-nav__launcher-tabs" :aria-label="t(textKeys.menuCategory)">
               <button
                 v-for="section in menuSections"
                 :key="section.id"
@@ -45,19 +45,19 @@
                 @mouseenter="activeMenuSection = section.id"
                 @focus="activeMenuSection = section.id"
               >
-                <span>{{ section.label }}</span>
-                <small>{{ section.status }}</small>
+                <span>{{ t(section.label) }}</span>
+                <small>{{ t(section.status) }}</small>
               </button>
             </div>
 
             <section
               v-if="activeMenuSection === 'ffxiv'"
               class="app-top-nav__launcher-panel"
-              :aria-label="siteLabels.ffxivWorkshop"
+              :aria-label="t(textKeys.ffxivWorkshop)"
             >
               <div
                 class="app-top-nav__window-children"
-                :aria-label="`${siteLabels.ffxivWorkshop}子页面`"
+                :aria-label="`${t(textKeys.ffxivWorkshop)} ${t(textKeys.children)}`"
               >
                 <RouterLink
                   v-for="tool in ffxivTools"
@@ -68,7 +68,7 @@
                   role="menuitem"
                   @click="closeMenu"
                 >
-                  {{ tool.title }}
+                  {{ t(tool.titleKey) }}
                 </RouterLink>
               </div>
             </section>
@@ -76,32 +76,38 @@
             <section
               v-else-if="activeMenuSection === 'silence'"
               class="app-top-nav__launcher-panel"
-              aria-label="Silence"
+              :aria-label="t(textKeys.silence)"
             >
-              <div
-                class="app-top-nav__window-link app-top-nav__window-link--disabled"
+              <RouterLink
+                class="app-top-nav__window-link"
+                :class="{ 'app-top-nav__window-link--active': route.path === siteRoutes.silence }"
+                :to="siteRoutes.silence"
                 role="menuitem"
-                aria-disabled="true"
+                @click="closeMenu"
               >
-                <span>OC</span>
-                <small>WIP</small>
-              </div>
+                <span>{{ t(textKeys.silence) }}</span>
+                <small>{{ t(textKeys.silenceCommand) }}</small>
+              </RouterLink>
 
               <div
-                class="app-top-nav__window-children app-top-nav__window-children--single"
-                aria-label="OC子页面"
+                class="app-top-nav__window-children"
+                :aria-label="`${t(textKeys.silence)} ${t(textKeys.children)}`"
               >
-                <button
-                  class="app-top-nav__window-child app-top-nav__window-child--disabled"
-                  type="button"
-                  disabled
+                <RouterLink
+                  v-for="group in silenceGroups"
+                  :key="group.id"
+                  class="app-top-nav__window-child"
+                  :class="{ 'app-top-nav__window-child--active': route.path === group.route }"
+                  :to="group.route"
+                  role="menuitem"
+                  @click="closeMenu"
                 >
-                  Silence
-                </button>
+                  {{ t(group.titleKey) }}
+                </RouterLink>
               </div>
             </section>
 
-            <section v-else class="app-top-nav__launcher-panel" :aria-label="siteLabels.about">
+            <section v-else class="app-top-nav__launcher-panel" :aria-label="t(textKeys.about)">
               <RouterLink
                 class="app-top-nav__window-link"
                 :class="{ 'app-top-nav__window-link--active': route.path === siteRoutes.about }"
@@ -109,8 +115,8 @@
                 role="menuitem"
                 @click="closeMenu"
               >
-                <span>{{ siteLabels.about }}</span>
-                <small>{{ siteLabels.aboutCommand }}</small>
+                <span>{{ t(textKeys.about) }}</span>
+                <small>{{ t(textKeys.aboutCommand) }}</small>
               </RouterLink>
 
               <RouterLink
@@ -119,8 +125,8 @@
                 role="menuitem"
                 @click="closeMenu"
               >
-                <span>{{ siteLabels.home }}</span>
-                <small>HOME</small>
+                <span>{{ t(textKeys.home) }}</span>
+                <small>{{ t(textKeys.homeCommand) }}</small>
               </RouterLink>
             </section>
           </AppPixelWindow>
@@ -135,59 +141,43 @@
             @click="toggleConfig"
             @keydown.esc="closeConfig"
           >
-            <span>{{ siteLabels.config }}</span>
+            <span>{{ t(textKeys.config) }}</span>
             <span class="app-top-nav__config-command" aria-hidden="true">
-              {{ siteLabels.configCommand }}
+              {{ t(textKeys.configCommand) }}
             </span>
           </button>
 
           <AppPixelWindow
             v-if="configOpen"
             class="app-top-nav__window app-top-nav__window--config"
-            title="CONFIG.EXE"
-            close-label="关闭设置"
+            :title="t(textKeys.configTitle)"
+            :close-label="t(textKeys.closeConfig)"
             role="dialog"
-            :aria-label="siteLabels.config"
+            :aria-label="t(textKeys.config)"
             @close="closeConfig"
             @keydown.esc="closeConfig"
           >
-            <section class="app-top-nav__launcher-panel" :aria-label="siteLabels.themeMode">
-              <div class="app-top-nav__setting-title">
-                <span>{{ siteLabels.themeMode }}</span>
-                <small>{{ activeThemeCommand }}</small>
-              </div>
-
+            <section class="app-top-nav__launcher-panel" :aria-label="t(textKeys.themeMode)">
               <div
                 class="app-top-nav__theme-toggle"
                 role="group"
-                :aria-label="siteLabels.themeMode"
+                :aria-label="t(textKeys.themeMode)"
               >
                 <button
                   class="app-top-nav__theme-option app-top-nav__theme-option--day"
                   :class="{ 'app-top-nav__theme-option--active': themeMode === 'day' }"
                   type="button"
                   :aria-pressed="themeMode === 'day'"
-                  :aria-label="siteLabels.day"
+                  :aria-label="t(textKeys.day)"
                   @click="setThemeMode('day')"
                 >
                   <span
                     class="app-top-nav__theme-icon app-top-nav__theme-icon--day"
+                    :style="themeSunIconStyle"
                     aria-hidden="true"
-                  >
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <rect x="11" y="1" width="2" height="4" />
-                      <rect x="11" y="19" width="2" height="4" />
-                      <rect x="1" y="11" width="4" height="2" />
-                      <rect x="19" y="11" width="4" height="2" />
-                      <rect x="5" y="5" width="2" height="2" />
-                      <rect x="17" y="5" width="2" height="2" />
-                      <rect x="5" y="17" width="2" height="2" />
-                      <rect x="17" y="17" width="2" height="2" />
-                      <rect x="8" y="8" width="8" height="8" />
-                    </svg>
-                  </span>
+                  ></span>
                   <span class="app-top-nav__theme-caption" aria-hidden="true">
-                    {{ siteLabels.dayCommand }}
+                    {{ t(textKeys.dayCommand) }}
                   </span>
                 </button>
                 <button
@@ -195,30 +185,37 @@
                   :class="{ 'app-top-nav__theme-option--active': themeMode === 'night' }"
                   type="button"
                   :aria-pressed="themeMode === 'night'"
-                  :aria-label="siteLabels.night"
+                  :aria-label="t(textKeys.night)"
                   @click="setThemeMode('night')"
                 >
                   <span
                     class="app-top-nav__theme-icon app-top-nav__theme-icon--night"
+                    :style="themeMoonIconStyle"
                     aria-hidden="true"
-                  >
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <rect x="10" y="3" width="5" height="2" />
-                      <rect x="8" y="5" width="7" height="2" />
-                      <rect x="7" y="7" width="6" height="2" />
-                      <rect x="6" y="9" width="6" height="2" />
-                      <rect x="6" y="11" width="6" height="2" />
-                      <rect x="7" y="13" width="6" height="2" />
-                      <rect x="8" y="15" width="7" height="2" />
-                      <rect x="10" y="17" width="5" height="2" />
-                      <rect class="app-top-nav__theme-star" x="18" y="4" width="2" height="2" />
-                      <rect class="app-top-nav__theme-star" x="20" y="9" width="1" height="1" />
-                      <rect class="app-top-nav__theme-star" x="17" y="14" width="2" height="2" />
-                    </svg>
-                  </span>
+                  ></span>
                   <span class="app-top-nav__theme-caption" aria-hidden="true">
-                    {{ siteLabels.nightCommand }}
+                    {{ t(textKeys.nightCommand) }}
                   </span>
+                </button>
+              </div>
+
+              <div
+                class="app-top-nav__locale-toggle"
+                role="group"
+                :aria-label="t(textKeys.languageMode)"
+              >
+                <button
+                  v-for="option in siteLocaleOptions"
+                  :key="option.locale"
+                  class="app-top-nav__locale-option"
+                  :class="{ 'app-top-nav__locale-option--active': locale === option.locale }"
+                  type="button"
+                  :aria-pressed="locale === option.locale"
+                  :aria-label="t(option.labelKey)"
+                  @click="setLocale(option.locale)"
+                >
+                  <span>{{ t(option.labelKey) }}</span>
+                  <small>{{ t(option.commandKey) }}</small>
                 </button>
               </div>
             </section>
@@ -230,15 +227,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, type CSSProperties } from 'vue'
 import { useRoute } from 'vue-router'
+import themeMoonIcon from '../../moon.svg'
+import themeSunIcon from '../../sun-alt.svg'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
-import { ffxivTools, siteLabels, siteMeta, siteRoutes } from '@/config/site'
+import {
+  ffxivTools,
+  silenceGroups,
+  siteLocaleOptions,
+  siteMeta,
+  siteRoutes,
+  textKeys
+} from '@/config/site'
+import { useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'
 
 type MenuSectionId = 'ffxiv' | 'silence' | 'about'
 
 const route = useRoute()
+const { current: locale, setLocale, t } = useLocale()
 const { current: themeMode, setThemeMode } = useTheme()
 const menuOpen = ref(false)
 const configOpen = ref(false)
@@ -248,14 +256,24 @@ const showNav = computed(() => route.path !== siteRoutes.home && route.meta.hide
 const isFfxivRoute = computed(
   () => route.path === siteRoutes.ffxiv || ffxivTools.some((tool) => route.path === tool.route)
 )
-const menuSections: Array<{ id: MenuSectionId; label: string; status: string }> = [
-  { id: 'ffxiv', label: siteLabels.ffxivWorkshop, status: 'OPEN' },
-  { id: 'silence', label: 'Silence', status: 'WIP' },
-  { id: 'about', label: siteLabels.about, status: siteLabels.aboutCommand }
-]
-const activeThemeCommand = computed(() =>
-  themeMode.value === 'night' ? siteLabels.nightCommand : siteLabels.dayCommand
+const isSilenceRoute = computed(
+  () =>
+    route.path === siteRoutes.silence || silenceGroups.some((group) => route.path === group.route)
 )
+const isMenuRoute = computed(
+  () => isFfxivRoute.value || isSilenceRoute.value || route.path === siteRoutes.about
+)
+const menuSections: Array<{ id: MenuSectionId; label: string; status: string }> = [
+  { id: 'ffxiv', label: textKeys.ffxivWorkshop, status: textKeys.statusOpen },
+  { id: 'silence', label: textKeys.silence, status: textKeys.statusOpen },
+  { id: 'about', label: textKeys.about, status: textKeys.aboutCommand }
+]
+const themeSunIconStyle = {
+  '--app-theme-icon-url': `url("${themeSunIcon}")`
+} as CSSProperties
+const themeMoonIconStyle = {
+  '--app-theme-icon-url': `url("${themeMoonIcon}")`
+} as CSSProperties
 
 function closeMenu() {
   menuOpen.value = false
@@ -294,6 +312,10 @@ function toggleConfig() {
 function getMenuSectionForRoute(): MenuSectionId {
   if (isFfxivRoute.value) {
     return 'ffxiv'
+  }
+
+  if (isSilenceRoute.value) {
+    return 'silence'
   }
 
   if (route.path === siteRoutes.about) {
@@ -558,38 +580,24 @@ onBeforeUnmount(() => {
   cursor: not-allowed;
 }
 
-.app-top-nav__setting-title {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--ns-color-text);
-  font-size: 13px;
-  font-weight: 950;
-}
-
-.app-top-nav__setting-title small {
-  color: var(--ns-color-text-muted);
-  font-size: 10px;
-  font-weight: 950;
-  letter-spacing: 0.02em;
-}
-
 .app-top-nav__theme-toggle {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
-.app-top-nav__theme-option {
+.app-top-nav__locale-toggle {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.app-top-nav__theme-option,
+.app-top-nav__locale-option {
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 76px;
   place-items: center;
-  gap: 6px;
-  padding: 9px 8px 7px;
   border: 2px solid var(--ns-pixel-border);
   border-radius: 0;
   background: var(--ns-pixel-surface);
@@ -604,7 +612,20 @@ onBeforeUnmount(() => {
     box-shadow var(--ns-transition-fast);
 }
 
-.app-top-nav__theme-option::before {
+.app-top-nav__theme-option {
+  min-height: 76px;
+  gap: 6px;
+  padding: 9px 8px 7px;
+}
+
+.app-top-nav__locale-option {
+  min-height: 42px;
+  gap: 2px;
+  padding: 5px 4px 4px;
+}
+
+.app-top-nav__theme-option::before,
+.app-top-nav__locale-option::before {
   position: absolute;
   inset: 5px;
   border: 1px solid transparent;
@@ -612,46 +633,45 @@ onBeforeUnmount(() => {
   pointer-events: none;
 }
 
-.app-top-nav__theme-option:hover {
+.app-top-nav__theme-option:hover,
+.app-top-nav__locale-option:hover {
   background: var(--ns-pixel-hover-surface);
   color: var(--ns-color-accent-strong);
   transform: translate(-1px, -1px);
   box-shadow: var(--ns-pixel-button-shadow-hover);
 }
 
-.app-top-nav__theme-option--active {
+.app-top-nav__theme-option--active,
+.app-top-nav__locale-option--active {
   background: var(--ns-pixel-cyan-surface);
   color: var(--ns-color-accent-strong);
   animation: app-theme-option-pop 240ms steps(2, end);
 }
 
-.app-top-nav__theme-option--active::before {
+.app-top-nav__theme-option--active::before,
+.app-top-nav__locale-option--active::before {
   border-color: currentColor;
   animation: app-theme-scan 680ms steps(4, end);
 }
 
 .app-top-nav__theme-icon {
   display: block;
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
+  background: currentColor;
   color: currentColor;
   image-rendering: pixelated;
-}
-
-.app-top-nav__theme-icon svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  fill: currentColor;
-  shape-rendering: crispEdges;
+  mask: var(--app-theme-icon-url) center / contain no-repeat;
+  -webkit-mask: var(--app-theme-icon-url) center / contain no-repeat;
 }
 
 .app-top-nav__theme-option--day.app-top-nav__theme-option--active .app-top-nav__theme-icon--day {
   animation: app-theme-sun-bounce 820ms steps(4, end) infinite;
 }
 
-.app-top-nav__theme-option--night.app-top-nav__theme-option--active .app-top-nav__theme-star {
-  animation: app-theme-star-blink 900ms steps(2, end) infinite;
+.app-top-nav__theme-option--night.app-top-nav__theme-option--active
+  .app-top-nav__theme-icon--night {
+  animation: app-theme-moon-glow 900ms steps(2, end) infinite;
 }
 
 .app-top-nav__theme-caption {
@@ -662,7 +682,23 @@ onBeforeUnmount(() => {
   line-height: 1;
 }
 
-.app-top-nav__theme-option--active .app-top-nav__theme-caption {
+.app-top-nav__locale-option span {
+  color: currentColor;
+  font-size: 14px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.app-top-nav__locale-option small {
+  color: var(--ns-color-text-muted);
+  font-size: 9px;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.app-top-nav__theme-option--active .app-top-nav__theme-caption,
+.app-top-nav__locale-option--active small {
   color: currentColor;
 }
 
@@ -707,7 +743,7 @@ onBeforeUnmount(() => {
   }
 }
 
-@keyframes app-theme-star-blink {
+@keyframes app-theme-moon-glow {
   0%,
   100% {
     opacity: 1;

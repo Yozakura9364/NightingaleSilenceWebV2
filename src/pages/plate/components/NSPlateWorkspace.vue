@@ -13,8 +13,8 @@
     <div v-else class="nsplate-main" :style="panelStyle">
       <NSPlateCanvasArea
         :mode="activeCanvasMode"
-        :selected-preset="selectedPreset"
-        :selected-asset="previewAsset"
+        :selected-assets="selectedAssets"
+        :custom-portrait="customPortrait"
       />
 
       <NSPlateResizeHandle @start="startPanelResize" @step="resizePanelBy" />
@@ -25,17 +25,40 @@
             <span class="nsplate-dot" />
             <span>{{ activeGroupTitle }}</span>
           </div>
-          <NSPlatePresetPanel v-model:selected-id="selectedPresetId" :groups="activePresetGroups" />
+          <div class="nsplate-action-row">
+            <button
+              class="nsplate-action-button"
+              type="button"
+              :disabled="!hasAnySelection"
+              @click="clearWorkbenchSelections"
+            >
+              {{ t(textKeys.nsplateClearAllSelections) }}
+            </button>
+          </div>
+          <NSPlatePortraitUpload
+            v-if="activeTab === 'portrait'"
+            v-model="customPortrait"
+          />
+          <NSPlatePresetPanel
+            :selected-id="activeSelectedPresetId"
+            :groups="activePresetGroups"
+            @update:selected-id="applyPresetById"
+          />
           <NSPlateAssetPanel
-            v-model:selected-id="selectedAssetId"
-            :groups="assetGroups"
+            :selected-ids-by-category="selectedAssetIdsByCategory"
+            :groups="activeAssetGroups"
             :scope="activeAssetScope"
             :show-scope-tabs="false"
+            @toggle:asset="toggleAsset"
           />
         </template>
 
         <template v-else>
-          <AppStatus tone="info" title="占位用，待编辑" message="占位用，待编辑" />
+          <AppStatus
+            tone="info"
+            :title="t(textKeys.placeholder)"
+            :message="t(textKeys.placeholder)"
+          />
         </template>
       </NSPlateConfigPanel>
     </div>
@@ -45,6 +68,12 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
+import { textKeys } from '@/config/site'
+import {
+  NSPLATE_NAMEPLATE_PRESET_CATEGORIES,
+  NSPLATE_PORTRAIT_CATEGORIES
+} from '@/lib/plate/draft'
+import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import { useNSPlateData } from '@/pages/plate/composables/useNSPlateData'
 import { useNSPlatePanelResize } from '@/pages/plate/composables/useNSPlatePanelResize'
@@ -52,10 +81,12 @@ import NSPlateAssetPanel from '@/pages/plate/components/NSPlateAssetPanel.vue'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 import NSPlateConfigPanel from '@/pages/plate/components/NSPlateConfigPanel.vue'
 import NSPlatePresetPanel from '@/pages/plate/components/NSPlatePresetPanel.vue'
+import NSPlatePortraitUpload from '@/pages/plate/components/NSPlatePortraitUpload.vue'
 import NSPlateResizeHandle from '@/pages/plate/components/NSPlateResizeHandle.vue'
 import type {
   NSPlateAssetScope,
   NSPlateCanvasMode,
+  NSPlateCustomPortraitImage,
   NSPlatePanelTab,
   NSPlatePresetKind
 } from '@/pages/plate/types'
@@ -63,29 +94,33 @@ import type {
 const props = defineProps<{
   boundary: ApiBoundary
 }>()
+const { t } = useLocale()
 
 const {
   isLoading,
   errorText,
   presetGroups,
+  presets,
   assetGroups,
-  selectedPresetId,
-  selectedPreset,
-  selectedAssetId,
-  selectedAsset
+  selectedPresetIdsByKind,
+  selectedAssetIdsByCategory,
+  selectedAssets,
+  toggleAsset,
+  applyPreset,
+  clearAllSelections
 } = useNSPlateData(props.boundary)
 
 const { panelStyle, resizePanelBy, startPanelResize } = useNSPlatePanelResize()
+const customPortrait = ref<NSPlateCustomPortraitImage | null>(null)
 
-const tabs: { value: NSPlatePanelTab; label: string }[] = [
-  { value: 'portrait', label: '肖像' },
-  { value: 'nameplate', label: '铭牌' },
-  { value: 'info', label: '信息' }
-]
+const tabs = computed<{ value: NSPlatePanelTab; label: string }[]>(() => [
+  { value: 'portrait', label: t(textKeys.nsplatePortrait) },
+  { value: 'nameplate', label: t(textKeys.nsplateNameplate) },
+  { value: 'info', label: t(textKeys.nsplateInfo) }
+])
 
 const activeTab = ref<NSPlatePanelTab>('portrait')
 const activeCanvasMode = ref<NSPlateCanvasMode>('portrait')
-const previewAsset = computed(() => selectedAsset.value)
 const activePresetKind = computed<NSPlatePresetKind>(() =>
   activeCanvasMode.value === 'portrait' ? 'banner' : 'charcard'
 )
@@ -93,8 +128,28 @@ const activeAssetScope = computed<NSPlateAssetScope>(() => activeCanvasMode.valu
 const activePresetGroups = computed(() =>
   presetGroups.value.filter((group) => group.kind === activePresetKind.value)
 )
+const activeAssetCategories = computed<readonly string[]>(() =>
+  activeCanvasMode.value === 'portrait'
+    ? NSPLATE_PORTRAIT_CATEGORIES
+    : NSPLATE_NAMEPLATE_PRESET_CATEGORIES
+)
+const activeAssetGroups = computed(() =>
+  assetGroups.value.filter(
+    (group) =>
+      group.scope === activeAssetScope.value && activeAssetCategories.value.includes(group.category)
+  )
+)
+const activeSelectedPresetId = computed(() => selectedPresetIdsByKind.value[activePresetKind.value])
 const activeGroupTitle = computed(() =>
-  activeCanvasMode.value === 'portrait' ? '肖像图层（512×840）' : '铭牌图层（2560×1440）'
+  activeCanvasMode.value === 'portrait'
+    ? t(textKeys.nsplatePortraitAssets)
+    : t(textKeys.nsplateNameplateAssets)
+)
+const hasAnySelection = computed(
+  () =>
+    customPortrait.value !== null ||
+    selectedAssets.value.length > 0 ||
+    Object.values(selectedPresetIdsByKind.value).some((presetId) => presetId !== null)
 )
 watch(
   activeTab,
@@ -106,40 +161,17 @@ watch(
   { immediate: true }
 )
 
-watch(
-  [activePresetGroups, activePresetKind, selectedPreset],
-  () => {
-    if (selectedPreset.value?.kind === activePresetKind.value) {
-      return
-    }
+function applyPresetById(presetId: string) {
+  const preset = presets.value.find((item) => item.id === presetId)
 
-    selectedPresetId.value = getFirstPresetIdForActiveMode()
-  },
-  { immediate: true }
-)
-
-watch(
-  [assetGroups, activeAssetScope, selectedAsset],
-  () => {
-    if (selectedAsset.value?.scope === activeAssetScope.value) {
-      return
-    }
-
-    selectedAssetId.value = getFirstAssetIdForActiveMode()
-  },
-  { immediate: true }
-)
-
-function getFirstPresetIdForActiveMode() {
-  return activePresetGroups.value.flatMap((group) => group.presets)[0]?.id ?? null
+  if (preset) {
+    applyPreset(preset)
+  }
 }
 
-function getFirstAssetIdForActiveMode() {
-  return (
-    assetGroups.value
-      .filter((group) => group.scope === activeAssetScope.value)
-      .flatMap((group) => group.assets)[0]?.id ?? null
-  )
+function clearWorkbenchSelections() {
+  customPortrait.value = null
+  clearAllSelections()
 }
 </script>
 
@@ -210,6 +242,34 @@ function getFirstAssetIdForActiveMode() {
 
 .nsplate-group-title--nameplate .nsplate-dot {
   background: var(--ns-color-cyan);
+}
+
+.nsplate-action-row {
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.nsplate-action-button {
+  min-height: 30px;
+  padding: 6px 10px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text-muted);
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.nsplate-action-button:hover:not(:disabled) {
+  border-color: rgba(214, 79, 114, 0.46);
+  color: var(--ns-color-danger);
+}
+
+.nsplate-action-button:disabled {
+  opacity: 0.46;
+  cursor: not-allowed;
 }
 
 @media (max-width: 980px) {

@@ -15,29 +15,29 @@
 
       <template v-else>
         <RouterLink class="ffxiv-tool-back" :to="siteRoutes.ffxiv"
-          >← {{ placeholderCopy }}</RouterLink
+          >← {{ t(textKeys.back) }}</RouterLink
         >
 
         <section class="ns-panel ffxiv-tool-hero">
           <p class="ns-eyebrow">{{ tool.projectName }}</p>
-          <h1 class="ns-title">{{ tool.title }}</h1>
-          <p class="ns-lead">{{ placeholderCopy }}</p>
+          <h1 class="ns-title">{{ t(tool.titleKey) }}</h1>
+          <p class="ns-lead">{{ t(textKeys.placeholder) }}</p>
         </section>
 
         <div class="ffxiv-tool-layout">
           <section class="ns-panel ffxiv-tool-panel">
-            <h2>{{ placeholderCopy }}</h2>
+            <h2>{{ t(textKeys.placeholder) }}</h2>
             <ToolApiStatus :boundary="boundary" />
             <dl class="ffxiv-tool-meta">
               <div>
-                <dt>{{ placeholderCopy }}</dt>
+                <dt>{{ t(textKeys.placeholder) }}</dt>
                 <dd>{{ boundary.sourcePath }}</dd>
               </div>
             </dl>
           </section>
 
           <section class="ns-panel ffxiv-tool-panel ffxiv-tool-workspace">
-            <h2>{{ placeholderCopy }}</h2>
+            <h2>{{ t(textKeys.placeholder) }}</h2>
             <slot>
               <div class="ffxiv-tool-placeholder" aria-hidden="true">
                 <span />
@@ -53,9 +53,12 @@
 </template>
 
 <script setup lang="ts">
-import { placeholderCopy, siteRoutes, type ToolEntry } from '@/config/site'
+import { siteRoutes, textKeys, type ToolEntry } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import ToolApiStatus from '@/pages/ffxiv/components/ToolApiStatus.vue'
+
+const { t } = useLocale()
 
 withDefaults(
   defineProps<{

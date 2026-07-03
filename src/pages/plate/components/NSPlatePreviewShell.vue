@@ -1,8 +1,8 @@
 <template>
   <NSPlateCanvasArea
     :mode="mode"
-    :selected-preset="selectedPreset"
-    :selected-asset="selectedAsset"
+    :selected-assets="selectedAssets"
+    :custom-portrait="customPortrait"
   />
 </template>
 
@@ -10,13 +10,13 @@
 import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
-  NSPlatePresetSummary
+  NSPlateCustomPortraitImage
 } from '@/pages/plate/types'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 
 defineProps<{
   mode: NSPlateCanvasMode
-  selectedPreset: NSPlatePresetSummary | null
-  selectedAsset: NSPlateAssetSummary | null
+  selectedAssets: NSPlateAssetSummary[]
+  customPortrait: NSPlateCustomPortraitImage | null
 }>()
 </script>

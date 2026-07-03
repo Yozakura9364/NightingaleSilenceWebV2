@@ -9,7 +9,7 @@
         v-if="closable"
         class="app-pixel-window__close"
         type="button"
-        :aria-label="closeLabel"
+        :aria-label="resolvedCloseLabel"
         @click="$emit('close')"
       >
         <span aria-hidden="true"></span>
@@ -23,17 +23,22 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
+import { computed } from 'vue'
+import { useLocale } from '@/stores/locale'
+
+const props = withDefaults(
   defineProps<{
     title: string
     closeLabel?: string
     closable?: boolean
   }>(),
   {
-    closeLabel: '关闭窗口',
     closable: true
   }
 )
+
+const { t } = useLocale()
+const resolvedCloseLabel = computed(() => props.closeLabel ?? t('common.close.window'))
 
 defineEmits<{
   close: []

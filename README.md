@@ -22,6 +22,9 @@
 | `#/ffxiv` | FFXIV 分类导航页 | 工具入口骨架已接入 |
 | `#/ffxiv/glamour` | 幻化工房 / NSGlamour | 迁移占位页已接入 |
 | `#/ffxiv/plate` | 铭牌工房 / NSPlate | 迁移占位页已接入 |
+| `#/silence` | Silence 创作入口 | 双入口门厅页已接入 |
+| `#/silence/angel` | 不语·silence | 分组占位页已接入 |
+| `#/silence/glitch` | 幽灵·silence | 分组占位页已接入 |
 | `#/about` | About | 占位页已接入 |
 
 ## 技术栈

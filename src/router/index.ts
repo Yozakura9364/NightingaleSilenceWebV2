@@ -1,17 +1,20 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { watch } from 'vue'
 import {
   formatDocumentTitle,
   getCategory,
   getFfxivTool,
-  placeholderCopy,
-  siteLabels,
   siteMeta,
-  siteRoutes
+  siteRoutes,
+  textKeys
 } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 
 const ffxivCategory = getCategory('ffxiv')
+const silenceCategory = getCategory('silence')
 const glamourTool = getFfxivTool('glamour')
 const plateTool = getFfxivTool('plate')
+const { current: locale, messages, t } = useLocale()
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -19,31 +22,49 @@ const router = createRouter({
     {
       path: siteRoutes.home,
       name: 'home',
-      meta: { title: siteMeta.zhName },
+      meta: { titleKey: siteMeta.zhNameKey },
       component: () => import('@/pages/home/HomePage.vue')
     },
     {
       path: siteRoutes.ffxiv,
       name: 'ffxiv',
-      meta: { title: ffxivCategory?.title ?? siteLabels.ffxivWorkshop },
+      meta: { titleKey: ffxivCategory?.titleKey ?? textKeys.ffxivWorkshop },
       component: () => import('@/pages/ffxiv/FfxivIndexPage.vue')
     },
     {
       path: siteRoutes.glamour,
       name: 'ffxiv-glamour',
-      meta: { title: glamourTool?.title ?? '幻化工房' },
+      meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle },
       component: () => import('@/pages/glamour/NSGlamourPage.vue')
     },
     {
       path: siteRoutes.plate,
       name: 'ffxiv-plate',
-      meta: { title: plateTool?.title ?? '铭牌工房' },
+      meta: { titleKey: plateTool?.titleKey ?? textKeys.plateTitle },
       component: () => import('@/pages/plate/NSPlatePage.vue')
+    },
+    {
+      path: siteRoutes.silence,
+      name: 'silence',
+      meta: { titleKey: silenceCategory?.titleKey ?? textKeys.silence },
+      component: () => import('@/pages/silence/SilenceIndexPage.vue')
+    },
+    {
+      path: siteRoutes.silenceAngel,
+      name: 'silence-angel',
+      meta: { titleKey: textKeys.silenceAngel },
+      component: () => import('@/pages/silence/SilenceGroupPage.vue')
+    },
+    {
+      path: siteRoutes.silenceGlitch,
+      name: 'silence-glitch',
+      meta: { titleKey: textKeys.silenceGlitch },
+      component: () => import('@/pages/silence/SilenceGroupPage.vue')
     },
     {
       path: siteRoutes.about,
       name: 'about',
-      meta: { title: placeholderCopy },
+      meta: { titleKey: textKeys.placeholder },
       component: () => import('@/pages/about/AboutPage.vue')
     },
     {
@@ -60,8 +81,19 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  const title = typeof to.meta.title === 'string' ? to.meta.title : undefined
-  document.title = formatDocumentTitle(title)
+  updateDocumentTitle(to.meta.titleKey ?? to.meta.title)
+})
+
+function updateDocumentTitle(titleKeyOrText?: string) {
+  const title =
+    titleKeyOrText && titleKeyOrText in messages.value ? t(titleKeyOrText) : titleKeyOrText
+  document.title = formatDocumentTitle(title, t(siteMeta.zhNameKey), t(siteMeta.titleKey))
+}
+
+watch(locale, () => {
+  updateDocumentTitle(
+    router.currentRoute.value.meta.titleKey ?? router.currentRoute.value.meta.title
+  )
 })
 
 export default router

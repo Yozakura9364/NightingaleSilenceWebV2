@@ -1,32 +1,47 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { uiMessages, type UiMessageMap } from '@/locales/ui'
 
 export type Locale = 'zh-CN' | 'en' | 'ja' | 'ko' | 'fr' | 'de'
 
 const LOCALE_KEY = 'ns-locale'
+const SUPPORTED_LOCALES: Locale[] = ['zh-CN', 'en', 'ja', 'ko', 'fr', 'de']
 
 const current = ref<Locale>(loadLocale())
 
+function isLocale(value: string | null): value is Locale {
+  return SUPPORTED_LOCALES.includes(value as Locale)
+}
+
 function loadLocale(): Locale {
   const saved = localStorage.getItem(LOCALE_KEY)
-  return (saved as Locale) ?? 'zh-CN'
+  return isLocale(saved) ? saved : 'zh-CN'
+}
+
+function applyLocale(locale: Locale) {
+  document.documentElement.lang = locale
+}
+
+function initLocale() {
+  applyLocale(current.value)
 }
 
 function setLocale(locale: Locale) {
   current.value = locale
   localStorage.setItem(LOCALE_KEY, locale)
+  applyLocale(locale)
 }
 
-// Messages loaded from ui-localization.json
-const messages = ref<Record<string, Record<string, string>>>({})
+const messages = ref<UiMessageMap>({ ...uiMessages })
 
-function loadMessages(data: Record<string, Record<string, string>>) {
-  messages.value = data
+function loadMessages(data: UiMessageMap) {
+  messages.value = { ...messages.value, ...data }
 }
 
-const t = computed(() => (key: string): string => {
-  return messages.value[key]?.[current.value] ?? key
-})
+function t(key: string): string {
+  const message = messages.value[key]
+  return message?.[current.value] ?? message?.['zh-CN'] ?? key
+}
 
 export function useLocale() {
-  return { current, messages, setLocale, loadMessages, t }
+  return { current, messages, initLocale, setLocale, loadMessages, t }
 }

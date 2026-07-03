@@ -4,7 +4,7 @@
       <AppTabs
         v-model="activeTab"
         :items="tabs"
-        aria-label="NSPlate 配置"
+        :aria-label="t(textKeys.nsplateConfig)"
         density="compact"
         stretch
       />
@@ -19,6 +19,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import AppTabs from '@/components/AppTabs.vue'
+import { textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 import type { NSPlatePanelTab } from '@/pages/plate/types'
 
 const props = defineProps<{
@@ -30,6 +32,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: NSPlatePanelTab]
 }>()
 
+const { t } = useLocale()
 const activeTab = computed({
   get: () => props.modelValue,
   set: (value) => emit('update:modelValue', value)

@@ -8,7 +8,7 @@
     <div class="ns-pixel-stage">
       <div class="ns-pixel-shell">
         <div class="ns-pixel-switch-row">
-          <div class="ns-pixel-mode-switch" aria-label="Pixel tone">
+          <div class="ns-pixel-mode-switch" :aria-label="t(textKeys.styleLabPixelTone)">
             <button
               v-for="option in pixelToneOptions"
               :key="option.value"
@@ -17,11 +17,11 @@
               type="button"
               @click="pixelTone = option.value"
             >
-              {{ option.label }}
+              {{ t(option.labelKey) }}
             </button>
           </div>
 
-          <div class="ns-pixel-mode-switch" aria-label="Font mode">
+          <div class="ns-pixel-mode-switch" :aria-label="t(textKeys.styleLabFontMode)">
             <button
               v-for="option in fontModeOptions"
               :key="option.value"
@@ -30,32 +30,34 @@
               type="button"
               @click="fontMode = option.value"
             >
-              {{ option.label }}
+              {{ t(option.labelKey) }}
             </button>
           </div>
         </div>
 
         <section class="ns-pixel-hero">
           <div class="ns-pixel-panel">
-            <h1 class="ns-pixel-title">Pixel Soft</h1>
+            <h1 class="ns-pixel-title">{{ t(textKeys.styleLabTitle) }}</h1>
             <p class="ns-pixel-lead">
-              粉/蓝像素强度预览。这里用于比较公共按钮、面板、表单和工具卡的像素风方向。
+              {{ t(textKeys.styleLabSampleLead) }}
             </p>
 
             <div class="ns-pixel-actions">
               <button class="ns-pixel-button ns-pixel-button--primary" type="button">
-                Primary
+                {{ t(textKeys.styleLabPrimary) }}
               </button>
-              <button class="ns-pixel-button ns-pixel-button--blue" type="button">Action</button>
-              <button class="ns-pixel-button" type="button">Default</button>
+              <button class="ns-pixel-button ns-pixel-button--blue" type="button">
+                {{ t(textKeys.styleLabAction) }}
+              </button>
+              <button class="ns-pixel-button" type="button">{{ t(textKeys.styleLabDefault) }}</button>
             </div>
           </div>
 
-          <aside class="ns-pixel-window" aria-label="Pixel soft sample window">
+          <aside class="ns-pixel-window" :aria-label="t(textKeys.styleLabWindowSample)">
             <div class="ns-pixel-window__bar">
               <span class="ns-pixel-window__title">
                 <span class="ns-pixel-window__icon" aria-hidden="true"></span>
-                preview.config
+                {{ t(textKeys.styleLabWindowSample) }}
               </span>
               <span class="ns-pixel-window__controls" aria-hidden="true">
                 <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
@@ -65,39 +67,41 @@
             </div>
 
             <div class="ns-pixel-cluster">
-              <span class="ns-pixel-badge ns-pixel-badge--pink">pink</span>
-              <span class="ns-pixel-badge">blue</span>
-              <span class="ns-pixel-badge ns-pixel-badge--green">ready</span>
+              <span class="ns-pixel-badge ns-pixel-badge--pink">{{ t(textKeys.placeholder) }}</span>
+              <span class="ns-pixel-badge">{{ t(textKeys.placeholder) }}</span>
+              <span class="ns-pixel-badge ns-pixel-badge--green">{{ t(textKeys.styleLabReady) }}</span>
             </div>
 
-            <div class="ns-pixel-swatch-row" aria-label="Pixel soft palette">
+            <div class="ns-pixel-swatch-row" :aria-label="t(textKeys.styleLabPalette)">
               <span class="ns-pixel-swatch ns-pixel-swatch--pink"></span>
               <span class="ns-pixel-swatch ns-pixel-swatch--blue"></span>
               <span class="ns-pixel-swatch ns-pixel-swatch--yellow"></span>
               <span class="ns-pixel-swatch ns-pixel-swatch--green"></span>
             </div>
 
-            <div class="ns-pixel-meter" aria-label="Preview progress">
+            <div class="ns-pixel-meter" :aria-label="t(textKeys.styleLabProgress)">
               <div class="ns-pixel-meter__bar"></div>
             </div>
           </aside>
         </section>
 
-        <section class="ns-pixel-menu-lab" aria-label="Millennium pixel popup menu sample">
+        <section class="ns-pixel-menu-lab" :aria-label="t(textKeys.styleLabPopupMenuSample)">
           <div class="ns-pixel-menu-stage">
             <div class="ns-pixel-menu-stage__topbar">
-              <span>Nightingale Silence</span>
-              <button class="ns-pixel-menu-trigger" type="button">MENU.EXE</button>
+              <span>{{ t(textKeys.siteEnName) }}</span>
+              <button class="ns-pixel-menu-trigger" type="button">
+                {{ t(textKeys.menuTitle) }}
+              </button>
             </div>
 
             <aside
               class="ns-pixel-window ns-pixel-menu-popup"
-              aria-label="Popup menu window sample"
+              :aria-label="t(textKeys.styleLabPopupWindowSample)"
             >
               <div class="ns-pixel-window__bar">
                 <span class="ns-pixel-window__title">
                   <span class="ns-pixel-window__icon" aria-hidden="true"></span>
-                  nightingale.menu
+                  {{ t(textKeys.menuTitle) }}
                 </span>
                 <span class="ns-pixel-window__controls" aria-hidden="true">
                   <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
@@ -106,38 +110,38 @@
                 </span>
               </div>
 
-              <nav class="ns-pixel-popup-menu" aria-label="Pixel popup navigation sample">
+              <nav class="ns-pixel-popup-menu" :aria-label="t(textKeys.styleLabPopupNavigationSample)">
                 <a
                   class="ns-pixel-popup-menu__item ns-pixel-popup-menu__item--active"
                   href="#/ffxiv"
                 >
-                  <span>{{ siteLabels.ffxivWorkshop }}</span>
-                  <span>OPEN</span>
+                  <span>{{ t(textKeys.ffxivWorkshop) }}</span>
+                  <span>{{ t(textKeys.statusOpen) }}</span>
                 </a>
 
-                <div class="ns-pixel-popup-menu__children" aria-label="FF14 tool children">
-                  <a href="#/ffxiv/glamour">幻化工房</a>
-                  <a href="#/ffxiv/plate">铭牌工房</a>
+                <div class="ns-pixel-popup-menu__children" :aria-label="t(textKeys.styleLabFfxivChildren)">
+                  <a href="#/ffxiv/glamour">{{ t(textKeys.glamourTitle) }}</a>
+                  <a href="#/ffxiv/plate">{{ t(textKeys.plateTitle) }}</a>
                 </div>
 
                 <a class="ns-pixel-popup-menu__item" href="#/about">
-                  <span>About</span>
-                  <span>TXT</span>
+                  <span>{{ t(textKeys.about) }}</span>
+                  <span>{{ t(textKeys.aboutCommand) }}</span>
                 </a>
 
                 <a class="ns-pixel-popup-menu__item" href="#/style-lab">
-                  <span>OC</span>
-                  <span>WIP</span>
+                  <span>{{ t(textKeys.oc) }}</span>
+                  <span>{{ t(textKeys.statusWip) }}</span>
                 </a>
 
-                <div class="ns-pixel-popup-menu__children" aria-label="OC children">
-                  <a href="#/style-lab">Silence</a>
+                <div class="ns-pixel-popup-menu__children" :aria-label="t(textKeys.styleLabOcChildren)">
+                  <a href="#/style-lab">{{ t(textKeys.silence) }}</a>
                 </div>
               </nav>
 
               <div class="ns-pixel-menu-popup__status">
-                <span>STATUS</span>
-                <strong>占位用，待编辑</strong>
+                <span>{{ t(textKeys.status) }}</span>
+                <strong>{{ t(textKeys.placeholder) }}</strong>
               </div>
             </aside>
           </div>
@@ -145,12 +149,12 @@
 
         <section
           class="ns-pixel-window ns-pixel-workbench"
-          aria-label="Pixel soft workbench sample"
+          :aria-label="t(textKeys.styleLabWorkbenchSample)"
         >
           <div class="ns-pixel-window__bar">
             <span class="ns-pixel-window__title">
               <span class="ns-pixel-window__icon" aria-hidden="true"></span>
-              workspace.preview
+              {{ t(textKeys.styleLabWorkbenchSample) }}
             </span>
             <span class="ns-pixel-window__controls" aria-hidden="true">
               <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
@@ -159,43 +163,47 @@
             </span>
           </div>
 
-          <div class="ns-pixel-workbench__toolbar" aria-label="Workbench toolbar sample">
-            <button class="ns-pixel-button ns-pixel-button--primary" type="button">导入</button>
-            <button class="ns-pixel-button" type="button">保存草稿</button>
-            <button class="ns-pixel-button ns-pixel-button--blue" type="button">导出</button>
-            <span class="ns-pixel-workbench__hint">pixel-soft-lite / 占位用，待编辑</span>
+          <div class="ns-pixel-workbench__toolbar" :aria-label="t(textKeys.styleLabWorkbenchToolbar)">
+            <button class="ns-pixel-button ns-pixel-button--primary" type="button">
+              {{ t(textKeys.import) }}
+            </button>
+            <button class="ns-pixel-button" type="button">{{ t(textKeys.saveDraft) }}</button>
+            <button class="ns-pixel-button ns-pixel-button--blue" type="button">
+              {{ t(textKeys.export) }}
+            </button>
+            <span class="ns-pixel-workbench__hint">pixel-soft-lite / {{ t(textKeys.placeholder) }}</span>
           </div>
 
           <div class="ns-pixel-workbench__grid">
-            <aside class="ns-pixel-workbench__side" aria-label="Workbench sidebar sample">
-              <div class="ns-pixel-workbench__panel-title">工具</div>
+            <aside class="ns-pixel-workbench__side" :aria-label="t(textKeys.styleLabWorkbenchSidebar)">
+              <div class="ns-pixel-workbench__panel-title">{{ t(textKeys.styleLabTools) }}</div>
               <button class="ns-pixel-tool-row ns-pixel-tool-row--active" type="button">
-                <span>装备栏</span>
+                <span>{{ t(textKeys.styleLabEquipmentPanel) }}</span>
                 <small>12</small>
               </button>
               <button class="ns-pixel-tool-row" type="button">
-                <span>模板</span>
+                <span>{{ t(textKeys.styleLabTemplate) }}</span>
                 <small>06</small>
               </button>
               <button class="ns-pixel-tool-row" type="button">
-                <span>素材</span>
+                <span>{{ t(textKeys.styleLabAssets) }}</span>
                 <small>03</small>
               </button>
 
-              <div class="ns-pixel-workbench__panel-title">图层</div>
+              <div class="ns-pixel-workbench__panel-title">{{ t(textKeys.styleLabLayers) }}</div>
               <div class="ns-pixel-layer-stack">
-                <span>Title</span>
-                <span>Character</span>
-                <span>Equipment</span>
-                <span>Background</span>
+                <span>{{ t(textKeys.styleLabTitleField) }}</span>
+                <span>{{ t(textKeys.styleLabCharacter) }}</span>
+                <span>{{ t(textKeys.styleLabEquipment) }}</span>
+                <span>{{ t(textKeys.styleLabBackground) }}</span>
               </div>
             </aside>
 
-            <section class="ns-pixel-workbench__canvas" aria-label="Workbench canvas sample">
+            <section class="ns-pixel-workbench__canvas" :aria-label="t(textKeys.styleLabWorkbenchCanvas)">
               <div class="ns-pixel-canvas-card">
                 <div class="ns-pixel-canvas-card__chrome">
-                  <span>preview.canvas</span>
-                  <span>1440 x 1920</span>
+                  <span>{{ t(textKeys.styleLabWorkbenchCanvas) }}</span>
+                  <span>{{ styleLabCanvasSize }}</span>
                 </div>
                 <div class="ns-pixel-canvas-card__body">
                   <div class="ns-pixel-canvas-card__avatar" aria-hidden="true"></div>
@@ -205,27 +213,26 @@
                     <span></span>
                     <span></span>
                   </div>
-                  <p>占位用，待编辑</p>
+                  <p>{{ t(textKeys.placeholder) }}</p>
                 </div>
               </div>
             </section>
 
-            <aside class="ns-pixel-workbench__inspector" aria-label="Workbench inspector sample">
-              <div class="ns-pixel-workbench__panel-title">检查器</div>
+            <aside class="ns-pixel-workbench__inspector" :aria-label="t(textKeys.styleLabWorkbenchInspector)">
+              <div class="ns-pixel-workbench__panel-title">{{ t(textKeys.styleLabInspector) }}</div>
               <label class="ns-pixel-label">
-                标题
-                <input class="ns-pixel-input" type="text" value="占位用，待编辑" />
+                {{ t(textKeys.styleLabTitleField) }}
+                <input class="ns-pixel-input" type="text" :value="t(textKeys.placeholder)" />
               </label>
               <label class="ns-pixel-label">
-                语言
+                {{ t(textKeys.styleLabLanguage) }}
                 <select class="ns-pixel-select">
-                  <option>简体中文</option>
-                  <option>English</option>
-                  <option>Français</option>
-                  <option>Deutsch</option>
+                  <option v-for="option in siteLocaleOptions" :key="option.locale">
+                    {{ t(option.labelKey) }}
+                  </option>
                 </select>
               </label>
-              <div class="ns-pixel-mini-meters" aria-label="Workbench setting meters">
+              <div class="ns-pixel-mini-meters" :aria-label="t(textKeys.styleLabWorkbenchMeters)">
                 <span style="--meter-width: 72%"></span>
                 <span style="--meter-width: 48%"></span>
                 <span style="--meter-width: 86%"></span>
@@ -234,9 +241,9 @@
           </div>
 
           <div class="ns-pixel-workbench__status">
-            <span>Ready</span>
-            <span>12 items</span>
-            <span>占位用，待编辑</span>
+            <span>{{ t(textKeys.styleLabReady) }}</span>
+            <span>12 {{ t(textKeys.itemsUnit) }}</span>
+            <span>{{ t(textKeys.placeholder) }}</span>
           </div>
         </section>
 
@@ -244,7 +251,7 @@
           <div class="ns-pixel-window__bar">
             <span class="ns-pixel-window__title">
               <span class="ns-pixel-window__icon" aria-hidden="true"></span>
-              components.demo
+              {{ t(textKeys.styleLabToolbarSample) }}
             </span>
             <span class="ns-pixel-window__controls" aria-hidden="true">
               <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
@@ -253,26 +260,30 @@
             </span>
           </div>
 
-          <div class="ns-pixel-toolbar" aria-label="Pixel toolbar sample">
-            <button class="ns-pixel-button ns-pixel-button--primary" type="button">Save</button>
-            <button class="ns-pixel-button" type="button">Import</button>
-            <button class="ns-pixel-button ns-pixel-button--blue" type="button">Export</button>
+          <div class="ns-pixel-toolbar" :aria-label="t(textKeys.styleLabToolbarSample)">
+            <button class="ns-pixel-button ns-pixel-button--primary" type="button">
+              {{ t(textKeys.save) }}
+            </button>
+            <button class="ns-pixel-button" type="button">{{ t(textKeys.import) }}</button>
+            <button class="ns-pixel-button ns-pixel-button--blue" type="button">
+              {{ t(textKeys.export) }}
+            </button>
           </div>
 
           <hr class="ns-pixel-divider" />
 
           <div class="ns-pixel-form-grid">
             <label class="ns-pixel-label">
-              Name
-              <input class="ns-pixel-input" type="text" value="Nightingale Silence" />
+              {{ t(textKeys.styleLabName) }}
+              <input class="ns-pixel-input" type="text" :value="t(textKeys.siteEnName)" />
             </label>
 
             <label class="ns-pixel-label">
-              Module
+              {{ t(textKeys.styleLabModule) }}
               <select class="ns-pixel-select">
-                <option>FFXIV</option>
-                <option>NSGlamour</option>
-                <option>NSPlate</option>
+                <option v-for="option in styleLabModuleOptions" :key="option.id">
+                  {{ moduleOptionLabel(option) }}
+                </option>
               </select>
             </label>
           </div>
@@ -282,7 +293,7 @@
           <div class="ns-pixel-window__bar">
             <span class="ns-pixel-window__title">
               <span class="ns-pixel-window__icon" aria-hidden="true"></span>
-              common.components
+              {{ t(textKeys.styleLabCommonToolbarPreview) }}
             </span>
             <span class="ns-pixel-window__controls" aria-hidden="true">
               <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
@@ -292,69 +303,74 @@
           </div>
 
           <div class="style-common-components">
-            <AppToolbar title="AppToolbar" aria-label="公共组件工具栏预览">
-              <AppButton variant="primary">占位用，待编辑</AppButton>
-              <AppButton>占位用，待编辑</AppButton>
+            <AppToolbar :title="t(textKeys.styleLabAppToolbar)" :aria-label="t(textKeys.styleLabCommonToolbarPreview)">
+              <AppButton variant="primary">{{ t(textKeys.placeholder) }}</AppButton>
+              <AppButton>{{ t(textKeys.placeholder) }}</AppButton>
 
               <template #end>
-                <AppStatus compact tone="success" message="占位用，待编辑" />
+                <AppStatus compact tone="success" :message="t(textKeys.placeholder)" />
               </template>
             </AppToolbar>
 
             <AppTabs
               v-model="commonTab"
               :items="commonTabs"
-              aria-label="公共组件选项卡预览"
+              :aria-label="t(textKeys.styleLabCommonTabsPreview)"
               stretch
             />
 
             <div class="style-common-components__grid">
               <AppField
-                label="占位用，待编辑"
+                :label="t(textKeys.placeholder)"
                 for-id="style-lab-common-title"
-                description="占位用，待编辑"
+                :description="t(textKeys.placeholder)"
               >
-                <input id="style-lab-common-title" type="text" value="占位用，待编辑" />
+                <input id="style-lab-common-title" type="text" :value="t(textKeys.placeholder)" />
               </AppField>
 
-              <AppField label="占位用，待编辑" for-id="style-lab-common-module">
+              <AppField :label="t(textKeys.placeholder)" for-id="style-lab-common-module">
                 <select id="style-lab-common-module">
-                  <option>NSGlamour</option>
-                  <option>NSPlate</option>
+                  <option v-for="option in styleLabToolOptions" :key="option.id">
+                    {{ moduleOptionLabel(option) }}
+                  </option>
                 </select>
               </AppField>
             </div>
 
-            <AppStatus tone="info" title="AppStatus" message="占位用，待编辑">
+            <AppStatus tone="info" :title="t(textKeys.styleLabAppStatus)" :message="t(textKeys.placeholder)">
               <template #actions>
-                <AppButton>占位用，待编辑</AppButton>
+                <AppButton>{{ t(textKeys.placeholder) }}</AppButton>
               </template>
             </AppStatus>
           </div>
         </section>
 
-        <section class="ns-pixel-grid" aria-label="Pixel tool card samples">
+        <section class="ns-pixel-grid" :aria-label="t(textKeys.styleLabToolCardSamples)">
           <article class="ns-pixel-card">
-            <span class="ns-pixel-badge ns-pixel-badge--pink">tool</span>
-            <h2 class="ns-pixel-card__title">幻化工房</h2>
+            <span class="ns-pixel-badge ns-pixel-badge--pink">{{ t(textKeys.styleLabToolBadge) }}</span>
+            <h2 class="ns-pixel-card__title">{{ t(textKeys.glamourTitle) }}</h2>
             <p class="ns-pixel-card__text">
-              工具卡样式样本，用来观察像素边框、标题密度和长文本换行。
+              {{ t(textKeys.placeholder) }}
             </p>
-            <button class="ns-pixel-button ns-pixel-button--primary" type="button">Open</button>
+            <button class="ns-pixel-button ns-pixel-button--primary" type="button">
+              {{ t(textKeys.open) }}
+            </button>
           </article>
 
           <article class="ns-pixel-card ns-pixel-card--blue">
-            <span class="ns-pixel-badge">tool</span>
-            <h2 class="ns-pixel-card__title">铭牌工房</h2>
-            <p class="ns-pixel-card__text">蓝色表面样本，用来判断工具入口是否保持足够清爽。</p>
-            <button class="ns-pixel-button ns-pixel-button--blue" type="button">Open</button>
+            <span class="ns-pixel-badge">{{ t(textKeys.styleLabToolBadge) }}</span>
+            <h2 class="ns-pixel-card__title">{{ t(textKeys.plateTitle) }}</h2>
+            <p class="ns-pixel-card__text">{{ t(textKeys.placeholder) }}</p>
+            <button class="ns-pixel-button ns-pixel-button--blue" type="button">
+              {{ t(textKeys.open) }}
+            </button>
           </article>
 
           <article class="ns-pixel-card">
-            <span class="ns-pixel-badge ns-pixel-badge--green">status</span>
-            <h2 class="ns-pixel-card__title">状态面板</h2>
-            <p class="ns-pixel-card__text">状态标签、硬阴影和粉蓝配色的组合样本。</p>
-            <button class="ns-pixel-button" type="button">Details</button>
+            <span class="ns-pixel-badge ns-pixel-badge--green">{{ t(textKeys.status) }}</span>
+            <h2 class="ns-pixel-card__title">{{ t(textKeys.styleLabStatusPanel) }}</h2>
+            <p class="ns-pixel-card__text">{{ t(textKeys.placeholder) }}</p>
+            <button class="ns-pixel-button" type="button">{{ t(textKeys.details) }}</button>
           </article>
         </section>
       </div>
@@ -364,38 +380,54 @@
 
 <script setup lang="ts">
 import '@/styles/experiments/pixel-soft.css'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import AppTabs from '@/components/AppTabs.vue'
 import AppToolbar from '@/components/AppToolbar.vue'
-import { siteLabels } from '@/config/site'
+import { ffxivTools, siteLocaleOptions, textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 
 type FontMode = 'decorative' | 'all-pixel'
 type PixelTone = 'classic' | 'light' | 'cyber-night'
+type StyleLabModuleOption = { id: string; label?: string; labelKey?: string }
 
 const fontMode = ref<FontMode>('decorative')
 const pixelTone = ref<PixelTone>('classic')
-
-const fontModeOptions: Array<{ label: string; value: FontMode }> = [
-  { label: '装饰像素', value: 'decorative' },
-  { label: '全部像素', value: 'all-pixel' }
+const { t } = useLocale()
+const styleLabCanvasSize = '1440 x 1920'
+const styleLabToolOptions: StyleLabModuleOption[] = ffxivTools.map((tool) => ({
+  id: tool.id,
+  label: tool.projectName
+}))
+const styleLabModuleOptions: StyleLabModuleOption[] = [
+  { id: 'ffxiv', labelKey: textKeys.ffxivWorkshopShort },
+  ...styleLabToolOptions
 ]
 
-const pixelToneOptions: Array<{ label: string; value: PixelTone }> = [
-  { label: '当前像素', value: 'classic' },
-  { label: '轻像素', value: 'light' },
-  { label: '赛博夜色', value: 'cyber-night' }
+const fontModeOptions: Array<{ labelKey: string; value: FontMode }> = [
+  { labelKey: textKeys.styleLabDecorativePixels, value: 'decorative' },
+  { labelKey: textKeys.styleLabAllPixels, value: 'all-pixel' }
+]
+
+const pixelToneOptions: Array<{ labelKey: string; value: PixelTone }> = [
+  { labelKey: textKeys.styleLabCurrentPixel, value: 'classic' },
+  { labelKey: textKeys.styleLabLightPixel, value: 'light' },
+  { labelKey: textKeys.styleLabCyberNight, value: 'cyber-night' }
 ]
 
 const commonTab = ref('field')
 
-const commonTabs = [
-  { label: 'AppField', value: 'field', meta: '01' },
-  { label: 'AppToolbar', value: 'toolbar', meta: '02' },
-  { label: 'AppStatus', value: 'status', meta: '03' }
-]
+const commonTabs = computed(() => [
+  { labelKey: textKeys.styleLabAppField, value: 'field', meta: '01' },
+  { labelKey: textKeys.styleLabAppToolbar, value: 'toolbar', meta: '02' },
+  { labelKey: textKeys.styleLabAppStatus, value: 'status', meta: '03' }
+].map((item) => ({ ...item, label: t(item.labelKey) })))
+
+function moduleOptionLabel(option: StyleLabModuleOption) {
+  return option.labelKey ? t(option.labelKey) : (option.label ?? option.id)
+}
 </script>
 
 <style scoped>

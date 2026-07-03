@@ -1,20 +1,24 @@
 <template>
-  <NSPlatePanel title="素材" :meta="`${totalCount} 项`">
-    <div v-if="showScopeTabs" class="nsplate-asset-tabs" role="tablist" aria-label="NSPlate assets">
+  <NSPlatePanel :title="t(textKeys.nsplateAssets)">
+    <div
+      v-if="showScopeTabs"
+      class="nsplate-asset-tabs"
+      role="tablist"
+      :aria-label="t(textKeys.nsplateAssets)"
+    >
       <NSPlateChoiceButton
         v-for="scope in scopes"
         :key="scope"
         :active="activeScope === scope"
-        :meta="countForScope(scope)"
         tone="cyan"
         @click="activeScope = scope"
       >
-        {{ scope }}
+        {{ scopeLabel(scope) }}
       </NSPlateChoiceButton>
     </div>
 
     <div class="nsplate-asset-sections">
-      <p v-if="scopedGroups.length === 0" class="nsplate-asset-empty">暂无素材</p>
+      <p v-if="scopedGroups.length === 0" class="nsplate-asset-empty">{{ t(textKeys.noAssets) }}</p>
 
       <section
         v-for="(group, index) in scopedGroups"
@@ -42,25 +46,35 @@
             >
               {{ selectedLabelForGroup(group) }}
             </span>
-            <span class="nsplate-asset-section__count">{{ group.assets.length }}</span>
             <span class="nsplate-asset-section__arrow" aria-hidden="true">▶</span>
           </span>
         </button>
 
-        <div v-if="isSectionOpen(group)" :id="sectionPanelId(group, index)" class="nsplate-asset-section__body">
-          <p v-if="group.assets.length === 0" class="nsplate-asset-empty">暂无素材</p>
+        <div
+          v-if="isSectionOpen(group)"
+          :id="sectionPanelId(group, index)"
+          class="nsplate-asset-section__body"
+        >
+          <p v-if="group.assets.length === 0" class="nsplate-asset-empty">
+            {{ t(textKeys.noAssets) }}
+          </p>
 
           <div v-else class="nsplate-asset-grid">
             <button
               v-for="asset in group.assets"
               :key="asset.id"
               class="nsplate-asset-card"
-              :class="{ 'nsplate-asset-card--active': asset.id === selectedId }"
+              :class="{ 'nsplate-asset-card--active': isAssetSelected(group, asset) }"
               type="button"
               @click="selectAsset(asset)"
             >
               <span class="nsplate-asset-card__image">
-                <img v-if="asset.previewUrl" :src="asset.previewUrl" :alt="asset.label" loading="lazy" />
+                <img
+                  v-if="asset.previewUrl"
+                  :src="asset.previewUrl"
+                  :alt="asset.label"
+                  loading="lazy"
+                />
               </span>
               <span class="nsplate-asset-card__label">{{ asset.label }}</span>
             </button>
@@ -73,22 +87,29 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { textKeys } from '@/config/site'
+import {
+  getPlateAssetSectionKey,
+  selectedAssetForGroup as resolveSelectedAssetForGroup,
+  type NSPlateAssetSelectionMap
+} from '@/lib/plate/draft'
+import { useLocale } from '@/stores/locale'
 import type { NSPlateAssetGroup, NSPlateAssetScope, NSPlateAssetSummary } from '@/pages/plate/types'
 import NSPlateChoiceButton from '@/pages/plate/components/NSPlateChoiceButton.vue'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 
 const props = defineProps<{
   groups: NSPlateAssetGroup[]
-  selectedId: string | null
+  selectedIdsByCategory: NSPlateAssetSelectionMap
   scope?: NSPlateAssetScope
   showScopeTabs?: boolean
 }>()
 
 const emit = defineEmits<{
-  'update:selectedId': [value: string]
-  'apply:asset': [value: NSPlateAssetSummary]
+  'toggle:asset': [value: NSPlateAssetSummary]
 }>()
 
+const { t } = useLocale()
 const scopes = ['portrait', 'nameplate'] as const
 const activeScope = ref<NSPlateAssetScope>('portrait')
 const openSectionKeys = ref<Set<string>>(new Set())
@@ -96,19 +117,12 @@ const openSectionKeys = ref<Set<string>>(new Set())
 const scopedGroups = computed(() =>
   props.groups.filter((group) => group.scope === (props.scope ?? activeScope.value))
 )
-const scopedAssets = computed(() => scopedGroups.value.flatMap((group) => group.assets))
-const totalCount = computed(() =>
-  scopedGroups.value.reduce((count, group) => count + group.assets.length, 0)
-)
 
-function countForScope(scope: NSPlateAssetScope) {
-  return props.groups
-    .filter((group) => group.scope === scope)
-    .reduce((count, group) => count + group.assets.length, 0)
+function scopeLabel(scope: NSPlateAssetScope) {
+  return scope === 'portrait' ? t(textKeys.nsplatePortrait) : t(textKeys.nsplateNameplate)
 }
-
 function sectionKey(group: NSPlateAssetGroup) {
-  return `${group.scope}:${group.category}`
+  return getPlateAssetSectionKey(group.scope, group.category)
 }
 
 function sectionPanelId(group: NSPlateAssetGroup, index: number) {
@@ -133,20 +147,23 @@ function toggleSection(group: NSPlateAssetGroup) {
 }
 
 function selectedAssetForGroup(group: NSPlateAssetGroup) {
-  return group.assets.find((asset) => asset.id === props.selectedId) ?? null
+  return resolveSelectedAssetForGroup(props.selectedIdsByCategory, group)
 }
 
 function hasSelectedAsset(group: NSPlateAssetGroup) {
   return selectedAssetForGroup(group) !== null
 }
 
+function isAssetSelected(group: NSPlateAssetGroup, asset: NSPlateAssetSummary) {
+  return props.selectedIdsByCategory[sectionKey(group)] === asset.id
+}
+
 function selectedLabelForGroup(group: NSPlateAssetGroup) {
-  return selectedAssetForGroup(group)?.label ?? '未选择'
+  return selectedAssetForGroup(group)?.label ?? t(textKeys.notSelected)
 }
 
 function selectAsset(asset: NSPlateAssetSummary) {
-  emit('update:selectedId', asset.id)
-  emit('apply:asset', asset)
+  emit('toggle:asset', asset)
 }
 
 watch(
@@ -154,20 +171,6 @@ watch(
   (scope) => {
     if (scope) {
       activeScope.value = scope
-    }
-  },
-  { immediate: true }
-)
-
-watch(
-  scopedAssets,
-  (items) => {
-    if (!items.length) {
-      return
-    }
-
-    if (!items.some((item) => item.id === props.selectedId)) {
-      emit('update:selectedId', items[0].id)
     }
   },
   { immediate: true }
@@ -189,7 +192,7 @@ watch(
 
 .nsplate-asset-section {
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid var(--ns-color-border);
   border-radius: var(--ns-radius-xs);
   background: color-mix(in srgb, var(--ns-color-surface-solid) 76%, transparent);
@@ -211,6 +214,15 @@ watch(
   font-weight: 850;
   text-align: left;
   cursor: pointer;
+}
+
+.nsplate-asset-section[data-open='true'] .nsplate-asset-section__header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  border-bottom: 1px solid color-mix(in srgb, var(--ns-color-border) 76%, transparent);
+  background: color-mix(in srgb, var(--ns-color-surface-solid) 94%, var(--ns-color-cyan-soft));
+  box-shadow: 0 2px 0 color-mix(in srgb, var(--ns-color-border) 50%, transparent);
 }
 
 .nsplate-asset-section__header:hover {
@@ -269,13 +281,6 @@ watch(
   opacity: 0.72;
 }
 
-.nsplate-asset-section__count {
-  color: var(--ns-color-text-soft);
-  font-family: var(--ns-font-mono);
-  font-size: 10px;
-  font-weight: 900;
-}
-
 .nsplate-asset-section__arrow {
   color: var(--ns-color-text-muted);
   font-size: 9px;
@@ -290,7 +295,6 @@ watch(
   display: grid;
   gap: 8px;
   padding: 6px 7px 8px;
-  border-top: 1px solid color-mix(in srgb, var(--ns-color-border) 76%, transparent);
 }
 
 .nsplate-asset-empty {

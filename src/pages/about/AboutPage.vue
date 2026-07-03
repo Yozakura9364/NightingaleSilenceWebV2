@@ -1,12 +1,12 @@
 <template>
   <main class="ns-page about-page">
     <div class="ns-page-shell">
-      <RouterLink class="about-back" :to="siteRoutes.home">← {{ placeholderCopy }}</RouterLink>
+      <RouterLink class="about-back" :to="siteRoutes.home">← {{ t(textKeys.back) }}</RouterLink>
       <section class="ns-panel about-panel">
-        <p class="ns-eyebrow">About</p>
-        <h1 class="ns-title">{{ placeholderCopy }}</h1>
+        <p class="ns-eyebrow">{{ t(textKeys.about) }}</p>
+        <h1 class="ns-title">{{ t(textKeys.placeholder) }}</h1>
         <p class="ns-lead">
-          {{ placeholderCopy }}
+          {{ t(textKeys.placeholder) }}
         </p>
       </section>
     </div>
@@ -14,7 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { placeholderCopy, siteRoutes } from '@/config/site'
+import { siteRoutes, textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
+
+const { t } = useLocale()
 </script>
 
 <style scoped>

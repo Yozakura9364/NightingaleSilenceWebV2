@@ -6,7 +6,7 @@
   >
     <div class="tool-api-status__header">
       <div class="tool-api-status__title-block">
-        <p class="tool-api-status__label">API</p>
+        <p class="tool-api-status__label">{{ t(textKeys.api) }}</p>
         <p class="tool-api-status__endpoint">{{ boundary.apiBase }}</p>
       </div>
       <button
@@ -15,21 +15,21 @@
         :disabled="isChecking"
         @click="checkHealth"
       >
-        {{ isChecking ? '检查中' : '检查' }}
+        {{ isChecking ? t(textKeys.checking) : t(textKeys.check) }}
       </button>
     </div>
 
     <dl v-if="!compact" class="tool-api-status__meta">
       <div>
-        <dt>{{ placeholderCopy }}</dt>
+        <dt>{{ t(textKeys.project) }}</dt>
         <dd>{{ boundary.projectName }}</dd>
       </div>
       <div>
-        <dt>{{ placeholderCopy }}</dt>
+        <dt>{{ t(textKeys.port) }}</dt>
         <dd>{{ boundary.devPort }}</dd>
       </div>
       <div>
-        <dt>health</dt>
+        <dt>{{ t(textKeys.health) }}</dt>
         <dd>{{ healthPath }}</dd>
       </div>
     </dl>
@@ -43,7 +43,8 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { placeholderCopy } from '@/config/site'
+import { textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import { ApiError, useFetch } from '@/composables/useFetch'
 
@@ -60,8 +61,9 @@ const props = withDefaults(
 )
 
 const { createClient } = useFetch()
+const { t } = useLocale()
 const status = ref<ApiStatus>('idle')
-const detail = ref(placeholderCopy)
+const detail = ref(t(textKeys.placeholder))
 const isChecking = computed(() => status.value === 'checking')
 const healthPath = computed(() => `${props.boundary.apiBase}${props.boundary.healthPath}`)
 const statusText = computed(() => {
@@ -73,12 +75,12 @@ const statusText = computed(() => {
     return detail.value
   }
 
-  return status.value === 'checking' ? '检查中' : placeholderCopy
+  return status.value === 'checking' ? t(textKeys.checking) : t(textKeys.placeholder)
 })
 
 async function checkHealth() {
   status.value = 'checking'
-  detail.value = placeholderCopy
+  detail.value = t(textKeys.placeholder)
 
   try {
     const client = createClient(props.boundary.apiBase)
@@ -87,7 +89,7 @@ async function checkHealth() {
     detail.value = 'HTTP 200'
   } catch (error) {
     status.value = 'error'
-    detail.value = error instanceof ApiError ? `HTTP ${error.status}` : placeholderCopy
+    detail.value = error instanceof ApiError ? `HTTP ${error.status}` : t(textKeys.placeholder)
   }
 }
 

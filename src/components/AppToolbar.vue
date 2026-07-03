@@ -25,6 +25,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 
 const props = withDefaults(
   defineProps<{
@@ -39,7 +41,8 @@ const props = withDefaults(
   }
 )
 
-const resolvedAriaLabel = computed(() => props.ariaLabel || props.title || '工具栏')
+const { t } = useLocale()
+const resolvedAriaLabel = computed(() => props.ariaLabel || props.title || t(textKeys.toolbar))
 </script>
 
 <style scoped>

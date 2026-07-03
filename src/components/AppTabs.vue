@@ -7,7 +7,7 @@
       'app-tabs--stretch': stretch
     }"
     role="tablist"
-    :aria-label="ariaLabel"
+    :aria-label="resolvedAriaLabel"
   >
     <button
       v-for="(item, index) in items"
@@ -30,7 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
+import { textKeys } from '@/config/site'
+import { useLocale } from '@/stores/locale'
 
 interface AppTabItem {
   value: string
@@ -49,7 +51,6 @@ const props = withDefaults(
     stretch?: boolean
   }>(),
   {
-    ariaLabel: '选项卡',
     idPrefix: 'app-tab',
     density: 'default',
     stretch: false
@@ -60,7 +61,9 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
+const { t } = useLocale()
 const tablistRef = ref<HTMLElement | null>(null)
+const resolvedAriaLabel = computed(() => props.ariaLabel ?? t(textKeys.tabs))
 
 function selectTab(item: AppTabItem) {
   if (item.disabled) {

@@ -3,6 +3,14 @@ export type NSPlateAssetScope = 'portrait' | 'nameplate'
 export type NSPlateCanvasMode = 'portrait' | 'nameplate'
 export type NSPlatePanelTab = 'portrait' | 'nameplate' | 'info'
 
+export interface NSPlateCustomPortraitImage {
+  id: string
+  fileName: string
+  dataUrl: string
+  width: number
+  height: number
+}
+
 export interface NSPlatePreset {
   name?: string
   names?: Record<string, string>
@@ -46,7 +54,6 @@ export interface NSPlatePresetSummary {
   kind: NSPlatePresetKind
   kindLabel: string
   label: string
-  layerCount: number
   raw: NSPlatePreset
 }
 

@@ -11,6 +11,7 @@ declare module '*.vue' {
 declare module 'vue-router' {
   interface RouteMeta {
     title?: string
+    titleKey?: string
     hideTopNav?: boolean
   }
 }

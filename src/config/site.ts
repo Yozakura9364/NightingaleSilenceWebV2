@@ -1,59 +1,244 @@
-export type RoutePath = '/' | '/ffxiv' | '/ffxiv/glamour' | '/ffxiv/plate' | '/about'
+import type { Locale } from '@/stores/locale'
+import { uiMessages } from '@/locales/ui'
+
+export type RoutePath =
+  | '/'
+  | '/ffxiv'
+  | '/ffxiv/glamour'
+  | '/ffxiv/plate'
+  | '/silence'
+  | '/silence/angel'
+  | '/silence/glitch'
+  | '/about'
 
 export interface NavItem {
   id: string
-  label: string
-  command?: string
+  labelKey: string
+  commandKey?: string
   route: RoutePath
   variant?: 'default' | 'primary'
 }
 
 export interface SiteCategory {
   id: string
-  title: string
-  shortTitle: string
-  kicker: string
-  description: string
+  titleKey: string
+  shortTitleKey: string
+  kickerKey: string
+  descriptionKey: string
   route: RoutePath
 }
 
 export interface ToolEntry {
   id: string
-  title: string
+  titleKey: string
   projectName: string
   route: RoutePath
-  summary: string
+  summaryKey: string
   sourcePath: string
   apiBase: string
   devPort: number
-  statusLabel: string
+  statusLabelKey: string
 }
 
-export const placeholderCopy = '占位用，待编辑'
+export interface SilenceGroupEntry {
+  id: 'angel' | 'glitch'
+  titleKey: string
+  route: RoutePath
+  summaryKey: string
+  statusLabelKey: string
+}
+
+export interface SiteLocaleOption {
+  locale: Locale
+  labelKey: string
+  commandKey: string
+}
+
+export const textKeys = {
+  placeholder: 'common.placeholder',
+  back: 'common.back',
+  enter: 'common.enter',
+  children: 'common.children',
+  closeMenu: 'common.close.menu',
+  closeConfig: 'common.close.config',
+  itemsUnit: 'common.items.unit',
+  layersUnit: 'common.layers.unit',
+  notSelected: 'common.notSelected',
+  noAssets: 'common.noAssets',
+  selectPreset: 'common.selectPreset',
+  check: 'common.check',
+  checking: 'common.checking',
+  api: 'common.api',
+  project: 'common.project',
+  port: 'common.port',
+  health: 'common.health',
+  import: 'common.import',
+  export: 'common.export',
+  save: 'common.save',
+  saveDraft: 'common.saveDraft',
+  open: 'common.open',
+  details: 'common.details',
+  status: 'common.status',
+  toolbar: 'common.toolbar',
+  tabs: 'common.tabs',
+  primaryNavigation: 'common.primaryNavigation',
+  siteZhName: 'site.name.zh',
+  siteEnName: 'site.name.en',
+  siteTitle: 'site.title',
+  siteDescription: 'site.description',
+  menu: 'site.nav.menu',
+  menuCommand: 'site.nav.menuCommand',
+  menuCategory: 'site.nav.menuCategory',
+  homeCommand: 'site.nav.homeCommand',
+  config: 'site.nav.config',
+  configCommand: 'site.nav.configCommand',
+  about: 'site.nav.about',
+  aboutCommand: 'site.nav.aboutCommand',
+  silenceCommand: 'site.nav.silenceCommand',
+  home: 'site.nav.home',
+  menuTitle: 'site.window.menuTitle',
+  configTitle: 'site.window.configTitle',
+  themeMode: 'site.theme.mode',
+  day: 'site.theme.day',
+  dayCommand: 'site.theme.dayCommand',
+  night: 'site.theme.night',
+  nightCommand: 'site.theme.nightCommand',
+  languageMode: 'site.language.mode',
+  localeZhLabel: 'site.locale.zh.label',
+  localeJaLabel: 'site.locale.ja.label',
+  localeKoLabel: 'site.locale.ko.label',
+  localeEnLabel: 'site.locale.en.label',
+  localeZhCommand: 'site.locale.zh.command',
+  localeJaCommand: 'site.locale.ja.command',
+  localeKoCommand: 'site.locale.ko.command',
+  localeEnCommand: 'site.locale.en.command',
+  statusOpen: 'site.status.open',
+  statusWip: 'site.status.wip',
+  silence: 'site.menu.silence',
+  oc: 'site.menu.oc',
+  silenceAngel: 'silence.group.angel.title',
+  silenceGlitch: 'silence.group.glitch.title',
+  ffxivWorkshop: 'ffxiv.workshop.title',
+  ffxivWorkshopShort: 'ffxiv.workshop.short',
+  glamourTitle: 'ffxiv.tool.glamour.title',
+  plateTitle: 'ffxiv.tool.plate.title',
+  nsplatePortrait: 'nsplate.tab.portrait',
+  nsplateNameplate: 'nsplate.tab.nameplate',
+  nsplateInfo: 'nsplate.tab.info',
+  nsplateConfig: 'nsplate.panel.config',
+  nsplateAssets: 'nsplate.panel.assets',
+  nsplatePresets: 'nsplate.panel.presets',
+  nsplatePortraitAssets: 'nsplate.panel.portraitAssets',
+  nsplateNameplateAssets: 'nsplate.panel.nameplateAssets',
+  nsplateCustomPortrait: 'nsplate.panel.customPortrait',
+  nsplateCustomPortraitUpload: 'nsplate.customPortrait.upload',
+  nsplateCustomPortraitClear: 'nsplate.customPortrait.clear',
+  nsplateCustomPortraitInput: 'nsplate.customPortrait.input',
+  nsplateCustomPortraitError: 'nsplate.customPortrait.error',
+  nsplateClearAllSelections: 'nsplate.action.clearAllSelections',
+  nsplateCanvasEditing: 'nsplate.canvas.editing',
+  nsplateCanvasSelectedPreset: 'nsplate.canvas.selectedPreset',
+  nsplateCanvasSelectedLayers: 'nsplate.canvas.selectedLayers',
+  nsplateCanvasLayers: 'nsplate.canvas.layers',
+  nsplateCanvasSelectionStatus: 'nsplate.canvas.selectionStatus',
+  nsplateCanvasAria: 'nsplate.canvas.aria',
+  nsplateResizeConfigPanel: 'nsplate.resize.configPanel',
+  nsplateCategoryPortraitBackground: 'nsplate.category.portraitBackground',
+  nsplateCategoryPortraitDecorFrame: 'nsplate.category.portraitDecorFrame',
+  nsplateCategoryPortraitDecoration: 'nsplate.category.portraitDecoration',
+  nsplateCategoryPortraitFrame: 'nsplate.category.portraitFrame',
+  nsplateCategoryNameplateBase: 'nsplate.category.nameplateBase',
+  nsplateCategoryNameplateColor: 'nsplate.category.nameplateColor',
+  nsplateCategoryNameplatePattern: 'nsplate.category.nameplatePattern',
+  nsplateCategoryNameplateFrame: 'nsplate.category.nameplateFrame',
+  nsplateCategoryNameplateTopDecor: 'nsplate.category.nameplateTopDecor',
+  nsplateCategoryNameplateBottomDecor: 'nsplate.category.nameplateBottomDecor',
+  nsplateCategoryNameplateDecoration: 'nsplate.category.nameplateDecoration',
+  nsplateCategoryNameplateDecorationAlt: 'nsplate.category.nameplateDecorationAlt',
+  styleLabPixelTone: 'styleLab.pixelTone',
+  styleLabFontMode: 'styleLab.fontMode',
+  styleLabTitle: 'styleLab.title',
+  styleLabSampleLead: 'styleLab.sampleLead',
+  styleLabPrimary: 'styleLab.primary',
+  styleLabAction: 'styleLab.action',
+  styleLabDefault: 'styleLab.default',
+  styleLabWindowSample: 'styleLab.windowSample',
+  styleLabPalette: 'styleLab.palette',
+  styleLabProgress: 'styleLab.progress',
+  styleLabPopupMenuSample: 'styleLab.popupMenuSample',
+  styleLabPopupWindowSample: 'styleLab.popupWindowSample',
+  styleLabPopupNavigationSample: 'styleLab.popupNavigationSample',
+  styleLabFfxivChildren: 'styleLab.ffxivChildren',
+  styleLabOcChildren: 'styleLab.ocChildren',
+  styleLabWorkbenchSample: 'styleLab.workbenchSample',
+  styleLabWorkbenchToolbar: 'styleLab.workbenchToolbar',
+  styleLabWorkbenchSidebar: 'styleLab.workbenchSidebar',
+  styleLabWorkbenchCanvas: 'styleLab.workbenchCanvas',
+  styleLabWorkbenchInspector: 'styleLab.workbenchInspector',
+  styleLabWorkbenchMeters: 'styleLab.workbenchMeters',
+  styleLabToolbarSample: 'styleLab.toolbarSample',
+  styleLabCommonToolbarPreview: 'styleLab.commonToolbarPreview',
+  styleLabCommonTabsPreview: 'styleLab.commonTabsPreview',
+  styleLabToolCardSamples: 'styleLab.toolCardSamples',
+  styleLabDecorativePixels: 'styleLab.decorativePixels',
+  styleLabAllPixels: 'styleLab.allPixels',
+  styleLabCurrentPixel: 'styleLab.currentPixel',
+  styleLabLightPixel: 'styleLab.lightPixel',
+  styleLabCyberNight: 'styleLab.cyberNight',
+  styleLabTools: 'styleLab.tools',
+  styleLabEquipmentPanel: 'styleLab.equipmentPanel',
+  styleLabTemplate: 'styleLab.template',
+  styleLabAssets: 'styleLab.assets',
+  styleLabLayers: 'styleLab.layers',
+  styleLabTitleField: 'styleLab.titleField',
+  styleLabCharacter: 'styleLab.character',
+  styleLabEquipment: 'styleLab.equipment',
+  styleLabBackground: 'styleLab.background',
+  styleLabInspector: 'styleLab.inspector',
+  styleLabLanguage: 'styleLab.language',
+  styleLabReady: 'styleLab.ready',
+  styleLabName: 'styleLab.name',
+  styleLabModule: 'styleLab.module',
+  styleLabToolBadge: 'styleLab.toolBadge',
+  styleLabStatusPanel: 'styleLab.statusPanel',
+  styleLabAppField: 'styleLab.appField',
+  styleLabAppToolbar: 'styleLab.appToolbar',
+  styleLabAppStatus: 'styleLab.appStatus'
+} as const
+
+export const placeholderCopyKey = textKeys.placeholder
+
+function defaultText(key: string): string {
+  return uiMessages[key]?.['zh-CN'] ?? key
+}
+
+// Deprecated compatibility exports for stale Vite HMR modules from the pre-localization scaffold.
+// New code must use textKeys + useLocale().t(key) instead of these static fallbacks.
+export const placeholderCopy = defaultText(textKeys.placeholder)
 
 export const siteLabels = {
-  menu: '菜单',
-  menuCommand: 'MENU',
-  homeCommand: 'HOME',
-  config: '设置',
-  configCommand: 'CONFIG',
-  themeMode: '显示模式',
-  day: '白天',
-  dayCommand: 'DAY',
-  night: '黑夜',
-  nightCommand: 'NIGHT',
-  ffxivWorkshop: '狒狒14工房',
-  ffxivWorkshopShort: '狒狒14',
-  about: '关于',
-  aboutCommand: 'ABOUT',
-  home: '回到主页'
+  menu: defaultText(textKeys.menu),
+  menuCommand: defaultText(textKeys.menuCommand),
+  homeCommand: defaultText(textKeys.homeCommand),
+  config: defaultText(textKeys.config),
+  configCommand: defaultText(textKeys.configCommand),
+  themeMode: defaultText(textKeys.themeMode),
+  day: defaultText(textKeys.day),
+  dayCommand: defaultText(textKeys.dayCommand),
+  night: defaultText(textKeys.night),
+  nightCommand: defaultText(textKeys.nightCommand),
+  ffxivWorkshop: defaultText(textKeys.ffxivWorkshop),
+  ffxivWorkshopShort: defaultText(textKeys.ffxivWorkshopShort),
+  about: defaultText(textKeys.about),
+  aboutCommand: defaultText(textKeys.aboutCommand),
+  home: defaultText(textKeys.home)
 } as const
 
 export const siteMeta = {
-  zhName: '夜莺不语',
-  enName: 'Nightingale Silence',
-  title: '夜莺不语 / Nightingale Silence',
-  description: placeholderCopy
+  zhNameKey: textKeys.siteZhName,
+  enNameKey: textKeys.siteEnName,
+  titleKey: textKeys.siteTitle,
+  descriptionKey: textKeys.siteDescription
 } as const
 
 export const siteRoutes = {
@@ -61,20 +246,36 @@ export const siteRoutes = {
   ffxiv: '/ffxiv',
   glamour: '/ffxiv/glamour',
   plate: '/ffxiv/plate',
+  silence: '/silence',
+  silenceAngel: '/silence/angel',
+  silenceGlitch: '/silence/glitch',
   about: '/about'
 } as const satisfies Record<string, RoutePath>
+
+export const siteLocaleOptions: SiteLocaleOption[] = [
+  { locale: 'zh-CN', labelKey: textKeys.localeZhLabel, commandKey: textKeys.localeZhCommand },
+  { locale: 'ja', labelKey: textKeys.localeJaLabel, commandKey: textKeys.localeJaCommand },
+  { locale: 'ko', labelKey: textKeys.localeKoLabel, commandKey: textKeys.localeKoCommand },
+  { locale: 'en', labelKey: textKeys.localeEnLabel, commandKey: textKeys.localeEnCommand }
+]
 
 export const homeNavItems: NavItem[] = [
   {
     id: 'ffxiv',
-    label: siteLabels.ffxivWorkshop,
+    labelKey: textKeys.ffxivWorkshop,
     route: siteRoutes.ffxiv,
     variant: 'primary'
   },
   {
+    id: 'silence',
+    labelKey: textKeys.silence,
+    commandKey: textKeys.silenceCommand,
+    route: siteRoutes.silence
+  },
+  {
     id: 'about',
-    label: siteLabels.about,
-    command: siteLabels.aboutCommand,
+    labelKey: textKeys.about,
+    commandKey: textKeys.aboutCommand,
     route: siteRoutes.about
   }
 ]
@@ -82,36 +283,61 @@ export const homeNavItems: NavItem[] = [
 export const siteCategories: SiteCategory[] = [
   {
     id: 'ffxiv',
-    title: siteLabels.ffxivWorkshop,
-    shortTitle: siteLabels.ffxivWorkshopShort,
-    kicker: placeholderCopy,
-    description: placeholderCopy,
+    titleKey: textKeys.ffxivWorkshop,
+    shortTitleKey: textKeys.ffxivWorkshopShort,
+    kickerKey: textKeys.placeholder,
+    descriptionKey: textKeys.placeholder,
     route: siteRoutes.ffxiv
+  },
+  {
+    id: 'silence',
+    titleKey: textKeys.silence,
+    shortTitleKey: textKeys.silence,
+    kickerKey: textKeys.placeholder,
+    descriptionKey: textKeys.placeholder,
+    route: siteRoutes.silence
+  }
+]
+
+export const silenceGroups: SilenceGroupEntry[] = [
+  {
+    id: 'angel',
+    titleKey: textKeys.silenceAngel,
+    route: siteRoutes.silenceAngel,
+    summaryKey: textKeys.placeholder,
+    statusLabelKey: textKeys.statusWip
+  },
+  {
+    id: 'glitch',
+    titleKey: textKeys.silenceGlitch,
+    route: siteRoutes.silenceGlitch,
+    summaryKey: textKeys.placeholder,
+    statusLabelKey: textKeys.statusWip
   }
 ]
 
 export const ffxivTools: ToolEntry[] = [
   {
     id: 'glamour',
-    title: '幻化工房',
+    titleKey: textKeys.glamourTitle,
     projectName: 'NSGlamour',
     route: siteRoutes.glamour,
-    summary: placeholderCopy,
+    summaryKey: textKeys.placeholder,
     sourcePath: '../NSGlamour',
     apiBase: '/api/glamour',
     devPort: 8765,
-    statusLabel: placeholderCopy
+    statusLabelKey: textKeys.placeholder
   },
   {
     id: 'plate',
-    title: '铭牌工房',
+    titleKey: textKeys.plateTitle,
     projectName: 'NSPlate',
     route: siteRoutes.plate,
-    summary: placeholderCopy,
+    summaryKey: textKeys.placeholder,
     sourcePath: '../NSPortable',
     apiBase: '/api/plate',
     devPort: 3456,
-    statusLabel: placeholderCopy
+    statusLabelKey: textKeys.placeholder
   }
 ]
 
@@ -133,10 +359,14 @@ export function getRequiredFfxivTool(id: string): ToolEntry {
   return tool
 }
 
-export function formatDocumentTitle(title?: string): string {
-  if (!title || title === siteMeta.zhName) {
-    return siteMeta.title
+export function formatDocumentTitle(
+  title: string | undefined,
+  siteName: string,
+  siteTitle: string
+): string {
+  if (!title || title === siteName) {
+    return siteTitle
   }
 
-  return `${title} - ${siteMeta.zhName}`
+  return `${title} - ${siteName}`
 }
