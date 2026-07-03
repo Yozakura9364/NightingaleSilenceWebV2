@@ -35,7 +35,7 @@
           @click="toggleSection(group)"
         >
           <span class="nsplate-asset-section__name">
-            <span class="nsplate-asset-section__dot" aria-hidden="true" />
+            <span class="nsplate-asset-section__status-icon" aria-hidden="true" />
             <span>{{ group.label }}</span>
           </span>
           <span class="nsplate-asset-section__right">
@@ -246,18 +246,46 @@ watch(
   gap: 6px;
 }
 
-.nsplate-asset-section__dot {
-  width: 9px;
-  height: 9px;
+.nsplate-asset-section__status-icon {
+  position: relative;
+  width: 14px;
+  height: 14px;
   flex: 0 0 auto;
-  border: 1px solid var(--ns-color-border-strong);
-  border-radius: 999px;
-  background: transparent;
+  border: 2px solid color-mix(in srgb, var(--ns-color-border-strong) 70%, transparent);
+  background: var(--ns-color-surface-solid);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--ns-color-border) 38%, transparent);
 }
 
-.nsplate-asset-section[data-selected='true'] .nsplate-asset-section__dot {
+.nsplate-asset-section__status-icon::before {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 3px;
+  height: 3px;
+  background: color-mix(in srgb, var(--ns-color-border-strong) 54%, transparent);
+  box-shadow:
+    5px 0 0 color-mix(in srgb, var(--ns-color-border-strong) 54%, transparent),
+    0 5px 0 color-mix(in srgb, var(--ns-color-border-strong) 54%, transparent),
+    5px 5px 0 color-mix(in srgb, var(--ns-color-border-strong) 54%, transparent);
+  content: '';
+}
+
+.nsplate-asset-section[data-selected='true'] .nsplate-asset-section__status-icon {
   border-color: var(--ns-color-accent);
+  background: color-mix(in srgb, var(--ns-color-accent) 14%, var(--ns-color-surface-solid));
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--ns-color-accent) 24%, transparent);
+}
+
+.nsplate-asset-section[data-selected='true'] .nsplate-asset-section__status-icon::before {
+  top: 7px;
+  left: 2px;
+  width: 3px;
+  height: 3px;
   background: var(--ns-color-accent);
+  box-shadow:
+    3px 3px 0 var(--ns-color-accent),
+    6px 0 0 var(--ns-color-accent),
+    9px -3px 0 var(--ns-color-accent);
 }
 
 .nsplate-asset-section__name span:last-child,

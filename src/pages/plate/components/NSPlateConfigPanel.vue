@@ -55,8 +55,8 @@ const activeTab = computed({
 .nsplate-config-panel__tabs {
   display: block;
   flex: 0 0 auto;
+  padding: 0;
   border-bottom: 2px solid var(--ns-pixel-divider);
-  padding: 10px 10px 8px;
 }
 
 .nsplate-config-panel__scroll {

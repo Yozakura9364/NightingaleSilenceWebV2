@@ -3,11 +3,6 @@
     <div ref="viewportRef" class="nsplate-canvas-viewport">
       <div class="nsplate-canvas-frame" :class="canvasClass" :style="frameStyle">
         <canvas ref="canvasRef" class="nsplate-canvas-frame__canvas" :aria-label="canvasLabel" />
-        <span
-          v-if="selectedLayerNames.length === 0"
-          class="nsplate-canvas-frame__empty"
-          aria-hidden="true"
-        />
       </div>
     </div>
   </section>
@@ -20,7 +15,6 @@ import {
   NSPLATE_CANVAS_DIMENSIONS,
   createNameplateRenderPlan,
   getPlateLayerImageUrl,
-  getPlateRenderLayerNames,
   type NSPlateNameplateRenderPlan,
   type NSPlateRenderImageLayer
 } from '@/lib/plate/render'
@@ -46,7 +40,6 @@ const canvasLabel = computed(() => `${t(textKeys.nsplateCanvasAria)}${modeLabel.
 const renderPlan = computed(() =>
   createNameplateRenderPlan(props.selectedAssets, 'right', undefined, props.customPortrait)
 )
-const selectedLayerNames = computed(() => getPlateRenderLayerNames(renderPlan.value))
 const renderSignature = computed(() =>
   [
     props.mode,
@@ -383,17 +376,6 @@ function updateCanvasFrameSize() {
   height: 100%;
   object-fit: contain;
   image-rendering: auto;
-}
-
-.nsplate-canvas-frame__empty {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  display: block;
-  width: 56px;
-  height: 56px;
-  transform: translate(-50%, -50%);
-  border: 1px dashed var(--ns-color-border-strong);
-  background: color-mix(in srgb, var(--ns-color-surface-solid) 52%, transparent);
 }
 
 @media (max-width: 560px) {
