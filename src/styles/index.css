@@ -5,4 +5,5 @@
 @import './base.css' layer(base);
 @import './components.css' layer(components);
 @import './experiments/pixel-soft.css' layer(components);
+@import './experiments/fantasy-card.css' layer(components);
 @import './utilities.css' layer(utilities);
