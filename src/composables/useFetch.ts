@@ -94,19 +94,19 @@ async function parseResponse<T>(response: Response, responseType: ApiResponseTyp
   }
 
   if (responseType === 'text') {
-    return await response.text() as T
+    return (await response.text()) as T
   }
 
   if (responseType === 'blob') {
-    return await response.blob() as T
+    return (await response.blob()) as T
   }
 
   if (responseType === 'arrayBuffer') {
-    return await response.arrayBuffer() as T
+    return (await response.arrayBuffer()) as T
   }
 
   const text = await response.text()
-  return text ? JSON.parse(text) as T : undefined as T
+  return text ? (JSON.parse(text) as T) : (undefined as T)
 }
 
 export function joinApiPath(basePath: string, path: string): string {
@@ -168,10 +168,14 @@ export function useFetch() {
   function createClient(basePath: string) {
     return {
       basePath,
-      request: <T = unknown>(path: string, options: ApiRequestOptions = {}) => request<T>(joinApiPath(basePath, path), options),
-      api: <T = unknown>(path: string, options: ApiRequestOptions = {}) => api<T>(joinApiPath(basePath, path), options),
-      text: (path: string, options: ApiRequestOptions = {}) => text(joinApiPath(basePath, path), options),
-      blob: (path: string, options: ApiRequestOptions = {}) => blob(joinApiPath(basePath, path), options)
+      request: <T = unknown>(path: string, options: ApiRequestOptions = {}) =>
+        request<T>(joinApiPath(basePath, path), options),
+      api: <T = unknown>(path: string, options: ApiRequestOptions = {}) =>
+        api<T>(joinApiPath(basePath, path), options),
+      text: (path: string, options: ApiRequestOptions = {}) =>
+        text(joinApiPath(basePath, path), options),
+      blob: (path: string, options: ApiRequestOptions = {}) =>
+        blob(joinApiPath(basePath, path), options)
     }
   }
 

@@ -53,9 +53,18 @@ import { homeNavItems, placeholderCopy, siteMeta, siteRoutes } from '@/config/si
   background:
     linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.55) 1px, transparent 1px),
-    linear-gradient(120deg, rgba(255, 223, 242, 0.92) 0%, rgba(255, 248, 253, 0.86) 46%, rgba(220, 250, 252, 0.94) 100%),
+    linear-gradient(
+      120deg,
+      rgba(255, 223, 242, 0.92) 0%,
+      rgba(255, 248, 253, 0.86) 46%,
+      rgba(220, 250, 252, 0.94) 100%
+    ),
     linear-gradient(135deg, #fff1f9 0%, #eefcff 100%);
-  background-size: 18px 18px, 18px 18px, auto, auto;
+  background-size:
+    18px 18px,
+    18px 18px,
+    auto,
+    auto;
 }
 
 .home-top-bar {

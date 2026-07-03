@@ -176,15 +176,15 @@ onMounted(() => {
   background: var(--ns-color-border-strong);
 }
 
-.tool-api-status__state[data-state="checking"] .tool-api-status__dot {
+.tool-api-status__state[data-state='checking'] .tool-api-status__dot {
   background: var(--ns-color-accent);
 }
 
-.tool-api-status__state[data-state="ready"] .tool-api-status__dot {
+.tool-api-status__state[data-state='ready'] .tool-api-status__dot {
   background: var(--ns-color-cyan);
 }
 
-.tool-api-status__state[data-state="error"] .tool-api-status__dot {
+.tool-api-status__state[data-state='error'] .tool-api-status__dot {
   background: #c7793d;
 }
 

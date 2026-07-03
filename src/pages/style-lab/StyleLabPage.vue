@@ -59,12 +59,8 @@
               <button class="ns-pixel-button ns-pixel-button--primary" type="button">
                 Primary
               </button>
-              <button class="ns-pixel-button ns-pixel-button--blue" type="button">
-                Action
-              </button>
-              <button class="ns-pixel-button" type="button">
-                Default
-              </button>
+              <button class="ns-pixel-button ns-pixel-button--blue" type="button">Action</button>
+              <button class="ns-pixel-button" type="button">Default</button>
             </div>
           </div>
 
@@ -104,12 +100,13 @@
           <div class="ns-pixel-menu-stage">
             <div class="ns-pixel-menu-stage__topbar">
               <span>Nightingale Silence</span>
-              <button class="ns-pixel-menu-trigger" type="button">
-                MENU.EXE
-              </button>
+              <button class="ns-pixel-menu-trigger" type="button">MENU.EXE</button>
             </div>
 
-            <aside class="ns-pixel-window ns-pixel-menu-popup" aria-label="Popup menu window sample">
+            <aside
+              class="ns-pixel-window ns-pixel-menu-popup"
+              aria-label="Popup menu window sample"
+            >
               <div class="ns-pixel-window__bar">
                 <span class="ns-pixel-window__title">
                   <span class="ns-pixel-window__icon" aria-hidden="true"></span>
@@ -123,7 +120,10 @@
               </div>
 
               <nav class="ns-pixel-popup-menu" aria-label="Pixel popup navigation sample">
-                <a class="ns-pixel-popup-menu__item ns-pixel-popup-menu__item--active" href="#/ffxiv">
+                <a
+                  class="ns-pixel-popup-menu__item ns-pixel-popup-menu__item--active"
+                  href="#/ffxiv"
+                >
                   <span>FF14工具</span>
                   <span>OPEN</span>
                 </a>
@@ -156,7 +156,10 @@
           </div>
         </section>
 
-        <section class="ns-pixel-window ns-pixel-workbench" aria-label="Pixel soft workbench sample">
+        <section
+          class="ns-pixel-window ns-pixel-workbench"
+          aria-label="Pixel soft workbench sample"
+        >
           <div class="ns-pixel-window__bar">
             <span class="ns-pixel-window__title">
               <span class="ns-pixel-window__icon" aria-hidden="true"></span>
@@ -224,7 +227,7 @@
               <div class="ns-pixel-workbench__panel-title">检查器</div>
               <label class="ns-pixel-label">
                 标题
-                <input class="ns-pixel-input" type="text" value="占位用，待编辑">
+                <input class="ns-pixel-input" type="text" value="占位用，待编辑" />
               </label>
               <label class="ns-pixel-label">
                 语言
@@ -264,23 +267,17 @@
           </div>
 
           <div class="ns-pixel-toolbar" aria-label="Pixel toolbar sample">
-            <button class="ns-pixel-button ns-pixel-button--primary" type="button">
-              Save
-            </button>
-            <button class="ns-pixel-button" type="button">
-              Import
-            </button>
-            <button class="ns-pixel-button ns-pixel-button--blue" type="button">
-              Export
-            </button>
+            <button class="ns-pixel-button ns-pixel-button--primary" type="button">Save</button>
+            <button class="ns-pixel-button" type="button">Import</button>
+            <button class="ns-pixel-button ns-pixel-button--blue" type="button">Export</button>
           </div>
 
-          <hr class="ns-pixel-divider">
+          <hr class="ns-pixel-divider" />
 
           <div class="ns-pixel-form-grid">
             <label class="ns-pixel-label">
               Name
-              <input class="ns-pixel-input" type="text" value="Nightingale Silence">
+              <input class="ns-pixel-input" type="text" value="Nightingale Silence" />
             </label>
 
             <label class="ns-pixel-label">
@@ -301,31 +298,21 @@
             <p class="ns-pixel-card__text">
               工具卡样式样本，用来观察像素边框、标题密度和长文本换行。
             </p>
-            <button class="ns-pixel-button ns-pixel-button--primary" type="button">
-              Open
-            </button>
+            <button class="ns-pixel-button ns-pixel-button--primary" type="button">Open</button>
           </article>
 
           <article class="ns-pixel-card ns-pixel-card--blue">
             <span class="ns-pixel-badge">tool</span>
             <h2 class="ns-pixel-card__title">铭牌工房</h2>
-            <p class="ns-pixel-card__text">
-              蓝色表面样本，用来判断工具入口是否保持足够清爽。
-            </p>
-            <button class="ns-pixel-button ns-pixel-button--blue" type="button">
-              Open
-            </button>
+            <p class="ns-pixel-card__text">蓝色表面样本，用来判断工具入口是否保持足够清爽。</p>
+            <button class="ns-pixel-button ns-pixel-button--blue" type="button">Open</button>
           </article>
 
           <article class="ns-pixel-card">
             <span class="ns-pixel-badge ns-pixel-badge--green">status</span>
             <h2 class="ns-pixel-card__title">状态面板</h2>
-            <p class="ns-pixel-card__text">
-              状态标签、硬阴影和粉蓝配色的组合样本。
-            </p>
-            <button class="ns-pixel-button" type="button">
-              Details
-            </button>
+            <p class="ns-pixel-card__text">状态标签、硬阴影和粉蓝配色的组合样本。</p>
+            <button class="ns-pixel-button" type="button">Details</button>
           </article>
         </section>
       </div>
@@ -418,12 +405,8 @@
               <button class="ns-fantasy-button ns-fantasy-button--primary" type="button">
                 档案
               </button>
-              <button class="ns-fantasy-button" type="button">
-                装备
-              </button>
-              <button class="ns-fantasy-button" type="button">
-                故事
-              </button>
+              <button class="ns-fantasy-button" type="button">装备</button>
+              <button class="ns-fantasy-button" type="button">故事</button>
             </div>
           </div>
         </section>
