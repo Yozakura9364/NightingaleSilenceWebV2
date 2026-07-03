@@ -33,11 +33,12 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { textKeys } from '@/config/site'
 import {
+  renderNameplateToCanvas,
+  type NSPlateImageCache
+} from '@/lib/plate/canvasRenderer'
+import {
   NSPLATE_CANVAS_DIMENSIONS,
-  createNameplateRenderPlan,
-  getPlateLayerImageUrl,
-  type NSPlateNameplateRenderPlan,
-  type NSPlateRenderImageLayer
+  createNameplateRenderPlan
 } from '@/lib/plate/render'
 import type {
   NSPlateAssetSummary,
@@ -94,7 +95,7 @@ const frameStyle = computed(() => {
 const viewportRef = ref<HTMLDivElement | null>(null)
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const frameSize = ref({ width: 0, height: 0 })
-const imageCache = new Map<string, Promise<HTMLImageElement | null>>()
+const imageCache: NSPlateImageCache = new Map()
 let resizeObserver: ResizeObserver | null = null
 let renderSerial = 0
 
@@ -126,173 +127,11 @@ async function renderCanvas() {
   }
 
   const serial = ++renderSerial
-  const plan = renderPlan.value
-  const context = prepareCanvas(canvas, plan.dimensions.width, plan.dimensions.height)
 
-  if (!context) {
-    return
-  }
-
-  await renderNameplatePlan(context, plan, serial)
-}
-
-async function renderNameplatePlan(
-  context: CanvasRenderingContext2D,
-  plan: NSPlateNameplateRenderPlan,
-  serial: number
-) {
-  await drawLayers(context, plan.baseLayers, serial)
-
-  if (!isCurrentRender(serial)) {
-    return
-  }
-
-  const portraitCanvas = document.createElement('canvas')
-  const portraitContext = prepareCanvas(
-    portraitCanvas,
-    NSPLATE_CANVAS_DIMENSIONS.portrait.width,
-    NSPLATE_CANVAS_DIMENSIONS.portrait.height
-  )
-
-  if (portraitContext) {
-    await drawLayers(portraitContext, plan.portraitBaseLayers, serial)
-
-    if (!isCurrentRender(serial)) {
-      return
-    }
-
-    await drawCustomPortrait(portraitContext, plan.customPortrait, serial)
-
-    if (!isCurrentRender(serial)) {
-      return
-    }
-
-    await drawLayers(portraitContext, plan.portraitOverlayLayers, serial)
-
-    if (!isCurrentRender(serial)) {
-      return
-    }
-
-    context.drawImage(portraitCanvas, plan.portraitEmbed.x, plan.portraitEmbed.y)
-  }
-
-  await drawLayers(context, plan.overlayLayers.slice(0, 1), serial)
-
-  if (plan.portraitFrameLayer) {
-    await drawLayer(context, plan.portraitFrameLayer, serial)
-  }
-
-  await drawLayers(context, plan.overlayLayers.slice(1), serial)
-}
-
-async function drawLayers(
-  context: CanvasRenderingContext2D,
-  layers: NSPlateRenderImageLayer[],
-  serial: number
-) {
-  for (const layer of layers) {
-    await drawLayer(context, layer, serial)
-
-    if (!isCurrentRender(serial)) {
-      return
-    }
-  }
-}
-
-async function drawLayer(
-  context: CanvasRenderingContext2D,
-  layer: NSPlateRenderImageLayer,
-  serial: number
-) {
-  const source = getPlateLayerImageUrl(layer)
-
-  if (!source) {
-    return
-  }
-
-  const image = await loadImage(source)
-
-  if (!image || !isCurrentRender(serial)) {
-    return
-  }
-
-  const width = Math.round(image.naturalWidth * (layer.position.scale ?? 1))
-  const height = Math.round(image.naturalHeight * (layer.position.scale ?? 1))
-  const x =
-    layer.placement === 'center' && width <= context.canvas.width
-      ? (context.canvas.width - width) / 2
-      : layer.position.x
-  const y =
-    layer.placement === 'center' && height <= context.canvas.height
-      ? (context.canvas.height - height) / 2
-      : layer.position.y
-
-  context.drawImage(image, x, y, width, height)
-}
-
-async function drawCustomPortrait(
-  context: CanvasRenderingContext2D,
-  customPortrait: NSPlateCustomPortraitImage | null,
-  serial: number
-) {
-  if (!customPortrait) {
-    return
-  }
-
-  const image = await loadImage(customPortrait.dataUrl)
-
-  if (!image || !isCurrentRender(serial)) {
-    return
-  }
-
-  context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height)
-}
-
-function prepareCanvas(canvas: HTMLCanvasElement, width: number, height: number) {
-  canvas.width = width
-  canvas.height = height
-
-  const context = canvas.getContext('2d')
-
-  if (!context) {
-    return null
-  }
-
-  context.clearRect(0, 0, width, height)
-  context.imageSmoothingEnabled = false
-
-  return context
-}
-
-function loadImage(source: string) {
-  const cached = imageCache.get(source)
-
-  if (cached) {
-    return cached
-  }
-
-  const promise = new Promise<HTMLImageElement | null>((resolve) => {
-    const image = new Image()
-
-    image.crossOrigin = 'anonymous'
-    image.onload = () => {
-      const finish = () => resolve(image)
-
-      if (typeof image.decode === 'function') {
-        void image.decode().then(finish).catch(finish)
-      } else {
-        finish()
-      }
-    }
-    image.onerror = () => {
-      imageCache.delete(source)
-      resolve(null)
-    }
-    image.src = source
+  await renderNameplateToCanvas(canvas, renderPlan.value, {
+    imageCache,
+    isCurrent: () => isCurrentRender(serial)
   })
-
-  imageCache.set(source, promise)
-  return promise
 }
 
 function isCurrentRender(serial: number) {
