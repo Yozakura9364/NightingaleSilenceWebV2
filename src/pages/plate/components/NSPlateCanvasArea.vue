@@ -6,46 +6,28 @@
       </div>
     </div>
 
-    <footer class="nsplate-canvas-footer">
-      <div class="nsplate-canvas-status" role="toolbar" :aria-label="t(textKeys.nsplateCanvasAria)">
-        <button
-          class="nsplate-canvas-status__button"
-          type="button"
-          :disabled="!canClearCustomPortrait"
-          @click="emit('clear-custom-portrait')"
-        >
-          {{ t(textKeys.nsplateCustomPortraitClear) }}
-        </button>
-        <button
-          class="nsplate-canvas-status__button"
-          type="button"
-          :disabled="!canClearAll"
-          @click="emit('clear-all')"
-        >
-          {{ t(textKeys.nsplateClearAllSelections) }}
-        </button>
-      </div>
-    </footer>
+    <NSPlateCanvasActions
+      :can-clear-custom-portrait="canClearCustomPortrait"
+      :can-clear-all="canClearAll"
+      @clear-custom-portrait="emit('clear-custom-portrait')"
+      @clear-all="emit('clear-all')"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { textKeys } from '@/config/site'
-import {
-  renderNameplateToCanvas,
-  type NSPlateImageCache
-} from '@/lib/plate/canvasRenderer'
-import {
-  NSPLATE_CANVAS_DIMENSIONS,
-  createNameplateRenderPlan
-} from '@/lib/plate/render'
+import { renderNameplateToCanvas, type NSPlateImageCache } from '@/lib/plate/canvasRenderer'
+import { NSPLATE_CANVAS_DIMENSIONS, createNameplateRenderPlan } from '@/lib/plate/render'
 import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage
 } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
+import NSPlateCanvasActions from '@/pages/plate/components/NSPlateCanvasActions.vue'
+import { useNSPlateCanvasFrame } from '@/pages/plate/composables/useNSPlateCanvasFrame'
 
 const props = defineProps<{
   mode: NSPlateCanvasMode
@@ -81,34 +63,17 @@ const renderSignature = computed(() =>
       .join('|')
   ].join('::')
 )
-const frameStyle = computed(() => {
-  if (frameSize.value.width <= 0 || frameSize.value.height <= 0) {
-    return undefined
-  }
-
-  return {
-    width: `${frameSize.value.width}px`,
-    height: `${frameSize.value.height}px`
-  }
-})
-
-const viewportRef = ref<HTMLDivElement | null>(null)
 const canvasRef = ref<HTMLCanvasElement | null>(null)
-const frameSize = ref({ width: 0, height: 0 })
+const { viewportRef, frameStyle } = useNSPlateCanvasFrame(NSPLATE_CANVAS_DIMENSIONS.nameplate)
 const imageCache: NSPlateImageCache = new Map()
-let resizeObserver: ResizeObserver | null = null
 let renderSerial = 0
 
 onMounted(() => {
-  updateCanvasFrameSize()
-  observeCanvasViewport()
   void renderCanvas()
 })
 
 onBeforeUnmount(() => {
   renderSerial += 1
-  resizeObserver?.disconnect()
-  window.removeEventListener('resize', updateCanvasFrameSize)
 })
 
 watch(
@@ -136,46 +101,6 @@ async function renderCanvas() {
 
 function isCurrentRender(serial: number) {
   return serial === renderSerial
-}
-
-function observeCanvasViewport() {
-  if (!viewportRef.value) {
-    return
-  }
-
-  if (typeof ResizeObserver === 'undefined') {
-    window.addEventListener('resize', updateCanvasFrameSize)
-    return
-  }
-
-  resizeObserver = new ResizeObserver(updateCanvasFrameSize)
-  resizeObserver.observe(viewportRef.value)
-}
-
-function updateCanvasFrameSize() {
-  const viewport = viewportRef.value
-
-  if (!viewport) {
-    return
-  }
-
-  const viewportWidth = viewport.clientWidth
-  const viewportHeight = viewport.clientHeight
-
-  if (viewportWidth <= 0 || viewportHeight <= 0) {
-    return
-  }
-
-  const ratio =
-    NSPLATE_CANVAS_DIMENSIONS.nameplate.width / NSPLATE_CANVAS_DIMENSIONS.nameplate.height
-  const width = Math.floor(Math.min(viewportWidth, viewportHeight * ratio))
-  const height = Math.floor(width / ratio)
-
-  if (frameSize.value.width === width && frameSize.value.height === height) {
-    return
-  }
-
-  frameSize.value = { width, height }
 }
 </script>
 
@@ -245,56 +170,6 @@ function updateCanvasFrameSize() {
   image-rendering: auto;
 }
 
-.nsplate-canvas-footer {
-  display: flex;
-  flex: 0 0 auto;
-  justify-content: center;
-  padding-top: 10px;
-}
-
-.nsplate-canvas-status {
-  display: inline-flex;
-  flex: 0 0 auto;
-  gap: 0;
-  max-width: min(760px, calc(100% - 32px));
-  margin: 0;
-  padding: 0;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
-}
-
-.nsplate-canvas-status__button {
-  min-width: 0;
-  min-height: 36px;
-  padding: 0 18px;
-  overflow: hidden;
-  border: 0;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
-  font-size: 12px;
-  font-weight: 950;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.nsplate-canvas-status__button + .nsplate-canvas-status__button {
-  border-left: 2px solid var(--ns-pixel-border);
-}
-
-.nsplate-canvas-status__button:hover:not(:disabled) {
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-danger);
-}
-
-.nsplate-canvas-status__button:disabled {
-  opacity: 0.46;
-  cursor: not-allowed;
-}
-
 @media (max-width: 560px) {
   .nsplate-canvas-area {
     min-height: 46vh;
@@ -306,18 +181,6 @@ function updateCanvasFrameSize() {
 
   .nsplate-canvas-frame--nameplate {
     width: 100%;
-  }
-
-  .nsplate-canvas-status {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: min(260px, calc(100% - 24px));
-    max-width: none;
-  }
-
-  .nsplate-canvas-status__button + .nsplate-canvas-status__button {
-    border-top: 2px solid var(--ns-pixel-border);
-    border-left: 0;
   }
 }
 </style>

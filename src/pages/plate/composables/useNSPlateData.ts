@@ -18,7 +18,8 @@ import type {
   NSPlatePresetSummary,
   NSPlatePresetsResponse
 } from '@/lib/plate/types'
-import { normalizeFiles, normalizePresets, useNSPlateApi } from '@/pages/plate/services/nsplateApi'
+import { normalizeFiles, normalizePresets } from '@/pages/plate/services/nsplateAdapters'
+import { useNSPlateApi } from '@/pages/plate/services/nsplateApi'
 
 export function useNSPlateData(boundary: ApiBoundary) {
   const { current } = useLocale()
@@ -48,8 +49,7 @@ export function useNSPlateData(boundary: ApiBoundary) {
       banner:
         presets.value.find((preset) => preset.id === selectedPresetIdsByKind.value.banner) ?? null,
       charcard:
-        presets.value.find((preset) => preset.id === selectedPresetIdsByKind.value.charcard) ??
-        null
+        presets.value.find((preset) => preset.id === selectedPresetIdsByKind.value.charcard) ?? null
     })
   )
   const selectedAssets = computed<NSPlateAssetSummary[]>(() =>
@@ -96,14 +96,18 @@ export function useNSPlateData(boundary: ApiBoundary) {
     for (const group of groups) {
       const key = `${group.scope}:${group.category}`
       const selectedId = selectedAssetIdsByCategory.value[key]
-      nextSelection[key] = selectedId && group.assets.some((asset) => asset.id === selectedId) ? selectedId : null
+      nextSelection[key] =
+        selectedId && group.assets.some((asset) => asset.id === selectedId) ? selectedId : null
     }
 
     selectedAssetIdsByCategory.value = nextSelection
   }
 
   function toggleAsset(asset: NSPlateAssetSummary) {
-    selectedAssetIdsByCategory.value = toggleAssetInSelection(selectedAssetIdsByCategory.value, asset)
+    selectedAssetIdsByCategory.value = toggleAssetInSelection(
+      selectedAssetIdsByCategory.value,
+      asset
+    )
   }
 
   function applyPreset(preset: NSPlatePresetSummary) {
