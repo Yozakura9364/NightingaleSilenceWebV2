@@ -40,10 +40,8 @@
           {{ t(textKeys.placeholder) }}
         </p>
         <div class="home-actions">
-          <AppButton :to="siteRoutes.ffxiv" variant="primary">{{
-            t(textKeys.placeholder)
-          }}</AppButton>
-          <AppButton :to="siteRoutes.about">{{ t(textKeys.placeholder) }}</AppButton>
+          <AppButton :to="siteRoutes.ffxiv" variant="primary">{{ t(textKeys.ffxivWorkshop) }}</AppButton>
+          <AppButton :to="siteRoutes.silence">{{ t(textKeys.silence) }}</AppButton>
         </div>
       </div>
 
@@ -87,8 +85,17 @@
         </div>
 
         <div class="home-menu-card__body">
-          <AppButton :to="siteRoutes.ffxiv" variant="primary">{{ t(textKeys.ffxivWorkshop) }}</AppButton>
-          <AppButton :to="siteRoutes.about">{{ t(textKeys.about) }}</AppButton>
+          <AppButton
+            v-for="item in homeNavItems"
+            :key="item.id"
+            :to="item.route"
+            :variant="item.variant"
+          >
+            <span>{{ t(item.labelKey) }}</span>
+            <span v-if="item.commandKey" class="home-menu-card__command" aria-hidden="true">
+              {{ t(item.commandKey) }}
+            </span>
+          </AppButton>
           <div class="home-status-line">
             <span>{{ t(textKeys.statusWip) }}</span>
             <strong>{{ t(textKeys.placeholder) }}</strong>
@@ -507,6 +514,12 @@ const { t } = useLocale()
 
 :global(:root[data-theme='night'] .home-menu-card) :deep(.ns-button--primary) {
   background: color-mix(in srgb, var(--home-pixel-blue) 16%, var(--home-pixel-surface));
+}
+
+.home-menu-card__command {
+  color: var(--home-pixel-muted);
+  font-size: 10px;
+  font-weight: 950;
 }
 
 .home-status-line {

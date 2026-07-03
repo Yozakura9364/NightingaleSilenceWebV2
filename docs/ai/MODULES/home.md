@@ -21,6 +21,7 @@
 - 顶部 bar 放 `狒狒14工房`、`Silence` 和 `关于 | ABOUT`。
 - `狒狒14工房` 进入 `#/ffxiv` 分类导航页。
 - 后续可扩展其他分类；当前已确认 `ffxiv` 和 `silence` 两个公开分类入口，其中 `silence` 已接入双入口门厅。
+- 首页右下菜单与 `src/config/site.ts` 的 `homeNavItems` 保持一致，避免顶部导航和菜单入口分叉。
 
 视觉风格：
 
