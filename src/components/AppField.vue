@@ -97,7 +97,7 @@ const labelFor = computed(() => props.forId || undefined)
   font: inherit;
   font-family: var(--ns-font-sans);
   font-size: 14px;
-  box-shadow: 2px 2px 0 rgba(42, 33, 56, 0.12) inset;
+  box-shadow: var(--ns-control-inset-shadow);
 }
 
 .app-field__control :deep(textarea) {
@@ -118,9 +118,7 @@ const labelFor = computed(() => props.forId || undefined)
 .app-field__control :deep(select:focus),
 .app-field__control :deep(textarea:focus) {
   outline: 0;
-  box-shadow:
-    2px 2px 0 rgba(42, 33, 56, 0.12) inset,
-    var(--ns-focus-ring);
+  box-shadow: var(--ns-control-inset-shadow), var(--ns-focus-ring);
 }
 
 .app-field--invalid .app-field__control :deep(input:not([type='checkbox']):not([type='radio'])),

@@ -15,7 +15,7 @@
             :class="{ 'app-top-nav__menu-button--active': isMenuRoute }"
             type="button"
             :aria-expanded="menuOpen"
-            aria-haspopup="true"
+            aria-haspopup="menu"
             @click="toggleMenu"
             @keydown.esc="closeMenu"
           >
@@ -227,7 +227,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, type CSSProperties } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
 import { useRoute } from 'vue-router'
 import themeMoonIcon from '../../moon.svg'
 import themeSunIcon from '../../sun-alt.svg'
@@ -345,6 +345,8 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('pointerdown', handleDocumentPointerDown)
 })
+
+watch(() => route.fullPath, closePopovers)
 </script>
 
 <style scoped>
@@ -417,7 +419,7 @@ onBeforeUnmount(() => {
 
 .app-top-nav__menu-button,
 .app-top-nav__config-button {
-  width: 104px;
+  width: var(--ns-top-nav-control-width);
   justify-content: space-between;
 }
 
@@ -445,14 +447,14 @@ onBeforeUnmount(() => {
 
 .app-top-nav__window {
   position: absolute;
-  top: calc(100% + 12px);
+  top: calc(100% + var(--ns-top-nav-popup-gap));
   right: 0;
   z-index: 30;
-  width: min(460px, calc(100vw - 28px));
+  width: min(var(--ns-top-nav-menu-width), calc(100vw - 28px));
 }
 
 .app-top-nav__window--config {
-  width: min(320px, calc(100vw - 28px));
+  width: min(var(--ns-top-nav-config-width), calc(100vw - 28px));
 }
 
 .app-top-nav__launcher-tabs {

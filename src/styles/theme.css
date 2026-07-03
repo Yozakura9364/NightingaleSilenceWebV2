@@ -29,6 +29,7 @@
     --ns-color-accent: #ef6fb2;
     --ns-color-accent-strong: #d94d9d;
     --ns-color-accent-soft: #ffe1f1;
+    --ns-color-on-accent: #ffffff;
     --ns-color-cyan: #63d9dc;
     --ns-color-cyan-soft: #d9fbfb;
     --ns-color-warning: #f1a748;
@@ -36,8 +37,8 @@
     --ns-color-success: #39a887;
 
     --ns-font-sans: 'Inter', 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
-    --ns-font-decorative: 'NS Fusion Pixel Trial', 'Microsoft YaHei', 'PingFang SC', system-ui,
-      sans-serif;
+    --ns-font-decorative:
+      'NS Fusion Pixel Trial', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
     --ns-font-display: var(--ns-font-decorative);
     --ns-font-mono: 'Cascadia Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
 
@@ -59,12 +60,20 @@
     --ns-shadow-soft: 6px 6px 0 rgba(42, 33, 56, 0.12);
     --ns-shadow-panel: 4px 4px 0 rgba(42, 33, 56, 0.1);
     --ns-focus-ring: 0 0 0 3px rgba(99, 217, 220, 0.42);
+    --ns-control-inset-shadow: 2px 2px 0 rgba(42, 33, 56, 0.12) inset;
+    --ns-control-primary-text-shadow: 0 1px 0 rgba(35, 20, 42, 0.2);
 
     --ns-top-nav-bg:
       linear-gradient(90deg, rgba(255, 233, 246, 0.9), rgba(224, 249, 255, 0.92)),
       rgba(255, 255, 255, 0.88);
+    --ns-top-nav-control-width: 104px;
+    --ns-top-nav-popup-gap: 12px;
+    --ns-top-nav-menu-width: 460px;
+    --ns-top-nav-config-width: 320px;
     --ns-pixel-border: rgba(42, 33, 56, 0.9);
     --ns-pixel-border-soft: rgba(42, 33, 56, 0.36);
+    --ns-pixel-border-accent: rgba(239, 111, 178, 0.6);
+    --ns-pixel-border-cyan: rgba(99, 217, 220, 0.5);
     --ns-pixel-divider: rgba(42, 33, 56, 0.28);
     --ns-pixel-surface: rgba(255, 255, 255, 0.82);
     --ns-pixel-window-bg: rgba(255, 255, 255, 0.98);
@@ -81,6 +90,15 @@
     --ns-pixel-button-shadow-hover: 4px 4px 0 rgba(42, 33, 56, 0.18);
     --ns-pixel-soft-shadow: 2px 2px 0 rgba(42, 33, 56, 0.1);
     --ns-pixel-window-shadow: 6px 6px 0 rgba(42, 33, 56, 0.16);
+    --ns-status-info-border: rgba(99, 217, 220, 0.46);
+    --ns-status-info-bg: var(--ns-color-cyan-soft);
+    --ns-status-info-text: #237579;
+    --ns-status-success-border: rgba(57, 168, 135, 0.42);
+    --ns-status-success-bg: rgba(57, 168, 135, 0.12);
+    --ns-status-warning-border: rgba(241, 167, 72, 0.48);
+    --ns-status-warning-bg: rgba(241, 167, 72, 0.14);
+    --ns-status-danger-border: rgba(214, 79, 114, 0.52);
+    --ns-status-danger-bg: rgba(214, 79, 114, 0.12);
 
     --ns-home-background:
       linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),
@@ -135,6 +153,7 @@
     --ns-color-accent: #f080bd;
     --ns-color-accent-strong: #ffacd6;
     --ns-color-accent-soft: #332236;
+    --ns-color-on-accent: #fff8fd;
     --ns-color-cyan: #7fd9e3;
     --ns-color-cyan-soft: #173943;
     --ns-color-warning: #f2c86b;
@@ -144,11 +163,15 @@
     --ns-shadow-soft: 6px 6px 0 rgba(0, 0, 0, 0.28);
     --ns-shadow-panel: 4px 4px 0 rgba(0, 0, 0, 0.24);
     --ns-focus-ring: 0 0 0 3px rgba(127, 217, 227, 0.32);
+    --ns-control-inset-shadow: 2px 2px 0 rgba(0, 0, 0, 0.26) inset;
+    --ns-control-primary-text-shadow: 0 1px 0 rgba(0, 0, 0, 0.34);
 
     --ns-top-nav-bg:
       linear-gradient(90deg, rgba(49, 36, 67, 0.92), rgba(29, 61, 70, 0.88)), rgba(17, 20, 38, 0.94);
     --ns-pixel-border: rgba(245, 224, 246, 0.78);
     --ns-pixel-border-soft: rgba(180, 164, 194, 0.28);
+    --ns-pixel-border-accent: rgba(240, 128, 189, 0.56);
+    --ns-pixel-border-cyan: rgba(127, 217, 227, 0.5);
     --ns-pixel-divider: rgba(180, 164, 194, 0.26);
     --ns-pixel-surface: rgba(30, 34, 57, 0.88);
     --ns-pixel-window-bg: rgba(24, 28, 48, 0.98);
@@ -165,6 +188,15 @@
     --ns-pixel-button-shadow-hover: 4px 4px 0 rgba(0, 0, 0, 0.4);
     --ns-pixel-soft-shadow: 2px 2px 0 rgba(0, 0, 0, 0.22);
     --ns-pixel-window-shadow: 6px 6px 0 rgba(0, 0, 0, 0.34);
+    --ns-status-info-border: rgba(127, 217, 227, 0.38);
+    --ns-status-info-bg: var(--ns-color-cyan-soft);
+    --ns-status-info-text: #a9f1fa;
+    --ns-status-success-border: rgba(123, 216, 188, 0.36);
+    --ns-status-success-bg: rgba(123, 216, 188, 0.12);
+    --ns-status-warning-border: rgba(242, 200, 107, 0.42);
+    --ns-status-warning-bg: rgba(242, 200, 107, 0.13);
+    --ns-status-danger-border: rgba(244, 124, 161, 0.46);
+    --ns-status-danger-bg: rgba(244, 124, 161, 0.12);
 
     --ns-home-background:
       linear-gradient(

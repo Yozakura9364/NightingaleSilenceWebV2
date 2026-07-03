@@ -81,11 +81,21 @@ export const uiMessages: UiMessageMap = {
   'common.api': same('API'),
   'common.project': msg({ zh: '项目', en: 'Project', ja: 'プロジェクト', ko: '프로젝트' }),
   'common.port': msg({ zh: '端口', en: 'Port', ja: 'ポート', ko: '포트' }),
-  'common.health': msg({ zh: '健康检查', en: 'Health check', ja: 'ヘルスチェック', ko: '상태 확인' }),
+  'common.health': msg({
+    zh: '健康检查',
+    en: 'Health check',
+    ja: 'ヘルスチェック',
+    ko: '상태 확인'
+  }),
   'common.import': msg({ zh: '导入', en: 'Import', ja: 'インポート', ko: '가져오기' }),
   'common.export': msg({ zh: '导出', en: 'Export', ja: 'エクスポート', ko: '내보내기' }),
   'common.save': msg({ zh: '保存', en: 'Save', ja: '保存', ko: '저장' }),
-  'common.saveDraft': msg({ zh: '保存草稿', en: 'Save draft', ja: '下書きを保存', ko: '초안 저장' }),
+  'common.saveDraft': msg({
+    zh: '保存草稿',
+    en: 'Save draft',
+    ja: '下書きを保存',
+    ko: '초안 저장'
+  }),
   'common.open': msg({ zh: '打开', en: 'Open', ja: '開く', ko: '열기' }),
   'common.details': msg({ zh: '详情', en: 'Details', ja: '詳細', ko: '자세히' }),
   'common.status': msg({ zh: '状态', en: 'Status', ja: 'ステータス', ko: '상태' }),
@@ -319,8 +329,18 @@ export const uiMessages: UiMessageMap = {
     ko: '명패 장식 B'
   }),
 
-  'styleLab.pixelTone': msg({ zh: '像素色调', en: 'Pixel tone', ja: 'ピクセルトーン', ko: '픽셀 톤' }),
-  'styleLab.fontMode': msg({ zh: '字体模式', en: 'Font mode', ja: 'フォントモード', ko: '글꼴 모드' }),
+  'styleLab.pixelTone': msg({
+    zh: '像素色调',
+    en: 'Pixel tone',
+    ja: 'ピクセルトーン',
+    ko: '픽셀 톤'
+  }),
+  'styleLab.fontMode': msg({
+    zh: '字体模式',
+    en: 'Font mode',
+    ja: 'フォントモード',
+    ko: '글꼴 모드'
+  }),
   'styleLab.title': same('Pixel Soft'),
   'styleLab.sampleLead': same(placeholder),
   'styleLab.primary': same('Primary'),
@@ -368,7 +388,12 @@ export const uiMessages: UiMessageMap = {
     ja: 'FFXIVツール子項目',
     ko: 'FFXIV 도구 하위 항목'
   }),
-  'styleLab.ocChildren': msg({ zh: 'OC 子项', en: 'OC children', ja: 'OC子項目', ko: 'OC 하위 항목' }),
+  'styleLab.ocChildren': msg({
+    zh: 'OC 子项',
+    en: 'OC children',
+    ja: 'OC子項目',
+    ko: 'OC 하위 항목'
+  }),
   'styleLab.workbenchSample': msg({
     zh: '像素工作台样本',
     en: 'Pixel soft workbench sample',
@@ -423,19 +448,67 @@ export const uiMessages: UiMessageMap = {
     ja: '共通コンポーネントタブプレビュー',
     ko: '공통 컴포넌트 탭 미리보기'
   }),
+  'styleLab.formalComponents': msg({
+    zh: '正式公共组件基准',
+    en: 'Formal component baseline',
+    ja: '正式共通コンポーネント基準',
+    ko: '정식 공통 컴포넌트 기준'
+  }),
+  'styleLab.formalControls': msg({
+    zh: '公共控件基准',
+    en: 'Common control baseline',
+    ja: '共通コントロール基準',
+    ko: '공통 컨트롤 기준'
+  }),
+  'styleLab.formalStates': msg({
+    zh: '状态反馈基准',
+    en: 'Status feedback baseline',
+    ja: '状態フィードバック基準',
+    ko: '상태 피드백 기준'
+  }),
   'styleLab.toolCardSamples': msg({
     zh: '像素工具卡样本',
     en: 'Pixel tool card samples',
     ja: 'ピクセルツールカードサンプル',
     ko: '픽셀 도구 카드 샘플'
   }),
-  'styleLab.decorativePixels': msg({ zh: '装饰像素', en: 'Decorative pixels', ja: '装飾ピクセル', ko: '장식 픽셀' }),
-  'styleLab.allPixels': msg({ zh: '全部像素', en: 'All pixels', ja: '全ピクセル', ko: '전체 픽셀' }),
-  'styleLab.currentPixel': msg({ zh: '当前像素', en: 'Current pixel', ja: '現在のピクセル', ko: '현재 픽셀' }),
-  'styleLab.lightPixel': msg({ zh: '轻像素', en: 'Light pixel', ja: '軽いピクセル', ko: '가벼운 픽셀' }),
-  'styleLab.cyberNight': msg({ zh: '赛博夜色', en: 'Cyber night', ja: 'サイバーナイト', ko: '사이버 나이트' }),
+  'styleLab.decorativePixels': msg({
+    zh: '装饰像素',
+    en: 'Decorative pixels',
+    ja: '装飾ピクセル',
+    ko: '장식 픽셀'
+  }),
+  'styleLab.allPixels': msg({
+    zh: '全部像素',
+    en: 'All pixels',
+    ja: '全ピクセル',
+    ko: '전체 픽셀'
+  }),
+  'styleLab.currentPixel': msg({
+    zh: '当前像素',
+    en: 'Current pixel',
+    ja: '現在のピクセル',
+    ko: '현재 픽셀'
+  }),
+  'styleLab.lightPixel': msg({
+    zh: '轻像素',
+    en: 'Light pixel',
+    ja: '軽いピクセル',
+    ko: '가벼운 픽셀'
+  }),
+  'styleLab.cyberNight': msg({
+    zh: '赛博夜色',
+    en: 'Cyber night',
+    ja: 'サイバーナイト',
+    ko: '사이버 나이트'
+  }),
   'styleLab.tools': msg({ zh: '工具', en: 'Tools', ja: 'ツール', ko: '도구' }),
-  'styleLab.equipmentPanel': msg({ zh: '装备栏', en: 'Equipment panel', ja: '装備欄', ko: '장비 패널' }),
+  'styleLab.equipmentPanel': msg({
+    zh: '装备栏',
+    en: 'Equipment panel',
+    ja: '装備欄',
+    ko: '장비 패널'
+  }),
   'styleLab.template': msg({ zh: '模板', en: 'Template', ja: 'テンプレート', ko: '템플릿' }),
   'styleLab.assets': msg({ zh: '素材', en: 'Assets', ja: '素材', ko: '소재' }),
   'styleLab.layers': msg({ zh: '图层', en: 'Layers', ja: 'レイヤー', ko: '레이어' }),
@@ -449,7 +522,12 @@ export const uiMessages: UiMessageMap = {
   'styleLab.name': msg({ zh: '名称', en: 'Name', ja: '名前', ko: '이름' }),
   'styleLab.module': msg({ zh: '模块', en: 'Module', ja: 'モジュール', ko: '모듈' }),
   'styleLab.toolBadge': msg({ zh: '工具', en: 'tool', ja: 'tool', ko: 'tool' }),
-  'styleLab.statusPanel': msg({ zh: '状态面板', en: 'Status panel', ja: 'ステータスパネル', ko: '상태 패널' }),
+  'styleLab.statusPanel': msg({
+    zh: '状态面板',
+    en: 'Status panel',
+    ja: 'ステータスパネル',
+    ko: '상태 패널'
+  }),
   'styleLab.appField': same('AppField'),
   'styleLab.appToolbar': same('AppToolbar'),
   'styleLab.appStatus': same('AppStatus'),

@@ -111,8 +111,8 @@ const resolvedAriaLive = computed(
 }
 
 .app-status--info {
-  border-color: rgba(99, 217, 220, 0.46);
-  background: var(--ns-color-cyan-soft);
+  border-color: var(--ns-status-info-border);
+  background: var(--ns-status-info-bg);
 }
 
 .app-status--info .app-status__mark {
@@ -120,8 +120,8 @@ const resolvedAriaLive = computed(
 }
 
 .app-status--success {
-  border-color: rgba(57, 168, 135, 0.42);
-  background: rgba(57, 168, 135, 0.12);
+  border-color: var(--ns-status-success-border);
+  background: var(--ns-status-success-bg);
 }
 
 .app-status--success .app-status__mark {
@@ -129,8 +129,8 @@ const resolvedAriaLive = computed(
 }
 
 .app-status--warning {
-  border-color: rgba(241, 167, 72, 0.48);
-  background: rgba(241, 167, 72, 0.14);
+  border-color: var(--ns-status-warning-border);
+  background: var(--ns-status-warning-bg);
 }
 
 .app-status--warning .app-status__mark {
@@ -138,8 +138,8 @@ const resolvedAriaLive = computed(
 }
 
 .app-status--danger {
-  border-color: rgba(214, 79, 114, 0.52);
-  background: rgba(214, 79, 114, 0.12);
+  border-color: var(--ns-status-danger-border);
+  background: var(--ns-status-danger-bg);
 }
 
 .app-status--danger .app-status__mark {
