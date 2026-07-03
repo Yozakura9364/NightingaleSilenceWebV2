@@ -220,6 +220,36 @@ export const uiMessages: UiMessageMap = {
     ja: 'コンテナ分布',
     ko: '컨테이너 분포'
   }),
+  'nsarmoire.panel.insights': msg({
+    zh: '分析',
+    en: 'Analysis',
+    ja: '分析',
+    ko: '분석'
+  }),
+  'nsarmoire.panel.cabinetProgress': msg({
+    zh: '收藏柜进度',
+    en: 'Armoire progress',
+    ja: '愛蔵品キャビネット進捗',
+    ko: '애장품 보관함 진행'
+  }),
+  'nsarmoire.panel.glamourSetProgress': msg({
+    zh: '套装投影',
+    en: 'Glamour sets',
+    ja: 'ミラージュセット',
+    ko: '투영 세트'
+  }),
+  'nsarmoire.panel.dyeRisk': msg({
+    zh: '染色风险',
+    en: 'Dye risk',
+    ja: '染色リスク',
+    ko: '염색 위험'
+  }),
+  'nsarmoire.panel.identicalModels': msg({
+    zh: '同模型重复',
+    en: 'Duplicate models',
+    ja: '同一モデル重複',
+    ko: '동일 모델 중복'
+  }),
   'nsarmoire.action.importSnapshot': msg({
     zh: '导入 snapshot',
     en: 'Import snapshot',
@@ -334,6 +364,18 @@ export const uiMessages: UiMessageMap = {
     ja: 'dyesが無効です',
     ko: 'dyes가 잘못되었습니다'
   }),
+  'nsarmoire.status.catalogPending': msg({
+    zh: '等待 catalog',
+    en: 'Waiting for catalog',
+    ja: 'catalog待機中',
+    ko: 'catalog 대기 중'
+  }),
+  'nsarmoire.status.noDyeRisk': msg({
+    zh: '未发现染色条目',
+    en: 'No dyed entries found',
+    ja: '染色済み項目はありません',
+    ko: '염색 항목 없음'
+  }),
   'nsarmoire.metric.entries': msg({ zh: '条目', en: 'Entries', ja: '項目', ko: '항목' }),
   'nsarmoire.metric.uniqueItems': msg({
     zh: '不同物品',
@@ -365,6 +407,60 @@ export const uiMessages: UiMessageMap = {
     ja: '愛蔵品キャビネット項目',
     ko: '애장품 보관함 항목'
   }),
+  'nsarmoire.metric.stored': msg({
+    zh: '已收纳',
+    en: 'Stored',
+    ja: '収納済み',
+    ko: '보관됨'
+  }),
+  'nsarmoire.metric.storable': msg({
+    zh: '可收纳',
+    en: 'Storable',
+    ja: '収納可能',
+    ko: '보관 가능'
+  }),
+  'nsarmoire.metric.transferable': msg({
+    zh: '可转入',
+    en: 'Transferable',
+    ja: '移動候補',
+    ko: '이동 후보'
+  }),
+  'nsarmoire.metric.missing': msg({
+    zh: '缺少',
+    en: 'Missing',
+    ja: '不足',
+    ko: '누락'
+  }),
+  'nsarmoire.metric.storedSets': msg({
+    zh: '已套装化',
+    en: 'Stored sets',
+    ja: 'セット収納済み',
+    ko: '세트 보관됨'
+  }),
+  'nsarmoire.metric.availableSets': msg({
+    zh: '可套装化',
+    en: 'Available sets',
+    ja: 'セット候補',
+    ko: '세트 후보'
+  }),
+  'nsarmoire.metric.incompleteSets': msg({
+    zh: '残缺套装',
+    en: 'Incomplete sets',
+    ja: '不足セット',
+    ko: '불완전 세트'
+  }),
+  'nsarmoire.metric.highRisk': msg({
+    zh: '高风险',
+    en: 'High risk',
+    ja: '高リスク',
+    ko: '고위험'
+  }),
+  'nsarmoire.metric.duplicateGroups': msg({
+    zh: '重复组',
+    en: 'Duplicate groups',
+    ja: '重複グループ',
+    ko: '중복 그룹'
+  }),
   'nsarmoire.field.generatedAt': msg({
     zh: '生成时间',
     en: 'Generated at',
@@ -378,6 +474,8 @@ export const uiMessages: UiMessageMap = {
     ja: 'キャラクター',
     ko: '캐릭터'
   }),
+  'nsarmoire.field.itemId': msg({ zh: '物品 ID', en: 'Item ID', ja: 'アイテムID', ko: '아이템 ID' }),
+  'nsarmoire.field.dyes': msg({ zh: '染剂', en: 'Dyes', ja: '染料', ko: '염료' }),
   'nsarmoire.container.inventory': msg({ zh: '背包', en: 'Inventory', ja: '所持品', ko: '소지품' }),
   'nsarmoire.container.saddlebag': msg({
     zh: '陆行鸟鞍囊',

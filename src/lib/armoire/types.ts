@@ -1,4 +1,5 @@
 export const ARMOIRE_SNAPSHOT_SCHEMA_VERSION = 'nsarmoire.snapshot.v1' as const
+export const ARMOIRE_CATALOG_SCHEMA_VERSION = 'nsarmoire.catalog.v1' as const
 
 export const ARMOIRE_CONTAINER_KINDS = [
   'inventory',
@@ -43,6 +44,44 @@ export interface ArmoireOwnedIndex {
   entries: ArmoireOwnedItem[]
 }
 
+export type ArmoireModelTuple = [number, number, number, number]
+
+export interface ArmoireCatalogItem {
+  itemId: number
+  name?: string
+  itemUiCategoryId?: number
+  equipSlotCategoryId?: number
+  isGlamourous?: boolean
+  isCabinetStorable?: boolean
+  isGlamourSetContainer?: boolean
+  pieceItemIds?: number[]
+  mainModel?: ArmoireModelTuple
+  subModel?: ArmoireModelTuple
+  modelKey?: string
+  dyeSlotCount?: number
+}
+
+export interface ArmoireGlamourSet {
+  setItemId: number
+  setName?: string
+  pieceItemIds: number[]
+}
+
+export interface ArmoireIdenticalGroup {
+  key: string
+  itemIds: number[]
+}
+
+export interface ArmoireCatalog {
+  schemaVersion: typeof ARMOIRE_CATALOG_SCHEMA_VERSION
+  generatedAt: string
+  gameVersion?: string
+  items: Record<number, ArmoireCatalogItem>
+  cabinetItemIds: number[]
+  glamourSetItems: ArmoireGlamourSet[]
+  identicalGroups: ArmoireIdenticalGroup[]
+}
+
 export interface ArmoireContainerDistributionEntry {
   key: string
   container: ArmoireContainerKind
@@ -61,4 +100,68 @@ export interface ArmoireBasicAnalysis {
   glamourDresserEntryCount: number
   armoireEntryCount: number
   distribution: ArmoireContainerDistributionEntry[]
+}
+
+export type ArmoireCatalogAnalysisStatus = 'ready' | 'missingCatalog'
+
+export interface ArmoireCabinetProgress {
+  status: ArmoireCatalogAnalysisStatus
+  storedCount: number
+  storableCount: number
+  transferableItemIds: number[]
+  missingCabinetItemIds: number[]
+}
+
+export interface ArmoireGlamourSetState {
+  setItemId: number
+  setName?: string
+  isStoredAsSet: boolean
+  pieceItemIds: number[]
+  storedPieceItemIds: number[]
+  missingPieceItemIds: number[]
+}
+
+export interface ArmoireGlamourSetProgress {
+  status: ArmoireCatalogAnalysisStatus
+  storedSetCount: number
+  availableSetCount: number
+  incompleteStoredSetCount: number
+  sets: ArmoireGlamourSetState[]
+}
+
+export type ArmoireRiskLevel = 'warning' | 'danger'
+
+export interface ArmoireDyeRiskItem {
+  itemId: number
+  container: ArmoireContainerKind
+  containerName?: string
+  dyeIds: [number, number]
+  dyedSlotCount: number
+  riskLevel: ArmoireRiskLevel
+}
+
+export interface ArmoireDyeRiskAnalysis {
+  riskItemCount: number
+  highRiskItemCount: number
+  items: ArmoireDyeRiskItem[]
+}
+
+export interface ArmoireIdenticalModelGroupState {
+  key: string
+  ownedItemIds: number[]
+  ownedEntryCount: number
+}
+
+export interface ArmoireIdenticalModelAnalysis {
+  status: ArmoireCatalogAnalysisStatus
+  duplicateGroupCount: number
+  groups: ArmoireIdenticalModelGroupState[]
+}
+
+export interface ArmoireSnapshotAnalysis {
+  basic: ArmoireBasicAnalysis
+  cabinetProgress: ArmoireCabinetProgress
+  glamourSetProgress: ArmoireGlamourSetProgress
+  dyeRisk: ArmoireDyeRiskAnalysis
+  identicalModels: ArmoireIdenticalModelAnalysis
 }

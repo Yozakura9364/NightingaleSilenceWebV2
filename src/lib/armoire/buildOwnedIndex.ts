@@ -30,3 +30,19 @@ export function buildOwnedIndex(snapshot: ArmoireSnapshot): ArmoireOwnedIndex {
     entries: snapshot.items
   }
 }
+
+export function hasOwnedItem(index: ArmoireOwnedIndex, itemId: number): boolean {
+  return index.itemIds.has(itemId)
+}
+
+export function hasOwnedItemInContainer(
+  index: ArmoireOwnedIndex,
+  itemId: number,
+  container: ArmoireOwnedItem['container']
+): boolean {
+  return Boolean(index.byItemId.get(itemId)?.some((item) => item.container === container))
+}
+
+export function getOwnedItems(index: ArmoireOwnedIndex, itemId: number): ArmoireOwnedItem[] {
+  return index.byItemId.get(itemId) ?? []
+}

@@ -10,15 +10,19 @@
         @clear="clearSnapshot"
       />
 
-      <NSArmoireOverview :analysis="analysis" />
+      <div class="nsarmoire-workspace__main">
+        <NSArmoireOverview :analysis="analysis?.basic ?? null" />
+        <NSArmoireInsightPanel :analysis="analysis" />
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { analyzeArmoireBasics } from '@/lib/armoire/analyzeContainerDistribution'
+import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
+import NSArmoireInsightPanel from '@/pages/armoire/components/NSArmoireInsightPanel.vue'
 import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
 import NSArmoireOverview from '@/pages/armoire/components/NSArmoireOverview.vue'
 
@@ -31,7 +35,7 @@ const {
   clearSnapshot
 } = useArmoireSnapshot()
 
-const analysis = computed(() => (snapshot.value ? analyzeArmoireBasics(snapshot.value) : null))
+const analysis = computed(() => (snapshot.value ? analyzeArmoireSnapshot(snapshot.value) : null))
 </script>
 
 <style scoped>
@@ -51,6 +55,12 @@ const analysis = computed(() => (snapshot.value ? analyzeArmoireBasics(snapshot.
   width: 100%;
   min-width: 0;
   padding: 14px;
+}
+
+.nsarmoire-workspace__main {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
 }
 
 @media (max-width: 980px) {
