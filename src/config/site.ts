@@ -203,7 +203,8 @@ export const textKeys = {
   styleLabStatusPanel: 'styleLab.statusPanel',
   styleLabAppField: 'styleLab.appField',
   styleLabAppToolbar: 'styleLab.appToolbar',
-  styleLabAppStatus: 'styleLab.appStatus'
+  styleLabAppStatus: 'styleLab.appStatus',
+  styleLabSkinName: 'styleLab.skinName'
 } as const
 
 export const placeholderCopyKey = textKeys.placeholder

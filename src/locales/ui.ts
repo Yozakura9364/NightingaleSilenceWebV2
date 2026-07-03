@@ -452,5 +452,6 @@ export const uiMessages: UiMessageMap = {
   'styleLab.statusPanel': msg({ zh: '状态面板', en: 'Status panel', ja: 'ステータスパネル', ko: '상태 패널' }),
   'styleLab.appField': same('AppField'),
   'styleLab.appToolbar': same('AppToolbar'),
-  'styleLab.appStatus': same('AppStatus')
+  'styleLab.appStatus': same('AppStatus'),
+  'styleLab.skinName': same('pixel-soft-lite')
 }

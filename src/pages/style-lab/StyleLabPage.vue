@@ -171,7 +171,9 @@
             <button class="ns-pixel-button ns-pixel-button--blue" type="button">
               {{ t(textKeys.export) }}
             </button>
-            <span class="ns-pixel-workbench__hint">pixel-soft-lite / {{ t(textKeys.placeholder) }}</span>
+            <span class="ns-pixel-workbench__hint">
+              {{ t(textKeys.styleLabSkinName) }} / {{ t(textKeys.placeholder) }}
+            </span>
           </div>
 
           <div class="ns-pixel-workbench__grid">
