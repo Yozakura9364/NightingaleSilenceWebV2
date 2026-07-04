@@ -141,7 +141,11 @@ function normalizeOwnedItem(value: unknown, index: number): ArmoireOwnedItem {
     spiritbond: normalizeOptionalInteger(value.spiritbond, `items[${index}].spiritbond`),
     container: normalizeContainer(value.container, `items[${index}].container`),
     containerName: normalizeText(value.containerName, 120),
-    slotIndex: normalizeOptionalInteger(value.slotIndex, `items[${index}].slotIndex`)
+    slotIndex: normalizeOptionalInteger(value.slotIndex, `items[${index}].slotIndex`),
+    inventoryType: normalizeOptionalInteger(value.inventoryType, `items[${index}].inventoryType`),
+    retainerId: normalizeText(value.retainerId, 32),
+    retainerName: normalizeText(value.retainerName, 80),
+    cabinetId: normalizeOptionalInteger(value.cabinetId, `items[${index}].cabinetId`)
   }
 }
 
@@ -176,12 +180,13 @@ function normalizeCharacter(value: unknown): ArmoireSnapshot['character'] {
   }
 
   const character = {
+    id: normalizeText(value.id, 32),
     name: normalizeText(value.name, 80),
     world: normalizeText(value.world, 80),
     dataCenter: normalizeText(value.dataCenter, 80)
   }
 
-  return character.name || character.world || character.dataCenter ? character : undefined
+  return character.id || character.name || character.world || character.dataCenter ? character : undefined
 }
 
 function isAsvelDresserItem(value: unknown): value is Record<string, unknown> {

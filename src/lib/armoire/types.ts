@@ -24,6 +24,10 @@ export interface ArmoireOwnedItem {
   container: ArmoireContainerKind
   containerName?: string
   slotIndex?: number
+  inventoryType?: number
+  retainerId?: string
+  retainerName?: string
+  cabinetId?: number
 }
 
 export interface ArmoireSnapshot {
@@ -31,6 +35,7 @@ export interface ArmoireSnapshot {
   source: ArmoireSnapshotSource
   generatedAt: string
   character?: {
+    id?: string
     name?: string
     world?: string
     dataCenter?: string
@@ -68,6 +73,11 @@ export interface ArmoireGlamourSet {
   pieceItemIds: number[]
 }
 
+export interface ArmoireCabinetEntry {
+  cabinetId: number
+  itemId: number
+}
+
 export interface ArmoireIdenticalGroup {
   key: string
   itemIds: number[]
@@ -87,6 +97,7 @@ export interface ArmoireCatalog {
   gameVersion?: string
   items: Record<number, ArmoireCatalogItem>
   cabinetItemIds: number[]
+  cabinetEntries?: ArmoireCabinetEntry[]
   glamourSetItems: ArmoireGlamourSet[]
   identicalGroups: ArmoireIdenticalGroup[]
   dyes: Record<number, ArmoireDye>
