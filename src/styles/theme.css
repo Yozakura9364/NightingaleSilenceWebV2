@@ -108,6 +108,17 @@
     --ns-pixel-button-shadow-hover: 4px 4px 0 rgba(42, 33, 56, 0.18);
     --ns-pixel-soft-shadow: 2px 2px 0 rgba(42, 33, 56, 0.1);
     --ns-pixel-window-shadow: 6px 6px 0 rgba(42, 33, 56, 0.16);
+    --ns-notebook-ink: #141414;
+    --ns-notebook-muted: #655f6f;
+    --ns-notebook-line: rgba(0, 0, 0, 0.58);
+    --ns-notebook-paper: #fffdf7;
+    --ns-notebook-fold: #ece7f1;
+    --ns-notebook-fold-shadow: rgba(70, 60, 84, 0.18);
+    --ns-notebook-border: #000000;
+    --ns-notebook-cutout: var(--ns-pixel-window-bg);
+    --ns-notebook-mark-bg: var(--ns-notebook-paper);
+    --ns-notebook-accent: var(--ns-color-accent);
+    --ns-notebook-shadow: 4px 4px 0 rgba(0, 0, 0, 0.18);
     --ns-status-info-border: rgba(99, 217, 220, 0.46);
     --ns-status-info-bg: var(--ns-color-cyan-soft);
     --ns-status-info-text: #237579;
@@ -213,6 +224,19 @@
     --ns-pixel-button-shadow-hover: 4px 4px 0 rgba(0, 0, 0, 0.4);
     --ns-pixel-soft-shadow: 2px 2px 0 rgba(0, 0, 0, 0.22);
     --ns-pixel-window-shadow: 6px 6px 0 rgba(0, 0, 0, 0.34);
+    --ns-notebook-ink: #f0eefc;
+    --ns-notebook-muted: #8f98b8;
+    --ns-notebook-line: rgba(102, 244, 255, 0.48);
+    --ns-notebook-paper: #10141f;
+    --ns-notebook-fold: #252034;
+    --ns-notebook-fold-shadow: rgba(0, 0, 0, 0.38);
+    --ns-notebook-border: #000000;
+    --ns-notebook-cutout: var(--ns-pixel-window-bg);
+    --ns-notebook-mark-bg: rgba(17, 22, 34, 0.96);
+    --ns-notebook-accent: var(--ns-color-cyan);
+    --ns-notebook-shadow:
+      4px 4px 0 rgba(0, 0, 0, 0.64), inset 0 0 0 1px rgba(102, 244, 255, 0.18),
+      0 0 26px rgba(102, 244, 255, 0.18);
     --ns-status-info-border: rgba(127, 217, 227, 0.38);
     --ns-status-info-bg: var(--ns-color-cyan-soft);
     --ns-status-info-text: #a9f1fa;
