@@ -12,17 +12,28 @@
       />
 
       <div class="nsarmoire-workspace__main">
+        <NSArmoireCatalogStatus
+          :catalog="catalog"
+          :status="catalogStatus"
+          :error="catalogError"
+          @reload="loadCatalog"
+        />
         <NSArmoireOverview :analysis="analysis?.basic ?? null" />
-        <NSArmoireInsightPanel :analysis="analysis" :catalog="catalog" :snapshot="snapshot" />
+        <NSArmoireInsightPanel
+          :analysis="analysis"
+          :catalog="catalog"
+          :snapshot="snapshot"
+          :has-pending-catalog-checks="hasPendingCatalogChecks"
+        />
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
+import NSArmoireCatalogStatus from '@/pages/armoire/components/NSArmoireCatalogStatus.vue'
 import { useArmoireCatalog } from '@/pages/armoire/composables/useArmoireCatalog'
+import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
 import NSArmoireInsightPanel from '@/pages/armoire/components/NSArmoireInsightPanel.vue'
 import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
@@ -38,11 +49,14 @@ const {
   clearSnapshot
 } = useArmoireSnapshot()
 
-const { catalog } = useArmoireCatalog()
+const {
+  catalog,
+  status: catalogStatus,
+  error: catalogError,
+  loadCatalog
+} = useArmoireCatalog()
 
-const analysis = computed(() =>
-  snapshot.value ? analyzeArmoireSnapshot(snapshot.value, catalog.value) : null
-)
+const { analysis, hasPendingCatalogChecks } = useArmoireAnalysis(snapshot, catalog)
 </script>
 
 <style scoped>

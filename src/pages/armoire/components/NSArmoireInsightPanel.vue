@@ -134,6 +134,7 @@ const props = defineProps<{
   analysis: ArmoireSnapshotAnalysis | null
   catalog: ArmoireCatalog
   snapshot: ArmoireSnapshot | null
+  hasPendingCatalogChecks?: boolean
 }>()
 
 const { t } = useLocale()

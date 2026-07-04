@@ -84,7 +84,8 @@ export function getArmoireContainerLabel(
 export function buildArmoireActionHints(
   analysis: ArmoireSnapshotAnalysis,
   t: Translate,
-  text: ArmoireActionHintText
+  text: ArmoireActionHintText,
+  hasPendingCatalogChecks = false
 ): ArmoireActionHintView[] {
   const hints: ArmoireActionHintView[] = []
 
@@ -134,6 +135,14 @@ export function buildArmoireActionHints(
       key: 'dyes',
       title: t(textKeys.nsarmoireRecommendationDyes),
       message: text.dyeSummary
+    })
+  }
+
+  if (hasPendingCatalogChecks) {
+    hints.push({
+      key: 'catalog-pending',
+      title: t(textKeys.nsarmoireHintCatalogPendingTitle),
+      message: t(textKeys.nsarmoireHintCatalogPendingMessage)
     })
   }
 

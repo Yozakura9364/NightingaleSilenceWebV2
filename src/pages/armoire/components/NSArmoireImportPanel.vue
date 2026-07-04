@@ -161,6 +161,28 @@ function handleFileChange(event: Event) {
   min-width: 0;
 }
 
+.nsarmoire-import-panel__status {
+  flex-wrap: wrap;
+}
+
+.nsarmoire-import-panel__status :deep(.app-status__content) {
+  flex: 1 1 0;
+}
+
+.nsarmoire-import-panel__status :deep(.app-status__actions) {
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+  min-width: 0;
+  margin-left: 0;
+}
+
+.nsarmoire-import-panel__status :deep(.ns-button) {
+  flex: 1 1 100%;
+  min-width: 0;
+  justify-content: center;
+  white-space: normal;
+}
+
 .nsarmoire-snapshot-meta {
   display: grid;
   gap: 8px;
@@ -191,30 +213,9 @@ function handleFileChange(event: Event) {
 }
 
 @media (max-width: 640px) {
-  .nsarmoire-import-panel__status {
-    flex-wrap: wrap;
-  }
-
-  .nsarmoire-import-panel__status :deep(.app-status__content) {
-    flex: 1 1 0;
-  }
-
   .nsarmoire-import-panel__status :deep(.app-status__title) {
     overflow-wrap: anywhere;
     white-space: normal;
-  }
-
-  .nsarmoire-import-panel__status :deep(.app-status__actions) {
-    flex: 1 1 100%;
-    flex-wrap: wrap;
-    min-width: 0;
-    margin-left: 0;
-  }
-
-  .nsarmoire-import-panel__status :deep(.ns-button) {
-    flex: 1 1 150px;
-    min-width: 0;
-    justify-content: center;
   }
 
   .nsarmoire-snapshot-meta div {

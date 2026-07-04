@@ -437,6 +437,18 @@ export const uiMessages: UiMessageMap = {
     ja: '今回のデータでは、キャビネット、セット、重複アイテム、同一モデル、染色リスクのヒントはありません。',
     ko: '현재 가져온 데이터에서는 보관함, 세트, 중복 아이템, 동일 모델, 염색 위험 힌트가 없습니다.'
   }),
+  'nsarmoire.hint.catalogPending.title': msg({
+    zh: draft('部分检查等待静态数据'),
+    en: 'Some checks are waiting for catalog data',
+    ja: '一部の確認はcatalogデータ待ちです',
+    ko: '일부 확인은 catalog 데이터를 기다립니다'
+  }),
+  'nsarmoire.hint.catalogPending.message': msg({
+    zh: draft('收藏柜、套装和同模型判断需要静态 catalog；加载完成前，这些项目不会给出正式结论。'),
+    en: 'Armoire, set, and duplicate-model checks need the static catalog. They will not report final results until it is loaded.',
+    ja: 'キャビネット、セット、同一モデルの確認には静的catalogが必要です。読み込み完了まで正式な結果は出しません。',
+    ko: '보관함, 세트, 동일 모델 확인에는 정적 catalog가 필요합니다. 로드되기 전에는 최종 결과를 표시하지 않습니다.'
+  }),
   'nsarmoire.hint.moreItems': msg({
     zh: draft('{items} 等 {count} 件'),
     en: '{items}, and {count} total',
@@ -599,17 +611,59 @@ export const uiMessages: UiMessageMap = {
     ja: 'dyesが無効です',
     ko: 'dyes가 잘못되었습니다'
   }),
+  'nsarmoire.status.catalogStatus': msg({
+    zh: draft('静态 catalog'),
+    en: 'Static catalog',
+    ja: '静的catalog',
+    ko: '정적 catalog'
+  }),
   'nsarmoire.status.catalogPending': msg({
     zh: draft('等待 catalog'),
     en: 'Waiting for catalog',
     ja: 'catalog待機中',
     ko: 'catalog 대기 중'
   }),
+  'nsarmoire.status.catalogLoading': msg({
+    zh: draft('正在读取静态 catalog，收藏柜、套装和同模型检查会等它加载完成。'),
+    en: 'Loading the static catalog. Armoire, set, and duplicate-model checks will wait for it.',
+    ja: '静的catalogを読み込み中です。キャビネット、セット、同一モデルの確認は読み込みを待ちます。',
+    ko: '정적 catalog를 읽는 중입니다. 보관함, 세트, 동일 모델 확인은 로드를 기다립니다.'
+  }),
+  'nsarmoire.status.catalogReady': msg({
+    zh: draft('已读取 {items} 件物品、{cabinet} 个收藏柜项、{sets} 个套装项、{models} 组同模型和 {dyes} 个染剂。'),
+    en: 'Loaded {items} items, {cabinet} armoire entries, {sets} set entries, {models} model groups, and {dyes} dyes.',
+    ja: '{items} アイテム、{cabinet} キャビネット項目、{sets} セット項目、{models} モデルグループ、{dyes} 染料を読み込みました。',
+    ko: '{items}개 아이템, {cabinet}개 보관함 항목, {sets}개 세트 항목, {models}개 모델 그룹, {dyes}개 염료를 읽었습니다.'
+  }),
+  'nsarmoire.status.catalogEmpty': msg({
+    zh: draft('静态 catalog 已读取，但没有可用于分析的数据；相关检查会继续保持等待状态。'),
+    en: 'The static catalog loaded, but no analysis data was found. Related checks will keep waiting.',
+    ja: '静的catalogは読み込まれましたが、分析データがありません。関連する確認は待機状態のままです。',
+    ko: '정적 catalog는 로드되었지만 분석 데이터가 없습니다. 관련 확인은 계속 대기합니다.'
+  }),
+  'nsarmoire.status.catalogError': msg({
+    zh: draft('静态 catalog 读取失败；收藏柜、套装和同模型检查暂时不会给出正式结论。'),
+    en: 'The static catalog failed to load. Armoire, set, and duplicate-model checks will not report final results yet.',
+    ja: '静的catalogの読み込みに失敗しました。キャビネット、セット、同一モデルの確認はまだ正式な結果を出しません。',
+    ko: '정적 catalog 로드에 실패했습니다. 보관함, 세트, 동일 모델 확인은 아직 최종 결과를 표시하지 않습니다.'
+  }),
+  'nsarmoire.status.catalogErrorWithDetail': msg({
+    zh: draft('静态 catalog 读取失败：{error}。收藏柜、套装和同模型检查暂时不会给出正式结论。'),
+    en: 'The static catalog failed to load: {error}. Armoire, set, and duplicate-model checks will not report final results yet.',
+    ja: '静的catalogの読み込みに失敗しました: {error}。キャビネット、セット、同一モデルの確認はまだ正式な結果を出しません。',
+    ko: '정적 catalog 로드에 실패했습니다: {error}. 보관함, 세트, 동일 모델 확인은 아직 최종 결과를 표시하지 않습니다.'
+  }),
   'nsarmoire.status.noDyeRisk': msg({
     zh: draft('未发现染色条目'),
     en: 'No dyed entries found',
     ja: '染色済み項目はありません',
     ko: '염색 항목 없음'
+  }),
+  'nsarmoire.action.reloadCatalog': msg({
+    zh: draft('重新读取 catalog'),
+    en: 'Reload catalog',
+    ja: 'catalogを再読み込み',
+    ko: 'catalog 다시 읽기'
   }),
   'nsarmoire.metric.entries': msg({ zh: draft('条目'), en: 'Entries', ja: '項目', ko: '항목' }),
   'nsarmoire.metric.uniqueItems': msg({
@@ -695,6 +749,36 @@ export const uiMessages: UiMessageMap = {
     en: 'Duplicate groups',
     ja: '重複グループ',
     ko: '중복 그룹'
+  }),
+  'nsarmoire.metric.catalogItems': msg({
+    zh: draft('物品目录'),
+    en: 'Item catalog',
+    ja: 'アイテムカタログ',
+    ko: '아이템 catalog'
+  }),
+  'nsarmoire.metric.catalogCabinetItems': msg({
+    zh: draft('收藏柜目录'),
+    en: 'Armoire catalog',
+    ja: 'キャビネットカタログ',
+    ko: '보관함 catalog'
+  }),
+  'nsarmoire.metric.catalogSets': msg({
+    zh: draft('套装目录'),
+    en: 'Set catalog',
+    ja: 'セットカタログ',
+    ko: '세트 catalog'
+  }),
+  'nsarmoire.metric.catalogModelGroups': msg({
+    zh: draft('同模型目录'),
+    en: 'Model groups',
+    ja: '同一モデルカタログ',
+    ko: '동일 모델 catalog'
+  }),
+  'nsarmoire.metric.catalogDyes': msg({
+    zh: draft('染剂目录'),
+    en: 'Dye catalog',
+    ja: '染料カタログ',
+    ko: '염료 catalog'
   }),
   'nsarmoire.field.generatedAt': msg({
     zh: draft('生成时间'),

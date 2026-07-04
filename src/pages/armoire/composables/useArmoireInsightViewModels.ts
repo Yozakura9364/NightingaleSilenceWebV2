@@ -17,6 +17,7 @@ interface InsightSource {
   analysis: ArmoireSnapshotAnalysis | null
   catalog: ArmoireCatalog
   snapshot: ArmoireSnapshot | null
+  hasPendingCatalogChecks?: boolean
 }
 
 export function useArmoireInsightViewModels(source: InsightSource, t: Translate) {
@@ -217,13 +218,18 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
       return []
     }
 
-    return buildArmoireActionHints(source.analysis, t, {
-      cabinetSummary: cabinetSummary.value,
-      glamourSetSummary: glamourSetSummary.value,
-      duplicateItemSummary: duplicateItemSummary.value,
-      duplicateSummary: duplicateSummary.value,
-      dyeSummary: dyeSummary.value
-    })
+    return buildArmoireActionHints(
+      source.analysis,
+      t,
+      {
+        cabinetSummary: cabinetSummary.value,
+        glamourSetSummary: glamourSetSummary.value,
+        duplicateItemSummary: duplicateItemSummary.value,
+        duplicateSummary: duplicateSummary.value,
+        dyeSummary: dyeSummary.value
+      },
+      source.hasPendingCatalogChecks === true
+    )
   })
 
   return {
