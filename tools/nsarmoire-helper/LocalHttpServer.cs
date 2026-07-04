@@ -94,6 +94,9 @@ internal sealed class LocalHttpServer
                 case "/processes" when context.Request.HttpMethod == "GET":
                     await WriteJson(context, snapshotService.GetProcesses());
                     break;
+                case "/probe" when context.Request.HttpMethod == "GET":
+                    await WriteJson(context, snapshotService.GetProbe());
+                    break;
                 case "/process/select" when context.Request.HttpMethod == "POST":
                     var request = await ReadJsonBody<ProcessSelectRequest>(context);
                     if (request is null || request.Pid <= 0)
