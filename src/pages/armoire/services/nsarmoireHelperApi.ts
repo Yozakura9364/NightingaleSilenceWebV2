@@ -17,6 +17,8 @@ export interface ArmoireHelperHealth {
   gameProcessFound: boolean
   dresserLocated: boolean
   dresserLoaded: boolean
+  catalogLocated?: boolean
+  catalogCabinetEntryCount?: number
   supportedContainers: string[]
   selectedPid?: number | null
   gameProcessCount?: number

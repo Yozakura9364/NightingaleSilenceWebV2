@@ -35,7 +35,7 @@ http://127.0.0.1:8015
 
 | Method | Path | Purpose |
 | ------ | ---- | ------- |
-| `GET` | `/health` | Helper status and supported containers. |
+| `GET` | `/health` | Helper status, catalog status, and supported containers. |
 | `GET` | `/processes` | List selectable `ffxiv_dx11` processes. |
 | `POST` | `/process/select` | Select a target process with `{ "pid": number }`. |
 | `GET` | `/probe` | Probe readable character, container, cabinet, and retainer state. |

@@ -287,6 +287,8 @@ internal sealed class SnapshotService : IDisposable
             CharacterWorld: characterResult?.WorldName,
             DresserLocated: reader is not null,
             DresserLoaded: reader?.Loaded ?? false,
+            CatalogLocated: catalogLookup.HasSource,
+            CatalogCabinetEntryCount: catalogLookup.CabinetEntryCount,
             CabinetLocated: cabinetReader is not null,
             CabinetLoaded: SafeReadCabinet()?.Loaded ?? false,
             InventoryLocated: inventoryReader is not null,

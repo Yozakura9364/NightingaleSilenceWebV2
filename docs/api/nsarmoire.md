@@ -157,7 +157,7 @@ source: 'asvel-compatible'
 container: 'glamourDresser'
 ```
 
-## 本地 helper v0.4.2
+## 本地 helper v0.4.3
 
 第一版 helper 位于：
 
@@ -181,7 +181,7 @@ http://127.0.0.1:8015
 
 | 接口 | 用途 |
 |------|------|
-| `GET /health` | 返回 helper 版本、游戏进程状态、投影台/收藏柜/背包/雇员读取状态和当前支持的容器。 |
+| `GET /health` | 返回 helper 版本、游戏进程状态、catalog 定位状态、投影台/收藏柜/背包/雇员读取状态和当前支持的容器。 |
 | `GET /processes` | 返回当前可选择的 `ffxiv_dx11` 进程列表，包含 PID、窗口标题、可读状态和当前选中标记。 |
 | `POST /process/select` | 使用 `{ "pid": number }` 选择要读取的游戏进程，并重置投影台读取器。 |
 | `GET /probe` | 实验性读取能力探针，返回投影台、收藏柜、背包、兵装库、鞍囊、当前加载雇员容器、雇员缓存和 0-10 个雇员身份槽的定位、加载状态、容器大小和计数。 |
@@ -195,6 +195,7 @@ http://127.0.0.1:8015
 - 角色身份通过 `PlayerState` 读取角色名，并通过 `LocalPlayer.HomeWorld` 读取服务器 RowId；snapshot 当前写入 `character.name` 和 `character.world`，暂不写入角色 ID。
 - 服务器 RowId 到名称的转换使用当前公开服务器白名单；关闭服、内部测试服、临时服或尚未确认的独立 RowId 会在 `/probe.character` 中保留 `worldId` 并标记 `world_unknown`，不会写入 snapshot 的 `character.world`。
 - `glamourDresser` 仍沿用投影台签名读取。
+- `/health.catalogLocated` 表示 helper 是否找到了 `armoire-catalog.json`；`catalogCabinetEntryCount` 表示当前 catalog 中可用于收藏柜 bitset 映射的条目数。
 - `inventory`、`armoury`、`saddlebag`、`retainer` 通过 `InventoryManager.Instance` 的签名定位，再扫描 `InventoryContainer` 表读取。
 - 雇员身份通过 `RetainerManager.Instance` 读取，最多 10 个槽位；当前已能取得雇员名、雇员 ID、职业、等级、仓库占用数、上架数和当前选中状态。
 - `InventoryManager` 中的 `10000-10006` 是当前加载雇员仓库的 7 个 25 格内存块，总计 175 格；游戏 UI 展示为 5 页，每页 35 格。helper snapshot 不直接外显内部块，而是按全局 slot 重排为 `雇员名 背包 1-5`。
