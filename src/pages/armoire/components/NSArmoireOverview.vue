@@ -1,7 +1,7 @@
 <template>
   <section class="nsarmoire-panel">
     <div class="nsarmoire-panel__header">
-      <h2>{{ t(textKeys.nsarmoireOverview) }}</h2>
+      <h2>{{ t(titleKey) }}</h2>
     </div>
 
     <AppStatus
@@ -56,9 +56,11 @@ import type {
 
 const props = defineProps<{
   analysis: ArmoireBasicAnalysis | null
+  titleKey?: string
 }>()
 
 const { t } = useLocale()
+const titleKey = computed(() => props.titleKey ?? textKeys.nsarmoireOverview)
 
 const containerLabelKeys: Record<ArmoireContainerKind, string> = {
   inventory: textKeys.nsarmoireContainerInventory,

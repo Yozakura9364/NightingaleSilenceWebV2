@@ -44,12 +44,15 @@ internal sealed record GameProcessInfo(
     string ProcessName,
     string DisplayName,
     string? WindowTitle,
+    string? StartedAt,
     bool IsSelected,
     bool IsReadable,
     string Status,
     string StatusMessage);
 
 internal sealed record ProcessSelectRequest(int Pid);
+
+internal sealed record OpenV2Result(string Url);
 
 internal sealed record ProcessSnapshot(int Id, IntPtr MainModuleBaseAddress, string? ExecutablePath);
 

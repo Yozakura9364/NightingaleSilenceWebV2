@@ -70,6 +70,10 @@
                 <dd>{{ process.windowTitle || t(textKeys.nsarmoireProcessNoWindowTitle) }}</dd>
               </div>
               <div>
+                <dt>{{ t(textKeys.nsarmoireProcessStartedAt) }}</dt>
+                <dd>{{ formatStartedAt(process.startedAt) }}</dd>
+              </div>
+              <div>
                 <dt>{{ t(textKeys.nsarmoireProcessStatus) }}</dt>
                 <dd>
                   {{
@@ -118,6 +122,26 @@ defineEmits<{
 }>()
 
 const { t } = useLocale()
+
+function formatStartedAt(value?: string | null): string {
+  if (!value) {
+    return t(textKeys.nsarmoireProcessNoStartedAt)
+  }
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return t(textKeys.nsarmoireProcessNoStartedAt)
+  }
+
+  return new Intl.DateTimeFormat(undefined, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  }).format(date)
+}
 </script>
 
 <style scoped>

@@ -292,7 +292,7 @@ export const uiMessages: UiMessageMap = {
     ko: '분석'
   }),
   'nsarmoire.panel.catalogGrid': msg({
-    zh: draft('图鉴'),
+    zh: '图鉴',
     en: 'Catalog',
     ja: 'カタログ',
     ko: '도감'
@@ -333,14 +333,38 @@ export const uiMessages: UiMessageMap = {
     ja: '処理ヒント',
     ko: '처리 힌트'
   }),
+  'nsarmoire.section.actions': msg({
+    zh: '整理建议',
+    en: 'Cleanup suggestions',
+    ja: '整理提案',
+    ko: '정리 제안'
+  }),
+  'nsarmoire.section.storage': msg({
+    zh: '衣服在哪',
+    en: 'Where gear is',
+    ja: '装備の場所',
+    ko: '장비 위치'
+  }),
+  'nsarmoire.section.reference': msg({
+    zh: '核对资料',
+    en: 'Reference',
+    ja: '確認資料',
+    ko: '확인 자료'
+  }),
+  'nsarmoire.section.catalogData': msg({
+    zh: '静态数据',
+    en: 'Static data',
+    ja: '静的データ',
+    ko: '정적 데이터'
+  }),
   'nsarmoire.recommendation.cabinet': msg({
-    zh: draft('可转入收藏柜'),
+    zh: '可转入收藏柜',
     en: 'Move to armoire',
     ja: '愛蔵品キャビネットへ',
     ko: '애장품 보관함으로'
   }),
   'nsarmoire.recommendation.sets': msg({
-    zh: draft('残缺套装'),
+    zh: '残缺套装',
     en: 'Incomplete sets',
     ja: '不足セット',
     ko: '불완전 세트'
@@ -352,13 +376,13 @@ export const uiMessages: UiMessageMap = {
     ko: '중복 아이템 확인'
   }),
   'nsarmoire.recommendation.duplicates': msg({
-    zh: draft('同模型可精简'),
+    zh: '同模型多余',
     en: 'Duplicate model cleanup',
     ja: '同一モデル整理',
     ko: '동일 모델 정리'
   }),
   'nsarmoire.recommendation.dyes': msg({
-    zh: draft('染色先确认'),
+    zh: '已染色可收纳物品（高风险）',
     en: 'Check dyes first',
     ja: '染色を先に確認',
     ko: '염색 먼저 확인'
@@ -378,9 +402,7 @@ export const uiMessages: UiMessageMap = {
     ko: '투영대에 {dresser}개, 애장품 보관함에 {armoire}개가 있습니다. 아래 제안은 컨테이너별로 판단합니다.'
   }),
   'nsarmoire.summary.dyeWarning': msg({
-    zh: draft(
-      '有 {count} 条已经染色；收藏柜和套装幻影化篓子会清除染色，其他收纳系统暂按保留处理。'
-    ),
+    zh: '有 {count} 条已经染色；收藏柜和套装幻影化篓子会清除染色，其他收纳系统暂按保留处理。',
     en: '{count} entries are dyed. Armoire storage and glamour-set baskets clear dyes; other storage is treated as preserving dyes.',
     ja: '{count} 件が染色済みです。愛蔵品キャビネットとセット収納は染色を消しますが、他の収納は保持として扱います。',
     ko: '{count}개 항목이 염색되어 있습니다. 애장품 보관함과 세트 보관은 염색을 지우며, 다른 보관은 유지로 봅니다.'
@@ -417,15 +439,15 @@ export const uiMessages: UiMessageMap = {
   }),
   'nsarmoire.hint.duplicateItems.summary': msg({
     zh: draft('发现 {count} 种物品有多条记录，可以确认是否真的都要保留：{items}。'),
-    en: '{count} item IDs appear more than once. Check whether all copies should be kept: {items}.',
-    ja: '{count} 種のアイテムIDが複数あります。すべて残すか確認: {items}。',
-    ko: '{count}종 아이템 ID가 여러 번 있습니다. 모두 보관할지 확인: {items}.'
+    en: '{count} items appear more than once. Check whether all copies should be kept: {items}.',
+    ja: '{count} 種のアイテムが複数あります。すべて残すか確認: {items}。',
+    ko: '{count}종 아이템이 여러 번 있습니다. 모두 보관할지 확인: {items}.'
   }),
   'nsarmoire.hint.duplicateItems.none': msg({
-    zh: draft('当前没有发现同一物品 ID 的多条记录。'),
-    en: 'No item ID appears in multiple entries right now.',
-    ja: '同じアイテムIDの複数記録はありません。',
-    ko: '같은 아이템 ID의 여러 항목은 없습니다.'
+    zh: draft('当前没有发现同一种物品的多条记录。'),
+    en: 'No item appears in multiple entries right now.',
+    ja: '同じアイテムの複数記録はありません。',
+    ko: '같은 아이템의 여러 항목은 없습니다.'
   }),
   'nsarmoire.hint.duplicates.summary': msg({
     zh: draft('发现 {count} 组同模型重复，可以考虑只保留更想保留的一件：{items}。'),
@@ -440,13 +462,13 @@ export const uiMessages: UiMessageMap = {
     ko: '동일 모델 중복 장비가 없습니다.'
   }),
   'nsarmoire.hint.dyes.summary': msg({
-    zh: draft('有 {count} 件染色物品进入收藏柜或套装幻影化篓子时会清除染色，先看：{items}。'),
+    zh: '有 {count} 件染色物品进入收藏柜或套装幻影化篓子时会清除染色，先看：{items}。',
     en: '{count} dyed items would lose dyes in armoire storage or glamour-set baskets. Check: {items}.',
     ja: '{count} 件の染色済みアイテムはキャビネットまたはセット収納で染色が消えます。確認: {items}。',
     ko: '{count}개 염색 아이템은 보관함이나 세트 보관에 넣으면 염색이 지워집니다. 확인: {items}.'
   }),
   'nsarmoire.hint.dyes.preserved': msg({
-    zh: draft('有 {count} 件带染色，但当前命中的收纳位置不会清除染色：{items}。'),
+    zh: '有 {count} 件带染色，但当前命中的收纳位置不会清除染色：{items}。',
     en: '{count} items are dyed, but the matched storage positions do not clear dyes: {items}.',
     ja: '{count} 件が染色済みですが、現在命中した収納位置では染色は消えません: {items}。',
     ko: '{count}개 항목이 염색되어 있지만 현재 감지된 보관 위치에서는 염색이 지워지지 않습니다: {items}.'
@@ -476,46 +498,52 @@ export const uiMessages: UiMessageMap = {
     ko: '보관함, 세트, 동일 모델 확인에는 정적 catalog가 필요합니다. 로드되기 전에는 최종 결과를 표시하지 않습니다.'
   }),
   'nsarmoire.hint.moreItems': msg({
-    zh: draft('{items} 等 {count} 件'),
+    zh: '{items} 等 {count} 件',
     en: '{items}, and {count} total',
     ja: '{items} など合計 {count} 件',
     ko: '{items} 등 총 {count}개'
   }),
   'nsarmoire.hint.missingPieces': msg({
-    zh: draft('缺少：{items}'),
+    zh: '缺少：{items}',
     en: 'Missing: {items}',
     ja: '不足: {items}',
     ko: '누락: {items}'
   }),
   'nsarmoire.hint.ownedEntries': msg({
-    zh: draft('当前拥有 {count} 条'),
+    zh: '当前拥有{count}件',
     en: '{count} owned entries',
     ja: '所持記録 {count} 件',
     ko: '보유 항목 {count}개'
   }),
   'nsarmoire.hint.currentLocation': msg({
-    zh: draft('当前在：{locations}'),
+    zh: '当前在：{locations}',
     en: 'Currently in: {locations}',
     ja: '現在位置: {locations}',
     ko: '현재 위치: {locations}'
   }),
   'nsarmoire.hint.namedLocations': msg({
-    zh: draft('{item}：{locations}'),
+    zh: '{item}：{locations}',
     en: '{item}: {locations}',
     ja: '{item}: {locations}',
     ko: '{item}: {locations}'
   }),
   'nsarmoire.action.expandList': msg({
-    zh: draft('展开全部'),
-    en: 'Show all',
-    ja: 'すべて表示',
-    ko: '모두 보기'
+    zh: '展开',
+    en: 'Expand',
+    ja: '展開',
+    ko: '펼치기'
   }),
   'nsarmoire.action.collapseList': msg({
-    zh: draft('收起列表'),
-    en: 'Collapse list',
-    ja: 'リストを閉じる',
-    ko: '목록 접기'
+    zh: '收起',
+    en: 'Collapse',
+    ja: '閉じる',
+    ko: '접기'
+  }),
+  'nsarmoire.action.loadMoreList': msg({
+    zh: '继续显示 {count} 条',
+    en: 'Show {count} more',
+    ja: 'さらに {count} 件表示',
+    ko: '{count}개 더 보기'
   }),
   'nsarmoire.action.loadExampleSnapshot': msg({
     zh: draft('载入示例'),
@@ -554,43 +582,43 @@ export const uiMessages: UiMessageMap = {
     ko: '도감 필터'
   }),
   'nsarmoire.catalog.filter.all': msg({
-    zh: draft('全部'),
+    zh: '全部',
     en: 'All',
     ja: 'すべて',
     ko: '전체'
   }),
   'nsarmoire.catalog.filter.cabinet': msg({
-    zh: draft('可转收藏柜'),
+    zh: '可转收藏柜',
     en: 'Armoire candidates',
     ja: 'キャビネット候補',
     ko: '보관함 후보'
   }),
   'nsarmoire.catalog.filter.duplicateItems': msg({
-    zh: draft('重复物品'),
+    zh: '重复物品',
     en: 'Duplicate items',
     ja: '重複アイテム',
     ko: '중복 아이템'
   }),
   'nsarmoire.catalog.filter.duplicateModels': msg({
-    zh: draft('同模型'),
+    zh: '同模型',
     en: 'Duplicate models',
     ja: '同一モデル',
     ko: '동일 모델'
   }),
   'nsarmoire.catalog.filter.dyed': msg({
-    zh: draft('已染色'),
-    en: 'Dyed',
+    zh: '染色高风险',
+    en: 'Dye risk',
     ja: '染色済み',
     ko: '염색됨'
   }),
   'nsarmoire.catalog.filter.glamourDresser': msg({
-    zh: draft('投影台'),
+    zh: '投影台',
     en: 'Glamour dresser',
     ja: 'ミラージュドレッサー',
     ko: '투영대'
   }),
   'nsarmoire.catalog.filter.armoire': msg({
-    zh: draft('收藏柜'),
+    zh: '收藏柜',
     en: 'Armoire',
     ja: '愛蔵品キャビネット',
     ko: '애장품 보관함'
@@ -602,10 +630,10 @@ export const uiMessages: UiMessageMap = {
     ko: '아이템 검색'
   }),
   'nsarmoire.catalog.search.placeholder': msg({
-    zh: draft('输入物品名、ID、容器或标签'),
-    en: 'Name, ID, container, or tag',
-    ja: '名前、ID、コンテナ、タグ',
-    ko: '이름, ID, 컨테이너, 태그'
+    zh: draft('输入物品名、容器或标签'),
+    en: 'Name, container, or tag',
+    ja: '名前、コンテナ、タグ',
+    ko: '이름, 컨테이너, 태그'
   }),
   'nsarmoire.catalog.sort.label': msg({
     zh: draft('排序'),
@@ -638,40 +666,40 @@ export const uiMessages: UiMessageMap = {
     ko: '아이템 ID순'
   }),
   'nsarmoire.catalog.metric.label': msg({
-    zh: draft('图鉴当前结果'),
+    zh: '图鉴当前结果',
     en: 'Current catalog result',
     ja: '現在のカタログ結果',
     ko: '현재 도감 결과'
   }),
   'nsarmoire.catalog.metric.visible': msg({
-    zh: draft('当前结果'),
+    zh: '当前结果',
     en: 'Visible',
     ja: '表示中',
     ko: '표시 중'
   }),
   'nsarmoire.catalog.metric.actionItems': msg({
-    zh: draft('处理项'),
+    zh: '处理项',
     en: 'Action items',
     ja: '処理項目',
     ko: '처리 항목'
   }),
   'nsarmoire.catalog.metric.dyed': msg({
-    zh: draft('带染色'),
-    en: 'Dyed',
+    zh: '染色高风险',
+    en: 'Dye risk',
     ja: '染色あり',
     ko: '염색 있음'
   }),
   'nsarmoire.catalog.metric.duplicates': msg({
-    zh: draft('重复相关'),
+    zh: '重复相关',
     en: 'Duplicates',
     ja: '重複関連',
     ko: '중복 관련'
   }),
   'nsarmoire.catalog.grid.summary': msg({
-    zh: draft('当前显示 {shown} / {total} 条导入记录。'),
-    en: 'Showing {shown} of {total} imported entries.',
-    ja: 'インポート記録 {total} 件中 {shown} 件を表示しています。',
-    ko: '가져온 항목 {total}개 중 {shown}개를 표시합니다.'
+    zh: '当前筛选 {shown} / {total} 件物品。',
+    en: '{shown} of {total} items match.',
+    ja: '{total} 件中 {shown} 件が一致しています。',
+    ko: '아이템 {total}개 중 {shown}개가 일치합니다.'
   }),
   'nsarmoire.catalog.grid.empty': msg({
     zh: draft('当前筛选下没有物品。'),
@@ -680,13 +708,13 @@ export const uiMessages: UiMessageMap = {
     ko: '현재 필터에 맞는 아이템이 없습니다.'
   }),
   'nsarmoire.catalog.quantity': msg({
-    zh: draft('数量 {count}'),
+    zh: '数量 {count}',
     en: 'Qty {count}',
     ja: '数量 {count}',
     ko: '수량 {count}'
   }),
   'nsarmoire.catalog.dye.none': msg({
-    zh: draft('未染色'),
+    zh: '未染色',
     en: 'No dye',
     ja: '未染色',
     ko: '염색 없음'
@@ -702,6 +730,12 @@ export const uiMessages: UiMessageMap = {
     en: 'This breaks the current import into rule checks, matching data, fields, and conclusions.',
     ja: '現在のインポートをルール、命中データ、使用フィールド、結論に分けて表示します。',
     ko: '현재 가져온 데이터를 규칙, 일치 데이터, 사용 필드, 결론으로 나누어 표시합니다.'
+  }),
+  'nsarmoire.validation.technicalBadge': msg({
+    zh: draft('技术核对'),
+    en: 'Technical check',
+    ja: '技術確認',
+    ko: '기술 확인'
   }),
   'nsarmoire.validation.status.triggered': msg({
     zh: draft('已触发'),
@@ -782,7 +816,7 @@ export const uiMessages: UiMessageMap = {
     ko: '염료'
   }),
   'nsarmoire.validation.evidence.dyeReset': msg({
-    zh: draft('清染色判定'),
+    zh: '清染色判定',
     en: 'Dye reset check',
     ja: '染色消去判定',
     ko: '염색 삭제 판정'
@@ -868,9 +902,7 @@ export const uiMessages: UiMessageMap = {
     ko: 'Cabinet.csv에 itemId {itemId}가 포함되어 있습니다.'
   }),
   'nsarmoire.validation.dyes.rule': msg({
-    zh: draft(
-      'snapshot 的 dyes 字段记录当前染色；只有收藏柜和套装幻影化篓子会清除染色，其他收纳系统不会。'
-    ),
+    zh: 'snapshot 的 dyes 字段记录当前染色；只有收藏柜和套装幻影化篓子会清除染色，其他收纳系统不会。',
     en: 'snapshot.dyes records current dyes. Only armoire storage and glamour-set baskets clear dyes; other storage does not.',
     ja: 'snapshotのdyesは現在の染色を記録します。染色を消すのはキャビネットとセット収納だけで、他の収納は消しません。',
     ko: 'snapshot.dyes는 현재 염색을 기록합니다. 염색을 지우는 것은 보관함과 세트 보관뿐이며 다른 보관은 지우지 않습니다.'
@@ -894,19 +926,19 @@ export const uiMessages: UiMessageMap = {
     ko: '염색 슬롯 {slots}개가 감지되었습니다.'
   }),
   'nsarmoire.dyeReset.cabinet': msg({
-    zh: draft('收藏柜会清除染色'),
+    zh: '收藏柜会清除染色',
     en: 'Armoire storage clears dyes',
     ja: 'キャビネット収納は染色を消します',
     ko: '보관함 보관은 염색을 지웁니다'
   }),
   'nsarmoire.dyeReset.glamourSetBasket': msg({
-    zh: draft('套装幻影化篓子会清除染色'),
+    zh: '套装幻影化篓子会清除染色',
     en: 'Glamour-set baskets clear dyes',
     ja: 'セット収納は染色を消します',
     ko: '세트 보관은 염색을 지웁니다'
   }),
   'nsarmoire.dyeReset.preservedStorage': msg({
-    zh: draft('当前收纳系统不清除染色'),
+    zh: '当前收纳系统不清除染色',
     en: 'Current storage does not clear dyes',
     ja: '現在の収納は染色を消しません',
     ko: '현재 보관은 염색을 지우지 않습니다'
@@ -1189,6 +1221,12 @@ export const uiMessages: UiMessageMap = {
     ja: 'ウィンドウタイトル',
     ko: '창 제목'
   }),
+  'nsarmoire.process.field.startedAt': msg({
+    zh: draft('启动时间'),
+    en: 'Started at',
+    ja: '起動時刻',
+    ko: '시작 시간'
+  }),
   'nsarmoire.process.field.status': msg({
     zh: draft('状态'),
     en: 'Status',
@@ -1200,6 +1238,12 @@ export const uiMessages: UiMessageMap = {
     en: 'No window title',
     ja: 'ウィンドウタイトルなし',
     ko: '창 제목 없음'
+  }),
+  'nsarmoire.process.empty.startedAt': msg({
+    zh: draft('无法读取启动时间'),
+    en: 'Start time unavailable',
+    ja: '起動時刻を読み取れません',
+    ko: '시작 시간을 읽을 수 없음'
   }),
   'nsarmoire.process.empty.processes': msg({
     zh: draft('当前没有找到可选择的 ffxiv_dx11 进程。'),
@@ -1376,6 +1420,12 @@ export const uiMessages: UiMessageMap = {
     en: 'Item ID',
     ja: 'アイテムID',
     ko: '아이템 ID'
+  }),
+  'nsarmoire.field.unknownItem': msg({
+    zh: draft('未识别物品'),
+    en: 'Unknown item',
+    ja: '未識別アイテム',
+    ko: '알 수 없는 아이템'
   }),
   'nsarmoire.field.dyes': msg({ zh: draft('染剂'), en: 'Dyes', ja: '染料', ko: '염료' }),
   'nsarmoire.container.inventory': msg({ zh: '背包', en: 'Inventory', ja: '所持品', ko: '소지품' }),

@@ -26,6 +26,7 @@ export interface ArmoireHelperProcess {
   processName: string
   displayName: string
   windowTitle?: string | null
+  startedAt?: string | null
   isSelected: boolean
   isReadable: boolean
   status: string

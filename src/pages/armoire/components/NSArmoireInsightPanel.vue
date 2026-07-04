@@ -1,9 +1,5 @@
 <template>
-  <section class="nsarmoire-panel">
-    <div class="nsarmoire-panel__header">
-      <h2>{{ t(textKeys.nsarmoireInsights) }}</h2>
-    </div>
-
+  <section class="nsarmoire-insight-panel">
     <AppStatus
       v-if="!analysis"
       tone="info"
@@ -12,19 +8,9 @@
     />
 
     <div v-else class="nsarmoire-insight-stack">
-      <NSArmoireActionCard :title="t(textKeys.nsarmoireActionHints)" primary>
-        <ul class="nsarmoire-hint-list">
-          <li v-for="hint in actionHints" :key="hint.key">
-            <strong>{{ hint.title }}</strong>
-            <span>{{ hint.message }}</span>
-          </li>
-        </ul>
-      </NSArmoireActionCard>
-
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationCabinet)"
         :count="cabinetCount"
-        :summary="isCabinetCatalogMissing ? '' : cabinetSummary"
         :toggle-label="getToggleLabel('cabinet', transferableItems.length)"
         @toggle="toggleList('cabinet')"
       >
@@ -45,7 +31,6 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationSets)"
         :count="incompleteSetCount"
-        :summary="isSetCatalogMissing ? '' : glamourSetSummary"
         :toggle-label="getToggleLabel('sets', incompleteSetItems.length)"
         @toggle="toggleList('sets')"
       >
@@ -66,7 +51,6 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationDuplicateItems)"
         :count="duplicateItemCount"
-        :summary="duplicateItemSummary"
         :toggle-label="getToggleLabel('duplicateItems', duplicateItemItems.length)"
         @toggle="toggleList('duplicateItems')"
       >
@@ -80,7 +64,6 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationDuplicates)"
         :count="duplicateModelCount"
-        :summary="isIdenticalModelCatalogMissing ? '' : duplicateSummary"
         :toggle-label="getToggleLabel('duplicateModels', duplicateModelItems.length)"
         @toggle="toggleList('duplicateModels')"
       >
@@ -101,7 +84,6 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationDyes)"
         :count="dyeRiskCount"
-        :summary="dyeSummary"
         :toggle-label="getToggleLabel('dyes', dyeRiskItems.length)"
         @toggle="toggleList('dyes')"
       >
@@ -145,7 +127,6 @@ type ExpandableListKey = 'cabinet' | 'sets' | 'duplicateItems' | 'duplicateModel
 const expandedLists = ref<Partial<Record<ExpandableListKey, boolean>>>({})
 
 const {
-  actionHints,
   cabinetCount,
   incompleteSetCount,
   duplicateItemCount,
@@ -154,11 +135,6 @@ const {
   isCabinetCatalogMissing,
   isSetCatalogMissing,
   isIdenticalModelCatalogMissing,
-  cabinetSummary,
-  glamourSetSummary,
-  duplicateItemSummary,
-  duplicateSummary,
-  dyeSummary,
   transferableItems,
   incompleteSetItems,
   duplicateItemItems,
@@ -187,56 +163,14 @@ function getToggleLabel(key: ExpandableListKey, itemCount: number): string {
 </script>
 
 <style scoped>
-.nsarmoire-panel {
+.nsarmoire-insight-panel {
   display: grid;
-  gap: 14px;
-  padding: 16px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-surface);
-  box-shadow: var(--ns-pixel-soft-shadow);
-}
-
-.nsarmoire-panel__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.nsarmoire-panel h2 {
-  margin: 0;
-  font-family: var(--ns-font-decorative);
-  font-size: 16px;
-  font-weight: 950;
+  gap: 10px;
+  min-width: 0;
 }
 
 .nsarmoire-insight-stack {
   display: grid;
   gap: 10px;
-}
-
-.nsarmoire-hint-list {
-  display: grid;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.nsarmoire-hint-list li {
-  display: grid;
-  gap: 4px;
-  padding: 10px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface);
-}
-
-.nsarmoire-hint-list strong {
-  font-family: var(--ns-font-decorative);
-  font-size: 13px;
-}
-
-.nsarmoire-hint-list span {
-  line-height: 1.7;
 }
 </style>

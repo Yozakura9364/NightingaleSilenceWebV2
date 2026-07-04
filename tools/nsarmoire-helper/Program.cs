@@ -6,7 +6,7 @@ Console.OutputEncoding = Encoding.UTF8;
 
 var options = HelperOptions.Parse(args);
 using var snapshotService = new SnapshotService(new GameProcessLocator(), options.Pid);
-var server = new LocalHttpServer(snapshotService, options.Port, options.AllowedOrigins);
+var server = new LocalHttpServer(snapshotService, options.Port, options.AllowedOrigins, options.WebUrl);
 
 Console.CancelKeyPress += (_, eventArgs) =>
 {
@@ -23,13 +23,14 @@ catch (HttpListenerException error) when (error.ErrorCode == 32)
     Console.Error.WriteLine($"端口 {options.Port} 已被占用，请使用 --port 指定其他端口。");
 }
 
-internal sealed record HelperOptions(int Port, int? Pid, IReadOnlySet<string> AllowedOrigins)
+internal sealed record HelperOptions(int Port, int? Pid, IReadOnlySet<string> AllowedOrigins, Uri WebUrl)
 {
     public static HelperOptions Parse(string[] args)
     {
         var port = 8015;
         int? pid = null;
         var allowedOrigins = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var webUrl = new Uri("http://localhost:5173/#/ffxiv/armoire");
 
         for (var index = 0; index < args.Length; index++)
         {
@@ -50,9 +51,34 @@ internal sealed record HelperOptions(int Port, int? Pid, IReadOnlySet<string> Al
                     allowedOrigins.Add(next);
                     index++;
                     break;
+                case "--web-url" when !string.IsNullOrWhiteSpace(next):
+                    if (TryParseWebUrl(next, out var parsedWebUrl))
+                    {
+                        webUrl = parsedWebUrl;
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine($"忽略无效 V2 页面地址：{next}");
+                    }
+
+                    index++;
+                    break;
             }
         }
 
-        return new HelperOptions(port, pid, allowedOrigins);
+        return new HelperOptions(port, pid, allowedOrigins, webUrl);
+    }
+
+    private static bool TryParseWebUrl(string? value, out Uri webUrl)
+    {
+        if (Uri.TryCreate(value, UriKind.Absolute, out var parsed)
+            && parsed.Scheme is "http" or "https")
+        {
+            webUrl = parsed;
+            return true;
+        }
+
+        webUrl = new Uri("http://localhost:5173/#/ffxiv/armoire");
+        return false;
     }
 }

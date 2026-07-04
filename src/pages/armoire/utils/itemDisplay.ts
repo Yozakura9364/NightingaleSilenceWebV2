@@ -37,7 +37,7 @@ export function getArmoireItemName(
   itemId: number,
   t: Translate
 ): string {
-  return catalog.items[itemId]?.name ?? formatArmoireItemId(itemId, t)
+  return catalog.items[itemId]?.name ?? t(textKeys.nsarmoireUnknownItem)
 }
 
 export function getArmoireItemIconUrl(catalog: ArmoireCatalog, itemId: number): string {

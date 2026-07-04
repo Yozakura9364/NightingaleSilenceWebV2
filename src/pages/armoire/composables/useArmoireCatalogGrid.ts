@@ -9,7 +9,6 @@ import type {
 } from '@/lib/armoire/types'
 import {
   formatArmoireDyeNames,
-  formatArmoireItemId,
   formatArmoireText,
   getArmoireContainerLabel,
   getArmoireItemIconUrl,
@@ -27,7 +26,7 @@ export type ArmoireCatalogGridFilter =
   | 'glamourDresser'
   | 'armoire'
 
-export type ArmoireCatalogGridSort = 'risk' | 'container' | 'name' | 'itemId'
+export type ArmoireCatalogGridSort = 'risk' | 'container' | 'name'
 
 export type ArmoireCatalogCardTagTone = 'neutral' | 'success' | 'warning' | 'danger'
 
@@ -44,7 +43,6 @@ export interface ArmoireCatalogCardView {
   iconUrl: string
   iconFallbackLabel: string
   iconAlt: string
-  itemIdLabel: string
   containerLabel: string
   quantityLabel: string
   dyeLabel: string
@@ -73,23 +71,25 @@ interface CatalogGridSource {
   snapshot: ArmoireSnapshot | null
 }
 
-function hasDye(item: ArmoireOwnedItem): boolean {
-  return item.dyes?.some((dyeId) => dyeId > 0) === true
+interface ArmoireCatalogItemGroup {
+  itemId: number
+  entries: ArmoireOwnedItem[]
 }
 
-function getDyeTone(item: ArmoireOwnedItem): ArmoireCatalogCardTagTone {
-  const dyedSlotCount = item.dyes?.filter((dyeId) => dyeId > 0).length ?? 0
-  return dyedSlotCount > 1 ? 'danger' : 'warning'
-}
+function createCatalogItemGroups(items: ArmoireOwnedItem[]): ArmoireCatalogItemGroup[] {
+  const groups = new Map<number, ArmoireOwnedItem[]>()
 
-function createEntryKey(item: ArmoireOwnedItem, index: number): string {
-  return [
-    item.itemId,
-    item.container,
-    item.containerName ?? '',
-    item.slotIndex ?? '',
-    index
-  ].join(':')
+  for (const item of items) {
+    const group = groups.get(item.itemId)
+
+    if (group) {
+      group.push(item)
+    } else {
+      groups.set(item.itemId, [item])
+    }
+  }
+
+  return Array.from(groups, ([itemId, entries]) => ({ itemId, entries }))
 }
 
 function createIdSet(itemIds: number[]): Set<number> {
@@ -120,8 +120,42 @@ function createTransferableItemIds(analysis: ArmoireSnapshotAnalysis | null): Se
   return createIdSet(analysis.cabinetProgress.transferableItemIds)
 }
 
+function createClearDyeRiskItemIds(analysis: ArmoireSnapshotAnalysis | null): Set<number> {
+  if (!analysis) {
+    return new Set()
+  }
+
+  return createIdSet(
+    analysis.dyeRisk.items
+      .filter((item) => item.clearsDyeOnStorage)
+      .map((item) => item.itemId)
+  )
+}
+
 function matchesContainer(item: ArmoireOwnedItem, container: ArmoireContainerKind): boolean {
   return item.container === container
+}
+
+function getTotalQuantity(items: ArmoireOwnedItem[]): number {
+  return items.reduce((total, item) => total + (item.quantity ?? 1), 0)
+}
+
+function getUniqueLabels(labels: string[]): string[] {
+  return Array.from(new Set(labels.filter(Boolean)))
+}
+
+function getGroupContainerLabel(items: ArmoireOwnedItem[], t: Translate): string {
+  return getUniqueLabels(items.map((item) => getArmoireContainerLabel(item, t))).join(' / ')
+}
+
+function getGroupDyeLabel(
+  catalog: ArmoireCatalog,
+  items: ArmoireOwnedItem[],
+  t: Translate
+): string {
+  return getUniqueLabels(items.map((item) => formatArmoireDyeNames(catalog, item.dyes, t))).join(
+    ' / '
+  )
 }
 
 function normalizeSearchText(value: string): string {
@@ -157,10 +191,6 @@ function compareCatalogItems(
     return compareText(left.name, right.name) || left.itemId - right.itemId
   }
 
-  if (sort === 'itemId') {
-    return left.itemId - right.itemId || compareText(left.name, right.name)
-  }
-
   if (sort === 'container') {
     return (
       compareText(left.containerLabel, right.containerLabel) ||
@@ -188,13 +218,15 @@ export function useArmoireCatalogGrid(
   const transferableItemIds = computed(() => createTransferableItemIds(source.analysis))
   const duplicateItemIds = computed(() => createDuplicateItemIds(source.analysis))
   const duplicateModelItemIds = computed(() => createDuplicateModelItemIds(source.analysis))
+  const clearDyeRiskItemIds = computed(() => createClearDyeRiskItemIds(source.analysis))
 
   const items = computed<ArmoireCatalogCardView[]>(() =>
-    (source.snapshot?.items ?? []).map((item, index) => {
+    createCatalogItemGroups(source.snapshot?.items ?? []).map((group) => {
       const filterKeys = new Set<ArmoireCatalogGridFilter>(['all'])
       const tags: ArmoireCatalogCardTagView[] = []
+      const groupItems = group.entries
 
-      if (transferableItemIds.value.has(item.itemId)) {
+      if (transferableItemIds.value.has(group.itemId)) {
         filterKeys.add('cabinet')
         tags.push({
           key: 'cabinet',
@@ -203,7 +235,7 @@ export function useArmoireCatalogGrid(
         })
       }
 
-      if (duplicateItemIds.value.has(item.itemId)) {
+      if (duplicateItemIds.value.has(group.itemId)) {
         filterKeys.add('duplicateItems')
         tags.push({
           key: 'duplicate-items',
@@ -212,7 +244,7 @@ export function useArmoireCatalogGrid(
         })
       }
 
-      if (duplicateModelItemIds.value.has(item.itemId)) {
+      if (duplicateModelItemIds.value.has(group.itemId)) {
         filterKeys.add('duplicateModels')
         tags.push({
           key: 'duplicate-models',
@@ -221,45 +253,43 @@ export function useArmoireCatalogGrid(
         })
       }
 
-      if (hasDye(item)) {
+      if (clearDyeRiskItemIds.value.has(group.itemId)) {
         filterKeys.add('dyed')
         tags.push({
           key: 'dyed',
           label: t(textKeys.nsarmoireRecommendationDyes),
-          tone: getDyeTone(item)
+          tone: 'danger'
         })
       }
 
-      if (matchesContainer(item, 'glamourDresser')) {
+      if (groupItems.some((item) => matchesContainer(item, 'glamourDresser'))) {
         filterKeys.add('glamourDresser')
       }
 
-      if (matchesContainer(item, 'armoire')) {
+      if (groupItems.some((item) => matchesContainer(item, 'armoire'))) {
         filterKeys.add('armoire')
       }
 
-      const name = getArmoireItemName(source.catalog, item.itemId, t)
-      const itemIdLabel = formatArmoireItemId(item.itemId, t)
-      const containerLabel = getArmoireContainerLabel(item, t)
+      const name = getArmoireItemName(source.catalog, group.itemId, t)
+      const containerLabel = getGroupContainerLabel(groupItems, t)
       const quantityLabel = formatArmoireText(t, textKeys.nsarmoireCatalogQuantity, {
-        count: item.quantity ?? 1
+        count: getTotalQuantity(groupItems)
       })
-      const dyeLabel = formatArmoireDyeNames(source.catalog, item.dyes, t)
+      const dyeLabel = getGroupDyeLabel(source.catalog, groupItems, t)
       const card: ArmoireCatalogCardView = {
-        key: createEntryKey(item, index),
-        itemId: item.itemId,
+        key: `catalog-item-${group.itemId}`,
+        itemId: group.itemId,
         name,
-        iconUrl: getArmoireItemIconUrl(source.catalog, item.itemId),
+        iconUrl: getArmoireItemIconUrl(source.catalog, group.itemId),
         iconFallbackLabel: t(textKeys.nsarmoireCatalogIconFallback),
         iconAlt: name,
-        itemIdLabel,
         containerLabel,
         quantityLabel,
         dyeLabel,
         tags,
         filterKeys,
         searchText: normalizeSearchText(
-          [name, itemIdLabel, item.itemId.toString(), containerLabel, quantityLabel, dyeLabel]
+          [name, containerLabel, quantityLabel, dyeLabel]
             .concat(tags.map((tag) => tag.label))
             .join(' ')
         ),
@@ -315,8 +345,7 @@ export function useArmoireCatalogGrid(
   const sortOptions = computed(() => [
     { key: 'risk' as const, label: t(textKeys.nsarmoireCatalogSortRisk) },
     { key: 'container' as const, label: t(textKeys.nsarmoireCatalogSortContainer) },
-    { key: 'name' as const, label: t(textKeys.nsarmoireCatalogSortName) },
-    { key: 'itemId' as const, label: t(textKeys.nsarmoireCatalogSortItemId) }
+    { key: 'name' as const, label: t(textKeys.nsarmoireCatalogSortName) }
   ])
 
   const resultMetrics = computed<ArmoireCatalogMetricView[]>(() => {

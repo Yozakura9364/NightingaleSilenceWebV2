@@ -1,8 +1,10 @@
 import { hasCabinetCatalog } from '@/lib/armoire/catalog'
 import {
   buildOwnedIndex,
+  getOwnedItems,
   hasOwnedItem,
-  hasOwnedItemInContainer
+  hasOwnedItemInContainer,
+  isDyedOwnedItem
 } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireCabinetProgress,
@@ -31,7 +33,10 @@ export function analyzeCabinetProgress(
     hasOwnedItemInContainer(index, itemId, 'armoire')
   )
   const transferableItemIds = cabinetItemIds.filter(
-    (itemId) => hasOwnedItem(index, itemId) && !hasOwnedItemInContainer(index, itemId, 'armoire')
+    (itemId) =>
+      hasOwnedItem(index, itemId) &&
+      !hasOwnedItemInContainer(index, itemId, 'armoire') &&
+      !getOwnedItems(index, itemId).some(isDyedOwnedItem)
   )
   const missingCabinetItemIds = cabinetItemIds.filter(
     (itemId) => !hasOwnedItemInContainer(index, itemId, 'armoire')

@@ -8,7 +8,6 @@ import type {
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
 import {
-  formatArmoireItemId,
   formatArmoireText,
   formatArmoireDyeNames,
   formatArmoireDyeResetReasons,
@@ -31,6 +30,13 @@ export interface ArmoireReadableItemView {
   context: string
   iconUrl: string
   tone?: ArmoireRiskLevel
+  relatedItems?: ArmoireReadableItemRelatedView[]
+}
+
+export interface ArmoireReadableItemRelatedView {
+  key: string
+  name: string
+  iconUrl: string
 }
 
 export interface ArmoireActionHintView {
@@ -154,10 +160,6 @@ export function createArmoireInsightDisplay(
     return formatArmoireText(t, key, values)
   }
 
-  function formatItemId(itemId: number): string {
-    return formatArmoireItemId(itemId, t)
-  }
-
   function getItemName(itemId: number): string {
     return getArmoireItemName(source.catalog, itemId, t)
   }
@@ -183,7 +185,7 @@ export function createArmoireInsightDisplay(
   }
 
   function formatItemContext(itemId: number): string {
-    return [formatItemLocations(itemId), formatItemId(itemId)].filter(Boolean).join(' / ')
+    return formatItemLocations(itemId)
   }
 
   function formatItemPreview(itemIds: number[]): string {
@@ -211,8 +213,7 @@ export function createArmoireInsightDisplay(
   function formatSetContext(set: ArmoireIncompleteSetView): string {
     return [
       formatMissingPieces(set.missingPieceItemIds),
-      formatItemLocations(set.setItemId),
-      formatItemId(set.setItemId)
+      formatItemLocations(set.setItemId)
     ]
       .filter(Boolean)
       .join(' / ')
@@ -221,8 +222,7 @@ export function createArmoireInsightDisplay(
   function formatDuplicateItemContext(item: ArmoireDuplicateItemView): string {
     return [
       formatText(textKeys.nsarmoireHintOwnedEntries, { count: item.ownedEntryCount }),
-      formatItemLocations(item.itemId),
-      formatItemId(item.itemId)
+      formatItemLocations(item.itemId)
     ]
       .filter(Boolean)
       .join(' / ')
@@ -262,9 +262,16 @@ export function createArmoireInsightDisplay(
     return [
       getArmoireContainerLabel(item, t),
       item.dyeNames,
-      item.resetReasonLabel,
-      formatItemId(item.itemId)
+      item.resetReasonLabel
     ].join(' / ')
+  }
+
+  function toRelatedItem(itemId: number): ArmoireReadableItemRelatedView {
+    return {
+      key: `related-${itemId}`,
+      name: getItemName(itemId),
+      iconUrl: getItemIconUrl(itemId)
+    }
   }
 
   function toTransferableItem(itemId: number): ArmoireReadableItemView {
@@ -294,7 +301,8 @@ export function createArmoireInsightDisplay(
       key: `set-${set.setItemId}`,
       name: set.name,
       context: formatSetContext(set),
-      iconUrl: set.iconUrl
+      iconUrl: set.iconUrl,
+      relatedItems: set.missingPieceItemIds.map(toRelatedItem)
     }
   }
 
@@ -335,7 +343,8 @@ export function createArmoireInsightDisplay(
       key: `duplicate-model-${group.key}`,
       name: group.names.join(' / '),
       context: formatDuplicateGroupContext(group),
-      iconUrl: group.iconUrl
+      iconUrl: group.iconUrl,
+      relatedItems: group.itemIds.map(toRelatedItem)
     }
   }
 
