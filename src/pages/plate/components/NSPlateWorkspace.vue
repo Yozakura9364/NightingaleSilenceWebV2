@@ -64,16 +64,14 @@ import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import {
   NSPLATE_NAMEPLATE_PRESET_CATEGORIES,
-  NSPLATE_PORTRAIT_CATEGORIES,
-  getPlateAssetSectionKey,
-  getScopeForCategory,
-  selectedAssetForGroup
+  NSPLATE_PORTRAIT_CATEGORIES
 } from '@/lib/plate/draft'
 import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import { useNSPlateData } from '@/pages/plate/composables/useNSPlateData'
 import { useNSPlateDraftPersistence } from '@/pages/plate/composables/useNSPlateDraftPersistence'
 import { useNSPlatePanelResize } from '@/pages/plate/composables/useNSPlatePanelResize'
+import { useNSPlateSelectionNote } from '@/pages/plate/composables/useNSPlateSelectionNote'
 import NSPlateAssetPanel from '@/pages/plate/components/NSPlateAssetPanel.vue'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 import NSPlateConfigPanel from '@/pages/plate/components/NSPlateConfigPanel.vue'
@@ -85,18 +83,13 @@ import type {
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage,
   NSPlatePanelTab,
-  NSPlatePresetKind,
-  NSPlateSelectionNoteItem
+  NSPlatePresetKind
 } from '@/lib/plate/types'
 
 const props = defineProps<{
   boundary: ApiBoundary
 }>()
 const { t } = useLocale()
-const SELECTION_NOTE_CATEGORIES = [
-  ...NSPLATE_PORTRAIT_CATEGORIES,
-  ...NSPLATE_NAMEPLATE_PRESET_CATEGORIES
-] as readonly string[]
 
 const {
   isLoading,
@@ -114,7 +107,6 @@ const {
 
 const { panelStyle, resizePanelBy, startPanelResize } = useNSPlatePanelResize()
 const customPortrait = ref<NSPlateCustomPortraitImage | null>(null)
-const assetPanelFocusRequest = ref<{ sectionKey: string; requestId: number } | null>(null)
 
 useNSPlateDraftPersistence({
   selectedPresetIdsByKind,
@@ -148,31 +140,12 @@ const activeAssetGroups = computed(() =>
       group.scope === activeAssetScope.value && activeAssetCategories.value.includes(group.category)
   )
 )
-const selectionNoteItems = computed<NSPlateSelectionNoteItem[]>(() => {
-  const groupByKey = new Map(
-    assetGroups.value.map((group) => [getPlateAssetSectionKey(group.scope, group.category), group])
-  )
-
-  return SELECTION_NOTE_CATEGORIES.map((category) => {
-    const scope = getScopeForCategory(category)
-    const sectionKey = getPlateAssetSectionKey(scope, category)
-    const group = groupByKey.get(sectionKey)
-
-    if (!group) {
-      return null
-    }
-
-    const selectedAsset = selectedAssetForGroup(selectedAssetIdsByCategory.value, group)
-
-    return {
-      sectionKey,
-      scope,
-      category,
-      label: group.label,
-      valueLabel: selectedAsset?.label ?? t(textKeys.notSelected),
-      selected: selectedAsset !== null
-    }
-  }).filter((item): item is NSPlateSelectionNoteItem => item !== null)
+const { selectionNoteItems, assetPanelFocusRequest, focusAssetSection } =
+  useNSPlateSelectionNote({
+    assetGroups,
+    selectedAssetIdsByCategory,
+    activeTab,
+    activeCanvasMode
 })
 const activeSelectedPresetId = computed(() => selectedPresetIdsByKind.value[activePresetKind.value])
 const hasAnySelection = computed(
@@ -206,15 +179,6 @@ function clearWorkbenchSelections() {
 
 function clearCustomPortrait() {
   customPortrait.value = null
-}
-
-function focusAssetSection(item: NSPlateSelectionNoteItem) {
-  activeTab.value = item.scope
-  activeCanvasMode.value = item.scope
-  assetPanelFocusRequest.value = {
-    sectionKey: item.sectionKey,
-    requestId: (assetPanelFocusRequest.value?.requestId ?? 0) + 1
-  }
 }
 </script>
 

@@ -59,6 +59,8 @@
 
 2026-07-04 已完成第二十二段前端 ZIP 封装拆分：新增 `src/lib/plate/zipArchive.ts`，把无压缩 ZIP 的 header、central directory、CRC32 和二进制拼装从 `layeredExport.ts` 拆出为纯工具函数；`layeredExport.ts` 只保留 NSPlate 业务语义，包括图层收集、图层贴到完整铭牌画布和调用 ZIP 工具。此切片不改变 ZIP 条目命名、图层顺序、前端优先/后端 fallback 策略或导出 UI。
 
+2026-07-04 已完成第二十三段当前组合便签逻辑拆分：新增 `useNSPlateSelectionNote.ts`，把当前组合便签的条目 view-model、未选择文案 fallback、点击便签后切换 `肖像/铭牌` tab 并请求右侧素材分组聚焦的逻辑从 `NSPlateWorkspace.vue` 拆出。`NSPlateWorkspace.vue` 继续只负责工作台布局、数据源接线和清空动作。此切片不改变便签 UI、折叠行为、素材选择或画布渲染。
+
 当前 V2 代码结构：
 
 ```text
@@ -83,6 +85,7 @@ src/pages/plate/
 │   ├── useNSPlateData.ts
 │   ├── useNSPlateDraftPersistence.ts
 │   ├── useNSPlateCanvasExport.ts
+│   ├── useNSPlateSelectionNote.ts
 │   └── useNSPlatePanelResize.ts
 └── components/
     ├── NSPlatePanel.vue
@@ -116,6 +119,7 @@ src/pages/plate/
 - `NSPlatePanel.vue` 是 NSPlate 私有面板壳，承接右侧面板中“面板容器 + 标题 + 数量/状态”的重复样式；暂不提升到全站公共组件，等 NSGlamour 等工具页确实复用同类结构后再评估上移。
 - `NSPlateChoiceButton.vue` 是 NSPlate 私有可选项按钮，承接预设列表和素材 scope tab 的基础按钮壳、active 色和 label/meta 排版；素材缩略图卡、字段行和右侧 tab 暂时不纳入，避免过度抽象。
 - `NSPlateCanvasArea.vue` 当前负责预览外壳、真实 canvas DOM 挂载和渲染生命周期；可用尺寸测量和 frame style 来自 `useNSPlateCanvasFrame.ts`，画布尺寸、坐标和渲染计划来自 `src/lib/plate/render.ts`，实际绘制流程来自 `src/lib/plate/canvasRenderer.ts`。该组件仍不承接裁切弹窗、信息层、导出 payload 或缩放拖拽视口。
+- `useNSPlateSelectionNote.ts` 负责当前组合便签的数据条目和点击聚焦逻辑；`NSPlateWorkspace.vue` 不直接拼装便签 view-model，也不直接维护右侧素材分组聚焦 request id。
 - `NSPlatePortraitUpload.vue` 当前只负责选择图片、展示已选文件和上报错误；文件读取、`512×840` 居中裁切和数据图生成来自 `src/lib/plate/customPortrait.ts`。它不直接做旧版裁切弹窗、拖拽取景、配置兼容或导出数据收集。
 - `NSPlatePreviewShell.vue` 当前只作为旧文件名兼容包装，后续新代码应直接使用 `NSPlateCanvasArea.vue`。
 - `NSPlateConfigPanel.vue` 承接右侧三 tab、滚动容器和配置面板边界；不包含具体预设、素材或信息层业务。
