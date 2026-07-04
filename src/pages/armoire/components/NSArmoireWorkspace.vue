@@ -12,6 +12,7 @@
         :helper-status-message-key="helperMessageKey"
         :helper-error-detail="helperDetail"
         :helper-endpoint="helperEndpoint"
+        :helper-health="helperHealth"
         :helper-busy="helperBusy"
         :helper-can-refresh="helperCanRefresh"
         @import-file="importSnapshotFile"
@@ -158,6 +159,7 @@ const {
   busy: helperBusy,
   detail: helperDetail,
   endpoint: helperEndpoint,
+  health: helperHealth,
   titleKey: helperTitleKey,
   messageKey: helperMessageKey,
   tone: helperTone,

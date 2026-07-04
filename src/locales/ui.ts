@@ -1439,6 +1439,24 @@ export const uiMessages: UiMessageMap = {
     ja: 'ローカルヘルパーのアドレス',
     ko: '로컬 헬퍼 주소'
   }),
+  'nsarmoire.field.helperCatalog': msg({
+    zh: '本地目录数据',
+    en: 'Local catalog',
+    ja: 'ローカルcatalog',
+    ko: '로컬 catalog'
+  }),
+  'nsarmoire.field.helperCatalogReady': msg({
+    zh: '{count} 条收藏柜映射',
+    en: '{count} armoire mappings',
+    ja: 'キャビネット対応 {count} 件',
+    ko: '보관함 매핑 {count}개'
+  }),
+  'nsarmoire.field.helperCatalogMissing': msg({
+    zh: '未定位',
+    en: 'Not found',
+    ja: '未検出',
+    ko: '찾지 못함'
+  }),
   'nsarmoire.field.itemId': msg({
     zh: draft('物品 ID'),
     en: 'Item ID',
