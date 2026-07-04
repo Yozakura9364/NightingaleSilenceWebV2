@@ -25,6 +25,30 @@
       >
         {{ t(textKeys.nsplateImportConfig) }}
       </button>
+      <button
+        class="nsplate-canvas-status__button"
+        type="button"
+        :disabled="!canImportConfig"
+        @click="emit('paste-config')"
+      >
+        {{ t(textKeys.nsplatePasteConfig) }}
+      </button>
+      <button
+        class="nsplate-canvas-status__button"
+        type="button"
+        :disabled="!canImportConfig"
+        @click="emit('copy-config')"
+      >
+        {{ t(textKeys.nsplateCopyConfig) }}
+      </button>
+      <button
+        class="nsplate-canvas-status__button"
+        type="button"
+        :disabled="!canImportConfig"
+        @click="emit('export-config')"
+      >
+        {{ t(textKeys.nsplateExportConfig) }}
+      </button>
       <label class="nsplate-canvas-status__toggle">
         <input v-model="exportScale2x" type="checkbox" :disabled="!canExport" />
         <span>{{ t(textKeys.nsplateExportScale2x) }}</span>
@@ -74,6 +98,9 @@ const emit = defineEmits<{
   'clear-custom-portrait': []
   'clear-all': []
   'import-config': []
+  'paste-config': []
+  'copy-config': []
+  'export-config': []
   'export-image': [payload: { format: NSPlateCanvasExportFormat; scale: number }]
   'export-layered-zip': [payload: { scale: number }]
 }>()

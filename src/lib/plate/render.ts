@@ -10,10 +10,9 @@ import type {
   NSPlateAssetGroup,
   NSPlateAssetSummary,
   NSPlateCanvasMode,
-  NSPlateCustomPortraitImage
+  NSPlateCustomPortraitImage,
+  NSPlatePortraitSide
 } from '@/lib/plate/types'
-
-export type NSPlatePortraitSide = 'left' | 'right'
 
 export interface NSPlateCanvasDimensions {
   width: number
@@ -181,7 +180,7 @@ export function createNameplateRenderPlan(
       portraitSide,
       infoAssetGroups
     ),
-    infoTextLayers: createNSPlateInfoTextRenderLayers(infoDraft, portraitSide)
+    infoTextLayers: createNSPlateInfoTextRenderLayers(infoDraft, portraitSide, selectedByCategory)
   }
 }
 

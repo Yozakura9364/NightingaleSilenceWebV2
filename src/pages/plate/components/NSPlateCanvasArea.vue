@@ -21,6 +21,9 @@
       @clear-custom-portrait="emit('clear-custom-portrait')"
       @clear-all="emit('clear-all')"
       @import-config="emit('import-config')"
+      @paste-config="emit('paste-config')"
+      @copy-config="emit('copy-config')"
+      @export-config="emit('export-config')"
       @export-image="exportImage"
       @export-layered-zip="exportLayeredZip"
     />
@@ -43,6 +46,7 @@ import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage,
+  NSPlatePortraitSide,
   NSPlateSelectionNoteItem
 } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
@@ -54,6 +58,7 @@ import { useNSPlateCanvasFrame } from '@/pages/plate/composables/useNSPlateCanva
 const props = defineProps<{
   apiBase: string
   mode: NSPlateCanvasMode
+  portraitSide: NSPlatePortraitSide
   selectedAssets: NSPlateAssetSummary[]
   assetGroups: NSPlateAssetGroup[]
   customPortrait: NSPlateCustomPortraitImage | null
@@ -63,12 +68,16 @@ const props = defineProps<{
   canImportConfig: boolean
   selectionNoteTitle: string
   selectionNoteItems: NSPlateSelectionNoteItem[]
+  createConfigJson?: () => string
 }>()
 
 const emit = defineEmits<{
   'clear-custom-portrait': []
   'clear-all': []
   'import-config': []
+  'paste-config': []
+  'copy-config': []
+  'export-config': []
   'focus-asset-section': [value: NSPlateSelectionNoteItem]
 }>()
 
@@ -81,7 +90,7 @@ const canvasLabel = computed(() => `${t(textKeys.nsplateCanvasAria)}${modeLabel.
 const renderPlan = computed(() =>
   createNameplateRenderPlan(
     props.selectedAssets,
-    'right',
+    props.portraitSide,
     undefined,
     props.customPortrait,
     props.infoDraft,
@@ -91,6 +100,7 @@ const renderPlan = computed(() =>
 const renderSignature = computed(() =>
   [
     props.mode,
+    props.portraitSide,
     props.customPortrait?.id ?? '',
     props.customPortrait?.dataUrl ?? '',
     props.selectedAssets
@@ -111,7 +121,8 @@ const { canExport, exportErrorText, exportImage, exportLayeredZip } = useNSPlate
   apiBase: props.apiBase,
   canvasRef,
   renderPlan,
-  isCanvasReady
+  isCanvasReady,
+  createConfigJson: props.createConfigJson
 })
 
 onMounted(() => {

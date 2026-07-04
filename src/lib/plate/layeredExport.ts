@@ -9,7 +9,7 @@ import {
   type NSPlateInfoIconRenderLayer,
   type NSPlateInfoSpecialRenderLayer
 } from '@/lib/plate/infoLayerRenderDefinitions'
-import { renderNSPlateInfoTextLayersToCanvas } from '@/lib/plate/infoLayerTextRenderer'
+import { renderNSPlateInfoTextLayersToLayerCanvases } from '@/lib/plate/infoLayerTextRenderer'
 import {
   NSPLATE_CANVAS_DIMENSIONS,
   getNameplateRenderSegments,
@@ -29,7 +29,7 @@ import { createStoredZipBlob, type StoredZipFileEntry } from '@/lib/plate/zipArc
 
 const CUSTOM_PORTRAIT_LAYER_NAME = '自定义图片'
 const CUSTOM_PORTRAIT_POPOUT_LAYER_NAME = '自定义图片（出框）'
-const INFO_TEXT_LAYER_NAME = '信息文字'
+const LAYERED_ZIP_TEXT_ENCODER = new TextEncoder()
 
 export async function createNameplateLayeredExportPayload(
   plan: NSPlateNameplateRenderPlan,
@@ -82,7 +82,7 @@ async function pushSegmentLayers(
   }
 
   if (segment.type === 'infoTextLayers') {
-    await pushInfoTextLayer(output, segment.layers, segment.dimensions, scale)
+    await pushInfoTextLayer(output, segment.layers, scale)
     return
   }
 
@@ -408,24 +408,21 @@ function resolveInfoSpecialExportBaseSize(
 async function pushInfoTextLayer(
   output: NSPlateLayeredExportLayer[],
   layers: Extract<NSPlateNameplateRenderSegment, { type: 'infoTextLayers' }>['layers'],
-  dimensions: Extract<NSPlateNameplateRenderSegment, { type: 'infoTextLayers' }>['dimensions'],
   scale: number
 ) {
-  const canvas = await renderNSPlateInfoTextLayersToCanvas(layers, dimensions, scale)
+  const layerCanvases = await renderNSPlateInfoTextLayersToLayerCanvases(layers, scale)
 
-  if (!canvas) {
-    return
+  for (const item of layerCanvases) {
+    output.push({
+      name: item.layer.legacyName,
+      x: item.x,
+      y: item.y,
+      width: item.width,
+      height: item.height,
+      rgbaData: item.canvas.toDataURL('image/png'),
+      sourceType: 'info'
+    })
   }
-
-  output.push({
-    name: INFO_TEXT_LAYER_NAME,
-    x: 0,
-    y: 0,
-    width: canvas.width,
-    height: canvas.height,
-    rgbaData: canvas.toDataURL('image/png'),
-    sourceType: 'info'
-  })
 }
 
 export function downloadPlateLayeredZip(blob: Blob, scale: number) {
@@ -447,6 +444,28 @@ export async function createLayeredZipBlobOnClient(
   const canvasWidth = normalizeCanvasSize(payload.canvasWidth)
   const canvasHeight = normalizeCanvasSize(payload.canvasHeight)
   const files: StoredZipFileEntry[] = []
+  const composerConfig = normalizeComposerConfig(payload.composerConfigFull)
+
+  if (composerConfig) {
+    files.push({
+      name: 'composer-config.json',
+      bytes: encodeJsonFile(composerConfig)
+    })
+  }
+
+  const layerManifest = createLayeredZipManifest(payload.layers, canvasWidth, canvasHeight)
+  const layerManifestBytes = encodeJsonFile(layerManifest)
+
+  files.push(
+    {
+      name: 'layers.json',
+      bytes: layerManifestBytes
+    },
+    {
+      name: 'manifest.json',
+      bytes: layerManifestBytes
+    }
+  )
 
   for (let index = 0; index < payload.layers.length; index += 1) {
     const layer = payload.layers[index]
@@ -454,12 +473,50 @@ export async function createLayeredZipBlobOnClient(
     const bytes = new Uint8Array(await fullCanvasBlob.arrayBuffer())
 
     files.push({
-      name: `L${String(index).padStart(3, '0')}.png`,
+      name: createLayeredZipLayerEntryName(index),
       bytes
     })
   }
 
   return createStoredZipBlob(files)
+}
+
+function createLayeredZipManifest(
+  layers: NSPlateLayeredExportLayer[],
+  canvasWidth: number,
+  canvasHeight: number
+) {
+  return {
+    app: 'NSPlate',
+    format: 'nsplate-layered-zip-manifest',
+    version: 2,
+    coordinateSpace: 'fullCanvasTopLeft',
+    canvasWidth,
+    canvasHeight,
+    generatedAt: new Date().toISOString(),
+    layers: layers.map((layer, index) => ({
+      index,
+      file: createLayeredZipLayerEntryName(index),
+      name: layer.name,
+      x: Math.round(layer.x),
+      y: Math.round(layer.y),
+      width: Math.round(layer.width),
+      height: Math.round(layer.height),
+      sourceType: layer.sourceType ?? 'unknown'
+    }))
+  }
+}
+
+function createLayeredZipLayerEntryName(index: number) {
+  return `L${String(index).padStart(3, '0')}.png`
+}
+
+function normalizeComposerConfig(value: unknown): Record<string, unknown> | null {
+  return isRecord(value) && Number(value.version) === 1 ? value : null
+}
+
+function encodeJsonFile(value: unknown) {
+  return LAYERED_ZIP_TEXT_ENCODER.encode(`${JSON.stringify(value, null, 2)}\n`)
 }
 
 async function pushSystemLayers(
@@ -886,6 +943,10 @@ function parseInfoSpecialHexColor(value: string, fallback: string) {
     g: Number.parseInt(raw.slice(2, 4), 16),
     b: Number.parseInt(raw.slice(4, 6), 16)
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
 function isDefaultBar48SpritePair(layer: NSPlateInfoBar48RenderLayer) {

@@ -1,12 +1,10 @@
 import { watch, type Ref } from 'vue'
 import type { NSPlateAssetSelectionMap } from '@/lib/plate/draft'
-import {
-  normalizeNSPlateInfoDraft,
-  type NSPlateInfoDraft
-} from '@/lib/plate/infoLayers'
+import { normalizeNSPlateInfoDraft, type NSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import type {
   NSPlateCustomPortraitImage,
   NSPlateCustomPortraitMode,
+  NSPlatePortraitSide,
   NSPlatePresetKind
 } from '@/lib/plate/types'
 
@@ -18,6 +16,7 @@ const MAX_CUSTOM_PORTRAIT_STORAGE_CHARS = 3_000_000
 interface NSPlateStoredDraftV1 {
   version: typeof NSPLATE_DRAFT_VERSION
   savedAt: string
+  portraitSide: NSPlatePortraitSide
   selectedPresetIdsByKind: Record<NSPlatePresetKind, string | null>
   selectedAssetIdsByCategory: NSPlateAssetSelectionMap
   customPortrait: NSPlateCustomPortraitImage | null
@@ -25,6 +24,7 @@ interface NSPlateStoredDraftV1 {
 }
 
 interface UseNSPlateDraftPersistenceOptions {
+  portraitSide: Ref<NSPlatePortraitSide>
   selectedPresetIdsByKind: Ref<Record<NSPlatePresetKind, string | null>>
   selectedAssetIdsByCategory: Ref<NSPlateAssetSelectionMap>
   customPortrait: Ref<NSPlateCustomPortraitImage | null>
@@ -35,6 +35,7 @@ export function useNSPlateDraftPersistence(options: UseNSPlateDraftPersistenceOp
   const draft = readNSPlateDraft()
 
   if (draft) {
+    options.portraitSide.value = draft.portraitSide
     options.selectedPresetIdsByKind.value = draft.selectedPresetIdsByKind
     options.selectedAssetIdsByCategory.value = draft.selectedAssetIdsByCategory
     options.customPortrait.value = draft.customPortrait
@@ -43,6 +44,7 @@ export function useNSPlateDraftPersistence(options: UseNSPlateDraftPersistenceOp
 
   watch(
     () => ({
+      portraitSide: options.portraitSide.value,
       selectedPresetIdsByKind: options.selectedPresetIdsByKind.value,
       selectedAssetIdsByCategory: options.selectedAssetIdsByCategory.value,
       customPortrait: options.customPortrait.value,
@@ -77,6 +79,7 @@ export function readNSPlateDraft(): NSPlateStoredDraftV1 | null {
     return {
       version: NSPLATE_DRAFT_VERSION,
       savedAt: typeof parsed.savedAt === 'string' ? parsed.savedAt : '',
+      portraitSide: normalizePortraitSide(parsed.portraitSide),
       selectedPresetIdsByKind: normalizePresetSelection(parsed.selectedPresetIdsByKind),
       selectedAssetIdsByCategory: normalizeAssetSelection(parsed.selectedAssetIdsByCategory),
       customPortrait: normalizeCustomPortrait(parsed.customPortrait),
@@ -99,6 +102,7 @@ export function writeNSPlateDraft(
   const nextDraft: NSPlateStoredDraftV1 = {
     version: NSPLATE_DRAFT_VERSION,
     savedAt: new Date().toISOString(),
+    portraitSide: normalizePortraitSide(draft.portraitSide),
     selectedPresetIdsByKind: normalizePresetSelection(draft.selectedPresetIdsByKind),
     selectedAssetIdsByCategory: normalizeAssetSelection(draft.selectedAssetIdsByCategory),
     customPortrait: sanitizeCustomPortraitForStorage(draft.customPortrait),
@@ -161,6 +165,10 @@ function normalizeAssetSelection(value: unknown): NSPlateAssetSelectionMap {
   )
 }
 
+function normalizePortraitSide(value: unknown): NSPlatePortraitSide {
+  return value === 'left' ? 'left' : 'right'
+}
+
 function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | null {
   if (!isRecord(value)) {
     return null
@@ -217,12 +225,18 @@ function normalizeFiniteNumber(value: unknown) {
   return typeof value === 'number' && Number.isFinite(value) ? value : null
 }
 
-function pickOptionalString(record: Record<string, unknown>, key: keyof NSPlateCustomPortraitImage) {
+function pickOptionalString(
+  record: Record<string, unknown>,
+  key: keyof NSPlateCustomPortraitImage
+) {
   const value = normalizeString(record[key])
   return value ? { [key]: value } : {}
 }
 
-function pickOptionalNumber(record: Record<string, unknown>, key: keyof NSPlateCustomPortraitImage) {
+function pickOptionalNumber(
+  record: Record<string, unknown>,
+  key: keyof NSPlateCustomPortraitImage
+) {
   const value = normalizeFiniteNumber(record[key])
   return value === null ? {} : { [key]: value }
 }

@@ -17,6 +17,7 @@ interface UseNSPlateCanvasExportOptions {
   canvasRef: Ref<HTMLCanvasElement | null>
   renderPlan: ComputedRef<NSPlateNameplateRenderPlan>
   isCanvasReady: Ref<boolean>
+  createConfigJson?: () => string
 }
 
 export function useNSPlateCanvasExport(options: UseNSPlateCanvasExportOptions) {
@@ -64,6 +65,11 @@ export function useNSPlateCanvasExport(options: UseNSPlateCanvasExportOptions) {
         options.renderPlan.value,
         exportOptions
       )
+      const composerConfigFull = readComposerConfigFull()
+
+      if (composerConfigFull) {
+        payload.composerConfigFull = composerConfigFull
+      }
 
       if (!payload.layers.length) {
         exportErrorText.value = t(textKeys.nsplateExportNoLayers)
@@ -101,6 +107,20 @@ export function useNSPlateCanvasExport(options: UseNSPlateCanvasExportOptions) {
     return baseMessage
   }
 
+  function readComposerConfigFull(): Record<string, unknown> | null {
+    if (!options.createConfigJson) {
+      return null
+    }
+
+    try {
+      const parsed: unknown = JSON.parse(options.createConfigJson())
+
+      return isRecord(parsed) && Number(parsed.version) === 1 ? parsed : null
+    } catch {
+      return null
+    }
+  }
+
   return {
     canExport,
     exportErrorText,
@@ -119,4 +139,8 @@ function readApiErrorMessage(error: ApiError) {
   } catch {
     return ''
   }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }

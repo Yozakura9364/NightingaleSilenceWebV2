@@ -7,21 +7,32 @@ import {
   toggleAssetInSelection,
   type NSPlateAssetSelectionMap
 } from '@/lib/plate/draft'
+import {
+  nsPlateInfoPresetDefinitions,
+  type NSPlateInfoFieldDefinition,
+  type NSPlateInfoPresetDefinition,
+  type NSPlateInfoPresetId
+} from '@/lib/plate/infoLayerFields'
+import {
+  createNSPlateInfoDraft,
+  normalizeNSPlateInfoDraft,
+  type NSPlateInfoDraft,
+  type NSPlateInfoLayerState,
+  type NSPlateInfoLayerStateMap
+} from '@/lib/plate/infoLayers'
 import { NSPLATE_CANVAS_DIMENSIONS } from '@/lib/plate/render'
 import type {
   NSPlateAssetGroup,
   NSPlateAssetSummary,
   NSPlateCustomPortraitImage,
   NSPlatePanelTab,
+  NSPlatePortraitSide,
   NSPlatePresetKind,
   NSPlatePresetSummary
 } from '@/lib/plate/types'
 
 export type NSPlateLegacyConfigImportErrorCode =
-  | 'empty'
-  | 'unsupported'
-  | 'zip-manifest'
-  | 'custom-portrait'
+  'empty' | 'unsupported' | 'zip-manifest' | 'custom-portrait'
 
 export class NSPlateLegacyConfigImportError extends Error {
   code: NSPlateLegacyConfigImportErrorCode
@@ -39,9 +50,11 @@ export interface NSPlateLegacyConfigImportContext {
 }
 
 export interface NSPlateLegacyConfigImportResult {
+  portraitSide: NSPlatePortraitSide
   selectedPresetIdsByKind: Record<NSPlatePresetKind, string | null>
   selectedAssetIdsByCategory: NSPlateAssetSelectionMap
   customPortrait: NSPlateCustomPortraitImage | null
+  infoDraft: NSPlateInfoDraft
   activePanel: NSPlatePanelTab | null
   matchedAssetCount: number
   missingAssetCount: number
@@ -55,12 +68,15 @@ interface LegacySelectionSnapshot {
 }
 
 interface NormalizedLegacyConfig {
+  portraitSide: NSPlatePortraitSide
   presetBanner: string
   presetChar: string
   selectedByCategory: Record<string, LegacySelectionSnapshot | null>
   customPortrait: unknown
+  infoPresetName: string
+  infoLayers: unknown
+  infoPresetStates: unknown
   activePanel: NSPlatePanelTab | null
-  ignoredInfoLayerCount: number
 }
 
 const LEGACY_CONFIG_VERSION = 1
@@ -85,18 +101,21 @@ export async function importNSPlateLegacyConfigText(
     config,
     context.assetGroups
   )
+  const { infoDraft, ignoredInfoLayerCount } = importLegacyInfoDraft(config)
 
   return {
+    portraitSide: config.portraitSide,
     selectedPresetIdsByKind: {
       banner: findLegacyPresetId(context.presets, 'banner', config.presetBanner),
       charcard: findLegacyPresetId(context.presets, 'charcard', config.presetChar)
     },
     selectedAssetIdsByCategory: selection,
     customPortrait: await normalizeLegacyCustomPortrait(config.customPortrait),
+    infoDraft,
     activePanel: config.activePanel,
     matchedAssetCount,
     missingAssetCount,
-    ignoredInfoLayerCount: config.ignoredInfoLayerCount
+    ignoredInfoLayerCount
   }
 }
 
@@ -168,6 +187,7 @@ function normalizeFullLegacyConfig(value: Record<string, unknown>): NormalizedLe
   const selected = isRecord(value.selected) ? value.selected : {}
 
   return {
+    portraitSide: normalizeLegacyPortraitSide(value.portraitSide),
     presetBanner: normalizeString(value.presetBanner),
     presetChar: normalizeString(value.presetChar),
     selectedByCategory: Object.fromEntries(
@@ -177,8 +197,10 @@ function normalizeFullLegacyConfig(value: Record<string, unknown>): NormalizedLe
       ])
     ),
     customPortrait: value.customPortrait,
-    activePanel: normalizeLegacyActivePanel(value.activePanel),
-    ignoredInfoLayerCount: Array.isArray(value.infoLayers) ? value.infoLayers.length : 0
+    infoPresetName: normalizeString(value.infoPresetName),
+    infoLayers: value.infoLayers,
+    infoPresetStates: value.infoPresetStates,
+    activePanel: normalizeLegacyActivePanel(value.activePanel)
   }
 }
 
@@ -186,6 +208,7 @@ function normalizeCompactLegacyConfig(value: Record<string, unknown>): Normalize
   const selectedIds = Array.isArray(value.sl) ? value.sl : []
 
   return {
+    portraitSide: normalizeLegacyPortraitSide(value.ps),
     presetBanner: normalizeString(value.pb),
     presetChar: normalizeString(value.pc),
     selectedByCategory: Object.fromEntries(
@@ -195,9 +218,200 @@ function normalizeCompactLegacyConfig(value: Record<string, unknown>): Normalize
       ])
     ),
     customPortrait: value.cp,
-    activePanel: normalizeCompactActivePanel(value.ap),
-    ignoredInfoLayerCount: Array.isArray(value.infoLayers) ? value.infoLayers.length : 0
+    infoPresetName: normalizeString(value.ip),
+    infoLayers: value.infoLayers,
+    infoPresetStates: value.infoPresetStates,
+    activePanel: normalizeCompactActivePanel(value.ap)
   }
+}
+
+function importLegacyInfoDraft(config: NormalizedLegacyConfig): {
+  infoDraft: NSPlateInfoDraft
+  ignoredInfoLayerCount: number
+} {
+  const activePresetId = findLegacyInfoPresetId(config.infoPresetName)
+  const layersByPresetId: Partial<Record<NSPlateInfoPresetId, NSPlateInfoLayerStateMap>> = {}
+  let ignoredInfoLayerCount = 0
+
+  for (const preset of nsPlateInfoPresetDefinitions) {
+    const rawLayers =
+      getLegacyInfoPresetState(config.infoPresetStates, preset) ??
+      (preset.id === activePresetId && Array.isArray(config.infoLayers) ? config.infoLayers : null)
+
+    const result = importLegacyInfoLayerMap(preset, rawLayers)
+    layersByPresetId[preset.id] = result.layerMap
+    ignoredInfoLayerCount += result.ignoredCount
+  }
+
+  return {
+    infoDraft: normalizeNSPlateInfoDraft({
+      activePresetId,
+      layersByPresetId
+    }),
+    ignoredInfoLayerCount
+  }
+}
+
+function findLegacyInfoPresetId(value: string): NSPlateInfoPresetId {
+  const normalized = normalizeString(value)
+
+  return (
+    nsPlateInfoPresetDefinitions.find(
+      (preset) =>
+        preset.id === normalized ||
+        preset.legacyName === normalized ||
+        preset.fallbackLabel === normalized
+    )?.id ?? createNSPlateInfoDraft().activePresetId
+  )
+}
+
+function getLegacyInfoPresetState(
+  rawStates: unknown,
+  preset: NSPlateInfoPresetDefinition
+): unknown[] | null {
+  if (!isRecord(rawStates)) {
+    return null
+  }
+
+  const value =
+    rawStates[preset.legacyName] ?? rawStates[preset.id] ?? rawStates[preset.fallbackLabel] ?? null
+
+  return Array.isArray(value) ? value : null
+}
+
+function importLegacyInfoLayerMap(
+  preset: NSPlateInfoPresetDefinition,
+  rawLayers: unknown
+): { layerMap: NSPlateInfoLayerStateMap; ignoredCount: number } {
+  const defaultMap = createNSPlateInfoDraft(preset.id).layersByPresetId[preset.id]
+  const layers = Array.isArray(rawLayers) ? rawLayers.filter(isRecord) : []
+
+  if (layers.length === 0) {
+    return {
+      layerMap: defaultMap,
+      ignoredCount: 0
+    }
+  }
+
+  const layersById = new Map<string, Record<string, unknown>>()
+  const layersByLegacyName = new Map<string, Record<string, unknown>>()
+  const layersByType = new Map<string, Record<string, unknown>[]>()
+  const used = new Set<Record<string, unknown>>()
+
+  for (const layer of layers) {
+    const id = normalizeString(layer.id)
+    const name = normalizeString(layer.name)
+    const type = normalizeString(layer.type)
+
+    if (id && !layersById.has(id)) {
+      layersById.set(id, layer)
+    }
+
+    if (name && !layersByLegacyName.has(name)) {
+      layersByLegacyName.set(name, layer)
+    }
+
+    if (type) {
+      const bucket = layersByType.get(type) ?? []
+      bucket.push(layer)
+      layersByType.set(type, bucket)
+    }
+  }
+
+  const typeIndexes = new Map<string, number>()
+  const hasSlotIdMatch = preset.fields.some((field) => layersById.has(field.slotId))
+  const layerMap = Object.fromEntries(
+    preset.fields.map((field) => {
+      const fallback = defaultMap[field.slotId]
+      const source =
+        layersById.get(field.slotId) ??
+        layersByLegacyName.get(field.legacyName) ??
+        (!hasSlotIdMatch
+          ? takeNextLegacyInfoLayerByType(layersByType, typeIndexes, field.type)
+          : null)
+
+      if (source) {
+        used.add(source)
+      }
+
+      return [field.slotId, importLegacyInfoLayerState(field, fallback, source)]
+    })
+  )
+
+  return {
+    layerMap,
+    ignoredCount: Math.max(0, layers.length - used.size)
+  }
+}
+
+function takeNextLegacyInfoLayerByType(
+  layersByType: Map<string, Record<string, unknown>[]>,
+  typeIndexes: Map<string, number>,
+  type: string
+) {
+  const bucket = layersByType.get(type) ?? []
+  const index = typeIndexes.get(type) ?? 0
+  typeIndexes.set(type, index + 1)
+  return bucket[index] ?? null
+}
+
+function importLegacyInfoLayerState(
+  field: NSPlateInfoFieldDefinition,
+  fallback: NSPlateInfoLayerState,
+  source: Record<string, unknown> | null
+): NSPlateInfoLayerState {
+  if (!source) {
+    return fallback
+  }
+
+  const base = {
+    ...fallback,
+    enabled: normalizeOptionalEnabled(source.enabled, fallback.enabled)
+  }
+
+  if (field.type === 'text' && base.type === 'text') {
+    return {
+      ...base,
+      text: normalizeText(source.text)
+    }
+  }
+
+  if (field.type === 'icon' && base.type === 'icon') {
+    const itemIds = normalizeStringArray(source.itemIds)
+
+    return {
+      ...base,
+      itemId: normalizeString(source.itemId) || itemIds[0] || '',
+      itemIds
+    }
+  }
+
+  if (field.type === 'special' && base.type === 'special') {
+    return {
+      ...base,
+      bgItemId: normalizeString(source.bgItemId),
+      maskItemId: normalizeString(source.maskItemId),
+      symbolItemId: normalizeString(source.symbolItemId),
+      maskDarkColor: normalizeHexColor(source.maskDarkColor, base.maskDarkColor),
+      maskLightColor: normalizeHexColor(source.maskLightColor, base.maskLightColor)
+    }
+  }
+
+  if (field.type === 'fixed' && base.type === 'fixed') {
+    return {
+      ...base,
+      path: normalizeString(source.path)
+    }
+  }
+
+  if (field.type === 'bar48' && base.type === 'bar48') {
+    return {
+      ...base,
+      states: normalizeLegacyBar48States(source.states)
+    }
+  }
+
+  return base
 }
 
 function importLegacyAssetSelection(
@@ -409,6 +623,10 @@ function normalizeCompactActivePanel(value: unknown): NSPlatePanelTab | null {
   return null
 }
 
+function normalizeLegacyPortraitSide(value: unknown): NSPlatePortraitSide {
+  return value === 'left' || value === 'l' ? 'left' : 'right'
+}
+
 function isLayeredZipManifest(value: unknown) {
   return (
     isRecord(value) &&
@@ -423,8 +641,59 @@ function clampLegacyCustomPortraitScale(value: number) {
   return Math.max(0.2, Math.min(3, value))
 }
 
+function normalizeOptionalEnabled(value: unknown, fallback: boolean) {
+  return typeof value === 'boolean' ? value : fallback
+}
+
+function normalizeText(value: unknown) {
+  return typeof value === 'string' ? value.slice(0, 2000) : ''
+}
+
 function normalizeString(value: unknown) {
   return typeof value === 'string' && value.trim() ? value.trim() : ''
+}
+
+function normalizeStringArray(value: unknown) {
+  const source = Array.isArray(value)
+    ? value
+    : value === null || value === undefined || value === ''
+      ? []
+      : [value]
+  const seen = new Set<string>()
+  const output: string[] = []
+
+  for (const item of source) {
+    const normalized = normalizeString(item)
+
+    if (!normalized || seen.has(normalized)) {
+      continue
+    }
+
+    seen.add(normalized)
+    output.push(normalized)
+  }
+
+  return output.slice(0, 6)
+}
+
+function normalizeHexColor(value: unknown, fallback: string) {
+  const text = normalizeString(value)
+
+  return /^#[0-9a-fA-F]{6}$/.test(text) ? text.toLowerCase() : fallback
+}
+
+function normalizeLegacyBar48States(value: unknown) {
+  const states = Array.isArray(value)
+    ? value.map((item) => (item ? 1 : 0))
+    : typeof value === 'string'
+      ? value.split('').map((item) => (item === '1' ? 1 : 0))
+      : []
+
+  while (states.length < 48) {
+    states.push(0)
+  }
+
+  return states.slice(0, 48)
 }
 
 function normalizeFiniteNumber(value: unknown) {
