@@ -49,6 +49,25 @@ export interface NSPlateNameplateRenderPlan {
 
 export type NSPlateRenderPlan = NSPlatePortraitRenderPlan | NSPlateNameplateRenderPlan
 
+export type NSPlateNameplateRenderSegment =
+  | {
+      type: 'systemLayers'
+      layers: NSPlateRenderImageLayer[]
+    }
+  | {
+      type: 'portraitComposite'
+      portraitBaseLayers: NSPlateRenderImageLayer[]
+      customPortrait: NSPlateCustomPortraitImage | null
+      portraitOverlayLayers: NSPlateRenderImageLayer[]
+      portraitEmbed: NSPlateLayerPosition
+    }
+  | {
+      type: 'customPortraitPopout'
+      customPortrait: NSPlateCustomPortraitImage | null
+      portraitEmbed: NSPlateLayerPosition
+      dimensions: NSPlateCanvasDimensions
+    }
+
 export const NSPLATE_CANVAS_DIMENSIONS = {
   portrait: { width: 512, height: 840 },
   nameplate: { width: 2560, height: 1440 }
@@ -138,14 +157,50 @@ export function getPlateRenderLayerNames(plan: NSPlateRenderPlan) {
     return plan.layers.map((layer) => layer.category)
   }
 
+  const names: string[] = []
+
+  for (const segment of getNameplateRenderSegments(plan)) {
+    if (segment.type === 'systemLayers') {
+      names.push(...segment.layers.map((layer) => layer.category))
+    } else if (segment.type === 'portraitComposite') {
+      names.push(...segment.portraitBaseLayers.map((layer) => layer.category))
+
+      if (segment.customPortrait) {
+        names.push(NSPLATE_CUSTOM_PORTRAIT_LAYER_KEY)
+      }
+
+      names.push(...segment.portraitOverlayLayers.map((layer) => layer.category))
+    }
+  }
+
+  return names
+}
+
+export function getNameplateRenderSegments(
+  plan: NSPlateNameplateRenderPlan
+): NSPlateNameplateRenderSegment[] {
   return [
-    ...plan.baseLayers,
-    ...plan.portraitBaseLayers,
-    ...(plan.customPortrait ? [NSPLATE_CUSTOM_PORTRAIT_LAYER_KEY] : []),
-    ...plan.portraitOverlayLayers,
-    ...(plan.portraitFrameLayer ? [plan.portraitFrameLayer] : []),
-    ...plan.overlayLayers
-  ].map((layer) => (typeof layer === 'string' ? layer : layer.category))
+    { type: 'systemLayers', layers: plan.baseLayers },
+    {
+      type: 'portraitComposite',
+      portraitBaseLayers: plan.portraitBaseLayers,
+      customPortrait: plan.customPortrait,
+      portraitOverlayLayers: plan.portraitOverlayLayers,
+      portraitEmbed: plan.portraitEmbed
+    },
+    { type: 'systemLayers', layers: plan.overlayLayers.slice(0, 1) },
+    {
+      type: 'systemLayers',
+      layers: plan.portraitFrameLayer ? [plan.portraitFrameLayer] : []
+    },
+    {
+      type: 'customPortraitPopout',
+      customPortrait: plan.customPortrait,
+      portraitEmbed: plan.portraitEmbed,
+      dimensions: plan.dimensions
+    },
+    { type: 'systemLayers', layers: plan.overlayLayers.slice(1) }
+  ]
 }
 
 export function getPlateLayerImageUrl(layer: NSPlateRenderImageLayer) {

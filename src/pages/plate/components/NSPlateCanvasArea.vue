@@ -1,6 +1,13 @@
 <template>
   <section class="nsplate-canvas-area">
     <div ref="viewportRef" class="nsplate-canvas-viewport">
+      <NSPlateSelectionNote
+        v-if="selectionNoteItems.length"
+        :title="selectionNoteTitle"
+        :items="selectionNoteItems"
+        @focus-item="emit('focus-asset-section', $event)"
+      />
+
       <div class="nsplate-canvas-frame" :class="canvasClass" :style="frameStyle">
         <canvas ref="canvasRef" class="nsplate-canvas-frame__canvas" :aria-label="canvasLabel" />
       </div>
@@ -9,9 +16,16 @@
     <NSPlateCanvasActions
       :can-clear-custom-portrait="canClearCustomPortrait"
       :can-clear-all="canClearAll"
+      :can-export="canExport"
       @clear-custom-portrait="emit('clear-custom-portrait')"
       @clear-all="emit('clear-all')"
+      @export-image="exportImage"
+      @export-layered-zip="exportLayeredZip"
     />
+
+    <p v-if="exportErrorText" class="nsplate-canvas-area__error">
+      {{ exportErrorText }}
+    </p>
   </section>
 </template>
 
@@ -23,23 +37,30 @@ import { NSPLATE_CANVAS_DIMENSIONS, createNameplateRenderPlan } from '@/lib/plat
 import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
-  NSPlateCustomPortraitImage
+  NSPlateCustomPortraitImage,
+  NSPlateSelectionNoteItem
 } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
 import NSPlateCanvasActions from '@/pages/plate/components/NSPlateCanvasActions.vue'
+import NSPlateSelectionNote from '@/pages/plate/components/NSPlateSelectionNote.vue'
+import { useNSPlateCanvasExport } from '@/pages/plate/composables/useNSPlateCanvasExport'
 import { useNSPlateCanvasFrame } from '@/pages/plate/composables/useNSPlateCanvasFrame'
 
 const props = defineProps<{
+  apiBase: string
   mode: NSPlateCanvasMode
   selectedAssets: NSPlateAssetSummary[]
   customPortrait: NSPlateCustomPortraitImage | null
   canClearCustomPortrait: boolean
   canClearAll: boolean
+  selectionNoteTitle: string
+  selectionNoteItems: NSPlateSelectionNoteItem[]
 }>()
 
 const emit = defineEmits<{
   'clear-custom-portrait': []
   'clear-all': []
+  'focus-asset-section': [value: NSPlateSelectionNoteItem]
 }>()
 
 const { t } = useLocale()
@@ -65,8 +86,15 @@ const renderSignature = computed(() =>
 )
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const { viewportRef, frameStyle } = useNSPlateCanvasFrame(NSPLATE_CANVAS_DIMENSIONS.nameplate)
+const isCanvasReady = ref(false)
 const imageCache: NSPlateImageCache = new Map()
 let renderSerial = 0
+const { canExport, exportErrorText, exportImage, exportLayeredZip } = useNSPlateCanvasExport({
+  apiBase: props.apiBase,
+  canvasRef,
+  renderPlan,
+  isCanvasReady
+})
 
 onMounted(() => {
   void renderCanvas()
@@ -88,15 +116,21 @@ async function renderCanvas() {
   const canvas = canvasRef.value
 
   if (!canvas) {
+    isCanvasReady.value = false
     return
   }
 
   const serial = ++renderSerial
+  isCanvasReady.value = false
 
   await renderNameplateToCanvas(canvas, renderPlan.value, {
     imageCache,
     isCurrent: () => isCurrentRender(serial)
   })
+
+  if (isCurrentRender(serial)) {
+    isCanvasReady.value = true
+  }
 }
 
 function isCurrentRender(serial: number) {
@@ -168,6 +202,15 @@ function isCurrentRender(serial: number) {
   height: 100%;
   object-fit: contain;
   image-rendering: auto;
+}
+
+.nsplate-canvas-area__error {
+  margin: 8px 0 0;
+  color: var(--ns-color-danger);
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 850;
+  text-align: center;
 }
 
 @media (max-width: 560px) {

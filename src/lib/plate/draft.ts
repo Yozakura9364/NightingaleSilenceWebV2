@@ -96,7 +96,15 @@ export function selectedAssetForGroup(
     return null
   }
 
-  return group.assets.find((asset) => asset.id === selectedId) ?? null
+  return findAssetBySelectionId(group, selectedId)
+}
+
+export function findAssetBySelectionId(group: NSPlateAssetGroup, selectedId: string) {
+  return group.assets.find((asset) => assetMatchesSelectionId(asset, selectedId)) ?? null
+}
+
+export function assetMatchesSelectionId(asset: NSPlateAssetSummary, selectedId: string) {
+  return asset.id === selectedId || asset.legacyIds?.includes(selectedId) === true
 }
 
 export function getSelectedAssetsByCategory(

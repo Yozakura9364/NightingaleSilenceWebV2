@@ -21,11 +21,15 @@ defineProps<{
 <style scoped>
 .nsplate-panel {
   display: grid;
-  gap: 10px;
+  gap: var(--nsplate-panel-title-gap);
   min-width: 0;
-  padding: 12px;
-  border: 1px solid var(--ns-color-border);
-  background: color-mix(in srgb, var(--ns-color-surface-solid) 66%, transparent);
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+}
+
+.nsplate-panel + .nsplate-panel {
+  margin-top: var(--nsplate-panel-stack-gap);
 }
 
 .nsplate-panel__header {

@@ -86,7 +86,7 @@ function normalizePresetList(
       `${pickUiMessage(presetKindLabels[kind], locale)} ${index + 1}`
 
     return {
-      id: `${kind}:${index}:${label}`,
+      id: `${kind}:${index}`,
       kind,
       kindLabel: pickUiMessage(presetKindLabels[kind], locale),
       label,
@@ -105,6 +105,10 @@ function normalizeAssetList(
   return assets.map((asset, index) => {
     const file = normalizeText(asset.file) ?? ''
     const path = normalizeResourcePath(asset.path ?? file)
+    const stableIdPart =
+      normalizeText(asset.id) ?? normalizeText(path) ?? normalizeText(file) ?? String(index)
+    const legacyIdPart = normalizeText(asset.id) ?? normalizeText(file) ?? normalizeText(path) ?? ''
+    const legacyId = `${scope}:${category}:${index}:${legacyIdPart}`
     const label =
       pickLocalizedName(asset.names, locale) ??
       normalizeText(asset.name) ??
@@ -113,7 +117,8 @@ function normalizeAssetList(
       `${category} ${index + 1}`
 
     return {
-      id: `${scope}:${category}:${index}:${normalizeText(asset.id) ?? file ?? path}`,
+      id: `${scope}:${category}:${stableIdPart}`,
+      legacyIds: [legacyId],
       scope,
       scopeLabel: pickUiMessage(assetScopeLabels[scope], locale),
       category,

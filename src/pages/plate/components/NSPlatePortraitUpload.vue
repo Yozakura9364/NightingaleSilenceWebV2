@@ -23,15 +23,29 @@
       {{ errorText }}
     </p>
   </NSPlatePanel>
+
+  <NSPlateCropDialog
+    v-if="cropState"
+    :crop-state="cropState"
+    @apply="applyCrop"
+    @cancel="cropState = null"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref, type CSSProperties } from 'vue'
 import image2PlusIcon from '@/assets/icons/image-2-plus.svg'
 import { textKeys } from '@/config/site'
-import { createCustomPortraitImageFromFile } from '@/lib/plate/customPortrait'
-import type { NSPlateCustomPortraitImage } from '@/lib/plate/types'
+import {
+  createCustomPortraitCropStateFromFile,
+  createCustomPortraitImageFromCropState
+} from '@/lib/plate/customPortrait'
+import type {
+  NSPlateCustomPortraitCropState,
+  NSPlateCustomPortraitImage
+} from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
+import NSPlateCropDialog from '@/pages/plate/components/NSPlateCropDialog.vue'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 
 defineProps<{
@@ -44,6 +58,7 @@ const emit = defineEmits<{
 
 const { t } = useLocale()
 const errorText = ref('')
+const cropState = ref<NSPlateCustomPortraitCropState | null>(null)
 const emptyIconStyle = {
   '--nsplate-portrait-upload-empty-icon': `url("${image2PlusIcon}")`
 } as CSSProperties
@@ -60,7 +75,18 @@ async function onFileChange(event: Event) {
   errorText.value = ''
 
   try {
-    emit('update:modelValue', await createCustomPortraitImageFromFile(file))
+    cropState.value = await createCustomPortraitCropStateFromFile(file)
+  } catch {
+    errorText.value = t(textKeys.nsplateCustomPortraitError)
+  }
+}
+
+async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
+  errorText.value = ''
+
+  try {
+    emit('update:modelValue', await createCustomPortraitImageFromCropState(nextCropState))
+    cropState.value = null
   } catch {
     errorText.value = t(textKeys.nsplateCustomPortraitError)
   }
@@ -70,7 +96,7 @@ async function onFileChange(event: Event) {
 <style scoped>
 .nsplate-portrait-upload {
   display: grid;
-  gap: 8px;
+  gap: var(--nsplate-control-stack-gap);
   min-width: 0;
 }
 

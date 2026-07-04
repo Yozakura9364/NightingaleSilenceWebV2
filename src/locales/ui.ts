@@ -753,6 +753,12 @@ export const uiMessages: UiMessageMap = {
   }),
   'nsplate.panel.assets': msg({ zh: '素材', en: 'Assets', ja: '素材', ko: '소재' }),
   'nsplate.panel.presets': msg({ zh: '预设', en: 'Presets', ja: 'プリセット', ko: '프리셋' }),
+  'nsplate.panel.currentCombination': msg({
+    zh: '当前组合',
+    en: 'Current set',
+    ja: '現在の組み合わせ',
+    ko: '현재 조합'
+  }),
   'nsplate.panel.portraitAssets': msg({
     zh: '肖像素材',
     en: 'Portrait assets',
@@ -795,11 +801,107 @@ export const uiMessages: UiMessageMap = {
     ja: 'この画像を読み取れません',
     ko: '이 이미지를 읽을 수 없습니다'
   }),
+  'nsplate.customPortrait.crop.title': msg({
+    zh: '裁切自定义肖像',
+    en: 'Crop custom portrait',
+    ja: 'カスタムポートレートをトリミング',
+    ko: '사용자 초상화 자르기'
+  }),
+  'nsplate.customPortrait.crop.canvas': msg({
+    zh: '自定义肖像裁切预览',
+    en: 'Custom portrait crop preview',
+    ja: 'カスタムポートレートのトリミングプレビュー',
+    ko: '사용자 초상화 자르기 미리보기'
+  }),
+  'nsplate.customPortrait.crop.mode': msg({
+    zh: '裁切模式',
+    en: 'Crop mode',
+    ja: 'トリミングモード',
+    ko: '자르기 모드'
+  }),
+  'nsplate.customPortrait.crop.mode.standard': msg({
+    zh: '标准进框',
+    en: 'Standard',
+    ja: '標準',
+    ko: '표준'
+  }),
+  'nsplate.customPortrait.crop.mode.popout': msg({
+    zh: '出框',
+    en: 'Popout',
+    ja: '枠外',
+    ko: '프레임 밖'
+  }),
+  'nsplate.customPortrait.crop.zoom': msg({
+    zh: '缩放',
+    en: 'Zoom',
+    ja: 'ズーム',
+    ko: '확대/축소'
+  }),
+  'nsplate.customPortrait.crop.split': msg({
+    zh: '出框分界线',
+    en: 'Popout split line',
+    ja: '枠外の境界線',
+    ko: '프레임 밖 경계선'
+  }),
+  'nsplate.customPortrait.crop.cancel': msg({
+    zh: '取消',
+    en: 'Cancel',
+    ja: 'キャンセル',
+    ko: '취소'
+  }),
+  'nsplate.customPortrait.crop.apply': msg({
+    zh: '应用',
+    en: 'Apply',
+    ja: '適用',
+    ko: '적용'
+  }),
   'nsplate.action.clearAllSelections': msg({
     zh: '清空所有选择',
     en: 'Clear all selections',
     ja: 'すべての選択をクリア',
     ko: '모든 선택 지우기'
+  }),
+  'nsplate.export.png': msg({
+    zh: '导出 PNG',
+    en: 'Export PNG',
+    ja: 'PNGを書き出し',
+    ko: 'PNG 내보내기'
+  }),
+  'nsplate.export.jpg': msg({
+    zh: '导出 JPG',
+    en: 'Export JPG',
+    ja: 'JPGを書き出し',
+    ko: 'JPG 내보내기'
+  }),
+  'nsplate.export.layeredZip': msg({
+    zh: '导出分层 ZIP',
+    en: 'Export layered ZIP',
+    ja: 'レイヤーZIPを書き出し',
+    ko: '레이어 ZIP 내보내기'
+  }),
+  'nsplate.export.scale2x': msg({
+    zh: '导出 200%',
+    en: 'Export 200%',
+    ja: '200%で書き出し',
+    ko: '200%로 내보내기'
+  }),
+  'nsplate.export.error': msg({
+    zh: '导出失败，请重试',
+    en: 'Export failed. Please try again.',
+    ja: '書き出しに失敗しました。もう一度お試しください。',
+    ko: '내보내기에 실패했습니다. 다시 시도해 주세요.'
+  }),
+  'nsplate.export.error.noLayers': msg({
+    zh: '没有可导出的图层，请先选择素材',
+    en: 'No exportable layers. Choose assets first.',
+    ja: '書き出せるレイヤーがありません。先に素材を選択してください。',
+    ko: '내보낼 수 있는 레이어가 없습니다. 먼저 소재를 선택해 주세요.'
+  }),
+  'nsplate.export.error.layeredZip': msg({
+    zh: '分层 ZIP 导出失败，请重试',
+    en: 'Layered ZIP export failed. Please try again.',
+    ja: 'レイヤーZIPの書き出しに失敗しました。もう一度お試しください。',
+    ko: '레이어 ZIP 내보내기에 실패했습니다. 다시 시도해 주세요.'
   }),
   'nsplate.canvas.editing': msg({ zh: '编辑', en: 'Edit', ja: '編集', ko: '편집' }),
   'nsplate.canvas.selectedPreset': msg({

@@ -17,12 +17,13 @@
       </NSPlateChoiceButton>
     </div>
 
-    <div class="nsplate-asset-sections">
+    <div ref="sectionsRef" class="nsplate-asset-sections">
       <p v-if="scopedGroups.length === 0" class="nsplate-asset-empty">{{ t(textKeys.noAssets) }}</p>
 
       <NSPlateAssetSection
         v-for="(group, index) in scopedGroups"
         :key="sectionKey(group)"
+        :data-section-key="sectionKey(group)"
         :group="group"
         :open="isSectionOpen(group)"
         :panel-id="sectionPanelId(group, index)"
@@ -37,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { textKeys } from '@/config/site'
 import { getPlateAssetSectionKey, type NSPlateAssetSelectionMap } from '@/lib/plate/draft'
 import { useLocale } from '@/stores/locale'
@@ -51,6 +52,8 @@ const props = defineProps<{
   selectedIdsByCategory: NSPlateAssetSelectionMap
   scope?: NSPlateAssetScope
   showScopeTabs?: boolean
+  focusSectionKey?: string | null
+  focusRequestId?: number
 }>()
 
 const emit = defineEmits<{
@@ -61,6 +64,7 @@ const { t } = useLocale()
 const scopes = ['portrait', 'nameplate'] as const
 const activeScope = ref<NSPlateAssetScope>('portrait')
 const openSectionKeys = ref<Set<string>>(new Set())
+const sectionsRef = ref<HTMLElement | null>(null)
 
 const scopedGroups = computed(() =>
   props.groups.filter((group) => group.scope === (props.scope ?? activeScope.value))
@@ -102,6 +106,31 @@ function selectAsset(asset: NSPlateAssetSummary) {
   emit('toggle:asset', asset)
 }
 
+async function focusSection(sectionKey: string) {
+  const canFocusSection = scopedGroups.value.some(
+    (group) => getPlateAssetSectionKey(group.scope, group.category) === sectionKey
+  )
+
+  if (!canFocusSection) {
+    return
+  }
+
+  const nextKeys = new Set(openSectionKeys.value)
+  nextKeys.add(sectionKey)
+  openSectionKeys.value = nextKeys
+
+  await nextTick()
+
+  const sectionElement = Array.from(sectionsRef.value?.children ?? []).find(
+    (child) => (child as HTMLElement).dataset.sectionKey === sectionKey
+  ) as HTMLElement | undefined
+
+  sectionElement?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+  sectionElement
+    ?.querySelector<HTMLButtonElement>('.nsplate-asset-section__header')
+    ?.focus({ preventScroll: true })
+}
+
 watch(
   () => props.scope,
   (scope) => {
@@ -111,18 +140,28 @@ watch(
   },
   { immediate: true }
 )
+
+watch(
+  () => props.focusRequestId,
+  () => {
+    if (props.focusSectionKey) {
+      void focusSection(props.focusSectionKey)
+    }
+  },
+  { flush: 'post' }
+)
 </script>
 
 <style scoped>
 .nsplate-asset-tabs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: var(--nsplate-section-stack-gap);
 }
 
 .nsplate-asset-sections {
   display: grid;
-  gap: 6px;
+  gap: var(--nsplate-section-stack-gap);
   min-width: 0;
 }
 

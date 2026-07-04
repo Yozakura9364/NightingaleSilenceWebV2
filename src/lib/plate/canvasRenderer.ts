@@ -1,9 +1,13 @@
 import {
   NSPLATE_CANVAS_DIMENSIONS,
+  getNameplateRenderSegments,
   getPlateLayerImageUrl,
+  type NSPlateLayerPosition,
+  type NSPlateNameplateRenderSegment,
   type NSPlateNameplateRenderPlan,
   type NSPlateRenderImageLayer
 } from '@/lib/plate/render'
+import { getCustomPortraitSourceDrawRect } from '@/lib/plate/customPortrait'
 import type { NSPlateCustomPortraitImage } from '@/lib/plate/types'
 
 export type NSPlateImageCache = Map<string, Promise<HTMLImageElement | null>>
@@ -36,12 +40,43 @@ async function renderNameplatePlan(
   plan: NSPlateNameplateRenderPlan,
   options: NSPlateCanvasRenderOptions
 ) {
-  await drawLayers(context, plan.baseLayers, options)
+  for (const segment of getNameplateRenderSegments(plan)) {
+    await drawNameplateSegment(context, segment, options)
 
-  if (!isCurrentRender(options)) {
+    if (!isCurrentRender(options)) {
+      return
+    }
+  }
+}
+
+async function drawNameplateSegment(
+  context: CanvasRenderingContext2D,
+  segment: NSPlateNameplateRenderSegment,
+  options: NSPlateCanvasRenderOptions
+) {
+  if (segment.type === 'systemLayers') {
+    await drawLayers(context, segment.layers, options)
     return
   }
 
+  if (segment.type === 'portraitComposite') {
+    await drawPortraitComposite(context, segment, options)
+    return
+  }
+
+  await drawCustomPortraitPopout(
+    context,
+    segment.customPortrait,
+    segment.portraitEmbed,
+    options
+  )
+}
+
+async function drawPortraitComposite(
+  context: CanvasRenderingContext2D,
+  segment: Extract<NSPlateNameplateRenderSegment, { type: 'portraitComposite' }>,
+  options: NSPlateCanvasRenderOptions
+) {
   const portraitCanvas = document.createElement('canvas')
   const portraitContext = prepareCanvas(
     portraitCanvas,
@@ -49,35 +84,29 @@ async function renderNameplatePlan(
     NSPLATE_CANVAS_DIMENSIONS.portrait.height
   )
 
-  if (portraitContext) {
-    await drawLayers(portraitContext, plan.portraitBaseLayers, options)
-
-    if (!isCurrentRender(options)) {
-      return
-    }
-
-    await drawCustomPortrait(portraitContext, plan.customPortrait, options)
-
-    if (!isCurrentRender(options)) {
-      return
-    }
-
-    await drawLayers(portraitContext, plan.portraitOverlayLayers, options)
-
-    if (!isCurrentRender(options)) {
-      return
-    }
-
-    context.drawImage(portraitCanvas, plan.portraitEmbed.x, plan.portraitEmbed.y)
+  if (!portraitContext) {
+    return
   }
 
-  await drawLayers(context, plan.overlayLayers.slice(0, 1), options)
+  await drawLayers(portraitContext, segment.portraitBaseLayers, options)
 
-  if (plan.portraitFrameLayer) {
-    await drawLayer(context, plan.portraitFrameLayer, options)
+  if (!isCurrentRender(options)) {
+    return
   }
 
-  await drawLayers(context, plan.overlayLayers.slice(1), options)
+  await drawCustomPortraitInFrame(portraitContext, segment.customPortrait, options)
+
+  if (!isCurrentRender(options)) {
+    return
+  }
+
+  await drawLayers(portraitContext, segment.portraitOverlayLayers, options)
+
+  if (!isCurrentRender(options)) {
+    return
+  }
+
+  context.drawImage(portraitCanvas, segment.portraitEmbed.x, segment.portraitEmbed.y)
 }
 
 async function drawLayers(
@@ -125,7 +154,7 @@ async function drawLayer(
   context.drawImage(image, x, y, width, height)
 }
 
-async function drawCustomPortrait(
+async function drawCustomPortraitInFrame(
   context: CanvasRenderingContext2D,
   customPortrait: NSPlateCustomPortraitImage | null,
   options: NSPlateCanvasRenderOptions
@@ -134,13 +163,64 @@ async function drawCustomPortrait(
     return
   }
 
-  const image = await loadImage(customPortrait.dataUrl, options.imageCache)
+  const source =
+    customPortrait.mode === 'popout'
+      ? customPortrait.sourceDataUrl ?? customPortrait.dataUrl
+      : customPortrait.dataUrl
+  const image = await loadImage(source, options.imageCache)
 
   if (!image || !isCurrentRender(options)) {
     return
   }
 
+  if (customPortrait.mode === 'popout') {
+    const splitY = customPortrait.splitY ?? 0
+    const rect = getCustomPortraitSourceDrawRect(customPortrait)
+
+    context.save()
+    context.beginPath()
+    context.rect(0, splitY, context.canvas.width, context.canvas.height - splitY)
+    context.clip()
+    context.drawImage(image, rect.x, rect.y, rect.width, rect.height)
+    context.restore()
+    return
+  }
+
   context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height)
+}
+
+async function drawCustomPortraitPopout(
+  context: CanvasRenderingContext2D,
+  customPortrait: NSPlateCustomPortraitImage | null,
+  portraitEmbed: NSPlateLayerPosition,
+  options: NSPlateCanvasRenderOptions
+) {
+  if (!customPortrait || customPortrait.mode !== 'popout') {
+    return
+  }
+
+  const source = customPortrait.sourceDataUrl ?? customPortrait.dataUrl
+  const image = await loadImage(source, options.imageCache)
+
+  if (!image || !isCurrentRender(options)) {
+    return
+  }
+
+  const splitY = customPortrait.splitY ?? 0
+  const rect = getCustomPortraitSourceDrawRect(customPortrait)
+
+  context.save()
+  context.beginPath()
+  context.rect(0, 0, context.canvas.width, portraitEmbed.y + splitY)
+  context.clip()
+  context.drawImage(
+    image,
+    portraitEmbed.x + rect.x,
+    portraitEmbed.y + rect.y,
+    rect.width,
+    rect.height
+  )
+  context.restore()
 }
 
 function prepareCanvas(canvas: HTMLCanvasElement, width: number, height: number) {

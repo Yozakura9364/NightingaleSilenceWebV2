@@ -2,6 +2,7 @@
   <button
     class="nsplate-asset-card"
     :class="{ 'nsplate-asset-card--active': active }"
+    :style="activeIconStyle"
     type="button"
     @click="emit('select', asset)"
   >
@@ -13,6 +14,8 @@
 </template>
 
 <script setup lang="ts">
+import type { CSSProperties } from 'vue'
+import sparklesIcon from '@/assets/icons/sparkles.svg'
 import type { NSPlateAssetSummary } from '@/lib/plate/types'
 
 defineProps<{
@@ -23,10 +26,15 @@ defineProps<{
 const emit = defineEmits<{
   select: [value: NSPlateAssetSummary]
 }>()
+
+const activeIconStyle = {
+  '--nsplate-asset-card-active-icon': `url("${sparklesIcon}")`
+} as CSSProperties
 </script>
 
 <style scoped>
 .nsplate-asset-card {
+  position: relative;
   display: grid;
   gap: 6px;
   min-width: 0;
@@ -39,10 +47,50 @@ const emit = defineEmits<{
   cursor: pointer;
 }
 
-.nsplate-asset-card:hover,
+.nsplate-asset-card:hover {
+  border-color: color-mix(in srgb, var(--ns-color-accent-strong) 48%, var(--ns-color-border));
+  background: color-mix(in srgb, var(--ns-color-cyan) 9%, var(--ns-color-surface-solid));
+}
+
 .nsplate-asset-card--active {
-  border-color: rgba(239, 111, 178, 0.52);
-  background: rgba(255, 225, 241, 0.62);
+  border-color: var(--ns-color-accent-strong);
+  background: color-mix(in srgb, var(--ns-color-surface-solid) 90%, var(--ns-color-cyan-soft));
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--ns-color-accent-strong) 78%, transparent),
+    3px 3px 0 color-mix(in srgb, var(--ns-color-accent-strong) 22%, transparent);
+}
+
+.nsplate-asset-card--active::before,
+.nsplate-asset-card--active::after {
+  position: absolute;
+  pointer-events: none;
+  content: '';
+}
+
+.nsplate-asset-card--active::before {
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--ns-color-accent-strong);
+  background: var(--ns-color-bg);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--ns-color-accent-strong) 24%, transparent);
+}
+
+.nsplate-asset-card--active::after {
+  top: 7px;
+  right: 7px;
+  width: 11px;
+  height: 11px;
+  background: var(--ns-color-accent-strong);
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--ns-color-accent) 45%, transparent));
+  image-rendering: pixelated;
+  mask: var(--nsplate-asset-card-active-icon) center / contain no-repeat;
+  -webkit-mask: var(--nsplate-asset-card-active-icon) center / contain no-repeat;
+}
+
+.nsplate-asset-card--active .nsplate-asset-card__label {
+  color: var(--ns-color-text);
 }
 
 .nsplate-asset-card__image {

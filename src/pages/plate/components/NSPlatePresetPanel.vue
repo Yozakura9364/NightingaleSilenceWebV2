@@ -53,7 +53,7 @@ function onPresetChange(event: Event) {
 <style scoped>
 .nsplate-preset-selects {
   display: grid;
-  gap: 12px;
+  gap: var(--nsplate-control-stack-gap);
 }
 
 .nsplate-preset-select {
@@ -66,10 +66,16 @@ function onPresetChange(event: Event) {
   width: 100%;
   min-height: 36px;
   min-width: 0;
-  padding: 0 10px;
+  padding: 0 var(--ns-select-padding-end) 0 var(--ns-select-padding-start);
+  appearance: none;
+  -webkit-appearance: none;
   border: 1px solid var(--ns-color-border);
   border-radius: var(--ns-radius-xs);
-  background: var(--ns-color-surface-solid);
+  background-color: var(--ns-color-surface-solid);
+  background-image: var(--ns-select-caret-icon);
+  background-position: right var(--ns-select-caret-right) center;
+  background-repeat: no-repeat;
+  background-size: var(--ns-select-caret-size) var(--ns-select-caret-size);
   color: var(--ns-color-text);
   font-family: var(--ns-font-sans);
   font-size: 12px;

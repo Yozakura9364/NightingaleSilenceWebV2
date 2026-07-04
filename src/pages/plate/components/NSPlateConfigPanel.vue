@@ -42,6 +42,11 @@ const activeTab = computed({
 <style scoped>
 .nsplate-config-panel {
   --nsplate-config-scroll-padding: 10px;
+  --nsplate-panel-stack-gap: 18px;
+  --nsplate-panel-title-gap: 12px;
+  --nsplate-control-stack-gap: 12px;
+  --nsplate-section-stack-gap: 8px;
+  --nsplate-section-body-gap: 8px;
 
   display: flex;
   width: var(--nsplate-panel-width, clamp(340px, 31vw, 460px));

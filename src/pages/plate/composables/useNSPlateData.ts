@@ -4,6 +4,7 @@ import { useLocale } from '@/stores/locale'
 import {
   applyPresetToAssetSelection,
   createEmptyAssetSelection,
+  findAssetBySelectionId,
   getSelectedAssetsByCategory,
   toggleAssetInSelection,
   type NSPlateAssetSelectionMap
@@ -96,8 +97,9 @@ export function useNSPlateData(boundary: ApiBoundary) {
     for (const group of groups) {
       const key = `${group.scope}:${group.category}`
       const selectedId = selectedAssetIdsByCategory.value[key]
-      nextSelection[key] =
-        selectedId && group.assets.some((asset) => asset.id === selectedId) ? selectedId : null
+      const selectedAsset = selectedId ? findAssetBySelectionId(group, selectedId) : null
+
+      nextSelection[key] = selectedAsset?.id ?? null
     }
 
     selectedAssetIdsByCategory.value = nextSelection

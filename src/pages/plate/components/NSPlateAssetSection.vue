@@ -102,12 +102,12 @@ const arrowIconStyle = computed(
 
 .nsplate-asset-section__header {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+  grid-template-columns: minmax(0, 1fr) minmax(72px, var(--nsplate-asset-section-status-column, 116px));
   align-items: center;
   gap: 8px;
   width: 100%;
   min-height: 34px;
-  padding: 7px 9px;
+  padding: 7px var(--ns-control-caret-box-right) 7px 9px;
   border: 0;
   background: transparent;
   color: var(--ns-color-text);
@@ -143,8 +143,9 @@ const arrowIconStyle = computed(
 }
 
 .nsplate-asset-section__right {
-  max-width: 180px;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--ns-control-caret-box-size);
+  justify-content: end;
   gap: 6px;
 }
 
@@ -173,23 +174,29 @@ const arrowIconStyle = computed(
 }
 
 .nsplate-asset-section__selected {
-  padding: 1px 6px;
-  border: 1px solid color-mix(in srgb, var(--ns-color-border) 70%, transparent);
-  border-radius: var(--ns-radius-xs);
   color: var(--ns-color-text-muted);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 850;
+  line-height: 1;
+  text-align: right;
+}
+
+.nsplate-asset-section[data-selected='true'] .nsplate-asset-section__selected {
+  color: var(--ns-color-accent-strong);
+  text-shadow: 0 0 5px color-mix(in srgb, var(--ns-color-accent) 24%, transparent);
 }
 
 .nsplate-asset-section__selected[data-empty='true'] {
+  color: var(--ns-color-text-muted);
   opacity: 0.72;
+  text-shadow: none;
 }
 
 .nsplate-asset-section__arrow {
   display: grid;
-  width: 16px;
-  height: 16px;
-  flex: 0 0 16px;
+  width: var(--ns-control-caret-box-size);
+  height: var(--ns-control-caret-box-size);
+  flex: 0 0 var(--ns-control-caret-box-size);
   place-items: center;
   color: color-mix(in srgb, var(--ns-color-text) 58%, var(--ns-color-text-muted));
   image-rendering: pixelated;
@@ -212,7 +219,7 @@ const arrowIconStyle = computed(
 
 .nsplate-asset-section__body {
   display: grid;
-  gap: 8px;
+  gap: var(--nsplate-section-body-gap);
   padding: 6px 7px 8px;
 }
 
@@ -227,7 +234,7 @@ const arrowIconStyle = computed(
 .nsplate-asset-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
-  gap: 8px;
+  gap: var(--nsplate-section-body-gap);
   align-content: start;
 }
 </style>
