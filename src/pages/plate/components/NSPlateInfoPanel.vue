@@ -324,49 +324,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { toRef } from 'vue'
 import { textKeys } from '@/config/site'
 import {
-  getNSPlateInfoAssetItemId,
-  normalizeNSPlateInfoAssetValues,
-  nsPlateInfoAssetMatchesValue
-} from '@/lib/plate/infoLayerAssetMatching'
-import {
   localizePlateInfoText,
-  nsPlateInfoPresetDefinitions,
-  type NSPlateInfoPresetId
+  nsPlateInfoPresetDefinitions
 } from '@/lib/plate/infoLayerFields'
-import {
-  NSPLATE_INFO_ACTIVITY_ICON_CATEGORY,
-  NSPLATE_INFO_SPECIAL_BG_CATEGORY,
-  NSPLATE_INFO_SPECIAL_DEFAULT_SYMBOL_ITEM_ID,
-  NSPLATE_INFO_SPECIAL_MASK_CATEGORY,
-  NSPLATE_INFO_SPECIAL_SYMBOL_CATEGORY,
-  nsPlateInfoGraphicRenderDefinitions,
-  type NSPlateInfoIconRenderDefinition
-} from '@/lib/plate/infoLayerRenderDefinitions'
-import {
-  NSPLATE_INFO_ACTIVITY_ICON_MAX_COUNT,
-  getNSPlateInfoActiveLayers,
-  resetNSPlateInfoActivePreset,
-  setNSPlateInfoBar48All,
-  setNSPlateInfoActivePreset,
-  setNSPlateInfoActivePresetLayersEnabled,
-  toggleNSPlateInfoActivityIconMaterial,
-  toggleNSPlateInfoBar48Cell,
-  updateNSPlateInfoIconMaterial,
-  updateNSPlateInfoLayerEnabled,
-  updateNSPlateInfoSpecialMaterial,
-  updateNSPlateInfoText,
-  type NSPlateInfoLayerState,
-  type NSPlateInfoBar48LayerState,
-  type NSPlateInfoDraft,
-  type NSPlateInfoIconLayerState,
-  type NSPlateInfoSpecialLayerState,
-  type NSPlateInfoSpecialMaterialKind
-} from '@/lib/plate/infoLayers'
+import type { NSPlateInfoDraft } from '@/lib/plate/infoLayers'
+import { useNSPlateInfoPanel } from '@/pages/plate/composables/useNSPlateInfoPanel'
 import { useLocale } from '@/stores/locale'
-import type { NSPlateAssetGroup, NSPlateAssetSummary } from '@/lib/plate/types'
+import type { NSPlateAssetGroup } from '@/lib/plate/types'
 import NSPlateAssetCard from '@/pages/plate/components/NSPlateAssetCard.vue'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 
@@ -381,395 +348,54 @@ const emit = defineEmits<{
 
 const { t } = useLocale()
 
-const BAR48_KEYS = {
-  actions: 'plate.info.bar48.actions',
-  allEmpty: 'plate.info.bar48.allEmpty',
-  allOn: 'plate.info.bar48.allOn',
-  stateSelect: 'plate.info.bar48.stateSelect',
-  cellPrefix: 'plate.info.bar48.cellPrefix',
-  cellSeparator: 'plate.info.bar48.cellSeparator',
-  cellOn: 'plate.info.bar48.cellOn',
-  cellOff: 'plate.info.bar48.cellOff'
-} as const
-
-const ICON_KEYS = {
-  material: 'plate.info.icon.material',
-  selectedCount: 'plate.info.icon.selectedCount'
-} as const
-
-const SPECIAL_KEYS = {
-  background: 'plate.info.special.background',
-  mask: 'plate.info.special.mask',
-  symbol: 'plate.info.special.symbol',
-  noBackground: 'plate.info.special.noBackground',
-  noMask: 'plate.info.special.noMask',
-  maskNeedsBackground: 'plate.info.special.maskNeedsBackground'
-} as const
-
-const ACTION_KEYS = {
-  group: 'plate.info.actions.group',
-  showAll: 'plate.info.actions.showAll',
-  hideAll: 'plate.info.actions.hideAll',
-  reset: 'plate.info.actions.reset',
-  resetConfirm: 'plate.info.actions.resetConfirm'
-} as const
-
-const VISIBILITY_KEYS = {
-  show: textKeys.nsplateInfoLayerShow,
-  hide: textKeys.nsplateInfoLayerHide
-} as const
-
-const SPECIAL_MATERIAL_SECTIONS = [
-  {
-    kind: 'background',
-    category: NSPLATE_INFO_SPECIAL_BG_CATEGORY,
-    labelKey: SPECIAL_KEYS.background,
-    noneLabelKey: SPECIAL_KEYS.noBackground,
-    allowNone: true
-  },
-  {
-    kind: 'mask',
-    category: NSPLATE_INFO_SPECIAL_MASK_CATEGORY,
-    labelKey: SPECIAL_KEYS.mask,
-    noneLabelKey: SPECIAL_KEYS.noMask,
-    allowNone: true
-  },
-  {
-    kind: 'symbol',
-    category: NSPLATE_INFO_SPECIAL_SYMBOL_CATEGORY,
-    labelKey: SPECIAL_KEYS.symbol,
-    noneLabelKey: '',
-    allowNone: false
-  }
-] satisfies {
-  kind: NSPlateInfoSpecialMaterialKind
-  category: string
-  labelKey: string
-  noneLabelKey: string
-  allowNone: boolean
-}[]
-
-const activeLayers = computed(() => getNSPlateInfoActiveLayers(props.modelValue))
-const openLayerIds = ref<Record<string, boolean>>({})
-const openIconMaterialSectionIds = ref<Record<string, boolean>>({})
-const openSpecialSectionIds = ref<Record<string, boolean>>({})
-
-function setActivePreset(event: Event) {
-  emit(
-    'update:modelValue',
-    setNSPlateInfoActivePreset(
-      props.modelValue,
-      (event.target as HTMLSelectElement).value as NSPlateInfoPresetId
-    )
-  )
-}
-
-function getLayerOpenKey(slotId: string) {
-  return `${props.modelValue.activePresetId}:${slotId}`
-}
-
-function getLayerPanelId(slotId: string) {
-  return `nsplate-info-layer-${props.modelValue.activePresetId}-${slotId}`
-}
-
-function isLayerOpen(slotId: string) {
-  return openLayerIds.value[getLayerOpenKey(slotId)] === true
-}
-
-function isLayerExpandable(state: NSPlateInfoLayerState) {
-  return (
-    state.type === 'text' ||
-    state.type === 'icon' ||
-    state.type === 'bar48' ||
-    state.type === 'special'
-  )
-}
-
-function toggleLayerOpen(slotId: string) {
-  const key = getLayerOpenKey(slotId)
-  openLayerIds.value = {
-    ...openLayerIds.value,
-    [key]: !openLayerIds.value[key]
-  }
-}
-
-function setLayerEnabled(slotId: string, enabled: boolean) {
-  emit('update:modelValue', updateNSPlateInfoLayerEnabled(props.modelValue, slotId, enabled))
-}
-
-function getLayerVisibilityLabel(enabled: boolean) {
-  return t(enabled ? VISIBILITY_KEYS.hide : VISIBILITY_KEYS.show)
-}
-
-function setTextLayerValue(slotId: string, event: Event) {
-  emit(
-    'update:modelValue',
-    updateNSPlateInfoText(props.modelValue, slotId, (event.target as HTMLTextAreaElement).value)
-  )
-}
-
-function toggleBar48Cell(slotId: string, cellIndex: number) {
-  emit('update:modelValue', toggleNSPlateInfoBar48Cell(props.modelValue, slotId, cellIndex))
-}
-
-function setBar48All(slotId: string, enabled: boolean) {
-  emit('update:modelValue', setNSPlateInfoBar48All(props.modelValue, slotId, enabled))
-}
-
-function setAllLayersEnabled(enabled: boolean) {
-  emit('update:modelValue', setNSPlateInfoActivePresetLayersEnabled(props.modelValue, enabled))
-}
-
-function resetActivePreset() {
-  if (!window.confirm(t(ACTION_KEYS.resetConfirm))) {
-    return
-  }
-
-  emit('update:modelValue', resetNSPlateInfoActivePreset(props.modelValue))
-}
-
-function getIconMaterialSectionOpenKey(slotId: string) {
-  return `${props.modelValue.activePresetId}:${slotId}:icon-material`
-}
-
-function getIconMaterialSectionPanelId(slotId: string) {
-  return `nsplate-info-icon-material-${props.modelValue.activePresetId}-${slotId}`
-}
-
-function isIconMaterialSectionOpen(slotId: string) {
-  return openIconMaterialSectionIds.value[getIconMaterialSectionOpenKey(slotId)] === true
-}
-
-function toggleIconMaterialSection(slotId: string) {
-  const key = getIconMaterialSectionOpenKey(slotId)
-  openIconMaterialSectionIds.value = {
-    ...openIconMaterialSectionIds.value,
-    [key]: !openIconMaterialSectionIds.value[key]
-  }
-}
-
-function getIconRenderDefinition(slotId: string): NSPlateInfoIconRenderDefinition | null {
-  const definition = nsPlateInfoGraphicRenderDefinitions[props.modelValue.activePresetId].find(
-    (item) => item.slotId === slotId
-  )
-
-  return definition?.type === 'icon' ? definition : null
-}
-
-function isIconRenderDefinitionActivity(definition: NSPlateInfoIconRenderDefinition | null) {
-  return (
-    definition?.isActivity === true || definition?.sourceCat === NSPLATE_INFO_ACTIVITY_ICON_CATEGORY
-  )
-}
-
-function isActivityIconLayer(state: NSPlateInfoIconLayerState) {
-  return isIconRenderDefinitionActivity(getIconRenderDefinition(state.slotId))
-}
-
-function getIconMaterialAssets(state: NSPlateInfoIconLayerState) {
-  const definition = getIconRenderDefinition(state.slotId)
-
-  if (!definition) {
-    return []
-  }
-
-  return (
-    props.assetGroups.find(
-      (group) => group.scope === 'nameplate' && group.category === definition.sourceCat
-    )?.assets ?? []
-  )
-}
-
-function getIconSelectedValues(state: NSPlateInfoIconLayerState) {
-  const definition = getIconRenderDefinition(state.slotId)
-
-  if (isIconRenderDefinitionActivity(definition)) {
-    return normalizeNSPlateInfoAssetValues(
-      state.itemIds.length > 0
-        ? state.itemIds
-        : state.itemId
-          ? [state.itemId]
-          : definition?.itemIds.length
-            ? definition.itemIds
-            : definition?.itemId
-              ? [definition.itemId]
-              : [],
-      NSPLATE_INFO_ACTIVITY_ICON_MAX_COUNT
-    )
-  }
-
-  const value = state.itemId || definition?.itemId || ''
-  return value ? [value] : []
-}
-
-function getIconSummary(state: NSPlateInfoIconLayerState) {
-  return getIconMaterialSelectionLabel(state)
-}
-
-function getIconMaterialSelectionLabel(state: NSPlateInfoIconLayerState) {
-  const selectedValues = getIconSelectedValues(state)
-
-  if (isActivityIconLayer(state)) {
-    return getIconSelectedCountText(selectedValues.length)
-  }
-
-  const selectedValue = selectedValues[0] ?? ''
-  const asset = selectedValue ? findIconAssetByValue(state, selectedValue) : null
-
-  return asset?.label ?? selectedValue ?? t(textKeys.notSelected)
-}
-
-function getIconSelectedCountLabel(state: NSPlateInfoIconLayerState) {
-  return getIconSelectedCountText(getIconSelectedValues(state).length)
-}
-
-function getIconSelectedCountText(selectedCount: number) {
-  return `${t(ICON_KEYS.selectedCount)} ${selectedCount}/${NSPLATE_INFO_ACTIVITY_ICON_MAX_COUNT}`
-}
-
-function selectIconMaterial(state: NSPlateInfoIconLayerState, asset: NSPlateAssetSummary) {
-  const selectedValue = getIconSelectedValues(state).find((value) =>
-    nsPlateInfoAssetMatchesValue(asset, value)
-  )
-  const itemId = selectedValue || getNSPlateInfoAssetItemId(asset)
-
-  emit(
-    'update:modelValue',
-    isActivityIconLayer(state)
-      ? toggleNSPlateInfoActivityIconMaterial(props.modelValue, state.slotId, itemId)
-      : updateNSPlateInfoIconMaterial(props.modelValue, state.slotId, itemId)
-  )
-}
-
-function isIconAssetSelected(state: NSPlateInfoIconLayerState, asset: NSPlateAssetSummary) {
-  return getIconSelectedValues(state).some((value) => nsPlateInfoAssetMatchesValue(asset, value))
-}
-
-function findIconAssetByValue(state: NSPlateInfoIconLayerState, value: string) {
-  return getIconMaterialAssets(state).find((asset) => nsPlateInfoAssetMatchesValue(asset, value))
-}
-
-function getSpecialSectionOpenKey(slotId: string, kind: NSPlateInfoSpecialMaterialKind) {
-  return `${props.modelValue.activePresetId}:${slotId}:${kind}`
-}
-
-function getSpecialSectionPanelId(slotId: string, kind: NSPlateInfoSpecialMaterialKind) {
-  return `nsplate-info-special-${props.modelValue.activePresetId}-${slotId}-${kind}`
-}
-
-function isSpecialSectionOpen(slotId: string, kind: NSPlateInfoSpecialMaterialKind) {
-  return openSpecialSectionIds.value[getSpecialSectionOpenKey(slotId, kind)] === true
-}
-
-function toggleSpecialSection(slotId: string, kind: NSPlateInfoSpecialMaterialKind) {
-  const key = getSpecialSectionOpenKey(slotId, kind)
-  openSpecialSectionIds.value = {
-    ...openSpecialSectionIds.value,
-    [key]: !openSpecialSectionIds.value[key]
-  }
-}
-
-function getSpecialMaterialAssets(kind: NSPlateInfoSpecialMaterialKind) {
-  const section = SPECIAL_MATERIAL_SECTIONS.find((item) => item.kind === kind)
-
-  if (!section) {
-    return []
-  }
-
-  return (
-    props.assetGroups.find(
-      (group) => group.scope === 'nameplate' && group.category === section.category
-    )?.assets ?? []
-  )
-}
-
-function getSpecialMaterialValue(
-  state: NSPlateInfoSpecialLayerState,
-  kind: NSPlateInfoSpecialMaterialKind
-) {
-  if (kind === 'background') {
-    return state.bgItemId
-  }
-
-  if (kind === 'mask') {
-    return state.maskItemId
-  }
-
-  return state.symbolItemId || NSPLATE_INFO_SPECIAL_DEFAULT_SYMBOL_ITEM_ID
-}
-
-function getSpecialSummary(state: NSPlateInfoSpecialLayerState) {
-  return getSpecialSelectionLabel(state, 'symbol')
-}
-
-function getSpecialSelectionLabel(
-  state: NSPlateInfoSpecialLayerState,
-  kind: NSPlateInfoSpecialMaterialKind
-) {
-  const value = getSpecialMaterialValue(state, kind)
-
-  if (!value && kind === 'background') {
-    return t(SPECIAL_KEYS.noBackground)
-  }
-
-  if (!value && kind === 'mask') {
-    return t(SPECIAL_KEYS.noMask)
-  }
-
-  const asset = findSpecialAssetByValue(kind, value)
-  return asset?.label ?? value ?? t(textKeys.notSelected)
-}
-
-function hasSpecialBackground(state: NSPlateInfoSpecialLayerState) {
-  return getSpecialMaterialValue(state, 'background').length > 0
-}
-
-function clearSpecialMaterial(slotId: string, kind: NSPlateInfoSpecialMaterialKind) {
-  if (kind === 'symbol') {
-    return
-  }
-
-  emit('update:modelValue', updateNSPlateInfoSpecialMaterial(props.modelValue, slotId, kind, ''))
-}
-
-function selectSpecialMaterial(
-  slotId: string,
-  kind: NSPlateInfoSpecialMaterialKind,
-  asset: NSPlateAssetSummary
-) {
-  emit(
-    'update:modelValue',
-    updateNSPlateInfoSpecialMaterial(props.modelValue, slotId, kind, getSpecialAssetItemId(asset))
-  )
-}
-
-function isSpecialAssetSelected(
-  state: NSPlateInfoSpecialLayerState,
-  kind: NSPlateInfoSpecialMaterialKind,
-  asset: NSPlateAssetSummary
-) {
-  return specialAssetMatchesValue(asset, getSpecialMaterialValue(state, kind))
-}
-
-function findSpecialAssetByValue(kind: NSPlateInfoSpecialMaterialKind, value: string) {
-  return getSpecialMaterialAssets(kind).find((asset) => specialAssetMatchesValue(asset, value))
-}
-
-function specialAssetMatchesValue(asset: NSPlateAssetSummary, value: string) {
-  return nsPlateInfoAssetMatchesValue(asset, value)
-}
-
-function getSpecialAssetItemId(asset: NSPlateAssetSummary) {
-  return getNSPlateInfoAssetItemId(asset)
-}
-
-function getBar48Summary(state: NSPlateInfoBar48LayerState) {
-  return `${state.states.filter((item) => item === 1).length}/${state.states.length}`
-}
-
-function getBar48CellLabel(cellIndex: number, enabled: boolean) {
-  return `${t(BAR48_KEYS.cellPrefix)}${cellIndex + 1}${t(BAR48_KEYS.cellSeparator)}${t(enabled ? BAR48_KEYS.cellOn : BAR48_KEYS.cellOff)}`
-}
+const {
+  ACTION_KEYS,
+  BAR48_KEYS,
+  ICON_KEYS,
+  SPECIAL_KEYS,
+  SPECIAL_MATERIAL_SECTIONS,
+  activeLayers,
+  clearSpecialMaterial,
+  getBar48CellLabel,
+  getBar48Summary,
+  getIconMaterialAssets,
+  getIconMaterialSectionPanelId,
+  getIconMaterialSelectionLabel,
+  getIconSelectedCountLabel,
+  getIconSummary,
+  getLayerPanelId,
+  getLayerVisibilityLabel,
+  getSpecialMaterialAssets,
+  getSpecialMaterialValue,
+  getSpecialSectionPanelId,
+  getSpecialSelectionLabel,
+  getSpecialSummary,
+  hasSpecialBackground,
+  isActivityIconLayer,
+  isIconAssetSelected,
+  isIconMaterialSectionOpen,
+  isLayerExpandable,
+  isLayerOpen,
+  isSpecialAssetSelected,
+  isSpecialSectionOpen,
+  resetActivePreset,
+  selectIconMaterial,
+  selectSpecialMaterial,
+  setActivePreset,
+  setAllLayersEnabled,
+  setBar48All,
+  setLayerEnabled,
+  setTextLayerValue,
+  toggleBar48Cell,
+  toggleIconMaterialSection,
+  toggleLayerOpen,
+  toggleSpecialSection
+} = useNSPlateInfoPanel({
+  modelValue: toRef(props, 'modelValue'),
+  assetGroups: toRef(props, 'assetGroups'),
+  t,
+  updateModelValue: (value) => emit('update:modelValue', value)
+})
 </script>
 
 <style scoped>
