@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build:armoire-catalog": "node scripts/build-armoire-catalog.mjs",
     "typecheck": "vue-tsc -b",
     "build": "vue-tsc -b && vite build",
     "check:i18n": "node scripts/check-ui-copy.mjs",

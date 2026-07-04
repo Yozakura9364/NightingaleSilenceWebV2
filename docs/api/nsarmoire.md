@@ -10,6 +10,7 @@
 | 页面入口 | `src/pages/armoire/NSArmoirePage.vue` |
 | 当前输入 | 手动导入 JSON |
 | 当前后端 | 无 |
+| 当前静态 catalog | `public/data/armoire-catalog.json` |
 | 计划 helper API base | `/api/armoire`，后续确认端口和 CORS 后再接 |
 
 ## Snapshot v1
@@ -50,9 +51,15 @@ interface ArmoireSnapshot {
 }
 ```
 
+### 物品实例状态预留
+
+`ArmoireOwnedItem` 中的 `hq`、`quantity`、`dyes`、`spiritbond` 属于用户拥有的“这一条物品实例”的状态，不属于 CSV 静态 catalog。当前第一阶段只正式消费 `dyes` 做染色风险提示；其他字段先作为导入契约预留。
+
+后续进入本地 helper / 插件抓数据阶段时，若能稳定读取更多实例状态，再在 snapshot 契约中增量补字段，例如耐久、镶嵌魔晶石、绑定/精炼、投影覆盖、制造者签名等。新增字段必须先确认来源、单位、取值范围和失败样本；页面分析不能从 `Item.csv`、`Stain.csv` 或其他静态 CSV 推断某一件已拥有装备的当前状态。
+
 ## Catalog v1
 
-当前已建立前端 catalog 类型和分析入口，但尚未接入正式 CSV 派生数据。正式 catalog 应由 `Item.csv`、`Cabinet.csv`、`MirageStoreSetItem.csv`、`EquipSlotCategory.csv`、`Stain.csv` 等来源构建。
+当前已建立前端 catalog 类型和分析入口。第一版正式静态 catalog 由 `scripts/build-armoire-catalog.mjs` 从 datamining CSV 派生，输出到 `public/data/armoire-catalog.json`；后续本地 helper 可以提供同结构 catalog，用于和用户本机客户端版本严格对齐。
 
 ```ts
 interface ArmoireCatalog {
@@ -63,22 +70,51 @@ interface ArmoireCatalog {
   cabinetItemIds: number[]
   glamourSetItems: ArmoireGlamourSet[]
   identicalGroups: ArmoireIdenticalGroup[]
+  dyes: Record<number, ArmoireDye>
 }
 
 interface ArmoireCatalogItem {
   itemId: number
   name?: string
+  iconId?: number
   itemUiCategoryId?: number
   equipSlotCategoryId?: number
+  isGlamourous?: boolean
+  isCabinetStorable?: boolean
+  isGlamourSetContainer?: boolean
+  pieceItemIds?: number[]
   mainModel?: [number, number, number, number]
   subModel?: [number, number, number, number]
   modelKey?: string
+  dyeSlotCount?: number
+}
+
+interface ArmoireDye {
+  dyeId: number
+  name?: string
+  color?: string
+  shade?: number
+  subOrder?: number
 }
 ```
 
-当前页面使用空 catalog 表示“正式静态数据未接入”。依赖 `Cabinet.csv`、`MirageStoreSetItem.csv` 和同模型分组的分析会明确显示等待 catalog，不输出伪结果。
+页面加载静态 catalog 失败时，使用空 catalog 表示“正式静态数据未接入”。依赖 `Cabinet.csv`、`MirageStoreSetItem.csv` 和同模型分组的分析会明确显示等待 catalog，不输出伪结果。
 
 同模型第一版判定口径：同时比较 `Item.csv` 的 `Model{Main}` / 灰机 `主模型`、`Model{Sub}` / 灰机 `副模型`、`ItemUICategory` 和 `EquipSlotCategory`。主副模型两组四元组完全一致，且物品 UI 分类、装备槽位分类也一致，才归为同模型；这是并且关系。`EquipSlotCategory=0` 的非装备、`6` 腰带、`14` 暂未纳入的主副手组合、`17` 灵魂水晶不进入第一版同模分组。
+
+第一版静态 catalog 生成命令：
+
+```bash
+npm run build:armoire-catalog
+```
+
+可选本地 CSV 来源：
+
+```bash
+node scripts/build-armoire-catalog.mjs --source-dir <datamining chs dir>
+```
+
+默认远程来源为 `InfSein/ffxiv-datamining-mixed` 的 `chs` 目录。生成脚本按字段名读取 CSV，不按裸数组位置推断字段；`MirageStoreSetItem.csv` 只读取 `Item[0]` 到 `Item[8]` 作为套装散件。
 
 ## Asvel 兼容导入
 
@@ -138,9 +174,9 @@ container: 'glamourDresser'
 
 - 不连接本地 helper。
 - 不读取游戏进程、背包、雇员或投影台。
-- 不计算正式收藏柜收集度，直到接入 `Cabinet.csv` 派生 catalog。
-- 不计算正式套装缺件进度，直到接入 `MirageStoreSetItem.csv` 派生 catalog。
-- 不输出正式同模型推荐，直到接入带 `主模型`、`副模型`、`ItemUICategory` 和 `EquipSlotCategory` 的 catalog。
+- catalog 加载失败时，不计算正式收藏柜收集度。
+- catalog 加载失败时，不计算正式套装缺件进度。
+- catalog 加载失败时，不输出正式同模型推荐。
 - 不保存完整 snapshot 到 `localStorage`。
 
 ## 当前前端分析

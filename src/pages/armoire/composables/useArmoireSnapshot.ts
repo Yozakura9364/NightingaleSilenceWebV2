@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { textKeys } from '@/config/site'
+import { createExampleArmoireSnapshot } from '@/lib/armoire/exampleSnapshot'
 import {
   ArmoireSnapshotError,
   normalizeArmoireSnapshot,
@@ -61,12 +62,20 @@ export function useArmoireSnapshot() {
     importedFileName.value = null
   }
 
+  function loadExampleSnapshot() {
+    snapshot.value = createExampleArmoireSnapshot()
+    errorKey.value = null
+    errorDetail.value = null
+    importedFileName.value = null
+  }
+
   return {
     snapshot,
     errorKey,
     errorDetail,
     importedFileName,
     importSnapshotFile,
+    loadExampleSnapshot,
     clearSnapshot
   }
 }

@@ -12,10 +12,12 @@ export const EMPTY_ARMOIRE_CATALOG: ArmoireCatalog = {
   items: {},
   cabinetItemIds: [],
   glamourSetItems: [],
-  identicalGroups: []
+  identicalGroups: [],
+  dyes: {}
 }
 
 const EXCLUDED_APPEARANCE_EQUIP_SLOT_CATEGORY_IDS = new Set([6, 14, 17])
+const XIVAPI_ASSET_BASE_URL = 'https://v2.xivapi.com/api/asset'
 
 export function hasCabinetCatalog(catalog: ArmoireCatalog): boolean {
   return catalog.cabinetItemIds.length > 0
@@ -27,6 +29,19 @@ export function hasGlamourSetCatalog(catalog: ArmoireCatalog): boolean {
 
 export function hasIdenticalModelCatalog(catalog: ArmoireCatalog): boolean {
   return getIdenticalModelGroups(catalog).length > 0
+}
+
+export function getArmoireIconUrl(iconId: number | undefined): string {
+  if (typeof iconId !== 'number' || iconId <= 0) {
+    return ''
+  }
+
+  const normalizedIconId = Math.trunc(iconId)
+  const iconFolder = (Math.floor(normalizedIconId / 1000) * 1000).toString().padStart(6, '0')
+  const iconFile = normalizedIconId.toString().padStart(6, '0')
+  const path = `ui/icon/${iconFolder}/${iconFile}.tex`
+
+  return `${XIVAPI_ASSET_BASE_URL}?path=${path}&format=png`
 }
 
 function createModelTupleKey(model: ArmoireModelTuple): string {
@@ -115,4 +130,21 @@ export function getIdenticalModelGroups(catalog: ArmoireCatalog): ArmoireIdentic
   }
 
   return catalog.identicalGroups
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+export function isArmoireCatalog(value: unknown): value is ArmoireCatalog {
+  return (
+    isRecord(value) &&
+    value.schemaVersion === ARMOIRE_CATALOG_SCHEMA_VERSION &&
+    typeof value.generatedAt === 'string' &&
+    isRecord(value.items) &&
+    Array.isArray(value.cabinetItemIds) &&
+    Array.isArray(value.glamourSetItems) &&
+    Array.isArray(value.identicalGroups) &&
+    isRecord(value.dyes)
+  )
 }

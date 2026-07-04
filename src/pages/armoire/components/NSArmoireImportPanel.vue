@@ -5,11 +5,16 @@
     </div>
 
     <AppStatus
+      class="nsarmoire-import-panel__status"
       :tone="statusTone"
       :title="statusTitle"
       :message="t(textKeys.placeholder)"
     >
       <template #actions>
+        <AppButton @click="$emit('load-example')">
+          {{ t(textKeys.nsarmoireLoadExampleSnapshot) }}
+        </AppButton>
+
         <label class="ns-button ns-button--primary nsarmoire-import-button">
           <span>{{ t(textKeys.nsarmoireImportSnapshot) }}</span>
           <input
@@ -73,6 +78,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'import-file': [file: File]
+  'load-example': []
   clear: []
 }>()
 
@@ -185,6 +191,32 @@ function handleFileChange(event: Event) {
 }
 
 @media (max-width: 640px) {
+  .nsarmoire-import-panel__status {
+    flex-wrap: wrap;
+  }
+
+  .nsarmoire-import-panel__status :deep(.app-status__content) {
+    flex: 1 1 0;
+  }
+
+  .nsarmoire-import-panel__status :deep(.app-status__title) {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .nsarmoire-import-panel__status :deep(.app-status__actions) {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    min-width: 0;
+    margin-left: 0;
+  }
+
+  .nsarmoire-import-panel__status :deep(.ns-button) {
+    flex: 1 1 150px;
+    min-width: 0;
+    justify-content: center;
+  }
+
   .nsarmoire-snapshot-meta div {
     grid-template-columns: 1fr;
     gap: 2px;

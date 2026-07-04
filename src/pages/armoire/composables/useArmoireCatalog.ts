@@ -1,0 +1,53 @@
+import { onMounted, ref, shallowRef } from 'vue'
+import {
+  EMPTY_ARMOIRE_CATALOG,
+  isArmoireCatalog
+} from '@/lib/armoire/catalog'
+import type { ArmoireCatalog } from '@/lib/armoire/types'
+
+type ArmoireCatalogStatus = 'idle' | 'loading' | 'ready' | 'error'
+
+const catalogUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data/armoire-catalog.json`
+
+export function useArmoireCatalog() {
+  const catalog = shallowRef<ArmoireCatalog>(EMPTY_ARMOIRE_CATALOG)
+  const status = ref<ArmoireCatalogStatus>('idle')
+  const error = ref<string | null>(null)
+
+  async function loadCatalog() {
+    status.value = 'loading'
+    error.value = null
+
+    try {
+      const response = await fetch(catalogUrl)
+
+      if (!response.ok) {
+        throw new Error(`${response.status} ${response.statusText}`)
+      }
+
+      const payload = (await response.json()) as unknown
+
+      if (!isArmoireCatalog(payload)) {
+        throw new Error('invalid armoire catalog')
+      }
+
+      catalog.value = payload
+      status.value = 'ready'
+    } catch (loadError) {
+      catalog.value = EMPTY_ARMOIRE_CATALOG
+      status.value = 'error'
+      error.value = loadError instanceof Error ? loadError.message : String(loadError)
+    }
+  }
+
+  onMounted(() => {
+    void loadCatalog()
+  })
+
+  return {
+    catalog,
+    status,
+    error,
+    loadCatalog
+  }
+}

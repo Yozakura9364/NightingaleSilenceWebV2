@@ -1,6 +1,7 @@
 import { EMPTY_ARMOIRE_CATALOG } from '@/lib/armoire/catalog'
 import { analyzeArmoireBasics } from '@/lib/armoire/analyzeContainerDistribution'
 import { analyzeCabinetProgress } from '@/lib/armoire/analyzeCabinetProgress'
+import { analyzeDuplicateItems } from '@/lib/armoire/analyzeDuplicateItems'
 import { analyzeDyeRisk } from '@/lib/armoire/analyzeDyeRisk'
 import { analyzeGlamourSets } from '@/lib/armoire/analyzeGlamourSets'
 import { analyzeIdenticalModels } from '@/lib/armoire/analyzeIdenticalModels'
@@ -19,6 +20,7 @@ export function analyzeArmoireSnapshot(
     cabinetProgress: analyzeCabinetProgress(snapshot, catalog),
     glamourSetProgress: analyzeGlamourSets(snapshot, catalog),
     dyeRisk: analyzeDyeRisk(snapshot),
+    duplicateItems: analyzeDuplicateItems(snapshot),
     identicalModels: analyzeIdenticalModels(snapshot, catalog)
   }
 }

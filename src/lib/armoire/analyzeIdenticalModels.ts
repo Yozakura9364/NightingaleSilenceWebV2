@@ -35,7 +35,7 @@ export function analyzeIdenticalModels(
         ownedEntryCount
       }
     })
-    .filter((group) => group.ownedItemIds.length > 1 || group.ownedEntryCount > 1)
+    .filter((group) => group.ownedItemIds.length > 1)
     .sort((left, right) => {
       if (right.ownedEntryCount !== left.ownedEntryCount) {
         return right.ownedEntryCount - left.ownedEntryCount

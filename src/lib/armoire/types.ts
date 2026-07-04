@@ -49,6 +49,7 @@ export type ArmoireModelTuple = [number, number, number, number]
 export interface ArmoireCatalogItem {
   itemId: number
   name?: string
+  iconId?: number
   itemUiCategoryId?: number
   equipSlotCategoryId?: number
   isGlamourous?: boolean
@@ -72,6 +73,14 @@ export interface ArmoireIdenticalGroup {
   itemIds: number[]
 }
 
+export interface ArmoireDye {
+  dyeId: number
+  name?: string
+  color?: string
+  shade?: number
+  subOrder?: number
+}
+
 export interface ArmoireCatalog {
   schemaVersion: typeof ARMOIRE_CATALOG_SCHEMA_VERSION
   generatedAt: string
@@ -80,6 +89,7 @@ export interface ArmoireCatalog {
   cabinetItemIds: number[]
   glamourSetItems: ArmoireGlamourSet[]
   identicalGroups: ArmoireIdenticalGroup[]
+  dyes: Record<number, ArmoireDye>
 }
 
 export interface ArmoireContainerDistributionEntry {
@@ -158,10 +168,22 @@ export interface ArmoireIdenticalModelAnalysis {
   groups: ArmoireIdenticalModelGroupState[]
 }
 
+export interface ArmoireDuplicateItemGroupState {
+  itemId: number
+  ownedEntryCount: number
+  totalQuantity: number
+}
+
+export interface ArmoireDuplicateItemAnalysis {
+  duplicateItemCount: number
+  groups: ArmoireDuplicateItemGroupState[]
+}
+
 export interface ArmoireSnapshotAnalysis {
   basic: ArmoireBasicAnalysis
   cabinetProgress: ArmoireCabinetProgress
   glamourSetProgress: ArmoireGlamourSetProgress
   dyeRisk: ArmoireDyeRiskAnalysis
+  duplicateItems: ArmoireDuplicateItemAnalysis
   identicalModels: ArmoireIdenticalModelAnalysis
 }

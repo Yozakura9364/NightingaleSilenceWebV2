@@ -7,12 +7,13 @@
         :error-detail="errorDetail"
         :imported-file-name="importedFileName"
         @import-file="importSnapshotFile"
+        @load-example="loadExampleSnapshot"
         @clear="clearSnapshot"
       />
 
       <div class="nsarmoire-workspace__main">
         <NSArmoireOverview :analysis="analysis?.basic ?? null" />
-        <NSArmoireInsightPanel :analysis="analysis" />
+        <NSArmoireInsightPanel :analysis="analysis" :catalog="catalog" :snapshot="snapshot" />
       </div>
     </div>
   </section>
@@ -21,6 +22,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
+import { useArmoireCatalog } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
 import NSArmoireInsightPanel from '@/pages/armoire/components/NSArmoireInsightPanel.vue'
 import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
@@ -32,10 +34,15 @@ const {
   errorDetail,
   importedFileName,
   importSnapshotFile,
+  loadExampleSnapshot,
   clearSnapshot
 } = useArmoireSnapshot()
 
-const analysis = computed(() => (snapshot.value ? analyzeArmoireSnapshot(snapshot.value) : null))
+const { catalog } = useArmoireCatalog()
+
+const analysis = computed(() =>
+  snapshot.value ? analyzeArmoireSnapshot(snapshot.value, catalog.value) : null
+)
 </script>
 
 <style scoped>

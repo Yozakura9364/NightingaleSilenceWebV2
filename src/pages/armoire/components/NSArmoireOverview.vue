@@ -12,6 +12,12 @@
     />
 
     <template v-else>
+      <div class="nsarmoire-summary-list">
+        <p v-for="summary in summaries" :key="summary.key">
+          {{ summary.text }}
+        </p>
+      </div>
+
       <div class="nsarmoire-metrics">
         <article v-for="metric in metrics" :key="metric.key" class="nsarmoire-metric">
           <span>{{ metric.label }}</span>
@@ -63,6 +69,44 @@ const containerLabelKeys: Record<ArmoireContainerKind, string> = {
   armoire: textKeys.nsarmoireContainerArmoire,
   manual: textKeys.nsarmoireContainerManual
 }
+
+function formatText(key: string, values: Record<string, string | number>): string {
+  return t(key).replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? ''))
+}
+
+const summaries = computed(() => {
+  if (!props.analysis) {
+    return []
+  }
+
+  const dyeKey =
+    props.analysis.dyedEntryCount > 0
+      ? textKeys.nsarmoireSummaryDyeWarning
+      : textKeys.nsarmoireSummaryNoDyeWarning
+
+  return [
+    {
+      key: 'inventory',
+      text: formatText(textKeys.nsarmoireSummaryInventory, {
+        entries: props.analysis.entryCount,
+        containers: props.analysis.distribution.length
+      })
+    },
+    {
+      key: 'storage',
+      text: formatText(textKeys.nsarmoireSummaryStorage, {
+        dresser: props.analysis.glamourDresserEntryCount,
+        armoire: props.analysis.armoireEntryCount
+      })
+    },
+    {
+      key: 'dye',
+      text: formatText(dyeKey, {
+        count: props.analysis.dyedEntryCount
+      })
+    }
+  ]
+})
 
 const metrics = computed(() => {
   if (!props.analysis) {
@@ -135,6 +179,19 @@ function getContainerLabel(entry: ArmoireContainerDistributionEntry): string {
 
 .nsarmoire-panel h2 {
   font-size: 16px;
+}
+
+.nsarmoire-summary-list {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 2px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-bg-soft);
+}
+
+.nsarmoire-summary-list p {
+  margin: 0;
+  line-height: 1.7;
 }
 
 .nsarmoire-distribution h3 {
