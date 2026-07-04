@@ -39,6 +39,14 @@ internal sealed class SnapshotService : IDisposable
         }
     }
 
+    public byte[] GetCatalogJson()
+    {
+        lock (syncRoot)
+        {
+            return catalogLookup.ReadCatalogJson();
+        }
+    }
+
     public HelperProbe GetProbe()
     {
         lock (syncRoot)

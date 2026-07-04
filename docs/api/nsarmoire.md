@@ -157,7 +157,7 @@ source: 'asvel-compatible'
 container: 'glamourDresser'
 ```
 
-## 本地 helper v0.4.1
+## 本地 helper v0.4.2
 
 第一版 helper 位于：
 
@@ -185,6 +185,7 @@ http://127.0.0.1:8015
 | `GET /processes` | 返回当前可选择的 `ffxiv_dx11` 进程列表，包含 PID、窗口标题、可读状态和当前选中标记。 |
 | `POST /process/select` | 使用 `{ "pid": number }` 选择要读取的游戏进程，并重置投影台读取器。 |
 | `GET /probe` | 实验性读取能力探针，返回投影台、收藏柜、背包、兵装库、鞍囊、当前加载雇员容器、雇员缓存和 0-10 个雇员身份槽的定位、加载状态、容器大小和计数。 |
+| `GET /catalog` | 返回 helper 当前找到的 `nsarmoire.catalog.v1` JSON；当前来源为仓库内 `public/data/armoire-catalog.json`，用于和收藏柜 bitset 映射口径保持一致。 |
 | `GET /snapshot` | 读取当前可用容器数据并返回 `nsarmoire.snapshot.v1`。 |
 | `POST /snapshot/refresh` | 重新读取当前可用容器数据并返回 `nsarmoire.snapshot.v1`。 |
 | `GET /open-v2` | 打开 helper 启动参数中配置的 V2 `NSArmoire` 页面。 |
