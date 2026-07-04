@@ -5,7 +5,7 @@ import {
 } from '@/lib/armoire/catalog'
 import type { ArmoireCatalog } from '@/lib/armoire/types'
 
-type ArmoireCatalogStatus = 'idle' | 'loading' | 'ready' | 'error'
+export type ArmoireCatalogStatus = 'idle' | 'loading' | 'ready' | 'error'
 
 const catalogUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data/armoire-catalog.json`
 

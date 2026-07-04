@@ -130,6 +130,7 @@ interface AsvelDresserItem {
 - “重复物品检查”与“同模型可精简”分开：前者只判断同一个 `itemId` 在 snapshot 中出现多条记录；后者判断不同物品是否使用同一套模型。
 - 统计数字保留，但作为提示的辅助信息，不替代可读结论。
 - 清单型提示默认预览前 4 条；当完整清单超过 4 条时提供展开/收起控制，避免真实数据导入后用户只能看到摘要。
+- 静态 catalog 状态必须对用户可见，至少说明加载中、已加载、失败和已加载的数据规模；收藏柜、套装、同模型这些依赖 catalog 的检查在 catalog 未就绪时不能显示成“全部正常”。
 - `NSArmoireInsightPanel.vue` 只负责分析面板组合；卡片外壳在 `NSArmoireActionCard.vue`，可读物品清单在 `NSArmoireReadableItemList.vue`，分析结果到 UI 的 view model 在 `useArmoireInsightViewModels.ts`，显示格式化工具在 `utils/insightDisplay.ts`。
 
 当前已完成的第一阶段 C：
@@ -139,6 +140,7 @@ interface AsvelDresserItem {
 3. 输出轻量静态数据到 `public/data/armoire-catalog.json`，不把原始 CSV 或完整多语言映射放入前端。
 4. 页面启动后加载该静态 catalog；加载成功时收藏柜、套装和同模型分析进入正式口径，加载失败时继续显示 catalog pending。
 5. 本阶段仍不接本地 helper，不读取游戏进程，不新增 Vite proxy。
+6. 页面新增 catalog 状态提示，显示物品、收藏柜、套装、同模型和染剂目录规模；当 catalog 加载失败或缺失时，处理提示必须追加“部分检查等待静态数据”，避免把 pending 状态误读为无风险。
 
 MVP 暂不做：
 
