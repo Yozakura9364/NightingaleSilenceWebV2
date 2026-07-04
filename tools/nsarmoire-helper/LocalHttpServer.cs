@@ -1,6 +1,8 @@
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace NightingaleSilence.NSArmoire.Helper;
 
@@ -9,22 +11,26 @@ internal sealed class LocalHttpServer
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = false
+        WriteIndented = false,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
     private readonly HttpListener listener = new();
     private readonly SnapshotService snapshotService;
     private readonly int port;
     private readonly IReadOnlySet<string> additionalAllowedOrigins;
+    private readonly Uri webUrl;
 
     public LocalHttpServer(
         SnapshotService snapshotService,
         int port,
-        IReadOnlySet<string> additionalAllowedOrigins)
+        IReadOnlySet<string> additionalAllowedOrigins,
+        Uri webUrl)
     {
         this.snapshotService = snapshotService;
         this.port = port;
         this.additionalAllowedOrigins = additionalAllowedOrigins;
+        this.webUrl = webUrl;
     }
 
     public void Run()
@@ -74,7 +80,13 @@ internal sealed class LocalHttpServer
             switch (path)
             {
                 case "/":
-                    await WriteText(context, "NSArmoire local helper");
+                    await WriteText(
+                        context,
+                        $"NSArmoire local helper\nV2 page: {webUrl}\nOpen with: /open-v2");
+                    break;
+                case "/open-v2" when context.Request.HttpMethod == "GET":
+                    OpenWebPage();
+                    await WriteJson(context, new OpenV2Result(webUrl.ToString()));
                     break;
                 case "/health":
                     await WriteJson(context, snapshotService.GetHealth());
@@ -120,6 +132,22 @@ internal sealed class LocalHttpServer
         finally
         {
             context.Response.Close();
+        }
+    }
+
+    private void OpenWebPage()
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = webUrl.ToString(),
+                UseShellExecute = true
+            });
+        }
+        catch
+        {
+            throw new HelperRequestException("open_v2_failed", "打开 V2 页面失败", 500);
         }
     }
 

@@ -60,6 +60,7 @@ internal sealed class GameProcessLocator
     {
         var processName = process.ProcessName;
         var windowTitle = GetWindowTitle(process);
+        var startedAt = GetStartedAt(process);
         var displayName = string.IsNullOrWhiteSpace(windowTitle)
             ? $"{processName} #{process.Id}"
             : $"{windowTitle} ({processName} #{process.Id})";
@@ -88,6 +89,7 @@ internal sealed class GameProcessLocator
             ProcessName: processName,
             DisplayName: displayName,
             WindowTitle: string.IsNullOrWhiteSpace(windowTitle) ? null : windowTitle,
+            StartedAt: startedAt,
             IsSelected: selectedPid == process.Id,
             IsReadable: isReadable,
             Status: status,
@@ -99,6 +101,18 @@ internal sealed class GameProcessLocator
         try
         {
             return process.MainWindowTitle;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static string? GetStartedAt(Process process)
+    {
+        try
+        {
+            return new DateTimeOffset(process.StartTime).ToString("O");
         }
         catch
         {

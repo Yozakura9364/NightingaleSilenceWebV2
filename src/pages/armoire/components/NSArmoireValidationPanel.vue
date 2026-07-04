@@ -2,6 +2,9 @@
   <section class="nsarmoire-panel nsarmoire-validation-panel">
     <div class="nsarmoire-panel__header">
       <h2>{{ t(textKeys.nsarmoireValidation) }}</h2>
+      <span class="nsarmoire-validation-panel__badge">
+        {{ t(textKeys.nsarmoireValidationTechnicalBadge) }}
+      </span>
     </div>
 
     <AppStatus
@@ -87,6 +90,16 @@ const { validationCases } = useArmoireValidationViewModels(props, t)
   font-family: var(--ns-font-decorative);
   font-size: 16px;
   font-weight: 950;
+}
+
+.nsarmoire-validation-panel__badge {
+  flex: 0 0 auto;
+  padding: 3px 7px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-bg-soft);
+  color: var(--ns-color-text-muted);
+  font-size: 11px;
+  font-weight: 850;
 }
 
 .nsarmoire-validation-panel__lead {
