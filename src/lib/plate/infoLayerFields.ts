@@ -21,6 +21,40 @@ export interface NSPlateInfoPresetDefinition {
   fields: NSPlateInfoFieldDefinition[]
 }
 
+export const nsPlateInfoDefaultTexts = {
+  international: {
+    'text-1': 'Endwalker',
+    'text-2': 'Warrior Light',
+    'text-3': 'Hades [Mana]',
+    'text-4': 'LEVEL  100',
+    'text-5': 'Paladin',
+    'text-6': 'ナイト',
+    'text-8': '大闘士',
+    'text-7': 'The Seventh Dawn',
+    'text-9': '降り注ぐ星は悲しみ 海を濁らせるのは嘆き',
+    'text-10': '0:00                                       12:00',
+    'text-11': '平日\n休日'
+  },
+  china: {
+    'text-1': '终途行者',
+    'text-2': '光之战士',
+    'text-3': '神意之地',
+    'text-4': '100级',
+    'text-6': '骑士',
+    'text-8': '正耀尉',
+    'text-7': '拂晓血盟',
+    'text-9': '繁星犹如泪水飞落 哀叹令大海不再清澈',
+    'text-10': '0:00                                   12:00',
+    'text-11': '工作日\n休息日'
+  },
+  'phantom-tide': {
+    'text-1': '其他游戏角色@九号解决方案',
+    'text-2': 'Paladin',
+    'text-3': '关于我：\n高难/战场/钓鱼/剧情/拍照/幻化/……\n常驻体型……\n空间浓度……\n成分有……',
+    'text-4': '其他补充：\n脾气很好……\nXXX全肯定bot……\n我雷……\n欢迎……'
+  }
+} satisfies Record<NSPlateInfoPresetId, Record<string, string>>
+
 const sharedProfileFields = [
   infoField('text-1', 'text', '称号', 'title', 'game'),
   infoField('text-2', 'text', '角色名', 'characterName', 'game'),
@@ -85,6 +119,12 @@ export function localizePlateInfoText(
   const localized = translate?.(key)
 
   return localized && localized !== key ? localized : fallback
+}
+
+export function getNSPlateInfoDefaultText(presetId: NSPlateInfoPresetId, slotId: string) {
+  const texts: Record<string, string> = nsPlateInfoDefaultTexts[presetId]
+
+  return texts[slotId] ?? ''
 }
 
 function infoField(

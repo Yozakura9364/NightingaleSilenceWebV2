@@ -1,23 +1,24 @@
 import { watch, type Ref } from 'vue'
 import type { NSPlateAssetSelectionMap } from '@/lib/plate/draft'
-import {
-  normalizeNSPlateInfoDraft,
-  type NSPlateInfoDraft
-} from '@/lib/plate/infoLayers'
+import { normalizeNSPlateInfoDraft, type NSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import type {
   NSPlateCustomPortraitImage,
   NSPlateCustomPortraitMode,
+  NSPlateCustomPortraitPopoutLayerAnchor,
+  NSPlatePortraitSide,
   NSPlatePresetKind
 } from '@/lib/plate/types'
+import { NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS } from '@/lib/plate/types'
 
 export const NSPLATE_DRAFT_STORAGE_KEY = 'nsplate.draft.v1'
 
 const NSPLATE_DRAFT_VERSION = 1
-const MAX_CUSTOM_PORTRAIT_STORAGE_CHARS = 3_000_000
+const MAX_CUSTOM_PORTRAIT_STORAGE_CHARS = 4_500_000
 
 interface NSPlateStoredDraftV1 {
   version: typeof NSPLATE_DRAFT_VERSION
   savedAt: string
+  portraitSide: NSPlatePortraitSide
   selectedPresetIdsByKind: Record<NSPlatePresetKind, string | null>
   selectedAssetIdsByCategory: NSPlateAssetSelectionMap
   customPortrait: NSPlateCustomPortraitImage | null
@@ -25,6 +26,7 @@ interface NSPlateStoredDraftV1 {
 }
 
 interface UseNSPlateDraftPersistenceOptions {
+  portraitSide: Ref<NSPlatePortraitSide>
   selectedPresetIdsByKind: Ref<Record<NSPlatePresetKind, string | null>>
   selectedAssetIdsByCategory: Ref<NSPlateAssetSelectionMap>
   customPortrait: Ref<NSPlateCustomPortraitImage | null>
@@ -35,6 +37,7 @@ export function useNSPlateDraftPersistence(options: UseNSPlateDraftPersistenceOp
   const draft = readNSPlateDraft()
 
   if (draft) {
+    options.portraitSide.value = draft.portraitSide
     options.selectedPresetIdsByKind.value = draft.selectedPresetIdsByKind
     options.selectedAssetIdsByCategory.value = draft.selectedAssetIdsByCategory
     options.customPortrait.value = draft.customPortrait
@@ -43,6 +46,7 @@ export function useNSPlateDraftPersistence(options: UseNSPlateDraftPersistenceOp
 
   watch(
     () => ({
+      portraitSide: options.portraitSide.value,
       selectedPresetIdsByKind: options.selectedPresetIdsByKind.value,
       selectedAssetIdsByCategory: options.selectedAssetIdsByCategory.value,
       customPortrait: options.customPortrait.value,
@@ -77,6 +81,7 @@ export function readNSPlateDraft(): NSPlateStoredDraftV1 | null {
     return {
       version: NSPLATE_DRAFT_VERSION,
       savedAt: typeof parsed.savedAt === 'string' ? parsed.savedAt : '',
+      portraitSide: normalizePortraitSide(parsed.portraitSide),
       selectedPresetIdsByKind: normalizePresetSelection(parsed.selectedPresetIdsByKind),
       selectedAssetIdsByCategory: normalizeAssetSelection(parsed.selectedAssetIdsByCategory),
       customPortrait: normalizeCustomPortrait(parsed.customPortrait),
@@ -99,6 +104,7 @@ export function writeNSPlateDraft(
   const nextDraft: NSPlateStoredDraftV1 = {
     version: NSPLATE_DRAFT_VERSION,
     savedAt: new Date().toISOString(),
+    portraitSide: normalizePortraitSide(draft.portraitSide),
     selectedPresetIdsByKind: normalizePresetSelection(draft.selectedPresetIdsByKind),
     selectedAssetIdsByCategory: normalizeAssetSelection(draft.selectedAssetIdsByCategory),
     customPortrait: sanitizeCustomPortraitForStorage(draft.customPortrait),
@@ -137,7 +143,12 @@ function sanitizeCustomPortraitForStorage(
     return null
   }
 
-  return JSON.stringify(normalized).length <= MAX_CUSTOM_PORTRAIT_STORAGE_CHARS ? normalized : null
+  if (JSON.stringify(normalized).length <= MAX_CUSTOM_PORTRAIT_STORAGE_CHARS) {
+    return normalized
+  }
+
+  const fallback = createCustomPortraitStorageFallback(normalized)
+  return JSON.stringify(fallback).length <= MAX_CUSTOM_PORTRAIT_STORAGE_CHARS ? fallback : null
 }
 
 function normalizePresetSelection(value: unknown): Record<NSPlatePresetKind, string | null> {
@@ -161,6 +172,10 @@ function normalizeAssetSelection(value: unknown): NSPlateAssetSelectionMap {
   )
 }
 
+function normalizePortraitSide(value: unknown): NSPlatePortraitSide {
+  return value === 'left' ? 'left' : 'right'
+}
+
 function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | null {
   if (!isRecord(value)) {
     return null
@@ -181,6 +196,7 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
   return {
     id,
     mode,
+    ...pickOptionalPopoutLayerAnchor(value),
     fileName,
     dataUrl,
     width,
@@ -201,6 +217,17 @@ function normalizeCustomPortraitMode(value: unknown): NSPlateCustomPortraitMode 
   return value === 'standard' || value === 'popout' ? value : null
 }
 
+function normalizeCustomPortraitPopoutLayerAnchor(
+  value: unknown
+): NSPlateCustomPortraitPopoutLayerAnchor | null {
+  return typeof value === 'string' &&
+    NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.includes(
+      value as NSPlateCustomPortraitPopoutLayerAnchor
+    )
+    ? (value as NSPlateCustomPortraitPopoutLayerAnchor)
+    : null
+}
+
 function normalizeNullableString(value: unknown) {
   if (value === null || value === undefined) {
     return null
@@ -217,14 +244,44 @@ function normalizeFiniteNumber(value: unknown) {
   return typeof value === 'number' && Number.isFinite(value) ? value : null
 }
 
-function pickOptionalString(record: Record<string, unknown>, key: keyof NSPlateCustomPortraitImage) {
+function pickOptionalString(
+  record: Record<string, unknown>,
+  key: keyof NSPlateCustomPortraitImage
+) {
   const value = normalizeString(record[key])
   return value ? { [key]: value } : {}
 }
 
-function pickOptionalNumber(record: Record<string, unknown>, key: keyof NSPlateCustomPortraitImage) {
+function pickOptionalPopoutLayerAnchor(record: Record<string, unknown>) {
+  const value = normalizeCustomPortraitPopoutLayerAnchor(record.popoutLayerAnchor)
+  return value ? { popoutLayerAnchor: value } : {}
+}
+
+function pickOptionalNumber(
+  record: Record<string, unknown>,
+  key: keyof NSPlateCustomPortraitImage
+) {
   const value = normalizeFiniteNumber(record[key])
   return value === null ? {} : { [key]: value }
+}
+
+function createCustomPortraitStorageFallback(
+  customPortrait: NSPlateCustomPortraitImage
+): NSPlateCustomPortraitImage {
+  if (customPortrait.mode !== 'popout') {
+    return customPortrait
+  }
+
+  return {
+    ...customPortrait,
+    sourceDataUrl: customPortrait.dataUrl,
+    sourceWidth: customPortrait.width,
+    sourceHeight: customPortrait.height,
+    baseScale: 1,
+    scaleMultiplier: 1,
+    offsetX: 0,
+    offsetY: 0
+  }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

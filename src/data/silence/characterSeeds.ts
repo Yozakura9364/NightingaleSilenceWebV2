@@ -16,12 +16,12 @@ export interface SilenceCharacterSeed {
 const localPreviewPortraits: Partial<Record<SilenceAngelCharacterId, string>> =
   import.meta.env.DEV
     ? {
-        goelia: '/goelia-art-1.png',
-        glynne: '/glynne-art-1.png',
-        chihaya: '/chihaya-art-1.png',
-        ney: '/ney-art-1.png',
-        nightingale: '/nightingale-art-1.png',
-        salvance: '/salvance-art-1.png'
+        goelia: '/local-assets/goelia-art-1.png',
+        glynne: '/local-assets/glynne-art-1.png',
+        chihaya: '/local-assets/chihaya-art-1.png',
+        ney: '/local-assets/ney-art-1.png',
+        nightingale: '/local-assets/nightingale-art-1.png',
+        salvance: '/local-assets/salvance-art-1.png'
       }
     : {}
 

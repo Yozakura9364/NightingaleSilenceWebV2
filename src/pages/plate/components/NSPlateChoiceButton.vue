@@ -44,7 +44,7 @@ withDefaults(
   padding: 8px 10px;
   border: 1px solid var(--ns-color-border);
   border-radius: var(--ns-radius-xs);
-  background: rgba(255, 255, 255, 0.76);
+  background: color-mix(in srgb, var(--ns-color-surface-solid) 86%, transparent);
   color: var(--ns-color-text);
   font: inherit;
   font-size: 12px;
@@ -62,14 +62,14 @@ withDefaults(
 
 .nsplate-choice-button[data-tone='accent']:hover,
 .nsplate-choice-button[data-tone='accent'][data-active='true'] {
-  border-color: rgba(239, 111, 178, 0.52);
-  background: rgba(255, 225, 241, 0.62);
+  border-color: color-mix(in srgb, var(--ns-color-accent) 62%, var(--ns-color-border));
+  background: color-mix(in srgb, var(--ns-color-accent) 16%, var(--ns-color-surface-solid));
 }
 
 .nsplate-choice-button[data-tone='cyan']:hover,
 .nsplate-choice-button[data-tone='cyan'][data-active='true'] {
-  border-color: rgba(99, 217, 220, 0.72);
-  background: rgba(217, 251, 251, 0.68);
+  border-color: color-mix(in srgb, var(--ns-color-cyan) 66%, var(--ns-color-border));
+  background: color-mix(in srgb, var(--ns-color-cyan) 16%, var(--ns-color-surface-solid));
 }
 
 .nsplate-choice-button__label,

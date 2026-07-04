@@ -4,6 +4,7 @@ import type {
   NSPlateCustomPortraitImage,
   NSPlateCustomPortraitMode
 } from '@/lib/plate/types'
+import { NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR } from '@/lib/plate/types'
 
 export interface NSPlateCustomPortraitDrawRect {
   x: number
@@ -14,6 +15,7 @@ export interface NSPlateCustomPortraitDrawRect {
 
 const CUSTOM_PORTRAIT_MIN_ZOOM = 1
 const CUSTOM_PORTRAIT_MAX_ZOOM = 3
+const CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX = 2
 
 export async function createCustomPortraitImageFromFile(
   file: File
@@ -59,6 +61,7 @@ export async function createCustomPortraitImageFromCropState(
 ): Promise<NSPlateCustomPortraitImage> {
   const dataUrl = createPortraitDataUrl(cropState)
   const { width, height } = NSPLATE_CANVAS_DIMENSIONS.portrait
+  const popoutSource = cropState.mode === 'popout' ? createPopoutSourceDataUrl(cropState) : null
 
   return {
     id: [
@@ -77,13 +80,14 @@ export async function createCustomPortraitImageFromCropState(
     scale: 1,
     ...(cropState.mode === 'popout'
       ? {
-          sourceDataUrl: cropState.sourceDataUrl,
-          sourceWidth: cropState.sourceWidth,
-          sourceHeight: cropState.sourceHeight,
-          baseScale: cropState.baseScale,
-          scaleMultiplier: cropState.scaleMultiplier,
-          offsetX: cropState.offsetX,
-          offsetY: cropState.offsetY,
+          popoutLayerAnchor: NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR,
+          sourceDataUrl: popoutSource?.dataUrl ?? cropState.sourceDataUrl,
+          sourceWidth: popoutSource?.width ?? cropState.sourceWidth,
+          sourceHeight: popoutSource?.height ?? cropState.sourceHeight,
+          baseScale: popoutSource ? 1 : cropState.baseScale,
+          scaleMultiplier: popoutSource ? 1 : cropState.scaleMultiplier,
+          offsetX: popoutSource?.offsetX ?? cropState.offsetX,
+          offsetY: popoutSource?.offsetY ?? cropState.offsetY,
           splitY: cropState.splitY
         }
       : {})
@@ -167,7 +171,8 @@ export function getCustomPortraitSourceDrawRect(
   const sourceWidth = customPortrait.sourceWidth ?? customPortrait.width
   const sourceHeight = customPortrait.sourceHeight ?? customPortrait.height
   const baseScale =
-    customPortrait.baseScale ?? Math.max(width / Math.max(1, sourceWidth), height / Math.max(1, sourceHeight))
+    customPortrait.baseScale ??
+    Math.max(width / Math.max(1, sourceWidth), height / Math.max(1, sourceHeight))
   const scale = baseScale * (customPortrait.scaleMultiplier ?? 1)
   const drawWidth = Math.round(sourceWidth * scale)
   const drawHeight = Math.round(sourceHeight * scale)
@@ -177,6 +182,17 @@ export function getCustomPortraitSourceDrawRect(
     y: Math.round((height - drawHeight) / 2 + (customPortrait.offsetY ?? 0)),
     width: drawWidth,
     height: drawHeight
+  }
+}
+
+export function getCustomPortraitPopoutSplitBounds(splitY: number) {
+  const { height } = NSPLATE_CANVAS_DIMENSIONS.portrait
+  const normalizedSplitY = Math.max(0, Math.min(height, Math.round(splitY)))
+
+  return {
+    splitY: normalizedSplitY,
+    inFrameY: Math.max(0, normalizedSplitY - CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX),
+    popoutY: Math.min(height, normalizedSplitY + CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX)
   }
 }
 
@@ -196,6 +212,67 @@ function createPortraitDataUrl(cropState: NSPlateCustomPortraitCropState) {
   return canvas.toDataURL('image/png')
 }
 
+function createPopoutSourceDataUrl(cropState: NSPlateCustomPortraitCropState) {
+  const sourceRect = getCustomPortraitCropDrawRect(cropState)
+  const visibleRect = getVisiblePopoutSourceRect(sourceRect)
+  const canvas = document.createElement('canvas')
+  canvas.width = Math.max(1, visibleRect.width)
+  canvas.height = Math.max(1, visibleRect.height)
+
+  const context = canvas.getContext('2d')
+
+  if (!context) {
+    return null
+  }
+
+  context.clearRect(0, 0, canvas.width, canvas.height)
+  setHighQualityImageSmoothing(context)
+  context.drawImage(
+    cropState.image,
+    sourceRect.x - visibleRect.x,
+    sourceRect.y - visibleRect.y,
+    sourceRect.width,
+    sourceRect.height
+  )
+
+  const { width, height } = NSPLATE_CANVAS_DIMENSIONS.portrait
+
+  return {
+    dataUrl: canvas.toDataURL('image/png'),
+    width: canvas.width,
+    height: canvas.height,
+    offsetX: visibleRect.x - Math.round((width - canvas.width) / 2),
+    offsetY: visibleRect.y - Math.round((height - canvas.height) / 2)
+  }
+}
+
+function getVisiblePopoutSourceRect(sourceRect: NSPlateCustomPortraitDrawRect) {
+  const portrait = NSPLATE_CANVAS_DIMENSIONS.portrait
+  const nameplate = NSPLATE_CANVAS_DIMENSIONS.nameplate
+  const portraitOrigins = Object.values(NSPLATE_PORTRAIT_EMBED)
+  const visibleBounds = {
+    x: Math.min(0, ...portraitOrigins.map((origin) => -origin.x)),
+    y: Math.min(0, ...portraitOrigins.map((origin) => -origin.y)),
+    right: Math.max(portrait.width, ...portraitOrigins.map((origin) => nameplate.width - origin.x)),
+    bottom: portrait.height
+  }
+  const x = Math.max(sourceRect.x, visibleBounds.x)
+  const y = Math.max(sourceRect.y, visibleBounds.y)
+  const right = Math.min(sourceRect.x + sourceRect.width, visibleBounds.right)
+  const bottom = Math.min(sourceRect.y + sourceRect.height, visibleBounds.bottom)
+
+  if (right <= x || bottom <= y) {
+    return { x: 0, y: 0, width: portrait.width, height: portrait.height }
+  }
+
+  return {
+    x: Math.round(x),
+    y: Math.round(y),
+    width: Math.max(1, Math.round(right - x)),
+    height: Math.max(1, Math.round(bottom - y))
+  }
+}
+
 function drawCustomPortraitCropToContext(
   context: CanvasRenderingContext2D,
   cropState: NSPlateCustomPortraitCropState
@@ -208,7 +285,7 @@ function drawCustomPortraitCropToContext(
   context.beginPath()
   context.rect(0, 0, width, height)
   context.clip()
-  context.imageSmoothingEnabled = true
+  setHighQualityImageSmoothing(context)
   context.drawImage(cropState.image, rect.x, rect.y, rect.width, rect.height)
   context.restore()
 }
@@ -222,6 +299,7 @@ function drawCustomPortraitPopoutCropPreview(
   const portraitOrigin = NSPLATE_PORTRAIT_EMBED.right
   const rect = getCustomPortraitCropDrawRect(cropState)
   const splitY = Math.round(cropState.splitY)
+  const splitBounds = getCustomPortraitPopoutSplitBounds(splitY)
   canvas.width = width
   canvas.height = height
 
@@ -232,15 +310,15 @@ function drawCustomPortraitPopoutCropPreview(
   }
 
   context.clearRect(0, 0, width, height)
-  context.imageSmoothingEnabled = true
+  setHighQualityImageSmoothing(context)
 
   context.save()
   context.beginPath()
   context.rect(
     portraitOrigin.x,
-    portraitOrigin.y + splitY,
+    portraitOrigin.y + splitBounds.inFrameY,
     portrait.width,
-    portrait.height - splitY
+    portrait.height - splitBounds.inFrameY
   )
   context.clip()
   context.drawImage(
@@ -254,7 +332,7 @@ function drawCustomPortraitPopoutCropPreview(
 
   context.save()
   context.beginPath()
-  context.rect(0, 0, width, portraitOrigin.y + splitY)
+  context.rect(0, 0, width, portraitOrigin.y + splitBounds.popoutY)
   context.clip()
   context.drawImage(
     cropState.image,
@@ -286,6 +364,14 @@ function drawCustomPortraitPopoutCropPreview(
   context.lineTo(width, portraitOrigin.y + splitY + 7)
   context.stroke()
   context.restore()
+}
+
+function setHighQualityImageSmoothing(context: CanvasRenderingContext2D) {
+  context.imageSmoothingEnabled = true
+
+  if ('imageSmoothingQuality' in context) {
+    context.imageSmoothingQuality = 'high'
+  }
 }
 
 function getCustomPortraitCropDrawRect(cropState: NSPlateCustomPortraitCropState) {

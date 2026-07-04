@@ -258,6 +258,16 @@ function buildCabinetItemIds(cabinetRows) {
   ).sort((left, right) => left - right)
 }
 
+function buildCabinetEntries(cabinetRows) {
+  return cabinetRows
+    .map((row) => ({
+      cabinetId: parseInteger(row['#']),
+      itemId: parseInteger(row.Item)
+    }))
+    .filter((entry) => entry.cabinetId > 0 && entry.itemId > 0)
+    .sort((left, right) => left.cabinetId - right.cabinetId)
+}
+
 function buildGlamourSetRows(mirageRows) {
   return mirageRows
     .map((row) => {
@@ -431,6 +441,7 @@ function buildCatalog(csvByFileName, args) {
   const cabinetRows = loadSheetRows(csvByFileName['Cabinet.csv'])
   const mirageRows = loadSheetRows(csvByFileName['MirageStoreSetItem.csv'])
   const cabinetItemIds = buildCabinetItemIds(cabinetRows)
+  const cabinetEntries = buildCabinetEntries(cabinetRows)
   const glamourSetRows = buildGlamourSetRows(mirageRows)
   const { items, names } = buildItems(itemRows, cabinetItemIds, glamourSetRows)
   const glamourSetItems = buildGlamourSets(glamourSetRows, names)
@@ -449,6 +460,7 @@ function buildCatalog(csvByFileName, args) {
     },
     items,
     cabinetItemIds,
+    cabinetEntries,
     glamourSetItems,
     identicalGroups,
     dyes
@@ -466,6 +478,7 @@ function buildSummary(catalog, output) {
     generatedAt: catalog.generatedAt,
     itemCount: Object.keys(catalog.items).length,
     cabinetItemCount: catalog.cabinetItemIds.length,
+    cabinetEntryCount: catalog.cabinetEntries.length,
     glamourSetCount: catalog.glamourSetItems.length,
     identicalGroupCount: catalog.identicalGroups.length,
     dyeCount: Object.keys(catalog.dyes).length,

@@ -13,7 +13,6 @@
 
     <div class="nsarmoire-catalog-card__body">
       <h3>{{ item.name }}</h3>
-      <p>{{ item.itemIdLabel }}</p>
 
       <dl class="nsarmoire-catalog-card__meta">
         <div>
@@ -66,6 +65,9 @@ watch(
   padding: 10px;
   border: 2px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-surface);
+  contain: layout paint style;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 112px;
 }
 
 .nsarmoire-catalog-card__icon {

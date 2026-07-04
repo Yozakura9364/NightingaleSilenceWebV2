@@ -1,6 +1,15 @@
 <template>
   <section class="nsplate-canvas-area">
-    <div ref="viewportRef" class="nsplate-canvas-viewport">
+    <div
+      ref="viewportRef"
+      class="nsplate-canvas-viewport"
+      :data-dragging="isDragging"
+      :data-pannable="isPannable"
+      @pointerdown="handleViewportPointerDown"
+      @pointermove="handleViewportPointerMove"
+      @pointerup="handleViewportPointerUp"
+      @pointercancel="handleViewportPointerCancel"
+    >
       <NSPlateSelectionNote
         v-if="selectionNoteItems.length"
         :title="selectionNoteTitle"
@@ -8,26 +17,27 @@
         @focus-item="emit('focus-asset-section', $event)"
       />
 
-      <div class="nsplate-canvas-frame" :class="canvasClass" :style="frameStyle">
+      <div
+        class="nsplate-canvas-frame"
+        :class="canvasClass"
+        :style="[frameStyle, viewportTransformStyle]"
+      >
         <canvas ref="canvasRef" class="nsplate-canvas-frame__canvas" :aria-label="canvasLabel" />
       </div>
     </div>
 
     <NSPlateCanvasActions
+      :can-zoom-in="canZoomIn"
+      :can-zoom-out="canZoomOut"
+      :zoom-label="zoomPercentLabel"
       :can-clear-custom-portrait="canClearCustomPortrait"
-      :can-clear-all="canClearAll"
-      :can-import-config="canImportConfig"
-      :can-export="canExport"
+      :can-clear-materials="canClearMaterials"
+      @zoom-in="zoomIn"
+      @zoom-out="zoomOut"
+      @reset-view="resetView"
       @clear-custom-portrait="emit('clear-custom-portrait')"
-      @clear-all="emit('clear-all')"
-      @import-config="emit('import-config')"
-      @export-image="exportImage"
-      @export-layered-zip="exportLayeredZip"
+      @clear-materials="emit('clear-materials')"
     />
-
-    <p v-if="exportErrorText" class="nsplate-canvas-area__error">
-      {{ exportErrorText }}
-    </p>
   </section>
 </template>
 
@@ -43,6 +53,7 @@ import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage,
+  NSPlatePortraitSide,
   NSPlateSelectionNoteItem
 } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
@@ -50,26 +61,27 @@ import NSPlateCanvasActions from '@/pages/plate/components/NSPlateCanvasActions.
 import NSPlateSelectionNote from '@/pages/plate/components/NSPlateSelectionNote.vue'
 import { useNSPlateCanvasExport } from '@/pages/plate/composables/useNSPlateCanvasExport'
 import { useNSPlateCanvasFrame } from '@/pages/plate/composables/useNSPlateCanvasFrame'
+import { useNSPlateCanvasViewport } from '@/pages/plate/composables/useNSPlateCanvasViewport'
 
 const props = defineProps<{
   apiBase: string
   mode: NSPlateCanvasMode
+  portraitSide: NSPlatePortraitSide
   selectedAssets: NSPlateAssetSummary[]
   assetGroups: NSPlateAssetGroup[]
   customPortrait: NSPlateCustomPortraitImage | null
   infoDraft: NSPlateInfoDraft
-  canClearCustomPortrait: boolean
-  canClearAll: boolean
-  canImportConfig: boolean
   selectionNoteTitle: string
   selectionNoteItems: NSPlateSelectionNoteItem[]
+  canClearCustomPortrait: boolean
+  canClearMaterials: boolean
+  createConfigJson?: () => string
 }>()
 
 const emit = defineEmits<{
-  'clear-custom-portrait': []
-  'clear-all': []
-  'import-config': []
   'focus-asset-section': [value: NSPlateSelectionNoteItem]
+  'clear-custom-portrait': []
+  'clear-materials': []
 }>()
 
 const { t } = useLocale()
@@ -81,7 +93,7 @@ const canvasLabel = computed(() => `${t(textKeys.nsplateCanvasAria)}${modeLabel.
 const renderPlan = computed(() =>
   createNameplateRenderPlan(
     props.selectedAssets,
-    'right',
+    props.portraitSide,
     undefined,
     props.customPortrait,
     props.infoDraft,
@@ -91,8 +103,13 @@ const renderPlan = computed(() =>
 const renderSignature = computed(() =>
   [
     props.mode,
+    props.portraitSide,
     props.customPortrait?.id ?? '',
+    props.customPortrait?.mode ?? '',
+    props.customPortrait?.popoutLayerAnchor ?? '',
     props.customPortrait?.dataUrl ?? '',
+    props.customPortrait?.sourceDataUrl ?? '',
+    props.customPortrait?.splitY ?? '',
     props.selectedAssets
       .map((asset) =>
         [asset.id, asset.category, asset.imageUrl ?? '', asset.previewUrl ?? ''].join(':')
@@ -103,7 +120,27 @@ const renderSignature = computed(() =>
   ].join('::')
 )
 const canvasRef = ref<HTMLCanvasElement | null>(null)
-const { viewportRef, frameStyle } = useNSPlateCanvasFrame(NSPLATE_CANVAS_DIMENSIONS.nameplate)
+const { viewportRef, frameSize, frameStyle } = useNSPlateCanvasFrame(
+  NSPLATE_CANVAS_DIMENSIONS.nameplate
+)
+const {
+  zoomPercentLabel,
+  canZoomIn,
+  canZoomOut,
+  isDragging,
+  isPannable,
+  viewportTransformStyle,
+  zoomIn,
+  zoomOut,
+  resetView,
+  handleViewportPointerDown,
+  handleViewportPointerMove,
+  handleViewportPointerUp,
+  handleViewportPointerCancel
+} = useNSPlateCanvasViewport({
+  viewportRef,
+  frameSize
+})
 const isCanvasReady = ref(false)
 const imageCache: NSPlateImageCache = new Map()
 let renderSerial = 0
@@ -111,7 +148,15 @@ const { canExport, exportErrorText, exportImage, exportLayeredZip } = useNSPlate
   apiBase: props.apiBase,
   canvasRef,
   renderPlan,
-  isCanvasReady
+  isCanvasReady,
+  createConfigJson: props.createConfigJson
+})
+
+defineExpose({
+  canExport,
+  exportErrorText,
+  exportImage,
+  exportLayeredZip
 })
 
 onMounted(() => {
@@ -184,6 +229,17 @@ function isCurrentRender(serial: number) {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.nsplate-canvas-viewport[data-pannable='true'] {
+  cursor: grab;
+  touch-action: none;
+}
+
+.nsplate-canvas-viewport[data-dragging='true'] {
+  cursor: grabbing;
 }
 
 .nsplate-canvas-frame {
@@ -207,6 +263,12 @@ function isCurrentRender(serial: number) {
     -10px 0;
   background-size: 20px 20px;
   box-shadow: 0 10px 32px rgba(42, 33, 56, 0.1);
+  transition: transform 120ms ease-out;
+  will-change: transform;
+}
+
+.nsplate-canvas-viewport[data-dragging='true'] .nsplate-canvas-frame {
+  transition: none;
 }
 
 .nsplate-canvas-frame--nameplate {
@@ -220,15 +282,6 @@ function isCurrentRender(serial: number) {
   height: 100%;
   object-fit: contain;
   image-rendering: auto;
-}
-
-.nsplate-canvas-area__error {
-  margin: 8px 0 0;
-  color: var(--ns-color-danger);
-  font-family: var(--ns-font-sans);
-  font-size: 12px;
-  font-weight: 850;
-  text-align: center;
 }
 
 @media (max-width: 560px) {

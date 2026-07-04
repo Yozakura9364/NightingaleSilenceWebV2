@@ -69,13 +69,22 @@
         :message="t(textKeys.nsarmoireCatalogGridEmpty)"
       />
 
-      <NSArmoireCatalogGrid v-else :items="filteredItems" />
+      <template v-else>
+        <NSArmoireCatalogGrid :items="visibleCatalogItems" />
+
+        <div v-if="hasMoreCatalogItems" class="nsarmoire-catalog-panel__more">
+          <AppButton @click="showMoreCatalogItems">
+            {{ loadMoreCatalogLabel }}
+          </AppButton>
+        </div>
+      </template>
     </template>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
+import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
@@ -91,6 +100,7 @@ import {
   type ArmoireCatalogGridFilter,
   type ArmoireCatalogGridSort
 } from '@/pages/armoire/composables/useArmoireCatalogGrid'
+import { formatArmoireText } from '@/pages/armoire/utils/itemDisplay'
 import { useLocale } from '@/stores/locale'
 
 const props = defineProps<{
@@ -105,6 +115,8 @@ const selectedSort = ref<ArmoireCatalogGridSort>('risk')
 const searchQuery = ref('')
 const searchInputId = 'nsarmoire-catalog-search'
 const sortSelectId = 'nsarmoire-catalog-sort'
+const CATALOG_BATCH_SIZE = 48
+const visibleCatalogCount = ref(CATALOG_BATCH_SIZE)
 
 const { filterOptions, filteredItems, resultMetrics, sortOptions, summary } = useArmoireCatalogGrid(
   props,
@@ -113,6 +125,34 @@ const { filterOptions, filteredItems, resultMetrics, sortOptions, summary } = us
   selectedSort,
   t
 )
+
+const visibleCatalogItems = computed(() =>
+  filteredItems.value.slice(0, Math.min(filteredItems.value.length, visibleCatalogCount.value))
+)
+
+const hasMoreCatalogItems = computed(() => visibleCatalogItems.value.length < filteredItems.value.length)
+
+const nextCatalogBatchCount = computed(() =>
+  Math.min(CATALOG_BATCH_SIZE, Math.max(filteredItems.value.length - visibleCatalogItems.value.length, 0))
+)
+
+const loadMoreCatalogLabel = computed(() =>
+  formatArmoireText(t, textKeys.nsarmoireLoadMoreList, { count: nextCatalogBatchCount.value })
+)
+
+watch(
+  () => [selectedFilter.value, selectedSort.value, searchQuery.value, props.snapshot?.items.length] as const,
+  () => {
+    visibleCatalogCount.value = CATALOG_BATCH_SIZE
+  }
+)
+
+function showMoreCatalogItems(): void {
+  visibleCatalogCount.value = Math.min(
+    filteredItems.value.length,
+    visibleCatalogCount.value + CATALOG_BATCH_SIZE
+  )
+}
 </script>
 
 <style scoped>
@@ -199,6 +239,11 @@ const { filterOptions, filteredItems, resultMetrics, sortOptions, summary } = us
   grid-template-columns: minmax(220px, 1fr) minmax(180px, 240px);
   gap: 10px;
   min-width: 0;
+}
+
+.nsarmoire-catalog-panel__more {
+  display: flex;
+  justify-content: flex-start;
 }
 
 @media (max-width: 760px) {

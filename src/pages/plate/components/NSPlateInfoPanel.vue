@@ -16,6 +16,26 @@
   </NSPlatePanel>
 
   <NSPlatePanel :title="t(textKeys.nsplateInfoFields)">
+    <div class="nsplate-info-panel__actions" role="group" :aria-label="t(ACTION_KEYS.group)">
+      <button
+        class="nsplate-info-panel__action-button"
+        type="button"
+        @click="setAllLayersEnabled(true)"
+      >
+        {{ t(ACTION_KEYS.showAll) }}
+      </button>
+      <button
+        class="nsplate-info-panel__action-button"
+        type="button"
+        @click="setAllLayersEnabled(false)"
+      >
+        {{ t(ACTION_KEYS.hideAll) }}
+      </button>
+      <button class="nsplate-info-panel__action-button" type="button" @click="resetActivePreset">
+        {{ t(ACTION_KEYS.reset) }}
+      </button>
+    </div>
+
     <div class="nsplate-info-panel__list">
       <article
         v-for="entry in activeLayers"
@@ -25,13 +45,43 @@
         :data-expandable="isLayerExpandable(entry.state)"
       >
         <header class="nsplate-info-panel__card-head">
-          <label class="nsplate-info-panel__toggle">
-            <input
-              type="checkbox"
-              :checked="entry.state.enabled"
-              @change="setLayerEnabled(entry.state.slotId, $event)"
-            />
-          </label>
+          <button
+            class="nsplate-info-panel__visibility"
+            type="button"
+            :data-enabled="entry.state.enabled"
+            :aria-pressed="entry.state.enabled"
+            :aria-label="getLayerVisibilityLabel(entry.state.enabled)"
+            :title="getLayerVisibilityLabel(entry.state.enabled)"
+            @click="setLayerEnabled(entry.state.slotId, !entry.state.enabled)"
+          >
+            <svg
+              v-if="entry.state.enabled"
+              class="nsplate-info-panel__visibility-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M16 20H8v-2h8v2Zm-8-2H4v-2h4v2Zm12 0h-4v-2h4v2ZM4 16H2v-2h2v2Zm10-6h-2v2h2v-2h2v4h-2v2h-4v-2H8v-4h2V8h4v2Zm8 6h-2v-2h2v2ZM2 14H0v-4h2v4Zm22 0h-2v-4h2v4ZM4 10H2V8h2v2Zm18 0h-2V8h2v2ZM8 8H4V6h4v2Zm12 0h-4V6h4v2Zm-4-2H8V4h8v2Z"
+              />
+            </svg>
+            <svg
+              v-else
+              class="nsplate-info-panel__visibility-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M0 10h2v4H0zm24 0h-2v4h2zm-8 0h-2v2h2zm-6 0H8v4h2zM2 8h2v2H2zm0 8h2v-2H2zm20-8h-2v2h2zm0 8h-2v-2h2zM4 6h4v2H4zm0 12h4v-2H4zM20 6h-4v2h4zM10 4h6v2h-6zM8 20h8v-2H8zm4-12h2v2h-2zm-2 6h4v2h-4zM8 8h2v2H8zm2 2h2v4h-2zm2 2h2v2h-2z"
+              />
+              <path
+                d="M6 6h2v2H6zM4 4h2v2H4zM2 2h2v2H2zm12 12h2v2h-2zm2 2h2v2h-2zm2 2h2v2h-2zm2 2h2v2h-2z"
+              />
+            </svg>
+          </button>
           <button
             class="nsplate-info-panel__card-toggle"
             type="button"
@@ -72,12 +122,7 @@
               </span>
             </span>
             <span class="nsplate-info-panel__right">
-              <small>{{ t(getNSPlateInfoLayerTypeKey(entry.state.type)) }}</small>
-              <span
-                class="nsplate-info-panel__arrow"
-                :style="getLayerArrowIconStyle(isLayerOpen(entry.state.slotId))"
-                aria-hidden="true"
-              />
+              <span class="nsplate-info-panel__arrow" aria-hidden="true" />
             </span>
           </button>
         </header>
@@ -125,11 +170,7 @@
               <span class="nsplate-info-panel__material-selected">
                 {{ getIconMaterialSelectionLabel(entry.state) }}
               </span>
-              <span
-                class="nsplate-info-panel__arrow"
-                :style="getLayerArrowIconStyle(isIconMaterialSectionOpen(entry.state.slotId))"
-                aria-hidden="true"
-              />
+              <span class="nsplate-info-panel__arrow" aria-hidden="true" />
             </button>
 
             <div
@@ -184,13 +225,7 @@
               <span class="nsplate-info-panel__special-selected">
                 {{ getSpecialSelectionLabel(entry.state, section.kind) }}
               </span>
-              <span
-                class="nsplate-info-panel__arrow"
-                :style="
-                  getLayerArrowIconStyle(isSpecialSectionOpen(entry.state.slotId, section.kind))
-                "
-                aria-hidden="true"
-              />
+              <span class="nsplate-info-panel__arrow" aria-hidden="true" />
             </button>
 
             <div
@@ -289,10 +324,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, type CSSProperties } from 'vue'
+import { computed, ref } from 'vue'
 import { textKeys } from '@/config/site'
-import caretDownFillIcon from '@/assets/icons/caret-down-fill.svg'
-import caretRightFillIcon from '@/assets/icons/caret-right-fill.svg'
+import {
+  getNSPlateInfoAssetItemId,
+  normalizeNSPlateInfoAssetValues,
+  nsPlateInfoAssetMatchesValue
+} from '@/lib/plate/infoLayerAssetMatching'
 import {
   localizePlateInfoText,
   nsPlateInfoPresetDefinitions,
@@ -310,9 +348,10 @@ import {
 import {
   NSPLATE_INFO_ACTIVITY_ICON_MAX_COUNT,
   getNSPlateInfoActiveLayers,
-  getNSPlateInfoLayerTypeKey,
+  resetNSPlateInfoActivePreset,
   setNSPlateInfoBar48All,
   setNSPlateInfoActivePreset,
+  setNSPlateInfoActivePresetLayersEnabled,
   toggleNSPlateInfoActivityIconMaterial,
   toggleNSPlateInfoBar48Cell,
   updateNSPlateInfoIconMaterial,
@@ -365,6 +404,19 @@ const SPECIAL_KEYS = {
   noBackground: 'plate.info.special.noBackground',
   noMask: 'plate.info.special.noMask',
   maskNeedsBackground: 'plate.info.special.maskNeedsBackground'
+} as const
+
+const ACTION_KEYS = {
+  group: 'plate.info.actions.group',
+  showAll: 'plate.info.actions.showAll',
+  hideAll: 'plate.info.actions.hideAll',
+  reset: 'plate.info.actions.reset',
+  resetConfirm: 'plate.info.actions.resetConfirm'
+} as const
+
+const VISIBILITY_KEYS = {
+  show: textKeys.nsplateInfoLayerShow,
+  hide: textKeys.nsplateInfoLayerHide
 } as const
 
 const SPECIAL_MATERIAL_SECTIONS = [
@@ -441,21 +493,12 @@ function toggleLayerOpen(slotId: string) {
   }
 }
 
-function getLayerArrowIconStyle(open: boolean) {
-  return {
-    '--nsplate-info-panel-arrow-icon': `url("${open ? caretDownFillIcon : caretRightFillIcon}")`
-  } as CSSProperties
+function setLayerEnabled(slotId: string, enabled: boolean) {
+  emit('update:modelValue', updateNSPlateInfoLayerEnabled(props.modelValue, slotId, enabled))
 }
 
-function setLayerEnabled(slotId: string, event: Event) {
-  emit(
-    'update:modelValue',
-    updateNSPlateInfoLayerEnabled(
-      props.modelValue,
-      slotId,
-      (event.target as HTMLInputElement).checked
-    )
-  )
+function getLayerVisibilityLabel(enabled: boolean) {
+  return t(enabled ? VISIBILITY_KEYS.hide : VISIBILITY_KEYS.show)
 }
 
 function setTextLayerValue(slotId: string, event: Event) {
@@ -471,6 +514,18 @@ function toggleBar48Cell(slotId: string, cellIndex: number) {
 
 function setBar48All(slotId: string, enabled: boolean) {
   emit('update:modelValue', setNSPlateInfoBar48All(props.modelValue, slotId, enabled))
+}
+
+function setAllLayersEnabled(enabled: boolean) {
+  emit('update:modelValue', setNSPlateInfoActivePresetLayersEnabled(props.modelValue, enabled))
+}
+
+function resetActivePreset() {
+  if (!window.confirm(t(ACTION_KEYS.resetConfirm))) {
+    return
+  }
+
+  emit('update:modelValue', resetNSPlateInfoActivePreset(props.modelValue))
 }
 
 function getIconMaterialSectionOpenKey(slotId: string) {
@@ -529,7 +584,7 @@ function getIconSelectedValues(state: NSPlateInfoIconLayerState) {
   const definition = getIconRenderDefinition(state.slotId)
 
   if (isIconRenderDefinitionActivity(definition)) {
-    return normalizeInfoAssetValues(
+    return normalizeNSPlateInfoAssetValues(
       state.itemIds.length > 0
         ? state.itemIds
         : state.itemId
@@ -574,9 +629,9 @@ function getIconSelectedCountText(selectedCount: number) {
 
 function selectIconMaterial(state: NSPlateInfoIconLayerState, asset: NSPlateAssetSummary) {
   const selectedValue = getIconSelectedValues(state).find((value) =>
-    infoAssetMatchesValue(asset, value)
+    nsPlateInfoAssetMatchesValue(asset, value)
   )
-  const itemId = selectedValue || getInfoAssetItemId(asset)
+  const itemId = selectedValue || getNSPlateInfoAssetItemId(asset)
 
   emit(
     'update:modelValue',
@@ -587,11 +642,11 @@ function selectIconMaterial(state: NSPlateInfoIconLayerState, asset: NSPlateAsse
 }
 
 function isIconAssetSelected(state: NSPlateInfoIconLayerState, asset: NSPlateAssetSummary) {
-  return getIconSelectedValues(state).some((value) => infoAssetMatchesValue(asset, value))
+  return getIconSelectedValues(state).some((value) => nsPlateInfoAssetMatchesValue(asset, value))
 }
 
 function findIconAssetByValue(state: NSPlateInfoIconLayerState, value: string) {
-  return getIconMaterialAssets(state).find((asset) => infoAssetMatchesValue(asset, value))
+  return getIconMaterialAssets(state).find((asset) => nsPlateInfoAssetMatchesValue(asset, value))
 }
 
 function getSpecialSectionOpenKey(slotId: string, kind: NSPlateInfoSpecialMaterialKind) {
@@ -701,92 +756,11 @@ function findSpecialAssetByValue(kind: NSPlateInfoSpecialMaterialKind, value: st
 }
 
 function specialAssetMatchesValue(asset: NSPlateAssetSummary, value: string) {
-  return infoAssetMatchesValue(asset, value)
+  return nsPlateInfoAssetMatchesValue(asset, value)
 }
 
 function getSpecialAssetItemId(asset: NSPlateAssetSummary) {
-  return getInfoAssetItemId(asset)
-}
-
-function infoAssetMatchesValue(asset: NSPlateAssetSummary, value: string) {
-  const target = normalizeInfoAssetToken(value)
-
-  if (!target) {
-    return false
-  }
-
-  return getInfoAssetTokens(asset).includes(target)
-}
-
-function getInfoAssetItemId(asset: NSPlateAssetSummary) {
-  return getInfoAssetTokens(asset)[0] || normalizeInfoAssetToken(asset.id) || asset.id
-}
-
-function getInfoAssetTokens(asset: NSPlateAssetSummary) {
-  return Array.from(
-    new Set(
-      [asset.raw.id, asset.raw.file, asset.raw.path, asset.file, asset.path]
-        .map((item) => normalizeInfoAssetToken(item))
-        .filter((item) => item.length > 0)
-    )
-  )
-}
-
-function normalizeInfoAssetValues(value: unknown, maxCount: number) {
-  const source = Array.isArray(value)
-    ? value
-    : value === null || value === undefined || value === ''
-      ? []
-      : [value]
-  const seen = new Set<string>()
-  const output: string[] = []
-
-  for (const item of source) {
-    if (output.length >= maxCount) {
-      break
-    }
-
-    const normalized = String(item ?? '')
-      .trim()
-      .slice(0, 300)
-
-    if (!normalized || seen.has(normalized)) {
-      continue
-    }
-
-    seen.add(normalized)
-    output.push(normalized)
-  }
-
-  return output
-}
-
-function normalizeInfoAssetToken(raw: unknown) {
-  const source = String(raw ?? '')
-    .trim()
-    .slice(0, 120)
-
-  if (!source) {
-    return ''
-  }
-
-  const normalizedPath = source.replace(/\\/g, '/')
-  const rawBase = normalizedPath.split('/').pop() || normalizedPath
-  let base = rawBase
-
-  try {
-    base = decodeURIComponent(rawBase)
-  } catch {
-    base = rawBase
-  }
-
-  const numeric = base.match(/^(\d{6})(?:_[^./\\]+)?(?:\.[A-Za-z0-9]+)?$/)
-
-  if (numeric) {
-    return numeric[1]
-  }
-
-  return base.toLowerCase()
+  return getNSPlateInfoAssetItemId(asset)
 }
 
 function getBar48Summary(state: NSPlateInfoBar48LayerState) {
@@ -820,6 +794,34 @@ function getBar48CellLabel(cellIndex: number, enabled: boolean) {
   gap: 8px;
 }
 
+.nsplate-info-panel__actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.nsplate-info-panel__action-button {
+  min-height: 30px;
+  padding: 0 8px;
+  overflow: hidden;
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-xs);
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nsplate-info-panel__action-button:hover {
+  border-color: color-mix(in srgb, var(--ns-color-accent-strong) 50%, var(--ns-color-border));
+  background: color-mix(in srgb, var(--ns-color-cyan) 10%, var(--ns-color-surface-solid));
+}
+
 .nsplate-info-panel__card {
   display: grid;
   overflow: visible;
@@ -847,27 +849,35 @@ function getBar48CellLabel(cellIndex: number, enabled: boolean) {
   box-shadow: 0 2px 0 color-mix(in srgb, var(--ns-color-border) 50%, transparent);
 }
 
-.nsplate-info-panel__card-head small {
-  flex: 0 0 auto;
-  color: var(--ns-color-text-muted);
-  font-size: 11px;
-  font-weight: 900;
-  user-select: none;
+.nsplate-info-panel__visibility {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--ns-color-accent-strong) 82%, var(--ns-color-text));
+  cursor: pointer;
 }
 
-.nsplate-info-panel__toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.nsplate-info-panel__visibility:hover {
+  color: var(--ns-color-danger);
 }
 
-.nsplate-info-panel__toggle input {
-  flex: 0 0 auto;
+.nsplate-info-panel__visibility[data-enabled='false'] {
+  color: color-mix(in srgb, var(--ns-color-text-muted) 76%, var(--ns-color-border));
+}
+
+.nsplate-info-panel__visibility-icon {
+  width: 18px;
+  height: 18px;
+  image-rendering: pixelated;
 }
 
 .nsplate-info-panel__card-toggle {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(58px, auto);
+  grid-template-columns: minmax(0, 1fr) var(--ns-control-caret-box-size);
   align-items: center;
   min-width: 0;
   width: 100%;
@@ -918,7 +928,7 @@ function getBar48CellLabel(cellIndex: number, enabled: boolean) {
 
 .nsplate-info-panel__right {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--ns-control-caret-box-size);
+  grid-template-columns: var(--ns-control-caret-box-size);
   align-items: center;
   justify-content: end;
   gap: 6px;
@@ -936,16 +946,32 @@ function getBar48CellLabel(cellIndex: number, enabled: boolean) {
 
 .nsplate-info-panel__arrow::before {
   display: block;
-  width: 13px;
-  height: 13px;
-  background: currentColor;
-  mask: var(--nsplate-info-panel-arrow-icon) center / contain no-repeat;
-  -webkit-mask: var(--nsplate-info-panel-arrow-icon) center / contain no-repeat;
+  width: 16px;
+  height: 20px;
+  background:
+    linear-gradient(currentColor 0 0) 2px 0 / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 6px 4px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 10px 8px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 6px 12px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 2px 16px / 4px 4px no-repeat;
   content: '';
 }
 
 .nsplate-info-panel__card[data-open='true'] .nsplate-info-panel__arrow {
   color: var(--ns-color-accent-strong);
+}
+
+.nsplate-info-panel__card[data-open='true'] .nsplate-info-panel__arrow::before,
+.nsplate-info-panel__special-section[data-open='true'] .nsplate-info-panel__arrow::before,
+.nsplate-info-panel__material-section[data-open='true'] .nsplate-info-panel__arrow::before {
+  width: 20px;
+  height: 16px;
+  background:
+    linear-gradient(currentColor 0 0) 0 2px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 4px 6px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 8px 10px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 12px 6px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 16px 2px / 4px 4px no-repeat;
 }
 
 .nsplate-info-panel__card[data-expandable='false'] .nsplate-info-panel__arrow {

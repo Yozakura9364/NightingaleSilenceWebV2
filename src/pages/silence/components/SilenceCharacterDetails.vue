@@ -279,69 +279,55 @@ function isEmptyProfileValue(value: string) {
 <style scoped>
 .silence-character-details {
   position: relative;
-  padding: clamp(44px, 7vw, 84px) clamp(18px, 5vw, 72px) clamp(72px, 8vw, 120px);
-  background:
-    linear-gradient(180deg, rgba(255, 252, 255, 0.82), rgba(246, 250, 251, 0.76)),
-    var(--ns-color-surface);
-  overflow: hidden;
-}
-
-.silence-character-details::before {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--silence-character-color), transparent 84%),
-      transparent 36%
-    ),
-    repeating-linear-gradient(90deg, rgba(42, 33, 56, 0.035) 0 1px, transparent 1px 36px);
-  content: '';
-  pointer-events: none;
+  min-height: calc(100vh - 56px);
+  padding: clamp(52px, 7vw, 92px) clamp(18px, 5vw, 72px) clamp(78px, 8vw, 128px);
+  background: #ffffff;
 }
 
 .silence-character-details__inner {
   position: relative;
   z-index: 2;
   display: grid;
-  width: min(1180px, 100%);
-  gap: clamp(38px, 6vw, 68px);
+  width: min(1120px, 100%);
+  gap: clamp(34px, 5vw, 58px);
   margin: 0 auto;
 }
 
 .silence-character-section {
   display: grid;
-  grid-template-columns: minmax(168px, 260px) minmax(0, 1fr);
+  grid-template-columns: minmax(156px, 236px) minmax(0, 1fr);
   gap: clamp(20px, 4vw, 48px);
   align-items: start;
-  padding-block: clamp(22px, 4vw, 42px);
-  border-top: 2px solid rgba(42, 33, 56, 0.18);
+  padding-block: clamp(26px, 4vw, 46px);
+  border-top: 1px solid rgba(42, 33, 56, 0.14);
   scroll-margin-top: 86px;
+}
+
+.silence-character-section:first-child {
+  border-top: 0;
 }
 
 .silence-character-section__header {
   display: grid;
-  gap: 6px;
+  gap: 10px;
   padding-top: 2px;
 }
 
 .silence-character-section__header h2 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-display);
-  font-size: clamp(34px, 5vw, 58px);
-  font-weight: 950;
-  line-height: 1;
+  font-family: var(--ns-font-sans);
+  font-size: clamp(26px, 3.4vw, 42px);
+  font-weight: 850;
+  line-height: 1.08;
   letter-spacing: 0;
   overflow-wrap: anywhere;
 }
 
 .silence-character-section__header::after {
-  width: min(92px, 44%);
-  height: 4px;
-  background: color-mix(in srgb, var(--silence-character-color), #ffffff 32%);
-  box-shadow: 6px 6px 0 rgba(42, 33, 56, 0.08);
+  width: min(86px, 42%);
+  height: 2px;
+  background: color-mix(in srgb, var(--silence-character-color), #2c2338 14%);
   content: '';
 }
 
@@ -356,10 +342,9 @@ function isEmptyProfileValue(value: string) {
   display: grid;
   min-width: 0;
   gap: 8px;
-  padding: 16px;
-  border: 2px solid rgba(42, 33, 56, 0.36);
-  background: rgba(255, 252, 255, 0.72);
-  box-shadow: 6px 6px 0 rgba(42, 33, 56, 0.07);
+  padding: 18px;
+  border: 1px solid rgba(42, 33, 56, 0.16);
+  background: transparent;
 }
 
 .silence-character-card-grid,
@@ -373,10 +358,10 @@ function isEmptyProfileValue(value: string) {
 .silence-character-note h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-display);
-  font-size: 24px;
-  font-weight: 950;
-  line-height: 1;
+  font-family: var(--ns-font-sans);
+  font-size: 20px;
+  font-weight: 820;
+  line-height: 1.2;
   letter-spacing: 0;
   overflow-wrap: anywhere;
 }
@@ -390,16 +375,16 @@ function isEmptyProfileValue(value: string) {
 .silence-character-body,
 .silence-character-story {
   display: grid;
-  gap: 10px;
-  padding: 4px 0 4px 20px;
-  border-left: 4px solid color-mix(in srgb, var(--silence-character-color), #2c2338 26%);
+  gap: 12px;
+  padding: 2px 0 2px 18px;
+  border-left: 2px solid color-mix(in srgb, var(--silence-character-color), #2c2338 18%);
   background: transparent;
 }
 
 .silence-character-body p,
 .silence-character-story p {
   margin: 0;
-  color: rgba(49, 40, 63, 0.72);
+  color: rgba(49, 40, 63, 0.76);
   line-height: 1.8;
 }
 
@@ -407,10 +392,8 @@ function isEmptyProfileValue(value: string) {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
-  border: 2px solid rgba(42, 33, 56, 0.24);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.46)),
-    color-mix(in srgb, var(--silence-character-color), transparent 92%);
+  border: 1px solid rgba(42, 33, 56, 0.16);
+  background: transparent;
 }
 
 .silence-character-profile-sheet div {
@@ -419,10 +402,10 @@ function isEmptyProfileValue(value: string) {
   gap: 12px;
   align-items: center;
   min-width: 0;
-  min-height: 54px;
-  padding: 12px 16px;
-  border-right: 1px solid rgba(42, 33, 56, 0.14);
-  border-bottom: 1px solid rgba(42, 33, 56, 0.14);
+  min-height: 52px;
+  padding: 12px 18px;
+  border-right: 1px solid rgba(42, 33, 56, 0.1);
+  border-bottom: 1px solid rgba(42, 33, 56, 0.1);
 }
 
 .silence-character-profile-sheet div:nth-child(2n) {
@@ -440,19 +423,19 @@ function isEmptyProfileValue(value: string) {
 }
 
 .silence-character-profile-sheet div:nth-last-child(2):nth-child(even) {
-  border-bottom: 1px solid rgba(42, 33, 56, 0.14);
+  border-bottom: 1px solid rgba(42, 33, 56, 0.1);
 }
 
 .silence-character-profile-sheet dt {
-  color: color-mix(in srgb, var(--silence-character-color), #2c2338 44%);
-  font-family: var(--ns-font-decorative);
+  color: color-mix(in srgb, var(--silence-character-color), #2c2338 38%);
+  font-family: var(--ns-font-sans);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 760;
 }
 
 .silence-character-profile-sheet dd {
   margin: 0;
-  color: rgba(49, 40, 63, 0.74);
+  color: rgba(49, 40, 63, 0.78);
   font-size: 15px;
   overflow-wrap: anywhere;
 }
@@ -466,8 +449,8 @@ function isEmptyProfileValue(value: string) {
   display: grid;
   grid-template-columns: minmax(112px, 0.22fr) minmax(0, 1fr);
   gap: 12px 22px;
-  padding-block: 18px;
-  border-bottom: 1px solid rgba(42, 33, 56, 0.16);
+  padding-block: 20px;
+  border-bottom: 1px solid rgba(42, 33, 56, 0.12);
 }
 
 .silence-character-lore-block:first-child {
@@ -477,10 +460,10 @@ function isEmptyProfileValue(value: string) {
 .silence-character-lore-block h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-display);
-  font-size: 22px;
-  font-weight: 950;
-  line-height: 1;
+  font-family: var(--ns-font-sans);
+  font-size: 18px;
+  font-weight: 820;
+  line-height: 1.25;
   letter-spacing: 0;
 }
 
@@ -513,8 +496,8 @@ function isEmptyProfileValue(value: string) {
 }
 
 .silence-character-point-list--wide {
-  padding: 2px 0 2px 20px;
-  border-left: 4px solid color-mix(in srgb, var(--silence-character-color), #2c2338 26%);
+  padding: 2px 0 2px 18px;
+  border-left: 2px solid color-mix(in srgb, var(--silence-character-color), #2c2338 18%);
 }
 
 .silence-character-outfit-list {
@@ -553,9 +536,9 @@ function isEmptyProfileValue(value: string) {
 
 .silence-character-story summary {
   color: #2c2338;
-  font-family: var(--ns-font-display);
-  font-size: 24px;
-  font-weight: 950;
+  font-family: var(--ns-font-sans);
+  font-size: 20px;
+  font-weight: 820;
   cursor: pointer;
 }
 

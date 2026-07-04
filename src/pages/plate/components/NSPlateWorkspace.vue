@@ -12,27 +12,43 @@
 
     <div v-else class="nsplate-main" :style="panelStyle">
       <NSPlateCanvasArea
+        ref="canvasAreaRef"
         :api-base="boundary.apiBase"
         :mode="activeCanvasMode"
+        :portrait-side="portraitSide"
         :selected-assets="selectedAssets"
         :asset-groups="assetGroups"
         :custom-portrait="customPortrait"
         :info-draft="infoDraft"
-        :can-clear-custom-portrait="customPortrait !== null"
-        :can-clear-all="hasAnySelection"
-        :can-import-config="!isImportingLegacyConfig"
         :selection-note-title="t(textKeys.nsplateCurrentCombination)"
         :selection-note-items="selectionNoteItems"
-        @clear-custom-portrait="clearCustomPortrait"
-        @clear-all="clearWorkbenchSelections"
-        @import-config="triggerLegacyConfigImport"
+        :can-clear-custom-portrait="customPortrait !== null"
+        :can-clear-materials="hasAnyMaterialSelection"
+        :create-config-json="createCurrentConfigJson"
         @focus-asset-section="focusAssetSection"
+        @clear-custom-portrait="clearCustomPortrait"
+        @clear-materials="clearMaterialSelections"
       />
 
       <NSPlateResizeHandle @start="startPanelResize" @step="resizePanelBy" />
 
       <NSPlateConfigPanel v-model="activeTab" :tabs="tabs">
+        <template #toolbar>
+          <NSPlateWorkbenchActions
+            :can-import-config="canImportConfig"
+            :can-export="canExportCanvas"
+            :export-error-text="canvasExportErrorText"
+            @import-config="triggerConfigImport"
+            @paste-config="pasteCurrentConfig"
+            @copy-config="copyCurrentConfig"
+            @export-config="exportCurrentConfig"
+            @export-image="exportCanvasImage"
+            @export-layered-zip="exportCanvasLayeredZip"
+          />
+        </template>
+
         <template v-if="activeTab !== 'info'">
+          <NSPlatePortraitSideSwitch v-if="activeTab === 'portrait'" v-model="portraitSide" />
           <NSPlatePortraitUpload v-if="activeTab === 'portrait'" v-model="customPortrait" />
           <NSPlatePresetPanel
             :selected-id="activeSelectedPresetId"
@@ -57,12 +73,12 @@
     </div>
 
     <input
-      ref="legacyConfigFileInputRef"
+      ref="configFileInputRef"
       class="nsplate-workspace__file-input"
       type="file"
       accept="application/json,.json,text/plain,.txt"
       :aria-label="t(textKeys.nsplateImportConfigInput)"
-      @change="importLegacyConfigFile"
+      @change="importConfigFile"
     />
   </section>
 </template>
@@ -71,14 +87,12 @@
 import { computed, ref, watch } from 'vue'
 import { textKeys } from '@/config/site'
 import { NSPLATE_NAMEPLATE_PRESET_CATEGORIES, NSPLATE_PORTRAIT_CATEGORIES } from '@/lib/plate/draft'
+import type { NSPlateCanvasExportFormat } from '@/lib/plate/exportCanvas'
 import { createNSPlateInfoDraft } from '@/lib/plate/infoLayers'
-import {
-  NSPlateLegacyConfigImportError,
-  importNSPlateLegacyConfigText
-} from '@/lib/plate/legacyConfig'
 import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import { useNSPlateData } from '@/pages/plate/composables/useNSPlateData'
+import { useNSPlateConfigTransfer } from '@/pages/plate/composables/useNSPlateConfigTransfer'
 import { useNSPlateDraftPersistence } from '@/pages/plate/composables/useNSPlateDraftPersistence'
 import { useNSPlatePanelResize } from '@/pages/plate/composables/useNSPlatePanelResize'
 import { useNSPlateSelectionNote } from '@/pages/plate/composables/useNSPlateSelectionNote'
@@ -87,13 +101,16 @@ import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 import NSPlateConfigPanel from '@/pages/plate/components/NSPlateConfigPanel.vue'
 import NSPlateInfoPanel from '@/pages/plate/components/NSPlateInfoPanel.vue'
 import NSPlatePresetPanel from '@/pages/plate/components/NSPlatePresetPanel.vue'
+import NSPlatePortraitSideSwitch from '@/pages/plate/components/NSPlatePortraitSideSwitch.vue'
 import NSPlatePortraitUpload from '@/pages/plate/components/NSPlatePortraitUpload.vue'
 import NSPlateResizeHandle from '@/pages/plate/components/NSPlateResizeHandle.vue'
+import NSPlateWorkbenchActions from '@/pages/plate/components/NSPlateWorkbenchActions.vue'
 import type {
   NSPlateAssetScope,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage,
   NSPlatePanelTab,
+  NSPlatePortraitSide,
   NSPlatePresetKind
 } from '@/lib/plate/types'
 
@@ -119,14 +136,38 @@ const {
 const { panelStyle, resizePanelBy, startPanelResize } = useNSPlatePanelResize()
 const customPortrait = ref<NSPlateCustomPortraitImage | null>(null)
 const infoDraft = ref(createNSPlateInfoDraft())
-const legacyConfigFileInputRef = ref<HTMLInputElement | null>(null)
-const isImportingLegacyConfig = ref(false)
+const portraitSide = ref<NSPlatePortraitSide>('right')
+const activeTab = ref<NSPlatePanelTab>('portrait')
+const activeCanvasMode = ref<NSPlateCanvasMode>('portrait')
+const canvasAreaRef = ref<NSPlateCanvasAreaExpose | null>(null)
 
 useNSPlateDraftPersistence({
+  portraitSide,
   selectedPresetIdsByKind,
   selectedAssetIdsByCategory,
   customPortrait,
   infoDraft
+})
+
+const {
+  canImportConfig,
+  configFileInputRef,
+  copyCurrentConfig,
+  createCurrentConfigJson,
+  exportCurrentConfig,
+  importConfigFile,
+  pasteCurrentConfig,
+  triggerConfigImport
+} = useNSPlateConfigTransfer({
+  isLoading,
+  presets,
+  assetGroups,
+  portraitSide,
+  selectedPresetIdsByKind,
+  selectedAssetIdsByCategory,
+  customPortrait,
+  infoDraft,
+  activeTab
 })
 
 const tabs = computed<{ value: NSPlatePanelTab; label: string }[]>(() => [
@@ -135,8 +176,6 @@ const tabs = computed<{ value: NSPlatePanelTab; label: string }[]>(() => [
   { value: 'info', label: t(textKeys.nsplateInfo) }
 ])
 
-const activeTab = ref<NSPlatePanelTab>('portrait')
-const activeCanvasMode = ref<NSPlateCanvasMode>('portrait')
 const activePresetKind = computed<NSPlatePresetKind>(() =>
   activeCanvasMode.value === 'portrait' ? 'banner' : 'charcard'
 )
@@ -162,9 +201,10 @@ const { selectionNoteItems, assetPanelFocusRequest, focusAssetSection } = useNSP
   activeCanvasMode
 })
 const activeSelectedPresetId = computed(() => selectedPresetIdsByKind.value[activePresetKind.value])
-const hasAnySelection = computed(
+const canExportCanvas = computed(() => canvasAreaRef.value?.canExport ?? false)
+const canvasExportErrorText = computed(() => canvasAreaRef.value?.exportErrorText ?? '')
+const hasAnyMaterialSelection = computed(
   () =>
-    customPortrait.value !== null ||
     selectedAssets.value.length > 0 ||
     Object.values(selectedPresetIdsByKind.value).some((presetId) => presetId !== null)
 )
@@ -173,6 +213,11 @@ watch(
   (tab) => {
     if (tab === 'portrait' || tab === 'nameplate') {
       activeCanvasMode.value = tab
+      return
+    }
+
+    if (tab === 'info') {
+      activeCanvasMode.value = 'nameplate'
     }
   },
   { immediate: true }
@@ -186,8 +231,7 @@ function applyPresetById(presetId: string) {
   }
 }
 
-function clearWorkbenchSelections() {
-  customPortrait.value = null
+function clearMaterialSelections() {
   clearAllSelections()
 }
 
@@ -195,63 +239,19 @@ function clearCustomPortrait() {
   customPortrait.value = null
 }
 
-function triggerLegacyConfigImport() {
-  if (isImportingLegacyConfig.value) {
-    return
-  }
-
-  legacyConfigFileInputRef.value?.click()
+function exportCanvasImage(payload: { format: NSPlateCanvasExportFormat; scale: number }) {
+  void canvasAreaRef.value?.exportImage(payload)
 }
 
-async function importLegacyConfigFile(event: Event) {
-  const input = event.target as HTMLInputElement
-  const file = input.files?.[0] ?? null
-  input.value = ''
-
-  if (!file) {
-    return
-  }
-
-  isImportingLegacyConfig.value = true
-
-  try {
-    const result = await importNSPlateLegacyConfigText(await file.text(), {
-      presets: presets.value,
-      assetGroups: assetGroups.value
-    })
-
-    selectedPresetIdsByKind.value = result.selectedPresetIdsByKind
-    selectedAssetIdsByCategory.value = result.selectedAssetIdsByCategory
-    customPortrait.value = result.customPortrait
-
-    if (
-      result.activePanel === 'portrait' ||
-      result.activePanel === 'nameplate' ||
-      result.activePanel === 'info'
-    ) {
-      activeTab.value = result.activePanel
-    }
-
-    window.alert(
-      t(
-        result.missingAssetCount > 0 || result.ignoredInfoLayerCount > 0
-          ? textKeys.nsplateImportConfigPartial
-          : textKeys.nsplateImportConfigSuccess
-      )
-    )
-  } catch (error) {
-    window.alert(t(importLegacyConfigErrorKey(error)))
-  } finally {
-    isImportingLegacyConfig.value = false
-  }
+function exportCanvasLayeredZip(payload: { scale: number }) {
+  void canvasAreaRef.value?.exportLayeredZip(payload)
 }
 
-function importLegacyConfigErrorKey(error: unknown) {
-  if (error instanceof NSPlateLegacyConfigImportError && error.code === 'zip-manifest') {
-    return textKeys.nsplateImportConfigUnsupported
-  }
-
-  return textKeys.nsplateImportConfigError
+interface NSPlateCanvasAreaExpose {
+  canExport: boolean
+  exportErrorText: string
+  exportImage: (payload: { format: NSPlateCanvasExportFormat; scale: number }) => Promise<void>
+  exportLayeredZip: (payload: { scale: number }) => Promise<void>
 }
 </script>
 

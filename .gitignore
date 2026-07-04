@@ -28,5 +28,8 @@ Thumbs.db
 /*-art-*.jpeg
 /*-art-*.webp
 
+# local-only large reference assets
+/local-assets/
+
 # local AI / IDE settings
 .claude/settings.local.json

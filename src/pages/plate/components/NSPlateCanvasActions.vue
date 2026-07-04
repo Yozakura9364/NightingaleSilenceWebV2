@@ -1,97 +1,101 @@
 <template>
   <footer class="nsplate-canvas-footer">
-    <div class="nsplate-canvas-status" role="toolbar" :aria-label="t(textKeys.nsplateCanvasAria)">
+    <div class="nsplate-canvas-status" role="toolbar" :aria-label="toolbarLabel">
       <button
-        class="nsplate-canvas-status__button"
+        class="nsplate-canvas-status__button nsplate-canvas-status__button--icon"
         type="button"
-        :disabled="!canClearCustomPortrait"
-        @click="emit('clear-custom-portrait')"
+        :disabled="!canZoomOut"
+        :aria-label="t(textKeys.nsplateCanvasZoomOut)"
+        :title="t(textKeys.nsplateCanvasZoomOut)"
+        @click="emit('zoom-out')"
       >
-        {{ t(textKeys.nsplateCustomPortraitClear) }}
+        -
+      </button>
+      <output class="nsplate-canvas-status__zoom" :aria-label="t(textKeys.nsplateCanvasZoomLabel)">
+        {{ zoomLabel }}
+      </output>
+      <button
+        class="nsplate-canvas-status__button nsplate-canvas-status__button--icon"
+        type="button"
+        :disabled="!canZoomIn"
+        :aria-label="t(textKeys.nsplateCanvasZoomIn)"
+        :title="t(textKeys.nsplateCanvasZoomIn)"
+        @click="emit('zoom-in')"
+      >
+        +
       </button>
       <button
-        class="nsplate-canvas-status__button"
+        class="nsplate-canvas-status__button nsplate-canvas-status__button--fit"
         type="button"
-        :disabled="!canClearAll"
-        @click="emit('clear-all')"
+        :aria-label="t(textKeys.nsplateCanvasResetView)"
+        :title="t(textKeys.nsplateCanvasResetView)"
+        @click="emit('reset-view')"
+      >
+        {{ t(textKeys.nsplateCanvasResetView) }}
+      </button>
+      <button
+        class="nsplate-canvas-status__button nsplate-canvas-status__button--clear"
+        type="button"
+        :disabled="!canClearMaterials"
+        @click="clearMaterials"
       >
         {{ t(textKeys.nsplateClearAllSelections) }}
       </button>
       <button
-        class="nsplate-canvas-status__button"
+        class="nsplate-canvas-status__button nsplate-canvas-status__button--clear"
         type="button"
-        :disabled="!canImportConfig"
-        @click="emit('import-config')"
+        :disabled="!canClearCustomPortrait"
+        @click="clearCustomPortrait"
       >
-        {{ t(textKeys.nsplateImportConfig) }}
-      </button>
-      <label class="nsplate-canvas-status__toggle">
-        <input v-model="exportScale2x" type="checkbox" :disabled="!canExport" />
-        <span>{{ t(textKeys.nsplateExportScale2x) }}</span>
-      </label>
-      <button
-        class="nsplate-canvas-status__button"
-        type="button"
-        :disabled="!canExport"
-        @click="emitExport('png')"
-      >
-        {{ t(textKeys.nsplateExportPng) }}
-      </button>
-      <button
-        class="nsplate-canvas-status__button"
-        type="button"
-        :disabled="!canExport"
-        @click="emitExport('jpg')"
-      >
-        {{ t(textKeys.nsplateExportJpg) }}
-      </button>
-      <button
-        class="nsplate-canvas-status__button"
-        type="button"
-        :disabled="!canExport"
-        @click="emitLayeredZipExport"
-      >
-        {{ t(textKeys.nsplateExportLayeredZip) }}
+        {{ t(textKeys.nsplateCustomPortraitClear) }}
       </button>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { textKeys } from '@/config/site'
-import type { NSPlateCanvasExportFormat } from '@/lib/plate/exportCanvas'
 import { useLocale } from '@/stores/locale'
+import { computed } from 'vue'
 
-defineProps<{
+const props = defineProps<{
+  canZoomIn: boolean
+  canZoomOut: boolean
+  zoomLabel: string
   canClearCustomPortrait: boolean
-  canClearAll: boolean
-  canImportConfig: boolean
-  canExport: boolean
+  canClearMaterials: boolean
 }>()
 
 const emit = defineEmits<{
+  'zoom-in': []
+  'zoom-out': []
+  'reset-view': []
   'clear-custom-portrait': []
-  'clear-all': []
-  'import-config': []
-  'export-image': [payload: { format: NSPlateCanvasExportFormat; scale: number }]
-  'export-layered-zip': [payload: { scale: number }]
+  'clear-materials': []
 }>()
 
 const { t } = useLocale()
-const exportScale2x = ref(false)
+const toolbarLabel = computed(
+  () => `${t(textKeys.nsplateCanvasViewportToolbar)} / ${t(textKeys.nsplateCanvasClearToolbar)}`
+)
 
-function emitExport(format: NSPlateCanvasExportFormat) {
-  emit('export-image', {
-    format,
-    scale: exportScale2x.value ? 2 : 1
-  })
+function clearCustomPortrait() {
+  if (
+    !props.canClearCustomPortrait ||
+    !window.confirm(t(textKeys.nsplateCustomPortraitClearConfirm))
+  ) {
+    return
+  }
+
+  emit('clear-custom-portrait')
 }
 
-function emitLayeredZipExport() {
-  emit('export-layered-zip', {
-    scale: exportScale2x.value ? 2 : 1
-  })
+function clearMaterials() {
+  if (!props.canClearMaterials || !window.confirm(t(textKeys.nsplateClearAllSelectionsConfirm))) {
+    return
+  }
+
+  emit('clear-materials')
 }
 </script>
 
@@ -99,7 +103,11 @@ function emitLayeredZipExport() {
 .nsplate-canvas-footer {
   display: flex;
   flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
   justify-content: center;
+  justify-items: center;
   padding-top: 10px;
 }
 
@@ -107,7 +115,7 @@ function emitLayeredZipExport() {
   display: inline-flex;
   flex: 0 0 auto;
   gap: 0;
-  max-width: min(760px, calc(100% - 32px));
+  max-width: 100%;
   margin: 0;
   padding: 0;
   border: 2px solid var(--ns-pixel-border);
@@ -118,24 +126,51 @@ function emitLayeredZipExport() {
 
 .nsplate-canvas-status__button {
   min-width: 0;
-  min-height: 36px;
-  padding: 0 18px;
+  min-height: 28px;
+  padding: 0 9px;
   overflow: hidden;
   border: 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-decorative);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 950;
   text-overflow: ellipsis;
   white-space: nowrap;
   cursor: pointer;
 }
 
-.nsplate-canvas-status__toggle,
+.nsplate-canvas-status__button--icon {
+  width: 28px;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.nsplate-canvas-status__button--fit {
+  padding: 0 9px;
+}
+
+.nsplate-canvas-status__button--clear {
+  padding: 0 10px;
+}
+
+.nsplate-canvas-status__zoom {
+  display: inline-grid;
+  min-width: 50px;
+  min-height: 28px;
+  place-items: center;
+  border-left: 2px solid var(--ns-pixel-border);
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-decorative);
+  font-size: 11px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
 .nsplate-canvas-status__button + .nsplate-canvas-status__button,
-.nsplate-canvas-status__button + .nsplate-canvas-status__toggle,
-.nsplate-canvas-status__toggle + .nsplate-canvas-status__button {
+.nsplate-canvas-status__zoom + .nsplate-canvas-status__button {
   border-left: 2px solid var(--ns-pixel-border);
 }
 
@@ -144,52 +179,31 @@ function emitLayeredZipExport() {
   color: var(--ns-color-danger);
 }
 
-.nsplate-canvas-status__toggle {
-  display: inline-flex;
-  align-items: center;
-  min-height: 36px;
-  gap: 8px;
-  padding: 0 14px;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
-  font-size: 12px;
-  font-weight: 950;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.nsplate-canvas-status__toggle input {
-  width: 14px;
-  height: 14px;
-  margin: 0;
-  accent-color: var(--ns-color-accent);
-}
-
-.nsplate-canvas-status__button:disabled,
-.nsplate-canvas-status__toggle:has(input:disabled) {
+.nsplate-canvas-status__button:disabled {
   opacity: 0.46;
   cursor: not-allowed;
 }
 
 @media (max-width: 560px) {
   .nsplate-canvas-status {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: min(260px, calc(100% - 24px));
-    max-width: none;
+    max-width: calc(100% - 16px);
   }
 
-  .nsplate-canvas-status__button + .nsplate-canvas-status__button {
-    border-top: 2px solid var(--ns-pixel-border);
-    border-left: 0;
+  .nsplate-canvas-status__button {
+    min-height: 26px;
+    padding: 0 7px;
+    font-size: 10px;
   }
 
-  .nsplate-canvas-status__toggle,
-  .nsplate-canvas-status__button + .nsplate-canvas-status__toggle,
-  .nsplate-canvas-status__toggle + .nsplate-canvas-status__button {
-    border-top: 2px solid var(--ns-pixel-border);
-    border-left: 0;
+  .nsplate-canvas-status__button--icon {
+    width: 26px;
+    padding: 0;
+  }
+
+  .nsplate-canvas-status__zoom {
+    min-width: 46px;
+    min-height: 26px;
+    font-size: 10px;
   }
 }
 </style>

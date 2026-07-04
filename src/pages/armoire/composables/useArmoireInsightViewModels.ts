@@ -83,7 +83,7 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
 
   const duplicateModelItems = computed(() => duplicateGroups.value.map(display.toDuplicateModelItem))
 
-  const dyeRiskItems = computed(() => {
+  const allDyeRiskItems = computed(() => {
     if (!source.analysis) {
       return []
     }
@@ -122,7 +122,7 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
       : null
   )
 
-  const dyeRiskCount = computed(() => source.analysis?.dyeRisk.riskItemCount ?? 0)
+  const dyeClearRiskCount = computed(() => source.analysis?.dyeRisk.clearDyeRiskItemCount ?? 0)
 
   const isCabinetCatalogMissing = computed(
     () => source.analysis?.cabinetProgress.status === 'missingCatalog'
@@ -221,7 +221,7 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
     if (clearRiskCount === 0) {
       return display.formatText(textKeys.nsarmoireHintDyesPreserved, {
         count,
-        items: dyeRiskItems.value.map((item) => item.name).join(' / ')
+        items: allDyeRiskItems.value.map((item) => item.name).join(' / ')
       })
     }
 
@@ -256,7 +256,7 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
     incompleteSetCount,
     duplicateItemCount,
     duplicateModelCount,
-    dyeRiskCount,
+    dyeRiskCount: dyeClearRiskCount,
     isCabinetCatalogMissing,
     isSetCatalogMissing,
     isIdenticalModelCatalogMissing,
@@ -269,6 +269,6 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
     incompleteSetItems,
     duplicateItemItems,
     duplicateModelItems,
-    dyeRiskItems
+    dyeRiskItems: dyeClearRiskItems
   }
 }

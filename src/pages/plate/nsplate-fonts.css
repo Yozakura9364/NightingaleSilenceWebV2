@@ -1,0 +1,222 @@
+@font-face {
+  font-family: 'Trump Gothic Pro';
+  src:
+    local('Trump Gothic Pro'),
+    local('TrumpGothicPro');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jupiter Pro';
+  src:
+    local('Jupiter Pro'),
+    local('JupiterPro-Regular'),
+    local('Jupiter-Pro-Regular');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jupiter Pro';
+  src:
+    local('Jupiter Pro Bold'),
+    local('JupiterPro-Bold'),
+    local('Jupiter-Pro-Bold'),
+    local('Jupiter Pro');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Eofont SP';
+  src:
+    local('Eofont SP'),
+    local('EofontSP');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Miedinger';
+  src:
+    local('Miedinger'),
+    local('Miedinger Medium'),
+    local('MiedingerMediumW00-Regular');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src:
+    local('HarmonyOS Sans SC Thin'),
+    local('HarmonyOS Sans SC');
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src:
+    local('HarmonyOS Sans SC Light'),
+    local('HarmonyOS Sans SC');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src:
+    local('HarmonyOS Sans SC'),
+    local('HarmonyOS Sans SC Regular');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src:
+    local('HarmonyOS Sans SC Medium'),
+    local('HarmonyOS Sans SC');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src:
+    local('HarmonyOS Sans SC Bold'),
+    local('HarmonyOS Sans SC');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarmonyOS Sans SC';
+  src:
+    local('HarmonyOS Sans SC Black'),
+    local('HarmonyOS Sans SC');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AXIS';
+  src:
+    local('Axis Std UltraLight'),
+    local('AXIS UltraLight'),
+    local('AXIS');
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AXIS';
+  src:
+    local('Axis Std ExtraLight'),
+    local('AXIS ExtraLight'),
+    local('AXIS');
+  font-weight: 200;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AXIS';
+  src:
+    local('Axis Std Light'),
+    local('AXIS Light'),
+    local('AXIS');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AXIS';
+  src:
+    local('Axis Std Regular'),
+    local('Axis Std'),
+    local('AXIS');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AXIS';
+  src:
+    local('Axis Std Medium'),
+    local('AXIS Medium'),
+    local('AXIS');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AXIS';
+  src:
+    local('Axis Std Bold'),
+    local('AXIS Bold'),
+    local('AXIS');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'AXIS';
+  src:
+    local('Axis Std Heavy'),
+    local('AXIS Heavy'),
+    local('AXIS');
+  font-weight: 800;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Adobe Heiti Std';
+  src:
+    local('Adobe Heiti Std'),
+    local('AdobeHeitiStd-Regular'),
+    local('Adobe Heiti Std R');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Augmented Neo-Eorzean';
+  src:
+    local('Augmented Neo-Eorzean'),
+    local('AugmentedNeo-Eorzean');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Augmented Far Eastern Script';
+  src:
+    local('Augmented Far Eastern Script'),
+    local('AugmentedFarEasternScript');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Augmented Norvrandt';
+  src:
+    local('Augmented Norvrandt'),
+    local('AugmentedNorvrandt');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Augmented Postulated Proto-Alphabet';
+  src:
+    local('Augmented Postulated Proto-Alphabet'),
+    local('AugmentedPostulatedProto-Alphabet');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

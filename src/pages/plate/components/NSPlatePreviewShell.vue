@@ -1,14 +1,14 @@
 <template>
   <NSPlateCanvasArea
     :api-base="plateApiBase"
-    :mode="mode"
-    :selected-assets="selectedAssets"
+    :mode="props.mode"
+    :portrait-side="props.portraitSide"
+    :selected-assets="props.selectedAssets"
     :asset-groups="emptyAssetGroups"
-    :custom-portrait="customPortrait"
+    :custom-portrait="props.customPortrait"
     :info-draft="infoDraft"
     :can-clear-custom-portrait="false"
-    :can-clear-all="false"
-    :can-import-config="false"
+    :can-clear-materials="false"
     selection-note-title=""
     :selection-note-items="[]"
   />
@@ -19,7 +19,8 @@ import type {
   NSPlateAssetGroup,
   NSPlateAssetSummary,
   NSPlateCanvasMode,
-  NSPlateCustomPortraitImage
+  NSPlateCustomPortraitImage,
+  NSPlatePortraitSide
 } from '@/lib/plate/types'
 import { getRequiredFfxivTool } from '@/config/site'
 import { createNSPlateInfoDraft } from '@/lib/plate/infoLayers'
@@ -29,9 +30,15 @@ const plateApiBase = getRequiredFfxivTool('plate').apiBase ?? '/api/plate'
 const infoDraft = createNSPlateInfoDraft()
 const emptyAssetGroups: NSPlateAssetGroup[] = []
 
-defineProps<{
-  mode: NSPlateCanvasMode
-  selectedAssets: NSPlateAssetSummary[]
-  customPortrait: NSPlateCustomPortraitImage | null
-}>()
+const props = withDefaults(
+  defineProps<{
+    mode: NSPlateCanvasMode
+    portraitSide?: NSPlatePortraitSide
+    selectedAssets: NSPlateAssetSummary[]
+    customPortrait: NSPlateCustomPortraitImage | null
+  }>(),
+  {
+    portraitSide: 'right'
+  }
+)
 </script>

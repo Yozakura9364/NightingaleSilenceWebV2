@@ -7,7 +7,10 @@ import {
   type NSPlateNameplateRenderPlan,
   type NSPlateRenderImageLayer
 } from '@/lib/plate/render'
-import { getCustomPortraitSourceDrawRect } from '@/lib/plate/customPortrait'
+import {
+  getCustomPortraitPopoutSplitBounds,
+  getCustomPortraitSourceDrawRect
+} from '@/lib/plate/customPortrait'
 import { drawNSPlateInfoGraphicLayers } from '@/lib/plate/infoLayerImageRenderer'
 import { drawNSPlateInfoTextLayers } from '@/lib/plate/infoLayerTextRenderer'
 import type { NSPlateCustomPortraitImage } from '@/lib/plate/types'
@@ -184,19 +187,28 @@ async function drawCustomPortraitInFrame(
   }
 
   if (customPortrait.mode === 'popout') {
-    const splitY = customPortrait.splitY ?? 0
+    const splitBounds = getCustomPortraitPopoutSplitBounds(customPortrait.splitY ?? 0)
     const rect = getCustomPortraitSourceDrawRect(customPortrait)
 
     context.save()
+    setHighQualityImageSmoothing(context)
     context.beginPath()
-    context.rect(0, splitY, context.canvas.width, context.canvas.height - splitY)
+    context.rect(
+      0,
+      splitBounds.inFrameY,
+      context.canvas.width,
+      context.canvas.height - splitBounds.inFrameY
+    )
     context.clip()
     context.drawImage(image, rect.x, rect.y, rect.width, rect.height)
     context.restore()
     return
   }
 
+  context.save()
+  setHighQualityImageSmoothing(context)
   context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height)
+  context.restore()
 }
 
 async function drawCustomPortraitPopout(
@@ -216,12 +228,13 @@ async function drawCustomPortraitPopout(
     return
   }
 
-  const splitY = customPortrait.splitY ?? 0
+  const splitBounds = getCustomPortraitPopoutSplitBounds(customPortrait.splitY ?? 0)
   const rect = getCustomPortraitSourceDrawRect(customPortrait)
 
   context.save()
+  setHighQualityImageSmoothing(context)
   context.beginPath()
-  context.rect(0, 0, context.canvas.width, portraitEmbed.y + splitY)
+  context.rect(0, 0, context.canvas.width, portraitEmbed.y + splitBounds.popoutY)
   context.clip()
   context.drawImage(
     image,
@@ -231,6 +244,14 @@ async function drawCustomPortraitPopout(
     rect.height
   )
   context.restore()
+}
+
+function setHighQualityImageSmoothing(context: CanvasRenderingContext2D) {
+  context.imageSmoothingEnabled = true
+
+  if ('imageSmoothingQuality' in context) {
+    context.imageSmoothingQuality = 'high'
+  }
 }
 
 function prepareCanvas(canvas: HTMLCanvasElement, width: number, height: number) {

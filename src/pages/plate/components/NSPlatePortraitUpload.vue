@@ -17,6 +17,26 @@
           @change="onFileChange"
         />
       </label>
+
+      <div v-if="modelValue?.mode === 'popout'" class="nsplate-portrait-upload__layer">
+        <span>{{ t(textKeys.nsplateCustomPortraitPopoutLayer) }}</span>
+        <div
+          class="nsplate-portrait-upload__layer-options"
+          role="toolbar"
+          :aria-label="t(textKeys.nsplateCustomPortraitPopoutLayer)"
+        >
+          <button
+            v-for="option in popoutLayerOptions"
+            :key="option.value"
+            type="button"
+            :data-active="popoutLayerAnchor === option.value"
+            :aria-pressed="popoutLayerAnchor === option.value"
+            @click="setPopoutLayerAnchor(option.value)"
+          >
+            {{ option.label }}
+          </button>
+        </div>
+      </div>
     </div>
 
     <p v-if="errorText" class="nsplate-portrait-upload__error">
@@ -33,22 +53,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type CSSProperties } from 'vue'
+import { computed, ref, type CSSProperties } from 'vue'
 import image2PlusIcon from '@/assets/icons/image-2-plus.svg'
 import { textKeys } from '@/config/site'
 import {
   createCustomPortraitCropStateFromFile,
   createCustomPortraitImageFromCropState
 } from '@/lib/plate/customPortrait'
+import {
+  NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR,
+  NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS
+} from '@/lib/plate/types'
 import type {
   NSPlateCustomPortraitCropState,
-  NSPlateCustomPortraitImage
+  NSPlateCustomPortraitImage,
+  NSPlateCustomPortraitPopoutLayerAnchor
 } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
 import NSPlateCropDialog from '@/pages/plate/components/NSPlateCropDialog.vue'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 
-defineProps<{
+const props = defineProps<{
   modelValue: NSPlateCustomPortraitImage | null
 }>()
 
@@ -62,6 +87,30 @@ const cropState = ref<NSPlateCustomPortraitCropState | null>(null)
 const emptyIconStyle = {
   '--nsplate-portrait-upload-empty-icon': `url("${image2PlusIcon}")`
 } as CSSProperties
+const popoutLayerOptions = computed(
+  () =>
+    [
+      {
+        value: 'behindFrames',
+        label: t(textKeys.nsplateCustomPortraitPopoutLayerBehindFrames)
+      },
+      {
+        value: 'aboveFrames',
+        label: t(textKeys.nsplateCustomPortraitPopoutLayerAboveFrames)
+      },
+      {
+        value: 'aboveDecorations',
+        label: t(textKeys.nsplateCustomPortraitPopoutLayerAboveDecorations)
+      },
+      {
+        value: 'front',
+        label: t(textKeys.nsplateCustomPortraitPopoutLayerFront)
+      }
+    ] satisfies { value: NSPlateCustomPortraitPopoutLayerAnchor; label: string }[]
+)
+const popoutLayerAnchor = computed(() =>
+  normalizePopoutLayerAnchor(props.modelValue?.popoutLayerAnchor)
+)
 
 async function onFileChange(event: Event) {
   const input = event.target as HTMLInputElement
@@ -90,6 +139,25 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
   } catch {
     errorText.value = t(textKeys.nsplateCustomPortraitError)
   }
+}
+
+function setPopoutLayerAnchor(anchor: NSPlateCustomPortraitPopoutLayerAnchor) {
+  if (!props.modelValue || props.modelValue.mode !== 'popout') {
+    return
+  }
+
+  emit('update:modelValue', {
+    ...props.modelValue,
+    popoutLayerAnchor: anchor
+  })
+}
+
+function normalizePopoutLayerAnchor(
+  value: NSPlateCustomPortraitImage['popoutLayerAnchor']
+): NSPlateCustomPortraitPopoutLayerAnchor {
+  return value && NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.includes(value)
+    ? value
+    : NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR
 }
 </script>
 
@@ -188,6 +256,52 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+.nsplate-portrait-upload__layer {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.nsplate-portrait-upload__layer > span {
+  color: var(--ns-color-text-muted);
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.nsplate-portrait-upload__layer-options {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  min-width: 0;
+  border: 1px solid var(--ns-color-border-strong);
+  background: var(--ns-color-surface-solid);
+}
+
+.nsplate-portrait-upload__layer-options button {
+  min-width: 0;
+  min-height: 30px;
+  padding: 0 4px;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-sans);
+  font-size: 11px;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nsplate-portrait-upload__layer-options button + button {
+  border-left: 1px solid var(--ns-color-border-strong);
+}
+
+.nsplate-portrait-upload__layer-options button[data-active='true'] {
+  background: color-mix(in srgb, var(--ns-color-cyan) 22%, var(--ns-color-surface-solid));
+  color: var(--ns-color-accent-strong);
 }
 
 .nsplate-portrait-upload__error {
