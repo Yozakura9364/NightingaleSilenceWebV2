@@ -1,6 +1,6 @@
 # NSArmoire API / 数据契约草案
 
-本文件记录 V2 `NSArmoire` 第一阶段的数据契约。当前阶段不接本地 helper，不新增 Vite proxy，不读取游戏进程，只支持手动导入 snapshot JSON 和前端本地分析。
+本文件记录 V2 `NSArmoire` 的数据契约。当前阶段已接入第一版本地 helper：V2 仍支持手动导入 snapshot JSON，同时可以从本机 `NSArmoire helper` 读取投影台 snapshot。
 
 ## 基本信息
 
@@ -8,10 +8,11 @@
 |----|----|
 | 目标路由 | `#/ffxiv/armoire` |
 | 页面入口 | `src/pages/armoire/NSArmoirePage.vue` |
-| 当前输入 | 手动导入 JSON |
-| 当前后端 | 无 |
+| 当前输入 | 手动导入 JSON；本地 helper snapshot |
+| 当前本地 helper | `tools/nsarmoire-helper` |
 | 当前静态 catalog | `public/data/armoire-catalog.json` |
-| 计划 helper API base | `/api/armoire`，后续确认端口和 CORS 后再接 |
+| helper 开发代理 | `/api/armoire` -> `http://127.0.0.1:8015` |
+| helper 生产直连 | `http://127.0.0.1:8015` |
 
 ## Snapshot v1
 
@@ -141,6 +142,55 @@ source: 'asvel-compatible'
 container: 'glamourDresser'
 ```
 
+## 本地 helper v0.1
+
+第一版 helper 位于：
+
+```text
+tools/nsarmoire-helper
+```
+
+运行命令：
+
+```powershell
+dotnet run --project .\tools\nsarmoire-helper\NsArmoire.Helper.csproj
+```
+
+默认监听：
+
+```text
+http://127.0.0.1:8015
+```
+
+当前接口：
+
+| 接口 | 用途 |
+|------|------|
+| `GET /health` | 返回 helper 版本、游戏进程状态、投影台读取状态和当前支持的容器。 |
+| `GET /snapshot` | 读取投影台数据并返回 `nsarmoire.snapshot.v1`。 |
+| `POST /snapshot/refresh` | 重新读取投影台数据并返回 `nsarmoire.snapshot.v1`。 |
+
+当前 helper 只支持 `glamourDresser` 容器。背包、陆行鸟鞍囊、雇员、兵装库和收藏柜读取还未实现，后续必须逐容器验证。
+
+helper 输出的 snapshot 形态：
+
+```ts
+{
+  schemaVersion: 'nsarmoire.snapshot.v1',
+  source: 'local-helper',
+  generatedAt: string,
+  items: [
+    {
+      itemId: number,
+      hq: boolean,
+      dyes: [number, number],
+      container: 'glamourDresser',
+      slotIndex: number
+    }
+  ]
+}
+```
+
 ## 已确认字段口径
 
 | 字段 / 来源 | 口径 |
@@ -172,8 +222,7 @@ container: 'glamourDresser'
 
 ## 当前不做
 
-- 不连接本地 helper。
-- 不读取游戏进程、背包、雇员或投影台。
+- 不读取背包、陆行鸟鞍囊、雇员、兵装库或收藏柜。
 - catalog 加载失败时，不计算正式收藏柜收集度。
 - catalog 加载失败时，不计算正式套装缺件进度。
 - catalog 加载失败时，不输出正式同模型推荐。
@@ -191,4 +240,6 @@ container: 'glamourDresser'
 - 手动导入 JSON 视为不可信输入。
 - 页面只在浏览器内处理 snapshot，不上传公开服务器。
 - 错误信息不输出本机路径、堆栈、用户名、游戏安装路径或 helper 调试信息。
-- 后续 helper 必须只监听 loopback 地址，并单独确认 CORS、端口、请求体大小和浏览器私有网络访问限制。
+- 当前 helper 只监听 `127.0.0.1`，不监听公网网卡。
+- 当前 helper API 错误不得输出本机用户名、游戏安装路径、进程路径或堆栈。
+- 公开站点直连本地 helper 的浏览器私有网络访问限制仍需实测；手动导入必须保留为 fallback。

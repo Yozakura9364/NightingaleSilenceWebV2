@@ -127,7 +127,7 @@ export interface NSPlateLayeredExportLayer {
   width: number
   height: number
   rgbaData: string
-  sourceType?: 'system' | 'custom'
+  sourceType?: 'system' | 'custom' | 'info'
 }
 
 export interface NSPlateLayeredExportPayload {

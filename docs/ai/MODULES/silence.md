@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-- 模块状态：`#/silence` 左右分割海报式入口页、`#/silence/angel`、`#/silence/glitch` 全屏分组舞台占位页，以及 `angel` 六个角色的详情页动态路由、多区块测试数据骨架和详情页私有组件已接入；当前导航方向已改为横向翻页蒙版 + 点击立绘跳页；正式角色资料和正式素材尚未接入。
+- 模块状态：`#/silence` 左右分割海报式入口页、`#/silence/angel`、`#/silence/glitch` 全屏分组舞台占位页，以及 `angel` 六个角色的详情页动态路由、多区块测试数据骨架和详情页私有组件已接入；当前导航方向已改为横向翻页蒙版 + 点击立绘跳页；Salvance 首版正式资料已接入本地数据层并可在详情页渲染，其他正式角色资料和正式素材尚未接入。
 - 计划入口路由：`#/silence`。
 - 推荐分组路由：`#/silence/angel`、`#/silence/glitch`。
 - 推荐详情路由：`#/silence/angel/:characterId`、`#/silence/glitch/:characterId`。
@@ -11,7 +11,7 @@
 - 当前本地开发环境下，入口海报、`angel` 分组舞台和单角色详情页都会读取 `characters.ts` 中的 dev-only 立绘路径；生产环境或缺图时回退为占位视觉。
 - 模块类型：创作信息分类 / 原创角色档案 / 角色图鉴。
 - 当前不涉及后端 API。
-- 当前正式展示文案尚未确认；页面骨架中未由用户提供的公开文案统一使用 `占位用，待编辑`。当前 `src/data/silence/characters.ts` 中的六个 `angel` 角色只作为测试数据骨架，用于即时检查模板、路由和排版。
+- 当前正式展示文案只接入用户已提供的 Salvance wiki 笔记片段；页面骨架中未由用户提供的公开文案统一使用 `占位用，待编辑`。当前其他五个 `angel` 角色仍只作为测试数据骨架，用于即时检查模板、路由和排版。
 - 结构、耦合、服务器资源和图片流量优化计划见 `docs/ai/MODULES/silence-optimization-plan.md`。
 - 角色正式资料 schema、Salvance wiki 样例提取和目录角色映射待确认项见 `docs/ai/MODULES/silence-character-data-schema.md`。
 
@@ -31,6 +31,25 @@ Silence 模块第一层按角色所属叙事层分组，不按世界观分组。
 像素 / 赛博幽灵风格属于站点 meta 层，主要服务首页与 `glitch` 角色；`angel` 组的六个主 OC 使用独立档案视觉，避免被全站像素风同化。
 
 `angel` 命名用于表达这六个角色的重要性，不引入宗教、圣所、祭坛或崇拜语义。公开表现应偏向“横向群像主视觉 / 全员同屏 / 立绘舞台”，而不是神圣化叙事。
+
+## angel 外壳 / 正文视觉边界
+
+`angel` 组的像素感只作为“网页入口”和“站点 meta 外壳”存在，不作为角色正文内容的美术风格。也就是说，用户打开网页时可以感受到 Nightingale Silence 这个网站的界面、翻页、入口和轻微像素外壳，但进入角色详细资料后，看到的内容应是正规角色档案、设定集或日漫官网角色页风格。
+
+实现边界：
+
+- `#/silence`、`#/silence/angel`、左右翻页蒙版、全局顶栏、页面转场和少量入口装饰可以保留像素 / meta / 网页外壳感。
+- `#/silence/angel/:characterId` 的首屏可以保留少量“打开网页后进入档案”的界面感，但主视觉仍应以角色立绘、角色名、别名和档案入口为核心。
+- 单角色页向下滚动后的正文资料区，例如 `人物概览`、`基本设定`、`形态`、`衣装设定`、`战斗能力`、`人物经历`，应使用正规档案视觉，不再使用强像素字体、像素工作台按钮、硬边框面板和密集网格作为主要视觉语言。
+- `glitch` 组才是像素、故障、窗口、网页幽灵和界面残影可以强化的地方；不要把 `glitch` 的 meta 风格默认扩散到 `angel` 正文。
+- 全站公共像素风控件可以作为最低限度的导航和焦点态存在，但不应吞掉 `angel` 角色内容本身的美术气质。
+
+正文资料区建议视觉关键词：
+
+- 正规角色官网 / 角色设定集 / 档案纸，而不是像素工具页。
+- 清爽留白、细分隔线、轻量 tab、杂志式标题层级、角色代表色作为局部强调。
+- 正文使用易读的普通无衬线或轻微编辑感字体；像素字体只允许作为极少量 meta 标记、角标或外壳装饰。
+- 信息块应更像资料排版、设定栏目、图文板块；避免每个内容都变成方框卡片、像素按钮或工房面板。
 
 路由层级建议：
 
@@ -81,9 +100,12 @@ goelia ← glynne ← chihaya ← ney ← nightingale ← salvance ← angel页 
 
 - `characterId=salvance` 仍代表沙乐万这个角色，`form=sorence` 只代表当前展示形态。
 - 左右边缘翻页蒙版继续用于 Silence 线性阅读顺序，例如 `nightingale ← salvance ← angel页`，不用于形态切换。
-- 形态切换应放在角色页内部，作为首屏资料卡或详情区里的局部控件。
+- 形态切换应放在角色页详情区的“形态”区块，不放在首屏资料卡；首屏始终展示角色本体身份。
 - 切回角色本体时移除 `form` 查询参数，回到 `#/silence/angel/salvance`。
+- `form` 查询参数只作为详情区深链接 / 默认选中状态，不改变横向翻页邻居，也不把形态伪装成另一个角色页。
 - 形态资料放在角色数据下，不为每个形态单独创建 `SorencePage.vue`。
+- 角色详情核心资料顺序当前确认为：`人物概览 → 基本设定 → 形态 → 衣装设定`；战斗能力、人物经历等后续区块可按角色资料继续保留。
+- 衣装通过 `formIds` 记录归属形态，例如沙乐万常态可有公式服、高阶战斗服、正装、家居服，索伦斯可有自己的异化默认造型；但衣装区的浏览状态不跟随上方“形态”区自动切换，用户需要在衣装区内单独选择对应衣装。
 
 ## 参考方向
 
@@ -179,9 +201,10 @@ SilenceGlitchGroupView
 ```text
 SilenceCharacterPage
 ├── 角色主视觉：立绘、角色名、别名、代表色
-├── 基础档案：生日、身高、年龄、身份、阵营、关键词
-├── 性格与印象：短设定或对外简介
-├── 图像资料：表情差分、服装差分、旧设 / 新设、色卡
+├── 人物概览：核心定位、角色第一印象、简短简介
+├── 基本设定：姓名、身高、身份、基础外观、神态和稳定设定
+├── 形态：同一角色在当前世界线内的状态变化，例如常态 / 异化状态
+├── 衣装设定：挂在当前形态下的衣装、造型、图片和装备表
 ├── 关系网：与其他 OC 的关系卡片
 ├── 创作笔记：设计来源、版本记录、废案记录
 └── 剧透区：默认折叠或明确标记
@@ -196,6 +219,8 @@ SilenceCharacterPage
 ```text
 src/data/silence/
 ├── characterSeeds.ts          # 角色基础种子和 dev-only 本地预览立绘路径
+├── characterProfiles.ts       # 用户确认资料的结构化角色档案，当前先接 Salvance
+├── characterForms.ts          # 角色形态数据，当前先接 Salvance 的 sorence
 ├── draftCharacterContent.ts   # 测试占位资料骨架，正式文案接入前使用
 ├── characters.ts              # 角色类型、数据组装和查询 helper
 └── navigation.ts              # Silence 横向翻页顺序和邻居查询
@@ -223,7 +248,7 @@ salvance
 #/silence/angel/salvance
 ```
 
-当前测试数据骨架集中在 `draftCharacterContent.ts`，便于先检查页面结构和响应式，而不是提前写正式设定：
+当前测试数据骨架集中在 `draftCharacterContent.ts`，便于先检查页面结构和响应式，而不是提前写正式设定。用户已提供且确认用于迁移的正式资料应放入 `characterProfiles.ts`，由 `characters.ts` 和详情页模板读取：
 
 - 首屏角色主视觉：角色名、代表色、标签、基础档案入口。
 - 基础档案：资料状态、代表色、资料、笔记等占位字段。
@@ -232,8 +257,9 @@ salvance
 - 关系网：通过 `characterId` 关联其他角色，详情页会自动生成跳转。
 - 创作笔记：设计来源、版本记录、废案记录等文字块。
 - 剧透区：使用折叠区块，避免默认首屏暴露。
+- 正式资料：当前 Salvance 已从 wiki 笔记迁移出人物概览、基本设定、形态、衣装设定、战斗能力和人物经历草稿。
 
-新增或修改角色时优先从 `characterSeeds.ts` 入手；正式资料接入前，占位资料仍由 `draftCharacterContent.ts` 提供。不要把大量角色数据直接写进页面组件。
+新增或修改角色身份种子时优先从 `characterSeeds.ts` 入手；新增正式角色档案时优先从 `characterProfiles.ts` 入手；正式资料接入前，占位资料仍由 `draftCharacterContent.ts` 提供。不要把大量角色数据直接写进页面组件。
 
 正式资料字段定稿和 wiki 笔记迁移规则见 `docs/ai/MODULES/silence-character-data-schema.md`。其中已记录 Salvance 的结构化样例，但尚未渲染到公开页面。
 
@@ -299,6 +325,7 @@ src/pages/silence/
     ├── SilenceGatePoster.vue
     ├── SilenceCharacterStage.vue
     ├── SilenceCharacterDetails.vue
+    ├── SilenceFormOutfitPanel.vue
     ├── SilenceGroupVisual.vue
     ├── SilenceTurnHint.vue
     ├── SilenceProfilePanel.vue
@@ -313,6 +340,7 @@ src/pages/silence/
 - `SilenceGatePoster.vue`：Silence 入口页的标题浮层、左右分割海报、六人预览、glitch 占位和左右翻页蒙版。
 - `SilenceCharacterStage.vue`：单角色详情页首屏主视觉、基础资料摘要、页内详情锚点入口和左右翻页蒙版。
 - `SilenceCharacterDetails.vue`：单角色详情页下滑后的基础档案、世界线、图像资料、关系网、笔记和剧透区组合。
+- `SilenceFormOutfitPanel.vue`：角色详情页内部“形态”和“衣装设定”的展示区块；形态通过 `?form=` 深链接控制，衣装区默认独立浏览所有非 private 衣装，可按需要单独开启 `formIds` 过滤。
 - `SilenceGroupVisual.vue`：分组页立绘 / 占位舞台组件，负责 `angel` 六人舞台和 `glitch` 两个占位目标的视觉与键盘事件。
 - `SilenceTurnHint.vue`：页面左右边缘渐变翻页蒙版。
 - `SilenceProfilePanel.vue`：基础档案和代表色块。
@@ -327,6 +355,8 @@ src/pages/silence/
 Silence 模块不建议为每个角色单独创建一个页面组件，例如不要做成 `SalvancePage.vue`、`AnotherCharacterPage.vue` 这种一人一个页面。推荐结构是“一个详情页模板 + 一份角色数据”：
 
 - `src/data/silence/characterSeeds.ts`：维护角色基础种子。新增 `angel` 角色、调整角色 ID、名字、代表色和 dev-only 本地预览立绘路径，优先改这里。
+- `src/data/silence/characterProfiles.ts`：维护用户已提供并准备用于公开渲染的正式角色档案。修改这里会影响对应角色详情页的正式资料区块。
+- `src/data/silence/characterForms.ts`：维护角色形态数据。修改这里会影响角色页详情区的形态切换；首屏不读取这里替换角色身份。
 - `src/data/silence/draftCharacterContent.ts`：维护测试占位资料骨架。正式角色资料未接入前，基础档案、世界线、图像槽位、关系、笔记和剧透区占位从这里生成。
 - `src/data/silence/characters.ts`：维护角色类型、数据组装和查询 helper。页面和组件仍从这里读取 `silenceCharacters`、`getSilenceCharacterRoute()` 等稳定入口。
 - `src/data/silence/navigation.ts`：维护 Silence 横向翻页顺序和左右邻居查询。
@@ -353,6 +383,8 @@ Silence 模块不建议为每个角色单独创建一个页面组件，例如不
 - 不把首页的粉蓝像素舞台直接复制到 Silence 页面；Silence 模块可以与首页有气质呼应，但应形成“角色档案”自己的阅读秩序。
 - `glitch` 组可以继承首页的像素、故障、窗口碎片和赛博幽灵表现；`angel` 组只保留全站导航、按钮、焦点态等基础外壳，不调用首页像素舞台作为主视觉。
 - `angel` 组优先使用大幅立绘、群像合成、横向舞台、隐藏式导航和局部高亮来表达角色重要性；导航默认不应抢占群像画面，避免使用圣所、祭坛、光环、祈祷等宗教化视觉语汇。
+- `angel` 单角色正文区不得继续沿用工房式像素工作台语言。需要优先下调 `--ns-font-display` / `--ns-font-decorative` 的存在感，减少 2px 硬边框、硬阴影、像素按钮和密集网格背景，把它们限制在入口外壳、导航和少量 meta 标记里。
+- 如果需要为 `angel` 正文建立独立样式，优先放在 `src/pages/silence/` 私有组件或模块级样式中，不修改全站公共组件默认像素风，也不影响 `glitch`、`NSPlate`、`NSGlamour`。
 
 ## 公开内容和隐私边界
 

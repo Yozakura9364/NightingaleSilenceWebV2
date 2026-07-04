@@ -37,6 +37,11 @@ server: {
       changeOrigin: true,
       rewrite: (path) => path.replace(/^\/api\/glamour(?=\/|$)/, '/api')
     },
+    '/api/armoire': {
+      target: 'http://127.0.0.1:8015',         // NSArmoire local helper
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api\/armoire(?=\/|$)/, '')
+    },
     '/img':         'http://localhost:3456',   // 旧 NSPortable 游戏素材
     '/img-preview': 'http://localhost:3456',   // 旧 NSPortable 预览缩略图
   }
@@ -49,6 +54,7 @@ server: {
 |------|------|------|
 | `NSPlate` | `3456` | 当前接旧 `NSPortable` 铭牌后端和素材服务 |
 | `NSGlamour` | `8765` | 幻化后端，本机项目长期使用该端口 |
+| `NSArmoire helper` | `8015` | 衣柜清理大师本地助手，只监听 `127.0.0.1` |
 
 ## 已实现：fetch 封装
 
@@ -84,9 +90,11 @@ server: {
 |----|----------|-------------------|----------|
 | `glamour` | `/api/glamour` | `/health` | `8765` |
 | `plate` | `/api/plate` | `/presets` | `3456` |
+| `armoire` | `/api/armoire` | `/health` | `8015` |
 
 `NSGlamour` 旧后端有 `/api/health`，因此 V2 通过 `/api/glamour/health` 检查连通性。
 旧 `NSPortable` 后端没有 `/api/health`，当前使用 `/api/plate/presets` 作为轻量连通性检查；不要臆造旧后端不存在的 health 接口。
+`NSArmoire` 的 `/api/armoire/health` 只用于开发代理；公开页面不能假设服务器能访问用户本机 helper，应直连 `http://127.0.0.1:8015` 并保留手动导入 fallback。
 
 规则：
 
@@ -99,6 +107,7 @@ server: {
 - NSPlate 业务 API：V2 前端使用 `/api/plate/...`，代理到旧后端时 rewrite 为 `/api/...`。
 - NSPlate 图片素材：使用 `/img/...`、`/img-preview/...`。
 - NSGlamour 业务 API：V2 前端使用 `/api/glamour/...`，代理到旧后端时 rewrite 为 `/api/...`。
+- NSArmoire helper API：开发期使用 `/api/armoire/...`，代理到本机 helper 时去掉 `/api/armoire` 前缀；生产/公开页面直连用户本机 `http://127.0.0.1:8015/...`。
 - 不在页面组件中硬编码 `localhost`、端口号或生产域名。
 - 生产环境由 Nginx 反向代理处理同名路径，并保持与开发代理一致的 rewrite 规则。
 

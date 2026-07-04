@@ -2,7 +2,7 @@
 
 ## 当前状态
 
-- 模块状态：已接入第一阶段页面入口、站点配置、路由、手动 snapshot 导入、内置示例 snapshot、基础容器分布统计、前端 catalog/analysis 类型、snapshot 级染色风险分析、第一版静态 `armoire_catalog` 和可读处理提示；本地 helper 尚未接入。
+- 模块状态：已接入第一阶段页面入口、站点配置、路由、手动 snapshot 导入、内置示例 snapshot、基础容器分布统计、前端 catalog/analysis 类型、snapshot 级染色风险分析、第一版静态 `armoire_catalog`、可读处理提示和第一版本地 helper 接入；helper 当前只读取投影台。
 - 用户需求来源：`docs/ARMOIRE_PLAN.md`。
 - 目标路由：`#/ffxiv/armoire`。
 - 计划页面入口：`src/pages/armoire/NSArmoirePage.vue`。
@@ -10,8 +10,9 @@
 - 计划工具名：`衣柜清理大师`。
 - 计划形态：V2 网页工具 + 用户本机本地助手。
 - 后续可选形态：独立卫月 / Dalamud 插件项目。该项目暂不放入 V2 仓库，真正启动前必须先阅读官方 Dalamud 开发者指南并单独规划。
-- 当前 V2 后端状态：V2 自身没有后端，现阶段只通过 Vite proxy 接旧 `NSGlamour` 和 `NSPlate` 服务；`NSArmoire` 第一阶段不接后端，只处理手动导入 JSON。
-- 计划本地助手端口：待确认。实现前必须先确认端口、CORS、公开站点访问本机 helper 的浏览器限制和开发代理策略。
+- 当前 V2 后端状态：V2 自身没有后端，现阶段通过 Vite proxy 接旧 `NSGlamour`、`NSPlate` 服务和本机 `NSArmoire` helper。
+- 当前本地助手目录：`tools/nsarmoire-helper`。
+- 当前本地助手端口：`8015`，开发期 `/api/armoire/*` 代理到 `http://127.0.0.1:8015/*`；生产/公开页面直连 `http://127.0.0.1:8015`。
 
 ## 已读取文件
 
@@ -116,9 +117,11 @@ interface AsvelDresserItem {
 1. 建立 `ArmoireCatalog v1` 前端类型。
 2. 建立收藏柜进度、套装状态、染色风险、同模型重复的纯函数分析入口。
 3. 在没有正式 catalog 时，收藏柜、套装和同模型分析返回 `missingCatalog`，页面显示等待 catalog，不输出伪结果。
-4. 染色风险可先基于 snapshot `dyes` 字段工作，双染色条目标记为更高风险。
+4. 染色状态可先基于 snapshot `dyes` 字段工作；真正会清除染色的收纳目标第一版按“收藏柜”和“套装幻影化篓子”处理，其他收纳系统暂按保留染色处理。
 5. 页面新增分析面板，把分析数据转换成用户可读的处理提示和具体物品清单；数字只作为辅助，不作为主要信息。
 6. 确认同模型第一版口径：`Item.csv` 的 `Model{Main}` / 灰机 `主模型`、`Model{Sub}` / 灰机 `副模型`、`ItemUICategory` 和 `EquipSlotCategory` 都完全一致才归为同模型；这是并且关系。非装备、腰带、灵魂水晶和暂未纳入筛选的槽位不进入第一版同模分组。
+7. 图鉴区已支持按筛选、搜索和排序浏览导入条目；搜索/排序状态由页面组件持有，具体匹配和排序规则放在 `useArmoireCatalogGrid.ts`，卡片组件只消费 view model。
+8. 页面新增判定依据面板，用示例或导入 snapshot 展示重复物品、同模型、收藏柜候选和染色风险的规则、使用字段、命中物品、当前位置和结论，帮助在没有真实游戏数据时也能验证分析逻辑。
 
 分析 UI 规则：
 
@@ -131,7 +134,15 @@ interface AsvelDresserItem {
 - 统计数字保留，但作为提示的辅助信息，不替代可读结论。
 - 清单型提示默认预览前 4 条；当完整清单超过 4 条时提供展开/收起控制，避免真实数据导入后用户只能看到摘要。
 - 静态 catalog 状态必须对用户可见，至少说明加载中、已加载、失败和已加载的数据规模；收藏柜、套装、同模型这些依赖 catalog 的检查在 catalog 未就绪时不能显示成“全部正常”。
+- 图鉴式 UI 参考 FFXIV Collect 的“可浏览收藏条目 + 筛选 + 进度感”，但不照抄其视觉；第一版 `NSArmoireCatalogPanel.vue` 只消费 `useArmoireCatalogGrid.ts` 生成的 view model，卡片组件不直接写收藏柜、套装、同模型或染色业务判断。
+- 图鉴搜索应至少匹配物品名、物品 ID、容器、数量/染剂显示和标签；排序第一版保留为本地 UI 状态，不写入 snapshot，也不影响分析结果。
+- 图鉴当前结果摘要只展示当前筛选/搜索后的可见条目、处理项、染色项和重复相关数量；它是浏览辅助，不替代分析面板的正式建议。
+- 判定依据面板用于解释分析规则，不另写第二套业务判断；展示数据应来自 `ArmoireSnapshotAnalysis`、`ArmoireCatalog` 和 snapshot 原始条目。
+- 判定依据至少展示规则、使用字段和结论；命中项应尽量显示物品名、物品 ID、当前位置、模型字段、目录命中或染剂原始值，方便人工核对。
+- 染色判定必须区分“记录到染色状态”和“收纳会清除染色”：进入或位于收藏柜、放入套装幻影化篓子会清除染色；投影台、背包、兵装库、雇员、鞍囊等其他收纳系统暂按不清除染色处理。
+- 顶部处理提示只应把会清除染色的条目当成染色风险；普通已染色但当前收纳不清染色的条目可以在染色卡片中作为状态记录展示。
 - `NSArmoireInsightPanel.vue` 只负责分析面板组合；卡片外壳在 `NSArmoireActionCard.vue`，可读物品清单在 `NSArmoireReadableItemList.vue`，分析结果到 UI 的 view model 在 `useArmoireInsightViewModels.ts`，显示格式化工具在 `utils/insightDisplay.ts`。
+- `NSArmoireValidationPanel.vue` 只负责展示判定依据；分析结果到 UI 的 view model 在 `useArmoireValidationViewModels.ts`。
 
 当前已完成的第一阶段 C：
 
@@ -139,7 +150,7 @@ interface AsvelDresserItem {
 2. 默认从 `InfSein/ffxiv-datamining-mixed` 的 `chs` 目录读取 `Item.csv`、`Cabinet.csv`、`MirageStoreSetItem.csv`、`Stain.csv`，同时保留本地 `--source-dir` 作为 fallback。
 3. 输出轻量静态数据到 `public/data/armoire-catalog.json`，不把原始 CSV 或完整多语言映射放入前端。
 4. 页面启动后加载该静态 catalog；加载成功时收藏柜、套装和同模型分析进入正式口径，加载失败时继续显示 catalog pending。
-5. 本阶段仍不接本地 helper，不读取游戏进程，不新增 Vite proxy。
+5. 本阶段仍不接本地 helper，不读取游戏进程，不新增 Vite proxy；该限制只适用于第一阶段 C，后续 helper v0.1 已单独接入。
 6. 页面新增 catalog 状态提示，显示物品、收藏柜、套装、同模型和染剂目录规模；当 catalog 加载失败或缺失时，处理提示必须追加“部分检查等待静态数据”，避免把 pending 状态误读为无风险。
 
 MVP 暂不做：
@@ -256,7 +267,7 @@ interface ArmoireSnapshot {
 2. helper 读取到的所有游戏状态先归一成 snapshot。
 3. 用户仓库数据默认只在本机浏览器和本地 helper 间流动，不上传到公开服务器。
 4. snapshot 版本必须显式写入，后续数据结构升级可兼容旧导入文件。
-5. `hq`、`quantity`、`dyes`、`spiritbond` 属于用户拥有的物品实例状态，不来自静态 CSV。当前第一阶段只正式使用 `dyes` 做染色风险；后续 helper / 插件抓数据阶段再按真实可读字段扩展耐久、魔晶石、投影覆盖、制造者签名等状态。
+5. `hq`、`quantity`、`dyes`、`spiritbond` 属于用户拥有的物品实例状态，不来自静态 CSV。当前第一阶段只正式使用 `dyes` 记录染色状态，并结合静态 catalog 判断收藏柜和套装幻影化篓子的清染色风险；后续 helper / 插件抓数据阶段再按真实可读字段扩展耐久、魔晶石、投影覆盖、制造者签名等状态。
 6. 静态 CSV 只能提供物品能力和目录信息，例如 `Item.csv / DyeCount` 表示可染色槽数、`Stain.csv` 表示染剂名和颜色；不能用来判断用户某一件装备当前是否已染色或当前染剂。
 
 ## 分析能力拆分
@@ -400,7 +411,7 @@ src/lib/armoire/
 | `GET /health` | helper 状态、版本、游戏进程状态 |
 | `GET /snapshot` | 当前用户物品 snapshot |
 | `POST /snapshot/refresh` | 触发重新读取 |
-| `GET /catalog` | 与当前客户端版本对应的静态 catalog |
+| `GET /catalog` | 与当前客户端版本对应的静态 catalog，后续可选 |
 | `GET /icon/:itemId` | 物品图标，后续可选 |
 | `GET /open-v2` | 可选，打开 V2 对应页面 |
 
@@ -428,7 +439,7 @@ interface ArmoireHelperHealth {
 
 必须注意：
 
-- `Asvel` 已验证投影台读取路线，但不是完整背包/雇员/兵装库读取方案。
+- `Asvel` 已验证投影台读取路线；当前 `tools/nsarmoire-helper` 第一版也只承诺投影台读取，不代表完整背包/雇员/兵装库读取方案。
 - 进程内存结构会随游戏版本变化，读取逻辑必须有版本探测、失败提示和保守 fallback。
 - 雇员、背包、鞍囊、兵装库是否能稳定读到，需要单独调研，不应在第一版计划里假设已成熟。
 - 若未来改用 Dalamud 插件，需另开独立项目，不放入 V2 仓库；先读官方 Dalamud 开发者指南，再写风险评估、插件 API 调研、分发计划和与 V2 的数据契约。
@@ -459,17 +470,17 @@ src/config/site.ts
 src/router/index.ts
 src/locales/ui.ts
 src/services/apiBoundaries.ts
+vite.config.ts
 src/pages/armoire/NSArmoirePage.vue
 src/pages/armoire/composables/useArmoireSnapshot.ts
 src/pages/armoire/components/*
 src/lib/armoire/*
+tools/nsarmoire-helper/*
 ```
 
-如果第一阶段只做手动导入和前端分析，可以暂不修改 `vite.config.ts` 和 `apiBoundaries.ts` 的 helper 代理，只在后续本地助手接入阶段补。
+第一阶段 A/B 只做手动导入和前端分析，没有修改 `vite.config.ts`，也没有为 `NSArmoire` 创建 helper API 边界。
 
-当前第一阶段 A 没有修改 `vite.config.ts`，也没有为 `NSArmoire` 创建 helper API 边界；`apiBoundaries.ts` 只调整为允许没有 API 的工具入口存在。
-
-当前第一阶段 B 仍然没有修改 `vite.config.ts`，也没有接入 helper API；新增能力只在浏览器内处理用户导入的 snapshot。
+第一版本地 helper 接入后，`src/config/site.ts`、`src/services/apiBoundaries.ts` 和 `vite.config.ts` 已补充 `/api/armoire` 开发代理；公开页面仍以浏览器直连 `http://127.0.0.1:8015` 为主。
 
 ## 实施步骤
 
@@ -509,11 +520,19 @@ src/lib/armoire/*
 
 ### 阶段 3：本地助手最小接入
 
-1. 先做 helper 的 `/health`、`/snapshot`、`/catalog`。
-2. V2 页面提供连接状态、刷新按钮、导入 fallback。
-3. helper 第一版可只支持投影台数据，确保闭环稳定。
-4. 浏览器直连、本地 CORS、公开 HTTPS 页面访问本机 helper 的限制必须实测。
-5. 失败时显示保守错误，不泄露本机路径或进程信息。
+当前已完成第一版：
+
+1. 新增 `tools/nsarmoire-helper`，使用 C# / .NET 7 构建本地助手。
+2. helper 提供 `/health`、`/snapshot`、`/snapshot/refresh`。
+3. helper 第一版只支持投影台数据，输出 `source: 'local-helper'` 和 `container: 'glamourDresser'`。
+4. V2 页面提供连接状态、刷新按钮和手动导入 fallback。
+5. helper 只监听 `127.0.0.1`，错误响应不输出本机路径或堆栈。
+
+仍待完成：
+
+1. `/catalog`、`/icon/:itemId` 和 `/open-v2` 暂未实现。
+2. 浏览器直连本地 helper 在公开 HTTPS 页面下仍需实测。
+3. 背包、鞍囊、雇员、兵装库和收藏柜读取必须逐容器调研。
 
 ### 阶段 4：扩展读取容器
 

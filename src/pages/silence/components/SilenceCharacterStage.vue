@@ -4,14 +4,19 @@
       <div class="silence-character-stage__halo"></div>
       <div
         class="silence-character-stage__figure"
-        :class="{ 'silence-character-stage__figure--portrait': character.portraitSrc }"
+        :class="{
+          'silence-character-stage__figure--portrait': character.portraitSrc,
+          'silence-character-stage__figure--portrait-ready': isPortraitReady
+        }"
       >
         <img
           v-if="character.portraitSrc"
+          :key="portraitAnimationKey"
           class="silence-character-stage__portrait"
           :src="character.portraitSrc"
           alt=""
           decoding="async"
+          @load="handlePortraitLoad"
         />
         <template v-else>
           <span class="silence-character-stage__figure-head"></span>
@@ -30,36 +35,36 @@
         {{ character.aliases.join(' / ') }}
       </p>
       <p class="ns-lead">
-        {{ t(character.summaryKey) }}
+        {{ character.summary ?? t(character.summaryKey) }}
       </p>
 
-      <nav
-        v-if="formNavItems.length > 0"
-        class="silence-character-stage__forms"
-        :aria-label="t(textKeys.silenceCharacterForms)"
+      <div
+        v-if="character.tagLabels?.length"
+        class="silence-character-stage__tags"
+        :aria-label="t(textKeys.status)"
       >
-        <RouterLink
-          v-for="formItem in formNavItems"
-          :key="formItem.id"
-          class="silence-character-stage__form-link"
-          :class="{ 'silence-character-stage__form-link--active': formItem.isActive }"
-          :to="formItem.to"
-          :aria-current="formItem.isActive ? 'page' : undefined"
-        >
-          {{ formItem.name }}
-        </RouterLink>
-      </nav>
+        <span v-for="tagLabel in character.tagLabels" :key="`${character.id}-tag-${tagLabel}`">
+          {{ tagLabel }}
+        </span>
+      </div>
 
-      <div class="silence-character-stage__tags" :aria-label="t(textKeys.status)">
-        <span
-          v-for="(tagKey, index) in character.tagKeys"
-          :key="`${character.id}-tag-${index}`"
-        >
+      <div v-else class="silence-character-stage__tags" :aria-label="t(textKeys.status)">
+        <span v-for="(tagKey, index) in character.tagKeys" :key="`${character.id}-tag-${index}`">
           {{ t(tagKey) }}
         </span>
       </div>
 
-      <dl class="silence-character-stage__facts">
+      <dl
+        v-if="character.stageFacts?.length"
+        class="silence-character-stage__facts silence-character-stage__facts--inline"
+      >
+        <div v-for="field in character.stageFacts" :key="field.id">
+          <dt>{{ field.label }}</dt>
+          <dd>{{ field.value }}</dd>
+        </div>
+      </dl>
+
+      <dl v-else class="silence-character-stage__facts">
         <div v-for="field in character.profile" :key="field.id">
           <dt>{{ t(field.labelKey) }}</dt>
           <dd>{{ t(field.valueKey) }}</dd>
@@ -76,7 +81,7 @@
           type="button"
           @click="emit('sectionRequest', item.targetId)"
         >
-          {{ t(item.labelKey) }}
+          {{ item.label ?? t(item.labelKey ?? textKeys.placeholder) }}
         </button>
       </nav>
     </article>
@@ -92,7 +97,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+import { computed, ref, watch } from 'vue'
 import { textKeys } from '@/config/site'
 import type { SilenceCharacter } from '@/data/silence/characters'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
@@ -100,35 +105,60 @@ import { useLocale } from '@/stores/locale'
 
 interface SilenceCharacterDetailNavItem {
   id: string
-  labelKey: string
+  labelKey?: string
+  label?: string
   targetId: string
 }
 
-interface SilenceCharacterFormNavItem {
-  id: string
-  name: string
-  to: RouteLocationRaw
-  isActive: boolean
-}
-
-withDefaults(defineProps<{
+const props = defineProps<{
   character: SilenceCharacter
   groupTitleKey: string
   detailNavItems: SilenceCharacterDetailNavItem[]
-  formNavItems?: SilenceCharacterFormNavItem[]
   leftTo?: string
   leftLabel?: string
   rightTo?: string
   rightLabel?: string
-}>(), {
-  formNavItems: () => []
-})
+}>()
 
 const emit = defineEmits<{
   sectionRequest: [targetId: string]
 }>()
 
 const { t } = useLocale()
+const loadedPortraitKey = ref('')
+const portraitAnimationKey = computed(() =>
+  props.character.portraitSrc
+    ? `${props.character.id}-${props.character.name}-${props.character.portraitSrc}`
+    : ''
+)
+const isPortraitReady = computed(
+  () =>
+    Boolean(portraitAnimationKey.value) && loadedPortraitKey.value === portraitAnimationKey.value
+)
+
+watch(
+  portraitAnimationKey,
+  () => {
+    loadedPortraitKey.value = ''
+  },
+  { immediate: true }
+)
+
+async function handlePortraitLoad(event: Event) {
+  const image = event.currentTarget
+
+  if (!(image instanceof HTMLImageElement)) {
+    return
+  }
+
+  try {
+    await image.decode()
+  } catch {
+    // The load event is still enough to avoid the initial flash if decode() is unavailable.
+  }
+
+  loadedPortraitKey.value = portraitAnimationKey.value
+}
 </script>
 
 <style scoped>
@@ -148,8 +178,9 @@ const { t } = useLocale()
   inset: 0;
   z-index: 0;
   background:
-    repeating-linear-gradient(90deg, rgba(99, 217, 220, 0.08) 0 1px, transparent 1px 32px),
-    repeating-linear-gradient(0deg, rgba(239, 111, 178, 0.08) 0 1px, transparent 1px 32px);
+    radial-gradient(circle at 26% 26%, rgba(255, 255, 255, 0.48), transparent 32%),
+    linear-gradient(135deg, rgba(99, 217, 220, 0.1), transparent 46%),
+    linear-gradient(45deg, rgba(239, 111, 178, 0.08), transparent 52%);
   content: '';
   pointer-events: none;
 }
@@ -184,27 +215,32 @@ const { t } = useLocale()
   width: min(48vw, 360px);
   min-width: 220px;
   height: min(68vh, 620px);
-  filter: drop-shadow(18px 20px 0 rgba(42, 33, 56, 0.1));
 }
 
 .silence-character-stage__figure--portrait {
   display: grid;
   width: min(54vw, 430px);
   height: min(74vh, 720px);
+  overflow: hidden;
   place-items: end center;
-  filter:
-    drop-shadow(0 26px 34px rgba(42, 33, 56, 0.22))
-    drop-shadow(0 0 30px color-mix(in srgb, var(--silence-character-color), transparent 70%));
 }
 
 .silence-character-stage__portrait {
+  position: absolute;
+  right: -4%;
+  bottom: -14%;
+  left: -4%;
   display: block;
-  width: 100%;
+  width: auto;
   height: 100%;
+  opacity: 0;
   object-fit: contain;
   object-position: bottom center;
-  transform: translateY(4%) scale(1.08);
   transform-origin: bottom center;
+}
+
+.silence-character-stage__figure--portrait-ready .silence-character-stage__portrait {
+  animation: silencePortraitRise 2.35s cubic-bezier(0.16, 1, 0.24, 1) 0.12s both;
 }
 
 .silence-character-stage__figure-head,
@@ -260,9 +296,8 @@ const { t } = useLocale()
   max-width: 620px;
   padding: clamp(18px, 3vw, 28px);
   border: 2px solid rgba(42, 33, 56, 0.52);
-  background: rgba(255, 252, 255, 0.82);
+  background: rgba(255, 252, 255, 0.94);
   box-shadow: 8px 8px 0 rgba(42, 33, 56, 0.08);
-  backdrop-filter: blur(16px);
 }
 
 .silence-character-stage__name {
@@ -293,16 +328,14 @@ const { t } = useLocale()
 }
 
 .silence-character-stage__tags,
-.silence-character-stage__section-links,
-.silence-character-stage__forms {
+.silence-character-stage__section-links {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
 .silence-character-stage__tags span,
-.silence-character-stage__section-links button,
-.silence-character-stage__form-link {
+.silence-character-stage__section-links button {
   border: 2px solid rgba(42, 33, 56, 0.46);
   border-radius: 0;
   background: rgba(255, 255, 255, 0.62);
@@ -315,16 +348,12 @@ const { t } = useLocale()
 }
 
 .silence-character-stage__tags span,
-.silence-character-stage__section-links button,
-.silence-character-stage__form-link {
+.silence-character-stage__section-links button {
   padding: 5px 8px;
 }
 
 .silence-character-stage__section-links button:hover,
-.silence-character-stage__section-links button:focus-visible,
-.silence-character-stage__form-link:hover,
-.silence-character-stage__form-link:focus-visible,
-.silence-character-stage__form-link--active {
+.silence-character-stage__section-links button:focus-visible {
   background: color-mix(in srgb, var(--silence-character-color), #ffffff 64%);
   color: #2c2338;
 }
@@ -336,11 +365,32 @@ const { t } = useLocale()
   margin: 0;
 }
 
+.silence-character-stage__facts--inline {
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-block: 2px solid rgba(42, 33, 56, 0.18);
+}
+
 .silence-character-stage__facts div {
   min-width: 0;
   padding: 12px;
   border: 2px solid rgba(42, 33, 56, 0.24);
   background: rgba(255, 255, 255, 0.48);
+}
+
+.silence-character-stage__facts--inline div {
+  display: grid;
+  grid-template-columns: minmax(72px, 0.34fr) minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(42, 33, 56, 0.14);
+  background: transparent;
+}
+
+.silence-character-stage__facts--inline div:last-child {
+  border-bottom: 0;
 }
 
 .silence-character-stage__facts dt {
@@ -354,6 +404,44 @@ const { t } = useLocale()
   margin: 4px 0 0;
   color: rgba(49, 40, 63, 0.7);
   overflow-wrap: anywhere;
+}
+
+.silence-character-stage__facts--inline dd {
+  margin: 0;
+  color: rgba(49, 40, 63, 0.76);
+  font-size: 14px;
+}
+
+@keyframes silencePortraitRise {
+  0% {
+    bottom: -18%;
+    opacity: 0;
+  }
+
+  34% {
+    opacity: 0.48;
+  }
+
+  68% {
+    bottom: -7%;
+    opacity: 0.92;
+  }
+
+  100% {
+    bottom: -4%;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .silence-character-stage__portrait {
+    animation: none;
+  }
+
+  .silence-character-stage__portrait {
+    bottom: -4%;
+    opacity: 1;
+  }
 }
 
 @media (max-width: 920px) {

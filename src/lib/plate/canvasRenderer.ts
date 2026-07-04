@@ -8,6 +8,8 @@ import {
   type NSPlateRenderImageLayer
 } from '@/lib/plate/render'
 import { getCustomPortraitSourceDrawRect } from '@/lib/plate/customPortrait'
+import { drawNSPlateInfoGraphicLayers } from '@/lib/plate/infoLayerImageRenderer'
+import { drawNSPlateInfoTextLayers } from '@/lib/plate/infoLayerTextRenderer'
 import type { NSPlateCustomPortraitImage } from '@/lib/plate/types'
 
 export type NSPlateImageCache = Map<string, Promise<HTMLImageElement | null>>
@@ -64,12 +66,20 @@ async function drawNameplateSegment(
     return
   }
 
-  await drawCustomPortraitPopout(
-    context,
-    segment.customPortrait,
-    segment.portraitEmbed,
-    options
-  )
+  if (segment.type === 'customPortraitPopout') {
+    await drawCustomPortraitPopout(context, segment.customPortrait, segment.portraitEmbed, options)
+    return
+  }
+
+  if (segment.type === 'infoGraphicLayers') {
+    await drawNSPlateInfoGraphicLayers(context, segment.layers, {
+      imageCache: options.imageCache,
+      isCurrent: options.isCurrent
+    })
+    return
+  }
+
+  await drawNSPlateInfoTextLayers(context, segment.layers)
 }
 
 async function drawPortraitComposite(
@@ -165,7 +175,7 @@ async function drawCustomPortraitInFrame(
 
   const source =
     customPortrait.mode === 'popout'
-      ? customPortrait.sourceDataUrl ?? customPortrait.dataUrl
+      ? (customPortrait.sourceDataUrl ?? customPortrait.dataUrl)
       : customPortrait.dataUrl
   const image = await loadImage(source, options.imageCache)
 

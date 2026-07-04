@@ -1,14 +1,14 @@
 <template>
-  <section class="nsarmoire-panel">
+  <section class="nsarmoire-panel nsarmoire-import-panel">
     <div class="nsarmoire-panel__header">
       <h2>{{ t(textKeys.nsarmoireImport) }}</h2>
     </div>
 
     <AppStatus
       class="nsarmoire-import-panel__status"
+      compact
       :tone="statusTone"
       :title="statusTitle"
-      :message="t(textKeys.placeholder)"
     >
       <template #actions>
         <AppButton @click="$emit('load-example')">
@@ -28,6 +28,27 @@
 
         <AppButton v-if="snapshot" @click="$emit('clear')">
           {{ t(textKeys.nsarmoireClearSnapshot) }}
+        </AppButton>
+      </template>
+    </AppStatus>
+
+    <AppStatus
+      class="nsarmoire-import-panel__helper"
+      compact
+      :tone="helperStatusTone"
+      :title="t(helperStatusTitleKey)"
+      :message="helperStatusMessage"
+    >
+      <template #actions>
+        <AppButton :disabled="helperBusy" @click="$emit('connect-helper')">
+          {{ t(textKeys.nsarmoireConnectHelper) }}
+        </AppButton>
+
+        <AppButton
+          :disabled="helperBusy || !helperCanRefresh"
+          @click="$emit('refresh-helper')"
+        >
+          {{ t(textKeys.nsarmoireRefreshHelper) }}
         </AppButton>
       </template>
     </AppStatus>
@@ -57,6 +78,10 @@
         <dt>{{ t(textKeys.details) }}</dt>
         <dd>{{ importedFileName }}</dd>
       </div>
+      <div>
+        <dt>{{ t(textKeys.nsarmoireHelperEndpoint) }}</dt>
+        <dd>{{ helperEndpoint }}</dd>
+      </div>
     </dl>
   </section>
 </template>
@@ -74,11 +99,20 @@ const props = defineProps<{
   errorKey: string | null
   errorDetail: string | null
   importedFileName: string | null
+  helperStatusTone: 'info' | 'success' | 'warning' | 'danger' | 'loading'
+  helperStatusTitleKey: string
+  helperStatusMessageKey: string
+  helperErrorDetail: string | null
+  helperEndpoint: string
+  helperBusy: boolean
+  helperCanRefresh: boolean
 }>()
 
 const emit = defineEmits<{
   'import-file': [file: File]
   'load-example': []
+  'connect-helper': []
+  'refresh-helper': []
   clear: []
 }>()
 
@@ -96,6 +130,11 @@ const errorMessage = computed(() => {
 
   return props.errorDetail ? `${t(props.errorKey)}: ${props.errorDetail}` : t(props.errorKey)
 })
+const helperStatusMessage = computed(() =>
+  props.helperErrorDetail
+    ? `${t(props.helperStatusMessageKey)}: ${props.helperErrorDetail}`
+    : t(props.helperStatusMessageKey)
+)
 const characterLabel = computed(() => {
   const character = props.snapshot?.character
 
@@ -124,11 +163,16 @@ function handleFileChange(event: Event) {
 <style scoped>
 .nsarmoire-panel {
   display: grid;
-  gap: 12px;
-  padding: 16px;
+  gap: 10px;
+  padding: 12px 14px;
   border: 2px solid var(--ns-pixel-border);
   background: var(--ns-pixel-surface);
   box-shadow: var(--ns-pixel-soft-shadow);
+}
+
+.nsarmoire-import-panel {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
 }
 
 .nsarmoire-panel__header {
@@ -158,33 +202,44 @@ function handleFileChange(event: Event) {
 }
 
 .nsarmoire-import-panel__error {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+
+.nsarmoire-import-panel__helper {
+  grid-column: 1 / -1;
   min-width: 0;
 }
 
 .nsarmoire-import-panel__status {
-  flex-wrap: wrap;
-}
-
-.nsarmoire-import-panel__status :deep(.app-status__content) {
-  flex: 1 1 0;
-}
-
-.nsarmoire-import-panel__status :deep(.app-status__actions) {
-  flex: 1 1 100%;
-  flex-wrap: wrap;
   min-width: 0;
-  margin-left: 0;
 }
 
-.nsarmoire-import-panel__status :deep(.ns-button) {
-  flex: 1 1 100%;
+.nsarmoire-import-panel__status :deep(.app-status__content),
+.nsarmoire-import-panel__helper :deep(.app-status__content) {
+  flex: 0 1 auto;
+}
+
+.nsarmoire-import-panel__status :deep(.app-status__actions),
+.nsarmoire-import-panel__helper :deep(.app-status__actions) {
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  min-width: min(100%, 320px);
+  margin-left: auto;
+}
+
+.nsarmoire-import-panel__status :deep(.ns-button),
+.nsarmoire-import-panel__helper :deep(.ns-button) {
+  flex: 0 1 auto;
   min-width: 0;
   justify-content: center;
-  white-space: normal;
+  white-space: nowrap;
 }
 
 .nsarmoire-snapshot-meta {
   display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 8px;
   margin: 0;
   font-size: 12px;
@@ -192,8 +247,7 @@ function handleFileChange(event: Event) {
 
 .nsarmoire-snapshot-meta div {
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
-  gap: 10px;
+  gap: 2px;
 }
 
 .nsarmoire-snapshot-meta dt,
@@ -212,8 +266,32 @@ function handleFileChange(event: Event) {
   overflow-wrap: anywhere;
 }
 
+@media (max-width: 760px) {
+  .nsarmoire-import-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .nsarmoire-import-panel__status,
+  .nsarmoire-import-panel__helper {
+    flex-wrap: wrap;
+  }
+
+  .nsarmoire-import-panel__status :deep(.app-status__actions),
+  .nsarmoire-import-panel__helper :deep(.app-status__actions) {
+    flex: 1 1 100%;
+    margin-left: 0;
+  }
+
+  .nsarmoire-import-panel__status :deep(.ns-button),
+  .nsarmoire-import-panel__helper :deep(.ns-button) {
+    flex: 1 1 100%;
+    white-space: normal;
+  }
+}
+
 @media (max-width: 640px) {
-  .nsarmoire-import-panel__status :deep(.app-status__title) {
+  .nsarmoire-import-panel__status :deep(.app-status__title),
+  .nsarmoire-import-panel__helper :deep(.app-status__title) {
     overflow-wrap: anywhere;
     white-space: normal;
   }

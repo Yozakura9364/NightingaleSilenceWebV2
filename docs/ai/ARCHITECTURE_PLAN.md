@@ -257,6 +257,7 @@ src/components/
 ├── AppPanel.vue
 ├── AppTopNav.vue
 ├── AppPixelWindow.vue
+├── AppNotebookList.vue
 ├── AppField.vue
 ├── AppToolbar.vue
 ├── AppTabs.vue
@@ -271,6 +272,43 @@ src/components/
 - 迁移旧项目时，能用公共组件表达的 UI 先用公共组件；确实不适配再补 modifier 或页面专用组件。
 - 工房类页面不要一开始强行抽完整共享工作台组件；先遵守 `WORKBENCH_STYLE_CONTRACT.md`，等 `NSPlate` 和 `NSGlamour` 都出现稳定重复结构后，再上提到 `src/pages/ffxiv/components/` 或公共组件。
 - 复杂业务拆分、文件体积警戒线、`src/lib/` 和后端分层规则见 `docs/ai/CODE_STRUCTURE_RULES.md`。
+
+## 公共组件样式契约 v0.1
+
+本契约约束正式公共组件的默认视觉语言。它不要求所有业务控件都直接调用公共组件；复杂工房页可以保留页面私有控件，但私有控件应尽量继承同一套 token、字体、状态和交互原则。
+
+适用公共组件：
+
+- `AppButton` / `.ns-button`：普通按钮、主操作按钮、未来危险按钮、轻量按钮、图标按钮和紧凑按钮。
+- `AppField`：输入框、下拉框、文本域、说明文字、错误文字和必填标记。
+- `AppToolbar`：导入、清空、识别、导出等同类操作行。
+- `AppTabs`：页面或工作台主分区。
+- `AppStatus`：成功、警告、错误、加载、空状态和轻量提示。
+- `AppPanel`：普通内容面板。
+- `AppPixelWindow`：弹窗、小菜单、轻量工具窗口。
+- `AppNotebookList`：记事本式素材/选项列表，适合工房页侧栏里需要紧凑浏览、滚动和选中反馈的短文本列表。
+- `AppTopNav`：非首页全局顶栏、`菜单 | MENU` 和 `设置 | CONFIG` 弹窗。
+
+视觉规则：
+
+1. 正式公共组件统一使用像素风基础语言：方角、硬边框、硬阴影、清晰 active/focus 状态。
+2. 外层按钮、弹窗、工具栏、tab、面板默认使用 `2px solid` 像素边框；高密度业务列表、素材缩略图、表格行和内部分隔可以使用 `1px`，但要保留方角和清晰选中态。
+3. 默认不使用圆角、玻璃拟态、`fantasy-card` 类装饰、大面积柔光卡片或与像素风无关的 fantasy 风格。
+4. 阴影使用硬阴影，例如 `3px 3px 0`、`4px 4px 0`、`6px 6px 0`；避免模糊大阴影作为基础控件默认样式。
+5. hover 可以轻微向左上移动；active 可以表现为按下去。动画应短、克制，并照顾长时间操作的工房页。
+6. `day` 模式使用粉蓝像素风；`night` 模式使用紫青赛博夜色，但饱和度保持克制，不能压过内容、缩略图、Canvas 或游戏素材。
+7. 按钮、标签、窗口标题栏、tab 标题优先使用 `--ns-font-decorative`；输入内容、正文、长说明、素材名、装备名等需要阅读的文本优先使用 `--ns-font-sans`。
+8. 工房页控件密度应偏紧凑；首页可以更花、更舞台化，但首页装饰不能进入公共组件默认样式。
+9. 滚动区域如果需要像素化滚动条，优先使用公共 `.ns-scroll-area` class，并按需加 `.ns-scroll-area--compact`；不要全局重写 `body`、`*` 或所有滚动条，避免影响浏览器可用性。
+10. Style Lab 的 `.ns-pixel-*`、`.ns-cyber-*` 属于实验样式，不能直接复制到正式页面。正式页面应使用 `App*` 公共组件、`.ns-*` 公共类和 `theme.css` token。
+
+公共/私有边界：
+
+1. 公共组件负责基础视觉、可访问性、状态、字体和交互节奏。
+2. 页面私有组件负责业务布局、Canvas、素材缩略图、裁切器、复杂列表、拖拽区和导出级状态。
+3. 私有组件可以不直接调用 `AppButton`、`AppPanel` 等公共组件，尤其当它需要更高密度、更特殊的 DOM 结构或更贴近旧项目交互时。
+4. 如果某个私有样式在两个以上正式模块稳定复用，再评估上提到公共组件、公共 class 或 `src/pages/ffxiv/components/`。
+5. 上提公共样式前必须确认不会破坏 `NSPlate`、`NSGlamour` 等工房页的可读性和操作密度。
 
 ## 图标素材策略
 
@@ -297,17 +335,19 @@ https://pixelarticons.com/
 | ---------------- | ----------------------- | -------------- | ----------------------------- |
 | `/api/plate/*`   | `http://localhost:3456` | `/api/*`       | V2 `NSPlate`，旧 `NSPortable` |
 | `/api/glamour/*` | `http://localhost:8765` | `/api/*`       | `NSGlamour`                   |
+| `/api/armoire/*` | `http://127.0.0.1:8015` | `/*`           | `NSArmoire` 本地 helper       |
 | `/img/*`         | `http://localhost:3456` | 原路径         | 旧 `NSPortable` 游戏素材      |
 | `/img-preview/*` | `http://localhost:3456` | 原路径         | 旧 `NSPortable` 预览素材      |
 
 `NSGlamour` 本机端口以当前项目习惯 `8765` 为准，不再沿用旧文档里的旧端口。
-两个旧项目后端真实业务路径都以 `/api/...` 为主；V2 前端使用 `/api/glamour/...`、`/api/plate/...` 做命名空间隔离，开发代理和生产反向代理必须保持一致的 rewrite 规则。
+两个旧项目后端真实业务路径都以 `/api/...` 为主；V2 前端使用 `/api/glamour/...`、`/api/plate/...` 做命名空间隔离，开发代理和生产反向代理必须保持一致的 rewrite 规则。`NSArmoire` helper 是用户本机 loopback 服务，开发期可用 `/api/armoire` 代理，公开页面不能假设服务器能访问用户本机 helper。
 
 生产环境目标：
 
 - `/` 指向 V2 Vue 静态构建产物。
 - `/api/plate/*` 反向代理到 `NSPlate` 后端；当前目标是旧 `NSPortable`。
 - `/api/glamour/*` 反向代理到 `NSGlamour`。
+- `/api/armoire/*` 仅作为开发代理指向本机 `NSArmoire` helper；生产公开站点不反代用户本机 helper。
 - `/img/*` 和 `/img-preview/*` 反向代理到旧 `NSPortable`，除非后续统一素材静态分发。
 - 旧路径跳转或兼容层需在具体迁移阶段单独设计，不在早期默认删除。
 

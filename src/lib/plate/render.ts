@@ -1,8 +1,13 @@
+import { NSPLATE_PORTRAIT_CATEGORIES, NSPLATE_PORTRAIT_FRAME_CATEGORY } from '@/lib/plate/draft'
 import {
-  NSPLATE_PORTRAIT_CATEGORIES,
-  NSPLATE_PORTRAIT_FRAME_CATEGORY
-} from '@/lib/plate/draft'
+  createNSPlateInfoGraphicRenderLayers,
+  createNSPlateInfoTextRenderLayers,
+  type NSPlateInfoGraphicRenderLayer,
+  type NSPlateInfoTextRenderLayer
+} from '@/lib/plate/infoLayerRenderDefinitions'
+import type { NSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import type {
+  NSPlateAssetGroup,
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage
@@ -45,6 +50,8 @@ export interface NSPlateNameplateRenderPlan {
   portraitEmbed: NSPlateLayerPosition
   portraitFrameLayer: NSPlateRenderImageLayer | null
   overlayLayers: NSPlateRenderImageLayer[]
+  infoGraphicLayers: NSPlateInfoGraphicRenderLayer[]
+  infoTextLayers: NSPlateInfoTextRenderLayer[]
 }
 
 export type NSPlateRenderPlan = NSPlatePortraitRenderPlan | NSPlateNameplateRenderPlan
@@ -65,6 +72,15 @@ export type NSPlateNameplateRenderSegment =
       type: 'customPortraitPopout'
       customPortrait: NSPlateCustomPortraitImage | null
       portraitEmbed: NSPlateLayerPosition
+      dimensions: NSPlateCanvasDimensions
+    }
+  | {
+      type: 'infoGraphicLayers'
+      layers: NSPlateInfoGraphicRenderLayer[]
+    }
+  | {
+      type: 'infoTextLayers'
+      layers: NSPlateInfoTextRenderLayer[]
       dimensions: NSPlateCanvasDimensions
     }
 
@@ -115,7 +131,9 @@ export function createPlateRenderPlan(
   mode: NSPlateCanvasMode,
   selectedAssets: NSPlateAssetSummary[],
   portraitSide: NSPlatePortraitSide = 'right',
-  customPortrait: NSPlateCustomPortraitImage | null = null
+  customPortrait: NSPlateCustomPortraitImage | null = null,
+  infoDraft: NSPlateInfoDraft | null = null,
+  infoAssetGroups: NSPlateAssetGroup[] = []
 ): NSPlateRenderPlan {
   const selectedByCategory = getSelectedAssetsByCategory(selectedAssets)
 
@@ -130,14 +148,23 @@ export function createPlateRenderPlan(
     }
   }
 
-  return createNameplateRenderPlan(selectedAssets, portraitSide, selectedByCategory, customPortrait)
+  return createNameplateRenderPlan(
+    selectedAssets,
+    portraitSide,
+    selectedByCategory,
+    customPortrait,
+    infoDraft,
+    infoAssetGroups
+  )
 }
 
 export function createNameplateRenderPlan(
   selectedAssets: NSPlateAssetSummary[],
   portraitSide: NSPlatePortraitSide = 'right',
   selectedByCategory = getSelectedAssetsByCategory(selectedAssets),
-  customPortrait: NSPlateCustomPortraitImage | null = null
+  customPortrait: NSPlateCustomPortraitImage | null = null,
+  infoDraft: NSPlateInfoDraft | null = null,
+  infoAssetGroups: NSPlateAssetGroup[] = []
 ): NSPlateNameplateRenderPlan {
   return {
     mode: 'nameplate',
@@ -148,7 +175,13 @@ export function createNameplateRenderPlan(
     portraitOverlayLayers: createPortraitOverlayLayers(selectedByCategory),
     portraitEmbed: NSPLATE_PORTRAIT_EMBED[portraitSide],
     portraitFrameLayer: createPortraitFrameLayer(selectedByCategory, portraitSide),
-    overlayLayers: createFixedLayers(NAMEPLATE_OVERLAY_CATEGORIES, selectedByCategory)
+    overlayLayers: createFixedLayers(NAMEPLATE_OVERLAY_CATEGORIES, selectedByCategory),
+    infoGraphicLayers: createNSPlateInfoGraphicRenderLayers(
+      infoDraft,
+      portraitSide,
+      infoAssetGroups
+    ),
+    infoTextLayers: createNSPlateInfoTextRenderLayers(infoDraft, portraitSide)
   }
 }
 
@@ -170,6 +203,10 @@ export function getPlateRenderLayerNames(plan: NSPlateRenderPlan) {
       }
 
       names.push(...segment.portraitOverlayLayers.map((layer) => layer.category))
+    } else if (segment.type === 'infoTextLayers') {
+      names.push(...segment.layers.map((layer) => layer.legacyName))
+    } else if (segment.type === 'infoGraphicLayers') {
+      names.push(...segment.layers.map((layer) => layer.legacyName))
     }
   }
 
@@ -199,7 +236,9 @@ export function getNameplateRenderSegments(
       portraitEmbed: plan.portraitEmbed,
       dimensions: plan.dimensions
     },
-    { type: 'systemLayers', layers: plan.overlayLayers.slice(1) }
+    { type: 'systemLayers', layers: plan.overlayLayers.slice(1) },
+    { type: 'infoGraphicLayers', layers: plan.infoGraphicLayers },
+    { type: 'infoTextLayers', layers: plan.infoTextLayers, dimensions: plan.dimensions }
   ]
 }
 

@@ -11,7 +11,10 @@
       :class="[
         `silence-group-stage__character--${groupId}`,
         `silence-group-stage__character--${groupId}-${item.slot}`,
-        { 'silence-group-stage__character--active': selectedId === item.id }
+        {
+          'silence-group-stage__character--active': selectedId === item.id,
+          'silence-group-stage__character--portrait-ready': isPortraitReady(item)
+        }
       ]"
       type="button"
       :aria-label="getSlotLabel(item)"
@@ -27,10 +30,12 @@
       <template v-if="groupId === 'angel'">
         <img
           v-if="item.character?.portraitSrc"
+          :key="getPortraitAnimationKey(item)"
           class="silence-group-stage__portrait"
           :src="item.character.portraitSrc"
           alt=""
           decoding="async"
+          @load="handlePortraitLoad($event, item)"
         />
         <template v-else>
           <span class="silence-group-stage__figure-head"></span>
@@ -47,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import type { SilenceCharacter, SilenceGroupId } from '@/data/silence/characters'
 
 interface SilenceGroupVisualItem {
@@ -70,6 +76,16 @@ const emit = defineEmits<{
   next: []
 }>()
 
+const loadedPortraitKeys = ref<Record<string, true>>({})
+
+watch(
+  () => props.items.map((item) => getPortraitAnimationKey(item)).join('|'),
+  () => {
+    loadedPortraitKeys.value = {}
+  },
+  { immediate: true }
+)
+
 function handleVisualClick(item: SilenceGroupVisualItem) {
   emit('select', item.id)
   emit('open', item)
@@ -77,6 +93,33 @@ function handleVisualClick(item: SilenceGroupVisualItem) {
 
 function getSlotLabel(item: SilenceGroupVisualItem) {
   return [props.groupTitle, item.name, item.slot].filter(Boolean).join(' ')
+}
+
+function getPortraitAnimationKey(item: SilenceGroupVisualItem) {
+  return item.character?.portraitSrc ? `${item.id}-${item.character.portraitSrc}` : item.id
+}
+
+function isPortraitReady(item: SilenceGroupVisualItem) {
+  return Boolean(loadedPortraitKeys.value[getPortraitAnimationKey(item)])
+}
+
+async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
+  const image = event.currentTarget
+
+  if (!(image instanceof HTMLImageElement)) {
+    return
+  }
+
+  try {
+    await image.decode()
+  } catch {
+    // The load event is still enough to avoid the initial flash if decode() is unavailable.
+  }
+
+  loadedPortraitKeys.value = {
+    ...loadedPortraitKeys.value,
+    [getPortraitAnimationKey(item)]: true
+  }
 }
 </script>
 
@@ -98,20 +141,13 @@ function getSlotLabel(item: SilenceGroupVisualItem) {
   background: transparent;
   color: inherit;
   cursor: pointer;
-  filter: saturate(0.82) brightness(0.86);
-  transform: translateY(0) scale(1);
-  transition:
-    filter var(--ns-transition),
-    transform var(--ns-transition),
-    opacity var(--ns-transition);
+  transition: bottom var(--ns-transition);
 }
 
 .silence-group-stage__character:hover,
 .silence-group-stage__character:focus-visible,
 .silence-group-stage__character--active {
   z-index: 5;
-  filter: saturate(1.1) brightness(1.08);
-  transform: translateY(-18px) scale(1.04);
 }
 
 .silence-group-stage__character:focus-visible {
@@ -150,36 +186,48 @@ function getSlotLabel(item: SilenceGroupVisualItem) {
 }
 
 .silence-group-stage__character--angel-1 {
+  --silence-group-rise-delay: 0.04s;
+
   left: -4%;
   z-index: 2;
   height: 82vh;
 }
 
 .silence-group-stage__character--angel-2 {
+  --silence-group-rise-delay: 0.14s;
+
   left: 11.5%;
   z-index: 4;
   height: 88vh;
 }
 
 .silence-group-stage__character--angel-3 {
+  --silence-group-rise-delay: 0.22s;
+
   left: 27%;
   z-index: 3;
   height: 82vh;
 }
 
 .silence-group-stage__character--angel-4 {
+  --silence-group-rise-delay: 0.1s;
+
   left: 42.5%;
   z-index: 5;
   height: 89vh;
 }
 
 .silence-group-stage__character--angel-5 {
+  --silence-group-rise-delay: 0.28s;
+
   left: 58%;
   z-index: 3;
   height: 82vh;
 }
 
 .silence-group-stage__character--angel-6 {
+  --silence-group-rise-delay: 0.18s;
+
   left: 73.5%;
   z-index: 4;
   height: 86vh;
@@ -192,31 +240,29 @@ function getSlotLabel(item: SilenceGroupVisualItem) {
 }
 
 .silence-group-stage__portrait {
+  position: absolute;
+  right: -17%;
+  bottom: -18%;
+  left: -17%;
+  z-index: 1;
   display: block;
-  width: 100%;
+  width: auto;
   height: 100%;
+  opacity: 0;
   object-fit: contain;
   object-position: bottom center;
-  filter:
-    drop-shadow(0 24px 30px rgba(42, 33, 56, 0.2))
-    drop-shadow(0 0 24px rgba(255, 252, 255, 0.45));
-  mask-image: linear-gradient(to right, transparent 0, #000 13%, #000 87%, transparent 100%);
-  transform: translateY(6%) scale(1.34);
   transform-origin: bottom center;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0,
-    #000 13%,
-    #000 87%,
-    transparent 100%
-  );
+}
+
+.silence-group-stage__character--portrait-ready .silence-group-stage__portrait {
+  animation: silenceGroupPortraitRise 2.28s cubic-bezier(0.16, 1, 0.24, 1)
+    var(--silence-group-rise-delay, 0s) both;
 }
 
 .silence-group-stage__character--angel:hover,
 .silence-group-stage__character--angel:focus-visible,
 .silence-group-stage__character--angel.silence-group-stage__character--active {
-  filter: saturate(1.12) brightness(1.08);
-  transform: translateY(-18px) scale(1.06);
+  bottom: 18px;
 }
 
 .silence-group-stage__visual--glitch::after {
@@ -278,6 +324,33 @@ function getSlotLabel(item: SilenceGroupVisualItem) {
   box-shadow:
     0 12px 0 rgba(240, 128, 189, 0.82),
     0 24px 0 rgba(127, 217, 227, 0.7);
+}
+
+@keyframes silenceGroupPortraitRise {
+  0% {
+    bottom: -18%;
+    opacity: 0;
+  }
+
+  42% {
+    opacity: 0.52;
+  }
+
+  100% {
+    bottom: 6%;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .silence-group-stage__portrait {
+    animation: none;
+  }
+
+  .silence-group-stage__portrait {
+    bottom: 6%;
+    opacity: 1;
+  }
 }
 
 @media (max-width: 920px) {

@@ -1,6 +1,6 @@
 import { ffxivTools } from '@/config/site'
 
-export type FfxivToolId = 'glamour' | 'plate'
+export type FfxivToolId = 'glamour' | 'plate' | 'armoire'
 
 export interface ApiBoundary {
   id: FfxivToolId
@@ -17,7 +17,7 @@ export const apiBoundaries = ffxivTools
     id: tool.id as FfxivToolId,
     projectName: tool.projectName,
     apiBase: tool.apiBase ?? '',
-    healthPath: tool.id === 'glamour' ? '/health' : '/presets',
+    healthPath: tool.id === 'plate' ? '/presets' : '/health',
     devPort: tool.devPort ?? 0,
     sourcePath: tool.sourcePath
   })) satisfies ApiBoundary[]

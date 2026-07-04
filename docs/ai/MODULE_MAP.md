@@ -125,14 +125,14 @@
   - API 通过 `/api/glamour` 接入。
 - **模块文档**：`docs/ai/MODULES/nsglamour.md`。
 
-## NSArmoire 衣柜清理大师（第一阶段入口已接入）
+## NSArmoire 衣柜清理大师（第一版本地 helper 已接入）
 
 - **计划路由**：`#/ffxiv/armoire`
 - **需求来源**：`docs/ARMOIRE_PLAN.md`
 - **页面入口**：`src/pages/armoire/NSArmoirePage.vue`
 - **数据契约**：`docs/api/nsarmoire.md`
-- **当前状态**：已接入站点配置、FFXIV 工具入口、hash 路由、手动 JSON snapshot 导入、Asvel dresser 简化数据兼容导入、基础条目/容器分布统计、catalog/analysis 类型和分析面板；依赖正式 catalog 的结果会显示等待 catalog，不输出伪结果。
-- **当前后端/API**：第一阶段不接本地 helper，不新增 Vite proxy；`src/services/apiBoundaries.ts` 只让有 `apiBase` 和 `devPort` 的旧项目工具进入 API 边界列表。
+- **当前状态**：已接入站点配置、FFXIV 工具入口、hash 路由、手动 JSON snapshot 导入、Asvel dresser 简化数据兼容导入、基础条目/容器分布统计、catalog/analysis 类型、分析面板和第一版本地 helper 连接入口；依赖正式 catalog 的结果会显示等待 catalog，不输出伪结果。
+- **当前后端/API**：`NSArmoire` 使用本机 helper，开发代理为 `/api/armoire` -> `http://127.0.0.1:8015`；公开页面直连用户本机 helper 并保留手动导入 fallback。
 - **已确认字段口径**：
   - `投影台 / IsGlamourous`：判断这条 Item 记录本身能否作为普通物品放入投影台。
   - `武具投影 / Item{Glamour}`：普通武具投影能力或材料，不等同于投影台收纳。
@@ -141,8 +141,8 @@
   - `Model{Main}` / 灰机 `主模型`、`Model{Sub}` / 灰机 `副模型`、`ItemUICategory` 与 `EquipSlotCategory`：第一版同模型口径，主副模型和分类/槽位都完全一致才归为同模型。
 - **迁移目标**：
   - 建立稳定 `NSArmoire snapshot` 数据契约，页面分析只依赖 snapshot，不理解本地 helper 内部结构。
-  - 后续接入静态 armoire catalog 后，再实现收藏柜进度、套装缺件、同模型重复、染色风险和清理建议。
-  - 本地 helper、浏览器直连 localhost、CORS/私有网络限制和 Dalamud 插件路线都必须另行确认后再进入实现。
+  - 第一版 helper 只读取投影台；背包、鞍囊、雇员、兵装库和收藏柜必须逐容器验证后再扩展。
+  - 浏览器直连 localhost、CORS/私有网络限制和 Dalamud 插件路线仍需后续实测/预研。
 - **模块文档**：`docs/ai/MODULES/nsarmoire.md`。
 
 ## Silence 角色档案（入口和分组占位页已接入）

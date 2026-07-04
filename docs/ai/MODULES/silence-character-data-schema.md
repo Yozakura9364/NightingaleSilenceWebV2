@@ -4,7 +4,7 @@
 
 本文件用于把用户现有的 wiki 角色笔记整理成 V2 可维护的数据结构。当前样例来自用户在对话中粘贴的 `用户笔记:沙乐万【Silence】` wiki 源码片段；由于灰机 wiki 页面外部访问会返回 `403 Forbidden`，本文件不依赖自动抓取。
 
-本文件只是资料结构和迁移样例，不代表已经把内容渲染到公开页面。
+本文件记录资料结构和迁移样例。当前 Salvance 首版资料已经迁移到 `src/data/silence/characterProfiles.ts` 并用于详情页渲染；文档中的样例仍作为来源对照和后续字段扩展参考。
 
 ## 资料接入规则
 
@@ -22,15 +22,11 @@
 ```text
 src/data/silence/
 ├── characterSeeds.ts          # id / 名字 / 代表色 / dev-only 立绘路径
+├── characterProfiles.ts       # 用户确认资料的结构化档案，当前先接 Salvance
+├── characterForms.ts          # 角色形态数据，当前先接 Salvance 的 base / sorence
 ├── draftCharacterContent.ts   # 占位资料骨架
 ├── characters.ts              # 类型、组装、查询 helper
 └── navigation.ts              # 横向翻页顺序
-```
-
-正式资料接入时建议新增一层，例如：
-
-```text
-src/data/silence/characterProfiles.ts
 ```
 
 职责建议：
@@ -76,6 +72,7 @@ interface SilenceCharacterAppearanceSection {
 
 interface SilenceCharacterOutfit {
   id: string
+  formIds: string[]
   label: string
   description: string
   imageRef?: string
@@ -83,13 +80,15 @@ interface SilenceCharacterOutfit {
   visibility: 'public' | 'draft' | 'private'
 }
 
-interface SilenceCharacterVariant {
+interface SilenceCharacterForm {
   id: string
   label: string
   subtitle?: string
-  bannerRef?: string
-  galleryRef?: string
-  spoilerLevel: 'none' | 'light' | 'major'
+  summary: string
+  points: string[]
+  color?: string
+  portraitSrc?: string
+  visibility: 'public' | 'draft' | 'private'
 }
 
 interface SilenceCharacterProfileDraft {
@@ -108,6 +107,7 @@ interface SilenceCharacterProfileDraft {
   facts: SilenceCharacterProfileFact[]
   overview: string[]
   appearance: SilenceCharacterAppearanceSection[]
+  forms: SilenceCharacterForm[]
   outfits: SilenceCharacterOutfit[]
   combat: string[]
   story: Array<{
@@ -116,7 +116,6 @@ interface SilenceCharacterProfileDraft {
     body: string[]
     spoilerLevel: 'none' | 'light' | 'major'
   }>
-  variants: SilenceCharacterVariant[]
   mediaRefs: string[]
   openQuestions: string[]
 }
@@ -194,14 +193,29 @@ appearance:
       - 思考战术时眉头会不自觉皱起——使用表情：认真。
       - 几乎所有人都以为他不会说话，实际是权能被剥夺后，连锁反应导致语言交流也存在障碍——不使用嘴唇动作。
   - id: clothing
-    title: 服装设定
+    title: 基础衣装倾向
     points:
       - 战斗时会身着神圣的银白骑士装。
       - 服饰给人的感觉常是圣洁的、带有祝福意味的。
       - 会佩戴翼冠宣告自己是世界的守护者，就像天使一样。
       - 大部分服装都是简单的黑白灰金银的组合，他习惯选择最简单地款式。
+forms:
+  - id: base
+    label: 沙乐万
+    subtitle: 常态
+    summary: 光之战士。
+    points: []
+    visibility: public
+  - id: sorence
+    label: 索伦斯
+    subtitle: 痛楚 / 异化状态
+    summary: 占位用，待编辑
+    points: []
+    color: "#8f8a9b"
+    visibility: draft
 outfits:
   - id: canonical
+    formIds: [base]
     label: 公式服
     imageRef: File:立绘1-沙乐万.png
     description: 最常穿的骑士服，轻便且易于行动，又有一定程度的附魔能够无效化攻击。
@@ -215,6 +229,7 @@ outfits:
       - 日影兰御敌长靴
     visibility: public
   - id: advancedBattle
+    formIds: [base]
     label: 高阶战斗服
     imageRef: File:立绘2-沙乐万.png
     description: 精锐骑士服，面对强敌时更注重防御力。
@@ -228,15 +243,23 @@ outfits:
       - 伪王铠靴
     visibility: public
   - id: formalwear
+    formIds: [base]
     label: 正装
     imageRef: File:立绘3-沙乐万.png
     description: 似乎是拂晓血盟的伙伴为他挑选的纯白色礼服。兼顾了正式场合和需要使用武器的突发情况。
     equipment: []
     visibility: draft
   - id: homewear
+    formIds: [base]
     label: 家居服
     imageRef: File:立绘4-沙乐万.png
     description: 原本只是把一些简单的贴身衣物当家居服，但后来在南丁格尔的强烈要求下他买了一套新的。
+    equipment: []
+    visibility: draft
+  - id: sorenceDefault
+    formIds: [sorence]
+    label: 索伦斯
+    description: 占位用，待编辑
     equipment: []
     visibility: draft
 combat:
@@ -251,13 +274,6 @@ story:
     body:
       - "123"
     spoilerLevel: major
-variants:
-  - id: sorence
-    label: 索伦斯
-    subtitle: 痛楚
-    bannerRef: File:横条-索伦斯.png
-    galleryRef: 沙乐万/索伦斯
-    spoilerLevel: light
 mediaRefs:
   - File:横条-沙乐万.png
   - File:黑白-沙乐万.png
@@ -273,7 +289,7 @@ openQuestions:
   - “反社会的心理变态”等评价性文案是否作为公开正式简介保留？
 ```
 
-已确认：`索伦斯，“痛楚”` 当前按 Salvance 的形态处理，形态 ID 更正为 `sorence`，推荐 URL 为 `#/silence/angel/salvance?form=sorence`。
+已确认：`索伦斯，“痛楚”` 当前按 Salvance 的形态处理，形态 ID 更正为 `sorence`，推荐 URL 为 `#/silence/angel/salvance?form=sorence`。该查询参数只控制详情区“形态”的默认选中状态，不改变首屏角色身份，也不自动切换“衣装设定”的当前衣装。
 
 ## 目录角色映射待确认
 

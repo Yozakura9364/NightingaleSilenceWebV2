@@ -56,6 +56,7 @@ NightingaleSilenceWebV2/
     ├── components/
     │   ├── AppButton.vue
     │   ├── AppField.vue
+    │   ├── AppNotebookList.vue
     │   ├── AppPixelWindow.vue
     │   ├── AppPanel.vue
     │   ├── AppStatus.vue

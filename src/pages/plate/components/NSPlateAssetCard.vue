@@ -1,27 +1,62 @@
 <template>
   <button
     class="nsplate-asset-card"
-    :class="{ 'nsplate-asset-card--active': active }"
+    :class="{ 'nsplate-asset-card--active': props.active }"
     :style="activeIconStyle"
     type="button"
-    @click="emit('select', asset)"
+    @click="emit('select', props.asset)"
   >
     <span class="nsplate-asset-card__image">
-      <img v-if="asset.previewUrl" :src="asset.previewUrl" :alt="asset.label" loading="lazy" />
+      <img
+        v-if="imageSource"
+        :src="imageSource"
+        :alt="props.asset.label"
+        loading="lazy"
+        @error="useFallbackImage"
+      />
     </span>
-    <span class="nsplate-asset-card__label">{{ asset.label }}</span>
+    <span class="nsplate-asset-card__label">{{ props.asset.label }}</span>
   </button>
 </template>
 
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
+import { computed, ref, watch, type CSSProperties } from 'vue'
 import sparklesIcon from '@/assets/icons/sparkles.svg'
 import type { NSPlateAssetSummary } from '@/lib/plate/types'
 
-defineProps<{
-  asset: NSPlateAssetSummary
-  active: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    asset: NSPlateAssetSummary
+    active: boolean
+    preferOriginal?: boolean
+  }>(),
+  {
+    preferOriginal: false
+  }
+)
+
+const imageFallbackUsed = ref(false)
+const imageSource = computed(() => {
+  const primary = props.preferOriginal
+    ? props.asset.imageUrl || props.asset.previewUrl
+    : props.asset.previewUrl || props.asset.imageUrl
+  const fallback = props.preferOriginal
+    ? props.asset.previewUrl || props.asset.imageUrl
+    : props.asset.imageUrl || props.asset.previewUrl
+
+  return imageFallbackUsed.value ? fallback : primary
+})
+
+watch(
+  () => props.asset.id,
+  () => {
+    imageFallbackUsed.value = false
+  }
+)
+
+function useFallbackImage() {
+  imageFallbackUsed.value = true
+}
 
 const emit = defineEmits<{
   select: [value: NSPlateAssetSummary]

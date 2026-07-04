@@ -19,7 +19,7 @@ export function analyzeArmoireSnapshot(
     basic: analyzeArmoireBasics(snapshot),
     cabinetProgress: analyzeCabinetProgress(snapshot, catalog),
     glamourSetProgress: analyzeGlamourSets(snapshot, catalog),
-    dyeRisk: analyzeDyeRisk(snapshot),
+    dyeRisk: analyzeDyeRisk(snapshot, catalog),
     duplicateItems: analyzeDuplicateItems(snapshot),
     identicalModels: analyzeIdenticalModels(snapshot, catalog)
   }

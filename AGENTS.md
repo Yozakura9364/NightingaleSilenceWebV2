@@ -50,6 +50,13 @@
 8. 新功能、新页面或占位 UI 中，除非用户已经提供明确文案，AI 不要自行编写正式展示文案；由 AI 生成的临时展示文案统一使用 `占位用，待编辑`。用户已确认的品牌名、项目名、工具名、路由名和必要技术标识可以保留。
 9. 全站用户可见的固定 UI 文案、按钮文字、状态文字、aria-label、title、placeholder 和弹窗标题必须通过本地化 key 读取；不要在 Vue 模板或组件脚本中直接写死展示文案。
 
+## 资产和提交规则
+
+1. 用户没有明确声明“可以提交进项目 / 可以公开使用”的图片资产，都不允许提交、推送或放入构建产物；包括但不限于 `.png`、`.jpg`、`.jpeg`、`.webp`。
+2. 用户只说“放在本地试试”“先用一下看看”“不要上传”的图片，一律视为本地预览资产。此类图片应通过 `.gitignore`、开发环境限定引用或其他本地方案处理，不要静态 import，不要移动到已跟踪的 `src/assets` 或 `public` 目录。
+3. 提交前必须检查 `git status --short`、`git diff --cached --name-only` 和 staged diff，确认没有未授权图片、其他对话的改动、无关文件或临时调试内容。
+4. 同一工作区可能同时存在多个对话或模块的未提交改动。提交时只 stage 当前任务明确相关的文件或 hunk；如果共享文件里混有其他任务改动，必须使用分块暂存，只提交本次对话范围内的修改。
+
 ## CSS 和组件规则
 
 CSS 架构、公共组件优先级和页面 scoped style 边界，以 `docs/ai/ARCHITECTURE_PLAN.md` 的“主题和 CSS 策略”“组件策略”为准。`AGENTS.md` 只保留入口提醒，避免两处规则重复漂移。
@@ -60,6 +67,11 @@ CSS 架构、公共组件优先级和页面 scoped style 边界，以 `docs/ai/A
 2. 前端 UI 修改应尽量通过浏览器实际查看。
 3. 后端/API 修改应尽量验证接口返回和错误处理。
 4. 如果无法运行验证，必须明确说明原因和残余风险。
+5. 前端页面验证可以使用本机已安装的 Playwright；不要只因为当前项目没有把 `playwright` 写进 `package.json` 或本地 `node_modules` 就判定不可用。
+6. 本机已确认存在全局 npm Playwright：`C:\Users\13359\AppData\Roaming\npm\playwright.cmd`，模块目录为 `C:\Users\13359\AppData\Roaming\npm\node_modules\playwright`。也存在 Python 入口 `C:\Users\13359\AppData\Local\Programs\Python\Python314\Scripts\playwright.exe`，但 Vue/Node 项目优先使用 npm 全局入口。
+7. 使用 Playwright 前先检查可用入口：`Get-Command playwright`、`where.exe playwright`、`npm ls -g playwright --depth=0`。如果需要在 Node 脚本里 `require('playwright')`，先设置 `$env:NODE_PATH = (npm root -g)`；如果通过 Node REPL MCP 使用，先把全局 `node_modules` 加入模块搜索路径。
+8. 全局 Playwright 默认 bundled Chromium 可能缺失；优先使用系统 Chrome：`& "$env:APPDATA\npm\playwright.cmd" screenshot --channel chrome --wait-for-timeout 3000 --viewport-size 1440,900 "<url>" "$env:TEMP\<name>.png"`，或在脚本中使用 `chromium.launch({ channel: 'chrome' })`。
+9. 不要为了浏览器验证擅自把 Playwright 加入项目依赖或运行 `playwright install` 下载浏览器；除非任务确实需要并得到用户确认。
 
 ## AI 工作流本地化沉淀
 

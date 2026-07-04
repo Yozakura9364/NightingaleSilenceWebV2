@@ -1,0 +1,311 @@
+<template>
+  <div class="silence-form-outfit">
+    <nav
+      v-if="showForms && hasMultipleForms"
+      class="silence-form-outfit__form-tabs"
+      :aria-label="t(textKeys.silenceCharacterForms)"
+    >
+      <RouterLink
+        v-for="form in visibleForms"
+        :key="form.id"
+        class="silence-form-outfit__form-tab"
+        :class="{ 'silence-form-outfit__form-tab--active': form.id === selectedForm?.id }"
+        :to="createFormRoute(form.id)"
+        :aria-current="form.id === selectedForm?.id ? 'page' : undefined"
+      >
+        <span>{{ form.label }}</span>
+        <small v-if="form.subtitle">{{ form.subtitle }}</small>
+      </RouterLink>
+    </nav>
+
+    <article v-if="showForms && selectedForm" class="silence-form-outfit__form-card">
+      <p class="ns-eyebrow">{{ selectedForm.subtitle ?? t(textKeys.silenceCharacterForms) }}</p>
+      <h3>{{ selectedForm.label }}</h3>
+      <p>{{ selectedForm.summary }}</p>
+      <ul v-if="selectedForm.points.length" class="silence-form-outfit__point-list">
+        <li v-for="point in selectedForm.points" :key="point">{{ point }}</li>
+      </ul>
+    </article>
+
+    <div v-if="showOutfits" class="silence-form-outfit__outfit-shell">
+      <div class="silence-form-outfit__preview" aria-hidden="true">
+        <span>{{ selectedOutfit?.label ?? t(textKeys.placeholder) }}</span>
+        <small>{{ t(textKeys.placeholder) }}</small>
+      </div>
+
+      <div class="silence-form-outfit__outfit-detail">
+        <div
+          v-if="hasMultipleOutfits"
+          class="silence-form-outfit__outfit-tabs"
+          :aria-label="outfitLabel"
+        >
+          <button
+            v-for="outfit in visibleOutfits"
+            :key="outfit.id"
+            type="button"
+            :class="{ 'silence-form-outfit__outfit-tab--active': outfit.id === selectedOutfit?.id }"
+            :aria-pressed="outfit.id === selectedOutfit?.id"
+            @click="selectedOutfitId = outfit.id"
+          >
+            {{ outfit.label }}
+          </button>
+        </div>
+
+        <article v-if="selectedOutfit" class="silence-form-outfit__outfit-card">
+          <h3>{{ selectedOutfit.label }}</h3>
+          <p>{{ selectedOutfit.description }}</p>
+          <ul
+            v-if="selectedOutfit.equipment.length"
+            class="silence-form-outfit__equipment-list"
+          >
+            <li v-for="item in selectedOutfit.equipment" :key="item">{{ item }}</li>
+          </ul>
+        </article>
+
+        <p v-else class="silence-form-outfit__empty">
+          {{ t(textKeys.placeholder) }}
+        </p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import { useRoute, type RouteLocationRaw } from 'vue-router'
+import { textKeys } from '@/config/site'
+import type {
+  SilenceCharacterForm,
+  SilenceCharacterOutfit
+} from '@/data/silence/characters'
+import { useLocale } from '@/stores/locale'
+
+const props = withDefaults(
+  defineProps<{
+    forms: SilenceCharacterForm[]
+    outfits: SilenceCharacterOutfit[]
+    activeFormId?: string
+    outfitLabel: string
+    filterOutfitsByForm?: boolean
+    showForms?: boolean
+    showOutfits?: boolean
+  }>(),
+  {
+    filterOutfitsByForm: true,
+    showForms: true,
+    showOutfits: true
+  }
+)
+
+const route = useRoute()
+const { t } = useLocale()
+const selectedOutfitId = ref('')
+
+const visibleForms = computed(() => props.forms.filter((form) => form.visibility !== 'private'))
+const hasMultipleForms = computed(() => visibleForms.value.length > 1)
+const defaultFormId = computed(() => visibleForms.value[0]?.id ?? '')
+const selectedForm = computed(
+  () =>
+    visibleForms.value.find((form) => form.id === props.activeFormId) ??
+    visibleForms.value[0]
+)
+const outfitFormId = computed(() => (props.filterOutfitsByForm ? selectedForm.value?.id : ''))
+const visibleOutfits = computed(() => {
+  const formId = outfitFormId.value
+
+  return props.outfits.filter(
+    (outfit) =>
+      outfit.visibility !== 'private' && (!formId || outfit.formIds.includes(formId))
+  )
+})
+const hasMultipleOutfits = computed(() => visibleOutfits.value.length > 1)
+const selectedOutfit = computed(
+  () =>
+    visibleOutfits.value.find((outfit) => outfit.id === selectedOutfitId.value) ??
+    visibleOutfits.value[0]
+)
+
+watch(
+  () => `${outfitFormId.value}:${visibleOutfits.value.map((outfit) => outfit.id).join('|')}`,
+  () => {
+    selectedOutfitId.value = visibleOutfits.value[0]?.id ?? ''
+  },
+  { immediate: true }
+)
+
+function createFormRoute(formId: string): RouteLocationRaw {
+  const query = { ...route.query }
+
+  if (formId === defaultFormId.value) {
+    delete query.form
+  } else {
+    query.form = formId
+  }
+
+  return {
+    path: route.path,
+    query
+  }
+}
+</script>
+
+<style scoped>
+.silence-form-outfit {
+  display: grid;
+  gap: 16px;
+}
+
+.silence-form-outfit__form-tabs,
+.silence-form-outfit__outfit-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.silence-form-outfit__form-tab,
+.silence-form-outfit__outfit-tabs button {
+  border: 2px solid rgba(42, 33, 56, 0.42);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.62);
+  color: #2c2338;
+  font-family: var(--ns-font-decorative);
+  font-size: 12px;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.silence-form-outfit__form-tab {
+  display: grid;
+  min-width: 128px;
+  gap: 2px;
+  padding: 8px 10px;
+}
+
+.silence-form-outfit__form-tab small {
+  color: rgba(49, 40, 63, 0.58);
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.silence-form-outfit__outfit-tabs button {
+  padding: 6px 9px;
+}
+
+.silence-form-outfit__form-tab:hover,
+.silence-form-outfit__form-tab:focus-visible,
+.silence-form-outfit__form-tab--active,
+.silence-form-outfit__outfit-tabs button:hover,
+.silence-form-outfit__outfit-tabs button:focus-visible,
+.silence-form-outfit__outfit-tab--active {
+  background: color-mix(in srgb, var(--silence-character-color), #ffffff 66%);
+}
+
+.silence-form-outfit__form-card,
+.silence-form-outfit__outfit-card,
+.silence-form-outfit__preview,
+.silence-form-outfit__empty {
+  border: 2px solid rgba(42, 33, 56, 0.24);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.48)),
+    color-mix(in srgb, var(--silence-character-color), transparent 92%);
+}
+
+.silence-form-outfit__form-card,
+.silence-form-outfit__outfit-card,
+.silence-form-outfit__empty {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+}
+
+.silence-form-outfit__form-card h3,
+.silence-form-outfit__outfit-card h3 {
+  margin: 0;
+  color: #2c2338;
+  font-family: var(--ns-font-display);
+  font-size: 26px;
+  font-weight: 950;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.silence-form-outfit__form-card p,
+.silence-form-outfit__outfit-card p,
+.silence-form-outfit__empty {
+  margin: 0;
+  color: rgba(49, 40, 63, 0.72);
+  line-height: 1.75;
+}
+
+.silence-form-outfit__outfit-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.silence-form-outfit__preview {
+  display: grid;
+  min-height: 280px;
+  place-items: center;
+  padding: 18px;
+  text-align: center;
+}
+
+.silence-form-outfit__preview span {
+  color: #2c2338;
+  font-family: var(--ns-font-display);
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 950;
+  line-height: 1;
+}
+
+.silence-form-outfit__preview small {
+  color: rgba(49, 40, 63, 0.48);
+  font-family: var(--ns-font-decorative);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.silence-form-outfit__outfit-detail {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.silence-form-outfit__point-list,
+.silence-form-outfit__equipment-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 0;
+  color: rgba(49, 40, 63, 0.7);
+  list-style: none;
+}
+
+.silence-form-outfit__point-list li,
+.silence-form-outfit__equipment-list li {
+  position: relative;
+  padding-left: 18px;
+  line-height: 1.65;
+}
+
+.silence-form-outfit__point-list li::before,
+.silence-form-outfit__equipment-list li::before {
+  position: absolute;
+  top: 0.72em;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background: color-mix(in srgb, var(--silence-character-color), #2c2338 18%);
+  content: '';
+}
+
+@media (max-width: 920px) {
+  .silence-form-outfit__outfit-shell {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

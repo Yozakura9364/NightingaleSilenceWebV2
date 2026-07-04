@@ -140,6 +140,7 @@ export interface ArmoireGlamourSetProgress {
 }
 
 export type ArmoireRiskLevel = 'warning' | 'danger'
+export type ArmoireDyeResetReason = 'cabinetStorage' | 'glamourSetBasket' | 'preservedStorage'
 
 export interface ArmoireDyeRiskItem {
   itemId: number
@@ -147,11 +148,14 @@ export interface ArmoireDyeRiskItem {
   containerName?: string
   dyeIds: [number, number]
   dyedSlotCount: number
+  clearsDyeOnStorage: boolean
+  resetReasons: ArmoireDyeResetReason[]
   riskLevel: ArmoireRiskLevel
 }
 
 export interface ArmoireDyeRiskAnalysis {
   riskItemCount: number
+  clearDyeRiskItemCount: number
   highRiskItemCount: number
   items: ArmoireDyeRiskItem[]
 }

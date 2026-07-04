@@ -30,6 +30,30 @@ export function useArmoireSnapshot() {
   const errorDetail = ref<string | null>(null)
   const importedFileName = ref<string | null>(null)
 
+  function importSnapshotPayload(
+    payload: unknown,
+    nextImportedFileName: string | null = null
+  ): ArmoireSnapshot | null {
+    errorKey.value = null
+    errorDetail.value = null
+
+    try {
+      const importedSnapshot = normalizeArmoireSnapshot(payload)
+      snapshot.value = importedSnapshot
+      importedFileName.value = nextImportedFileName
+      return importedSnapshot
+    } catch (error) {
+      if (error instanceof ArmoireSnapshotError) {
+        errorKey.value = errorKeyByCode[error.code]
+        errorDetail.value = error.detail ?? null
+        return null
+      }
+
+      errorKey.value = textKeys.nsarmoireSnapshotInvalidJson
+      return null
+    }
+  }
+
   async function importSnapshotFile(file: File) {
     errorKey.value = null
     errorDetail.value = null
@@ -42,8 +66,7 @@ export function useArmoireSnapshot() {
 
     try {
       const payload = JSON.parse(await file.text()) as unknown
-      snapshot.value = normalizeArmoireSnapshot(payload)
-      importedFileName.value = file.name
+      importSnapshotPayload(payload, file.name)
     } catch (error) {
       if (error instanceof ArmoireSnapshotError) {
         errorKey.value = errorKeyByCode[error.code]
@@ -74,6 +97,7 @@ export function useArmoireSnapshot() {
     errorKey,
     errorDetail,
     importedFileName,
+    importSnapshotPayload,
     importSnapshotFile,
     loadExampleSnapshot,
     clearSnapshot

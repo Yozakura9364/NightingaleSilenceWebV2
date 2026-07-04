@@ -30,8 +30,8 @@ const sharedProfileFields = [
   infoField('text-6', 'text', '职业名', 'classJobName', 'game'),
   infoField('icon-4', 'icon', '军衔', 'rankIcon', 'needs-check'),
   infoField('text-8', 'text', '军衔名称', 'rankName', 'needs-check'),
-  infoField('special-1', 'special', 'bd队徽', 'crest', 'needs-check'),
-  infoField('text-7', 'text', 'bd名称', 'communityName', 'needs-check'),
+  infoField('special-1', 'special', 'bd队徽', 'crest', 'game', '部队队徽'),
+  infoField('text-7', 'text', 'bd名称', 'communityName', 'needs-check', '部队名称'),
   infoField('bar-1', 'bar48', '作息选择', 'scheduleCells', 'layout'),
   infoField('text-9', 'text', '个性签名', 'searchComment', 'game'),
   infoField('fixed-1', 'fixed', '时间图标', 'timeIcon', 'layout'),
@@ -92,14 +92,15 @@ function infoField(
   type: NSPlateInfoLayerType,
   legacyName: string,
   token: string,
-  termStatus: NSPlateInfoTermStatus
+  termStatus: NSPlateInfoTermStatus,
+  fallbackLabel = legacyName
 ): NSPlateInfoFieldDefinition {
   return {
     slotId,
     type,
     legacyName,
     labelKey: `plate.info.field.${token}`,
-    fallbackLabel: legacyName,
+    fallbackLabel,
     termStatus
   }
 }

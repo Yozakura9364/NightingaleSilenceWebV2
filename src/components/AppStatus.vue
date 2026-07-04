@@ -106,6 +106,8 @@ const resolvedAriaLive = computed(
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 8px;
   margin-left: auto;
 }
@@ -152,5 +154,34 @@ const resolvedAriaLive = computed(
     var(--ns-color-accent) 0 4px,
     var(--ns-color-cyan) 4px 8px
   );
+  animation: app-status-loading 680ms steps(2, end) infinite;
+}
+
+@keyframes app-status-loading {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 8px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-status--loading .app-status__mark {
+    animation: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .app-status {
+    flex-wrap: wrap;
+  }
+
+  .app-status__actions {
+    width: 100%;
+    margin-left: 22px;
+    justify-content: flex-start;
+  }
 }
 </style>

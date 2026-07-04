@@ -7,9 +7,9 @@ import type {
 } from '@/lib/armoire/types'
 import {
   buildArmoireActionHints,
-  createArmoireInsightDisplay,
-  getArmoireContainerLabel
+  createArmoireInsightDisplay
 } from '@/pages/armoire/utils/insightDisplay'
+import { getArmoireContainerLabel } from '@/pages/armoire/utils/itemDisplay'
 
 type Translate = (key: string) => string
 
@@ -89,6 +89,16 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
     }
 
     return source.analysis.dyeRisk.items
+      .map(display.toDyeRiskItem)
+  })
+
+  const dyeClearRiskItems = computed(() => {
+    if (!source.analysis) {
+      return []
+    }
+
+    return source.analysis.dyeRisk.items
+      .filter((item) => item.clearsDyeOnStorage)
       .map(display.toDyeRiskItem)
   })
 
@@ -202,14 +212,22 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
     }
 
     const count = source.analysis.dyeRisk.riskItemCount
+    const clearRiskCount = source.analysis.dyeRisk.clearDyeRiskItemCount
 
     if (count === 0) {
       return t(textKeys.nsarmoireNoDyeRisk)
     }
 
+    if (clearRiskCount === 0) {
+      return display.formatText(textKeys.nsarmoireHintDyesPreserved, {
+        count,
+        items: dyeRiskItems.value.map((item) => item.name).join(' / ')
+      })
+    }
+
     return display.formatText(textKeys.nsarmoireHintDyesSummary, {
-      count,
-      items: dyeRiskItems.value.map((item) => item.name).join(' / ')
+      count: clearRiskCount,
+      items: dyeClearRiskItems.value.map((item) => item.name).join(' / ')
     })
   })
 

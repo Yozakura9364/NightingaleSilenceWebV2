@@ -157,6 +157,10 @@ function handleKeydown(event: KeyboardEvent, index: number) {
   font-size: 12px;
   font-weight: 950;
   cursor: pointer;
+  transition:
+    background var(--ns-transition-fast),
+    color var(--ns-transition-fast),
+    box-shadow var(--ns-transition-fast);
 }
 
 .app-tabs--compact .app-tabs__tab {
@@ -192,9 +196,20 @@ function handleKeydown(event: KeyboardEvent, index: number) {
   color: var(--ns-color-accent-strong);
 }
 
+.app-tabs__tab:focus-visible {
+  z-index: 1;
+  outline: 0;
+  box-shadow: inset 0 0 0 2px var(--ns-color-cyan), var(--ns-focus-ring);
+}
+
+.app-tabs__tab--active {
+  box-shadow: inset 0 -3px 0 var(--ns-color-accent);
+}
+
 .app-tabs__tab:disabled {
   color: var(--ns-pixel-disabled);
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .app-tabs__tab:disabled:hover {

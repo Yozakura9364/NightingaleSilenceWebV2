@@ -1,15 +1,21 @@
 import { textKeys } from '@/config/site'
-import { getArmoireIconUrl } from '@/lib/armoire/catalog'
 import type {
   ArmoireCatalog,
-  ArmoireContainerKind,
   ArmoireDuplicateItemGroupState,
   ArmoireDyeRiskItem,
   ArmoireIdenticalModelGroupState,
-  ArmoireOwnedItem,
   ArmoireRiskLevel,
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
+import {
+  formatArmoireItemId,
+  formatArmoireText,
+  formatArmoireDyeNames,
+  formatArmoireDyeResetReasons,
+  getArmoireContainerLabel,
+  getArmoireItemIconUrl,
+  getArmoireItemName
+} from '@/pages/armoire/utils/itemDisplay'
 
 export const ARMOIRE_INSIGHT_LIST_PREVIEW_LIMIT = 4
 
@@ -63,24 +69,6 @@ export interface ArmoireDuplicateItemView {
   iconUrl: string
 }
 
-const containerLabelKeys: Record<ArmoireContainerKind, string> = {
-  inventory: textKeys.nsarmoireContainerInventory,
-  saddlebag: textKeys.nsarmoireContainerSaddlebag,
-  retainer: textKeys.nsarmoireContainerRetainer,
-  armoury: textKeys.nsarmoireContainerArmoury,
-  glamourDresser: textKeys.nsarmoireContainerGlamourDresser,
-  armoire: textKeys.nsarmoireContainerArmoire,
-  manual: textKeys.nsarmoireContainerManual
-}
-
-export function getArmoireContainerLabel(
-  item: Pick<ArmoireDyeRiskItem | ArmoireOwnedItem, 'container' | 'containerName'>,
-  t: Translate
-): string {
-  const baseLabel = t(containerLabelKeys[item.container])
-  return item.containerName ? `${baseLabel} / ${item.containerName}` : baseLabel
-}
-
 export function buildArmoireActionHints(
   analysis: ArmoireSnapshotAnalysis,
   t: Translate,
@@ -130,7 +118,7 @@ export function buildArmoireActionHints(
     })
   }
 
-  if (analysis.dyeRisk.riskItemCount > 0) {
+  if (analysis.dyeRisk.clearDyeRiskItemCount > 0) {
     hints.push({
       key: 'dyes',
       title: t(textKeys.nsarmoireRecommendationDyes),
@@ -163,28 +151,23 @@ export function createArmoireInsightDisplay(
   getItemLocationsByItemId: () => Map<number, string[]>
 ) {
   function formatText(key: string, values: Record<string, string | number>): string {
-    return t(key).replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? ''))
+    return formatArmoireText(t, key, values)
   }
 
   function formatItemId(itemId: number): string {
-    return `${t(textKeys.nsarmoireItemId)} ${itemId}`
+    return formatArmoireItemId(itemId, t)
   }
 
   function getItemName(itemId: number): string {
-    return source.catalog.items[itemId]?.name ?? formatItemId(itemId)
+    return getArmoireItemName(source.catalog, itemId, t)
   }
 
   function getItemIconUrl(itemId: number): string {
-    return getArmoireIconUrl(source.catalog.items[itemId]?.iconId)
-  }
-
-  function getDyeName(dyeId: number): string {
-    return source.catalog.dyes[dyeId]?.name ?? String(dyeId)
+    return getArmoireItemIconUrl(source.catalog, itemId)
   }
 
   function formatDyeNames(dyeIds: [number, number]): string {
-    const names = dyeIds.filter((dyeId) => dyeId > 0).map(getDyeName)
-    return names.length > 0 ? names.join(' / ') : t(textKeys.nsarmoireNoDyeRisk)
+    return formatArmoireDyeNames(source.catalog, dyeIds, t)
   }
 
   function formatItemLocations(itemId: number): string {
@@ -273,11 +256,15 @@ export function createArmoireInsightDisplay(
   function formatDyeRiskContext(
     item: Pick<ArmoireDyeRiskItem, 'itemId' | 'container' | 'containerName'> & {
       dyeNames: string
+      resetReasonLabel: string
     }
   ): string {
-    return [getArmoireContainerLabel(item, t), item.dyeNames, formatItemId(item.itemId)].join(
-      ' / '
-    )
+    return [
+      getArmoireContainerLabel(item, t),
+      item.dyeNames,
+      item.resetReasonLabel,
+      formatItemId(item.itemId)
+    ].join(' / ')
   }
 
   function toTransferableItem(itemId: number): ArmoireReadableItemView {
@@ -354,11 +341,12 @@ export function createArmoireInsightDisplay(
 
   function toDyeRiskItem(item: ArmoireDyeRiskItem, index: number): ArmoireReadableItemView {
     const dyeNames = formatDyeNames(item.dyeIds)
+    const resetReasonLabel = formatArmoireDyeResetReasons(item.resetReasons, t)
 
     return {
       key: `dye-${item.itemId}-${item.container}-${item.containerName ?? ''}-${index}`,
       name: getItemName(item.itemId),
-      context: formatDyeRiskContext({ ...item, dyeNames }),
+      context: formatDyeRiskContext({ ...item, dyeNames, resetReasonLabel }),
       iconUrl: getItemIconUrl(item.itemId),
       tone: item.riskLevel
     }
