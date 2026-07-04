@@ -279,26 +279,9 @@ function isEmptyProfileValue(value: string) {
 <style scoped>
 .silence-character-details {
   position: relative;
+  min-height: calc(100vh - 56px);
   padding: clamp(52px, 7vw, 92px) clamp(18px, 5vw, 72px) clamp(78px, 8vw, 128px);
-  background:
-    linear-gradient(180deg, rgba(255, 253, 252, 0.94), rgba(246, 248, 248, 0.9)),
-    var(--ns-color-surface);
-  overflow: hidden;
-}
-
-.silence-character-details::before {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    linear-gradient(112deg, transparent 0 16%, rgba(255, 255, 255, 0.68) 16% 17%, transparent 17%),
-    radial-gradient(
-      circle at 12% 12%,
-      color-mix(in srgb, var(--silence-character-color), transparent 86%),
-      transparent 34%
-    );
-  content: '';
-  pointer-events: none;
+  background: #ffffff;
 }
 
 .silence-character-details__inner {
@@ -361,7 +344,7 @@ function isEmptyProfileValue(value: string) {
   gap: 8px;
   padding: 18px;
   border: 1px solid rgba(42, 33, 56, 0.16);
-  background: rgba(255, 255, 255, 0.62);
+  background: transparent;
 }
 
 .silence-character-card-grid,
@@ -410,9 +393,7 @@ function isEmptyProfileValue(value: string) {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
   border: 1px solid rgba(42, 33, 56, 0.16);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.52)),
-    color-mix(in srgb, var(--silence-character-color), transparent 92%);
+  background: transparent;
 }
 
 .silence-character-profile-sheet div {

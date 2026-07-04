@@ -1,7 +1,6 @@
 <template>
   <section class="silence-character-stage" :aria-labelledby="`${character.id}-title`">
     <div class="silence-character-stage__visual" aria-hidden="true">
-      <div class="silence-character-stage__halo"></div>
       <div
         class="silence-character-stage__figure"
         :class="{
@@ -173,41 +172,20 @@ async function handlePortraitLoad(event: Event) {
   overflow: hidden;
 }
 
-.silence-character-stage::before {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    radial-gradient(circle at 26% 26%, rgba(255, 255, 255, 0.48), transparent 32%),
-    linear-gradient(135deg, rgba(99, 217, 220, 0.1), transparent 46%),
-    linear-gradient(45deg, rgba(239, 111, 178, 0.08), transparent 52%);
-  content: '';
-  pointer-events: none;
-}
-
 .silence-character-stage__visual,
 .silence-character-stage__profile {
   position: relative;
   z-index: 2;
 }
 
+.silence-character-stage__profile {
+  z-index: 14;
+}
+
 .silence-character-stage__visual {
   display: grid;
   min-height: min(70vh, 720px);
   place-items: end center;
-}
-
-.silence-character-stage__halo {
-  position: absolute;
-  inset: 14% 4% 11%;
-  border: 2px solid color-mix(in srgb, var(--silence-character-color), #ffffff 28%);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.42), transparent),
-    color-mix(in srgb, var(--silence-character-color), transparent 84%);
-  box-shadow:
-    12px 12px 0 rgba(99, 217, 220, 0.12),
-    -8px -8px 0 rgba(239, 111, 178, 0.08);
-  transform: skewX(-5deg);
 }
 
 .silence-character-stage__figure {
@@ -256,8 +234,6 @@ async function handlePortraitLoad(event: Event) {
   left: 50%;
   width: 34%;
   aspect-ratio: 1;
-  background: rgba(255, 250, 253, 0.92);
-  box-shadow: 7px 7px 0 color-mix(in srgb, var(--silence-character-color), transparent 68%);
   transform: translateX(-50%);
 }
 
@@ -266,16 +242,7 @@ async function handlePortraitLoad(event: Event) {
   bottom: 0;
   left: 8%;
   height: 82%;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.72),
-      color-mix(in srgb, var(--silence-character-color), transparent 70%)
-    ),
-    var(--ns-color-cyan-soft);
-  box-shadow:
-    9px 9px 0 rgba(99, 217, 220, 0.18),
-    -6px -6px 0 rgba(239, 111, 178, 0.12);
+  background: transparent;
 }
 
 .silence-character-stage__figure-line {
@@ -285,9 +252,6 @@ async function handlePortraitLoad(event: Event) {
   height: 2px;
   border: 0;
   background: rgba(42, 33, 56, 0.28);
-  box-shadow:
-    0 18px 0 color-mix(in srgb, var(--silence-character-color), transparent 52%),
-    0 36px 0 rgba(239, 111, 178, 0.18);
 }
 
 .silence-character-stage__profile {
@@ -296,13 +260,6 @@ async function handlePortraitLoad(event: Event) {
   max-width: 640px;
   padding: clamp(10px, 2vw, 18px) 0;
   background: transparent;
-}
-
-.silence-character-stage__profile::before {
-  width: min(120px, 28%);
-  height: 2px;
-  background: color-mix(in srgb, var(--silence-character-color), #2c2338 16%);
-  content: '';
 }
 
 .silence-character-stage__name {
@@ -338,6 +295,8 @@ async function handlePortraitLoad(event: Event) {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 14px;
+  position: relative;
+  z-index: 13;
 }
 
 .silence-character-stage__tags span,
@@ -352,7 +311,7 @@ async function handlePortraitLoad(event: Event) {
 
 .silence-character-stage__tags span {
   border: 1px solid rgba(42, 33, 56, 0.22);
-  background: rgba(255, 255, 255, 0.48);
+  background: transparent;
 }
 
 .silence-character-stage__section-links button {

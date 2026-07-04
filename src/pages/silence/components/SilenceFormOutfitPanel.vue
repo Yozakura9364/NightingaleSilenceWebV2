@@ -237,9 +237,7 @@ function createFormRoute(formId: string): RouteLocationRaw {
 .silence-form-outfit__preview,
 .silence-form-outfit__empty {
   border: 1px solid rgba(42, 33, 56, 0.14);
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.52)),
-    color-mix(in srgb, var(--silence-character-color), transparent 92%);
+  background: transparent;
 }
 
 .silence-form-outfit__form-card,

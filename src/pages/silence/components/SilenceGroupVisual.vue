@@ -16,6 +16,7 @@
           'silence-group-stage__character--portrait-ready': isPortraitReady(item)
         }
       ]"
+      :style="getCharacterStyle(item)"
       type="button"
       :aria-label="getSlotLabel(item)"
       :aria-pressed="selectedId === item.id"
@@ -44,7 +45,12 @@
       </template>
       <template v-else>
         <span class="silence-group-stage__window-bar"></span>
-        <span class="silence-group-stage__window-ghost"></span>
+        <span class="silence-group-stage__window-ghost">
+          <span class="silence-group-stage__window-name">{{ item.name }}</span>
+          <span v-if="item.reading" class="silence-group-stage__window-reading">
+            {{ item.reading }}
+          </span>
+        </span>
         <span class="silence-group-stage__window-scan"></span>
       </template>
     </button>
@@ -58,6 +64,9 @@ import type { SilenceCharacter, SilenceGroupId } from '@/data/silence/characters
 interface SilenceGroupVisualItem {
   id: string
   name: string
+  reading?: string
+  color?: string
+  signal?: string
   slot: number
   character?: SilenceCharacter
 }
@@ -92,7 +101,11 @@ function handleVisualClick(item: SilenceGroupVisualItem) {
 }
 
 function getSlotLabel(item: SilenceGroupVisualItem) {
-  return [props.groupTitle, item.name, item.slot].filter(Boolean).join(' ')
+  return [props.groupTitle, item.name, item.reading, item.slot].filter(Boolean).join(' ')
+}
+
+function getCharacterStyle(item: SilenceGroupVisualItem) {
+  return item.color ? { '--silence-glitch-window-accent': item.color } : undefined
 }
 
 function getPortraitAnimationKey(item: SilenceGroupVisualItem) {
@@ -158,19 +171,13 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
 .silence-group-stage__figure-body {
   display: block;
   border: 2px solid rgba(42, 33, 56, 0.52);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(239, 111, 178, 0.2)),
-    var(--ns-color-cyan-soft);
-  box-shadow:
-    7px 7px 0 rgba(99, 217, 220, 0.2),
-    -4px -4px 0 rgba(239, 111, 178, 0.1);
+  background: transparent;
 }
 
 .silence-group-stage__figure-head {
   width: 34%;
   aspect-ratio: 1;
   margin: 0 auto -2px;
-  background: rgba(255, 250, 253, 0.9);
 }
 
 .silence-group-stage__figure-body {
@@ -233,12 +240,6 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
   height: 86vh;
 }
 
-.silence-group-stage__character--angel:nth-child(even) .silence-group-stage__figure-body {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(99, 217, 220, 0.2)),
-    var(--ns-color-accent-soft);
-}
-
 .silence-group-stage__portrait {
   position: absolute;
   right: -17%;
@@ -279,6 +280,8 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
 }
 
 .silence-group-stage__character--glitch {
+  --silence-glitch-window-accent: #7fd9e3;
+
   width: clamp(220px, 28vw, 430px);
   height: clamp(280px, 44vh, 520px);
   border: 2px solid rgba(248, 241, 255, 0.76);
@@ -287,15 +290,21 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
     10px 10px 0 rgba(127, 217, 227, 0.18),
     -7px -7px 0 rgba(240, 128, 189, 0.1);
   overflow: hidden;
+  transition:
+    bottom var(--ns-transition),
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease,
+    filter 180ms ease;
 }
 
 .silence-group-stage__character--glitch-1 {
-  right: 46%;
+  right: 36%;
   bottom: 18vh;
 }
 
 .silence-group-stage__character--glitch-2 {
-  right: 12%;
+  right: 8%;
   bottom: 26vh;
 }
 
@@ -304,14 +313,48 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
   inset: 0 0 auto;
   height: 34px;
   border-bottom: 2px solid rgba(248, 241, 255, 0.54);
-  background: linear-gradient(90deg, rgba(240, 128, 189, 0.5), rgba(127, 217, 227, 0.38));
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--silence-glitch-window-accent), #f080bd 34%), rgba(127, 217, 227, 0.38));
 }
 
 .silence-group-stage__window-ghost {
   position: absolute;
   inset: 28% 12% 22% 18%;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  padding: 16px;
   border: 2px solid rgba(127, 217, 227, 0.42);
   opacity: 0.72;
+}
+
+.silence-group-stage__window-name,
+.silence-group-stage__window-reading {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  color: #f8f1ff;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.silence-group-stage__window-name {
+  font-family: var(--ns-font-display);
+  font-size: clamp(28px, 3.4vw, 46px);
+  font-weight: 950;
+  line-height: 0.96;
+  text-shadow:
+    4px 0 0 rgba(255, 65, 172, 0.36),
+    -4px 0 0 rgba(119, 255, 244, 0.32),
+    0 7px 0 rgba(0, 0, 0, 0.24);
+}
+
+.silence-group-stage__window-reading {
+  color: rgba(248, 241, 255, 0.68);
+  font-family: var(--ns-font-sans);
+  font-size: 13px;
+  font-weight: 760;
 }
 
 .silence-group-stage__window-scan {
@@ -324,6 +367,25 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
   box-shadow:
     0 12px 0 rgba(240, 128, 189, 0.82),
     0 24px 0 rgba(127, 217, 227, 0.7);
+}
+
+.silence-group-stage__character--glitch:hover,
+.silence-group-stage__character--glitch:focus-visible,
+.silence-group-stage__character--glitch.silence-group-stage__character--active {
+  border-color: color-mix(in srgb, var(--silence-glitch-window-accent), #ffffff 12%);
+  box-shadow:
+    12px 12px 0 color-mix(in srgb, var(--silence-glitch-window-accent), transparent 78%),
+    -8px -8px 0 rgba(240, 128, 189, 0.14);
+  filter: saturate(1.1);
+  transform: translateY(-10px);
+}
+
+.silence-group-stage__character--glitch:hover .silence-group-stage__window-ghost,
+.silence-group-stage__character--glitch:focus-visible .silence-group-stage__window-ghost,
+.silence-group-stage__character--glitch.silence-group-stage__character--active
+  .silence-group-stage__window-ghost {
+  border-color: color-mix(in srgb, var(--silence-glitch-window-accent), #ffffff 18%);
+  opacity: 0.92;
 }
 
 @keyframes silenceGroupPortraitRise {
@@ -392,7 +454,8 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
   .silence-group-stage__character--glitch {
     width: clamp(160px, 48vw, 260px);
     height: 280px;
-    bottom: 340px;
+    top: 300px;
+    bottom: auto;
   }
 
   .silence-group-stage__character--glitch-1 {
@@ -402,6 +465,7 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
 
   .silence-group-stage__character--glitch-2 {
     right: 8%;
+    top: 326px;
   }
 }
 

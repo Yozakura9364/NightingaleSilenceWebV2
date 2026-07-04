@@ -12,6 +12,12 @@
         @section-request="scrollToSection"
       />
 
+      <component
+        :is="SilenceViiokoPrototype"
+        v-if="showViiokoPrototype"
+        :character="character"
+      />
+
       <SilenceCharacterDetails
         :character="character"
         :relationships="relationshipCards"
@@ -32,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { silenceGroups, siteRoutes, textKeys } from '@/config/site'
 import {
@@ -47,6 +53,9 @@ import SilenceCharacterStage from '@/pages/silence/components/SilenceCharacterSt
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { useLocale } from '@/stores/locale'
 
+const SilenceViiokoPrototype = import.meta.env.DEV
+  ? defineAsyncComponent(() => import('@/pages/silence/components/SilenceViiokoPrototype.vue'))
+  : null
 const route = useRoute()
 const { t } = useLocale()
 const missingTitleId = 'silence-character-missing-title'
@@ -71,6 +80,9 @@ const { turnNeighbors, leftTurnLabel, rightTurnLabel } = useSilenceTurnNavigatio
 const pageStyle = computed(() => ({
   '--silence-character-color': character.value?.color ?? '#63d9dc'
 }))
+const showViiokoPrototype = computed(
+  () => Boolean(SilenceViiokoPrototype) && character.value?.id === 'salvance'
+)
 const detailNavItems = computed(() => {
   const baseId = character.value?.id ?? 'silence-character'
 
@@ -180,14 +192,7 @@ function scrollToSection(targetId: string) {
   position: relative;
   min-height: calc(100vh - 56px);
   overflow: visible;
-  background:
-    radial-gradient(
-      circle at 72% 24%,
-      color-mix(in srgb, var(--silence-character-color), transparent 68%),
-      transparent 30%
-    ),
-    linear-gradient(120deg, rgba(255, 248, 253, 0.94), rgba(219, 249, 250, 0.72)),
-    var(--ns-body-background);
+  background: #ffffff;
 }
 
 .silence-character-missing {
@@ -199,17 +204,6 @@ function scrollToSection(targetId: string) {
   place-content: center;
   padding: clamp(24px, 5vw, 72px);
   overflow: hidden;
-}
-
-.silence-character-missing::before {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background:
-    repeating-linear-gradient(90deg, rgba(99, 217, 220, 0.08) 0 1px, transparent 1px 32px),
-    repeating-linear-gradient(0deg, rgba(239, 111, 178, 0.08) 0 1px, transparent 1px 32px);
-  content: '';
-  pointer-events: none;
 }
 
 .silence-character-missing > :not(.silence-turn-hints) {

@@ -10,7 +10,7 @@
         <h1 :id="`${currentGroup.id}-title`" class="ns-title">
           {{ t(currentGroup.titleKey) }}
         </h1>
-        <p class="ns-lead">
+        <p v-if="currentGroup.id !== 'glitch'" class="ns-lead">
           {{ t(currentGroup.summaryKey) }}
         </p>
       </div>
@@ -24,6 +24,14 @@
         @open="openVisual"
         @previous="selectPrevious"
         @next="selectNext"
+      />
+
+      <SilenceGlitchDuoPanel
+        v-if="currentGroup.id === 'glitch'"
+        :members="silenceGlitchDuoMembers"
+        :concept-notes="silenceGlitchConceptNotes"
+        :selected-id="selectedVisualId"
+        @select="selectVisual"
       />
 
       <SilenceTurnHint
@@ -42,12 +50,17 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { silenceGroups, textKeys } from '@/config/site'
 import {
+  silenceGlitchConceptNotes,
+  silenceGlitchDuoMembers
+} from '@/data/silence/glitchDuo'
+import {
   getSilenceCharacterRoute,
   getSilenceCharactersByGroup,
   type SilenceCharacter,
   type SilenceGroupId
 } from '@/data/silence/characters'
 import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilenceTurnNavigation'
+import SilenceGlitchDuoPanel from '@/pages/silence/components/SilenceGlitchDuoPanel.vue'
 import SilenceGroupVisual from '@/pages/silence/components/SilenceGroupVisual.vue'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { useLocale } from '@/stores/locale'
@@ -65,6 +78,18 @@ const { turnNeighbors, leftTurnLabel, rightTurnLabel } = useSilenceTurnNavigatio
   () => route.path
 )
 const visualItems = computed(() => {
+  if (currentGroup.value.id === 'glitch' && silenceGlitchDuoMembers.length > 0) {
+    return silenceGlitchDuoMembers.map((member, index) => ({
+      id: member.id,
+      name: member.name,
+      reading: member.reading,
+      color: member.color,
+      signal: member.signal,
+      slot: index + 1,
+      character: undefined
+    }))
+  }
+
   if (currentCharacters.value.length > 0) {
     return currentCharacters.value.map((character, index) => ({
       id: character.id,
@@ -153,6 +178,10 @@ watch(
     var(--ns-body-background);
 }
 
+.silence-group-page--angel {
+  background: #ffffff;
+}
+
 .silence-group-page--glitch {
   background:
     radial-gradient(circle at 78% 24%, rgba(127, 217, 227, 0.18), transparent 28%),
@@ -167,22 +196,28 @@ watch(
   overflow: hidden;
 }
 
-.silence-group-stage::before {
+.silence-group-stage--glitch::before {
   position: absolute;
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.5), transparent 30%),
-    linear-gradient(120deg, rgba(99, 217, 220, 0.1), transparent 48%),
-    linear-gradient(45deg, rgba(239, 111, 178, 0.08), transparent 56%);
+    repeating-linear-gradient(90deg, rgba(127, 217, 227, 0.12) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(0deg, rgba(240, 128, 189, 0.08) 0 1px, transparent 1px 10px);
   content: '';
   pointer-events: none;
 }
 
-.silence-group-stage--glitch::before {
+.silence-group-stage--glitch::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   background:
-    repeating-linear-gradient(90deg, rgba(127, 217, 227, 0.12) 0 1px, transparent 1px 18px),
-    repeating-linear-gradient(0deg, rgba(240, 128, 189, 0.08) 0 1px, transparent 1px 10px);
+    linear-gradient(90deg, transparent 0 21%, rgba(255, 65, 172, 0.11) 21% 21.4%, transparent 21.4%),
+    linear-gradient(90deg, transparent 0 68%, rgba(119, 255, 244, 0.13) 68% 68.35%, transparent 68.35%),
+    repeating-linear-gradient(0deg, transparent 0 36px, rgba(255, 255, 255, 0.035) 36px 38px);
+  content: '';
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 .silence-group-stage__copy {
@@ -193,20 +228,16 @@ watch(
   pointer-events: none;
 }
 
-.silence-group-page--angel .ns-title {
-  color: #2c2338;
-  text-shadow:
-    3px 3px 0 rgba(99, 217, 220, 0.24),
-    -2px -2px 0 rgba(239, 111, 178, 0.14);
-}
-
-.silence-group-page--angel .ns-lead {
-  color: rgba(49, 40, 63, 0.62);
-}
-
 .silence-group-page--glitch .ns-title,
 .silence-group-page--glitch .ns-lead {
   color: #f8f1ff;
+}
+
+.silence-group-page--glitch .ns-title {
+  text-shadow:
+    4px 0 0 rgba(255, 65, 172, 0.34),
+    -4px 0 0 rgba(119, 255, 244, 0.26),
+    0 8px 0 rgba(0, 0, 0, 0.28);
 }
 
 .silence-group-page--glitch .ns-lead {
@@ -227,7 +258,6 @@ watch(
     width: min(100%, 520px);
     margin-top: 62px;
   }
-
 }
 
 @media (max-width: 640px) {
