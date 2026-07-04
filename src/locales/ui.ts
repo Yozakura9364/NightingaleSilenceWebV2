@@ -146,6 +146,18 @@ export const uiMessages: UiMessageMap = {
   'site.nav.silenceCommand': same('SILENCE'),
   'site.nav.home': msg({ zh: '回到主页', en: 'Home', ja: 'ホームへ', ko: '홈으로' }),
 
+  'home.social.title': msg({
+    zh: '站外链接',
+    en: 'Links',
+    ja: '外部リンク',
+    ko: '외부 링크'
+  }),
+  'home.social.huiji': same('灰机wiki'),
+  'home.social.nga': same('NGA'),
+  'home.social.xiaohongshu': same('小红书'),
+  'home.social.weibo': same('微博'),
+  'home.social.douyin': same('抖音'),
+
   'site.window.menuTitle': same('MENU.EXE'),
   'site.window.configTitle': same('CONFIG.EXE'),
 

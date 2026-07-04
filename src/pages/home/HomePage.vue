@@ -43,6 +43,24 @@
           <AppButton :to="siteRoutes.ffxiv" variant="primary">{{ t(textKeys.ffxivWorkshop) }}</AppButton>
           <AppButton :to="siteRoutes.silence">{{ t(textKeys.silence) }}</AppButton>
         </div>
+
+        <nav class="home-social" :aria-label="t(homeSocialTitleKey)">
+          <span class="home-social__label">{{ t(homeSocialTitleKey) }}</span>
+          <div class="home-social__links">
+            <a
+              v-for="link in homeSocialLinks"
+              :key="link.id"
+              class="home-social__link"
+              :href="link.href"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="t(link.labelKey)"
+            >
+              <img :src="link.icon" alt="" aria-hidden="true">
+              <span>{{ t(link.labelKey) }}</span>
+            </a>
+          </div>
+        </nav>
       </div>
 
       <div class="home-visual" aria-hidden="true">
@@ -112,6 +130,41 @@ import { homeNavItems, siteMeta, siteRoutes, textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
 
 const { t } = useLocale()
+
+const homeSocialTitleKey = 'home.social.title'
+
+const homeSocialLinks = [
+  {
+    id: 'huiji',
+    labelKey: 'home.social.huiji',
+    href: 'https://ff14.huijiwiki.com/wiki/%E5%88%86%E7%B1%BB:%E4%BD%9C%E8%80%85NIGHTINGALE',
+    icon: '/assets/icons/huiji.svg'
+  },
+  {
+    id: 'nga',
+    labelKey: 'home.social.nga',
+    href: 'https://nga.178.com/thread.php?authorid=12605886',
+    icon: '/assets/icons/nga.svg'
+  },
+  {
+    id: 'xiaohongshu',
+    labelKey: 'home.social.xiaohongshu',
+    href: 'https://xhslink.com/m/2xLfxolEhzS',
+    icon: '/assets/icons/xiaohongshu.svg'
+  },
+  {
+    id: 'weibo',
+    labelKey: 'home.social.weibo',
+    href: 'https://weibo.com/1734754935?refer_flag=1001030103_',
+    icon: '/assets/icons/weibo.svg'
+  },
+  {
+    id: 'douyin',
+    labelKey: 'home.social.douyin',
+    href: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY',
+    icon: '/assets/icons/douyin.svg'
+  }
+] as const
 </script>
 
 <style scoped>
@@ -335,6 +388,59 @@ const { t } = useLocale()
   gap: 12px;
   flex-wrap: wrap;
   margin-top: 32px;
+}
+
+.home-social {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.home-social__label {
+  color: var(--home-pixel-muted);
+  font-family: var(--ns-font-decorative);
+  font-size: 11px;
+  font-weight: 950;
+}
+
+.home-social__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.home-social__link {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 10px;
+  border: 2px solid var(--home-pixel-border);
+  background: color-mix(in srgb, var(--home-pixel-surface) 86%, transparent);
+  color: var(--home-pixel-ink);
+  font-family: var(--ns-font-decorative);
+  font-size: 11px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 var(--home-pixel-shadow);
+  transition:
+    transform 140ms ease,
+    background-color 140ms ease;
+}
+
+.home-social__link:hover,
+.home-social__link:focus-visible {
+  background: var(--home-pixel-surface-blue);
+  outline: none;
+  transform: translate(-1px, -1px);
+}
+
+.home-social__link img {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  display: block;
+  object-fit: contain;
 }
 
 .home-actions :deep(.ns-button) {
@@ -652,6 +758,14 @@ const { t } = useLocale()
     justify-content: center;
   }
 
+  .home-social {
+    justify-items: center;
+  }
+
+  .home-social__links {
+    justify-content: center;
+  }
+
   .home-menu-card {
     position: relative;
     right: auto;
@@ -669,6 +783,16 @@ const { t } = useLocale()
 
   .home-top-bar :deep(.ns-button),
   .home-actions :deep(.ns-button) {
+    width: 100%;
+  }
+
+  .home-social__links {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .home-social__link {
+    justify-content: center;
     width: 100%;
   }
 
