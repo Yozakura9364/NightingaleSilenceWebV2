@@ -23,6 +23,8 @@
 | `src/pages/silence/components/SilenceGatePoster.vue` | 约 406 | Silence 入口页标题浮层、左右分割海报、六人预览和 glitch 占位 |
 | `src/pages/silence/components/SilenceCharacterStage.vue` | 约 304 | 单角色详情页首屏主视觉、基础资料摘要和页内锚点入口 |
 | `src/pages/silence/components/SilenceGroupVisual.vue` | 约 299 | `angel` / `glitch` 分组立绘 / 窗口舞台组件 |
+| `src/pages/silence/components/SilenceViiokoPrototype.vue` | 约 1278 | Salvance 的 dev-only Viioko 样式原型；模板和 scoped CSS 仍偏大，资料模型已拆出 |
+| `src/pages/silence/composables/useSilenceViiokoPrototypeModel.ts` | 约 261 | Viioko 原型的资料取数、可见内容过滤和四种示意页配置生成 |
 | `src/pages/silence/SilenceGroupPage.vue` | 约 205 | 分组页状态、路由打开逻辑和页面壳 |
 | `src/pages/silence/components/SilenceCharacterDetails.vue` | 约 188 | 单角色详情页下滑资料区块组合 |
 | `src/pages/silence/SilenceCharacterPage.vue` | 约 165 | 单角色详情页路由取数、关系适配和页面组装 |
@@ -186,6 +188,8 @@ Silence 当前基本不消耗服务器 CPU 和内存：
 - 已完成：从 `SilenceIndexPage.vue` 拆出 `SilenceGatePoster.vue`。
 - 待后续复杂化时再做：如果入口海报继续加入正式图切换、动效或更多交互，再从 `SilenceGatePoster.vue` 细拆标题浮层、angel 预览和 glitch 预览组件。
 - 待后续复杂化时再做：如果 `angel` / `glitch` 舞台差异继续变大，再从 `SilenceGroupVisual.vue` 细拆 `SilenceAngelStage.vue` 和 `SilenceGlitchStage.vue`。
+- 已完成：从 `SilenceViiokoPrototype.vue` 拆出 `useSilenceViiokoPrototypeModel.ts`，让 dev-only Viioko 原型的资料过滤、占位 fallback 和四种比例示意页配置不再混在 Vue 模板脚本里。
+- 待后续复杂化时再做：如果 Viioko 原型继续调整版式，可继续拆 `SilenceViiokoPrototype.vue` 的样式文件或局部样张组件；但在样式还高频试错时，暂时保留同一个 scoped CSS 更方便快速对照视觉。
 
 验收标准：
 
