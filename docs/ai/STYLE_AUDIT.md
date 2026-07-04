@@ -10,7 +10,8 @@
 2. `src/styles/theme.css` 是正式 token 入口；正式页优先使用 `--ns-color-*`、`--ns-pixel-*`、`--ns-status-*`、`--ns-top-nav-*` 等变量。
 3. `src/styles/experiments/pixel-soft.css` 只属于 `#/style-lab` 隐藏实验区，不进入 `src/styles/index.css`。
 4. `AppButton`、`AppField`、`AppToolbar`、`AppTabs`、`AppStatus`、`AppPixelWindow` 和 `AppTopNav` 是当前公共控件基准。
-5. 工房工作台变量暂不继续扩展，等第一个项目迁移完成后再按真实重复结构评估。
+5. 公共组件默认视觉以 `docs/ai/ARCHITECTURE_PLAN.md` 的“公共组件样式契约 v0.1”为准：方角、硬边框、硬阴影、克制 day/night 像素配色和清晰状态。
+6. 工房工作台变量暂不继续扩展，等第一个项目迁移完成后再按真实重复结构评估。
 
 ## 顶栏结构
 
@@ -28,6 +29,8 @@
 - `AppTopNav` 的菜单与设置弹窗保持并列入口：`菜单 | MENU` 管站点导航，`设置 | CONFIG` 管显示模式和语言。
 - 顶栏弹窗路由切换后自动收起，避免用户进入新页面时遗留打开状态。
 - Style Lab 新增正式公共组件基准区，放在 `pixel-soft` 实验区外，避免实验 CSS 变量污染正式控件判断。
+- `AppButton` 已补齐 `secondary`、`ghost`、`danger`、`compact`、`icon`、`block` 等公共变体；业务页不要再为普通命令、轻量命令、危险命令和图标按钮重复写一套按钮基础样式。
+- 已新增公共滚动容器 class：`.ns-scroll-area`、`.ns-scroll-area--compact`、`.ns-scroll-area--plain`。需要像素滚动条的内部列表、弹窗正文和工作台侧栏应显式加 class；不要全局改所有滚动条。
 
 ## 后续审计重点
 

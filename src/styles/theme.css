@@ -62,6 +62,24 @@
     --ns-focus-ring: 0 0 0 3px rgba(99, 217, 220, 0.42);
     --ns-control-inset-shadow: 2px 2px 0 rgba(42, 33, 56, 0.12) inset;
     --ns-control-primary-text-shadow: 0 1px 0 rgba(35, 20, 42, 0.2);
+    /* Keep select carets and disclosure carets on the same right-side control column. */
+    --ns-control-caret-center-offset: 17px;
+    --ns-control-caret-box-size: 16px;
+    --ns-control-caret-box-right: 9px;
+    --ns-select-caret-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23241b2f' viewBox='0 0 24 24'%3E%3Cpath d='M5 8h14v4h-2v2h-2v2h-2v2h-2v-2H9v-2H7v-2H5V8Z'/%3E%3C/svg%3E");
+    --ns-select-caret-size: 13px;
+    --ns-select-caret-right: 10.5px;
+    --ns-select-padding-start: 10px;
+    --ns-select-padding-end: 40px;
+    --ns-scrollbar-size: 16px;
+    --ns-scrollbar-compact-size: 12px;
+    --ns-scrollbar-arrow-size: 8px;
+    --ns-scroll-track: rgba(246, 244, 250, 0.96);
+    --ns-scroll-thumb: #8f8a96;
+    --ns-scroll-thumb-hover: var(--ns-color-accent);
+    --ns-scroll-border: rgba(42, 33, 56, 0.24);
+    --ns-scroll-arrow-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%238f8a96' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 6V5h1V4h1V2h2v2h1v1h1v1H1Z'/%3E%3C/svg%3E");
+    --ns-scroll-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%238f8a96' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 2h6v1H6v1H5v2H3V4H2V3H1V2Z'/%3E%3C/svg%3E");
 
     --ns-top-nav-bg:
       linear-gradient(90deg, rgba(255, 233, 246, 0.9), rgba(224, 249, 255, 0.92)),
@@ -165,6 +183,13 @@
     --ns-focus-ring: 0 0 0 3px rgba(127, 217, 227, 0.32);
     --ns-control-inset-shadow: 2px 2px 0 rgba(0, 0, 0, 0.26) inset;
     --ns-control-primary-text-shadow: 0 1px 0 rgba(0, 0, 0, 0.34);
+    --ns-select-caret-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f7f1fb' viewBox='0 0 24 24'%3E%3Cpath d='M5 8h14v4h-2v2h-2v2h-2v2h-2v-2H9v-2H7v-2H5V8Z'/%3E%3C/svg%3E");
+    --ns-scroll-track: rgba(25, 28, 47, 0.96);
+    --ns-scroll-thumb: rgba(189, 179, 202, 0.74);
+    --ns-scroll-thumb-hover: var(--ns-color-cyan);
+    --ns-scroll-border: rgba(245, 224, 246, 0.18);
+    --ns-scroll-arrow-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bdb3ca' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 6V5h1V4h1V2h2v2h1v1h1v1H1Z'/%3E%3C/svg%3E");
+    --ns-scroll-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bdb3ca' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 2h6v1H6v1H5v2H3V4H2V3H1V2Z'/%3E%3C/svg%3E");
 
     --ns-top-nav-bg:
       linear-gradient(90deg, rgba(49, 36, 67, 0.92), rgba(29, 61, 70, 0.88)), rgba(17, 20, 38, 0.94);

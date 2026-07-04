@@ -1306,5 +1306,143 @@ export const uiMessages: UiMessageMap = {
   'styleLab.appField': same('AppField'),
   'styleLab.appToolbar': same('AppToolbar'),
   'styleLab.appStatus': same('AppStatus'),
+  'styleLab.iconLab': msg({
+    zh: 'Pixelarticons 图标样本',
+    en: 'Pixelarticons icon samples',
+    ja: 'Pixelarticonsアイコンサンプル',
+    ko: 'Pixelarticons 아이콘 샘플'
+  }),
+  'styleLab.iconTextBar': msg({
+    zh: '图标文字 Bar',
+    en: 'Icon text bar',
+    ja: 'アイコン付きテキストバー',
+    ko: '아이콘 텍스트 바'
+  }),
+  'styleLab.iconOnlyButtons': msg({
+    zh: '纯图标按钮',
+    en: 'Icon-only buttons',
+    ja: 'アイコンのみボタン',
+    ko: '아이콘 전용 버튼'
+  }),
+  'styleLab.textIconButtons': msg({
+    zh: '图标文字按钮',
+    en: 'Icon text buttons',
+    ja: 'アイコン付きテキストボタン',
+    ko: '아이콘 텍스트 버튼'
+  }),
+  'styleLab.iconMenuSample': msg({
+    zh: '图标菜单',
+    en: 'Icon menu',
+    ja: 'アイコンメニュー',
+    ko: '아이콘 메뉴'
+  }),
+  'styleLab.iconSource': same('Pixelarticons / MIT'),
+  'styleLab.icon.home': msg({ zh: '主页', en: 'Home', ja: 'ホーム', ko: '홈' }),
+  'styleLab.icon.menu': msg({ zh: '菜单', en: 'Menu', ja: 'メニュー', ko: '메뉴' }),
+  'styleLab.icon.config': msg({ zh: '设置', en: 'Config', ja: '設定', ko: '설정' }),
+  'styleLab.icon.search': msg({ zh: '搜索', en: 'Search', ja: '検索', ko: '검색' }),
+  'styleLab.icon.download': msg({
+    zh: '下载',
+    en: 'Download',
+    ja: 'ダウンロード',
+    ko: '다운로드'
+  }),
+  'styleLab.icon.image': msg({ zh: '图片', en: 'Image', ja: '画像', ko: '이미지' }),
+  'styleLab.icon.folder': msg({ zh: '文件夹', en: 'Folder', ja: 'フォルダー', ko: '폴더' }),
+  'styleLab.icon.favorite': msg({
+    zh: '收藏',
+    en: 'Favorite',
+    ja: 'お気に入り',
+    ko: '즐겨찾기'
+  }),
+  'styleLab.icon.language': msg({ zh: '语言', en: 'Language', ja: '言語', ko: '언어' }),
+  'styleLab.notebookLab': msg({
+    zh: '赛博记事本样本',
+    en: 'Cyber notebook sample',
+    ja: 'サイバーノートサンプル',
+    ko: '사이버 노트 샘플'
+  }),
+  'styleLab.notebook.card': msg({
+    zh: '赛博记事本选择面板',
+    en: 'Cyber notebook picker',
+    ja: 'サイバーノート選択パネル',
+    ko: '사이버 노트 선택 패널'
+  }),
+  'styleLab.notebook.fold': msg({
+    zh: '可折叠素材小面板',
+    en: 'Foldable material panel',
+    ja: '折りたたみ素材パネル',
+    ko: '접이식 소재 패널'
+  }),
+  'styleLab.notebook.comment': msg({
+    zh: '作为画布区旁边的工作台便签：不是导出内容，而是帮助用户快速确认当前组合和素材状态。',
+    en: 'A workbench note near the canvas: not exported content, just a quick status rhythm.',
+    ja: 'キャンバス横の作業メモです。書き出し対象ではなく、現在の組み合わせと素材状態を確認します。',
+    ko: '캔버스 옆 작업 메모입니다. 내보내기 대상이 아니라 현재 조합과 소재 상태를 빠르게 확인합니다.'
+  }),
+  'styleLab.notebook.rule.title': msg({
+    zh: '第一行显示组合名和进度。',
+    en: 'First line shows group name and progress.',
+    ja: '1行目にグループ名と進捗を表示。',
+    ko: '첫 줄에 그룹명과 진행도를 표시합니다.'
+  }),
+  'styleLab.notebook.rule.value': msg({
+    zh: '第二行是素材名，最多两行后省略。',
+    en: 'Second line is the material value, clamped after two lines.',
+    ja: '2行目は素材名で、2行まで表示します。',
+    ko: '둘째 줄은 소재명이며 두 줄 뒤 생략합니다.'
+  }),
+  'styleLab.notebook.rule.fold': msg({
+    zh: '折叠态只保留当前组合，不显示具体项目。',
+    en: 'Folded state keeps only the current group, not every item.',
+    ja: '折りたたみ時は現在のグループだけを残します。',
+    ko: '접힌 상태에서는 현재 그룹만 남깁니다.'
+  }),
+  'styleLab.meta.text': same('text'),
+  'styleLab.meta.material': msg({ zh: '素材', en: 'Material', ja: '素材', ko: '소재' }),
+  'styleLab.meta.currentGroup': msg({
+    zh: '当前组合',
+    en: 'Current group',
+    ja: '現在の組み合わせ',
+    ko: '현재 조합'
+  }),
+  'styleLab.meta.portraitBackground': msg({
+    zh: '肖像背景',
+    en: 'Portrait background',
+    ja: 'ポートレート背景',
+    ko: '초상화 배경'
+  }),
+  'styleLab.meta.portraitFrame': msg({
+    zh: '肖像装饰框',
+    en: 'Portrait frame',
+    ja: 'ポートレート装飾枠',
+    ko: '초상화 장식 프레임'
+  }),
+  'styleLab.meta.portraitDecoration': msg({
+    zh: '肖像装饰物',
+    en: 'Portrait decoration',
+    ja: 'ポートレート装飾',
+    ko: '초상화 장식'
+  }),
+  'styleLab.meta.nameplateBacking': msg({
+    zh: '铭牌背衬',
+    en: 'Nameplate backing',
+    ja: 'ネームプレート背面',
+    ko: '명패 배경판'
+  }),
+  'styleLab.meta.gray': msg({ zh: '灰色', en: 'Gray', ja: 'グレー', ko: '회색' }),
+  'styleLab.meta.glow': msg({ zh: '光彩', en: 'Glow', ja: '光彩', ko: '광채' }),
+  'styleLab.meta.unselected': msg({
+    zh: '未选',
+    en: 'Unselected',
+    ja: '未選択',
+    ko: '선택 안 됨'
+  }),
+  'styleLab.meta.newColor': msg({
+    zh: '新空色：防...',
+    en: 'Sky tint: def...',
+    ja: '空色：防...',
+    ko: '하늘색: 방...'
+  }),
   'styleLab.skinName': same('pixel-soft-lite')
 }
