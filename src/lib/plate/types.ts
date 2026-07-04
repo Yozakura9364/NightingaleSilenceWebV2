@@ -4,10 +4,22 @@ export type NSPlateCanvasMode = 'portrait' | 'nameplate'
 export type NSPlatePanelTab = 'portrait' | 'nameplate' | 'info'
 export type NSPlatePortraitSide = 'left' | 'right'
 export type NSPlateCustomPortraitMode = 'standard' | 'popout'
+export type NSPlateCustomPortraitPopoutLayerAnchor =
+  'behindFrames' | 'aboveFrames' | 'aboveDecorations' | 'front'
+
+export const NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR =
+  'aboveFrames' satisfies NSPlateCustomPortraitPopoutLayerAnchor
+export const NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS = [
+  'behindFrames',
+  'aboveFrames',
+  'aboveDecorations',
+  'front'
+] as const satisfies readonly NSPlateCustomPortraitPopoutLayerAnchor[]
 
 export interface NSPlateCustomPortraitImage {
   id: string
   mode: NSPlateCustomPortraitMode
+  popoutLayerAnchor?: NSPlateCustomPortraitPopoutLayerAnchor
   fileName: string
   dataUrl: string
   width: number

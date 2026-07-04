@@ -4,14 +4,16 @@ import { normalizeNSPlateInfoDraft, type NSPlateInfoDraft } from '@/lib/plate/in
 import type {
   NSPlateCustomPortraitImage,
   NSPlateCustomPortraitMode,
+  NSPlateCustomPortraitPopoutLayerAnchor,
   NSPlatePortraitSide,
   NSPlatePresetKind
 } from '@/lib/plate/types'
+import { NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS } from '@/lib/plate/types'
 
 export const NSPLATE_DRAFT_STORAGE_KEY = 'nsplate.draft.v1'
 
 const NSPLATE_DRAFT_VERSION = 1
-const MAX_CUSTOM_PORTRAIT_STORAGE_CHARS = 3_000_000
+const MAX_CUSTOM_PORTRAIT_STORAGE_CHARS = 4_500_000
 
 interface NSPlateStoredDraftV1 {
   version: typeof NSPLATE_DRAFT_VERSION
@@ -141,7 +143,12 @@ function sanitizeCustomPortraitForStorage(
     return null
   }
 
-  return JSON.stringify(normalized).length <= MAX_CUSTOM_PORTRAIT_STORAGE_CHARS ? normalized : null
+  if (JSON.stringify(normalized).length <= MAX_CUSTOM_PORTRAIT_STORAGE_CHARS) {
+    return normalized
+  }
+
+  const fallback = createCustomPortraitStorageFallback(normalized)
+  return JSON.stringify(fallback).length <= MAX_CUSTOM_PORTRAIT_STORAGE_CHARS ? fallback : null
 }
 
 function normalizePresetSelection(value: unknown): Record<NSPlatePresetKind, string | null> {
@@ -189,6 +196,7 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
   return {
     id,
     mode,
+    ...pickOptionalPopoutLayerAnchor(value),
     fileName,
     dataUrl,
     width,
@@ -207,6 +215,17 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
 
 function normalizeCustomPortraitMode(value: unknown): NSPlateCustomPortraitMode | null {
   return value === 'standard' || value === 'popout' ? value : null
+}
+
+function normalizeCustomPortraitPopoutLayerAnchor(
+  value: unknown
+): NSPlateCustomPortraitPopoutLayerAnchor | null {
+  return typeof value === 'string' &&
+    NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.includes(
+      value as NSPlateCustomPortraitPopoutLayerAnchor
+    )
+    ? (value as NSPlateCustomPortraitPopoutLayerAnchor)
+    : null
 }
 
 function normalizeNullableString(value: unknown) {
@@ -233,12 +252,36 @@ function pickOptionalString(
   return value ? { [key]: value } : {}
 }
 
+function pickOptionalPopoutLayerAnchor(record: Record<string, unknown>) {
+  const value = normalizeCustomPortraitPopoutLayerAnchor(record.popoutLayerAnchor)
+  return value ? { popoutLayerAnchor: value } : {}
+}
+
 function pickOptionalNumber(
   record: Record<string, unknown>,
   key: keyof NSPlateCustomPortraitImage
 ) {
   const value = normalizeFiniteNumber(record[key])
   return value === null ? {} : { [key]: value }
+}
+
+function createCustomPortraitStorageFallback(
+  customPortrait: NSPlateCustomPortraitImage
+): NSPlateCustomPortraitImage {
+  if (customPortrait.mode !== 'popout') {
+    return customPortrait
+  }
+
+  return {
+    ...customPortrait,
+    sourceDataUrl: customPortrait.dataUrl,
+    sourceWidth: customPortrait.width,
+    sourceHeight: customPortrait.height,
+    baseScale: 1,
+    scaleMultiplier: 1,
+    offsetX: 0,
+    offsetY: 0
+  }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

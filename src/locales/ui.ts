@@ -1505,6 +1505,18 @@ export const uiMessages: UiMessageMap = {
     ja: '情報フィールド',
     ko: '정보 필드'
   }),
+  'nsplate.info.layer.show': msg({
+    zh: '显示此图层',
+    en: 'Show this layer',
+    ja: 'このレイヤーを表示',
+    ko: '이 레이어 표시'
+  }),
+  'nsplate.info.layer.hide': msg({
+    zh: '隐藏此图层',
+    en: 'Hide this layer',
+    ja: 'このレイヤーを非表示',
+    ko: '이 레이어 숨기기'
+  }),
   'plate.info.layerType.text': msg({ zh: '文字', en: 'Text', ja: 'テキスト', ko: '텍스트' }),
   'plate.info.layerType.icon': msg({ zh: '图标', en: 'Icon', ja: 'アイコン', ko: '아이콘' }),
   'plate.info.layerType.special': msg({
@@ -1815,10 +1827,16 @@ export const uiMessages: UiMessageMap = {
     ko: '이미지 선택'
   }),
   'nsplate.customPortrait.clear': msg({
-    zh: '清空自定义图片',
-    en: 'Clear custom image',
-    ja: 'カスタム画像をクリア',
-    ko: '사용자 이미지 지우기'
+    zh: '移除图片',
+    en: 'Remove image',
+    ja: '画像を削除',
+    ko: '이미지 제거'
+  }),
+  'nsplate.customPortrait.clearConfirm': msg({
+    zh: '确认移除自定义图片？',
+    en: 'Remove the custom image?',
+    ja: 'カスタム画像を削除しますか？',
+    ko: '사용자 이미지를 제거할까요?'
   }),
   'nsplate.customPortrait.input': msg({
     zh: '选择自定义肖像图片',
@@ -1886,11 +1904,53 @@ export const uiMessages: UiMessageMap = {
     ja: '適用',
     ko: '적용'
   }),
+  'nsplate.customPortrait.popoutLayer.title': msg({
+    zh: '出框层级',
+    en: 'Popout layer',
+    ja: '枠外レイヤー',
+    ko: '프레임 밖 레이어'
+  }),
+  'nsplate.customPortrait.popoutLayer.behindFrames': msg({
+    zh: '框后',
+    en: 'Behind frame',
+    ja: '枠の後ろ',
+    ko: '프레임 뒤'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveFrames': msg({
+    zh: '框上',
+    en: 'Over frame',
+    ja: '枠の上',
+    ko: '프레임 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveDecorations': msg({
+    zh: '装饰上',
+    en: 'Over decor',
+    ja: '装飾の上',
+    ko: '장식 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.front': msg({
+    zh: '最前',
+    en: 'Front',
+    ja: '最前面',
+    ko: '맨 앞'
+  }),
+  'nsplate.action.menu': msg({
+    zh: '操作菜单',
+    en: 'Actions',
+    ja: '操作メニュー',
+    ko: '작업 메뉴'
+  }),
   'nsplate.action.clearAllSelections': msg({
-    zh: '清空所有选择',
-    en: 'Clear all selections',
-    ja: 'すべての選択をクリア',
-    ko: '모든 선택 지우기'
+    zh: '清空素材',
+    en: 'Clear assets',
+    ja: '素材をクリア',
+    ko: '소재 지우기'
+  }),
+  'nsplate.action.clearAllSelectionsConfirm': msg({
+    zh: '确认清空素材选择？',
+    en: 'Clear asset selections?',
+    ja: '素材の選択をクリアしますか？',
+    ko: '소재 선택을 지울까요?'
   }),
   'nsplate.config.import': msg({
     zh: '导入配置',
@@ -2037,6 +2097,12 @@ export const uiMessages: UiMessageMap = {
     en: 'Canvas view controls',
     ja: 'キャンバス表示コントロール',
     ko: '캔버스 보기 컨트롤'
+  }),
+  'nsplate.canvas.clearToolbar': msg({
+    zh: '画布清空操作',
+    en: 'Canvas clear actions',
+    ja: 'キャンバスのクリア操作',
+    ko: '캔버스 지우기 작업'
   }),
   'nsplate.canvas.zoomOut': msg({
     zh: '缩小画布预览',

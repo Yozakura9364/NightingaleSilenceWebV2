@@ -8,8 +8,7 @@
     :custom-portrait="props.customPortrait"
     :info-draft="infoDraft"
     :can-clear-custom-portrait="false"
-    :can-clear-all="false"
-    :can-import-config="false"
+    :can-clear-materials="false"
     selection-note-title=""
     :selection-note-items="[]"
   />

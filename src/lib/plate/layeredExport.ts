@@ -1,4 +1,7 @@
-import { getCustomPortraitSourceDrawRect } from '@/lib/plate/customPortrait'
+import {
+  getCustomPortraitPopoutSplitBounds,
+  getCustomPortraitSourceDrawRect
+} from '@/lib/plate/customPortrait'
 import {
   NSPLATE_INFO_ACTIVITY_ICON_GAP_PX,
   NSPLATE_INFO_BAR48_COUNT,
@@ -643,15 +646,15 @@ async function createCustomPortraitInFrameLayer(
     }
 
     const rect = getCustomPortraitSourceDrawRect(customPortrait)
-    const splitY = Math.round(customPortrait.splitY ?? 0)
+    const splitBounds = getCustomPortraitPopoutSplitBounds(customPortrait.splitY ?? 0)
 
     context.save()
     context.beginPath()
     context.rect(
       0,
-      splitY * exportScale,
+      splitBounds.inFrameY * exportScale,
       canvas.width,
-      Math.max(0, (portrait.height - splitY) * exportScale)
+      Math.max(0, (portrait.height - splitBounds.inFrameY) * exportScale)
     )
     context.clip()
     context.drawImage(
@@ -700,7 +703,7 @@ async function createCustomPortraitPopoutLayer(
   }
 
   const rect = getCustomPortraitSourceDrawRect(customPortrait)
-  const splitY = Math.round(customPortrait.splitY ?? 0)
+  const splitBounds = getCustomPortraitPopoutSplitBounds(customPortrait.splitY ?? 0)
   const canvas = createLayerCanvas(
     Math.round(dimensions.width * exportScale),
     Math.round(dimensions.height * exportScale)
@@ -709,7 +712,7 @@ async function createCustomPortraitPopoutLayer(
 
   context.save()
   context.beginPath()
-  context.rect(0, 0, canvas.width, (portraitEmbed.y + splitY) * exportScale)
+  context.rect(0, 0, canvas.width, (portraitEmbed.y + splitBounds.popoutY) * exportScale)
   context.clip()
   context.drawImage(
     image,

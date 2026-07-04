@@ -45,13 +45,43 @@
         :data-expandable="isLayerExpandable(entry.state)"
       >
         <header class="nsplate-info-panel__card-head">
-          <label class="nsplate-info-panel__toggle">
-            <input
-              type="checkbox"
-              :checked="entry.state.enabled"
-              @change="setLayerEnabled(entry.state.slotId, $event)"
-            />
-          </label>
+          <button
+            class="nsplate-info-panel__visibility"
+            type="button"
+            :data-enabled="entry.state.enabled"
+            :aria-pressed="entry.state.enabled"
+            :aria-label="getLayerVisibilityLabel(entry.state.enabled)"
+            :title="getLayerVisibilityLabel(entry.state.enabled)"
+            @click="setLayerEnabled(entry.state.slotId, !entry.state.enabled)"
+          >
+            <svg
+              v-if="entry.state.enabled"
+              class="nsplate-info-panel__visibility-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M16 20H8v-2h8v2Zm-8-2H4v-2h4v2Zm12 0h-4v-2h4v2ZM4 16H2v-2h2v2Zm10-6h-2v2h2v-2h2v4h-2v2h-4v-2H8v-4h2V8h4v2Zm8 6h-2v-2h2v2ZM2 14H0v-4h2v4Zm22 0h-2v-4h2v4ZM4 10H2V8h2v2Zm18 0h-2V8h2v2ZM8 8H4V6h4v2Zm12 0h-4V6h4v2Zm-4-2H8V4h8v2Z"
+              />
+            </svg>
+            <svg
+              v-else
+              class="nsplate-info-panel__visibility-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M0 10h2v4H0zm24 0h-2v4h2zm-8 0h-2v2h2zm-6 0H8v4h2zM2 8h2v2H2zm0 8h2v-2H2zm20-8h-2v2h2zm0 8h-2v-2h2zM4 6h4v2H4zm0 12h4v-2H4zM20 6h-4v2h4zM10 4h6v2h-6zM8 20h8v-2H8zm4-12h2v2h-2zm-2 6h4v2h-4zM8 8h2v2H8zm2 2h2v4h-2zm2 2h2v2h-2z"
+              />
+              <path
+                d="M6 6h2v2H6zM4 4h2v2H4zM2 2h2v2H2zm12 12h2v2h-2zm2 2h2v2h-2zm2 2h2v2h-2zm2 2h2v2h-2z"
+              />
+            </svg>
+          </button>
           <button
             class="nsplate-info-panel__card-toggle"
             type="button"
@@ -92,11 +122,7 @@
               </span>
             </span>
             <span class="nsplate-info-panel__right">
-              <small>{{ t(getNSPlateInfoLayerTypeKey(entry.state.type)) }}</small>
-              <span
-                class="nsplate-info-panel__arrow"
-                aria-hidden="true"
-              />
+              <span class="nsplate-info-panel__arrow" aria-hidden="true" />
             </span>
           </button>
         </header>
@@ -144,10 +170,7 @@
               <span class="nsplate-info-panel__material-selected">
                 {{ getIconMaterialSelectionLabel(entry.state) }}
               </span>
-              <span
-                class="nsplate-info-panel__arrow"
-                aria-hidden="true"
-              />
+              <span class="nsplate-info-panel__arrow" aria-hidden="true" />
             </button>
 
             <div
@@ -202,10 +225,7 @@
               <span class="nsplate-info-panel__special-selected">
                 {{ getSpecialSelectionLabel(entry.state, section.kind) }}
               </span>
-              <span
-                class="nsplate-info-panel__arrow"
-                aria-hidden="true"
-              />
+              <span class="nsplate-info-panel__arrow" aria-hidden="true" />
             </button>
 
             <div
@@ -328,7 +348,6 @@ import {
 import {
   NSPLATE_INFO_ACTIVITY_ICON_MAX_COUNT,
   getNSPlateInfoActiveLayers,
-  getNSPlateInfoLayerTypeKey,
   resetNSPlateInfoActivePreset,
   setNSPlateInfoBar48All,
   setNSPlateInfoActivePreset,
@@ -393,6 +412,11 @@ const ACTION_KEYS = {
   hideAll: 'plate.info.actions.hideAll',
   reset: 'plate.info.actions.reset',
   resetConfirm: 'plate.info.actions.resetConfirm'
+} as const
+
+const VISIBILITY_KEYS = {
+  show: textKeys.nsplateInfoLayerShow,
+  hide: textKeys.nsplateInfoLayerHide
 } as const
 
 const SPECIAL_MATERIAL_SECTIONS = [
@@ -469,15 +493,12 @@ function toggleLayerOpen(slotId: string) {
   }
 }
 
-function setLayerEnabled(slotId: string, event: Event) {
-  emit(
-    'update:modelValue',
-    updateNSPlateInfoLayerEnabled(
-      props.modelValue,
-      slotId,
-      (event.target as HTMLInputElement).checked
-    )
-  )
+function setLayerEnabled(slotId: string, enabled: boolean) {
+  emit('update:modelValue', updateNSPlateInfoLayerEnabled(props.modelValue, slotId, enabled))
+}
+
+function getLayerVisibilityLabel(enabled: boolean) {
+  return t(enabled ? VISIBILITY_KEYS.hide : VISIBILITY_KEYS.show)
 }
 
 function setTextLayerValue(slotId: string, event: Event) {
@@ -828,27 +849,35 @@ function getBar48CellLabel(cellIndex: number, enabled: boolean) {
   box-shadow: 0 2px 0 color-mix(in srgb, var(--ns-color-border) 50%, transparent);
 }
 
-.nsplate-info-panel__card-head small {
-  flex: 0 0 auto;
-  color: var(--ns-color-text-muted);
-  font-size: 11px;
-  font-weight: 900;
-  user-select: none;
+.nsplate-info-panel__visibility {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--ns-color-accent-strong) 82%, var(--ns-color-text));
+  cursor: pointer;
 }
 
-.nsplate-info-panel__toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.nsplate-info-panel__visibility:hover {
+  color: var(--ns-color-danger);
 }
 
-.nsplate-info-panel__toggle input {
-  flex: 0 0 auto;
+.nsplate-info-panel__visibility[data-enabled='false'] {
+  color: color-mix(in srgb, var(--ns-color-text-muted) 76%, var(--ns-color-border));
+}
+
+.nsplate-info-panel__visibility-icon {
+  width: 18px;
+  height: 18px;
+  image-rendering: pixelated;
 }
 
 .nsplate-info-panel__card-toggle {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(58px, auto);
+  grid-template-columns: minmax(0, 1fr) var(--ns-control-caret-box-size);
   align-items: center;
   min-width: 0;
   width: 100%;
@@ -899,7 +928,7 @@ function getBar48CellLabel(cellIndex: number, enabled: boolean) {
 
 .nsplate-info-panel__right {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--ns-control-caret-box-size);
+  grid-template-columns: var(--ns-control-caret-box-size);
   align-items: center;
   justify-content: end;
   gap: 6px;

@@ -13,11 +13,13 @@ import type {
   NSPlateAssetGroup,
   NSPlateCustomPortraitImage,
   NSPlateCustomPortraitMode,
+  NSPlateCustomPortraitPopoutLayerAnchor,
   NSPlatePanelTab,
   NSPlatePortraitSide,
   NSPlatePresetKind,
   NSPlatePresetSummary
 } from '@/lib/plate/types'
+import { NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS } from '@/lib/plate/types'
 
 export interface NSPlateConfigTransferState {
   portraitSide: NSPlatePortraitSide
@@ -252,6 +254,7 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
   return {
     id,
     mode,
+    ...pickOptionalPopoutLayerAnchor(value),
     fileName,
     dataUrl,
     width,
@@ -270,6 +273,17 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
 
 function normalizeCustomPortraitMode(value: unknown): NSPlateCustomPortraitMode | null {
   return value === 'standard' || value === 'popout' ? value : null
+}
+
+function normalizeCustomPortraitPopoutLayerAnchor(
+  value: unknown
+): NSPlateCustomPortraitPopoutLayerAnchor | null {
+  return typeof value === 'string' &&
+    NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.includes(
+      value as NSPlateCustomPortraitPopoutLayerAnchor
+    )
+    ? (value as NSPlateCustomPortraitPopoutLayerAnchor)
+    : null
 }
 
 function normalizeString(value: unknown) {
@@ -294,6 +308,11 @@ function pickOptionalString(
 ) {
   const value = normalizeString(record[key])
   return value ? { [key]: value } : {}
+}
+
+function pickOptionalPopoutLayerAnchor(record: Record<string, unknown>) {
+  const value = normalizeCustomPortraitPopoutLayerAnchor(record.popoutLayerAnchor)
+  return value ? { popoutLayerAnchor: value } : {}
 }
 
 function pickOptionalNumber(

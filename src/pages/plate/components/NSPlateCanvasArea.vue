@@ -27,29 +27,17 @@
     </div>
 
     <NSPlateCanvasActions
-      :can-clear-custom-portrait="canClearCustomPortrait"
-      :can-clear-all="canClearAll"
-      :can-import-config="canImportConfig"
-      :can-export="canExport"
       :can-zoom-in="canZoomIn"
       :can-zoom-out="canZoomOut"
       :zoom-label="zoomPercentLabel"
-      @clear-custom-portrait="emit('clear-custom-portrait')"
-      @clear-all="emit('clear-all')"
-      @import-config="emit('import-config')"
-      @paste-config="emit('paste-config')"
-      @copy-config="emit('copy-config')"
-      @export-config="emit('export-config')"
+      :can-clear-custom-portrait="canClearCustomPortrait"
+      :can-clear-materials="canClearMaterials"
       @zoom-in="zoomIn"
       @zoom-out="zoomOut"
       @reset-view="resetView"
-      @export-image="exportImage"
-      @export-layered-zip="exportLayeredZip"
+      @clear-custom-portrait="emit('clear-custom-portrait')"
+      @clear-materials="emit('clear-materials')"
     />
-
-    <p v-if="exportErrorText" class="nsplate-canvas-area__error">
-      {{ exportErrorText }}
-    </p>
   </section>
 </template>
 
@@ -83,22 +71,17 @@ const props = defineProps<{
   assetGroups: NSPlateAssetGroup[]
   customPortrait: NSPlateCustomPortraitImage | null
   infoDraft: NSPlateInfoDraft
-  canClearCustomPortrait: boolean
-  canClearAll: boolean
-  canImportConfig: boolean
   selectionNoteTitle: string
   selectionNoteItems: NSPlateSelectionNoteItem[]
+  canClearCustomPortrait: boolean
+  canClearMaterials: boolean
   createConfigJson?: () => string
 }>()
 
 const emit = defineEmits<{
-  'clear-custom-portrait': []
-  'clear-all': []
-  'import-config': []
-  'paste-config': []
-  'copy-config': []
-  'export-config': []
   'focus-asset-section': [value: NSPlateSelectionNoteItem]
+  'clear-custom-portrait': []
+  'clear-materials': []
 }>()
 
 const { t } = useLocale()
@@ -122,7 +105,11 @@ const renderSignature = computed(() =>
     props.mode,
     props.portraitSide,
     props.customPortrait?.id ?? '',
+    props.customPortrait?.mode ?? '',
+    props.customPortrait?.popoutLayerAnchor ?? '',
     props.customPortrait?.dataUrl ?? '',
+    props.customPortrait?.sourceDataUrl ?? '',
+    props.customPortrait?.splitY ?? '',
     props.selectedAssets
       .map((asset) =>
         [asset.id, asset.category, asset.imageUrl ?? '', asset.previewUrl ?? ''].join(':')
@@ -163,6 +150,13 @@ const { canExport, exportErrorText, exportImage, exportLayeredZip } = useNSPlate
   renderPlan,
   isCanvasReady,
   createConfigJson: props.createConfigJson
+})
+
+defineExpose({
+  canExport,
+  exportErrorText,
+  exportImage,
+  exportLayeredZip
 })
 
 onMounted(() => {
@@ -288,15 +282,6 @@ function isCurrentRender(serial: number) {
   height: 100%;
   object-fit: contain;
   image-rendering: auto;
-}
-
-.nsplate-canvas-area__error {
-  margin: 8px 0 0;
-  color: var(--ns-color-danger);
-  font-family: var(--ns-font-sans);
-  font-size: 12px;
-  font-weight: 850;
-  text-align: center;
 }
 
 @media (max-width: 560px) {

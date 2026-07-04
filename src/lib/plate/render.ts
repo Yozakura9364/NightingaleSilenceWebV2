@@ -11,8 +11,10 @@ import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage,
+  NSPlateCustomPortraitPopoutLayerAnchor,
   NSPlatePortraitSide
 } from '@/lib/plate/types'
+import { NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR } from '@/lib/plate/types'
 
 export interface NSPlateCanvasDimensions {
   width: number
@@ -206,6 +208,11 @@ export function getPlateRenderLayerNames(plan: NSPlateRenderPlan) {
       names.push(...segment.layers.map((layer) => layer.legacyName))
     } else if (segment.type === 'infoGraphicLayers') {
       names.push(...segment.layers.map((layer) => layer.legacyName))
+    } else if (
+      segment.type === 'customPortraitPopout' &&
+      segment.customPortrait?.mode === 'popout'
+    ) {
+      names.push(`${NSPLATE_CUSTOM_PORTRAIT_LAYER_KEY}:popout`)
     }
   }
 
@@ -215,6 +222,14 @@ export function getPlateRenderLayerNames(plan: NSPlateRenderPlan) {
 export function getNameplateRenderSegments(
   plan: NSPlateNameplateRenderPlan
 ): NSPlateNameplateRenderSegment[] {
+  const popoutAnchor = getCustomPortraitPopoutLayerAnchor(plan.customPortrait)
+  const popoutSegment = {
+    type: 'customPortraitPopout',
+    customPortrait: plan.customPortrait,
+    portraitEmbed: plan.portraitEmbed,
+    dimensions: plan.dimensions
+  } satisfies NSPlateNameplateRenderSegment
+
   return [
     { type: 'systemLayers', layers: plan.baseLayers },
     {
@@ -224,21 +239,29 @@ export function getNameplateRenderSegments(
       portraitOverlayLayers: plan.portraitOverlayLayers,
       portraitEmbed: plan.portraitEmbed
     },
+    ...(popoutAnchor === 'behindFrames' ? [popoutSegment] : []),
     { type: 'systemLayers', layers: plan.overlayLayers.slice(0, 1) },
     {
       type: 'systemLayers',
       layers: plan.portraitFrameLayer ? [plan.portraitFrameLayer] : []
     },
-    {
-      type: 'customPortraitPopout',
-      customPortrait: plan.customPortrait,
-      portraitEmbed: plan.portraitEmbed,
-      dimensions: plan.dimensions
-    },
+    ...(popoutAnchor === 'aboveFrames' ? [popoutSegment] : []),
     { type: 'systemLayers', layers: plan.overlayLayers.slice(1) },
+    ...(popoutAnchor === 'aboveDecorations' ? [popoutSegment] : []),
     { type: 'infoGraphicLayers', layers: plan.infoGraphicLayers },
-    { type: 'infoTextLayers', layers: plan.infoTextLayers, dimensions: plan.dimensions }
+    { type: 'infoTextLayers', layers: plan.infoTextLayers, dimensions: plan.dimensions },
+    ...(popoutAnchor === 'front' ? [popoutSegment] : [])
   ]
+}
+
+function getCustomPortraitPopoutLayerAnchor(
+  customPortrait: NSPlateCustomPortraitImage | null
+): NSPlateCustomPortraitPopoutLayerAnchor {
+  if (customPortrait?.mode !== 'popout') {
+    return NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR
+  }
+
+  return customPortrait.popoutLayerAnchor ?? NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR
 }
 
 export function getPlateLayerImageUrl(layer: NSPlateRenderImageLayer) {
