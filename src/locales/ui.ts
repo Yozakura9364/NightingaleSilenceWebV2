@@ -841,6 +841,241 @@ export const uiMessages: UiMessageMap = {
   'nsplate.tab.portrait': msg({ zh: '肖像', en: 'Portrait', ja: 'ポートレート', ko: '초상화' }),
   'nsplate.tab.nameplate': msg({ zh: '铭牌', en: 'Nameplate', ja: 'ネームプレート', ko: '명패' }),
   'nsplate.tab.info': msg({ zh: '信息', en: 'Info', ja: '情報', ko: '정보' }),
+  'nsplate.info.preset': msg({
+    zh: '信息预设',
+    en: 'Info preset',
+    ja: '情報プリセット',
+    ko: '정보 프리셋'
+  }),
+  'nsplate.info.fields': msg({
+    zh: '信息字段',
+    en: 'Info fields',
+    ja: '情報フィールド',
+    ko: '정보 필드'
+  }),
+  'plate.info.layerType.text': msg({ zh: '文字', en: 'Text', ja: 'テキスト', ko: '텍스트' }),
+  'plate.info.layerType.icon': msg({ zh: '图标', en: 'Icon', ja: 'アイコン', ko: '아이콘' }),
+  'plate.info.layerType.special': msg({
+    zh: '队徽',
+    en: 'Crest',
+    ja: 'クレスト',
+    ko: '문장'
+  }),
+  'plate.info.layerType.fixed': msg({ zh: '固定', en: 'Fixed', ja: '固定', ko: '고정' }),
+  'plate.info.layerType.bar48': msg({
+    zh: '多选',
+    en: 'Multi',
+    ja: '複数選択',
+    ko: '다중 선택'
+  }),
+  'plate.info.preset.phantomTide': msg({
+    zh: '幻海流',
+    en: 'Phantom Tide',
+    ja: '幻海流',
+    ko: '환해류'
+  }),
+  'plate.info.preset.china': msg({ zh: '国服', en: 'China', ja: '中国版', ko: '중국 서버' }),
+  'plate.info.preset.international': msg({
+    zh: '国际服',
+    en: 'International',
+    ja: 'グローバル版',
+    ko: '글로벌 서버'
+  }),
+  'plate.info.field.title': msg({ zh: '称号', en: 'Title', ja: '称号', ko: '칭호' }),
+  'plate.info.field.characterName': msg({
+    zh: '角色名',
+    en: 'Character name',
+    ja: 'キャラクター名',
+    ko: '캐릭터 이름'
+  }),
+  'plate.info.field.world': msg({ zh: '服务器', en: 'World', ja: 'ワールド', ko: '월드' }),
+  'plate.info.field.classJobIcon': msg({
+    zh: '职业图标',
+    en: 'Class/Job icon',
+    ja: 'クラス/ジョブアイコン',
+    ko: '클래스/잡 아이콘'
+  }),
+  'plate.info.field.level': msg({ zh: '等级', en: 'Level', ja: 'レベル', ko: '레벨' }),
+  'plate.info.field.classJobName': msg({
+    zh: '职业名',
+    en: 'Class/Job name',
+    ja: 'クラス/ジョブ名',
+    ko: '클래스/잡 이름'
+  }),
+  'plate.info.field.rankIcon': msg({ zh: '军衔', en: 'Rank', ja: '階級', ko: '계급' }),
+  'plate.info.field.rankName': msg({
+    zh: '军衔名称',
+    en: 'Rank name',
+    ja: '階級名',
+    ko: '계급명'
+  }),
+  'plate.info.field.crest': msg({
+    zh: '部队队徽',
+    en: 'Free Company crest',
+    ja: 'フリーカンパニークレスト',
+    ko: '자유부대 문장'
+  }),
+  'plate.info.field.communityName': msg({
+    zh: '部队名称',
+    en: 'Free Company name',
+    ja: 'フリーカンパニー名',
+    ko: '자유부대 이름'
+  }),
+  'plate.info.field.scheduleCells': msg({
+    zh: '作息选择',
+    en: 'Schedule cells',
+    ja: '活動時間選択',
+    ko: '활동 시간 선택'
+  }),
+  'plate.info.field.searchComment': msg({
+    zh: '个性签名',
+    en: 'Search comment',
+    ja: 'サーチコメント',
+    ko: '검색 코멘트'
+  }),
+  'plate.info.field.timeIcon': msg({
+    zh: '时间图标',
+    en: 'Time icon',
+    ja: '時間アイコン',
+    ko: '시간 아이콘'
+  }),
+  'plate.info.field.scheduleNumber': msg({
+    zh: '作息数字',
+    en: 'Schedule numbers',
+    ja: '活動時間数字',
+    ko: '활동 시간 숫자'
+  }),
+  'plate.info.field.scheduleText': msg({
+    zh: '作息文字',
+    en: 'Schedule labels',
+    ja: '活動時間ラベル',
+    ko: '활동 시간 라벨'
+  }),
+  'plate.info.field.searchCommentIcon': msg({
+    zh: '个签图标',
+    en: 'Search comment icon',
+    ja: 'サーチコメントアイコン',
+    ko: '검색 코멘트 아이콘'
+  }),
+  'plate.info.field.activityIcon': msg({
+    zh: '活动图标',
+    en: 'Activity icon',
+    ja: '活動アイコン',
+    ko: '활동 아이콘'
+  }),
+  'plate.info.field.classJobEnglishName': msg({
+    zh: '英文职业名',
+    en: 'English class/job name',
+    ja: '英語クラス/ジョブ名',
+    ko: '영문 클래스/잡 이름'
+  }),
+  'plate.info.field.cnTitle': msg({
+    zh: '中文标题',
+    en: 'Chinese title',
+    ja: '中国語タイトル',
+    ko: '중국어 제목'
+  }),
+  'plate.info.field.enTitle': msg({
+    zh: '英文标题',
+    en: 'English title',
+    ja: '英語タイトル',
+    ko: '영어 제목'
+  }),
+  'plate.info.field.bodyCopyOne': msg({ zh: '文案1', en: 'Copy 1', ja: '本文1', ko: '문안 1' }),
+  'plate.info.field.decorIconOne': msg({
+    zh: '装饰图标1',
+    en: 'Decor icon 1',
+    ja: '装飾アイコン1',
+    ko: '장식 아이콘 1'
+  }),
+  'plate.info.field.bodyCopyTwo': msg({ zh: '文案2', en: 'Copy 2', ja: '本文2', ko: '문안 2' }),
+  'plate.info.field.decorIconTwo': msg({
+    zh: '装饰图标2',
+    en: 'Decor icon 2',
+    ja: '装飾アイコン2',
+    ko: '장식 아이콘 2'
+  }),
+  'plate.info.bar48.actions': msg({
+    zh: '作息条状态操作',
+    en: 'Schedule bar actions',
+    ja: '活動時間バー操作',
+    ko: '활동 시간 바 작업'
+  }),
+  'plate.info.bar48.allEmpty': msg({
+    zh: '全空',
+    en: 'Clear all',
+    ja: 'すべて空',
+    ko: '전체 비우기'
+  }),
+  'plate.info.bar48.allOn': msg({
+    zh: '全亮',
+    en: 'Fill all',
+    ja: 'すべて点灯',
+    ko: '전체 켜기'
+  }),
+  'plate.info.bar48.stateSelect': msg({
+    zh: '作息条选择',
+    en: 'Schedule bar selection',
+    ja: '活動時間バー選択',
+    ko: '활동 시간 바 선택'
+  }),
+  'plate.info.bar48.cellPrefix': msg({
+    zh: '第 ',
+    en: 'Cell ',
+    ja: '',
+    ko: ''
+  }),
+  'plate.info.bar48.cellSeparator': msg({
+    zh: ' 格：',
+    en: ': ',
+    ja: '番：',
+    ko: '번: '
+  }),
+  'plate.info.bar48.cellOn': msg({ zh: '实心', en: 'filled', ja: '点灯', ko: '켜짐' }),
+  'plate.info.bar48.cellOff': msg({ zh: '空心', en: 'empty', ja: '空', ko: '비어 있음' }),
+  'plate.info.icon.material': msg({ zh: '素材', en: 'Material', ja: '素材', ko: '소재' }),
+  'plate.info.icon.selectedCount': msg({
+    zh: '已选',
+    en: 'Selected',
+    ja: '選択済み',
+    ko: '선택됨'
+  }),
+  'plate.info.special.background': msg({
+    zh: '寓意背景',
+    en: 'Meaning background',
+    ja: '寓意背景',
+    ko: '의미 배경'
+  }),
+  'plate.info.special.mask': msg({
+    zh: '上色蒙版',
+    en: 'Tint mask',
+    ja: '着色マスク',
+    ko: '채색 마스크'
+  }),
+  'plate.info.special.symbol': msg({
+    zh: '寓意物',
+    en: 'Meaning symbol',
+    ja: '寓意物',
+    ko: '의미 상징'
+  }),
+  'plate.info.special.noBackground': msg({
+    zh: '不使用背景',
+    en: 'No background',
+    ja: '背景なし',
+    ko: '배경 없음'
+  }),
+  'plate.info.special.noMask': msg({
+    zh: '不使用蒙版',
+    en: 'No mask',
+    ja: 'マスクなし',
+    ko: '마스크 없음'
+  }),
+  'plate.info.special.maskNeedsBackground': msg({
+    zh: '先选择背景后再选择蒙版',
+    en: 'Choose a background before selecting a mask',
+    ja: '先に背景を選択してください',
+    ko: '먼저 배경을 선택하세요'
+  }),
   'nsplate.panel.config': msg({
     zh: 'NSPlate 配置',
     en: 'NSPlate config',
@@ -956,6 +1191,42 @@ export const uiMessages: UiMessageMap = {
     en: 'Clear all selections',
     ja: 'すべての選択をクリア',
     ko: '모든 선택 지우기'
+  }),
+  'nsplate.config.import': msg({
+    zh: '导入配置',
+    en: 'Import config',
+    ja: '設定をインポート',
+    ko: '설정 가져오기'
+  }),
+  'nsplate.config.importInput': msg({
+    zh: '选择旧 NSPlate 配置 JSON',
+    en: 'Choose a legacy NSPlate config JSON',
+    ja: '旧NSPlate設定JSONを選択',
+    ko: '이전 NSPlate 설정 JSON 선택'
+  }),
+  'nsplate.config.importSuccess': msg({
+    zh: '配置已导入',
+    en: 'Config imported',
+    ja: '設定をインポートしました',
+    ko: '설정을 가져왔습니다'
+  }),
+  'nsplate.config.importPartial': msg({
+    zh: '已导入当前版本支持的配置；未迁移的信息层或缺失素材暂时跳过',
+    en: 'Supported config was imported; unmigrated info layers or missing assets were skipped.',
+    ja: '現在対応している設定をインポートしました。未移行の情報レイヤーまたは不足素材はスキップしました。',
+    ko: '현재 지원되는 설정을 가져왔습니다. 아직 이전되지 않은 정보 레이어나 누락 소재는 건너뛰었습니다.'
+  }),
+  'nsplate.config.importUnsupported': msg({
+    zh: '这个文件不是网页配置；如果是分层 ZIP，请导入里面的 composer-config.json',
+    en: 'This is not a web config. If it came from a layered ZIP, import composer-config.json inside it.',
+    ja: 'これはWeb設定ではありません。レイヤーZIPの場合は中のcomposer-config.jsonをインポートしてください。',
+    ko: '웹 설정 파일이 아닙니다. 레이어 ZIP이라면 내부의 composer-config.json을 가져오세요.'
+  }),
+  'nsplate.config.importError': msg({
+    zh: '配置导入失败，请确认文件来自旧铭牌工房',
+    en: 'Config import failed. Check that the file came from the legacy nameplate editor.',
+    ja: '設定のインポートに失敗しました。旧ネームプレート工房のファイルか確認してください。',
+    ko: '설정 가져오기에 실패했습니다. 이전 명패 편집기에서 나온 파일인지 확인하세요.'
   }),
   'nsplate.export.png': msg({
     zh: '导出 PNG',

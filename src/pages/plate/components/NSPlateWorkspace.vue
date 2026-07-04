@@ -15,13 +15,17 @@
         :api-base="boundary.apiBase"
         :mode="activeCanvasMode"
         :selected-assets="selectedAssets"
+        :asset-groups="assetGroups"
         :custom-portrait="customPortrait"
+        :info-draft="infoDraft"
         :can-clear-custom-portrait="customPortrait !== null"
         :can-clear-all="hasAnySelection"
+        :can-import-config="!isImportingLegacyConfig"
         :selection-note-title="t(textKeys.nsplateCurrentCombination)"
         :selection-note-items="selectionNoteItems"
         @clear-custom-portrait="clearCustomPortrait"
         @clear-all="clearWorkbenchSelections"
+        @import-config="triggerLegacyConfigImport"
         @focus-asset-section="focusAssetSection"
       />
 
@@ -47,25 +51,31 @@
         </template>
 
         <template v-else>
-          <AppStatus
-            tone="info"
-            :title="t(textKeys.placeholder)"
-            :message="t(textKeys.placeholder)"
-          />
+          <NSPlateInfoPanel v-model="infoDraft" :asset-groups="assetGroups" />
         </template>
       </NSPlateConfigPanel>
     </div>
+
+    <input
+      ref="legacyConfigFileInputRef"
+      class="nsplate-workspace__file-input"
+      type="file"
+      accept="application/json,.json,text/plain,.txt"
+      :aria-label="t(textKeys.nsplateImportConfigInput)"
+      @change="importLegacyConfigFile"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
+import { NSPLATE_NAMEPLATE_PRESET_CATEGORIES, NSPLATE_PORTRAIT_CATEGORIES } from '@/lib/plate/draft'
+import { createNSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import {
-  NSPLATE_NAMEPLATE_PRESET_CATEGORIES,
-  NSPLATE_PORTRAIT_CATEGORIES
-} from '@/lib/plate/draft'
+  NSPlateLegacyConfigImportError,
+  importNSPlateLegacyConfigText
+} from '@/lib/plate/legacyConfig'
 import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import { useNSPlateData } from '@/pages/plate/composables/useNSPlateData'
@@ -75,6 +85,7 @@ import { useNSPlateSelectionNote } from '@/pages/plate/composables/useNSPlateSel
 import NSPlateAssetPanel from '@/pages/plate/components/NSPlateAssetPanel.vue'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 import NSPlateConfigPanel from '@/pages/plate/components/NSPlateConfigPanel.vue'
+import NSPlateInfoPanel from '@/pages/plate/components/NSPlateInfoPanel.vue'
 import NSPlatePresetPanel from '@/pages/plate/components/NSPlatePresetPanel.vue'
 import NSPlatePortraitUpload from '@/pages/plate/components/NSPlatePortraitUpload.vue'
 import NSPlateResizeHandle from '@/pages/plate/components/NSPlateResizeHandle.vue'
@@ -107,11 +118,15 @@ const {
 
 const { panelStyle, resizePanelBy, startPanelResize } = useNSPlatePanelResize()
 const customPortrait = ref<NSPlateCustomPortraitImage | null>(null)
+const infoDraft = ref(createNSPlateInfoDraft())
+const legacyConfigFileInputRef = ref<HTMLInputElement | null>(null)
+const isImportingLegacyConfig = ref(false)
 
 useNSPlateDraftPersistence({
   selectedPresetIdsByKind,
   selectedAssetIdsByCategory,
-  customPortrait
+  customPortrait,
+  infoDraft
 })
 
 const tabs = computed<{ value: NSPlatePanelTab; label: string }[]>(() => [
@@ -140,12 +155,11 @@ const activeAssetGroups = computed(() =>
       group.scope === activeAssetScope.value && activeAssetCategories.value.includes(group.category)
   )
 )
-const { selectionNoteItems, assetPanelFocusRequest, focusAssetSection } =
-  useNSPlateSelectionNote({
-    assetGroups,
-    selectedAssetIdsByCategory,
-    activeTab,
-    activeCanvasMode
+const { selectionNoteItems, assetPanelFocusRequest, focusAssetSection } = useNSPlateSelectionNote({
+  assetGroups,
+  selectedAssetIdsByCategory,
+  activeTab,
+  activeCanvasMode
 })
 const activeSelectedPresetId = computed(() => selectedPresetIdsByKind.value[activePresetKind.value])
 const hasAnySelection = computed(
@@ -179,6 +193,65 @@ function clearWorkbenchSelections() {
 
 function clearCustomPortrait() {
   customPortrait.value = null
+}
+
+function triggerLegacyConfigImport() {
+  if (isImportingLegacyConfig.value) {
+    return
+  }
+
+  legacyConfigFileInputRef.value?.click()
+}
+
+async function importLegacyConfigFile(event: Event) {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0] ?? null
+  input.value = ''
+
+  if (!file) {
+    return
+  }
+
+  isImportingLegacyConfig.value = true
+
+  try {
+    const result = await importNSPlateLegacyConfigText(await file.text(), {
+      presets: presets.value,
+      assetGroups: assetGroups.value
+    })
+
+    selectedPresetIdsByKind.value = result.selectedPresetIdsByKind
+    selectedAssetIdsByCategory.value = result.selectedAssetIdsByCategory
+    customPortrait.value = result.customPortrait
+
+    if (
+      result.activePanel === 'portrait' ||
+      result.activePanel === 'nameplate' ||
+      result.activePanel === 'info'
+    ) {
+      activeTab.value = result.activePanel
+    }
+
+    window.alert(
+      t(
+        result.missingAssetCount > 0 || result.ignoredInfoLayerCount > 0
+          ? textKeys.nsplateImportConfigPartial
+          : textKeys.nsplateImportConfigSuccess
+      )
+    )
+  } catch (error) {
+    window.alert(t(importLegacyConfigErrorKey(error)))
+  } finally {
+    isImportingLegacyConfig.value = false
+  }
+}
+
+function importLegacyConfigErrorKey(error: unknown) {
+  if (error instanceof NSPlateLegacyConfigImportError && error.code === 'zip-manifest') {
+    return textKeys.nsplateImportConfigUnsupported
+  }
+
+  return textKeys.nsplateImportConfigError
 }
 </script>
 
@@ -216,6 +289,17 @@ function clearCustomPortrait() {
   height: 38px;
   border: 1px solid var(--ns-color-border);
   background: linear-gradient(90deg, var(--ns-color-surface), rgba(99, 217, 220, 0.14));
+}
+
+.nsplate-workspace__file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .nsplate-main {

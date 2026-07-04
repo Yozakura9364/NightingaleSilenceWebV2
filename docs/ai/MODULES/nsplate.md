@@ -53,13 +53,33 @@
 
 2026-07-04 已完成第十九段 V2 草稿本地缓存：新增 `useNSPlateDraftPersistence.ts`，使用 V2 私有 localStorage 键 `nsplate.draft.v1` 缓存当前已迁移的草稿状态，包括肖像/铭牌预设 id、各素材系列选中项和自定义肖像图片。预设 id 改为不依赖本地化显示名的稳定形式，避免切换语言后缓存失效。自定义肖像如果序列化体积过大，会跳过图片缓存但保留预设和素材选择。此切片不读取旧 `iconComposer.ui.config.v1`，旧配置和旧 JSON 兼容仍需后续 adapter 单独迁移。
 
-2026-07-04 已完成第二十段当前组合便签功能骨架：新增 `NSPlateSelectionNote.vue`，在画布区显示可折叠的当前素材组合清单；默认收起为一个小像素图标，已有选择时显示 `图标 + 进度`，展开后采用“部件名 + 素材名”两行结构以避免右侧标题行被长日文/长素材名挤压；点击清单项会切换到对应肖像/铭牌 tab，并展开、滚动到右侧素材分组。当前只完成功能骨架和临时低干扰样式，正式像素记事本视觉待 Style Lab 定稿后再接入。
+2026-07-04 已完成第二十段当前组合便签功能骨架：新增 `NSPlateSelectionNote.vue`，在画布区显示可折叠的当前素材组合清单；默认收起为一个小像素图标，已有选择时显示 `图标 + 进度`，点击清单项会切换到对应肖像/铭牌 tab，并展开、滚动到右侧素材分组。视觉已在后续切片接入公共 `AppNotebookList` 记事本式列表，避免继续使用临时软卡片样式。
 
 2026-07-04 已完成第二十一段 NSPlate 耦合治理：`NSPlateLayeredExportPayload` 等导出契约类型移动到 `src/lib/plate/types.ts`，避免 API service 依赖浏览器 ZIP 实现；新增 `useNSPlateCanvasExport.ts`，把 PNG/JPG/分层 ZIP 导出编排、错误文案和旧后端 fallback 从 `NSPlateCanvasArea.vue` 抽出；`render.ts` 新增 `getNameplateRenderSegments()` 作为预览和分层导出的统一顺序来源，避免后续信息层、出框层级和素材层顺序出现“预览对但导出错”；素材 id 改为不依赖 API 返回顺序的稳定形式，并保留旧 index 型 id 兼容，使已有 V2 draft 可在素材加载后自动归一。
 
 2026-07-04 已完成第二十二段前端 ZIP 封装拆分：新增 `src/lib/plate/zipArchive.ts`，把无压缩 ZIP 的 header、central directory、CRC32 和二进制拼装从 `layeredExport.ts` 拆出为纯工具函数；`layeredExport.ts` 只保留 NSPlate 业务语义，包括图层收集、图层贴到完整铭牌画布和调用 ZIP 工具。此切片不改变 ZIP 条目命名、图层顺序、前端优先/后端 fallback 策略或导出 UI。
 
 2026-07-04 已完成第二十三段当前组合便签逻辑拆分：新增 `useNSPlateSelectionNote.ts`，把当前组合便签的条目 view-model、未选择文案 fallback、点击便签后切换 `肖像/铭牌` tab 并请求右侧素材分组聚焦的逻辑从 `NSPlateWorkspace.vue` 拆出。`NSPlateWorkspace.vue` 继续只负责工作台布局、数据源接线和清空动作。此切片不改变便签 UI、折叠行为、素材选择或画布渲染。
+
+2026-07-04 已完成第二十四段裁切弹窗交互逻辑拆分：新增 `useNSPlateCropInteraction.ts`，把裁切弹窗的本地裁切状态副本、预览 canvas ref、缩放/分界线滑块、滚轮缩放、图片拖拽、出框分界线拖拽和模式切换逻辑从 `NSPlateCropDialog.vue` 拆出。`NSPlateCropDialog.vue` 继续负责弹窗 UI、文案、本地化、确认和取消事件；`src/lib/plate/customPortrait.ts` 继续负责裁切算法和预览绘制。此切片不改变裁切结果、出框预览、样式或父级上传流程。
+
+2026-07-04 已完成第二十五段旧配置导入兼容切片：新增 `src/lib/plate/legacyConfig.ts`，支持读取旧 `NSPortable` 完整 JSON 和 `IC1?` 紧凑参数串，并只把当前 V2 已迁移字段转成 `nsplate.draft.v1` 对应状态：肖像/铭牌预设、系统素材系列选择和旧标准自定义肖像。`NSPlateCanvasActions.vue` 在画布下方操作条接入“导入配置”文件入口；`NSPlateWorkspace.vue` 负责把导入结果写入当前草稿和当前 tab。此切片不会导入信息层、PSD/JSX 相关配置、旧主题、视口缩放或未迁移字段；缺失素材和信息层会被跳过并提示为部分导入。
+
+2026-07-04 已完成第二十六段信息层模型前置切片：新增 `src/lib/plate/infoLayers.ts` 和 `NSPlateInfoPanel.vue`，把 `国际服`、`国服`、`幻海流` 信息预设的固定字段定义转成 V2 草稿模型，并在信息 tab 中提供预设切换、图层启用状态和文字字段内容编辑。信息字段标题继续来自 `infoLayerFields.ts` 的稳定 `slotId + labelKey`，旧配置里的 `layer.name` 不允许覆盖 V2 固定显示标题；`useNSPlateDraftPersistence.ts` 开始把 `infoDraft` 写入 `nsplate.draft.v1`，旧缓存缺少该字段时自动补默认信息草稿。信息字段卡片使用与素材系列相近的可展开/收起条目结构，文字层展开后显示 textarea，收起后只保留字段标题和内容摘要。此切片不迁移信息层 Canvas 渲染、图标/队徽/固定层/多选 bar 的素材选择、旧信息层配置导入或导出图层收集。
+
+2026-07-04 已完成第二十七段信息文字层渲染最小闭环：新增 `src/lib/plate/infoLayerRenderDefinitions.ts` 和 `src/lib/plate/infoLayerTextRenderer.ts`，把旧 `NSPortable` 的 `INFO_PRESET_DEFINITIONS` 中三套信息预设的文字层坐标、左右侧 `positionBySide`、字号、行高、缩放、对齐、描边和灰色投影接入 V2 canvas 渲染计划。`NSPlateCanvasArea.vue` 现在会把 `infoDraft` 传入 `createNameplateRenderPlan()`，编辑信息 tab 的文字后会刷新预览和扁平 PNG/JPG 导出；分层 ZIP 暂时把已渲染的信息文字合成到一个透明 `信息文字` 图层，避免导出漏掉文字或渲染段崩溃。此切片只迁移文字层，不迁移信息图标、队徽、固定图、多选 bar、旧字体资产、内联小图标、旧信息层配置导入和每个字段独立分层导出。
+
+2026-07-04 已完成第二十八段信息图标/固定图渲染最小闭环：`infoLayerRenderDefinitions.ts` 继续以旧 `NSPortable` 的 `INFO_PRESET_DEFINITIONS` 为唯一坐标来源，补入 `国际服`、`国服`、`幻海流` 中已确认的 `icon` 和 `fixed` 图片层定义，包括 `positionBySide`、`sourceCat/itemId/itemIds`、`targetSize/scale`、`width/height` 和 `opacity`。`NSPlateCanvasArea.vue` 通过已有 `/api/plate/files` 归一后的 `assetGroups` 解析职业图标、军衔图标、装饰图标和活动图标素材，不在渲染器里额外请求接口；固定图使用旧 `/img/ui/sprites/*` 路径。新增 `infoLayerImageRenderer.ts` 负责 Canvas 绘制，`layeredExport.ts` 会把信息图标/固定图作为独立 `info` 图层写入分层 ZIP。当前为保守迁移：没有新增图标选择 UI；信息层 state 中未填写 `itemId/path` 时使用旧预设默认值，用户可通过禁用该层隐藏；活动图标无默认选择所以默认不渲染。此切片不迁移 `special` 队徽、`bar48` 作息条、图标素材选择控件、旧信息层配置导入、逐文字字段独立 ZIP、旧字体资产和内联小图标。
+
+2026-07-04 已完成第二十九段 `bar48` 作息条渲染最小闭环：`infoLayerRenderDefinitions.ts` 在 `国际服`、`国服` 的共享信息预设中补入旧 `bar-1` 定义，坐标、左右侧位置、24 列、`20×44` 格子、`4px` 间距、`11px` 中缝以及 `ui/sprites/CharacterCard_3.png` / `CharacterCard_4.png` 均来自旧 `INFO_PRESET_DEFINITIONS` 和旧渲染器。`infoLayerImageRenderer.ts` 按旧逻辑绘制 48 个空格子，并在 state 为 `1` 时叠加填充格，保留旧默认素材组合的 `-1px` 填充偏移；`layeredExport.ts` 会把作息条作为独立 `info` 图层写入分层 ZIP。此切片只接通已存在的 `bar48` 草稿状态和默认全空渲染，不新增作息格子编辑 UI，不迁移 `special` 队徽，不迁移旧信息层配置导入中的 bar 参数扩展字段。
+
+2026-07-04 已完成第三十段 `special` 队徽渲染最小闭环：`infoLayerRenderDefinitions.ts` 在 `国际服`、`国服` 的共享信息预设中补入旧 `special-1` 定义，V2 正式显示名为“部队队徽”，旧配置兼容名为 `bd队徽`；默认 symbol 为 `091000_hr1.png`，背景和遮罩默认为空，坐标、左右侧位置、`80×80` 固定尺寸、缩放和默认遮罩颜色均来自旧 `INFO_PRESET_DEFINITIONS`。`infoLayerImageRenderer.ts` 按旧逻辑绘制队徽：有背景时先画背景，背景和遮罩同时存在时执行旧遮罩调色算法，最后绘制 symbol；`layeredExport.ts` 会把队徽作为独立 `info` 图层写入分层 ZIP。此切片只接通已存在的 `special` 草稿状态和默认队徽渲染，不新增队徽三类素材选择 UI，不迁移旧信息层配置导入中的队徽参数。
+
+2026-07-04 已完成第三十一段 `bar48` 作息条编辑最小闭环：`infoLayers.ts` 增加单格切换和全空/全亮状态更新函数，`NSPlateInfoPanel.vue` 在 `bar-1` 展开后显示 48 格作息条选择网格，状态会直接驱动当前 Canvas 预览和分层 ZIP 中的独立 `info` 图层。此切片只迁移旧 `toggleInfoBar48Cell()` / `setInfoBar48All()` 的用户编辑能力，不开放旧版 X/Y、单格尺寸、间距和透明度参数；这些参数继续以旧 `INFO_PRESET_DEFINITIONS` 为固定渲染契约，避免用户编辑坐标导致旧项目对齐回归。
+
+2026-07-04 已完成第三十二段 `special-1` 部队队徽素材选择最小闭环：`infoLayers.ts` 增加队徽背景、上色蒙版和寓意物素材更新函数；`NSPlateWorkspace.vue` 把旧 `/api/plate/files` 归一后的 `assetGroups` 传给 `NSPlateInfoPanel.vue`；信息 tab 中的“部队队徽”展开后提供“寓意背景 / 上色蒙版 / 寓意物”三组素材选择，背景和蒙版可清空，寓意物保持必选并沿用默认 `091000_hr1.png` fallback。注意：UI 显示名不带“国际服”前缀，但内部素材分类仍使用旧服务返回的 `国际服寓意背景`、`国际服上色蒙版`、`国际服寓意物` 作为匹配键。此切片只迁移旧 `setInfoSpecialLayerMaterial()` 的用户素材选择能力，不开放旧版 X/Y、尺寸、缩放、透明度和颜色参数；这些参数继续以旧 `INFO_PRESET_DEFINITIONS` 和当前渲染定义为固定契约，也不迁移旧信息层配置导入中的队徽参数。
+
+2026-07-04 已完成第三十三段 `icon` 图标素材选择最小闭环：`infoLayers.ts` 增加普通图标单选和活动图标多选状态更新函数，活动图标沿用旧 `INFO_ACTIVITY_ICON_MAX_COUNT = 6` 上限并同步维护 `itemId` 为第一个选中项；`infoLayerRenderDefinitions.ts` 显式导出活动图标分类常量并让渲染截断引用同一上限；`NSPlateInfoPanel.vue` 中 `icon` 信息层可展开并通过当前信息预设的 `sourceCat` 读取对应素材组，普通图标单选，活动图标多选且支持再次点击取消。职业图标等信息图标素材卡优先使用原图，避免旧服务缺少 `/img-preview/256/ui/sprites/class/*` 预览图时缩略图空白。此切片只迁移旧 `setInfoIconLayerMaterial()` / `toggleInfoIconLayerMaterial()` 的素材选择能力，不开放旧版 X/Y、尺寸、缩放、透明度和素材分类切换；坐标与渲染参数继续以旧 `INFO_PRESET_DEFINITIONS` 和当前渲染定义为固定契约。
 
 当前 V2 代码结构：
 
@@ -70,6 +90,8 @@ src/lib/plate/
 ├── draft.ts
 ├── exportCanvas.ts
 ├── infoLayerFields.ts
+├── infoLayers.ts
+├── legacyConfig.ts
 ├── layeredExport.ts
 ├── render.ts
 ├── types.ts
@@ -86,6 +108,7 @@ src/pages/plate/
 │   ├── useNSPlateDraftPersistence.ts
 │   ├── useNSPlateCanvasExport.ts
 │   ├── useNSPlateSelectionNote.ts
+│   ├── useNSPlateCropInteraction.ts
 │   └── useNSPlatePanelResize.ts
 └── components/
     ├── NSPlatePanel.vue
@@ -96,6 +119,7 @@ src/pages/plate/
     ├── NSPlateCanvasArea.vue
     ├── NSPlateCanvasActions.vue
     ├── NSPlateConfigPanel.vue
+    ├── NSPlateInfoPanel.vue
     ├── NSPlateResizeHandle.vue
     ├── NSPlatePortraitUpload.vue
     ├── NSPlatePresetPanel.vue
@@ -115,17 +139,23 @@ src/pages/plate/
 - `src/lib/plate/zipArchive.ts` 只负责浏览器端无压缩 ZIP 二进制封装；它不读取 NSPlate 图层模型、不访问 DOM、不决定导出文件名或 fallback 策略。
 - `src/lib/plate/render.ts` 的 `getNameplateRenderSegments()` 是铭牌预览和分层导出的统一图层顺序来源；新增信息层、出框层级锚点或素材层时必须先改这里，再让 renderer/export 消费同一顺序。
 - `src/lib/plate/infoLayerFields.ts` 负责维护旧 `国际服`、`国服`、`幻海流` 信息预设的固定字段定义，包括 `slotId`、旧字段名、V2 本地化 key、fallback 标题和游戏术语确认状态。
-- 信息层字段定义只能作为契约盘点和后续迁移资料，不得默认出现在 `#/ffxiv/plate` 正式工作台 UI；旧配置里的 `layer.name` 也不能覆盖 V2 固定显示字段名。
+- `src/lib/plate/infoLayers.ts` 负责信息层 V2 草稿模型、默认值、归一化、预设切换和字段内容更新；它只处理与 Vue 解耦的状态，不访问 DOM、不做 Canvas 渲染、不读取旧 localStorage。
+- `src/lib/plate/infoLayerRenderDefinitions.ts` 负责旧 `INFO_PRESET_DEFINITIONS` 中已迁移文字层的渲染契约数据；坐标、左右侧位置、字号、行高、缩放、对齐等字段必须逐项来源于旧项目，不允许在 V2 中按视觉重新推导。
+- `src/lib/plate/infoLayerTextRenderer.ts` 负责信息文字层的 Canvas 绘制。当前只覆盖文字层最小闭环；旧字体资产、内联小图标、图标/队徽/固定图/bar48 和更完整的 OpenType 特性后续单独迁移。
+- 信息层字段可以进入 `NSPlateInfoPanel.vue` 正式 UI，但标题必须来自固定字段定义和本地化 key。旧配置里的 `layer.name` 只可作为兼容输入线索，不能覆盖 V2 固定显示字段名。
+- `src/lib/plate/legacyConfig.ts` 负责旧 `NSPortable` 配置导入适配。它可以解析旧完整 JSON 和 `IC1?` 紧凑参数串，但只输出 V2 当前已迁移的 draft 字段；信息层、旧主题、视口缩放、PSD/JSX 导出配置和其他未迁移字段必须继续留在后续切片处理，不直接污染当前工作台状态。
 - `NSPlatePanel.vue` 是 NSPlate 私有面板壳，承接右侧面板中“面板容器 + 标题 + 数量/状态”的重复样式；暂不提升到全站公共组件，等 NSGlamour 等工具页确实复用同类结构后再评估上移。
 - `NSPlateChoiceButton.vue` 是 NSPlate 私有可选项按钮，承接预设列表和素材 scope tab 的基础按钮壳、active 色和 label/meta 排版；素材缩略图卡、字段行和右侧 tab 暂时不纳入，避免过度抽象。
 - `NSPlateCanvasArea.vue` 当前负责预览外壳、真实 canvas DOM 挂载和渲染生命周期；可用尺寸测量和 frame style 来自 `useNSPlateCanvasFrame.ts`，画布尺寸、坐标和渲染计划来自 `src/lib/plate/render.ts`，实际绘制流程来自 `src/lib/plate/canvasRenderer.ts`。该组件仍不承接裁切弹窗、信息层、导出 payload 或缩放拖拽视口。
 - `useNSPlateSelectionNote.ts` 负责当前组合便签的数据条目和点击聚焦逻辑；`NSPlateWorkspace.vue` 不直接拼装便签 view-model，也不直接维护右侧素材分组聚焦 request id。
+- `useNSPlateCropInteraction.ts` 负责裁切弹窗交互状态，包括本地裁切副本、canvas 预览刷新、滑块、滚轮、拖拽取景、出框分界线拖拽和模式切换；`NSPlateCropDialog.vue` 不直接维护这些 DOM 交互细节，`customPortrait.ts` 不承担 Vue 状态。
 - `NSPlatePortraitUpload.vue` 当前只负责选择图片、展示已选文件和上报错误；文件读取、`512×840` 居中裁切和数据图生成来自 `src/lib/plate/customPortrait.ts`。它不直接做旧版裁切弹窗、拖拽取景、配置兼容或导出数据收集。
 - `NSPlatePreviewShell.vue` 当前只作为旧文件名兼容包装，后续新代码应直接使用 `NSPlateCanvasArea.vue`。
 - `NSPlateConfigPanel.vue` 承接右侧三 tab、滚动容器和配置面板边界；不包含具体预设、素材或信息层业务。
 - `NSPlateResizeHandle.vue` 和 `useNSPlatePanelResize.ts` 承接桌面端配置面板宽度调整，默认宽度 `420px`、最小宽度 `320px`、最大宽度 `52vw`，并写入 V2 私有键 `nsplate.configPanelWidthPx.v1`。
-- `useNSPlateDraftPersistence.ts` 负责 V2 当前草稿缓存，键名为 `nsplate.draft.v1`；它只缓存已迁移的预设、素材选择和自定义肖像，不读取旧 `iconComposer.ui.config.v1`。
-- 组件只展示真实预设、素材、自定义肖像入口、清空当前页面草稿的轻量操作和基础预览壳，不写旧配置迁移或旧 JSON 导入逻辑。
+- `useNSPlateDraftPersistence.ts` 负责 V2 当前草稿缓存，键名为 `nsplate.draft.v1`；它缓存已迁移的预设、素材选择、自定义肖像和信息层草稿，不读取旧 `iconComposer.ui.config.v1`。
+- `NSPlateInfoPanel.vue` 当前只负责信息预设选择、固定字段列表、启用状态和文字字段内容编辑；非文字字段只建立状态入口，不迁移图标素材、队徽、固定图或多选 bar 控件。
+- 组件只展示真实预设、素材、自定义肖像入口、信息字段草稿、清空当前页面草稿的轻量操作和基础预览壳，不把迁移统计、旧字段盘点或旧 JSON 内部结构暴露为正式 UI。
 - 右侧面板不得默认展示聚合数量、接口统计、缺失图层提示、旧字段盘点和废弃信息层；这些内容如需保留，只能进入隐藏调试区或文档样本。
 - 当前已发现迁移校验样本：预设 `以太空间` 声明 `肖像装饰框 #191001`、`肖像装饰物 #192001`，但当前 `/api/plate/files` 对应分类从 `191002`、`192002` 开始，V2 会在图层草稿里标记为缺失，后续需要核对旧数据、素材缺号规则或预设 fallback。
 
@@ -140,14 +170,14 @@ src/pages/plate/
 - 完整 Canvas 视口交互、hover overlay、缩放控件和信息层导出级图层数据收集。
 - 自定义肖像出框式透明 PNG 模式的 PSD/JSX 分层导出、旧配置读取、旧 JSON 导入兼容和导出 payload。
 - 出框角色层的用户可选层级锚点暂缓实现；待导出、信息层和旧配置兼容统一图层计划后再评估。
-- 信息图层的文本内容编辑、图标选择、字体参数、队徽、多选 bar、旧配置读取和 Canvas 渲染。
+- 信息图层的 Canvas 渲染、字体参数、图标选择、队徽、固定层、多选 bar、旧配置读取和导出图层收集。
 - PSD、JSX 导出；分层 ZIP 当前仅覆盖已迁移的系统素材层和自定义肖像层，尚未包含信息层和旧配置 JSON。当前 ZIP 优先使用 V2 前端无压缩打包器，旧后端导出接口只作为 fallback。
 - 旧 `NSPortable` 导出 API 如果启用 token，开发环境需要让 Vite 进程设置 `ICON_COMPOSER_API_TOKEN` 或 `NSPLATE_EXPORT_API_TOKEN`；生产反代也必须在服务端注入等价 header，不能把 token 暴露给浏览器。
-- 旧用户配置读取和迁移。
+- 旧用户配置自动迁移、本地旧键 `iconComposer.ui.config.v1` 读取、信息层旧配置迁移和完整配置导出。
 - 完整多语言 UI 文案加载。
 - 右侧面板内部 select、素材缩略图卡、字段行、右侧 tab 等仍有页面私有样式重复和硬编码文案，后续需要继续按“出现第三次再抽象”的规则整理。
 - 当前组合清单已迁到画布区便签骨架；右侧素材分组标题后续应继续轻量化，正式像素记事本视觉和完整清单信息密度待 Style Lab 定稿后再接入。
-- 当前信息层字段盘点包含旧 `NSPortable` 的历史/布局字段，例如 `bd队徽`、`作息选择`、`活动图标` 等；这些字段可以作为契约样本和定义表保留，但在正式 UI 中不得默认可见，必须先确认是否仍是用户需要的功能。
+- 当前信息层字段盘点包含旧 `NSPortable` 的历史/布局字段，例如旧 `bd队徽`、`bd名称`、`作息选择`、`活动图标` 等；这些字段可以作为契约样本和定义表保留。正式 UI 显示时必须走固定本地化标题，其中 `special-1` 正式显示为“部队队徽”，`text-7` 正式显示为“部队名称”，后续还需要确认哪些字段是真正需要完整编辑和渲染的功能。
 
 ## 定位
 
@@ -405,6 +435,7 @@ src/lib/plate/
 
 - 信息 tab 独立成为 `NSPlateInfoPanel`，不要塞进主工作台组件。
 - 固定字段名和本地化策略继续遵守“信息图层迁移规则”。
+- 信息层坐标必须与旧 `NSPortable` 完全一致；V2 不重新调坐标、不做近似摆放。
 - 迁移文本层、图标层、特殊层、固定层、多选 bar 的状态模型和渲染逻辑。
 - 恢复信息预设、显示/隐藏全部、重置、字体加载和每张信息层卡片展开。
 
@@ -430,6 +461,7 @@ src/lib/plate/info-layers/
 验证：
 
 - `国际服`、`国服`、`幻海流` 三套信息预设各有一组对照样本。
+- 每个信息图层的 `x`、`y`、`positionBySide.right/left`、尺寸、缩放和锚点必须逐项对照旧 `INFO_PRESET_DEFINITIONS`，不得用肉眼微调代替旧坐标。
 - 旧配置中的 `layer.name` 不覆盖 V2 固定字段显示名。
 - 字体、描边、阴影、图标、多选 bar 的渲染与旧项目对齐。
 
@@ -557,6 +589,14 @@ src/lib/plate/export/
 4. 无法确认是游戏术语的旧标题，先标记为迁移布局字段，仍然固定并本地化，但不要宣称来自游戏字段。
 5. 信息预设名也应本地化显示；旧内部名可作为 preset id 或兼容 key，不作为唯一用户可见文案来源。
 
+坐标规则：
+
+1. 信息层渲染坐标必须以旧 `../NSPortable/src/client/scripts/00-paths-and-constants.js` 中的 `INFO_PRESET_DEFINITIONS` 为唯一来源，优先读取每层的 `x`、`y`、`positionBySide.right`、`positionBySide.left`、`width`、`height`、`scale`、`targetSize` 等旧字段。
+2. V2 内部继续使用旧项目的 `2560×1440` 铭牌画布坐标系和 `512×840` 肖像画布坐标系；页面响应式只能缩放最终 canvas 显示尺寸，不能改变实际绘制坐标。
+3. 旧项目区分左右肖像侧时，V2 必须使用旧 `positionBySide` 对应坐标，不允许把 right 坐标平移推导成 left 坐标。
+4. 信息层文字、图标、队徽、固定图、多选 bar 的默认坐标、尺寸、行高、缩放、透明度和跟随关系都属于旧项目契约；迁移时只能做字段归一和类型补全，不能重新设计位置。
+5. 如果旧坐标看起来“不居中”或“不符合 V2 视觉”，仍以旧项目输出为准；除非用户明确要求校准新版布局，否则不得调整。
+
 旧预设字段盘点：
 
 | 旧预设                       | 旧字段名                                                                     | 迁移判断                                                                            |
@@ -564,7 +604,7 @@ src/lib/plate/export/
 | `国际服` / `国服`            | `称号`、`角色名`、`服务器`、`等级`、`职业名`、`军衔`、`军衔名称`、`个性签名` | 优先按游戏内角色资料/铭牌字段建立本地化 key，并核对各语言游戏术语。                 |
 | `国际服`                     | `英文职业名`                                                                 | 需要确认是否是国际服 UI 字段还是旧模板布局字段；确认前不可随意改名。                |
 | `国际服` / `国服` / `幻海流` | `职业图标`                                                                   | 作为固定字段名和素材分类名处理，旧兼容分类 `职业图标图层组` 仍需映射到 `职业图标`。 |
-| `国际服` / `国服`            | `bd队徽`、`bd名称`                                                           | 需要先确认游戏内正式术语；未确认前固定本地化但标记为待校准术语。                    |
+| `国际服` / `国服`            | 旧 `bd队徽`（V2 显示“部队队徽”）、旧 `bd名称`（V2 显示“部队名称”）           | `special-1` 已按部队队徽固定本地化；`text-7` 已按部队名称固定本地化。               |
 | `国际服` / `国服`            | `作息选择`、`时间图标`、`作息数字`、`作息文字`、`个签图标`、`活动图标`       | 更像旧信息卡布局/素材槽位，迁移时固定本地化，不让用户改标题。                       |
 | `幻海流`                     | `中文标题`、`英文标题`、`文案1`、`装饰图标1`、`文案2`、`装饰图标2`           | 更像模板布局槽位，不应当作游戏术语；可在用户确认后改成固定本地化标题。              |
 
@@ -638,6 +678,40 @@ src/lib/plate/
 - 不把旧 `NSPortable` 的暗色编辑器样式整套复制成 V2 全站样式。
 - 不把首页像素风装饰带入铭牌编辑器工作台。
 - 如果 NSPlate 与 NSGlamour 都需要同类工具页外壳，应沉淀到 `src/pages/ffxiv/components/` 或公共组件。
+
+### 当前 NSPlate 样式边界
+
+NSPlate 已经形成一部分业务私有样式，这些样式不要求直接调用公共组件，但必须遵守 `ARCHITECTURE_PLAN.md` 的“公共组件样式契约 v0.1”中定义的基础视觉语言。
+
+当前应保留为 NSPlate 私有样式的部分：
+
+- `NSPlateWorkspace.vue`：工作台主布局、加载骨架和错误状态。它决定左侧画布、resize handle、右侧配置面板的空间关系，不应提升为全站布局。
+- `NSPlateConfigPanel.vue`：右侧三 tab、滚动容器和配置面板宽度边界。它可以使用公共 `AppTabs`，但滚动区域、面板宽度和 sticky 行为属于 NSPlate。
+- `NSPlateCanvasArea.vue`：画布背景、棋盘透明底、画布 frame、预览居中和导出错误位置。这些直接服务 Canvas 预览，不应被公共面板样式覆盖。
+- `NSPlateCanvasActions.vue`：画布下方导出/清空操作条。它是工房画布操作条，不等同于通用 `AppToolbar`；后续如果 NSGlamour 出现同类画布操作条，再评估抽到 FFXIV 工具公共层。
+- `NSPlatePanel.vue`：右侧面板内部的小标题壳。它只解决 NSPlate 配置区内标题、meta 和堆叠间距，暂不提升为 `AppPanel`。
+- `NSPlateChoiceButton.vue`：NSPlate 私有选择按钮，用于预设列表、scope tab 等轻量选择项；它不代表全站按钮默认样式。
+- `NSPlateAssetSection.vue`：素材系列折叠区，包括展开后 header 置顶、选中素材名、箭头图标和右侧状态列。它是素材选择器信息架构的一部分。
+- `NSPlateAssetCard.vue`：素材缩略图卡。为了缩略图密度和素材名可读性，可以使用 `1px` 边框、紧凑 padding、轻量 active 装饰；不要强行改成大号 `AppButton`。
+- `NSPlatePortraitUpload.vue`：自定义肖像上传入口。它是“缩略图 + 文件名 + 隐藏 file input”的业务控件，可以保持私有结构。
+- `NSPlateCropDialog.vue`：裁切弹窗、Canvas 取景、滑块和模式切换属于高交互业务控件；只继承公共 token，不抽为公共组件。
+- `NSPlateResizeHandle.vue`：右侧面板拖拽手柄属于工作台布局交互，不进入公共按钮体系。
+- `NSPlateSelectionNote.vue`：当前组合便签保留画布区定位、折叠状态和素材聚焦逻辑，但展开列表视觉使用公共 `AppNotebookList`，避免在 NSPlate 内继续维护一套重复的记事本列表样式。
+
+当前可以直接使用或继续靠近公共组件的部分：
+
+- 右侧主 tab 使用 `AppTabs`。
+- 信息 tab 的占位状态使用 `AppStatus`。
+- 未来普通按钮、通用弹窗、表单项、提示条优先使用 `AppButton`、`AppPixelWindow`、`AppField`、`AppStatus`。
+- 如果新增的控件只是普通命令按钮或普通输入框，不要再写一套 NSPlate 私有按钮/输入样式。
+
+边界判断规则：
+
+1. 涉及 Canvas 尺寸、画布背景、素材缩略图、裁切取景、拖拽宽度、素材系列折叠、导出层级状态的样式，优先留在 NSPlate 私有组件。
+2. 涉及普通按钮、普通表单、普通状态、普通弹窗、普通 tab 的样式，优先用公共组件。
+3. NSPlate 内部的高密度控件可以使用 `1px` 内部分隔，但外层工作台边界、操作条、弹窗和公共控件仍应保持像素风 `2px` 边框语言。
+4. 不为了“统一”牺牲素材缩略图可读性、长素材名省略、右侧面板滚动稳定性或旧项目操作路径。
+5. 已确认的记事本式短文本列表优先使用公共 `AppNotebookList`；迁入具体业务组件时仍应保持原有业务逻辑、定位方式和画布区低干扰原则。
 
 ## 安全边界
 

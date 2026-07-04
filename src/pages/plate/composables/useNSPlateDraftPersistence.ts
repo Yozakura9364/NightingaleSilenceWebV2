@@ -1,5 +1,9 @@
 import { watch, type Ref } from 'vue'
 import type { NSPlateAssetSelectionMap } from '@/lib/plate/draft'
+import {
+  normalizeNSPlateInfoDraft,
+  type NSPlateInfoDraft
+} from '@/lib/plate/infoLayers'
 import type {
   NSPlateCustomPortraitImage,
   NSPlateCustomPortraitMode,
@@ -17,12 +21,14 @@ interface NSPlateStoredDraftV1 {
   selectedPresetIdsByKind: Record<NSPlatePresetKind, string | null>
   selectedAssetIdsByCategory: NSPlateAssetSelectionMap
   customPortrait: NSPlateCustomPortraitImage | null
+  infoDraft: NSPlateInfoDraft
 }
 
 interface UseNSPlateDraftPersistenceOptions {
   selectedPresetIdsByKind: Ref<Record<NSPlatePresetKind, string | null>>
   selectedAssetIdsByCategory: Ref<NSPlateAssetSelectionMap>
   customPortrait: Ref<NSPlateCustomPortraitImage | null>
+  infoDraft: Ref<NSPlateInfoDraft>
 }
 
 export function useNSPlateDraftPersistence(options: UseNSPlateDraftPersistenceOptions) {
@@ -32,13 +38,15 @@ export function useNSPlateDraftPersistence(options: UseNSPlateDraftPersistenceOp
     options.selectedPresetIdsByKind.value = draft.selectedPresetIdsByKind
     options.selectedAssetIdsByCategory.value = draft.selectedAssetIdsByCategory
     options.customPortrait.value = draft.customPortrait
+    options.infoDraft.value = draft.infoDraft
   }
 
   watch(
     () => ({
       selectedPresetIdsByKind: options.selectedPresetIdsByKind.value,
       selectedAssetIdsByCategory: options.selectedAssetIdsByCategory.value,
-      customPortrait: options.customPortrait.value
+      customPortrait: options.customPortrait.value,
+      infoDraft: options.infoDraft.value
     }),
     (nextDraft) => {
       writeNSPlateDraft(nextDraft)
@@ -71,7 +79,8 @@ export function readNSPlateDraft(): NSPlateStoredDraftV1 | null {
       savedAt: typeof parsed.savedAt === 'string' ? parsed.savedAt : '',
       selectedPresetIdsByKind: normalizePresetSelection(parsed.selectedPresetIdsByKind),
       selectedAssetIdsByCategory: normalizeAssetSelection(parsed.selectedAssetIdsByCategory),
-      customPortrait: normalizeCustomPortrait(parsed.customPortrait)
+      customPortrait: normalizeCustomPortrait(parsed.customPortrait),
+      infoDraft: normalizeNSPlateInfoDraft(parsed.infoDraft)
     }
   } catch {
     return null
@@ -92,7 +101,8 @@ export function writeNSPlateDraft(
     savedAt: new Date().toISOString(),
     selectedPresetIdsByKind: normalizePresetSelection(draft.selectedPresetIdsByKind),
     selectedAssetIdsByCategory: normalizeAssetSelection(draft.selectedAssetIdsByCategory),
-    customPortrait: sanitizeCustomPortraitForStorage(draft.customPortrait)
+    customPortrait: sanitizeCustomPortraitForStorage(draft.customPortrait),
+    infoDraft: normalizeNSPlateInfoDraft(draft.infoDraft)
   }
 
   try {
