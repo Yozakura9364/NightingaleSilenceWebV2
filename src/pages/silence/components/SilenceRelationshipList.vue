@@ -5,6 +5,7 @@
       :key="relationship.id"
       class="silence-character-card silence-character-card--link"
       :to="relationship.route"
+      :aria-label="`${t(textKeys.silenceCharacterRelationships)} ${relationship.name}`"
     >
       <span>{{ t(relationship.labelKey) }}</span>
       <strong>{{ relationship.name }}</strong>
@@ -14,6 +15,7 @@
 </template>
 
 <script setup lang="ts">
+import { textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
 
 export interface SilenceRelationshipCard {
