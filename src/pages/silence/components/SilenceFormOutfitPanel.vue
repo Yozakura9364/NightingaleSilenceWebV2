@@ -152,34 +152,53 @@ function createFormRoute(formId: string): RouteLocationRaw {
 <style scoped>
 .silence-form-outfit {
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
 .silence-form-outfit__form-tabs,
 .silence-form-outfit__outfit-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 4px 18px;
+  border-bottom: 1px solid rgba(42, 33, 56, 0.14);
 }
 
 .silence-form-outfit__form-tab,
 .silence-form-outfit__outfit-tabs button {
-  border: 2px solid rgba(42, 33, 56, 0.42);
+  position: relative;
+  border: 0;
   border-radius: 0;
-  background: rgba(255, 255, 255, 0.62);
-  color: #2c2338;
-  font-family: var(--ns-font-decorative);
-  font-size: 12px;
-  font-weight: 900;
+  background: transparent;
+  color: rgba(49, 40, 63, 0.6);
+  font-family: var(--ns-font-sans);
+  font-size: 13px;
+  font-weight: 760;
   text-decoration: none;
   cursor: pointer;
 }
 
+.silence-form-outfit__form-tab::after,
+.silence-form-outfit__outfit-tabs button::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: color-mix(in srgb, var(--silence-character-color), #2c2338 14%);
+  content: '';
+  opacity: 0;
+  transform: scaleX(0.48);
+  transform-origin: center;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
 .silence-form-outfit__form-tab {
   display: grid;
-  min-width: 128px;
+  min-width: 120px;
   gap: 2px;
-  padding: 8px 10px;
+  padding: 8px 0 10px;
 }
 
 .silence-form-outfit__form-tab small {
@@ -190,7 +209,7 @@ function createFormRoute(formId: string): RouteLocationRaw {
 }
 
 .silence-form-outfit__outfit-tabs button {
-  padding: 6px 9px;
+  padding: 8px 0 10px;
 }
 
 .silence-form-outfit__form-tab:hover,
@@ -199,16 +218,27 @@ function createFormRoute(formId: string): RouteLocationRaw {
 .silence-form-outfit__outfit-tabs button:hover,
 .silence-form-outfit__outfit-tabs button:focus-visible,
 .silence-form-outfit__outfit-tab--active {
-  background: color-mix(in srgb, var(--silence-character-color), #ffffff 66%);
+  color: #2c2338;
+  outline: none;
+}
+
+.silence-form-outfit__form-tab:hover::after,
+.silence-form-outfit__form-tab:focus-visible::after,
+.silence-form-outfit__form-tab--active::after,
+.silence-form-outfit__outfit-tabs button:hover::after,
+.silence-form-outfit__outfit-tabs button:focus-visible::after,
+.silence-form-outfit__outfit-tab--active::after {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .silence-form-outfit__form-card,
 .silence-form-outfit__outfit-card,
 .silence-form-outfit__preview,
 .silence-form-outfit__empty {
-  border: 2px solid rgba(42, 33, 56, 0.24);
+  border: 1px solid rgba(42, 33, 56, 0.14);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.48)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.52)),
     color-mix(in srgb, var(--silence-character-color), transparent 92%);
 }
 
@@ -216,18 +246,18 @@ function createFormRoute(formId: string): RouteLocationRaw {
 .silence-form-outfit__outfit-card,
 .silence-form-outfit__empty {
   display: grid;
-  gap: 10px;
-  padding: 16px;
+  gap: 12px;
+  padding: 18px;
 }
 
 .silence-form-outfit__form-card h3,
 .silence-form-outfit__outfit-card h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-display);
-  font-size: 26px;
-  font-weight: 950;
-  line-height: 1;
+  font-family: var(--ns-font-sans);
+  font-size: 22px;
+  font-weight: 820;
+  line-height: 1.2;
   letter-spacing: 0;
 }
 
@@ -241,14 +271,15 @@ function createFormRoute(formId: string): RouteLocationRaw {
 
 .silence-form-outfit__outfit-shell {
   display: grid;
-  grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
-  gap: 16px;
+  grid-template-columns: minmax(220px, 0.38fr) minmax(0, 1fr);
+  gap: 20px;
   align-items: stretch;
 }
 
 .silence-form-outfit__preview {
   display: grid;
   min-height: 280px;
+  aspect-ratio: 3 / 4;
   place-items: center;
   padding: 18px;
   text-align: center;
@@ -256,17 +287,17 @@ function createFormRoute(formId: string): RouteLocationRaw {
 
 .silence-form-outfit__preview span {
   color: #2c2338;
-  font-family: var(--ns-font-display);
-  font-size: clamp(30px, 4vw, 46px);
-  font-weight: 950;
-  line-height: 1;
+  font-family: var(--ns-font-sans);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 820;
+  line-height: 1.12;
 }
 
 .silence-form-outfit__preview small {
   color: rgba(49, 40, 63, 0.48);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-sans);
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 760;
 }
 
 .silence-form-outfit__outfit-detail {
