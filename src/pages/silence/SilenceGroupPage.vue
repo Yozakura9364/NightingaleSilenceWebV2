@@ -5,10 +5,6 @@
       :class="`silence-group-stage--${currentGroup.id}`"
       :aria-labelledby="`${currentGroup.id}-title`"
     >
-      <RouterLink class="silence-back" :to="siteRoutes.silence">
-        ← {{ t(textKeys.back) }}
-      </RouterLink>
-
       <div class="silence-group-stage__copy">
         <p class="ns-eyebrow">{{ t(textKeys.silence) }}</p>
         <h1 :id="`${currentGroup.id}-title`" class="ns-title">
@@ -19,77 +15,24 @@
         </p>
       </div>
 
-      <div class="silence-group-stage__visual" :aria-label="t(currentGroup.titleKey)">
-        <button
-          v-for="item in visualItems"
-          :key="item.id"
-          class="silence-group-stage__character"
-          :class="[
-            `silence-group-stage__character--${currentGroup.id}`,
-            `silence-group-stage__character--${currentGroup.id}-${item.slot}`,
-            { 'silence-group-stage__character--active': selectedVisualId === item.id }
-          ]"
-          type="button"
-          :aria-label="getSlotLabel(item)"
-          :aria-pressed="selectedVisualId === item.id"
-          @click="selectVisual(item.id)"
-          @focus="selectVisual(item.id)"
-          @mouseenter="selectVisual(item.id)"
-          @keydown.enter.prevent="openVisual(item)"
-          @keydown.space.prevent="openVisual(item)"
-          @keydown.left.prevent="selectPrevious"
-          @keydown.right.prevent="selectNext"
-        >
-          <template v-if="currentGroup.id === 'angel'">
-            <img
-              v-if="item.character?.portraitSrc"
-              class="silence-group-stage__portrait"
-              :src="item.character.portraitSrc"
-              alt=""
-              decoding="async"
-            />
-            <template v-else>
-              <span class="silence-group-stage__figure-head"></span>
-              <span class="silence-group-stage__figure-body"></span>
-            </template>
-          </template>
-          <template v-else>
-            <span class="silence-group-stage__window-bar"></span>
-            <span class="silence-group-stage__window-ghost"></span>
-            <span class="silence-group-stage__window-scan"></span>
-          </template>
-        </button>
-      </div>
+      <SilenceGroupVisual
+        :group-id="currentGroup.id"
+        :group-title="t(currentGroup.titleKey)"
+        :items="visualItems"
+        :selected-id="selectedVisualId"
+        @select="selectVisual"
+        @open="openVisual"
+        @previous="selectPrevious"
+        @next="selectNext"
+      />
 
-      <div class="silence-group-stage__nav" :aria-label="t(currentGroup.titleKey)">
-        <button
-          v-for="item in visualItems"
-          :key="item.id"
-          class="silence-group-stage__dot"
-          :class="{ 'silence-group-stage__dot--active': selectedVisualId === item.id }"
-          type="button"
-          :aria-label="getSlotLabel(item)"
-          :aria-pressed="selectedVisualId === item.id"
-          @click="selectVisual(item.id)"
-        ></button>
-      </div>
-
-      <aside class="silence-group-stage__info">
-        <span class="ns-status">{{ t(currentGroup.statusLabelKey) }}</span>
-        <strong>{{ activeVisual?.name ?? t(textKeys.placeholder) }}</strong>
-        <p>{{ activeSlot }} / {{ visualItems.length }}</p>
-        <p>{{ activeVisual?.character ? t(activeVisual.character.summaryKey) : t(textKeys.placeholder) }}</p>
-        <RouterLink
-          v-if="activeVisual?.character"
-          class="silence-group-stage__action"
-          :to="getSilenceCharacterRoute(activeVisual.character)"
-        >
-          {{ t(textKeys.enter) }}
-        </RouterLink>
-        <button v-else class="silence-group-stage__action" type="button" disabled>
-          {{ t(textKeys.enter) }}
-        </button>
-      </aside>
+      <SilenceTurnHint
+        :label="t(textKeys.silenceCharacterNavigation)"
+        :left-to="turnNeighbors.left?.route"
+        :left-label="leftTurnLabel"
+        :right-to="turnNeighbors.right?.route"
+        :right-label="rightTurnLabel"
+      />
     </section>
   </main>
 </template>
@@ -97,13 +40,16 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { silenceGroups, siteRoutes, textKeys } from '@/config/site'
+import { silenceGroups, textKeys } from '@/config/site'
 import {
   getSilenceCharacterRoute,
   getSilenceCharactersByGroup,
   type SilenceCharacter,
   type SilenceGroupId
 } from '@/data/silence/characters'
+import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilenceTurnNavigation'
+import SilenceGroupVisual from '@/pages/silence/components/SilenceGroupVisual.vue'
+import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { useLocale } from '@/stores/locale'
 
 const route = useRoute()
@@ -115,6 +61,9 @@ const currentGroup = computed(
   () => silenceGroups.find((group) => group.route === route.path) ?? silenceGroups[0]
 )
 const currentCharacters = computed(() => getSilenceCharactersByGroup(currentGroup.value.id))
+const { turnNeighbors, leftTurnLabel, rightTurnLabel } = useSilenceTurnNavigation(
+  () => route.path
+)
 const visualItems = computed(() => {
   if (currentCharacters.value.length > 0) {
     return currentCharacters.value.map((character, index) => ({
@@ -136,10 +85,6 @@ const visualItems = computed(() => {
     }
   })
 })
-const activeVisual = computed(
-  () => visualItems.value.find((item) => item.id === selectedVisualId.value) ?? visualItems.value[0]
-)
-const activeSlot = computed(() => activeVisual.value?.slot ?? 0)
 
 function selectVisual(id: string) {
   selectedVisualId.value = id
@@ -171,10 +116,6 @@ function openVisual(item: { character?: SilenceCharacter }) {
   if (item.character) {
     router.push(getSilenceCharacterRoute(item.character))
   }
-}
-
-function getSlotLabel(item: { name: string; slot: number }) {
-  return `${t(currentGroup.value.titleKey)} ${item.name} ${item.slot}`
 }
 
 function getFallbackSlotCount(groupId: SilenceGroupId) {
@@ -243,24 +184,6 @@ watch(
     repeating-linear-gradient(0deg, rgba(240, 128, 189, 0.08) 0 1px, transparent 1px 10px);
 }
 
-.silence-back {
-  position: absolute;
-  top: clamp(22px, 4vw, 44px);
-  left: clamp(18px, 5vw, 72px);
-  z-index: 8;
-  color: rgba(49, 40, 63, 0.68);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.silence-back:hover {
-  color: var(--ns-color-accent-strong);
-}
-
-.silence-group-page--glitch .silence-back {
-  color: rgba(248, 241, 255, 0.72);
-}
-
 .silence-group-stage__copy {
   position: relative;
   z-index: 6;
@@ -289,279 +212,6 @@ watch(
   color: rgba(248, 241, 255, 0.72);
 }
 
-.silence-group-stage__visual {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-}
-
-.silence-group-stage__character {
-  position: absolute;
-  z-index: 2;
-  display: block;
-  border: 0;
-  border-radius: 0;
-  padding: 0;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  filter: saturate(0.82) brightness(0.86);
-  transform: translateY(0) scale(1);
-  transition:
-    filter var(--ns-transition),
-    transform var(--ns-transition),
-    opacity var(--ns-transition);
-}
-
-.silence-group-stage__character:hover,
-.silence-group-stage__character:focus-visible,
-.silence-group-stage__character--active {
-  z-index: 5;
-  filter: saturate(1.1) brightness(1.08);
-  transform: translateY(-18px) scale(1.04);
-}
-
-.silence-group-stage__character:focus-visible {
-  box-shadow: 0 0 0 4px rgba(99, 217, 220, 0.36);
-}
-
-.silence-group-stage__figure-head,
-.silence-group-stage__figure-body {
-  display: block;
-  border: 2px solid rgba(42, 33, 56, 0.52);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(239, 111, 178, 0.2)),
-    var(--ns-color-cyan-soft);
-  box-shadow:
-    7px 7px 0 rgba(99, 217, 220, 0.2),
-    -4px -4px 0 rgba(239, 111, 178, 0.1);
-}
-
-.silence-group-stage__figure-head {
-  width: 34%;
-  aspect-ratio: 1;
-  margin: 0 auto -2px;
-  background: rgba(255, 250, 253, 0.9);
-}
-
-.silence-group-stage__figure-body {
-  width: 100%;
-  height: 100%;
-}
-
-.silence-group-stage__character--angel {
-  bottom: 6vh;
-  width: clamp(148px, 15vw, 286px);
-}
-
-.silence-group-stage__character--angel-1 {
-  left: 2%;
-  height: 66vh;
-}
-
-.silence-group-stage__character--angel-2 {
-  left: 15%;
-  height: 74vh;
-}
-
-.silence-group-stage__character--angel-3 {
-  left: 29%;
-  height: 66vh;
-}
-
-.silence-group-stage__character--angel-4 {
-  left: 43%;
-  height: 76vh;
-}
-
-.silence-group-stage__character--angel-5 {
-  left: 57%;
-  height: 66vh;
-}
-
-.silence-group-stage__character--angel-6 {
-  left: 70%;
-  height: 70vh;
-}
-
-.silence-group-stage__character--angel:nth-child(even) .silence-group-stage__figure-body {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(99, 217, 220, 0.2)),
-    var(--ns-color-accent-soft);
-}
-
-.silence-group-stage__portrait {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom center;
-  filter:
-    drop-shadow(0 24px 30px rgba(42, 33, 56, 0.2))
-    drop-shadow(0 0 24px rgba(255, 252, 255, 0.45));
-}
-
-.silence-group-page--angel .silence-group-stage__info {
-  top: clamp(130px, 18vh, 190px);
-  right: clamp(18px, 5vw, 72px);
-  bottom: auto;
-  left: auto;
-  width: min(360px, calc(100vw - 36px));
-}
-
-.silence-group-stage--glitch .silence-group-stage__visual::after {
-  position: absolute;
-  right: 8%;
-  bottom: 18%;
-  left: 8%;
-  height: 2px;
-  background: rgba(127, 217, 227, 0.72);
-  box-shadow:
-    0 14px 0 rgba(240, 128, 189, 0.68),
-    0 28px 0 rgba(127, 217, 227, 0.42);
-  content: '';
-}
-
-.silence-group-stage__character--glitch {
-  width: clamp(220px, 28vw, 430px);
-  height: clamp(280px, 44vh, 520px);
-  border: 2px solid rgba(248, 241, 255, 0.76);
-  background: rgba(12, 18, 31, 0.84);
-  box-shadow:
-    10px 10px 0 rgba(127, 217, 227, 0.18),
-    -7px -7px 0 rgba(240, 128, 189, 0.1);
-  overflow: hidden;
-}
-
-.silence-group-stage__character--glitch-1 {
-  right: 46%;
-  bottom: 18vh;
-}
-
-.silence-group-stage__character--glitch-2 {
-  right: 12%;
-  bottom: 26vh;
-}
-
-.silence-group-stage__window-bar {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 34px;
-  border-bottom: 2px solid rgba(248, 241, 255, 0.54);
-  background: linear-gradient(90deg, rgba(240, 128, 189, 0.5), rgba(127, 217, 227, 0.38));
-}
-
-.silence-group-stage__window-ghost {
-  position: absolute;
-  inset: 28% 12% 22% 18%;
-  border: 2px solid rgba(127, 217, 227, 0.42);
-  opacity: 0.72;
-}
-
-.silence-group-stage__window-scan {
-  position: absolute;
-  right: 9%;
-  bottom: 12%;
-  width: 45%;
-  height: 2px;
-  background: rgba(127, 217, 227, 0.92);
-  box-shadow:
-    0 12px 0 rgba(240, 128, 189, 0.82),
-    0 24px 0 rgba(127, 217, 227, 0.7);
-}
-
-.silence-group-stage__nav {
-  position: absolute;
-  right: clamp(18px, 4vw, 52px);
-  bottom: clamp(28px, 5vh, 64px);
-  z-index: 8;
-  display: flex;
-  gap: 8px;
-}
-
-.silence-group-stage__dot {
-  width: 18px;
-  height: 18px;
-  border: 2px solid currentColor;
-  border-radius: 0;
-  background: rgba(255, 255, 255, 0.38);
-  color: var(--ns-color-text);
-  cursor: pointer;
-}
-
-.silence-group-page--glitch .silence-group-stage__dot {
-  background: rgba(127, 217, 227, 0.12);
-  color: #f8f1ff;
-}
-
-.silence-group-stage__dot--active {
-  background: var(--ns-color-accent);
-}
-
-.silence-group-stage__info {
-  position: absolute;
-  bottom: clamp(28px, 5vh, 64px);
-  left: clamp(18px, 5vw, 72px);
-  z-index: 8;
-  display: grid;
-  width: min(430px, calc(100vw - 36px));
-  gap: 10px;
-  padding: 18px 20px;
-  border: 2px solid currentColor;
-  background: rgba(255, 252, 255, 0.78);
-  color: #2c2338;
-  backdrop-filter: blur(14px);
-  box-shadow: 7px 7px 0 rgba(42, 33, 56, 0.09);
-}
-
-.silence-group-page--glitch .silence-group-stage__info {
-  background: rgba(12, 18, 31, 0.78);
-  color: #f8f1ff;
-  box-shadow: 7px 7px 0 rgba(127, 217, 227, 0.12);
-}
-
-.silence-group-stage__info strong {
-  font-family: var(--ns-font-display);
-  font-size: clamp(27px, 4vw, 42px);
-  line-height: 1;
-  overflow-wrap: anywhere;
-}
-
-.silence-group-page--angel .silence-group-stage__info .ns-status {
-  border-color: rgba(42, 33, 56, 0.34);
-  background: #d9fbfb;
-  color: #237579;
-}
-
-.silence-group-stage__info p {
-  margin: 0;
-  color: var(--ns-color-text-muted);
-}
-
-.silence-group-page--glitch .silence-group-stage__info p {
-  color: rgba(248, 241, 255, 0.72);
-}
-
-.silence-group-stage__action {
-  justify-self: start;
-  display: inline-flex;
-  min-height: 34px;
-  align-items: center;
-  padding: 0 12px;
-  border: 2px solid currentColor;
-  border-radius: 0;
-  background: transparent;
-  color: currentColor;
-  font-family: var(--ns-font-decorative);
-  font-size: 13px;
-  font-weight: 900;
-  text-decoration: none;
-}
-
-button.silence-group-stage__action {
-  opacity: 0.55;
-}
-
 @media (max-width: 920px) {
   .silence-group-page {
     overflow: visible;
@@ -569,7 +219,7 @@ button.silence-group-stage__action {
 
   .silence-group-stage {
     min-height: calc(100vh - 56px);
-    padding: 20px 14px 360px;
+    padding: 20px 14px 120px;
   }
 
   .silence-group-stage__copy {
@@ -577,84 +227,11 @@ button.silence-group-stage__action {
     margin-top: 62px;
   }
 
-  .silence-group-stage__character--angel {
-    bottom: 300px;
-    width: clamp(80px, 21vw, 140px);
-  }
-
-  .silence-group-stage__character--angel-1 {
-    left: -4%;
-    height: 36vh;
-  }
-
-  .silence-group-stage__character--angel-2 {
-    left: 12%;
-    height: 42vh;
-  }
-
-  .silence-group-stage__character--angel-3 {
-    left: 28%;
-    height: 36vh;
-  }
-
-  .silence-group-stage__character--angel-4 {
-    left: 44%;
-    height: 44vh;
-  }
-
-  .silence-group-stage__character--angel-5 {
-    left: 60%;
-    height: 36vh;
-  }
-
-  .silence-group-stage__character--angel-6 {
-    left: 75%;
-    height: 39vh;
-  }
-
-  .silence-group-stage__character--glitch {
-    width: clamp(160px, 48vw, 260px);
-    height: 280px;
-    bottom: 340px;
-  }
-
-  .silence-group-stage__character--glitch-1 {
-    right: auto;
-    left: 8%;
-  }
-
-  .silence-group-stage__character--glitch-2 {
-    right: 8%;
-  }
-
-  .silence-group-stage__info {
-    bottom: 88px;
-  }
-
-  .silence-group-page--angel .silence-group-stage__info {
-    top: auto;
-    right: auto;
-    bottom: 84px;
-    left: 14px;
-  }
-
-  .silence-group-stage__nav {
-    right: 18px;
-    bottom: 36px;
-  }
 }
 
 @media (max-width: 640px) {
   .silence-group-stage__copy .ns-title {
     font-size: 46px;
-  }
-
-  .silence-group-stage__character--angel {
-    width: clamp(62px, 19vw, 94px);
-  }
-
-  .silence-group-stage__info {
-    left: 14px;
   }
 }
 </style>
