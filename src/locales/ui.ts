@@ -467,6 +467,18 @@ export const uiMessages: UiMessageMap = {
     ja: '{item}: {locations}',
     ko: '{item}: {locations}'
   }),
+  'nsarmoire.action.expandList': msg({
+    zh: draft('展开全部'),
+    en: 'Show all',
+    ja: 'すべて表示',
+    ko: '모두 보기'
+  }),
+  'nsarmoire.action.collapseList': msg({
+    zh: draft('收起列表'),
+    en: 'Collapse list',
+    ja: 'リストを閉じる',
+    ko: '목록 접기'
+  }),
   'nsarmoire.action.loadExampleSnapshot': msg({
     zh: draft('载入示例'),
     en: 'Load example',

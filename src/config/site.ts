@@ -173,6 +173,8 @@ export const textKeys = {
   nsarmoireHintOwnedEntries: 'nsarmoire.hint.ownedEntries',
   nsarmoireHintCurrentLocation: 'nsarmoire.hint.currentLocation',
   nsarmoireHintNamedLocations: 'nsarmoire.hint.namedLocations',
+  nsarmoireExpandList: 'nsarmoire.action.expandList',
+  nsarmoireCollapseList: 'nsarmoire.action.collapseList',
   nsarmoireLoadExampleSnapshot: 'nsarmoire.action.loadExampleSnapshot',
   nsarmoireImportSnapshot: 'nsarmoire.action.importSnapshot',
   nsarmoireClearSnapshot: 'nsarmoire.action.clearSnapshot',
