@@ -249,6 +249,12 @@ export const uiMessages: UiMessageMap = {
     ja: '資料ステータス',
     ko: '자료 상태'
   }),
+  'silence.character.forms': msg({
+    zh: '形态切换',
+    en: 'Form switcher',
+    ja: '形態切替',
+    ko: '형태 전환'
+  }),
 
   'ffxiv.workshop.title': msg({
     zh: '狒狒14工房',

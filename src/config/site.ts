@@ -134,6 +134,7 @@ export const textKeys = {
   silenceCharacterPreview: 'silence.character.preview',
   silenceCharacterColor: 'silence.character.color',
   silenceCharacterDraftStatus: 'silence.character.draftStatus',
+  silenceCharacterForms: 'silence.character.forms',
   ffxivWorkshop: 'ffxiv.workshop.title',
   ffxivWorkshopShort: 'ffxiv.workshop.short',
   glamourTitle: 'ffxiv.tool.glamour.title',

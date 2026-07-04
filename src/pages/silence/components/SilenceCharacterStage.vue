@@ -26,9 +26,29 @@
       <h1 :id="`${character.id}-title`" class="silence-character-stage__name">
         {{ character.name }}
       </h1>
+      <p v-if="character.aliases.length" class="silence-character-stage__aliases">
+        {{ character.aliases.join(' / ') }}
+      </p>
       <p class="ns-lead">
         {{ t(character.summaryKey) }}
       </p>
+
+      <nav
+        v-if="formNavItems.length > 0"
+        class="silence-character-stage__forms"
+        :aria-label="t(textKeys.silenceCharacterForms)"
+      >
+        <RouterLink
+          v-for="formItem in formNavItems"
+          :key="formItem.id"
+          class="silence-character-stage__form-link"
+          :class="{ 'silence-character-stage__form-link--active': formItem.isActive }"
+          :to="formItem.to"
+          :aria-current="formItem.isActive ? 'page' : undefined"
+        >
+          {{ formItem.name }}
+        </RouterLink>
+      </nav>
 
       <div class="silence-character-stage__tags" :aria-label="t(textKeys.status)">
         <span
@@ -72,6 +92,7 @@
 </template>
 
 <script setup lang="ts">
+import type { RouteLocationRaw } from 'vue-router'
 import { textKeys } from '@/config/site'
 import type { SilenceCharacter } from '@/data/silence/characters'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
@@ -83,15 +104,25 @@ interface SilenceCharacterDetailNavItem {
   targetId: string
 }
 
-defineProps<{
+interface SilenceCharacterFormNavItem {
+  id: string
+  name: string
+  to: RouteLocationRaw
+  isActive: boolean
+}
+
+withDefaults(defineProps<{
   character: SilenceCharacter
   groupTitleKey: string
   detailNavItems: SilenceCharacterDetailNavItem[]
+  formNavItems?: SilenceCharacterFormNavItem[]
   leftTo?: string
   leftLabel?: string
   rightTo?: string
   rightLabel?: string
-}>()
+}>(), {
+  formNavItems: () => []
+})
 
 const emit = defineEmits<{
   sectionRequest: [targetId: string]
@@ -252,15 +283,26 @@ const { t } = useLocale()
   color: rgba(49, 40, 63, 0.62);
 }
 
+.silence-character-stage__aliases {
+  margin: -8px 0 0;
+  color: color-mix(in srgb, var(--silence-character-color), #2c2338 36%);
+  font-family: var(--ns-font-decorative);
+  font-size: 14px;
+  font-weight: 900;
+  overflow-wrap: anywhere;
+}
+
 .silence-character-stage__tags,
-.silence-character-stage__section-links {
+.silence-character-stage__section-links,
+.silence-character-stage__forms {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
 .silence-character-stage__tags span,
-.silence-character-stage__section-links button {
+.silence-character-stage__section-links button,
+.silence-character-stage__form-link {
   border: 2px solid rgba(42, 33, 56, 0.46);
   border-radius: 0;
   background: rgba(255, 255, 255, 0.62);
@@ -269,15 +311,20 @@ const { t } = useLocale()
   font-size: 12px;
   font-weight: 900;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .silence-character-stage__tags span,
-.silence-character-stage__section-links button {
+.silence-character-stage__section-links button,
+.silence-character-stage__form-link {
   padding: 5px 8px;
 }
 
 .silence-character-stage__section-links button:hover,
-.silence-character-stage__section-links button:focus-visible {
+.silence-character-stage__section-links button:focus-visible,
+.silence-character-stage__form-link:hover,
+.silence-character-stage__form-link:focus-visible,
+.silence-character-stage__form-link--active {
   background: color-mix(in srgb, var(--silence-character-color), #ffffff 64%);
   color: #2c2338;
 }

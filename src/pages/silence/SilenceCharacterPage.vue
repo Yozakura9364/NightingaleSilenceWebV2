@@ -1,10 +1,11 @@
 <template>
   <main class="ns-page silence-character-page" :style="pageStyle">
-    <template v-if="character">
+    <template v-if="displayCharacter">
       <SilenceCharacterStage
-        :character="character"
+        :character="displayCharacter"
         :group-title-key="groupTitleKey"
         :detail-nav-items="detailNavItems"
+        :form-nav-items="formNavItems"
         :left-to="turnNeighbors.left?.route"
         :left-label="leftTurnLabel"
         :right-to="turnNeighbors.right?.route"
@@ -12,7 +13,7 @@
         @section-request="scrollToSection"
       />
 
-      <SilenceCharacterDetails :character="character" :relationships="relationshipCards" />
+      <SilenceCharacterDetails :character="displayCharacter" :relationships="relationshipCards" />
     </template>
 
     <section v-else class="silence-character-missing" :aria-labelledby="missingTitleId">
@@ -35,7 +36,8 @@ import {
   getSilenceCharacter,
   getSilenceCharacterById,
   getSilenceCharacterRoute,
-  isSilenceGroupId
+  isSilenceGroupId,
+  type SilenceCharacter
 } from '@/data/silence/characters'
 import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilenceTurnNavigation'
 import SilenceCharacterDetails from '@/pages/silence/components/SilenceCharacterDetails.vue'
@@ -48,12 +50,32 @@ const { t } = useLocale()
 const missingTitleId = 'silence-character-missing-title'
 const groupId = computed(() => normalizeParam(route.params.groupId) || getGroupIdFromPath())
 const characterId = computed(() => normalizeParam(route.params.characterId))
+const formId = computed(() => normalizeParam(route.query.form))
 const character = computed(() => {
   if (!isSilenceGroupId(groupId.value) || !characterId.value) {
     return undefined
   }
 
   return getSilenceCharacter(groupId.value, characterId.value)
+})
+const activeForm = computed(() =>
+  character.value?.forms.find((form) => form.id === formId.value)
+)
+const displayCharacter = computed<SilenceCharacter | undefined>(() => {
+  if (!character.value || !activeForm.value) {
+    return character.value
+  }
+
+  return {
+    ...character.value,
+    name: activeForm.value.name,
+    aliases: activeForm.value.aliases,
+    color: activeForm.value.color,
+    portraitSrc: activeForm.value.portraitSrc ?? character.value.portraitSrc,
+    summaryKey: activeForm.value.summaryKey,
+    tagKeys: activeForm.value.tagKeys,
+    profile: activeForm.value.profile
+  }
 })
 const groupEntry = computed(
   () => silenceGroups.find((group) => group.id === groupId.value) ?? silenceGroups[0]
@@ -64,7 +86,7 @@ const { turnNeighbors, leftTurnLabel, rightTurnLabel } = useSilenceTurnNavigatio
   () => route.path
 )
 const pageStyle = computed(() => ({
-  '--silence-character-color': character.value?.color ?? '#63d9dc'
+  '--silence-character-color': displayCharacter.value?.color ?? '#63d9dc'
 }))
 const detailNavItems = computed(() => {
   const baseId = character.value?.id ?? 'silence-character'
@@ -97,6 +119,31 @@ const detailNavItems = computed(() => {
     }
   ]
 })
+const formNavItems = computed(() => {
+  if (!character.value?.forms.length) {
+    return []
+  }
+
+  const baseRoute = getSilenceCharacterRoute(character.value)
+
+  return [
+    {
+      id: 'base',
+      name: character.value.name,
+      to: { path: baseRoute },
+      isActive: !activeForm.value
+    },
+    ...character.value.forms.map((form) => ({
+      id: form.id,
+      name: form.name,
+      to: {
+        path: baseRoute,
+        query: { form: form.id }
+      },
+      isActive: activeForm.value?.id === form.id
+    }))
+  ]
+})
 const relationshipCards = computed(
   () =>
     character.value?.relationships.map((relationship) => {
@@ -110,8 +157,12 @@ const relationshipCards = computed(
     }) ?? []
 )
 
-function normalizeParam(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value
+function normalizeParam(value: string | null | Array<string | null> | undefined) {
+  if (Array.isArray(value)) {
+    return value.find(Boolean) ?? undefined
+  }
+
+  return value || undefined
 }
 
 function getGroupIdFromPath() {

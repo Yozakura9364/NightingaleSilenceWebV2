@@ -2,6 +2,7 @@ import {
   silenceAngelCharacterSeeds,
   type SilenceCharacterSeed
 } from '@/data/silence/characterSeeds'
+import { getSilenceCharacterForms } from '@/data/silence/characterForms'
 import { createDraftAngelCharacterContent } from '@/data/silence/draftCharacterContent'
 
 export type SilenceGroupId = 'angel' | 'glitch'
@@ -37,6 +38,17 @@ export interface SilenceCharacterTextBlock {
   bodyKey: string
 }
 
+export interface SilenceCharacterForm {
+  id: string
+  name: string
+  aliases: string[]
+  color: string
+  portraitSrc?: string
+  summaryKey: string
+  tagKeys: string[]
+  profile: SilenceCharacterProfileField[]
+}
+
 export interface SilenceCharacter {
   id: string
   name: string
@@ -53,6 +65,7 @@ export interface SilenceCharacter {
   relationships: SilenceCharacterRelationship[]
   notes: SilenceCharacterTextBlock[]
   spoilers: SilenceCharacterTextBlock[]
+  forms: SilenceCharacterForm[]
 }
 
 export const silenceCharacters: SilenceCharacter[] = silenceAngelCharacterSeeds.map(
@@ -92,6 +105,7 @@ function createAngelCharacter(character: SilenceCharacterSeed, order: number): S
     aliases: [],
     groupId: 'angel',
     order,
+    forms: getSilenceCharacterForms(character.id),
     ...createDraftAngelCharacterContent(character.id, silenceAngelCharacterSeeds)
   }
 }
