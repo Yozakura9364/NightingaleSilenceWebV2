@@ -1,6 +1,15 @@
 <template>
   <section class="nsplate-canvas-area">
-    <div ref="viewportRef" class="nsplate-canvas-viewport">
+    <div
+      ref="viewportRef"
+      class="nsplate-canvas-viewport"
+      :data-dragging="isDragging"
+      :data-pannable="isPannable"
+      @pointerdown="handleViewportPointerDown"
+      @pointermove="handleViewportPointerMove"
+      @pointerup="handleViewportPointerUp"
+      @pointercancel="handleViewportPointerCancel"
+    >
       <NSPlateSelectionNote
         v-if="selectionNoteItems.length"
         :title="selectionNoteTitle"
@@ -8,7 +17,11 @@
         @focus-item="emit('focus-asset-section', $event)"
       />
 
-      <div class="nsplate-canvas-frame" :class="canvasClass" :style="frameStyle">
+      <div
+        class="nsplate-canvas-frame"
+        :class="canvasClass"
+        :style="[frameStyle, viewportTransformStyle]"
+      >
         <canvas ref="canvasRef" class="nsplate-canvas-frame__canvas" :aria-label="canvasLabel" />
       </div>
     </div>
@@ -18,12 +31,18 @@
       :can-clear-all="canClearAll"
       :can-import-config="canImportConfig"
       :can-export="canExport"
+      :can-zoom-in="canZoomIn"
+      :can-zoom-out="canZoomOut"
+      :zoom-label="zoomPercentLabel"
       @clear-custom-portrait="emit('clear-custom-portrait')"
       @clear-all="emit('clear-all')"
       @import-config="emit('import-config')"
       @paste-config="emit('paste-config')"
       @copy-config="emit('copy-config')"
       @export-config="emit('export-config')"
+      @zoom-in="zoomIn"
+      @zoom-out="zoomOut"
+      @reset-view="resetView"
       @export-image="exportImage"
       @export-layered-zip="exportLayeredZip"
     />
@@ -54,6 +73,7 @@ import NSPlateCanvasActions from '@/pages/plate/components/NSPlateCanvasActions.
 import NSPlateSelectionNote from '@/pages/plate/components/NSPlateSelectionNote.vue'
 import { useNSPlateCanvasExport } from '@/pages/plate/composables/useNSPlateCanvasExport'
 import { useNSPlateCanvasFrame } from '@/pages/plate/composables/useNSPlateCanvasFrame'
+import { useNSPlateCanvasViewport } from '@/pages/plate/composables/useNSPlateCanvasViewport'
 
 const props = defineProps<{
   apiBase: string
@@ -113,7 +133,27 @@ const renderSignature = computed(() =>
   ].join('::')
 )
 const canvasRef = ref<HTMLCanvasElement | null>(null)
-const { viewportRef, frameStyle } = useNSPlateCanvasFrame(NSPLATE_CANVAS_DIMENSIONS.nameplate)
+const { viewportRef, frameSize, frameStyle } = useNSPlateCanvasFrame(
+  NSPLATE_CANVAS_DIMENSIONS.nameplate
+)
+const {
+  zoomPercentLabel,
+  canZoomIn,
+  canZoomOut,
+  isDragging,
+  isPannable,
+  viewportTransformStyle,
+  zoomIn,
+  zoomOut,
+  resetView,
+  handleViewportPointerDown,
+  handleViewportPointerMove,
+  handleViewportPointerUp,
+  handleViewportPointerCancel
+} = useNSPlateCanvasViewport({
+  viewportRef,
+  frameSize
+})
 const isCanvasReady = ref(false)
 const imageCache: NSPlateImageCache = new Map()
 let renderSerial = 0
@@ -195,6 +235,17 @@ function isCurrentRender(serial: number) {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.nsplate-canvas-viewport[data-pannable='true'] {
+  cursor: grab;
+  touch-action: none;
+}
+
+.nsplate-canvas-viewport[data-dragging='true'] {
+  cursor: grabbing;
 }
 
 .nsplate-canvas-frame {
@@ -218,6 +269,12 @@ function isCurrentRender(serial: number) {
     -10px 0;
   background-size: 20px 20px;
   box-shadow: 0 10px 32px rgba(42, 33, 56, 0.1);
+  transition: transform 120ms ease-out;
+  will-change: transform;
+}
+
+.nsplate-canvas-viewport[data-dragging='true'] .nsplate-canvas-frame {
+  transition: none;
 }
 
 .nsplate-canvas-frame--nameplate {

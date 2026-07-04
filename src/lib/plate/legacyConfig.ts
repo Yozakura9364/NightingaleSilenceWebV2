@@ -85,6 +85,15 @@ const LEGACY_CONFIG_CATEGORIES = [
   ...NSPLATE_NAMEPLATE_CATEGORIES,
   NSPLATE_PORTRAIT_FRAME_CATEGORY
 ] as readonly string[]
+const LEGACY_PHANTOM_TIDE_MIGRATED_ENABLED_SLOTS = new Set([
+  'text-1',
+  'text-2',
+  'icon-1',
+  'text-3',
+  'icon-2',
+  'text-4',
+  'icon-3'
+])
 
 export async function importNSPlateLegacyConfigText(
   rawText: string,
@@ -238,7 +247,7 @@ function importLegacyInfoDraft(config: NormalizedLegacyConfig): {
       getLegacyInfoPresetState(config.infoPresetStates, preset) ??
       (preset.id === activePresetId && Array.isArray(config.infoLayers) ? config.infoLayers : null)
 
-    const result = importLegacyInfoLayerMap(preset, rawLayers)
+    const result = importLegacyInfoLayerMap(preset, applyLegacyInfoPresetMigrations(preset, rawLayers))
     layersByPresetId[preset.id] = result.layerMap
     ignoredInfoLayerCount += result.ignoredCount
   }
@@ -250,6 +259,32 @@ function importLegacyInfoDraft(config: NormalizedLegacyConfig): {
     }),
     ignoredInfoLayerCount
   }
+}
+
+function applyLegacyInfoPresetMigrations(
+  preset: NSPlateInfoPresetDefinition,
+  rawLayers: unknown
+): unknown {
+  if (preset.id !== 'phantom-tide' || !Array.isArray(rawLayers)) {
+    return rawLayers
+  }
+
+  return rawLayers.map((layer) => {
+    if (!isRecord(layer)) {
+      return layer
+    }
+
+    const slotId = normalizeString(layer.id)
+
+    if (!LEGACY_PHANTOM_TIDE_MIGRATED_ENABLED_SLOTS.has(slotId)) {
+      return layer
+    }
+
+    return {
+      ...layer,
+      enabled: true
+    }
+  })
 }
 
 function findLegacyInfoPresetId(value: string): NSPlateInfoPresetId {

@@ -1,5 +1,47 @@
 <template>
   <footer class="nsplate-canvas-footer">
+    <div
+      class="nsplate-canvas-status nsplate-canvas-status--viewport"
+      role="toolbar"
+      :aria-label="t(textKeys.nsplateCanvasViewportToolbar)"
+    >
+      <button
+        class="nsplate-canvas-status__button nsplate-canvas-status__button--icon"
+        type="button"
+        :disabled="!canZoomOut"
+        :aria-label="t(textKeys.nsplateCanvasZoomOut)"
+        :title="t(textKeys.nsplateCanvasZoomOut)"
+        @click="emit('zoom-out')"
+      >
+        -
+      </button>
+      <output
+        class="nsplate-canvas-status__zoom"
+        :aria-label="t(textKeys.nsplateCanvasZoomLabel)"
+      >
+        {{ zoomLabel }}
+      </output>
+      <button
+        class="nsplate-canvas-status__button nsplate-canvas-status__button--icon"
+        type="button"
+        :disabled="!canZoomIn"
+        :aria-label="t(textKeys.nsplateCanvasZoomIn)"
+        :title="t(textKeys.nsplateCanvasZoomIn)"
+        @click="emit('zoom-in')"
+      >
+        +
+      </button>
+      <button
+        class="nsplate-canvas-status__button nsplate-canvas-status__button--fit"
+        type="button"
+        :aria-label="t(textKeys.nsplateCanvasResetView)"
+        :title="t(textKeys.nsplateCanvasResetView)"
+        @click="emit('reset-view')"
+      >
+        {{ t(textKeys.nsplateCanvasResetView) }}
+      </button>
+    </div>
+
     <div class="nsplate-canvas-status" role="toolbar" :aria-label="t(textKeys.nsplateCanvasAria)">
       <button
         class="nsplate-canvas-status__button"
@@ -92,6 +134,9 @@ defineProps<{
   canClearAll: boolean
   canImportConfig: boolean
   canExport: boolean
+  canZoomIn: boolean
+  canZoomOut: boolean
+  zoomLabel: string
 }>()
 
 const emit = defineEmits<{
@@ -101,6 +146,9 @@ const emit = defineEmits<{
   'paste-config': []
   'copy-config': []
   'export-config': []
+  'zoom-in': []
+  'zoom-out': []
+  'reset-view': []
   'export-image': [payload: { format: NSPlateCanvasExportFormat; scale: number }]
   'export-layered-zip': [payload: { scale: number }]
 }>()
@@ -126,6 +174,8 @@ function emitLayeredZipExport() {
 .nsplate-canvas-footer {
   display: flex;
   flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 8px;
   justify-content: center;
   padding-top: 10px;
 }
@@ -134,13 +184,17 @@ function emitLayeredZipExport() {
   display: inline-flex;
   flex: 0 0 auto;
   gap: 0;
-  max-width: min(760px, calc(100% - 32px));
+  max-width: calc(100% - 32px);
   margin: 0;
   padding: 0;
   border: 2px solid var(--ns-pixel-border);
   border-radius: 0;
   background: var(--ns-color-surface-solid);
   box-shadow: var(--ns-pixel-soft-shadow);
+}
+
+.nsplate-canvas-status--viewport {
+  max-width: none;
 }
 
 .nsplate-canvas-status__button {
@@ -159,10 +213,36 @@ function emitLayeredZipExport() {
   cursor: pointer;
 }
 
+.nsplate-canvas-status__button--icon {
+  width: 36px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.nsplate-canvas-status__button--fit {
+  padding: 0 12px;
+}
+
+.nsplate-canvas-status__zoom {
+  display: inline-grid;
+  min-width: 58px;
+  min-height: 36px;
+  place-items: center;
+  border-left: 2px solid var(--ns-pixel-border);
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-decorative);
+  font-size: 12px;
+  font-weight: 950;
+  white-space: nowrap;
+}
+
 .nsplate-canvas-status__toggle,
 .nsplate-canvas-status__button + .nsplate-canvas-status__button,
 .nsplate-canvas-status__button + .nsplate-canvas-status__toggle,
-.nsplate-canvas-status__toggle + .nsplate-canvas-status__button {
+.nsplate-canvas-status__toggle + .nsplate-canvas-status__button,
+.nsplate-canvas-status__zoom + .nsplate-canvas-status__button {
   border-left: 2px solid var(--ns-pixel-border);
 }
 
@@ -214,9 +294,25 @@ function emitLayeredZipExport() {
 
   .nsplate-canvas-status__toggle,
   .nsplate-canvas-status__button + .nsplate-canvas-status__toggle,
-  .nsplate-canvas-status__toggle + .nsplate-canvas-status__button {
+  .nsplate-canvas-status__toggle + .nsplate-canvas-status__button,
+  .nsplate-canvas-status__zoom + .nsplate-canvas-status__button {
     border-top: 2px solid var(--ns-pixel-border);
     border-left: 0;
+  }
+
+  .nsplate-canvas-status--viewport {
+    grid-template-columns: 36px minmax(64px, 1fr) 36px minmax(72px, 1fr);
+  }
+
+  .nsplate-canvas-status--viewport .nsplate-canvas-status__button,
+  .nsplate-canvas-status--viewport .nsplate-canvas-status__zoom {
+    border-top: 0;
+  }
+
+  .nsplate-canvas-status--viewport .nsplate-canvas-status__zoom,
+  .nsplate-canvas-status--viewport .nsplate-canvas-status__zoom + .nsplate-canvas-status__button,
+  .nsplate-canvas-status--viewport .nsplate-canvas-status__button + .nsplate-canvas-status__button {
+    border-left: 2px solid var(--ns-pixel-border);
   }
 }
 </style>

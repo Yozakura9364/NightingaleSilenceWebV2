@@ -2020,6 +2020,36 @@ export const uiMessages: UiMessageMap = {
     ja: 'ネームプレートプレビューキャンバス、編集中: ',
     ko: '명패 미리보기 캔버스, 현재 편집: '
   }),
+  'nsplate.canvas.viewportToolbar': msg({
+    zh: '画布视图控制',
+    en: 'Canvas view controls',
+    ja: 'キャンバス表示コントロール',
+    ko: '캔버스 보기 컨트롤'
+  }),
+  'nsplate.canvas.zoomOut': msg({
+    zh: '缩小画布预览',
+    en: 'Zoom preview out',
+    ja: 'プレビューを縮小',
+    ko: '미리보기 축소'
+  }),
+  'nsplate.canvas.zoomIn': msg({
+    zh: '放大画布预览',
+    en: 'Zoom preview in',
+    ja: 'プレビューを拡大',
+    ko: '미리보기 확대'
+  }),
+  'nsplate.canvas.zoomLabel': msg({
+    zh: '当前画布预览缩放',
+    en: 'Current preview zoom',
+    ja: '現在のプレビュー倍率',
+    ko: '현재 미리보기 확대율'
+  }),
+  'nsplate.canvas.resetView': msg({
+    zh: '适配',
+    en: 'Fit',
+    ja: 'フィット',
+    ko: '맞춤'
+  }),
   'nsplate.resize.configPanel': msg({
     zh: '调整 NSPlate 配置面板宽度',
     en: 'Resize NSPlate config panel',
