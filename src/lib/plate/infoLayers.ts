@@ -1,4 +1,5 @@
 import {
+  getNSPlateInfoDefaultText,
   nsPlateInfoPresetDefinitions,
   type NSPlateInfoFieldDefinition,
   type NSPlateInfoLayerType,
@@ -251,6 +252,61 @@ export function updateNSPlateInfoSpecialMaterial(
   })
 }
 
+export function setNSPlateInfoActivePresetLayersEnabled(
+  draft: NSPlateInfoDraft,
+  enabled: boolean
+): NSPlateInfoDraft {
+  const normalized = normalizeNSPlateInfoDraft(draft)
+  const activePreset = nsPlateInfoPresetDefinitions.find(
+    (preset) => preset.id === normalized.activePresetId
+  )
+
+  if (!activePreset) {
+    return normalized
+  }
+
+  const currentMap = normalized.layersByPresetId[activePreset.id]
+
+  return normalizeNSPlateInfoDraft({
+    ...normalized,
+    layersByPresetId: {
+      ...normalized.layersByPresetId,
+      [activePreset.id]: Object.fromEntries(
+        activePreset.fields.map((field) => {
+          const state =
+            currentMap[field.slotId] ?? createDefaultInfoLayerState(activePreset.id, field)
+          return [
+            field.slotId,
+            {
+              ...state,
+              enabled
+            }
+          ]
+        })
+      )
+    }
+  })
+}
+
+export function resetNSPlateInfoActivePreset(draft: NSPlateInfoDraft): NSPlateInfoDraft {
+  const normalized = normalizeNSPlateInfoDraft(draft)
+  const activePreset = nsPlateInfoPresetDefinitions.find(
+    (preset) => preset.id === normalized.activePresetId
+  )
+
+  if (!activePreset) {
+    return normalized
+  }
+
+  return normalizeNSPlateInfoDraft({
+    ...normalized,
+    layersByPresetId: {
+      ...normalized.layersByPresetId,
+      [activePreset.id]: normalizeInfoLayerMap(activePreset.id, {})
+    }
+  })
+}
+
 export function getNSPlateInfoActiveLayers(draft: NSPlateInfoDraft): NSPlateInfoLayerViewModel[] {
   const normalized = normalizeNSPlateInfoDraft(draft)
   const definition = nsPlateInfoPresetDefinitions.find(
@@ -264,7 +320,7 @@ export function getNSPlateInfoActiveLayers(draft: NSPlateInfoDraft): NSPlateInfo
   const layerMap = normalized.layersByPresetId[definition.id]
   return definition.fields.map((field) => ({
     definition: field,
-    state: layerMap[field.slotId] ?? createDefaultInfoLayerState(field)
+    state: layerMap[field.slotId] ?? createDefaultInfoLayerState(definition.id, field)
   }))
 }
 
@@ -288,7 +344,7 @@ function updateNSPlateInfoLayerState(
   }
 
   const currentMap = normalized.layersByPresetId[activePreset.id]
-  const currentState = currentMap[slotId] ?? createDefaultInfoLayerState(field)
+  const currentState = currentMap[slotId] ?? createDefaultInfoLayerState(activePreset.id, field)
 
   return normalizeNSPlateInfoDraft({
     ...normalized,
@@ -313,17 +369,21 @@ function normalizeInfoLayerMap(
     return {}
   }
 
+  const shouldBackfillTextDefaults = shouldBackfillPresetDefaultTexts(preset, source)
+
   return Object.fromEntries(
     preset.fields.map((field) => [
       field.slotId,
-      normalizeInfoLayerState(field, source[field.slotId])
+      normalizeInfoLayerState(presetId, field, source[field.slotId], shouldBackfillTextDefaults)
     ])
   )
 }
 
 function normalizeInfoLayerState(
+  presetId: NSPlateInfoPresetId,
   definition: NSPlateInfoFieldDefinition,
-  value: unknown
+  value: unknown,
+  shouldBackfillTextDefault: boolean
 ): NSPlateInfoLayerState {
   const source = isRecord(value) ? value : {}
   const base = {
@@ -372,14 +432,34 @@ function normalizeInfoLayerState(
   return {
     ...base,
     type: 'text',
-    text: normalizeText(source.text)
+    text: shouldBackfillTextDefault
+      ? getNSPlateInfoDefaultText(presetId, definition.slotId)
+      : normalizeText(source.text)
   }
 }
 
 function createDefaultInfoLayerState(
+  presetId: NSPlateInfoPresetId,
   definition: NSPlateInfoFieldDefinition
 ): NSPlateInfoLayerState {
-  return normalizeInfoLayerState(definition, {})
+  return normalizeInfoLayerState(presetId, definition, {}, true)
+}
+
+function shouldBackfillPresetDefaultTexts(
+  preset: { id: NSPlateInfoPresetId; fields: NSPlateInfoFieldDefinition[] },
+  source: Record<string, unknown>
+) {
+  return preset.fields
+    .filter((field) => field.type === 'text')
+    .every((field) => {
+      const state = source[field.slotId]
+
+      if (!isRecord(state) || !Object.prototype.hasOwnProperty.call(state, 'text')) {
+        return true
+      }
+
+      return normalizeText(state.text).length === 0
+    })
 }
 
 function normalizeInfoPresetId(value: unknown): NSPlateInfoPresetId {

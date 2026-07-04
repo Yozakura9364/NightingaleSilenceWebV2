@@ -10,6 +10,12 @@ interface NSPlateInfoTextLayoutRow {
   top: number
   width: number
   textWidth: number
+  iconPath?: string
+  iconWidthPx?: number
+  iconHeightPx?: number
+  iconGapPx?: number
+  iconWorldTransrate?: boolean
+  iconFixedBottomY?: number
 }
 
 interface NSPlateInfoTextLayout {
@@ -36,10 +42,22 @@ interface NSPlateInfoTextRenderCanvasDimensions {
   height: number
 }
 
+export interface NSPlateInfoTextLayerCanvas {
+  layer: NSPlateInfoTextRenderLayer
+  canvas: HTMLCanvasElement
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
 const INFO_TEXT_AUTO_WRAP_MAX_WIDTH = 810
 const INFO_TEXT_FONT_LOAD_TIMEOUT_MS = 160
+const INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y = 351
 const TEXT_RENDER_EFFECT_SHADOW_GRAY = 'shadowGray'
 const TEXT_RENDER_EFFECT_EMBOSS_SOFT = 'embossSoft'
+
+const infoTextImageCache = new Map<string, Promise<HTMLImageElement | null>>()
 
 export async function drawNSPlateInfoTextLayers(
   context: CanvasRenderingContext2D,
@@ -53,7 +71,7 @@ export async function drawNSPlateInfoTextLayers(
 
     await ensureInfoTextLayerFontReady(targetLayer)
     const layout = computeInfoTextLayerLayout(context, targetLayer)
-    drawInfoTextLayer(context, targetLayer, layout)
+    await drawInfoTextLayer(context, targetLayer, layout)
 
     resolvedLayers.set(targetLayer.slotId, targetLayer)
     resolvedLayouts.set(targetLayer.slotId, layout)
@@ -87,6 +105,80 @@ export async function renderNSPlateInfoTextLayersToCanvas(
   context.restore()
 
   return canvas
+}
+
+export async function renderNSPlateInfoTextLayersToLayerCanvases(
+  layers: NSPlateInfoTextRenderLayer[],
+  scale: number
+): Promise<NSPlateInfoTextLayerCanvas[]> {
+  if (!layers.length) {
+    return []
+  }
+
+  const measurementCanvas = document.createElement('canvas')
+  measurementCanvas.width = 1
+  measurementCanvas.height = 1
+  const measurementContext = measurementCanvas.getContext('2d')
+
+  if (!measurementContext) {
+    return []
+  }
+
+  const output: NSPlateInfoTextLayerCanvas[] = []
+  const resolvedLayouts = new Map<string, NSPlateInfoTextLayout>()
+  const resolvedLayers = new Map<string, NSPlateInfoTextRenderLayer>()
+  const exportScale = normalizeLayerExportScale(scale)
+
+  for (const layer of layers) {
+    const targetLayer = resolveFollowLayerPosition(
+      layer,
+      resolvedLayouts,
+      resolvedLayers,
+      measurementContext
+    )
+
+    await ensureInfoTextLayerFontReady(targetLayer)
+    const layout = computeInfoTextLayerLayout(measurementContext, targetLayer)
+
+    resolvedLayers.set(targetLayer.slotId, targetLayer)
+    resolvedLayouts.set(targetLayer.slotId, layout)
+
+    if (!layout.rows.some((row) => row.text.length > 0)) {
+      continue
+    }
+
+    const padding = resolveInfoTextLayerExportPadding(targetLayer)
+    const width = Math.max(1, Math.ceil((layout.bounds.width + padding * 2) * exportScale))
+    const height = Math.max(1, Math.ceil((layout.bounds.height + padding * 2) * exportScale))
+    const canvas = document.createElement('canvas')
+    canvas.width = width
+    canvas.height = height
+
+    const context = canvas.getContext('2d')
+
+    if (!context) {
+      continue
+    }
+
+    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.imageSmoothingEnabled = false
+    context.save()
+    context.scale(exportScale, exportScale)
+    context.translate(-layout.bounds.minX + padding, -layout.bounds.minY + padding)
+    await drawInfoTextLayer(context, targetLayer, layout)
+    context.restore()
+
+    output.push({
+      layer: targetLayer,
+      canvas,
+      x: Math.floor((layout.bounds.minX - padding) * exportScale),
+      y: Math.floor((layout.bounds.minY - padding) * exportScale),
+      width: canvas.width,
+      height: canvas.height
+    })
+  }
+
+  return output
 }
 
 function resolveFollowLayerPosition(
@@ -143,7 +235,7 @@ async function ensureInfoTextLayerFontReady(layer: NSPlateInfoTextRenderLayer) {
   }
 }
 
-function drawInfoTextLayer(
+async function drawInfoTextLayer(
   context: CanvasRenderingContext2D,
   layer: NSPlateInfoTextRenderLayer,
   layout: NSPlateInfoTextLayout
@@ -159,6 +251,7 @@ function drawInfoTextLayer(
   const hasStroke = layer.strokeEnabled === true && normalizePositiveNumber(layer.strokeWidth) > 0
   const strokeWidth = normalizePositiveNumber(layer.strokeWidth)
   const effect = normalizeRenderEffect(layer.renderEffect)
+  const inlineIconImage = await loadInfoTextInlineIconImage(layout)
 
   context.save()
 
@@ -187,6 +280,8 @@ function drawInfoTextLayer(
       continue
     }
 
+    drawInfoTextInlineIcon(context, layer, row, inlineIconImage)
+
     if (effect) {
       drawInfoTextShadow(context, row)
     }
@@ -199,6 +294,32 @@ function drawInfoTextLayer(
   }
 
   context.restore()
+}
+
+function drawInfoTextInlineIcon(
+  context: CanvasRenderingContext2D,
+  layer: NSPlateInfoTextRenderLayer,
+  row: NSPlateInfoTextLayoutRow,
+  image: HTMLImageElement | null
+) {
+  const iconWidthPx = Math.max(0, Number(row.iconWidthPx) || 0)
+  const iconHeightPx = Math.max(0, Number(row.iconHeightPx) || 0)
+
+  if (!image || iconWidthPx <= 0 || iconHeightPx <= 0) {
+    return
+  }
+
+  const iconGapPx = Math.max(0, Number(row.iconGapPx) || 0)
+  const iconX = row.iconWorldTransrate
+    ? row.textLeft - iconGapPx - iconWidthPx
+    : row.left
+  const iconY = row.iconWorldTransrate
+    ? (Number.isFinite(Number(row.iconFixedBottomY))
+        ? Number(row.iconFixedBottomY)
+        : INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y) - iconHeightPx
+    : row.top + Math.max(1, Number(layer.fontSize) || 1) - iconHeightPx
+
+  context.drawImage(image, iconX, iconY, iconWidthPx, iconHeightPx)
 }
 
 function drawInfoTextShadow(context: CanvasRenderingContext2D, row: NSPlateInfoTextLayoutRow) {
@@ -236,23 +357,54 @@ function computeInfoTextLayerLayout(
   const yAnchor = Math.round(layer.y)
   const scaleX = normalizeScalePercent(layer.scaleXPercent)
   const scaleY = normalizeScalePercent(layer.scaleYPercent)
-  const wrapWidthPx = Math.max(1, INFO_TEXT_AUTO_WRAP_MAX_WIDTH / scaleX)
+  const inlineIcon = resolveInfoTextInlineIcon(layer)
+  const iconExtraWidthPx = inlineIcon ? inlineIcon.width + inlineIcon.gap : 0
+  const wrapWidthPx = Math.max(1, INFO_TEXT_AUTO_WRAP_MAX_WIDTH / scaleX - iconExtraWidthPx)
 
   context.save()
   context.font = fontSpec
   applyInfoTextCanvasFeatures(context, layer)
 
-  const rows = wrapInfoTextLines(layer.text, context, wrapWidthPx).map((text, index) => {
+  const rows: NSPlateInfoTextLayoutRow[] = wrapInfoTextLines(layer.text, context, wrapWidthPx).map((text, index) => {
     const textWidth = measureInfoText(context, text)
-    const left = resolveAlignedTextLeft(xAnchor, textWidth, layer.align)
+    const hasInlineIconOnRow = index === 0 && inlineIcon !== null
+    const isWorldTransrateInlineIcon =
+      hasInlineIconOnRow && isWorldTransrateInlineIconPath(inlineIcon.path)
+
+    if (inlineIcon && isWorldTransrateInlineIcon) {
+      const textLeft = resolveAlignedTextLeft(xAnchor, textWidth, layer.align)
+
+      return {
+        text,
+        width: textWidth,
+        textWidth,
+        left: textLeft,
+        textLeft,
+        top: yAnchor + index * lineHeightPx,
+        iconPath: inlineIcon.path,
+        iconWidthPx: inlineIcon.width,
+        iconHeightPx: inlineIcon.height,
+        iconGapPx: inlineIcon.gap,
+        iconWorldTransrate: true,
+        iconFixedBottomY: INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y
+      } satisfies NSPlateInfoTextLayoutRow
+    }
+
+    const iconWidth = inlineIcon && hasInlineIconOnRow ? inlineIcon.width + inlineIcon.gap : 0
+    const width = textWidth + iconWidth
+    const left = resolveAlignedTextLeft(xAnchor, width, layer.align)
 
     return {
       text,
-      width: textWidth,
+      width,
       textWidth,
       left,
-      textLeft: left,
-      top: yAnchor + index * lineHeightPx
+      textLeft: left + iconWidth,
+      top: yAnchor + index * lineHeightPx,
+      iconPath: inlineIcon && hasInlineIconOnRow ? inlineIcon.path : '',
+      iconWidthPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.width : 0,
+      iconHeightPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.height : 0,
+      iconGapPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.gap : 0
     } satisfies NSPlateInfoTextLayoutRow
   })
 
@@ -271,10 +423,37 @@ function computeInfoTextLayerLayout(
 
   const minX = Math.min(...rows.map((row) => row.left))
   const maxX = Math.max(...rows.map((row) => row.left + row.width))
-  const minY = yAnchor
-  const maxY = yAnchor + rows.length * lineHeightPx
-  const scaledMinXRaw = xAnchor + (minX - xAnchor) * scaleX
-  const scaledMaxXRaw = xAnchor + (maxX - xAnchor) * scaleX
+  let minY = yAnchor
+  let maxY = yAnchor + rows.length * lineHeightPx
+  let minXWithIcon = minX
+  let maxXWithIcon = maxX
+
+  for (const row of rows) {
+    const iconWidthPx = Math.max(0, Number(row.iconWidthPx) || 0)
+    const iconHeightPx = Math.max(0, Number(row.iconHeightPx) || 0)
+
+    if (iconWidthPx <= 0 || iconHeightPx <= 0) {
+      continue
+    }
+
+    const iconGapPx = Math.max(0, Number(row.iconGapPx) || 0)
+    const iconLeft = row.iconWorldTransrate ? row.textLeft - iconGapPx - iconWidthPx : row.left
+    const iconTop = row.iconWorldTransrate
+      ? (Number.isFinite(Number(row.iconFixedBottomY))
+          ? Number(row.iconFixedBottomY)
+          : INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y) - iconHeightPx
+      : row.top + layer.fontSize - iconHeightPx
+    const iconRight = iconLeft + iconWidthPx
+    const iconBottom = iconTop + iconHeightPx
+
+    minXWithIcon = Math.min(minXWithIcon, iconLeft)
+    maxXWithIcon = Math.max(maxXWithIcon, iconRight)
+    minY = Math.min(minY, iconTop)
+    maxY = Math.max(maxY, iconBottom)
+  }
+
+  const scaledMinXRaw = xAnchor + (minXWithIcon - xAnchor) * scaleX
+  const scaledMaxXRaw = xAnchor + (maxXWithIcon - xAnchor) * scaleX
   const scaledMinYRaw = yAnchor + (minY - yAnchor) * scaleY
   const scaledMaxYRaw = yAnchor + (maxY - yAnchor) * scaleY
   const scaledMinX = Math.min(scaledMinXRaw, scaledMaxXRaw)
@@ -294,6 +473,88 @@ function computeInfoTextLayerLayout(
       height: Math.max(1, Math.ceil(scaledMaxY - scaledMinY))
     }
   }
+}
+
+function resolveInfoTextInlineIcon(layer: NSPlateInfoTextRenderLayer) {
+  const path = normalizeInfoTextInlineIconPath(layer.inlineIconPath)
+  const width = path ? normalizePositiveNumber(layer.inlineIconWidth) : 0
+  const height = path ? normalizePositiveNumber(layer.inlineIconHeight) : 0
+  const gap = width > 0 && height > 0 ? Math.max(0, normalizeNumber(layer.inlineIconGap, 0)) : 0
+
+  return path && width > 0 && height > 0
+    ? {
+        path,
+        width,
+        height,
+        gap
+      }
+    : null
+}
+
+function normalizeInfoTextInlineIconPath(value: unknown) {
+  return String(value ?? '')
+    .trim()
+    .replace(/\\/g, '/')
+    .replace(/^\/+/, '')
+}
+
+function resolveInfoTextInlineIconUrl(path: string) {
+  return isAbsoluteInfoTextImageUrl(path) ? path : `/img/${path}`
+}
+
+function isAbsoluteInfoTextImageUrl(value: string) {
+  return /^(https?:)?\/\//i.test(value) || /^data:/i.test(value) || /^blob:/i.test(value)
+}
+
+function isWorldTransrateInlineIconPath(value: string) {
+  const normalized = value.replace(/\\/g, '/').toLowerCase()
+
+  return normalized === 'ui/sprites/worldtransrate_4.png' || normalized.endsWith('/worldtransrate_4.png')
+}
+
+function loadInfoTextInlineIconImage(layout: NSPlateInfoTextLayout) {
+  const path = layout.rows.find((row) => row.iconPath)?.iconPath ?? ''
+
+  if (!path) {
+    return Promise.resolve(null)
+  }
+
+  return loadInfoTextImage(resolveInfoTextInlineIconUrl(path))
+}
+
+function loadInfoTextImage(source: string) {
+  if (!source) {
+    return Promise.resolve(null)
+  }
+
+  const cached = infoTextImageCache.get(source)
+
+  if (cached) {
+    return cached
+  }
+
+  const promise = new Promise<HTMLImageElement | null>((resolve) => {
+    const image = new Image()
+
+    image.crossOrigin = 'anonymous'
+    image.onload = () => {
+      const finish = () => resolve(image)
+
+      if (typeof image.decode === 'function') {
+        void image.decode().then(finish).catch(finish)
+      } else {
+        finish()
+      }
+    }
+    image.onerror = () => {
+      infoTextImageCache.delete(source)
+      resolve(null)
+    }
+    image.src = source
+  })
+
+  infoTextImageCache.set(source, promise)
+  return promise
 }
 
 function wrapInfoTextLines(text: string, context: CanvasRenderingContext2D, maxWidth: number) {
@@ -413,6 +674,20 @@ function normalizeLineHeight(layer: NSPlateInfoTextRenderLayer) {
 function normalizeScalePercent(value: number) {
   const numberValue = normalizeNumber(value, 100)
   return Math.max(0.01, numberValue / 100)
+}
+
+function normalizeLayerExportScale(value: number) {
+  const numberValue = Number(value)
+
+  return Number.isFinite(numberValue) && numberValue > 0 ? numberValue : 1
+}
+
+function resolveInfoTextLayerExportPadding(layer: NSPlateInfoTextRenderLayer) {
+  const strokePadding =
+    layer.strokeEnabled === true ? Math.ceil(normalizePositiveNumber(layer.strokeWidth) * 2) : 0
+  const effectPadding = normalizeRenderEffect(layer.renderEffect) ? 4 : 0
+
+  return Math.max(2, strokePadding, effectPadding)
 }
 
 function normalizePositiveNumber(value: unknown) {

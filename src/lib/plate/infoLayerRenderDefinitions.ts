@@ -5,6 +5,10 @@ import {
   normalizeNSPlateInfoDraft,
   type NSPlateInfoDraft
 } from '@/lib/plate/infoLayers'
+import {
+  resolveNSPlateInfoTextAdaptiveColor,
+  type NSPlateInfoTextAdaptiveColorSource
+} from '@/lib/plate/infoTextAdaptiveColor'
 import type { NSPlateAssetGroup, NSPlateAssetSummary } from '@/lib/plate/types'
 
 export type NSPlateInfoTextAlign = 'left' | 'center' | 'right'
@@ -40,6 +44,9 @@ export interface NSPlateInfoTextRenderDefinition {
   scaleYPercent: number
   baselineShift: number
   color: string
+  adaptiveColorSource?: NSPlateInfoTextAdaptiveColorSource
+  adaptiveColorFont1?: string
+  adaptiveColorFont2?: string
   opacity: number
   strokeEnabled?: boolean
   strokeWidth?: number
@@ -178,7 +185,10 @@ export const nsPlateInfoTextRenderDefinitions = {
     textLayer('text-1', '称号', 'Endwalker', 'AXIS', 'light', 'left', 579, 308, 23, {
       renderEffect: 'shadowGray',
       positionBySide: sameSide(579, 308),
-      kerningVA: -10
+      kerningVA: -10,
+      adaptiveColorSource: 'nameplateHeaderThenBase',
+      adaptiveColorFont1: '#94cec7',
+      adaptiveColorFont2: '#614133'
     }),
     textLayer(
       'text-2',
@@ -195,7 +205,8 @@ export const nsPlateInfoTextRenderDefinitions = {
         positionBySide: sameSide(579, 344),
         kerningVA: 25,
         scaleXPercent: 110,
-        scaleYPercent: 94
+        scaleYPercent: 94,
+        adaptiveColorSource: 'nameplateHeaderThenBase'
       }
     ),
     textLayer('text-3', '服务器', 'Hades [Mana]', 'AXIS', 'light', 'right', 1942, 319, 27, {
@@ -208,7 +219,8 @@ export const nsPlateInfoTextRenderDefinitions = {
       inlineIconPath: 'ui/sprites/worldtransrate_4.png',
       inlineIconWidth: 50,
       inlineIconHeight: 42,
-      inlineIconGap: 8
+      inlineIconGap: 8,
+      adaptiveColorSource: 'none'
     }),
     textLayer('text-4', '等级', 'LEVEL  100', 'Miedinger', 'regular', 'left', 707, 435, 26, {
       positionBySide: splitSide(707, 435, 1287, 435),
@@ -281,12 +293,16 @@ export const nsPlateInfoTextRenderDefinitions = {
     textLayer('text-1', '称号', '终途行者', 'Adobe Heiti Std', 'light', 'left', 579, 308, 23, {
       renderEffect: 'shadowGray',
       positionBySide: sameSide(579, 308),
-      kerningVA: -10
+      kerningVA: -10,
+      adaptiveColorSource: 'nameplateHeaderThenBase',
+      adaptiveColorFont1: '#94cec7',
+      adaptiveColorFont2: '#614133'
     }),
     textLayer('text-2', '角色名', '光之战士', 'Adobe Heiti Std', 'regular', 'left', 579, 344, 24, {
       renderEffect: 'shadowGray',
       positionBySide: sameSide(579, 344),
-      kerningVA: 25
+      kerningVA: 25,
+      adaptiveColorSource: 'nameplateHeaderThenBase'
     }),
     textLayer('text-3', '服务器', '神意之地', 'Adobe Heiti Std', 'light', 'right', 1942, 319, 26, {
       positionBySide: sameSide(1942, 319),
@@ -297,7 +313,8 @@ export const nsPlateInfoTextRenderDefinitions = {
       inlineIconPath: 'ui/sprites/worldtransrate_4.png',
       inlineIconWidth: 50,
       inlineIconHeight: 42,
-      inlineIconGap: 8
+      inlineIconGap: 8,
+      adaptiveColorSource: 'none'
     }),
     textLayer('text-4', '等级', '100级', 'Adobe Heiti Std', 'regular', 'left', 707, 435, 26, {
       positionBySide: splitSide(707, 435, 1287, 435),
@@ -444,7 +461,8 @@ export const nsPlateInfoGraphicRenderDefinitions = {
 
 export function createNSPlateInfoTextRenderLayers(
   draft: NSPlateInfoDraft | null | undefined,
-  side: NSPlateInfoRenderSide
+  side: NSPlateInfoRenderSide,
+  selectedByCategory?: Map<string, NSPlateAssetSummary>
 ): NSPlateInfoTextRenderLayer[] {
   if (!draft) {
     return []
@@ -469,6 +487,7 @@ export function createNSPlateInfoTextRenderLayers(
       return {
         ...definition,
         text: state.text,
+        color: resolveNSPlateInfoTextAdaptiveColor(definition, selectedByCategory),
         x: position.x,
         y: position.y
       } satisfies NSPlateInfoTextRenderLayer

@@ -2,6 +2,7 @@ export type NSPlatePresetKind = 'banner' | 'charcard'
 export type NSPlateAssetScope = 'portrait' | 'nameplate'
 export type NSPlateCanvasMode = 'portrait' | 'nameplate'
 export type NSPlatePanelTab = 'portrait' | 'nameplate' | 'info'
+export type NSPlatePortraitSide = 'left' | 'right'
 export type NSPlateCustomPortraitMode = 'standard' | 'popout'
 
 export interface NSPlateCustomPortraitImage {
@@ -134,6 +135,7 @@ export interface NSPlateLayeredExportPayload {
   layers: NSPlateLayeredExportLayer[]
   canvasWidth: number
   canvasHeight: number
+  composerConfigFull?: Record<string, unknown>
 }
 
 export interface NSPlateLayeredExportOptions {

@@ -16,6 +16,26 @@
   </NSPlatePanel>
 
   <NSPlatePanel :title="t(textKeys.nsplateInfoFields)">
+    <div class="nsplate-info-panel__actions" role="group" :aria-label="t(ACTION_KEYS.group)">
+      <button
+        class="nsplate-info-panel__action-button"
+        type="button"
+        @click="setAllLayersEnabled(true)"
+      >
+        {{ t(ACTION_KEYS.showAll) }}
+      </button>
+      <button
+        class="nsplate-info-panel__action-button"
+        type="button"
+        @click="setAllLayersEnabled(false)"
+      >
+        {{ t(ACTION_KEYS.hideAll) }}
+      </button>
+      <button class="nsplate-info-panel__action-button" type="button" @click="resetActivePreset">
+        {{ t(ACTION_KEYS.reset) }}
+      </button>
+    </div>
+
     <div class="nsplate-info-panel__list">
       <article
         v-for="entry in activeLayers"
@@ -75,7 +95,6 @@
               <small>{{ t(getNSPlateInfoLayerTypeKey(entry.state.type)) }}</small>
               <span
                 class="nsplate-info-panel__arrow"
-                :style="getLayerArrowIconStyle(isLayerOpen(entry.state.slotId))"
                 aria-hidden="true"
               />
             </span>
@@ -127,7 +146,6 @@
               </span>
               <span
                 class="nsplate-info-panel__arrow"
-                :style="getLayerArrowIconStyle(isIconMaterialSectionOpen(entry.state.slotId))"
                 aria-hidden="true"
               />
             </button>
@@ -186,9 +204,6 @@
               </span>
               <span
                 class="nsplate-info-panel__arrow"
-                :style="
-                  getLayerArrowIconStyle(isSpecialSectionOpen(entry.state.slotId, section.kind))
-                "
                 aria-hidden="true"
               />
             </button>
@@ -289,10 +304,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, type CSSProperties } from 'vue'
+import { computed, ref } from 'vue'
 import { textKeys } from '@/config/site'
-import caretDownFillIcon from '@/assets/icons/caret-down-fill.svg'
-import caretRightFillIcon from '@/assets/icons/caret-right-fill.svg'
+import {
+  getNSPlateInfoAssetItemId,
+  normalizeNSPlateInfoAssetValues,
+  nsPlateInfoAssetMatchesValue
+} from '@/lib/plate/infoLayerAssetMatching'
 import {
   localizePlateInfoText,
   nsPlateInfoPresetDefinitions,
@@ -311,8 +329,10 @@ import {
   NSPLATE_INFO_ACTIVITY_ICON_MAX_COUNT,
   getNSPlateInfoActiveLayers,
   getNSPlateInfoLayerTypeKey,
+  resetNSPlateInfoActivePreset,
   setNSPlateInfoBar48All,
   setNSPlateInfoActivePreset,
+  setNSPlateInfoActivePresetLayersEnabled,
   toggleNSPlateInfoActivityIconMaterial,
   toggleNSPlateInfoBar48Cell,
   updateNSPlateInfoIconMaterial,
@@ -365,6 +385,14 @@ const SPECIAL_KEYS = {
   noBackground: 'plate.info.special.noBackground',
   noMask: 'plate.info.special.noMask',
   maskNeedsBackground: 'plate.info.special.maskNeedsBackground'
+} as const
+
+const ACTION_KEYS = {
+  group: 'plate.info.actions.group',
+  showAll: 'plate.info.actions.showAll',
+  hideAll: 'plate.info.actions.hideAll',
+  reset: 'plate.info.actions.reset',
+  resetConfirm: 'plate.info.actions.resetConfirm'
 } as const
 
 const SPECIAL_MATERIAL_SECTIONS = [
@@ -441,12 +469,6 @@ function toggleLayerOpen(slotId: string) {
   }
 }
 
-function getLayerArrowIconStyle(open: boolean) {
-  return {
-    '--nsplate-info-panel-arrow-icon': `url("${open ? caretDownFillIcon : caretRightFillIcon}")`
-  } as CSSProperties
-}
-
 function setLayerEnabled(slotId: string, event: Event) {
   emit(
     'update:modelValue',
@@ -471,6 +493,18 @@ function toggleBar48Cell(slotId: string, cellIndex: number) {
 
 function setBar48All(slotId: string, enabled: boolean) {
   emit('update:modelValue', setNSPlateInfoBar48All(props.modelValue, slotId, enabled))
+}
+
+function setAllLayersEnabled(enabled: boolean) {
+  emit('update:modelValue', setNSPlateInfoActivePresetLayersEnabled(props.modelValue, enabled))
+}
+
+function resetActivePreset() {
+  if (!window.confirm(t(ACTION_KEYS.resetConfirm))) {
+    return
+  }
+
+  emit('update:modelValue', resetNSPlateInfoActivePreset(props.modelValue))
 }
 
 function getIconMaterialSectionOpenKey(slotId: string) {
@@ -529,7 +563,7 @@ function getIconSelectedValues(state: NSPlateInfoIconLayerState) {
   const definition = getIconRenderDefinition(state.slotId)
 
   if (isIconRenderDefinitionActivity(definition)) {
-    return normalizeInfoAssetValues(
+    return normalizeNSPlateInfoAssetValues(
       state.itemIds.length > 0
         ? state.itemIds
         : state.itemId
@@ -574,9 +608,9 @@ function getIconSelectedCountText(selectedCount: number) {
 
 function selectIconMaterial(state: NSPlateInfoIconLayerState, asset: NSPlateAssetSummary) {
   const selectedValue = getIconSelectedValues(state).find((value) =>
-    infoAssetMatchesValue(asset, value)
+    nsPlateInfoAssetMatchesValue(asset, value)
   )
-  const itemId = selectedValue || getInfoAssetItemId(asset)
+  const itemId = selectedValue || getNSPlateInfoAssetItemId(asset)
 
   emit(
     'update:modelValue',
@@ -587,11 +621,11 @@ function selectIconMaterial(state: NSPlateInfoIconLayerState, asset: NSPlateAsse
 }
 
 function isIconAssetSelected(state: NSPlateInfoIconLayerState, asset: NSPlateAssetSummary) {
-  return getIconSelectedValues(state).some((value) => infoAssetMatchesValue(asset, value))
+  return getIconSelectedValues(state).some((value) => nsPlateInfoAssetMatchesValue(asset, value))
 }
 
 function findIconAssetByValue(state: NSPlateInfoIconLayerState, value: string) {
-  return getIconMaterialAssets(state).find((asset) => infoAssetMatchesValue(asset, value))
+  return getIconMaterialAssets(state).find((asset) => nsPlateInfoAssetMatchesValue(asset, value))
 }
 
 function getSpecialSectionOpenKey(slotId: string, kind: NSPlateInfoSpecialMaterialKind) {
@@ -701,92 +735,11 @@ function findSpecialAssetByValue(kind: NSPlateInfoSpecialMaterialKind, value: st
 }
 
 function specialAssetMatchesValue(asset: NSPlateAssetSummary, value: string) {
-  return infoAssetMatchesValue(asset, value)
+  return nsPlateInfoAssetMatchesValue(asset, value)
 }
 
 function getSpecialAssetItemId(asset: NSPlateAssetSummary) {
-  return getInfoAssetItemId(asset)
-}
-
-function infoAssetMatchesValue(asset: NSPlateAssetSummary, value: string) {
-  const target = normalizeInfoAssetToken(value)
-
-  if (!target) {
-    return false
-  }
-
-  return getInfoAssetTokens(asset).includes(target)
-}
-
-function getInfoAssetItemId(asset: NSPlateAssetSummary) {
-  return getInfoAssetTokens(asset)[0] || normalizeInfoAssetToken(asset.id) || asset.id
-}
-
-function getInfoAssetTokens(asset: NSPlateAssetSummary) {
-  return Array.from(
-    new Set(
-      [asset.raw.id, asset.raw.file, asset.raw.path, asset.file, asset.path]
-        .map((item) => normalizeInfoAssetToken(item))
-        .filter((item) => item.length > 0)
-    )
-  )
-}
-
-function normalizeInfoAssetValues(value: unknown, maxCount: number) {
-  const source = Array.isArray(value)
-    ? value
-    : value === null || value === undefined || value === ''
-      ? []
-      : [value]
-  const seen = new Set<string>()
-  const output: string[] = []
-
-  for (const item of source) {
-    if (output.length >= maxCount) {
-      break
-    }
-
-    const normalized = String(item ?? '')
-      .trim()
-      .slice(0, 300)
-
-    if (!normalized || seen.has(normalized)) {
-      continue
-    }
-
-    seen.add(normalized)
-    output.push(normalized)
-  }
-
-  return output
-}
-
-function normalizeInfoAssetToken(raw: unknown) {
-  const source = String(raw ?? '')
-    .trim()
-    .slice(0, 120)
-
-  if (!source) {
-    return ''
-  }
-
-  const normalizedPath = source.replace(/\\/g, '/')
-  const rawBase = normalizedPath.split('/').pop() || normalizedPath
-  let base = rawBase
-
-  try {
-    base = decodeURIComponent(rawBase)
-  } catch {
-    base = rawBase
-  }
-
-  const numeric = base.match(/^(\d{6})(?:_[^./\\]+)?(?:\.[A-Za-z0-9]+)?$/)
-
-  if (numeric) {
-    return numeric[1]
-  }
-
-  return base.toLowerCase()
+  return getNSPlateInfoAssetItemId(asset)
 }
 
 function getBar48Summary(state: NSPlateInfoBar48LayerState) {
@@ -818,6 +771,34 @@ function getBar48CellLabel(cellIndex: number, enabled: boolean) {
 .nsplate-info-panel__list {
   display: grid;
   gap: 8px;
+}
+
+.nsplate-info-panel__actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.nsplate-info-panel__action-button {
+  min-height: 30px;
+  padding: 0 8px;
+  overflow: hidden;
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-xs);
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nsplate-info-panel__action-button:hover {
+  border-color: color-mix(in srgb, var(--ns-color-accent-strong) 50%, var(--ns-color-border));
+  background: color-mix(in srgb, var(--ns-color-cyan) 10%, var(--ns-color-surface-solid));
 }
 
 .nsplate-info-panel__card {
@@ -936,16 +917,32 @@ function getBar48CellLabel(cellIndex: number, enabled: boolean) {
 
 .nsplate-info-panel__arrow::before {
   display: block;
-  width: 13px;
-  height: 13px;
-  background: currentColor;
-  mask: var(--nsplate-info-panel-arrow-icon) center / contain no-repeat;
-  -webkit-mask: var(--nsplate-info-panel-arrow-icon) center / contain no-repeat;
+  width: 16px;
+  height: 20px;
+  background:
+    linear-gradient(currentColor 0 0) 2px 0 / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 6px 4px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 10px 8px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 6px 12px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 2px 16px / 4px 4px no-repeat;
   content: '';
 }
 
 .nsplate-info-panel__card[data-open='true'] .nsplate-info-panel__arrow {
   color: var(--ns-color-accent-strong);
+}
+
+.nsplate-info-panel__card[data-open='true'] .nsplate-info-panel__arrow::before,
+.nsplate-info-panel__special-section[data-open='true'] .nsplate-info-panel__arrow::before,
+.nsplate-info-panel__material-section[data-open='true'] .nsplate-info-panel__arrow::before {
+  width: 20px;
+  height: 16px;
+  background:
+    linear-gradient(currentColor 0 0) 0 2px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 4px 6px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 8px 10px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 12px 6px / 4px 4px no-repeat,
+    linear-gradient(currentColor 0 0) 16px 2px / 4px 4px no-repeat;
 }
 
 .nsplate-info-panel__card[data-expandable='false'] .nsplate-info-panel__arrow {

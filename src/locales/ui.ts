@@ -81,6 +81,18 @@ export const uiMessages: UiMessageMap = {
     ja: 'プリセットを選択',
     ko: '프리셋 선택'
   }),
+  'common.previousPreset': msg({
+    zh: '上一个预设',
+    en: 'Previous preset',
+    ja: '前のプリセット',
+    ko: '이전 프리셋'
+  }),
+  'common.nextPreset': msg({
+    zh: '下一个预设',
+    en: 'Next preset',
+    ja: '次のプリセット',
+    ko: '다음 프리셋'
+  }),
   'common.check': msg({ zh: '检查', en: 'Check', ja: '確認', ko: '확인' }),
   'common.checking': msg({ zh: '检查中', en: 'Checking', ja: '確認中', ko: '확인 중' }),
   'common.api': same('API'),
@@ -1623,6 +1635,36 @@ export const uiMessages: UiMessageMap = {
     ja: '装飾アイコン2',
     ko: '장식 아이콘 2'
   }),
+  'plate.info.actions.group': msg({
+    zh: '信息层操作',
+    en: 'Info layer actions',
+    ja: '情報レイヤー操作',
+    ko: '정보 레이어 작업'
+  }),
+  'plate.info.actions.showAll': msg({
+    zh: '显示全部',
+    en: 'Show all',
+    ja: 'すべて表示',
+    ko: '전체 표시'
+  }),
+  'plate.info.actions.hideAll': msg({
+    zh: '隐藏全部',
+    en: 'Hide all',
+    ja: 'すべて非表示',
+    ko: '전체 숨기기'
+  }),
+  'plate.info.actions.reset': msg({
+    zh: '重置',
+    en: 'Reset',
+    ja: 'リセット',
+    ko: '초기화'
+  }),
+  'plate.info.actions.resetConfirm': msg({
+    zh: '重置当前信息预设的字段、素材和启用状态？',
+    en: 'Reset fields, materials, and enabled states for the current info preset?',
+    ja: '現在の情報プリセットの項目、素材、表示状態をリセットしますか？',
+    ko: '현재 정보 프리셋의 필드, 소재, 표시 상태를 초기화할까요?'
+  }),
   'plate.info.bar48.actions': msg({
     zh: '作息条状态操作',
     en: 'Schedule bar actions',
@@ -1736,6 +1778,24 @@ export const uiMessages: UiMessageMap = {
     ja: 'カスタム画像',
     ko: '사용자 이미지'
   }),
+  'nsplate.portraitSide.title': msg({
+    zh: '肖像位置',
+    en: 'Portrait side',
+    ja: 'ポートレート位置',
+    ko: '초상화 위치'
+  }),
+  'nsplate.portraitSide.left': msg({
+    zh: '左侧',
+    en: 'Left',
+    ja: '左側',
+    ko: '왼쪽'
+  }),
+  'nsplate.portraitSide.right': msg({
+    zh: '右侧',
+    en: 'Right',
+    ja: '右側',
+    ko: '오른쪽'
+  }),
   'nsplate.customPortrait.upload': msg({
     zh: '选择图片',
     en: 'Choose image',
@@ -1827,10 +1887,10 @@ export const uiMessages: UiMessageMap = {
     ko: '설정 가져오기'
   }),
   'nsplate.config.importInput': msg({
-    zh: '选择旧 NSPlate 配置 JSON',
-    en: 'Choose a legacy NSPlate config JSON',
-    ja: '旧NSPlate設定JSONを選択',
-    ko: '이전 NSPlate 설정 JSON 선택'
+    zh: '选择 NSPlate 配置 JSON',
+    en: 'Choose an NSPlate config JSON',
+    ja: 'NSPlate設定JSONを選択',
+    ko: 'NSPlate 설정 JSON 선택'
   }),
   'nsplate.config.importSuccess': msg({
     zh: '配置已导入',
@@ -1855,6 +1915,42 @@ export const uiMessages: UiMessageMap = {
     en: 'Config import failed. Check that the file came from the legacy nameplate editor.',
     ja: '設定のインポートに失敗しました。旧ネームプレート工房のファイルか確認してください。',
     ko: '설정 가져오기에 실패했습니다. 이전 명패 편집기에서 나온 파일인지 확인하세요.'
+  }),
+  'nsplate.config.paste': msg({
+    zh: '粘贴配置',
+    en: 'Paste config',
+    ja: '設定を貼り付け',
+    ko: '설정 붙여넣기'
+  }),
+  'nsplate.config.pasteError': msg({
+    zh: '读取剪贴板失败，请改用导入配置',
+    en: 'Clipboard read failed. Use import config instead.',
+    ja: 'クリップボードを読み取れませんでした。設定をインポートしてください。',
+    ko: '클립보드를 읽지 못했습니다. 설정 가져오기를 사용하세요.'
+  }),
+  'nsplate.config.copy': msg({
+    zh: '复制配置',
+    en: 'Copy config',
+    ja: '設定をコピー',
+    ko: '설정 복사'
+  }),
+  'nsplate.config.export': msg({
+    zh: '导出配置',
+    en: 'Export config',
+    ja: '設定を書き出し',
+    ko: '설정 내보내기'
+  }),
+  'nsplate.config.copySuccess': msg({
+    zh: '配置已复制',
+    en: 'Config copied',
+    ja: '設定をコピーしました',
+    ko: '설정을 복사했습니다'
+  }),
+  'nsplate.config.copyError': msg({
+    zh: '复制配置失败，请改用导出配置',
+    en: 'Copy failed. Use export config instead.',
+    ja: 'コピーに失敗しました。設定を書き出してください。',
+    ko: '복사에 실패했습니다. 설정 내보내기를 사용하세요.'
   }),
   'nsplate.export.png': msg({
     zh: '导出 PNG',

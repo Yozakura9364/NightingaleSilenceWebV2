@@ -23,11 +23,7 @@
         >
           {{ selectedLabel }}
         </span>
-        <span
-          class="nsplate-asset-section__arrow"
-          :style="arrowIconStyle"
-          aria-hidden="true"
-        />
+        <span class="nsplate-asset-section__arrow" aria-hidden="true" />
       </span>
     </button>
 
@@ -51,8 +47,6 @@
 
 <script setup lang="ts">
 import { computed, type CSSProperties } from 'vue'
-import caretDownFillIcon from '@/assets/icons/caret-down-fill.svg'
-import caretRightFillIcon from '@/assets/icons/caret-right-fill.svg'
 import circleIcon from '@/assets/icons/circle.svg'
 import sparklesIcon from '@/assets/icons/sparkles.svg'
 import type { NSPlateAssetGroup, NSPlateAssetSummary } from '@/lib/plate/types'
@@ -83,12 +77,6 @@ const statusIconStyle = computed(
       '--nsplate-asset-section-status-icon': `url("${hasSelectedAsset.value ? sparklesIcon : circleIcon}")`
     }) as CSSProperties
 )
-const arrowIconStyle = computed(
-  () =>
-    ({
-      '--nsplate-asset-section-arrow-icon': `url("${props.open ? caretDownFillIcon : caretRightFillIcon}")`
-    }) as CSSProperties
-)
 </script>
 
 <style scoped>
@@ -102,7 +90,10 @@ const arrowIconStyle = computed(
 
 .nsplate-asset-section__header {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(72px, var(--nsplate-asset-section-status-column, 116px));
+  grid-template-columns: minmax(0, 1fr) minmax(
+      72px,
+      var(--nsplate-asset-section-status-column, 116px)
+    );
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -206,15 +197,29 @@ const arrowIconStyle = computed(
 .nsplate-asset-section__arrow::before {
   display: block;
   width: 13px;
-  height: 13px;
-  background: currentColor;
-  mask: var(--nsplate-asset-section-arrow-icon) center / contain no-repeat;
-  -webkit-mask: var(--nsplate-asset-section-arrow-icon) center / contain no-repeat;
+  height: 15px;
+  background:
+    linear-gradient(currentColor 0 0) 2px 0 / 3px 3px no-repeat,
+    linear-gradient(currentColor 0 0) 5px 3px / 3px 3px no-repeat,
+    linear-gradient(currentColor 0 0) 8px 6px / 3px 3px no-repeat,
+    linear-gradient(currentColor 0 0) 5px 9px / 3px 3px no-repeat,
+    linear-gradient(currentColor 0 0) 2px 12px / 3px 3px no-repeat;
   content: '';
 }
 
 .nsplate-asset-section[data-open='true'] .nsplate-asset-section__arrow {
   color: var(--ns-color-accent-strong);
+}
+
+.nsplate-asset-section[data-open='true'] .nsplate-asset-section__arrow::before {
+  width: 15px;
+  height: 13px;
+  background:
+    linear-gradient(currentColor 0 0) 0 2px / 3px 3px no-repeat,
+    linear-gradient(currentColor 0 0) 3px 5px / 3px 3px no-repeat,
+    linear-gradient(currentColor 0 0) 6px 8px / 3px 3px no-repeat,
+    linear-gradient(currentColor 0 0) 9px 5px / 3px 3px no-repeat,
+    linear-gradient(currentColor 0 0) 12px 2px / 3px 3px no-repeat;
 }
 
 .nsplate-asset-section__body {
