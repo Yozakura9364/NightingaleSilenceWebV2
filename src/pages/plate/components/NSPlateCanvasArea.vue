@@ -16,9 +16,11 @@
     <NSPlateCanvasActions
       :can-clear-custom-portrait="canClearCustomPortrait"
       :can-clear-all="canClearAll"
+      :can-import-config="canImportConfig"
       :can-export="canExport"
       @clear-custom-portrait="emit('clear-custom-portrait')"
       @clear-all="emit('clear-all')"
+      @import-config="emit('import-config')"
       @export-image="exportImage"
       @export-layered-zip="exportLayeredZip"
     />
@@ -33,8 +35,11 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { textKeys } from '@/config/site'
 import { renderNameplateToCanvas, type NSPlateImageCache } from '@/lib/plate/canvasRenderer'
+import { getNSPlateInfoGraphicAssetSignature } from '@/lib/plate/infoLayerRenderDefinitions'
+import type { NSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import { NSPLATE_CANVAS_DIMENSIONS, createNameplateRenderPlan } from '@/lib/plate/render'
 import type {
+  NSPlateAssetGroup,
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage,
@@ -50,9 +55,12 @@ const props = defineProps<{
   apiBase: string
   mode: NSPlateCanvasMode
   selectedAssets: NSPlateAssetSummary[]
+  assetGroups: NSPlateAssetGroup[]
   customPortrait: NSPlateCustomPortraitImage | null
+  infoDraft: NSPlateInfoDraft
   canClearCustomPortrait: boolean
   canClearAll: boolean
+  canImportConfig: boolean
   selectionNoteTitle: string
   selectionNoteItems: NSPlateSelectionNoteItem[]
 }>()
@@ -60,6 +68,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   'clear-custom-portrait': []
   'clear-all': []
+  'import-config': []
   'focus-asset-section': [value: NSPlateSelectionNoteItem]
 }>()
 
@@ -70,7 +79,14 @@ const modeLabel = computed(() =>
 )
 const canvasLabel = computed(() => `${t(textKeys.nsplateCanvasAria)}${modeLabel.value}`)
 const renderPlan = computed(() =>
-  createNameplateRenderPlan(props.selectedAssets, 'right', undefined, props.customPortrait)
+  createNameplateRenderPlan(
+    props.selectedAssets,
+    'right',
+    undefined,
+    props.customPortrait,
+    props.infoDraft,
+    props.assetGroups
+  )
 )
 const renderSignature = computed(() =>
   [
@@ -81,7 +97,9 @@ const renderSignature = computed(() =>
       .map((asset) =>
         [asset.id, asset.category, asset.imageUrl ?? '', asset.previewUrl ?? ''].join(':')
       )
-      .join('|')
+      .join('|'),
+    getNSPlateInfoGraphicAssetSignature(props.assetGroups),
+    JSON.stringify(props.infoDraft)
   ].join('::')
 )
 const canvasRef = ref<HTMLCanvasElement | null>(null)

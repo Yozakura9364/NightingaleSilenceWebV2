@@ -172,8 +172,9 @@ watch(
   inset: 0;
   z-index: 0;
   background:
-    repeating-linear-gradient(90deg, rgba(99, 217, 220, 0.08) 0 1px, transparent 1px 32px),
-    repeating-linear-gradient(0deg, rgba(239, 111, 178, 0.08) 0 1px, transparent 1px 32px);
+    radial-gradient(circle at 18% 24%, rgba(255, 255, 255, 0.5), transparent 30%),
+    linear-gradient(120deg, rgba(99, 217, 220, 0.1), transparent 48%),
+    linear-gradient(45deg, rgba(239, 111, 178, 0.08), transparent 56%);
   content: '';
   pointer-events: none;
 }

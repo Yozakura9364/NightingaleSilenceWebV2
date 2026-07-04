@@ -87,6 +87,7 @@ const labelFor = computed(() => props.forId || undefined)
 .app-field__control :deep(input:not([type='checkbox']):not([type='radio'])),
 .app-field__control :deep(select),
 .app-field__control :deep(textarea) {
+  box-sizing: border-box;
   width: 100%;
   min-height: 40px;
   padding: 0 10px;
@@ -98,6 +99,33 @@ const labelFor = computed(() => props.forId || undefined)
   font-family: var(--ns-font-sans);
   font-size: 14px;
   box-shadow: var(--ns-control-inset-shadow);
+  transition:
+    border-color var(--ns-transition-fast),
+    background var(--ns-transition-fast),
+    box-shadow var(--ns-transition-fast);
+}
+
+.app-field--compact .app-field__control :deep(input:not([type='checkbox']):not([type='radio'])),
+.app-field--compact .app-field__control :deep(select) {
+  min-height: 34px;
+  font-size: 13px;
+}
+
+.app-field--compact .app-field__control :deep(textarea) {
+  min-height: 68px;
+  padding-block: 7px;
+}
+
+.app-field__control :deep(select) {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-inline-start: var(--ns-select-padding-start);
+  padding-inline-end: var(--ns-select-padding-end);
+  background-color: var(--ns-pixel-surface, var(--ns-color-surface-solid));
+  background-image: var(--ns-select-caret-icon);
+  background-position: right var(--ns-select-caret-right) center;
+  background-repeat: no-repeat;
+  background-size: var(--ns-select-caret-size) var(--ns-select-caret-size);
 }
 
 .app-field__control :deep(textarea) {
@@ -109,6 +137,7 @@ const labelFor = computed(() => props.forId || undefined)
 .app-field__control :deep(input:disabled),
 .app-field__control :deep(select:disabled),
 .app-field__control :deep(textarea:disabled) {
+  background: var(--ns-color-surface-tint);
   color: var(--ns-pixel-disabled);
   cursor: not-allowed;
   opacity: 0.72;
@@ -118,6 +147,7 @@ const labelFor = computed(() => props.forId || undefined)
 .app-field__control :deep(select:focus),
 .app-field__control :deep(textarea:focus) {
   outline: 0;
+  border-color: var(--ns-pixel-border-cyan);
   box-shadow: var(--ns-control-inset-shadow), var(--ns-focus-ring);
 }
 

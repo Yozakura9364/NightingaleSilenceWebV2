@@ -291,6 +291,18 @@ export const uiMessages: UiMessageMap = {
     ja: '分析',
     ko: '분석'
   }),
+  'nsarmoire.panel.catalogGrid': msg({
+    zh: draft('图鉴'),
+    en: 'Catalog',
+    ja: 'カタログ',
+    ko: '도감'
+  }),
+  'nsarmoire.panel.validation': msg({
+    zh: draft('判定依据'),
+    en: 'Validation evidence',
+    ja: '判定根拠',
+    ko: '판정 근거'
+  }),
   'nsarmoire.panel.cabinetProgress': msg({
     zh: draft('收藏柜进度'),
     en: 'Armoire progress',
@@ -366,16 +378,18 @@ export const uiMessages: UiMessageMap = {
     ko: '투영대에 {dresser}개, 애장품 보관함에 {armoire}개가 있습니다. 아래 제안은 컨테이너별로 판단합니다.'
   }),
   'nsarmoire.summary.dyeWarning': msg({
-    zh: draft('有 {count} 条已经染色，移动、套装化或精简前先确认染色是否要保留。'),
-    en: '{count} entries are dyed. Check dyes before moving, storing as sets, or cleaning duplicates.',
-    ja: '{count} 件が染色済みです。移動、セット収納、整理の前に染色を確認してください。',
-    ko: '{count}개 항목이 염색되어 있습니다. 이동, 세트 보관, 중복 정리 전에 염색을 확인하세요.'
+    zh: draft(
+      '有 {count} 条已经染色；收藏柜和套装幻影化篓子会清除染色，其他收纳系统暂按保留处理。'
+    ),
+    en: '{count} entries are dyed. Armoire storage and glamour-set baskets clear dyes; other storage is treated as preserving dyes.',
+    ja: '{count} 件が染色済みです。愛蔵品キャビネットとセット収納は染色を消しますが、他の収納は保持として扱います。',
+    ko: '{count}개 항목이 염색되어 있습니다. 애장품 보관함과 세트 보관은 염색을 지우며, 다른 보관은 유지로 봅니다.'
   }),
   'nsarmoire.summary.noDyeWarning': msg({
-    zh: draft('未发现染色条目，当前这批数据的移动风险较低。'),
-    en: 'No dyed entries were found, so moving these entries is lower risk.',
-    ja: '染色済み項目はありません。今回の移動リスクは低めです。',
-    ko: '염색 항목이 없어 이동 위험이 낮습니다.'
+    zh: draft('未发现染色条目，当前这批数据不需要检查清染色风险。'),
+    en: 'No dyed entries were found, so dye-clearing risk does not need review for this import.',
+    ja: '染色済み項目はありません。今回のデータでは染色消去リスクの確認は不要です。',
+    ko: '염색 항목이 없어 이번 데이터에서는 염색 삭제 위험 확인이 필요 없습니다.'
   }),
   'nsarmoire.hint.cabinet.summary': msg({
     zh: draft('有 {count} 件已经拥有、但还不在收藏柜里，可以优先检查：{items}。'),
@@ -426,10 +440,16 @@ export const uiMessages: UiMessageMap = {
     ko: '동일 모델 중복 장비가 없습니다.'
   }),
   'nsarmoire.hint.dyes.summary': msg({
-    zh: draft('有 {count} 件带染色，整理前先看染剂：{items}。'),
-    en: '{count} items are dyed. Check dye choices before cleanup: {items}.',
-    ja: '{count} 件が染色済みです。整理前に染色を確認: {items}。',
-    ko: '{count}개 항목이 염색되어 있습니다. 정리 전 염색 확인: {items}.'
+    zh: draft('有 {count} 件染色物品进入收藏柜或套装幻影化篓子时会清除染色，先看：{items}。'),
+    en: '{count} dyed items would lose dyes in armoire storage or glamour-set baskets. Check: {items}.',
+    ja: '{count} 件の染色済みアイテムはキャビネットまたはセット収納で染色が消えます。確認: {items}。',
+    ko: '{count}개 염색 아이템은 보관함이나 세트 보관에 넣으면 염색이 지워집니다. 확인: {items}.'
+  }),
+  'nsarmoire.hint.dyes.preserved': msg({
+    zh: draft('有 {count} 件带染色，但当前命中的收纳位置不会清除染色：{items}。'),
+    en: '{count} items are dyed, but the matched storage positions do not clear dyes: {items}.',
+    ja: '{count} 件が染色済みですが、現在命中した収納位置では染色は消えません: {items}。',
+    ko: '{count}개 항목이 염색되어 있지만 현재 감지된 보관 위치에서는 염색이 지워지지 않습니다: {items}.'
   }),
   'nsarmoire.hint.allClear.title': msg({
     zh: draft('暂无需要处理的提示'),
@@ -438,10 +458,10 @@ export const uiMessages: UiMessageMap = {
     ko: '처리 힌트 없음'
   }),
   'nsarmoire.hint.allClear.message': msg({
-    zh: draft('当前导入的数据没有触发收藏柜、套装、重复物品、同模型或染色风险提示。'),
-    en: 'The current import did not trigger armoire, set, duplicate item, duplicate model, or dye-risk hints.',
-    ja: '今回のデータでは、キャビネット、セット、重複アイテム、同一モデル、染色リスクのヒントはありません。',
-    ko: '현재 가져온 데이터에서는 보관함, 세트, 중복 아이템, 동일 모델, 염색 위험 힌트가 없습니다.'
+    zh: draft('当前导入的数据没有触发收藏柜、套装、重复物品、同模型或清染色风险提示。'),
+    en: 'The current import did not trigger armoire, set, duplicate item, duplicate model, or dye-clearing risk hints.',
+    ja: '今回のデータでは、キャビネット、セット、重複アイテム、同一モデル、染色消去リスクのヒントはありません。',
+    ko: '현재 가져온 데이터에서는 보관함, 세트, 중복 아이템, 동일 모델, 염색 삭제 위험 힌트가 없습니다.'
   }),
   'nsarmoire.hint.catalogPending.title': msg({
     zh: draft('部分检查等待静态数据'),
@@ -514,6 +534,382 @@ export const uiMessages: UiMessageMap = {
     en: 'Clear snapshot',
     ja: 'snapshotをクリア',
     ko: 'snapshot 지우기'
+  }),
+  'nsarmoire.action.connectHelper': msg({
+    zh: draft('连接本地助手'),
+    en: 'Connect local helper',
+    ja: 'ローカルヘルパーに接続',
+    ko: '로컬 헬퍼 연결'
+  }),
+  'nsarmoire.action.refreshHelper': msg({
+    zh: draft('刷新本地数据'),
+    en: 'Refresh local data',
+    ja: 'ローカルデータを更新',
+    ko: '로컬 데이터 새로고침'
+  }),
+  'nsarmoire.catalog.filter.label': msg({
+    zh: draft('图鉴筛选'),
+    en: 'Catalog filters',
+    ja: 'カタログフィルター',
+    ko: '도감 필터'
+  }),
+  'nsarmoire.catalog.filter.all': msg({
+    zh: draft('全部'),
+    en: 'All',
+    ja: 'すべて',
+    ko: '전체'
+  }),
+  'nsarmoire.catalog.filter.cabinet': msg({
+    zh: draft('可转收藏柜'),
+    en: 'Armoire candidates',
+    ja: 'キャビネット候補',
+    ko: '보관함 후보'
+  }),
+  'nsarmoire.catalog.filter.duplicateItems': msg({
+    zh: draft('重复物品'),
+    en: 'Duplicate items',
+    ja: '重複アイテム',
+    ko: '중복 아이템'
+  }),
+  'nsarmoire.catalog.filter.duplicateModels': msg({
+    zh: draft('同模型'),
+    en: 'Duplicate models',
+    ja: '同一モデル',
+    ko: '동일 모델'
+  }),
+  'nsarmoire.catalog.filter.dyed': msg({
+    zh: draft('已染色'),
+    en: 'Dyed',
+    ja: '染色済み',
+    ko: '염색됨'
+  }),
+  'nsarmoire.catalog.filter.glamourDresser': msg({
+    zh: draft('投影台'),
+    en: 'Glamour dresser',
+    ja: 'ミラージュドレッサー',
+    ko: '투영대'
+  }),
+  'nsarmoire.catalog.filter.armoire': msg({
+    zh: draft('收藏柜'),
+    en: 'Armoire',
+    ja: '愛蔵品キャビネット',
+    ko: '애장품 보관함'
+  }),
+  'nsarmoire.catalog.search.label': msg({
+    zh: draft('搜索物品'),
+    en: 'Search items',
+    ja: 'アイテム検索',
+    ko: '아이템 검색'
+  }),
+  'nsarmoire.catalog.search.placeholder': msg({
+    zh: draft('输入物品名、ID、容器或标签'),
+    en: 'Name, ID, container, or tag',
+    ja: '名前、ID、コンテナ、タグ',
+    ko: '이름, ID, 컨테이너, 태그'
+  }),
+  'nsarmoire.catalog.sort.label': msg({
+    zh: draft('排序'),
+    en: 'Sort',
+    ja: '並び順',
+    ko: '정렬'
+  }),
+  'nsarmoire.catalog.sort.risk': msg({
+    zh: draft('优先显示处理项'),
+    en: 'Action items first',
+    ja: '処理項目を優先',
+    ko: '처리 항목 우선'
+  }),
+  'nsarmoire.catalog.sort.container': msg({
+    zh: draft('按容器'),
+    en: 'By container',
+    ja: 'コンテナ順',
+    ko: '컨테이너순'
+  }),
+  'nsarmoire.catalog.sort.name': msg({
+    zh: draft('按名称'),
+    en: 'By name',
+    ja: '名前順',
+    ko: '이름순'
+  }),
+  'nsarmoire.catalog.sort.itemId': msg({
+    zh: draft('按物品 ID'),
+    en: 'By item ID',
+    ja: 'アイテムID順',
+    ko: '아이템 ID순'
+  }),
+  'nsarmoire.catalog.metric.label': msg({
+    zh: draft('图鉴当前结果'),
+    en: 'Current catalog result',
+    ja: '現在のカタログ結果',
+    ko: '현재 도감 결과'
+  }),
+  'nsarmoire.catalog.metric.visible': msg({
+    zh: draft('当前结果'),
+    en: 'Visible',
+    ja: '表示中',
+    ko: '표시 중'
+  }),
+  'nsarmoire.catalog.metric.actionItems': msg({
+    zh: draft('处理项'),
+    en: 'Action items',
+    ja: '処理項目',
+    ko: '처리 항목'
+  }),
+  'nsarmoire.catalog.metric.dyed': msg({
+    zh: draft('带染色'),
+    en: 'Dyed',
+    ja: '染色あり',
+    ko: '염색 있음'
+  }),
+  'nsarmoire.catalog.metric.duplicates': msg({
+    zh: draft('重复相关'),
+    en: 'Duplicates',
+    ja: '重複関連',
+    ko: '중복 관련'
+  }),
+  'nsarmoire.catalog.grid.summary': msg({
+    zh: draft('当前显示 {shown} / {total} 条导入记录。'),
+    en: 'Showing {shown} of {total} imported entries.',
+    ja: 'インポート記録 {total} 件中 {shown} 件を表示しています。',
+    ko: '가져온 항목 {total}개 중 {shown}개를 표시합니다.'
+  }),
+  'nsarmoire.catalog.grid.empty': msg({
+    zh: draft('当前筛选下没有物品。'),
+    en: 'No items match the current filter.',
+    ja: '現在のフィルターに一致するアイテムはありません。',
+    ko: '현재 필터에 맞는 아이템이 없습니다.'
+  }),
+  'nsarmoire.catalog.quantity': msg({
+    zh: draft('数量 {count}'),
+    en: 'Qty {count}',
+    ja: '数量 {count}',
+    ko: '수량 {count}'
+  }),
+  'nsarmoire.catalog.dye.none': msg({
+    zh: draft('未染色'),
+    en: 'No dye',
+    ja: '未染色',
+    ko: '염색 없음'
+  }),
+  'nsarmoire.catalog.iconFallback': msg({
+    zh: draft('无图标'),
+    en: 'No icon',
+    ja: 'アイコンなし',
+    ko: '아이콘 없음'
+  }),
+  'nsarmoire.validation.lead': msg({
+    zh: draft('这里把当前导入数据里触发或未触发的规则拆开，显示参与字段、命中数据和结论。'),
+    en: 'This breaks the current import into rule checks, matching data, fields, and conclusions.',
+    ja: '現在のインポートをルール、命中データ、使用フィールド、結論に分けて表示します。',
+    ko: '현재 가져온 데이터를 규칙, 일치 데이터, 사용 필드, 결론으로 나누어 표시합니다.'
+  }),
+  'nsarmoire.validation.status.triggered': msg({
+    zh: draft('已触发'),
+    en: 'Triggered',
+    ja: '検出',
+    ko: '감지됨'
+  }),
+  'nsarmoire.validation.status.notTriggered': msg({
+    zh: draft('未触发'),
+    en: 'Not triggered',
+    ja: '未検出',
+    ko: '감지 안 됨'
+  }),
+  'nsarmoire.validation.status.waitingCatalog': msg({
+    zh: draft('等待静态数据'),
+    en: 'Waiting for catalog',
+    ja: 'catalog待ち',
+    ko: 'catalog 대기 중'
+  }),
+  'nsarmoire.validation.evidence.rule': msg({
+    zh: draft('规则'),
+    en: 'Rule',
+    ja: 'ルール',
+    ko: '규칙'
+  }),
+  'nsarmoire.validation.evidence.fields': msg({
+    zh: draft('使用字段'),
+    en: 'Fields',
+    ja: '使用フィールド',
+    ko: '사용 필드'
+  }),
+  'nsarmoire.validation.evidence.result': msg({
+    zh: draft('结论'),
+    en: 'Result',
+    ja: '結論',
+    ko: '결론'
+  }),
+  'nsarmoire.validation.evidence.locations': msg({
+    zh: draft('当前位置'),
+    en: 'Locations',
+    ja: '現在位置',
+    ko: '현재 위치'
+  }),
+  'nsarmoire.validation.evidence.item': msg({
+    zh: draft('物品'),
+    en: 'Item',
+    ja: 'アイテム',
+    ko: '아이템'
+  }),
+  'nsarmoire.validation.evidence.items': msg({
+    zh: draft('物品组'),
+    en: 'Items',
+    ja: 'アイテム組',
+    ko: '아이템 그룹'
+  }),
+  'nsarmoire.validation.evidence.modelKey': msg({
+    zh: draft('模型键'),
+    en: 'Model key',
+    ja: 'モデルキー',
+    ko: '모델 키'
+  }),
+  'nsarmoire.validation.evidence.models': msg({
+    zh: draft('模型字段'),
+    en: 'Model fields',
+    ja: 'モデルフィールド',
+    ko: '모델 필드'
+  }),
+  'nsarmoire.validation.evidence.catalog': msg({
+    zh: draft('目录命中'),
+    en: 'Catalog match',
+    ja: 'catalog命中',
+    ko: 'catalog 일치'
+  }),
+  'nsarmoire.validation.evidence.dyes': msg({
+    zh: draft('染剂'),
+    en: 'Dyes',
+    ja: '染色',
+    ko: '염료'
+  }),
+  'nsarmoire.validation.evidence.dyeReset': msg({
+    zh: draft('清染色判定'),
+    en: 'Dye reset check',
+    ja: '染色消去判定',
+    ko: '염색 삭제 판정'
+  }),
+  'nsarmoire.validation.duplicateItems.rule': msg({
+    zh: draft('同一个 itemId 在 snapshot 中出现多条记录，就判为重复物品。'),
+    en: 'If the same itemId appears in multiple snapshot entries, it is treated as a duplicate item.',
+    ja: '同じitemIdがsnapshot内に複数記録されている場合、重複アイテムとして扱います。',
+    ko: '같은 itemId가 snapshot에 여러 번 나오면 중복 아이템으로 봅니다.'
+  }),
+  'nsarmoire.validation.duplicateItems.hit': msg({
+    zh: draft('{item} 在当前 snapshot 中出现了多条记录。'),
+    en: '{item} appears in multiple entries in the current snapshot.',
+    ja: '{item} は現在のsnapshotに複数記録されています。',
+    ko: '{item} 항목이 현재 snapshot에 여러 번 있습니다.'
+  }),
+  'nsarmoire.validation.duplicateItems.none': msg({
+    zh: draft('当前没有同一 itemId 的多条记录。'),
+    en: 'No itemId appears in multiple entries right now.',
+    ja: '現在、同じitemIdの複数記録はありません。',
+    ko: '현재 같은 itemId의 여러 항목은 없습니다.'
+  }),
+  'nsarmoire.validation.duplicateItems.result': msg({
+    zh: draft('{entries} 条记录，总数量 {quantity}。'),
+    en: '{entries} entries, {quantity} total quantity.',
+    ja: '{entries} 件の記録、合計数量 {quantity}。',
+    ko: '{entries}개 항목, 총 수량 {quantity}.'
+  }),
+  'nsarmoire.validation.identicalModels.rule': msg({
+    zh: draft(
+      '主模型、副模型、物品类型和装备位置都一致，且当前拥有多个不同物品 ID，才判为同模型。'
+    ),
+    en: 'Items count as duplicate models only when main model, sub model, item category, and equip slot all match, and multiple owned item IDs are present.',
+    ja: '主モデル、副モデル、アイテム種別、装備位置がすべて一致し、複数の所持アイテムIDがある場合だけ同一モデルと判定します。',
+    ko: '주 모델, 보조 모델, 아이템 종류, 장비 위치가 모두 같고 여러 보유 item ID가 있을 때만 동일 모델로 봅니다.'
+  }),
+  'nsarmoire.validation.identicalModels.hit': msg({
+    zh: draft('{items} 使用同一套模型字段。'),
+    en: '{items} share the same model fields.',
+    ja: '{items} は同じモデルフィールドを共有しています。',
+    ko: '{items} 항목이 같은 모델 필드를 사용합니다.'
+  }),
+  'nsarmoire.validation.identicalModels.none': msg({
+    zh: draft('当前没有命中同模型重复装备。'),
+    en: 'No duplicate model equipment was found right now.',
+    ja: '現在、同一モデルの重複装備はありません。',
+    ko: '현재 동일 모델 중복 장비가 없습니다.'
+  }),
+  'nsarmoire.validation.identicalModels.pending': msg({
+    zh: draft('同模型判断需要静态 catalog，加载完成前不会给出正式结论。'),
+    en: 'Duplicate-model checks need the static catalog and will not report final results until it loads.',
+    ja: '同一モデル判定には静的catalogが必要で、読み込み完了まで正式な結果は表示しません。',
+    ko: '동일 모델 판정에는 정적 catalog가 필요하며 로드 전에는 최종 결과를 표시하지 않습니다.'
+  }),
+  'nsarmoire.validation.cabinet.rule': msg({
+    zh: draft('物品在 Cabinet.csv 目录中、当前已拥有、且不在收藏柜容器里，就判为可转收藏柜。'),
+    en: 'An owned item is an armoire candidate when it appears in Cabinet.csv and is not already in the armoire container.',
+    ja: 'Cabinet.csvにあり、現在所持していて、愛蔵品キャビネット内にない場合、キャビネット候補として扱います。',
+    ko: 'Cabinet.csv에 있고 현재 보유 중이며 애장품 보관함 컨테이너에 없으면 보관함 후보로 봅니다.'
+  }),
+  'nsarmoire.validation.cabinet.hit': msg({
+    zh: draft('{item} 命中收藏柜目录，但当前位置还不是收藏柜。'),
+    en: '{item} appears in the armoire catalog but is not currently in the armoire container.',
+    ja: '{item} はキャビネット目录にありますが、現在位置はキャビネットではありません。',
+    ko: '{item} 항목이 보관함 목록에 있지만 현재 위치는 보관함이 아닙니다.'
+  }),
+  'nsarmoire.validation.cabinet.none': msg({
+    zh: draft('当前没有发现可转入收藏柜的已拥有物品。'),
+    en: 'No owned item currently looks ready to move into the armoire.',
+    ja: '現在、キャビネットへ移せそうな所持品はありません。',
+    ko: '현재 보관함으로 옮길 수 있는 보유 항목이 없습니다.'
+  }),
+  'nsarmoire.validation.cabinet.pending': msg({
+    zh: draft('收藏柜判断需要 Cabinet.csv 目录，加载完成前不会给出正式结论。'),
+    en: 'Armoire checks need the Cabinet.csv catalog and will not report final results until it loads.',
+    ja: 'キャビネット判定にはCabinet.csv目录が必要で、読み込み完了まで正式な結果は表示しません。',
+    ko: '보관함 판정에는 Cabinet.csv 목록이 필요하며 로드 전에는 최종 결과를 표시하지 않습니다.'
+  }),
+  'nsarmoire.validation.cabinet.catalogHit': msg({
+    zh: draft('Cabinet.csv 包含 itemId {itemId}。'),
+    en: 'Cabinet.csv includes itemId {itemId}.',
+    ja: 'Cabinet.csvにitemId {itemId} が含まれています。',
+    ko: 'Cabinet.csv에 itemId {itemId}가 포함되어 있습니다.'
+  }),
+  'nsarmoire.validation.dyes.rule': msg({
+    zh: draft(
+      'snapshot 的 dyes 字段记录当前染色；只有收藏柜和套装幻影化篓子会清除染色，其他收纳系统不会。'
+    ),
+    en: 'snapshot.dyes records current dyes. Only armoire storage and glamour-set baskets clear dyes; other storage does not.',
+    ja: 'snapshotのdyesは現在の染色を記録します。染色を消すのはキャビネットとセット収納だけで、他の収納は消しません。',
+    ko: 'snapshot.dyes는 현재 염색을 기록합니다. 염색을 지우는 것은 보관함과 세트 보관뿐이며 다른 보관은 지우지 않습니다.'
+  }),
+  'nsarmoire.validation.dyes.hit': msg({
+    zh: draft('{item} 带有染色信息，需要按收纳目标判断是否会被清除。'),
+    en: '{item} has dye data. Whether it is cleared depends on the storage target.',
+    ja: '{item} には染色情報があります。消えるかどうかは収納先で判定します。',
+    ko: '{item} 항목에 염색 정보가 있습니다. 삭제 여부는 보관 대상에 따라 판단합니다.'
+  }),
+  'nsarmoire.validation.dyes.none': msg({
+    zh: draft('当前没有发现 dyes 字段大于 0 的记录。'),
+    en: 'No entry currently has a dye value above 0.',
+    ja: '現在、dyesフィールドが0より大きい記録はありません。',
+    ko: '현재 dyes 필드가 0보다 큰 항목은 없습니다.'
+  }),
+  'nsarmoire.validation.dyes.result': msg({
+    zh: draft('当前命中 {slots} 个染色槽。'),
+    en: '{slots} dyed slots matched.',
+    ja: '染色スロット {slots} 個が命中しました。',
+    ko: '염색 슬롯 {slots}개가 감지되었습니다.'
+  }),
+  'nsarmoire.dyeReset.cabinet': msg({
+    zh: draft('收藏柜会清除染色'),
+    en: 'Armoire storage clears dyes',
+    ja: 'キャビネット収納は染色を消します',
+    ko: '보관함 보관은 염색을 지웁니다'
+  }),
+  'nsarmoire.dyeReset.glamourSetBasket': msg({
+    zh: draft('套装幻影化篓子会清除染色'),
+    en: 'Glamour-set baskets clear dyes',
+    ja: 'セット収納は染色を消します',
+    ko: '세트 보관은 염색을 지웁니다'
+  }),
+  'nsarmoire.dyeReset.preservedStorage': msg({
+    zh: draft('当前收纳系统不清除染色'),
+    en: 'Current storage does not clear dyes',
+    ja: '現在の収納は染色を消しません',
+    ko: '현재 보관은 염색을 지우지 않습니다'
   }),
   'nsarmoire.input.snapshot': msg({
     zh: draft('选择 NSArmoire snapshot JSON'),
@@ -636,7 +1032,9 @@ export const uiMessages: UiMessageMap = {
     ko: '정적 catalog를 읽는 중입니다. 보관함, 세트, 동일 모델 확인은 로드를 기다립니다.'
   }),
   'nsarmoire.status.catalogReady': msg({
-    zh: draft('已读取 {items} 件物品、{cabinet} 个收藏柜项、{sets} 个套装项、{models} 组同模型和 {dyes} 个染剂。'),
+    zh: draft(
+      '已读取 {items} 件物品、{cabinet} 个收藏柜项、{sets} 个套装项、{models} 组同模型和 {dyes} 个染剂。'
+    ),
     en: 'Loaded {items} items, {cabinet} armoire entries, {sets} set entries, {models} model groups, and {dyes} dyes.',
     ja: '{items} アイテム、{cabinet} キャビネット項目、{sets} セット項目、{models} モデルグループ、{dyes} 染料を読み込みました。',
     ko: '{items}개 아이템, {cabinet}개 보관함 항목, {sets}개 세트 항목, {models}개 모델 그룹, {dyes}개 염료를 읽었습니다.'
@@ -664,6 +1062,174 @@ export const uiMessages: UiMessageMap = {
     en: 'No dyed entries found',
     ja: '染色済み項目はありません',
     ko: '염색 항목 없음'
+  }),
+  'nsarmoire.status.helperIdle': msg({
+    zh: draft('本地助手未连接'),
+    en: 'Local helper not connected',
+    ja: 'ローカルヘルパー未接続',
+    ko: '로컬 헬퍼 연결 안 됨'
+  }),
+  'nsarmoire.status.helperConnecting': msg({
+    zh: draft('正在连接本地助手'),
+    en: 'Connecting to local helper',
+    ja: 'ローカルヘルパーに接続中',
+    ko: '로컬 헬퍼 연결 중'
+  }),
+  'nsarmoire.status.helperReady': msg({
+    zh: draft('已读取本地助手 snapshot'),
+    en: 'Local helper snapshot loaded',
+    ja: 'ローカルヘルパーのsnapshotを読み込みました',
+    ko: '로컬 헬퍼 snapshot을 불러왔습니다'
+  }),
+  'nsarmoire.status.helperGameNotFound': msg({
+    zh: draft('未找到游戏进程'),
+    en: 'Game process not found',
+    ja: 'ゲームプロセスが見つかりません',
+    ko: '게임 프로세스를 찾을 수 없음'
+  }),
+  'nsarmoire.status.helperDresserNotLoaded': msg({
+    zh: draft('投影台数据尚未载入'),
+    en: 'Glamour dresser data is not loaded',
+    ja: 'ミラージュドレッサーのデータが未読み込みです',
+    ko: '투영대 데이터가 아직 로드되지 않았습니다'
+  }),
+  'nsarmoire.status.helperMultipleProcesses': msg({
+    zh: draft('检测到多个游戏进程'),
+    en: 'Multiple game processes detected',
+    ja: '複数のゲームプロセスを検出しました',
+    ko: '여러 게임 프로세스가 감지되었습니다'
+  }),
+  'nsarmoire.status.helperError': msg({
+    zh: draft('本地助手连接失败'),
+    en: 'Local helper connection failed',
+    ja: 'ローカルヘルパー接続に失敗しました',
+    ko: '로컬 헬퍼 연결 실패'
+  }),
+  'nsarmoire.status.helperIdle.message': msg({
+    zh: draft('启动 NSArmoire 本地助手后，可以直接读取投影台 snapshot。'),
+    en: 'Start the NSArmoire local helper to read the glamour dresser snapshot directly.',
+    ja: 'NSArmoireローカルヘルパーを起動すると、ミラージュドレッサーsnapshotを直接読み取れます。',
+    ko: 'NSArmoire 로컬 헬퍼를 시작하면 투영대 snapshot을 직접 읽을 수 있습니다.'
+  }),
+  'nsarmoire.status.helperConnecting.message': msg({
+    zh: draft('正在检查本机 helper 状态，并尝试读取 snapshot。'),
+    en: 'Checking the local helper and trying to load a snapshot.',
+    ja: 'ローカルヘルパーの状態を確認し、snapshotを読み込んでいます。',
+    ko: '로컬 헬퍼 상태를 확인하고 snapshot을 불러오는 중입니다.'
+  }),
+  'nsarmoire.status.helperReady.message': msg({
+    zh: draft('本地助手返回的数据已进入当前分析面板。'),
+    en: 'The local helper data is now loaded into the analysis panels.',
+    ja: 'ローカルヘルパーのデータを分析パネルへ読み込みました。',
+    ko: '로컬 헬퍼 데이터가 현재 분석 패널에 로드되었습니다.'
+  }),
+  'nsarmoire.status.helperGameNotFound.message': msg({
+    zh: draft('请先启动游戏客户端，再重新连接本地助手。'),
+    en: 'Start the game client, then reconnect the local helper.',
+    ja: '先にゲームクライアントを起動してから、ローカルヘルパーに再接続してください。',
+    ko: '먼저 게임 클라이언트를 실행한 뒤 로컬 헬퍼에 다시 연결하세요.'
+  }),
+  'nsarmoire.status.helperDresserNotLoaded.message': msg({
+    zh: draft('请在游戏中打开或刷新投影台，再读取本地数据。'),
+    en: 'Open or refresh the glamour dresser in game, then read local data again.',
+    ja: 'ゲーム内でミラージュドレッサーを開くか更新してから、ローカルデータを再読み込みしてください。',
+    ko: '게임에서 투영대를 열거나 새로고침한 뒤 로컬 데이터를 다시 읽으세요.'
+  }),
+  'nsarmoire.status.helperMultipleProcesses.message': msg({
+    zh: draft('请在进程选择窗口里选择要读取的游戏客户端。'),
+    en: 'Choose which game client to read in the process picker.',
+    ja: 'プロセス選択ウィンドウで読み取るゲームクライアントを選んでください。',
+    ko: '프로세스 선택 창에서 읽을 게임 클라이언트를 선택하세요.'
+  }),
+  'nsarmoire.status.helperError.message': msg({
+    zh: draft('请确认本地助手正在运行，并且浏览器允许访问本机服务。'),
+    en: 'Check that the local helper is running and the browser can reach the local service.',
+    ja: 'ローカルヘルパーが起動しており、ブラウザがローカルサービスへアクセスできるか確認してください。',
+    ko: '로컬 헬퍼가 실행 중이고 브라우저가 로컬 서비스에 접근할 수 있는지 확인하세요.'
+  }),
+  'nsarmoire.process.dialog.title': msg({
+    zh: draft('选择游戏进程'),
+    en: 'Choose game process',
+    ja: 'ゲームプロセスを選択',
+    ko: '게임 프로세스 선택'
+  }),
+  'nsarmoire.process.dialog.message': msg({
+    zh: draft('本地助手检测到多个 FFXIV 客户端，请选择当前要分析的那个。'),
+    en: 'The local helper found multiple FFXIV clients. Choose the one to analyze.',
+    ja: 'ローカルヘルパーが複数のFFXIVクライアントを検出しました。分析する対象を選んでください。',
+    ko: '로컬 헬퍼가 여러 FFXIV 클라이언트를 찾았습니다. 분석할 대상을 선택하세요.'
+  }),
+  'nsarmoire.process.action.refresh': msg({
+    zh: draft('刷新进程列表'),
+    en: 'Refresh process list',
+    ja: 'プロセス一覧を更新',
+    ko: '프로세스 목록 새로고침'
+  }),
+  'nsarmoire.process.action.select': msg({
+    zh: draft('选择此进程'),
+    en: 'Select process',
+    ja: 'このプロセスを選択',
+    ko: '이 프로세스 선택'
+  }),
+  'nsarmoire.process.field.name': msg({
+    zh: draft('进程'),
+    en: 'Process',
+    ja: 'プロセス',
+    ko: '프로세스'
+  }),
+  'nsarmoire.process.field.pid': msg({
+    zh: 'PID',
+    en: 'PID',
+    ja: 'PID',
+    ko: 'PID'
+  }),
+  'nsarmoire.process.field.windowTitle': msg({
+    zh: draft('窗口标题'),
+    en: 'Window title',
+    ja: 'ウィンドウタイトル',
+    ko: '창 제목'
+  }),
+  'nsarmoire.process.field.status': msg({
+    zh: draft('状态'),
+    en: 'Status',
+    ja: '状態',
+    ko: '상태'
+  }),
+  'nsarmoire.process.empty.windowTitle': msg({
+    zh: draft('没有窗口标题'),
+    en: 'No window title',
+    ja: 'ウィンドウタイトルなし',
+    ko: '창 제목 없음'
+  }),
+  'nsarmoire.process.empty.processes': msg({
+    zh: draft('当前没有找到可选择的 ffxiv_dx11 进程。'),
+    en: 'No selectable ffxiv_dx11 process was found.',
+    ja: '選択できる ffxiv_dx11 プロセスが見つかりません。',
+    ko: '선택할 수 있는 ffxiv_dx11 프로세스를 찾지 못했습니다.'
+  }),
+  'nsarmoire.process.status.selected': msg({
+    zh: draft('已选择'),
+    en: 'Selected',
+    ja: '選択済み',
+    ko: '선택됨'
+  }),
+  'nsarmoire.process.status.readable': msg({
+    zh: draft('可读取'),
+    en: 'Readable',
+    ja: '読み取り可能',
+    ko: '읽기 가능'
+  }),
+  'nsarmoire.process.status.unreadable': msg({
+    zh: draft('不可读取'),
+    en: 'Unreadable',
+    ja: '読み取り不可',
+    ko: '읽을 수 없음'
+  }),
+  'nsarmoire.process.status.error': msg({
+    zh: draft('进程选择失败'),
+    en: 'Process selection failed',
+    ja: 'プロセス選択に失敗しました',
+    ko: '프로세스 선택 실패'
   }),
   'nsarmoire.action.reloadCatalog': msg({
     zh: draft('重新读取 catalog'),
@@ -799,6 +1365,12 @@ export const uiMessages: UiMessageMap = {
     ja: 'キャラクター',
     ko: '캐릭터'
   }),
+  'nsarmoire.field.helperEndpoint': msg({
+    zh: draft('本地助手地址'),
+    en: 'Local helper endpoint',
+    ja: 'ローカルヘルパーのアドレス',
+    ko: '로컬 헬퍼 주소'
+  }),
   'nsarmoire.field.itemId': msg({
     zh: draft('物品 ID'),
     en: 'Item ID',
@@ -847,6 +1419,241 @@ export const uiMessages: UiMessageMap = {
   'nsplate.tab.portrait': msg({ zh: '肖像', en: 'Portrait', ja: 'ポートレート', ko: '초상화' }),
   'nsplate.tab.nameplate': msg({ zh: '铭牌', en: 'Nameplate', ja: 'ネームプレート', ko: '명패' }),
   'nsplate.tab.info': msg({ zh: '信息', en: 'Info', ja: '情報', ko: '정보' }),
+  'nsplate.info.preset': msg({
+    zh: '信息预设',
+    en: 'Info preset',
+    ja: '情報プリセット',
+    ko: '정보 프리셋'
+  }),
+  'nsplate.info.fields': msg({
+    zh: '信息字段',
+    en: 'Info fields',
+    ja: '情報フィールド',
+    ko: '정보 필드'
+  }),
+  'plate.info.layerType.text': msg({ zh: '文字', en: 'Text', ja: 'テキスト', ko: '텍스트' }),
+  'plate.info.layerType.icon': msg({ zh: '图标', en: 'Icon', ja: 'アイコン', ko: '아이콘' }),
+  'plate.info.layerType.special': msg({
+    zh: '队徽',
+    en: 'Crest',
+    ja: 'クレスト',
+    ko: '문장'
+  }),
+  'plate.info.layerType.fixed': msg({ zh: '固定', en: 'Fixed', ja: '固定', ko: '고정' }),
+  'plate.info.layerType.bar48': msg({
+    zh: '多选',
+    en: 'Multi',
+    ja: '複数選択',
+    ko: '다중 선택'
+  }),
+  'plate.info.preset.phantomTide': msg({
+    zh: '幻海流',
+    en: 'Phantom Tide',
+    ja: '幻海流',
+    ko: '환해류'
+  }),
+  'plate.info.preset.china': msg({ zh: '国服', en: 'China', ja: '中国版', ko: '중국 서버' }),
+  'plate.info.preset.international': msg({
+    zh: '国际服',
+    en: 'International',
+    ja: 'グローバル版',
+    ko: '글로벌 서버'
+  }),
+  'plate.info.field.title': msg({ zh: '称号', en: 'Title', ja: '称号', ko: '칭호' }),
+  'plate.info.field.characterName': msg({
+    zh: '角色名',
+    en: 'Character name',
+    ja: 'キャラクター名',
+    ko: '캐릭터 이름'
+  }),
+  'plate.info.field.world': msg({ zh: '服务器', en: 'World', ja: 'ワールド', ko: '월드' }),
+  'plate.info.field.classJobIcon': msg({
+    zh: '职业图标',
+    en: 'Class/Job icon',
+    ja: 'クラス/ジョブアイコン',
+    ko: '클래스/잡 아이콘'
+  }),
+  'plate.info.field.level': msg({ zh: '等级', en: 'Level', ja: 'レベル', ko: '레벨' }),
+  'plate.info.field.classJobName': msg({
+    zh: '职业名',
+    en: 'Class/Job name',
+    ja: 'クラス/ジョブ名',
+    ko: '클래스/잡 이름'
+  }),
+  'plate.info.field.rankIcon': msg({ zh: '军衔', en: 'Rank', ja: '階級', ko: '계급' }),
+  'plate.info.field.rankName': msg({
+    zh: '军衔名称',
+    en: 'Rank name',
+    ja: '階級名',
+    ko: '계급명'
+  }),
+  'plate.info.field.crest': msg({
+    zh: '部队队徽',
+    en: 'Free Company crest',
+    ja: 'フリーカンパニークレスト',
+    ko: '자유부대 문장'
+  }),
+  'plate.info.field.communityName': msg({
+    zh: '部队名称',
+    en: 'Free Company name',
+    ja: 'フリーカンパニー名',
+    ko: '자유부대 이름'
+  }),
+  'plate.info.field.scheduleCells': msg({
+    zh: '作息选择',
+    en: 'Schedule cells',
+    ja: '活動時間選択',
+    ko: '활동 시간 선택'
+  }),
+  'plate.info.field.searchComment': msg({
+    zh: '个性签名',
+    en: 'Search comment',
+    ja: 'サーチコメント',
+    ko: '검색 코멘트'
+  }),
+  'plate.info.field.timeIcon': msg({
+    zh: '时间图标',
+    en: 'Time icon',
+    ja: '時間アイコン',
+    ko: '시간 아이콘'
+  }),
+  'plate.info.field.scheduleNumber': msg({
+    zh: '作息数字',
+    en: 'Schedule numbers',
+    ja: '活動時間数字',
+    ko: '활동 시간 숫자'
+  }),
+  'plate.info.field.scheduleText': msg({
+    zh: '作息文字',
+    en: 'Schedule labels',
+    ja: '活動時間ラベル',
+    ko: '활동 시간 라벨'
+  }),
+  'plate.info.field.searchCommentIcon': msg({
+    zh: '个签图标',
+    en: 'Search comment icon',
+    ja: 'サーチコメントアイコン',
+    ko: '검색 코멘트 아이콘'
+  }),
+  'plate.info.field.activityIcon': msg({
+    zh: '活动图标',
+    en: 'Activity icon',
+    ja: '活動アイコン',
+    ko: '활동 아이콘'
+  }),
+  'plate.info.field.classJobEnglishName': msg({
+    zh: '英文职业名',
+    en: 'English class/job name',
+    ja: '英語クラス/ジョブ名',
+    ko: '영문 클래스/잡 이름'
+  }),
+  'plate.info.field.cnTitle': msg({
+    zh: '中文标题',
+    en: 'Chinese title',
+    ja: '中国語タイトル',
+    ko: '중국어 제목'
+  }),
+  'plate.info.field.enTitle': msg({
+    zh: '英文标题',
+    en: 'English title',
+    ja: '英語タイトル',
+    ko: '영어 제목'
+  }),
+  'plate.info.field.bodyCopyOne': msg({ zh: '文案1', en: 'Copy 1', ja: '本文1', ko: '문안 1' }),
+  'plate.info.field.decorIconOne': msg({
+    zh: '装饰图标1',
+    en: 'Decor icon 1',
+    ja: '装飾アイコン1',
+    ko: '장식 아이콘 1'
+  }),
+  'plate.info.field.bodyCopyTwo': msg({ zh: '文案2', en: 'Copy 2', ja: '本文2', ko: '문안 2' }),
+  'plate.info.field.decorIconTwo': msg({
+    zh: '装饰图标2',
+    en: 'Decor icon 2',
+    ja: '装飾アイコン2',
+    ko: '장식 아이콘 2'
+  }),
+  'plate.info.bar48.actions': msg({
+    zh: '作息条状态操作',
+    en: 'Schedule bar actions',
+    ja: '活動時間バー操作',
+    ko: '활동 시간 바 작업'
+  }),
+  'plate.info.bar48.allEmpty': msg({
+    zh: '全空',
+    en: 'Clear all',
+    ja: 'すべて空',
+    ko: '전체 비우기'
+  }),
+  'plate.info.bar48.allOn': msg({
+    zh: '全亮',
+    en: 'Fill all',
+    ja: 'すべて点灯',
+    ko: '전체 켜기'
+  }),
+  'plate.info.bar48.stateSelect': msg({
+    zh: '作息条选择',
+    en: 'Schedule bar selection',
+    ja: '活動時間バー選択',
+    ko: '활동 시간 바 선택'
+  }),
+  'plate.info.bar48.cellPrefix': msg({
+    zh: '第 ',
+    en: 'Cell ',
+    ja: '',
+    ko: ''
+  }),
+  'plate.info.bar48.cellSeparator': msg({
+    zh: ' 格：',
+    en: ': ',
+    ja: '番：',
+    ko: '번: '
+  }),
+  'plate.info.bar48.cellOn': msg({ zh: '实心', en: 'filled', ja: '点灯', ko: '켜짐' }),
+  'plate.info.bar48.cellOff': msg({ zh: '空心', en: 'empty', ja: '空', ko: '비어 있음' }),
+  'plate.info.icon.material': msg({ zh: '素材', en: 'Material', ja: '素材', ko: '소재' }),
+  'plate.info.icon.selectedCount': msg({
+    zh: '已选',
+    en: 'Selected',
+    ja: '選択済み',
+    ko: '선택됨'
+  }),
+  'plate.info.special.background': msg({
+    zh: '寓意背景',
+    en: 'Meaning background',
+    ja: '寓意背景',
+    ko: '의미 배경'
+  }),
+  'plate.info.special.mask': msg({
+    zh: '上色蒙版',
+    en: 'Tint mask',
+    ja: '着色マスク',
+    ko: '채색 마스크'
+  }),
+  'plate.info.special.symbol': msg({
+    zh: '寓意物',
+    en: 'Meaning symbol',
+    ja: '寓意物',
+    ko: '의미 상징'
+  }),
+  'plate.info.special.noBackground': msg({
+    zh: '不使用背景',
+    en: 'No background',
+    ja: '背景なし',
+    ko: '배경 없음'
+  }),
+  'plate.info.special.noMask': msg({
+    zh: '不使用蒙版',
+    en: 'No mask',
+    ja: 'マスクなし',
+    ko: '마스크 없음'
+  }),
+  'plate.info.special.maskNeedsBackground': msg({
+    zh: '先选择背景后再选择蒙版',
+    en: 'Choose a background before selecting a mask',
+    ja: '先に背景を選択してください',
+    ko: '먼저 배경을 선택하세요'
+  }),
   'nsplate.panel.config': msg({
     zh: 'NSPlate 配置',
     en: 'NSPlate config',
@@ -962,6 +1769,42 @@ export const uiMessages: UiMessageMap = {
     en: 'Clear all selections',
     ja: 'すべての選択をクリア',
     ko: '모든 선택 지우기'
+  }),
+  'nsplate.config.import': msg({
+    zh: '导入配置',
+    en: 'Import config',
+    ja: '設定をインポート',
+    ko: '설정 가져오기'
+  }),
+  'nsplate.config.importInput': msg({
+    zh: '选择旧 NSPlate 配置 JSON',
+    en: 'Choose a legacy NSPlate config JSON',
+    ja: '旧NSPlate設定JSONを選択',
+    ko: '이전 NSPlate 설정 JSON 선택'
+  }),
+  'nsplate.config.importSuccess': msg({
+    zh: '配置已导入',
+    en: 'Config imported',
+    ja: '設定をインポートしました',
+    ko: '설정을 가져왔습니다'
+  }),
+  'nsplate.config.importPartial': msg({
+    zh: '已导入当前版本支持的配置；未迁移的信息层或缺失素材暂时跳过',
+    en: 'Supported config was imported; unmigrated info layers or missing assets were skipped.',
+    ja: '現在対応している設定をインポートしました。未移行の情報レイヤーまたは不足素材はスキップしました。',
+    ko: '현재 지원되는 설정을 가져왔습니다. 아직 이전되지 않은 정보 레이어나 누락 소재는 건너뛰었습니다.'
+  }),
+  'nsplate.config.importUnsupported': msg({
+    zh: '这个文件不是网页配置；如果是分层 ZIP，请导入里面的 composer-config.json',
+    en: 'This is not a web config. If it came from a layered ZIP, import composer-config.json inside it.',
+    ja: 'これはWeb設定ではありません。レイヤーZIPの場合は中のcomposer-config.jsonをインポートしてください。',
+    ko: '웹 설정 파일이 아닙니다. 레이어 ZIP이라면 내부의 composer-config.json을 가져오세요.'
+  }),
+  'nsplate.config.importError': msg({
+    zh: '配置导入失败，请确认文件来自旧铭牌工房',
+    en: 'Config import failed. Check that the file came from the legacy nameplate editor.',
+    ja: '設定のインポートに失敗しました。旧ネームプレート工房のファイルか確認してください。',
+    ko: '설정 가져오기에 실패했습니다. 이전 명패 편집기에서 나온 파일인지 확인하세요.'
   }),
   'nsplate.export.png': msg({
     zh: '导出 PNG',
@@ -1312,5 +2155,143 @@ export const uiMessages: UiMessageMap = {
   'styleLab.appField': same('AppField'),
   'styleLab.appToolbar': same('AppToolbar'),
   'styleLab.appStatus': same('AppStatus'),
+  'styleLab.iconLab': msg({
+    zh: 'Pixelarticons 图标样本',
+    en: 'Pixelarticons icon samples',
+    ja: 'Pixelarticonsアイコンサンプル',
+    ko: 'Pixelarticons 아이콘 샘플'
+  }),
+  'styleLab.iconTextBar': msg({
+    zh: '图标文字 Bar',
+    en: 'Icon text bar',
+    ja: 'アイコン付きテキストバー',
+    ko: '아이콘 텍스트 바'
+  }),
+  'styleLab.iconOnlyButtons': msg({
+    zh: '纯图标按钮',
+    en: 'Icon-only buttons',
+    ja: 'アイコンのみボタン',
+    ko: '아이콘 전용 버튼'
+  }),
+  'styleLab.textIconButtons': msg({
+    zh: '图标文字按钮',
+    en: 'Icon text buttons',
+    ja: 'アイコン付きテキストボタン',
+    ko: '아이콘 텍스트 버튼'
+  }),
+  'styleLab.iconMenuSample': msg({
+    zh: '图标菜单',
+    en: 'Icon menu',
+    ja: 'アイコンメニュー',
+    ko: '아이콘 메뉴'
+  }),
+  'styleLab.iconSource': same('Pixelarticons / MIT'),
+  'styleLab.icon.home': msg({ zh: '主页', en: 'Home', ja: 'ホーム', ko: '홈' }),
+  'styleLab.icon.menu': msg({ zh: '菜单', en: 'Menu', ja: 'メニュー', ko: '메뉴' }),
+  'styleLab.icon.config': msg({ zh: '设置', en: 'Config', ja: '設定', ko: '설정' }),
+  'styleLab.icon.search': msg({ zh: '搜索', en: 'Search', ja: '検索', ko: '검색' }),
+  'styleLab.icon.download': msg({
+    zh: '下载',
+    en: 'Download',
+    ja: 'ダウンロード',
+    ko: '다운로드'
+  }),
+  'styleLab.icon.image': msg({ zh: '图片', en: 'Image', ja: '画像', ko: '이미지' }),
+  'styleLab.icon.folder': msg({ zh: '文件夹', en: 'Folder', ja: 'フォルダー', ko: '폴더' }),
+  'styleLab.icon.favorite': msg({
+    zh: '收藏',
+    en: 'Favorite',
+    ja: 'お気に入り',
+    ko: '즐겨찾기'
+  }),
+  'styleLab.icon.language': msg({ zh: '语言', en: 'Language', ja: '言語', ko: '언어' }),
+  'styleLab.notebookLab': msg({
+    zh: '赛博记事本样本',
+    en: 'Cyber notebook sample',
+    ja: 'サイバーノートサンプル',
+    ko: '사이버 노트 샘플'
+  }),
+  'styleLab.notebook.card': msg({
+    zh: '赛博记事本选择面板',
+    en: 'Cyber notebook picker',
+    ja: 'サイバーノート選択パネル',
+    ko: '사이버 노트 선택 패널'
+  }),
+  'styleLab.notebook.fold': msg({
+    zh: '可折叠素材小面板',
+    en: 'Foldable material panel',
+    ja: '折りたたみ素材パネル',
+    ko: '접이식 소재 패널'
+  }),
+  'styleLab.notebook.comment': msg({
+    zh: '作为画布区旁边的工作台便签：不是导出内容，而是帮助用户快速确认当前组合和素材状态。',
+    en: 'A workbench note near the canvas: not exported content, just a quick status rhythm.',
+    ja: 'キャンバス横の作業メモです。書き出し対象ではなく、現在の組み合わせと素材状態を確認します。',
+    ko: '캔버스 옆 작업 메모입니다. 내보내기 대상이 아니라 현재 조합과 소재 상태를 빠르게 확인합니다.'
+  }),
+  'styleLab.notebook.rule.title': msg({
+    zh: '第一行显示组合名和进度。',
+    en: 'First line shows group name and progress.',
+    ja: '1行目にグループ名と進捗を表示。',
+    ko: '첫 줄에 그룹명과 진행도를 표시합니다.'
+  }),
+  'styleLab.notebook.rule.value': msg({
+    zh: '第二行是素材名，最多两行后省略。',
+    en: 'Second line is the material value, clamped after two lines.',
+    ja: '2行目は素材名で、2行まで表示します。',
+    ko: '둘째 줄은 소재명이며 두 줄 뒤 생략합니다.'
+  }),
+  'styleLab.notebook.rule.fold': msg({
+    zh: '折叠态只保留当前组合，不显示具体项目。',
+    en: 'Folded state keeps only the current group, not every item.',
+    ja: '折りたたみ時は現在のグループだけを残します。',
+    ko: '접힌 상태에서는 현재 그룹만 남깁니다.'
+  }),
+  'styleLab.meta.text': same('text'),
+  'styleLab.meta.material': msg({ zh: '素材', en: 'Material', ja: '素材', ko: '소재' }),
+  'styleLab.meta.currentGroup': msg({
+    zh: '当前组合',
+    en: 'Current group',
+    ja: '現在の組み合わせ',
+    ko: '현재 조합'
+  }),
+  'styleLab.meta.portraitBackground': msg({
+    zh: '肖像背景',
+    en: 'Portrait background',
+    ja: 'ポートレート背景',
+    ko: '초상화 배경'
+  }),
+  'styleLab.meta.portraitFrame': msg({
+    zh: '肖像装饰框',
+    en: 'Portrait frame',
+    ja: 'ポートレート装飾枠',
+    ko: '초상화 장식 프레임'
+  }),
+  'styleLab.meta.portraitDecoration': msg({
+    zh: '肖像装饰物',
+    en: 'Portrait decoration',
+    ja: 'ポートレート装飾',
+    ko: '초상화 장식'
+  }),
+  'styleLab.meta.nameplateBacking': msg({
+    zh: '铭牌背衬',
+    en: 'Nameplate backing',
+    ja: 'ネームプレート背面',
+    ko: '명패 배경판'
+  }),
+  'styleLab.meta.gray': msg({ zh: '灰色', en: 'Gray', ja: 'グレー', ko: '회색' }),
+  'styleLab.meta.glow': msg({ zh: '光彩', en: 'Glow', ja: '光彩', ko: '광채' }),
+  'styleLab.meta.unselected': msg({
+    zh: '未选',
+    en: 'Unselected',
+    ja: '未選択',
+    ko: '선택 안 됨'
+  }),
+  'styleLab.meta.newColor': msg({
+    zh: '新空色：防...',
+    en: 'Sky tint: def...',
+    ja: '空色：防...',
+    ko: '하늘색: 방...'
+  }),
   'styleLab.skinName': same('pixel-soft-lite')
 }

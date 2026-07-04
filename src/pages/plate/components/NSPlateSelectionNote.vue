@@ -24,26 +24,15 @@
     </button>
 
     <div v-if="isOpen" class="nsplate-selection-note__body">
-      <button
-        v-for="item in items"
-        :key="item.sectionKey"
-        class="nsplate-selection-note__item"
-        :data-selected="item.selected"
-        type="button"
-        @click="emit('focus-item', item)"
-      >
-        <span
-          class="nsplate-selection-note__icon"
-          :style="iconStyle(item)"
-          aria-hidden="true"
-        />
-        <span class="nsplate-selection-note__content">
-          <span class="nsplate-selection-note__label">{{ item.label }}</span>
-          <span class="nsplate-selection-note__value" :data-empty="!item.selected">
-            {{ item.valueLabel }}
-          </span>
-        </span>
-      </button>
+      <AppNotebookList
+        :items="notebookItems"
+        :aria-label="summaryLabel"
+        :height="288"
+        :mobile-height="238"
+        :min-width="218"
+        :max-width="286"
+        @select="focusNotebookItem"
+      />
     </div>
   </aside>
 </template>
@@ -52,7 +41,16 @@
 import { computed, ref, type CSSProperties } from 'vue'
 import circleIcon from '@/assets/icons/circle.svg'
 import sparklesIcon from '@/assets/icons/sparkles.svg'
+import AppNotebookList from '@/components/AppNotebookList.vue'
 import type { NSPlateSelectionNoteItem } from '@/lib/plate/types'
+
+type NotebookItem = {
+  id: string
+  label: string
+  value?: string
+  active?: boolean
+  disabled?: boolean
+}
 
 const props = defineProps<{
   title: string
@@ -68,6 +66,14 @@ const selectedCount = computed(() => props.items.filter((item) => item.selected)
 const hasSelected = computed(() => selectedCount.value > 0)
 const progressLabel = computed(() => `${selectedCount.value}/${props.items.length}`)
 const summaryLabel = computed(() => `${props.title} ${progressLabel.value}`)
+const notebookItems = computed<NotebookItem[]>(() =>
+  props.items.map((item) => ({
+    id: item.sectionKey,
+    label: item.label,
+    value: item.valueLabel,
+    active: item.selected
+  }))
+)
 const summaryIconStyle = computed(
   () =>
     ({
@@ -75,10 +81,12 @@ const summaryIconStyle = computed(
     }) as CSSProperties
 )
 
-function iconStyle(item: NSPlateSelectionNoteItem) {
-  return {
-    '--nsplate-selection-note-icon': `url("${item.selected ? sparklesIcon : circleIcon}")`
-  } as CSSProperties
+function focusNotebookItem(item: NotebookItem) {
+  const selectedItem = props.items.find((candidate) => candidate.sectionKey === item.id)
+
+  if (selectedItem) {
+    emit('focus-item', selectedItem)
+  }
 }
 </script>
 
@@ -88,45 +96,40 @@ function iconStyle(item: NSPlateSelectionNoteItem) {
   bottom: 12px;
   left: 12px;
   z-index: 2;
-  display: flex;
+  display: grid;
   max-height: calc(100% - 24px);
-  width: min(260px, calc(100% - 24px));
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid var(--ns-color-border-strong);
-  background: color-mix(in srgb, var(--ns-color-surface-solid) 92%, transparent);
-  box-shadow: 3px 3px 0 color-mix(in srgb, var(--ns-color-text) 14%, transparent);
+  max-width: min(320px, calc(100% - 24px));
+  justify-items: start;
+  gap: 6px;
+  --ns-notebook-cutout: color-mix(in srgb, var(--ns-color-bg-soft) 88%, var(--ns-color-cyan-soft));
 }
 
 .nsplate-selection-note[data-open='false'] {
-  width: auto;
   max-height: none;
 }
 
 .nsplate-selection-note__summary {
-  display: flex;
-  flex: 0 0 auto;
-  width: 100%;
+  display: inline-flex;
   min-width: 34px;
-  min-height: 34px;
+  min-height: 32px;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 0 9px;
-  border: 0;
-  background: color-mix(in srgb, var(--ns-color-cyan-soft) 42%, var(--ns-color-surface-solid));
-  color: var(--ns-color-text);
+  padding: 0 8px;
+  border: 2px solid var(--ns-notebook-border);
+  background: var(--ns-notebook-paper);
+  color: var(--ns-notebook-ink);
   font-family: var(--ns-font-decorative);
   font-size: 12px;
   font-weight: 950;
   text-align: left;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.18);
   cursor: pointer;
 }
 
 .nsplate-selection-note[data-open='false'] .nsplate-selection-note__summary {
   justify-content: center;
-  width: auto;
-  height: 34px;
+  height: 32px;
   padding: 0 8px;
 }
 
@@ -141,92 +144,36 @@ function iconStyle(item: NSPlateSelectionNoteItem) {
   -webkit-mask: var(--nsplate-selection-note-icon) center / contain no-repeat;
 }
 
+.nsplate-selection-note__title {
+  overflow: hidden;
+  max-width: 138px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .nsplate-selection-note__count {
-  color: var(--ns-color-text-muted);
+  color: var(--ns-notebook-muted);
   font-family: var(--ns-font-mono);
   font-size: 11px;
 }
 
 .nsplate-selection-note__count[data-compact='true'] {
-  color: var(--ns-color-text);
+  color: var(--ns-notebook-ink);
   font-size: 10px;
   font-weight: 900;
 }
 
 .nsplate-selection-note__body {
-  display: grid;
-  min-height: 0;
-  max-height: min(48vh, 340px);
-  overflow-y: auto;
-  padding: 6px;
-  gap: 2px;
+  max-width: 100%;
 }
 
-.nsplate-selection-note__item {
-  display: grid;
-  grid-template-columns: 15px minmax(0, 1fr);
-  align-items: start;
-  gap: 6px;
-  width: 100%;
-  padding: 5px 4px 6px;
-  border: 0;
-  background: transparent;
-  color: var(--ns-color-text);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
+.nsplate-selection-note__body :deep(.app-notebook-list) {
+  margin: 0;
 }
 
-.nsplate-selection-note__item:hover,
-.nsplate-selection-note__item:focus-visible {
-  background: color-mix(in srgb, var(--ns-color-accent) 12%, transparent);
-  outline: 0;
-}
-
-.nsplate-selection-note__icon {
-  width: 13px;
-  height: 13px;
-  margin-top: 1px;
-  background: currentColor;
-  color: color-mix(in srgb, var(--ns-color-text-muted) 70%, transparent);
-  image-rendering: pixelated;
-  mask: var(--nsplate-selection-note-icon) center / contain no-repeat;
-  -webkit-mask: var(--nsplate-selection-note-icon) center / contain no-repeat;
-}
-
-.nsplate-selection-note__item[data-selected='true'] .nsplate-selection-note__icon {
-  color: var(--ns-color-accent-strong);
-}
-
-.nsplate-selection-note__content {
-  display: grid;
-  min-width: 0;
-  gap: 2px;
-}
-
-.nsplate-selection-note__label {
-  overflow: hidden;
-  color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
-  font-size: 12px;
-  font-weight: 950;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nsplate-selection-note__value {
-  display: -webkit-box;
-  overflow: hidden;
-  color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-sans);
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 1.35;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.nsplate-selection-note__value[data-empty='true'] {
-  opacity: 0.72;
+@media (max-width: 980px) {
+  .nsplate-selection-note {
+    display: none;
+  }
 }
 </style>

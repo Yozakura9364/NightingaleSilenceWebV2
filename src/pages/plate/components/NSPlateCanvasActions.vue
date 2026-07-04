@@ -17,6 +17,14 @@
       >
         {{ t(textKeys.nsplateClearAllSelections) }}
       </button>
+      <button
+        class="nsplate-canvas-status__button"
+        type="button"
+        :disabled="!canImportConfig"
+        @click="emit('import-config')"
+      >
+        {{ t(textKeys.nsplateImportConfig) }}
+      </button>
       <label class="nsplate-canvas-status__toggle">
         <input v-model="exportScale2x" type="checkbox" :disabled="!canExport" />
         <span>{{ t(textKeys.nsplateExportScale2x) }}</span>
@@ -58,12 +66,14 @@ import { useLocale } from '@/stores/locale'
 defineProps<{
   canClearCustomPortrait: boolean
   canClearAll: boolean
+  canImportConfig: boolean
   canExport: boolean
 }>()
 
 const emit = defineEmits<{
   'clear-custom-portrait': []
   'clear-all': []
+  'import-config': []
   'export-image': [payload: { format: NSPlateCanvasExportFormat; scale: number }]
   'export-layered-zip': [payload: { scale: number }]
 }>()

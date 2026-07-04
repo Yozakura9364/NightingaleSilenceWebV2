@@ -96,6 +96,26 @@ defineEmits<{
   background: var(--ns-pixel-surface);
   color: var(--ns-color-text);
   cursor: pointer;
+  transition:
+    transform var(--ns-transition-fast),
+    background var(--ns-transition-fast),
+    box-shadow var(--ns-transition-fast);
+}
+
+.app-pixel-window__close:hover {
+  transform: translate(-1px, -1px);
+  background: var(--ns-pixel-hover-surface);
+  box-shadow: var(--ns-pixel-soft-shadow);
+}
+
+.app-pixel-window__close:focus-visible {
+  outline: 0;
+  box-shadow: var(--ns-focus-ring);
+}
+
+.app-pixel-window__close:active {
+  transform: translate(1px, 1px);
+  box-shadow: none;
 }
 
 .app-pixel-window__close span::before,
