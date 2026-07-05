@@ -31,5 +31,8 @@ Thumbs.db
 # local-only large reference assets
 /local-assets/
 
+# local-only icon experiments and draft exports
+/icon-drafts/
+
 # local AI / IDE settings
 .claude/settings.local.json
