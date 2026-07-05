@@ -127,19 +127,25 @@
 
 2026-07-05 已完成第五十六段自定义图本地缓存修正：旧 `NSPortable` 只缓存裁切后的 `512×840` 自定义图；V2 出框模式此前把用户原始大图也写入 `sourceDataUrl`，容易超过 localStorage 体积上限并导致整个 `customPortrait` 被跳过。现在确认裁切时会为出框模式生成“实际绘制尺寸 + 可见范围”的归一化源图，避免缓存原始大图；`useNSPlateDraftPersistence.ts` 的体积保护上限提高到 `4.5MB`，并在仍超限时降级保留裁切后的自定义图，不再优先整张置空。此切片不改变系统素材缓存、配置导入导出格式或出框层级锚点。
 
+2026-07-05 已完成第五十七段旧服务依赖收口和信息渲染定义拆分：新增 `src/lib/plate/dataSource.ts` 定义 NSPlate 数据源契约，`src/pages/plate/services/nsplateDataSource.ts` 提供旧 `/api/plate` 实现和未来静态 manifest 实现；`useNSPlateData.ts`、`NSPlateCanvasArea.vue` 和 `useNSPlateCanvasExport.ts` 不再直接依赖 `ApiBoundary` 或 `/api/plate`，旧 API 只在 `NSPlateWorkspace.vue` 的接线层创建。新增 `scripts/build-nsplate-manifest.mjs` 和 `npm run build:plate-manifest`，可从旧兼容 API 抽取 `presets.json`、`files.json` 到 `public/data/plate/`，用于后续静态数据源验证；该脚本不复制游戏素材文件，素材仍应走 V2 可控静态源或 COS/CDN。新增 `infoLayerRenderTypes.ts`，把信息层渲染类型和常量从 `infoLayerRenderDefinitions.ts` 拆出，后者继续只维护旧坐标/定义表和渲染层生成逻辑。此切片默认仍走旧 API，不改变素材坐标、Canvas 图层顺序、导出文件结构或当前生产路径。
+
 当前 V2 代码结构：
 
 ```text
 src/lib/plate/
+├── assetUrls.ts
 ├── canvasRenderer.ts
 ├── configTransfer.ts
 ├── customPortrait.ts
+├── dataSource.ts
 ├── draft.ts
 ├── exportCanvas.ts
 ├── infoLayerFields.ts
 ├── infoLayerAssetMatching.ts
+├── infoLayerImageUtils.ts
 ├── infoLayerImageRenderer.ts
 ├── infoLayerRenderDefinitions.ts
+├── infoLayerRenderTypes.ts
 ├── infoLayerTextRenderer.ts
 ├── infoLayers.ts
 ├── legacyConfig.ts
@@ -153,7 +159,8 @@ src/pages/plate/
 ├── nsplate-fonts.css
 ├── services/
 │   ├── nsplateAdapters.ts
-│   └── nsplateApi.ts
+│   ├── nsplateApi.ts
+│   └── nsplateDataSource.ts
 ├── composables/
 │   ├── useNSPlateCanvasFrame.ts
 │   ├── useNSPlateCanvasViewport.ts
@@ -161,6 +168,7 @@ src/pages/plate/
 │   ├── useNSPlateDraftPersistence.ts
 │   ├── useNSPlateConfigTransfer.ts
 │   ├── useNSPlateCanvasExport.ts
+│   ├── useNSPlateInfoPanel.ts
 │   ├── useNSPlateSelectionNote.ts
 │   ├── useNSPlateCropInteraction.ts
 │   └── useNSPlatePanelResize.ts
@@ -186,11 +194,14 @@ src/pages/plate/
 - `NSPlatePage.vue` 继续复用 `FfxivToolShell`，只通过 workspace slot 接入 NSPlate 私有工作区。
 - `NSPlatePage.vue` 使用 `FfxivToolShell` 的 `workspace` 模式；该模式用于真实工具工作台，隐藏占位页的大 hero、左侧 API 说明卡以及内部标题/API 状态条。正式工具页由顶部菜单承担站点和工具导航，顶部菜单下方直接进入全屏工具工作台，不再用外层卡片/面板包住工作区；`ToolApiStatus` 只保留给占位页或调试界面使用。
 - 当前 `NSPlateWorkspace.vue` 是干净的迁移工作台骨架，还不是最终 `FFXIV` 工具页统一骨架。后续整理 `#/ffxiv/glamour` 和 `#/ffxiv/plate` 共享工作台时，应把通用预览区、配置区、tab 容器上移到 `src/pages/ffxiv/components/`，让 NSPlate 只提供业务 slot。
-- `services/nsplateApi.ts` 负责调用 `/api/plate/presets`、`/api/plate/files`；`services/nsplateAdapters.ts` 负责把旧接口返回归一成 V2 展示模型。
+- `src/lib/plate/dataSource.ts` 是 NSPlate 数据源契约边界；页面和 composable 不应直接假设数据一定来自旧 `NSPortable`。
+- `services/nsplateDataSource.ts` 负责选择数据源。默认使用旧 `/api/plate`，设置 `VITE_NSPLATE_DATA_SOURCE=static-manifest` 时可读取 `VITE_NSPLATE_MANIFEST_BASE` 下的 `presets.json` 和 `files.json`。静态 manifest 文件尚未生成前，不应开启该模式。
+- `npm run build:plate-manifest` 负责从旧兼容 API 生成静态 manifest。默认源为 `http://127.0.0.1:3456/api`，可用 `--source-api-base`、`--output-dir`、`--img-base`、`--preview-img-base` 或对应环境变量覆盖。生成物可用于验证静态数据源，但不应把 1GB 级游戏素材复制进仓库。
+- `services/nsplateApi.ts` 只负责旧 `/api/plate/presets`、`/api/plate/files`、`/api/plate/export-layered-zip` 调用；`services/nsplateAdapters.ts` 负责把旧接口返回归一成 V2 展示模型。
 - 素材 URL 由 adapter 根据 `_meta.imgBase`、`_meta.previewImgBase` 生成；兼容旧服务可能返回的 `/portable/img`、`/portable/img-preview/256` 前缀，组件不硬编码 `localhost`、端口或旧挂载前缀。素材 id 不应依赖接口数组顺序；如需兼容旧 V2 草稿，可通过 `legacyIds` 在加载后归一到稳定 id。
-- `useNSPlateData.ts` 只负责请求生命周期、错误状态、当前选中预设和素材。
+- `useNSPlateData.ts` 只负责数据源请求生命周期、错误状态、当前选中预设和素材；它不读取 `ApiBoundary`，不创建旧 API client。
 - `useNSPlateConfigTransfer.ts` 负责页面层配置传输编排：文件导入、剪贴板导入/复制、配置 JSON 下载、旧 localStorage 自动恢复和导入结果写回当前草稿；`src/lib/plate/configTransfer.ts` 只处理纯数据序列化和归一。
-- `useNSPlateCanvasExport.ts` 负责当前前端导出编排：浏览器端 PNG/JPG、浏览器端分层 ZIP、旧后端 ZIP fallback 和导出错误格式化。`NSPlateCanvasArea.vue` 不直接承担 API fallback 或 ZIP 生成细节。
+- `useNSPlateCanvasExport.ts` 负责当前前端导出编排：浏览器端 PNG/JPG、浏览器端分层 ZIP、数据源提供的 ZIP fallback 和导出错误格式化。`NSPlateCanvasArea.vue` 不直接承担 API fallback 或 ZIP 生成细节，也不直接持有 `/api/plate`。
 - `src/lib/plate/zipArchive.ts` 只负责浏览器端无压缩 ZIP 二进制封装；它不读取 NSPlate 图层模型、不访问 DOM、不决定导出文件名或 fallback 策略。
 - `src/lib/plate/render.ts` 的 `getNameplateRenderSegments()` 是铭牌预览和分层导出的统一图层顺序来源；新增信息层、出框层级锚点或素材层时必须先改这里，再让 renderer/export 消费同一顺序。出框层级锚点只能使用有限枚举，不能在 UI 中开放任意图层拖拽排序。
 - `src/lib/plate/infoLayerFields.ts` 负责维护旧 `国际服`、`国服`、`幻海流` 信息预设的固定字段定义，包括 `slotId`、旧字段名、V2 本地化 key、fallback 标题和游戏术语确认状态。

@@ -2,6 +2,8 @@
 
 本文件记录 V2 `NSPlate` 模块的 API 契约方向。当前接口仍由旧 `NSPortable` 后端提供，V2 通过 `/api/plate/*` 命名空间接入。
 
+前端代码不应直接把旧服务作为唯一数据来源。当前已建立 `NSPlateDataSource` 边界：默认实现仍调用 `/api/plate/*`，后续可切换为 V2 静态 manifest 和 COS/CDN 素材源。
+
 ## 基本信息
 
 | 项 | 值 |
@@ -29,6 +31,35 @@
 3. 新后端可以重新实现，但必须保持契约或提供适配层。
 4. 素材路径和导出 payload 不要在组件里临时拼接。
 5. 导出接口必须保留大小、图层数量和像素总量限制。
+6. `#/ffxiv/plate` 页面组件只依赖 `NSPlateDataSource` 和 adapter 后的 V2 模型，不直接依赖旧接口原始字段。
+
+## 静态 manifest 方向
+
+未来关闭旧 `NSPortable` 服务前，V2 至少需要生成并部署：
+
+- `presets.json`：结构与 `NSPlatePresetsResponse` 等价，包含 `banner`、`charcard`。
+- `files.json`：结构与 `NSPlateFilesResponse` 等价，包含 `portrait`、`nameplate`、`_meta.imgBase`、`_meta.previewImgBase`。
+
+当前可用脚本：
+
+```bash
+npm run build:plate-manifest
+node scripts/build-nsplate-manifest.mjs --source-api-base http://127.0.0.1:3456/api --img-base https://example.invalid/img
+```
+
+当前代码预留环境变量：
+
+- `VITE_NSPLATE_DATA_SOURCE=static-manifest`
+- `VITE_NSPLATE_MANIFEST_BASE=/data/plate`
+
+生成脚本环境变量：
+
+- `NSPLATE_SOURCE_API_BASE`
+- `NSPLATE_MANIFEST_OUTPUT_DIR`
+- `NSPLATE_STATIC_IMG_BASE`
+- `NSPLATE_STATIC_PREVIEW_IMG_BASE`
+
+该模式尚未默认启用；必须先生成真实 manifest、确认素材 URL 指向 V2 可控的静态源或 CDN，并完成预设、素材、Canvas 和导出回归。
 
 ## 接口清单
 
