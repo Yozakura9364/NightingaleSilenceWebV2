@@ -3,7 +3,7 @@ namespace NightingaleSilence.NSArmoire.Helper;
 internal static class ArmoireContracts
 {
     public const string SnapshotSchemaVersion = "nsarmoire.snapshot.v1";
-    public const string HelperVersion = "0.4.1";
+    public const string HelperVersion = "0.4.3";
 }
 
 internal sealed record ArmoireOwnedItem(
@@ -45,6 +45,8 @@ internal sealed record HelperHealth(
     string? CharacterWorld,
     bool DresserLocated,
     bool DresserLoaded,
+    bool CatalogLocated,
+    int CatalogCabinetEntryCount,
     bool CabinetLocated,
     bool CabinetLoaded,
     bool InventoryLocated,

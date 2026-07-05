@@ -35,10 +35,11 @@ http://127.0.0.1:8015
 
 | Method | Path | Purpose |
 | ------ | ---- | ------- |
-| `GET` | `/health` | Helper status and supported containers. |
+| `GET` | `/health` | Helper status, catalog status, and supported containers. |
 | `GET` | `/processes` | List selectable `ffxiv_dx11` processes. |
 | `POST` | `/process/select` | Select a target process with `{ "pid": number }`. |
 | `GET` | `/probe` | Probe readable character, container, cabinet, and retainer state. |
+| `GET` | `/catalog` | Return the local `nsarmoire.catalog.v1` JSON used for cabinet item mapping. |
 | `GET` | `/snapshot` | Read current available containers as `nsarmoire.snapshot.v1`. |
 | `POST` | `/snapshot/refresh` | Read current available containers again. |
 | `GET` | `/open-v2` | Open the configured V2 NSArmoire page in the system browser. |

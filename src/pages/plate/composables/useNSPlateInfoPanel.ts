@@ -6,15 +6,15 @@ import {
   nsPlateInfoAssetMatchesValue
 } from '@/lib/plate/infoLayerAssetMatching'
 import type { NSPlateInfoPresetId } from '@/lib/plate/infoLayerFields'
+import { nsPlateInfoGraphicRenderDefinitions } from '@/lib/plate/infoLayerRenderDefinitions'
 import {
   NSPLATE_INFO_ACTIVITY_ICON_CATEGORY,
   NSPLATE_INFO_SPECIAL_BG_CATEGORY,
   NSPLATE_INFO_SPECIAL_DEFAULT_SYMBOL_ITEM_ID,
   NSPLATE_INFO_SPECIAL_MASK_CATEGORY,
   NSPLATE_INFO_SPECIAL_SYMBOL_CATEGORY,
-  nsPlateInfoGraphicRenderDefinitions,
   type NSPlateInfoIconRenderDefinition
-} from '@/lib/plate/infoLayerRenderDefinitions'
+} from '@/lib/plate/infoLayerRenderTypes'
 import {
   NSPLATE_INFO_ACTIVITY_ICON_MAX_COUNT,
   getNSPlateInfoActiveLayers,

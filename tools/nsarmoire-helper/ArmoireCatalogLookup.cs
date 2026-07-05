@@ -13,6 +13,7 @@ internal sealed class ArmoireCatalogLookup
     }
 
     public string? SourcePath { get; }
+    public bool HasSource => SourcePath is not null;
     public bool IsLoaded => itemIdsByCabinetId.Count > 0;
     public int CabinetEntryCount => itemIdsByCabinetId.Count;
 
@@ -65,6 +66,29 @@ internal sealed class ArmoireCatalogLookup
             .Select(cabinetId => new CabinetStoredItem(cabinetId, itemIdsByCabinetId[cabinetId]))
             .OrderBy(item => item.CabinetId)
             .ToArray();
+    }
+
+    public byte[] ReadCatalogJson()
+    {
+        if (SourcePath is null || !File.Exists(SourcePath))
+        {
+            throw new HelperRequestException("catalog_not_found", "本地助手未找到静态目录数据", 404);
+        }
+
+        try
+        {
+            var bytes = File.ReadAllBytes(SourcePath);
+            using var _ = JsonDocument.Parse(bytes);
+            return bytes;
+        }
+        catch (JsonException)
+        {
+            throw new HelperRequestException("catalog_invalid", "静态目录数据无法解析", 500);
+        }
+        catch
+        {
+            throw new HelperRequestException("catalog_unreadable", "静态目录数据读取失败", 500);
+        }
     }
 
     private static string? FindCatalogPath()

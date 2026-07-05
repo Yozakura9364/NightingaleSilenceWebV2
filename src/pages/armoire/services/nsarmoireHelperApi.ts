@@ -1,8 +1,9 @@
+import { isArmoireCatalog } from '@/lib/armoire/catalog'
 import {
   normalizeArmoireSnapshot,
   type ArmoireSnapshotErrorCode
 } from '@/lib/armoire/normalizeSnapshot'
-import type { ArmoireSnapshot } from '@/lib/armoire/types'
+import type { ArmoireCatalog, ArmoireSnapshot } from '@/lib/armoire/types'
 
 export const NSARMOIRE_HELPER_PORT = 8015
 export const NSARMOIRE_HELPER_DIRECT_BASE_URL = `http://127.0.0.1:${NSARMOIRE_HELPER_PORT}`
@@ -16,6 +17,8 @@ export interface ArmoireHelperHealth {
   gameProcessFound: boolean
   dresserLocated: boolean
   dresserLoaded: boolean
+  catalogLocated?: boolean
+  catalogCabinetEntryCount?: number
   supportedContainers: string[]
   selectedPid?: number | null
   gameProcessCount?: number
@@ -120,6 +123,15 @@ export async function selectArmoireHelperProcess(pid: number): Promise<ArmoireHe
     },
     body: JSON.stringify({ pid })
   })
+}
+
+export async function fetchArmoireHelperCatalog(): Promise<ArmoireCatalog> {
+  const payload = await requestHelperJson<unknown>('/catalog')
+  if (!isArmoireCatalog(payload)) {
+    throw new ArmoireHelperApiError('invalid_catalog', 'invalid armoire catalog', 502)
+  }
+
+  return payload
 }
 
 export async function fetchArmoireHelperSnapshot(): Promise<ArmoireSnapshot> {
