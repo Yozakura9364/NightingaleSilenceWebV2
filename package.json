@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build:armoire-catalog": "node scripts/build-armoire-catalog.mjs",
+    "build:plate-manifest": "node scripts/build-nsplate-manifest.mjs",
     "typecheck": "vue-tsc -b",
     "build": "vue-tsc -b && vite build",
     "check:i18n": "node scripts/check-ui-copy.mjs",
