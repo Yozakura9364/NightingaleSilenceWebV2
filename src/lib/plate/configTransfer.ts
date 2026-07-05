@@ -4,6 +4,7 @@ import {
   getPlateAssetSectionKey,
   type NSPlateAssetSelectionMap
 } from '@/lib/plate/draft'
+import { createNSPlateConfigFilename as createNSPlateDownloadConfigFilename } from '@/lib/plate/downloadFilenames'
 import { normalizeNSPlateInfoDraft, type NSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import {
   importNSPlateLegacyConfigText,
@@ -19,7 +20,7 @@ import type {
   NSPlatePresetKind,
   NSPlatePresetSummary
 } from '@/lib/plate/types'
-import { NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS } from '@/lib/plate/types'
+import { normalizeNSPlateCustomPortraitPopoutLayerAnchor } from '@/lib/plate/types'
 
 export interface NSPlateConfigTransferState {
   portraitSide: NSPlatePortraitSide
@@ -85,7 +86,7 @@ export async function importNSPlateConfigText(
 }
 
 export function createNSPlateConfigFilename() {
-  return `nsplate-config-${Date.now()}.json`
+  return createNSPlateDownloadConfigFilename()
 }
 
 function tryParseNSPlateV2Config(
@@ -278,12 +279,11 @@ function normalizeCustomPortraitMode(value: unknown): NSPlateCustomPortraitMode 
 function normalizeCustomPortraitPopoutLayerAnchor(
   value: unknown
 ): NSPlateCustomPortraitPopoutLayerAnchor | null {
-  return typeof value === 'string' &&
-    NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.includes(
-      value as NSPlateCustomPortraitPopoutLayerAnchor
-    )
-    ? (value as NSPlateCustomPortraitPopoutLayerAnchor)
-    : null
+  if (value === null || value === undefined || value === '') {
+    return null
+  }
+
+  return normalizeNSPlateCustomPortraitPopoutLayerAnchor(value)
 }
 
 function normalizeString(value: unknown) {

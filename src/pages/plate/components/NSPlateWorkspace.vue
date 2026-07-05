@@ -20,12 +20,13 @@
         :asset-groups="assetGroups"
         :custom-portrait="customPortrait"
         :info-draft="infoDraft"
-        :selection-note-title="t(textKeys.nsplateCurrentCombination)"
+        :selection-note-title="t(textKeys.nsplateLayerOrder)"
         :selection-note-items="selectionNoteItems"
         :can-clear-custom-portrait="customPortrait !== null"
         :can-clear-materials="hasAnyMaterialSelection"
         :create-config-json="createCurrentConfigJson"
         @focus-asset-section="focusAssetSection"
+        @move-popout-layer="moveCustomPortraitPopoutLayer"
         @clear-custom-portrait="clearCustomPortrait"
         @clear-materials="clearMaterialSelections"
       />
@@ -110,9 +111,14 @@ import type {
   NSPlateAssetScope,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage,
+  NSPlateCustomPortraitPopoutLayerAnchor,
   NSPlatePanelTab,
   NSPlatePortraitSide,
   NSPlatePresetKind
+} from '@/lib/plate/types'
+import {
+  NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS,
+  normalizeNSPlateCustomPortraitPopoutLayerAnchor
 } from '@/lib/plate/types'
 
 const props = defineProps<{
@@ -199,6 +205,8 @@ const activeAssetGroups = computed(() =>
 const { selectionNoteItems, assetPanelFocusRequest, focusAssetSection } = useNSPlateSelectionNote({
   assetGroups,
   selectedAssetIdsByCategory,
+  customPortrait,
+  infoDraft,
   activeTab,
   activeCanvasMode
 })
@@ -239,6 +247,35 @@ function clearMaterialSelections() {
 
 function clearCustomPortrait() {
   customPortrait.value = null
+}
+
+function moveCustomPortraitPopoutLayer(direction: 'up' | 'down') {
+  const currentPortrait = customPortrait.value
+
+  if (!currentPortrait || currentPortrait.mode !== 'popout') {
+    return
+  }
+
+  const currentAnchor = normalizeNSPlateCustomPortraitPopoutLayerAnchor(
+    currentPortrait.popoutLayerAnchor
+  )
+  const currentIndex = NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.indexOf(currentAnchor)
+  const nextIndex =
+    direction === 'up'
+      ? Math.min(NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.length - 1, currentIndex + 1)
+      : Math.max(0, currentIndex - 1)
+  const nextAnchor = NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS[
+    nextIndex
+  ] as NSPlateCustomPortraitPopoutLayerAnchor
+
+  if (nextAnchor === currentAnchor) {
+    return
+  }
+
+  customPortrait.value = {
+    ...currentPortrait,
+    popoutLayerAnchor: nextAnchor
+  }
 }
 
 function exportCanvasImage(payload: { format: NSPlateCanvasExportFormat; scale: number }) {

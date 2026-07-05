@@ -5,16 +5,65 @@ export type NSPlatePanelTab = 'portrait' | 'nameplate' | 'info'
 export type NSPlatePortraitSide = 'left' | 'right'
 export type NSPlateCustomPortraitMode = 'standard' | 'popout'
 export type NSPlateCustomPortraitPopoutLayerAnchor =
-  'behindFrames' | 'aboveFrames' | 'aboveDecorations' | 'front'
+  | 'aboveCustomPortrait'
+  | 'belowNameplateFrame'
+  | 'aboveNameplateFrame'
+  | 'abovePortraitFrame'
+  | 'aboveNameplateBottomDecoration'
+  | 'aboveNameplateDecorations'
+  | 'aboveNameplateOrnaments'
+  | 'aboveInfoGraphics'
+  | 'aboveInfoText'
+  | 'front'
+
+type NSPlateLegacyCustomPortraitPopoutLayerAnchor =
+  'behindFrames' | 'aboveFrames' | 'aboveDecorations'
 
 export const NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR =
-  'aboveFrames' satisfies NSPlateCustomPortraitPopoutLayerAnchor
+  'abovePortraitFrame' satisfies NSPlateCustomPortraitPopoutLayerAnchor
 export const NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS = [
-  'behindFrames',
-  'aboveFrames',
-  'aboveDecorations',
+  'aboveCustomPortrait',
+  'belowNameplateFrame',
+  'aboveNameplateFrame',
+  'abovePortraitFrame',
+  'aboveNameplateBottomDecoration',
+  'aboveNameplateDecorations',
+  'aboveNameplateOrnaments',
+  'aboveInfoGraphics',
+  'aboveInfoText',
   'front'
 ] as const satisfies readonly NSPlateCustomPortraitPopoutLayerAnchor[]
+
+const NSPLATE_LEGACY_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHOR_MAP = {
+  behindFrames: 'belowNameplateFrame',
+  aboveFrames: 'abovePortraitFrame',
+  aboveDecorations: 'aboveNameplateOrnaments'
+} as const satisfies Record<
+  NSPlateLegacyCustomPortraitPopoutLayerAnchor,
+  NSPlateCustomPortraitPopoutLayerAnchor
+>
+
+export function normalizeNSPlateCustomPortraitPopoutLayerAnchor(
+  value: unknown
+): NSPlateCustomPortraitPopoutLayerAnchor {
+  if (typeof value !== 'string') {
+    return NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR
+  }
+
+  if (
+    NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.includes(
+      value as NSPlateCustomPortraitPopoutLayerAnchor
+    )
+  ) {
+    return value as NSPlateCustomPortraitPopoutLayerAnchor
+  }
+
+  return (
+    NSPLATE_LEGACY_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHOR_MAP[
+      value as NSPlateLegacyCustomPortraitPopoutLayerAnchor
+    ] ?? NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR
+  )
+}
 
 export interface NSPlateCustomPortraitImage {
   id: string
@@ -124,14 +173,24 @@ export interface NSPlateAssetGroup {
   assets: NSPlateAssetSummary[]
 }
 
-export interface NSPlateSelectionNoteItem {
-  sectionKey: string
-  scope: NSPlateAssetScope
-  category: string
+export type NSPlateLayerOrderNoteItemTarget = 'asset' | 'customPortrait' | 'info'
+
+export interface NSPlateLayerOrderNoteItem {
+  id: string
+  target: NSPlateLayerOrderNoteItemTarget
+  sectionKey?: string
+  scope?: NSPlateAssetScope
+  category?: string
+  infoSlotId?: string
   label: string
   valueLabel: string
   selected: boolean
+  movable?: boolean
+  canMoveUp?: boolean
+  canMoveDown?: boolean
 }
+
+export type NSPlateSelectionNoteItem = NSPlateLayerOrderNoteItem
 
 export interface NSPlateLayeredExportLayer {
   name: string

@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build:armoire-catalog": "node scripts/build-armoire-catalog.mjs",
-    "build:plate-manifest": "node scripts/build-nsplate-manifest.mjs",
+    "build:plate-manifest": "node scripts/build-nsplate-manifest.mjs --preview-img-base https://img.nightingalesilence.com/plate-preview/256 --preview-max-edge 256",
+    "build:plate-manifest:no-preview": "node scripts/build-nsplate-manifest.mjs",
+    "build:plate-thumbnails": "node scripts/build-nsplate-thumbnails.mjs",
+    "check:plate-static": "node scripts/check-nsplate-static-manifest.mjs",
+    "check:plate-static:preview": "node scripts/check-nsplate-static-manifest.mjs --expect-preview --check-preview-remote",
+    "check:plate-regression": "node scripts/check-nsplate-regression.mjs",
     "typecheck": "vue-tsc -b",
     "build": "vue-tsc -b && vite build",
     "check:i18n": "node scripts/check-ui-copy.mjs",

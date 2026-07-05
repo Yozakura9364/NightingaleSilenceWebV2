@@ -781,8 +781,8 @@ const {
 
 .nsplate-info-panel__bar-cell {
   display: block;
-  aspect-ratio: 1 / 1;
   min-width: 0;
+  height: 28px;
   padding: 0;
   border: 1px solid color-mix(in srgb, var(--ns-color-border) 82%, transparent);
   background: var(--ns-color-surface-solid);
@@ -808,6 +808,10 @@ const {
 @media (max-width: 560px) {
   .nsplate-info-panel__bar-grid {
     grid-template-columns: repeat(12, minmax(12px, 1fr));
+  }
+
+  .nsplate-info-panel__bar-cell {
+    height: 28px;
   }
 }
 </style>

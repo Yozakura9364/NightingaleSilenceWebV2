@@ -16,7 +16,7 @@ import type {
   NSPlateCustomPortraitPopoutLayerAnchor,
   NSPlatePortraitSide
 } from '@/lib/plate/types'
-import { NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR } from '@/lib/plate/types'
+import { normalizeNSPlateCustomPortraitPopoutLayerAnchor } from '@/lib/plate/types'
 
 export interface NSPlateCanvasDimensions {
   width: number
@@ -65,9 +65,13 @@ export type NSPlateNameplateRenderSegment =
       layers: NSPlateRenderImageLayer[]
     }
   | {
-      type: 'portraitComposite'
+      type: 'portraitBaseComposite'
       portraitBaseLayers: NSPlateRenderImageLayer[]
       customPortrait: NSPlateCustomPortraitImage | null
+      portraitEmbed: NSPlateLayerPosition
+    }
+  | {
+      type: 'portraitOverlayComposite'
       portraitOverlayLayers: NSPlateRenderImageLayer[]
       portraitEmbed: NSPlateLayerPosition
     }
@@ -78,13 +82,25 @@ export type NSPlateNameplateRenderSegment =
       dimensions: NSPlateCanvasDimensions
     }
   | {
-      type: 'infoGraphicLayers'
-      layers: NSPlateInfoGraphicRenderLayer[]
+      type: 'infoLayers'
+      graphicLayers: NSPlateInfoGraphicRenderLayer[]
+      textLayers: NSPlateInfoTextRenderLayer[]
+      dimensions: NSPlateCanvasDimensions
+    }
+
+export type NSPlateNameplateLayerOrderSlot =
+  | {
+      type: 'asset'
+      category: string
     }
   | {
-      type: 'infoTextLayers'
-      layers: NSPlateInfoTextRenderLayer[]
-      dimensions: NSPlateCanvasDimensions
+      type: 'customPortraitInFrame'
+    }
+  | {
+      type: 'customPortraitPopout'
+    }
+  | {
+      type: 'infoLayers'
     }
 
 export const NSPLATE_CANVAS_DIMENSIONS = {
@@ -129,6 +145,10 @@ const NAMEPLATE_OVERLAY_CATEGORIES = [
   '铭牌装饰物',
   '铭牌装饰物B'
 ] as const
+const NAMEPLATE_FRAME_CATEGORIES = NAMEPLATE_OVERLAY_CATEGORIES.slice(0, 1)
+const NAMEPLATE_BOTTOM_DECORATION_CATEGORIES = ['铭牌底部装饰'] as const
+const NAMEPLATE_TOP_DECORATION_CATEGORIES = ['铭牌顶部装饰'] as const
+const NAMEPLATE_ORNAMENT_CATEGORIES = NAMEPLATE_OVERLAY_CATEGORIES.slice(3)
 
 export function createPlateRenderPlan(
   mode: NSPlateCanvasMode,
@@ -198,18 +218,21 @@ export function getPlateRenderLayerNames(plan: NSPlateRenderPlan) {
   for (const segment of getNameplateRenderSegments(plan)) {
     if (segment.type === 'systemLayers') {
       names.push(...segment.layers.map((layer) => layer.category))
-    } else if (segment.type === 'portraitComposite') {
+    } else if (segment.type === 'portraitBaseComposite') {
       names.push(...segment.portraitBaseLayers.map((layer) => layer.category))
 
       if (segment.customPortrait) {
         names.push(NSPLATE_CUSTOM_PORTRAIT_LAYER_KEY)
       }
-
+    } else if (segment.type === 'portraitOverlayComposite') {
       names.push(...segment.portraitOverlayLayers.map((layer) => layer.category))
-    } else if (segment.type === 'infoTextLayers') {
-      names.push(...segment.layers.map((layer) => layer.legacyName))
-    } else if (segment.type === 'infoGraphicLayers') {
-      names.push(...segment.layers.map((layer) => layer.legacyName))
+    } else if (segment.type === 'infoLayers') {
+      if (
+        (segment.graphicLayers.length > 0 || segment.textLayers.length > 0) &&
+        !names.includes('信息层')
+      ) {
+        names.push('信息层')
+      }
     } else if (
       segment.type === 'customPortraitPopout' &&
       segment.customPortrait?.mode === 'popout'
@@ -235,24 +258,82 @@ export function getNameplateRenderSegments(
   return [
     { type: 'systemLayers', layers: plan.baseLayers },
     {
-      type: 'portraitComposite',
+      type: 'portraitBaseComposite',
       portraitBaseLayers: plan.portraitBaseLayers,
       customPortrait: plan.customPortrait,
+      portraitEmbed: plan.portraitEmbed
+    },
+    ...(popoutAnchor === 'aboveCustomPortrait' ? [popoutSegment] : []),
+    {
+      type: 'portraitOverlayComposite',
       portraitOverlayLayers: plan.portraitOverlayLayers,
       portraitEmbed: plan.portraitEmbed
     },
-    ...(popoutAnchor === 'behindFrames' ? [popoutSegment] : []),
-    { type: 'systemLayers', layers: plan.overlayLayers.slice(0, 1) },
+    ...(popoutAnchor === 'belowNameplateFrame' ? [popoutSegment] : []),
+    {
+      type: 'systemLayers',
+      layers: filterLayersByCategories(plan.overlayLayers, NAMEPLATE_FRAME_CATEGORIES)
+    },
+    ...(popoutAnchor === 'aboveNameplateFrame' ? [popoutSegment] : []),
     {
       type: 'systemLayers',
       layers: plan.portraitFrameLayer ? [plan.portraitFrameLayer] : []
     },
-    ...(popoutAnchor === 'aboveFrames' ? [popoutSegment] : []),
-    { type: 'systemLayers', layers: plan.overlayLayers.slice(1) },
-    ...(popoutAnchor === 'aboveDecorations' ? [popoutSegment] : []),
-    { type: 'infoGraphicLayers', layers: plan.infoGraphicLayers },
-    { type: 'infoTextLayers', layers: plan.infoTextLayers, dimensions: plan.dimensions },
+    ...(popoutAnchor === 'abovePortraitFrame' ? [popoutSegment] : []),
+    {
+      type: 'systemLayers',
+      layers: filterLayersByCategories(plan.overlayLayers, NAMEPLATE_BOTTOM_DECORATION_CATEGORIES)
+    },
+    ...(popoutAnchor === 'aboveNameplateBottomDecoration' ? [popoutSegment] : []),
+    {
+      type: 'systemLayers',
+      layers: filterLayersByCategories(plan.overlayLayers, NAMEPLATE_TOP_DECORATION_CATEGORIES)
+    },
+    ...(popoutAnchor === 'aboveNameplateDecorations' ? [popoutSegment] : []),
+    {
+      type: 'systemLayers',
+      layers: filterLayersByCategories(plan.overlayLayers, NAMEPLATE_ORNAMENT_CATEGORIES)
+    },
+    ...(popoutAnchor === 'aboveNameplateOrnaments' ? [popoutSegment] : []),
+    ...(popoutAnchor === 'aboveInfoGraphics' ? [popoutSegment] : []),
+    {
+      type: 'infoLayers',
+      graphicLayers: plan.infoGraphicLayers,
+      textLayers: plan.infoTextLayers,
+      dimensions: plan.dimensions
+    },
+    ...(popoutAnchor === 'aboveInfoText' ? [popoutSegment] : []),
     ...(popoutAnchor === 'front' ? [popoutSegment] : [])
+  ]
+}
+
+export function getNameplateLayerOrderSlots(
+  customPortrait: NSPlateCustomPortraitImage | null
+): NSPlateNameplateLayerOrderSlot[] {
+  const popoutAnchor = getCustomPortraitPopoutLayerAnchor(customPortrait)
+  const popoutSlot = { type: 'customPortraitPopout' } satisfies NSPlateNameplateLayerOrderSlot
+
+  return [
+    ...NAMEPLATE_BASE_CATEGORIES.map(createAssetLayerOrderSlot),
+    createAssetLayerOrderSlot(NSPLATE_PORTRAIT_CATEGORIES[0]),
+    { type: 'customPortraitInFrame' },
+    ...(popoutAnchor === 'aboveCustomPortrait' ? [popoutSlot] : []),
+    ...NSPLATE_PORTRAIT_CATEGORIES.slice(1).map(createAssetLayerOrderSlot),
+    ...(popoutAnchor === 'belowNameplateFrame' ? [popoutSlot] : []),
+    ...NAMEPLATE_FRAME_CATEGORIES.map(createAssetLayerOrderSlot),
+    ...(popoutAnchor === 'aboveNameplateFrame' ? [popoutSlot] : []),
+    createAssetLayerOrderSlot(NSPLATE_PORTRAIT_FRAME_CATEGORY),
+    ...(popoutAnchor === 'abovePortraitFrame' ? [popoutSlot] : []),
+    ...NAMEPLATE_BOTTOM_DECORATION_CATEGORIES.map(createAssetLayerOrderSlot),
+    ...(popoutAnchor === 'aboveNameplateBottomDecoration' ? [popoutSlot] : []),
+    ...NAMEPLATE_TOP_DECORATION_CATEGORIES.map(createAssetLayerOrderSlot),
+    ...(popoutAnchor === 'aboveNameplateDecorations' ? [popoutSlot] : []),
+    ...NAMEPLATE_ORNAMENT_CATEGORIES.map(createAssetLayerOrderSlot),
+    ...(popoutAnchor === 'aboveNameplateOrnaments' ? [popoutSlot] : []),
+    ...(popoutAnchor === 'aboveInfoGraphics' ? [popoutSlot] : []),
+    { type: 'infoLayers' },
+    ...(popoutAnchor === 'aboveInfoText' ? [popoutSlot] : []),
+    ...(popoutAnchor === 'front' ? [popoutSlot] : [])
   ]
 }
 
@@ -260,10 +341,25 @@ function getCustomPortraitPopoutLayerAnchor(
   customPortrait: NSPlateCustomPortraitImage | null
 ): NSPlateCustomPortraitPopoutLayerAnchor {
   if (customPortrait?.mode !== 'popout') {
-    return NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR
+    return normalizeNSPlateCustomPortraitPopoutLayerAnchor(null)
   }
 
-  return customPortrait.popoutLayerAnchor ?? NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR
+  return normalizeNSPlateCustomPortraitPopoutLayerAnchor(customPortrait.popoutLayerAnchor)
+}
+
+function createAssetLayerOrderSlot(category: string): NSPlateNameplateLayerOrderSlot {
+  return {
+    type: 'asset',
+    category
+  }
+}
+
+function filterLayersByCategories(
+  layers: NSPlateRenderImageLayer[],
+  categories: readonly string[]
+) {
+  const categorySet = new Set(categories)
+  return layers.filter((layer) => categorySet.has(layer.category))
 }
 
 export function getPlateLayerImageUrl(layer: NSPlateRenderImageLayer) {

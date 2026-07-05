@@ -30,6 +30,9 @@
         :selected-id="selectedIdForGroup(group)"
         :empty-label="t(textKeys.noAssets)"
         :not-selected-label="t(textKeys.notSelected)"
+        :search-placeholder="t(textKeys.nsplateSearchAssets)"
+        :search-empty-label="t(textKeys.nsplateSearchNoResults)"
+        :clear-search-label="t(textKeys.nsplateClearSearch)"
         @toggle-open="toggleSection(group)"
         @select-asset="selectAsset"
       />

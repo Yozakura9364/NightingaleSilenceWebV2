@@ -1,3 +1,5 @@
+import { createNSPlateCanvasImageFilename } from '@/lib/plate/downloadFilenames'
+
 export type NSPlateCanvasExportFormat = 'png' | 'jpg'
 
 export interface NSPlateCanvasExportOptions {
@@ -22,7 +24,7 @@ export async function exportPlateCanvasImage(
     mimeType,
     options.format === 'jpg' ? JPG_QUALITY : undefined
   )
-  const filename = createExportFilename(exportCanvas, options.format, scale)
+  const filename = createNSPlateCanvasImageFilename(options.format, scale)
 
   downloadBlob(blob, filename)
   return filename
@@ -99,17 +101,6 @@ function canvasToBlob(
       quality
     )
   })
-}
-
-function createExportFilename(
-  canvas: HTMLCanvasElement,
-  format: NSPlateCanvasExportFormat,
-  scale: number
-) {
-  const scaleSuffix = scale > 1 ? `_${Math.round(scale)}x` : ''
-  const formatSuffix = format === 'jpg' ? `_white${scaleSuffix}.jpg` : `${scaleSuffix}.png`
-
-  return `composite_${Date.now()}_${canvas.width}x${canvas.height}${formatSuffix}`
 }
 
 function downloadBlob(blob: Blob, filename: string) {

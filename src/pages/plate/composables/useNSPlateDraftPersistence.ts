@@ -8,7 +8,7 @@ import type {
   NSPlatePortraitSide,
   NSPlatePresetKind
 } from '@/lib/plate/types'
-import { NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS } from '@/lib/plate/types'
+import { normalizeNSPlateCustomPortraitPopoutLayerAnchor } from '@/lib/plate/types'
 
 export const NSPLATE_DRAFT_STORAGE_KEY = 'nsplate.draft.v1'
 
@@ -220,12 +220,11 @@ function normalizeCustomPortraitMode(value: unknown): NSPlateCustomPortraitMode 
 function normalizeCustomPortraitPopoutLayerAnchor(
   value: unknown
 ): NSPlateCustomPortraitPopoutLayerAnchor | null {
-  return typeof value === 'string' &&
-    NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.includes(
-      value as NSPlateCustomPortraitPopoutLayerAnchor
-    )
-    ? (value as NSPlateCustomPortraitPopoutLayerAnchor)
-    : null
+  if (value === null || value === undefined || value === '') {
+    return null
+  }
+
+  return normalizeNSPlateCustomPortraitPopoutLayerAnchor(value)
 }
 
 function normalizeNullableString(value: unknown) {

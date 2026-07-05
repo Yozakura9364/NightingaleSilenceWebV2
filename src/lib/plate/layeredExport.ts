@@ -2,6 +2,7 @@ import {
   getCustomPortraitPopoutSplitBounds,
   getCustomPortraitSourceDrawRect
 } from '@/lib/plate/customPortrait'
+import { createNSPlateLayeredZipFilename } from '@/lib/plate/downloadFilenames'
 import { getNSPlateInfoBar48Bounds } from '@/lib/plate/infoLayerRenderDefinitions'
 import {
   NSPLATE_INFO_ACTIVITY_ICON_GAP_PX,
@@ -21,11 +22,12 @@ import {
   shouldSmoothWhenScaledDown,
   tintInfoSpecialMaskImage
 } from '@/lib/plate/infoLayerImageUtils'
-import { renderNSPlateInfoTextLayersToLayerCanvases } from '@/lib/plate/infoLayerTextRenderer'
+import { renderNSPlateInfoTextLayersToCanvas } from '@/lib/plate/infoLayerTextRenderer'
 import {
   NSPLATE_CANVAS_DIMENSIONS,
   getNameplateRenderSegments,
   getPlateLayerImageUrl,
+  type NSPlateCanvasDimensions,
   type NSPlateLayerPosition,
   type NSPlateNameplateRenderSegment,
   type NSPlateNameplateRenderPlan,
@@ -41,6 +43,7 @@ import { createStoredZipBlob, type StoredZipFileEntry } from '@/lib/plate/zipArc
 
 const CUSTOM_PORTRAIT_LAYER_NAME = '自定义图片'
 const CUSTOM_PORTRAIT_POPOUT_LAYER_NAME = '自定义图片（出框）'
+const INFO_LAYER_NAME = '信息层'
 const LAYERED_ZIP_TEXT_ENCODER = new TextEncoder()
 
 export async function createNameplateLayeredExportPayload(
@@ -51,6 +54,17 @@ export async function createNameplateLayeredExportPayload(
   const layers: NSPlateLayeredExportLayer[] = []
 
   for (const segment of getNameplateRenderSegments(plan)) {
+    if (segment.type === 'infoLayers') {
+      await pushMergedInfoLayer(
+        layers,
+        segment.graphicLayers,
+        segment.textLayers,
+        segment.dimensions,
+        scale
+      )
+      continue
+    }
+
     await pushSegmentLayers(layers, segment, scale)
   }
 
@@ -71,7 +85,7 @@ async function pushSegmentLayers(
     return
   }
 
-  if (segment.type === 'portraitComposite') {
+  if (segment.type === 'portraitBaseComposite') {
     await pushPortraitSystemLayers(output, segment.portraitBaseLayers, segment.portraitEmbed, scale)
 
     const customInFrameLayer = await createCustomPortraitInFrameLayer(
@@ -84,6 +98,10 @@ async function pushSegmentLayers(
       output.push(customInFrameLayer)
     }
 
+    return
+  }
+
+  if (segment.type === 'portraitOverlayComposite') {
     await pushPortraitSystemLayers(
       output,
       segment.portraitOverlayLayers,
@@ -93,13 +111,7 @@ async function pushSegmentLayers(
     return
   }
 
-  if (segment.type === 'infoTextLayers') {
-    await pushInfoTextLayer(output, segment.layers, scale)
-    return
-  }
-
-  if (segment.type === 'infoGraphicLayers') {
-    await pushInfoGraphicLayers(output, segment.layers, scale)
+  if (segment.type === 'infoLayers') {
     return
   }
 
@@ -115,18 +127,81 @@ async function pushSegmentLayers(
   }
 }
 
-async function pushInfoGraphicLayers(
+async function pushMergedInfoLayer(
   output: NSPlateLayeredExportLayer[],
-  layers: NSPlateInfoGraphicRenderLayer[],
+  graphicLayers: NSPlateInfoGraphicRenderLayer[],
+  textLayers: Extract<NSPlateNameplateRenderSegment, { type: 'infoLayers' }>['textLayers'],
+  dimensions: NSPlateCanvasDimensions,
   scale: number
 ) {
-  for (const layer of layers) {
-    const exportLayer = await createInfoGraphicLayerData(layer, scale)
+  const exportLayer = await createMergedInfoLayerData(graphicLayers, textLayers, dimensions, scale)
 
-    if (exportLayer) {
-      output.push(exportLayer)
+  if (exportLayer) {
+    output.push(exportLayer)
+  }
+}
+
+async function createMergedInfoLayerData(
+  graphicLayers: NSPlateInfoGraphicRenderLayer[],
+  textLayers: Extract<NSPlateNameplateRenderSegment, { type: 'infoLayers' }>['textLayers'],
+  dimensions: NSPlateCanvasDimensions,
+  exportScale: number
+) {
+  const hasTextContent = textLayers.some((layer) => layer.text.trim().length > 0)
+
+  if (!graphicLayers.length && !hasTextContent) {
+    return null
+  }
+
+  const width = Math.max(1, Math.round(dimensions.width * exportScale))
+  const height = Math.max(1, Math.round(dimensions.height * exportScale))
+  const canvas = createLayerCanvas(width, height)
+  const context = getLayerContext(canvas, false)
+  let hasContent = false
+
+  for (const layer of graphicLayers) {
+    const graphicLayer = await createInfoGraphicLayerData(layer, exportScale)
+
+    if (!graphicLayer) {
+      continue
+    }
+
+    const image = await loadLayerImage(graphicLayer.rgbaData)
+
+    if (!image) {
+      continue
+    }
+
+    context.drawImage(image, Math.round(graphicLayer.x), Math.round(graphicLayer.y))
+    hasContent = true
+  }
+
+  if (hasTextContent) {
+    const textCanvas = await renderNSPlateInfoTextLayersToCanvas(
+      textLayers,
+      dimensions,
+      exportScale
+    )
+
+    if (textCanvas) {
+      context.drawImage(textCanvas, 0, 0)
+      hasContent = true
     }
   }
+
+  if (!hasContent) {
+    return null
+  }
+
+  return {
+    name: INFO_LAYER_NAME,
+    x: 0,
+    y: 0,
+    width,
+    height,
+    rgbaData: canvas.toDataURL('image/png'),
+    sourceType: 'info'
+  } satisfies NSPlateLayeredExportLayer
 }
 
 async function createInfoGraphicLayerData(layer: NSPlateInfoGraphicRenderLayer, scale: number) {
@@ -272,10 +347,7 @@ async function createInfoSpecialLayerData(
   context.globalAlpha = clampInfoLayerAlpha(layer.opacity)
 
   if (backgroundImage) {
-    setInfoCanvasImageSmoothing(
-      context,
-      shouldSmoothWhenScaledDown(backgroundImage, width, height)
-    )
+    setInfoCanvasImageSmoothing(context, shouldSmoothWhenScaledDown(backgroundImage, width, height))
     context.drawImage(backgroundImage, 0, 0, width, height)
   }
 
@@ -383,29 +455,8 @@ async function createInfoActivityIconLayerData(
   } satisfies NSPlateLayeredExportLayer
 }
 
-async function pushInfoTextLayer(
-  output: NSPlateLayeredExportLayer[],
-  layers: Extract<NSPlateNameplateRenderSegment, { type: 'infoTextLayers' }>['layers'],
-  scale: number
-) {
-  const layerCanvases = await renderNSPlateInfoTextLayersToLayerCanvases(layers, scale)
-
-  for (const item of layerCanvases) {
-    output.push({
-      name: item.layer.legacyName,
-      x: item.x,
-      y: item.y,
-      width: item.width,
-      height: item.height,
-      rgbaData: item.canvas.toDataURL('image/png'),
-      sourceType: 'info'
-    })
-  }
-}
-
 export function downloadPlateLayeredZip(blob: Blob, scale: number) {
-  const scaleSuffix = scale > 1 ? `_${Math.round(scale)}x` : ''
-  const filename = `layered_export_${Date.now()}${scaleSuffix}.zip`
+  const filename = createNSPlateLayeredZipFilename(scale)
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
 

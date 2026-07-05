@@ -32,21 +32,51 @@
         {{ emptyLabel }}
       </p>
 
-      <div v-else class="nsplate-asset-grid">
-        <NSPlateAssetCard
-          v-for="asset in group.assets"
-          :key="asset.id"
-          :asset="asset"
-          :active="asset.id === selectedId"
-          @select="emit('select-asset', $event)"
-        />
-      </div>
+      <template v-else>
+        <label
+          class="nsplate-asset-search"
+          @click.stop
+          @keydown.stop
+          @pointerdown.stop
+        >
+          <span class="nsplate-asset-search__label">{{ searchPlaceholder }}</span>
+          <span class="nsplate-asset-search__control">
+            <input
+              v-model="searchQuery"
+              type="search"
+              :placeholder="searchPlaceholder"
+              :aria-label="`${group.label} ${searchPlaceholder}`"
+            />
+            <button
+              v-if="searchQuery"
+              class="nsplate-asset-search__clear"
+              type="button"
+              :aria-label="clearSearchLabel"
+              @click="clearSearch"
+            />
+          </span>
+        </label>
+
+        <p v-if="filteredAssets.length === 0" class="nsplate-asset-empty">
+          {{ searchEmptyLabel }}
+        </p>
+
+        <div v-else class="nsplate-asset-grid">
+          <NSPlateAssetCard
+            v-for="asset in filteredAssets"
+            :key="asset.id"
+            :asset="asset"
+            :active="asset.id === selectedId"
+            @select="emit('select-asset', $event)"
+          />
+        </div>
+      </template>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed, type CSSProperties } from 'vue'
+import { computed, ref, type CSSProperties } from 'vue'
 import circleIcon from '@/assets/icons/circle.svg'
 import sparklesIcon from '@/assets/icons/sparkles.svg'
 import type { NSPlateAssetGroup, NSPlateAssetSummary } from '@/lib/plate/types'
@@ -59,6 +89,9 @@ const props = defineProps<{
   selectedId: string | null
   emptyLabel: string
   notSelectedLabel: string
+  searchPlaceholder: string
+  searchEmptyLabel: string
+  clearSearchLabel: string
 }>()
 
 const emit = defineEmits<{
@@ -69,6 +102,16 @@ const emit = defineEmits<{
 const selectedAsset = computed(
   () => props.group.assets.find((asset) => asset.id === props.selectedId) ?? null
 )
+const searchQuery = ref('')
+const filteredAssets = computed(() => {
+  const query = normalizeSearchText(searchQuery.value)
+
+  if (!query) {
+    return props.group.assets
+  }
+
+  return props.group.assets.filter((asset) => createAssetSearchText(asset).includes(query))
+})
 const hasSelectedAsset = computed(() => selectedAsset.value !== null)
 const selectedLabel = computed(() => selectedAsset.value?.label ?? props.notSelectedLabel)
 const statusIconStyle = computed(
@@ -77,6 +120,35 @@ const statusIconStyle = computed(
       '--nsplate-asset-section-status-icon': `url("${hasSelectedAsset.value ? sparklesIcon : circleIcon}")`
     }) as CSSProperties
 )
+
+function clearSearch() {
+  searchQuery.value = ''
+}
+
+function createAssetSearchText(asset: NSPlateAssetSummary) {
+  const rawNames = asset.raw.names ? Object.values(asset.raw.names) : []
+
+  return normalizeSearchText(
+    [
+      asset.id,
+      ...(asset.legacyIds ?? []),
+      asset.label,
+      asset.file,
+      asset.path,
+      asset.raw.id,
+      asset.raw.name,
+      asset.raw.file,
+      asset.raw.path,
+      ...rawNames
+    ].join(' ')
+  )
+}
+
+function normalizeSearchText(value: unknown) {
+  return String(value ?? '')
+    .trim()
+    .toLowerCase()
+}
 </script>
 
 <style scoped>
@@ -226,6 +298,92 @@ const statusIconStyle = computed(
   display: grid;
   gap: var(--nsplate-section-body-gap);
   padding: 6px 7px 8px;
+}
+
+.nsplate-asset-search {
+  position: sticky;
+  top: calc(var(--nsplate-config-scroll-padding, 10px) * -1 + 35px);
+  z-index: 2;
+  display: grid;
+  padding: 0 0 2px;
+  background: color-mix(in srgb, var(--ns-color-surface-solid) 94%, var(--ns-color-cyan-soft));
+}
+
+.nsplate-asset-search__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nsplate-asset-search__control {
+  position: relative;
+  display: grid;
+}
+
+.nsplate-asset-search input {
+  width: 100%;
+  min-width: 0;
+  height: 30px;
+  padding: 0 32px 0 8px;
+  border: 1px solid color-mix(in srgb, var(--ns-color-border) 82%, transparent);
+  border-radius: var(--ns-radius-xs);
+  background: color-mix(in srgb, var(--ns-color-bg) 52%, var(--ns-color-surface-solid));
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 760;
+}
+
+.nsplate-asset-search input::placeholder {
+  color: var(--ns-color-text-muted);
+  opacity: 0.78;
+}
+
+.nsplate-asset-search input:focus-visible {
+  border-color: var(--ns-color-accent);
+  outline: 2px solid color-mix(in srgb, var(--ns-color-accent) 35%, transparent);
+  outline-offset: 1px;
+}
+
+.nsplate-asset-search__clear {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--ns-color-text-muted);
+  cursor: pointer;
+}
+
+.nsplate-asset-search__clear::before,
+.nsplate-asset-search__clear::after {
+  grid-area: 1 / 1;
+  width: 12px;
+  height: 2px;
+  background: currentColor;
+  content: '';
+}
+
+.nsplate-asset-search__clear::before {
+  transform: rotate(45deg);
+}
+
+.nsplate-asset-search__clear::after {
+  transform: rotate(-45deg);
+}
+
+.nsplate-asset-search__clear:hover {
+  color: var(--ns-color-accent-strong);
 }
 
 .nsplate-asset-empty {

@@ -81,6 +81,30 @@ export const uiMessages: UiMessageMap = {
     ja: 'プリセットを選択',
     ko: '프리셋 선택'
   }),
+  'nsplate.search.presets': msg({
+    zh: '搜索预设名称 / ID',
+    en: 'Search preset name / ID',
+    ja: 'プリセット名 / IDを検索',
+    ko: '프리셋 이름 / ID 검색'
+  }),
+  'nsplate.search.assets': msg({
+    zh: '搜索素材名称 / ID',
+    en: 'Search asset name / ID',
+    ja: '素材名 / IDを検索',
+    ko: '소재 이름 / ID 검색'
+  }),
+  'nsplate.search.noResults': msg({
+    zh: '没有匹配结果',
+    en: 'No matches',
+    ja: '一致する結果がありません',
+    ko: '일치하는 결과 없음'
+  }),
+  'nsplate.search.clear': msg({
+    zh: '清除搜索',
+    en: 'Clear search',
+    ja: '検索をクリア',
+    ko: '검색 지우기'
+  }),
   'common.previousPreset': msg({
     zh: '上一个预设',
     en: 'Previous preset',
@@ -290,6 +314,180 @@ export const uiMessages: UiMessageMap = {
   'ffxiv.tool.glamour.title': same('幻化工房'),
   'ffxiv.tool.plate.title': same('铭牌工房'),
   'ffxiv.tool.armoire.title': same('衣柜清理大师'),
+  'ffxiv.termReview.title': msg({
+    zh: 'FFXIV 术语校对',
+    en: 'FFXIV term review',
+    ja: 'FFXIV用語確認',
+    ko: 'FFXIV 용어 확인'
+  }),
+  'ffxiv.termReview.kicker': msg({
+    zh: '内部校对',
+    en: 'Internal review',
+    ja: '内部確認',
+    ko: '내부 확인'
+  }),
+  'ffxiv.termReview.lead': msg({
+    zh: '用于核对游戏 CSV 术语、旧字段和网页 UI 文案边界。',
+    en: 'Review game CSV terms, legacy fields, and site UI copy boundaries.',
+    ja: 'ゲームCSV用語、旧フィールド、サイトUI文言の境界を確認します。',
+    ko: '게임 CSV 용어, 기존 필드, 사이트 UI 문구 경계를 확인합니다.'
+  }),
+  'ffxiv.termReview.filters': msg({
+    zh: '术语筛选',
+    en: 'Term filters',
+    ja: '用語フィルター',
+    ko: '용어 필터'
+  }),
+  'ffxiv.termReview.search': msg({
+    zh: '搜索',
+    en: 'Search',
+    ja: '検索',
+    ko: '검색'
+  }),
+  'ffxiv.termReview.search.placeholder': msg({
+    zh: '搜索 key、旧字段、CSV、备注或译文',
+    en: 'Search key, legacy field, CSV, note, or translation',
+    ja: 'key、旧フィールド、CSV、メモ、訳文を検索',
+    ko: 'key, 기존 필드, CSV, 메모, 번역 검색'
+  }),
+  'ffxiv.termReview.module': msg({
+    zh: '模块',
+    en: 'Module',
+    ja: 'モジュール',
+    ko: '모듈'
+  }),
+  'ffxiv.termReview.status': msg({
+    zh: '状态',
+    en: 'Status',
+    ja: '状態',
+    ko: '상태'
+  }),
+  'ffxiv.termReview.source': msg({
+    zh: '来源',
+    en: 'Source',
+    ja: '出典',
+    ko: '출처'
+  }),
+  'ffxiv.termReview.all': msg({
+    zh: '全部',
+    en: 'All',
+    ja: 'すべて',
+    ko: '전체'
+  }),
+  'ffxiv.termReview.summary': msg({
+    zh: '术语统计',
+    en: 'Term summary',
+    ja: '用語サマリー',
+    ko: '용어 요약'
+  }),
+  'ffxiv.termReview.visible': msg({
+    zh: '当前显示',
+    en: 'Visible',
+    ja: '表示中',
+    ko: '표시 중'
+  }),
+  'ffxiv.termReview.total': msg({
+    zh: '总数',
+    en: 'Total',
+    ja: '合計',
+    ko: '전체'
+  }),
+  'ffxiv.termReview.needsCheck': msg({
+    zh: '待核对',
+    en: 'Needs check',
+    ja: '要確認',
+    ko: '확인 필요'
+  }),
+  'ffxiv.termReview.column.term': msg({
+    zh: '条目',
+    en: 'Term',
+    ja: '項目',
+    ko: '항목'
+  }),
+  'ffxiv.termReview.column.values': msg({
+    zh: '多语言值',
+    en: 'Localized values',
+    ja: '多言語値',
+    ko: '다국어 값'
+  }),
+  'ffxiv.termReview.column.status': msg({
+    zh: '状态',
+    en: 'Status',
+    ja: '状態',
+    ko: '상태'
+  }),
+  'ffxiv.termReview.column.source': msg({
+    zh: '数据来源',
+    en: 'Data source',
+    ja: 'データ出典',
+    ko: '데이터 출처'
+  }),
+  'ffxiv.termReview.column.note': msg({
+    zh: '备注',
+    en: 'Note',
+    ja: 'メモ',
+    ko: '메모'
+  }),
+  'ffxiv.termReview.legacy': msg({
+    zh: '旧字段',
+    en: 'Legacy',
+    ja: '旧フィールド',
+    ko: '기존 필드'
+  }),
+  'ffxiv.termReview.composedFrom': msg({
+    zh: '组合来源',
+    en: 'Composed from',
+    ja: '組み合わせ元',
+    ko: '조합 출처'
+  }),
+  'ffxiv.termReview.missingValue': msg({
+    zh: '缺值',
+    en: 'Missing',
+    ja: '未設定',
+    ko: '누락'
+  }),
+  'ffxiv.termReview.status.confirmed': msg({
+    zh: '已确认',
+    en: 'Confirmed',
+    ja: '確認済み',
+    ko: '확인됨'
+  }),
+  'ffxiv.termReview.status.needsCheck': msg({
+    zh: '待核对',
+    en: 'Needs check',
+    ja: '要確認',
+    ko: '확인 필요'
+  }),
+  'ffxiv.termReview.status.layout': msg({
+    zh: '布局字段',
+    en: 'Layout field',
+    ja: 'レイアウト項目',
+    ko: '레이아웃 필드'
+  }),
+  'ffxiv.termReview.source.gameCsv': msg({
+    zh: '游戏 CSV',
+    en: 'Game CSV',
+    ja: 'ゲームCSV',
+    ko: '게임 CSV'
+  }),
+  'ffxiv.termReview.source.legacyLayout': msg({
+    zh: '旧布局',
+    en: 'Legacy layout',
+    ja: '旧レイアウト',
+    ko: '기존 레이아웃'
+  }),
+  'ffxiv.termReview.source.userConfirmed': msg({
+    zh: '用户确认',
+    en: 'User confirmed',
+    ja: 'ユーザー確認',
+    ko: '사용자 확인'
+  }),
+  'ffxiv.termReview.source.siteUi': msg({
+    zh: '网页 UI',
+    en: 'Site UI',
+    ja: 'サイトUI',
+    ko: '사이트 UI'
+  }),
 
   'nsarmoire.panel.import': msg({
     zh: draft('导入'),
@@ -1584,7 +1782,12 @@ export const uiMessages: UiMessageMap = {
     ja: 'クラス/ジョブ名',
     ko: '클래스/잡 이름'
   }),
-  'plate.info.field.rankIcon': msg({ zh: '军衔', en: 'Rank', ja: '階級', ko: '계급' }),
+  'plate.info.field.rankIcon': msg({
+    zh: '军衔图标',
+    en: 'Rank icon',
+    ja: '階級アイコン',
+    ko: '계급 아이콘'
+  }),
   'plate.info.field.rankName': msg({
     zh: '军衔名称',
     en: 'Rank name',
@@ -1604,10 +1807,10 @@ export const uiMessages: UiMessageMap = {
     ko: '자유부대 이름'
   }),
   'plate.info.field.scheduleCells': msg({
-    zh: '作息选择',
-    en: 'Schedule cells',
-    ja: '活動時間選択',
-    ko: '활동 시간 선택'
+    zh: '活跃时段',
+    en: 'Active Hours',
+    ja: 'アクティブな時間帯',
+    ko: '활동 시간대'
   }),
   'plate.info.field.searchComment': msg({
     zh: '个性签名',
@@ -1622,10 +1825,10 @@ export const uiMessages: UiMessageMap = {
     ko: '시간 아이콘'
   }),
   'plate.info.field.scheduleNumber': msg({
-    zh: '作息数字',
-    en: 'Schedule numbers',
-    ja: '活動時間数字',
-    ko: '활동 시간 숫자'
+    zh: '活跃时段数字',
+    en: 'Active Hours numbers',
+    ja: 'アクティブな時間帯数字',
+    ko: '활동 시간대 숫자'
   }),
   'plate.info.field.scheduleText': msg({
     zh: '作息文字',
@@ -1640,10 +1843,10 @@ export const uiMessages: UiMessageMap = {
     ko: '검색 코멘트 아이콘'
   }),
   'plate.info.field.activityIcon': msg({
-    zh: '活动图标',
-    en: 'Activity icon',
-    ja: '活動アイコン',
-    ko: '활동 아이콘'
+    zh: '游戏风格',
+    en: 'Play Style',
+    ja: 'プレイスタイル',
+    ko: '플레이 스타일'
   }),
   'plate.info.field.classJobEnglishName': msg({
     zh: '英文职业名',
@@ -1802,6 +2005,48 @@ export const uiMessages: UiMessageMap = {
     ja: '現在の組み合わせ',
     ko: '현재 조합'
   }),
+  'nsplate.panel.layerOrder': msg({
+    zh: '图层顺序',
+    en: 'Layer order',
+    ja: 'レイヤー順序',
+    ko: '레이어 순서'
+  }),
+  'nsplate.layerOrder.customPortraitPopout': msg({
+    zh: '出框角色层',
+    en: 'Popout character layer',
+    ja: 'はみ出しキャラクターレイヤー',
+    ko: '돌출 캐릭터 레이어'
+  }),
+  'nsplate.layerOrder.infoLayers': msg({
+    zh: '信息层',
+    en: 'Info layer',
+    ja: '情報レイヤー',
+    ko: '정보 레이어'
+  }),
+  'nsplate.layerOrder.enabled': msg({
+    zh: '已启用',
+    en: 'Enabled',
+    ja: '有効',
+    ko: '사용 중'
+  }),
+  'nsplate.layerOrder.notEnabled': msg({
+    zh: '未启用',
+    en: 'Not enabled',
+    ja: '未使用',
+    ko: '사용 안 함'
+  }),
+  'nsplate.layerOrder.moveUp': msg({
+    zh: '将出框角色层上移',
+    en: 'Move popout character layer up',
+    ja: 'はみ出しキャラクターレイヤーを上へ',
+    ko: '돌출 캐릭터 레이어 위로 이동'
+  }),
+  'nsplate.layerOrder.moveDown': msg({
+    zh: '将出框角色层下移',
+    en: 'Move popout character layer down',
+    ja: 'はみ出しキャラクターレイヤーを下へ',
+    ko: '돌출 캐릭터 레이어 아래로 이동'
+  }),
   'nsplate.panel.portraitAssets': msg({
     zh: '肖像素材',
     en: 'Portrait assets',
@@ -1921,36 +2166,6 @@ export const uiMessages: UiMessageMap = {
     en: 'Apply',
     ja: '適用',
     ko: '적용'
-  }),
-  'nsplate.customPortrait.popoutLayer.title': msg({
-    zh: '出框层级',
-    en: 'Popout layer',
-    ja: '枠外レイヤー',
-    ko: '프레임 밖 레이어'
-  }),
-  'nsplate.customPortrait.popoutLayer.behindFrames': msg({
-    zh: '框后',
-    en: 'Behind frame',
-    ja: '枠の後ろ',
-    ko: '프레임 뒤'
-  }),
-  'nsplate.customPortrait.popoutLayer.aboveFrames': msg({
-    zh: '框上',
-    en: 'Over frame',
-    ja: '枠の上',
-    ko: '프레임 위'
-  }),
-  'nsplate.customPortrait.popoutLayer.aboveDecorations': msg({
-    zh: '装饰上',
-    en: 'Over decor',
-    ja: '装飾の上',
-    ko: '장식 위'
-  }),
-  'nsplate.customPortrait.popoutLayer.front': msg({
-    zh: '最前',
-    en: 'Front',
-    ja: '最前面',
-    ko: '맨 앞'
   }),
   'nsplate.action.menu': msg({
     zh: '操作菜单',

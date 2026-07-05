@@ -40,9 +40,11 @@
 @font-face {
   font-family: 'Miedinger';
   src:
-    local('Miedinger'),
-    local('Miedinger Medium'),
-    local('MiedingerMediumW00-Regular');
+    url('../../assets/fonts/plate/MiedingerMediumW00-Regular.ttf') format('truetype'),
+    local('MiedingerMediumW00-Regular'),
+    local('Miedinger Medium W00 Regular');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 

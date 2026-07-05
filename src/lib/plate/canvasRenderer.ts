@@ -64,8 +64,13 @@ async function drawNameplateSegment(
     return
   }
 
-  if (segment.type === 'portraitComposite') {
-    await drawPortraitComposite(context, segment, options)
+  if (segment.type === 'portraitBaseComposite') {
+    await drawPortraitBaseComposite(context, segment, options)
+    return
+  }
+
+  if (segment.type === 'portraitOverlayComposite') {
+    await drawPortraitOverlayComposite(context, segment, options)
     return
   }
 
@@ -74,20 +79,24 @@ async function drawNameplateSegment(
     return
   }
 
-  if (segment.type === 'infoGraphicLayers') {
-    await drawNSPlateInfoGraphicLayers(context, segment.layers, {
+  if (segment.type === 'infoLayers') {
+    await drawNSPlateInfoGraphicLayers(context, segment.graphicLayers, {
       imageCache: options.imageCache,
       isCurrent: options.isCurrent
     })
+
+    if (!isCurrentRender(options)) {
+      return
+    }
+
+    await drawNSPlateInfoTextLayers(context, segment.textLayers)
     return
   }
-
-  await drawNSPlateInfoTextLayers(context, segment.layers)
 }
 
-async function drawPortraitComposite(
+async function drawPortraitBaseComposite(
   context: CanvasRenderingContext2D,
-  segment: Extract<NSPlateNameplateRenderSegment, { type: 'portraitComposite' }>,
+  segment: Extract<NSPlateNameplateRenderSegment, { type: 'portraitBaseComposite' }>,
   options: NSPlateCanvasRenderOptions
 ) {
   const portraitCanvas = document.createElement('canvas')
@@ -110,6 +119,25 @@ async function drawPortraitComposite(
   await drawCustomPortraitInFrame(portraitContext, segment.customPortrait, options)
 
   if (!isCurrentRender(options)) {
+    return
+  }
+
+  context.drawImage(portraitCanvas, segment.portraitEmbed.x, segment.portraitEmbed.y)
+}
+
+async function drawPortraitOverlayComposite(
+  context: CanvasRenderingContext2D,
+  segment: Extract<NSPlateNameplateRenderSegment, { type: 'portraitOverlayComposite' }>,
+  options: NSPlateCanvasRenderOptions
+) {
+  const portraitCanvas = document.createElement('canvas')
+  const portraitContext = prepareCanvas(
+    portraitCanvas,
+    NSPLATE_CANVAS_DIMENSIONS.portrait.width,
+    NSPLATE_CANVAS_DIMENSIONS.portrait.height
+  )
+
+  if (!portraitContext) {
     return
   }
 

@@ -15,6 +15,7 @@
         :title="selectionNoteTitle"
         :items="selectionNoteItems"
         @focus-item="emit('focus-asset-section', $event)"
+        @move-popout-layer="emit('move-popout-layer', $event)"
       />
 
       <div
@@ -81,6 +82,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'focus-asset-section': [value: NSPlateSelectionNoteItem]
+  'move-popout-layer': [direction: 'up' | 'down']
   'clear-custom-portrait': []
   'clear-materials': []
 }>()

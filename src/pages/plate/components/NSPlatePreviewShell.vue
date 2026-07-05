@@ -1,6 +1,5 @@
 <template>
   <NSPlateCanvasArea
-    :api-base="plateApiBase"
     :mode="props.mode"
     :portrait-side="props.portraitSide"
     :selected-assets="props.selectedAssets"
@@ -22,11 +21,9 @@ import type {
   NSPlateCustomPortraitImage,
   NSPlatePortraitSide
 } from '@/lib/plate/types'
-import { getRequiredFfxivTool } from '@/config/site'
 import { createNSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 
-const plateApiBase = getRequiredFfxivTool('plate').apiBase ?? '/api/plate'
 const infoDraft = createNSPlateInfoDraft()
 const emptyAssetGroups: NSPlateAssetGroup[] = []
 
