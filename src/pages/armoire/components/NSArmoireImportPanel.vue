@@ -61,12 +61,12 @@
       :message="errorMessage"
     />
 
-    <dl v-if="snapshot" class="nsarmoire-snapshot-meta">
-      <div>
+    <dl v-if="snapshot || helperHealth" class="nsarmoire-snapshot-meta">
+      <div v-if="snapshot">
         <dt>{{ t(textKeys.nsarmoireGeneratedAt) }}</dt>
         <dd>{{ snapshot.generatedAt }}</dd>
       </div>
-      <div>
+      <div v-if="snapshot">
         <dt>{{ t(textKeys.nsarmoireSource) }}</dt>
         <dd>{{ snapshot.source }}</dd>
       </div>
@@ -82,6 +82,10 @@
         <dt>{{ t(textKeys.nsarmoireHelperEndpoint) }}</dt>
         <dd>{{ helperEndpoint }}</dd>
       </div>
+      <div v-if="helperHealth">
+        <dt>{{ t(textKeys.nsarmoireHelperCatalog) }}</dt>
+        <dd>{{ helperCatalogLabel }}</dd>
+      </div>
     </dl>
   </section>
 </template>
@@ -93,6 +97,8 @@ import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
 import type { ArmoireSnapshot } from '@/lib/armoire/types'
+import type { ArmoireHelperHealth } from '@/pages/armoire/services/nsarmoireHelperApi'
+import { formatArmoireText } from '@/pages/armoire/utils/itemDisplay'
 
 const props = defineProps<{
   snapshot: ArmoireSnapshot | null
@@ -104,6 +110,7 @@ const props = defineProps<{
   helperStatusMessageKey: string
   helperErrorDetail: string | null
   helperEndpoint: string
+  helperHealth: ArmoireHelperHealth | null
   helperBusy: boolean
   helperCanRefresh: boolean
 }>()
@@ -135,6 +142,15 @@ const helperStatusMessage = computed(() =>
     ? `${t(props.helperStatusMessageKey)}: ${props.helperErrorDetail}`
     : t(props.helperStatusMessageKey)
 )
+const helperCatalogLabel = computed(() => {
+  if (!props.helperHealth?.catalogLocated) {
+    return t(textKeys.nsarmoireHelperCatalogMissing)
+  }
+
+  return formatArmoireText(t, textKeys.nsarmoireHelperCatalogReady, {
+    count: props.helperHealth.catalogCabinetEntryCount ?? 0
+  })
+})
 const characterLabel = computed(() => {
   const character = props.snapshot?.character
 

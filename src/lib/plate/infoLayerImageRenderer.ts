@@ -1,14 +1,23 @@
+import { getNSPlateInfoBar48Bounds } from '@/lib/plate/infoLayerRenderDefinitions'
 import {
   NSPLATE_INFO_BAR48_COUNT,
   NSPLATE_INFO_ACTIVITY_ICON_GAP_PX,
   NSPLATE_INFO_ACTIVITY_ICON_SIZE_PX,
-  getNSPlateInfoBar48Bounds,
   type NSPlateInfoBar48RenderLayer,
   type NSPlateInfoFixedRenderLayer,
   type NSPlateInfoGraphicRenderLayer,
   type NSPlateInfoIconRenderLayer,
   type NSPlateInfoSpecialRenderLayer
-} from '@/lib/plate/infoLayerRenderDefinitions'
+} from '@/lib/plate/infoLayerRenderTypes'
+import {
+  clampInfoLayerAlpha,
+  isDefaultInfoBar48SpritePair,
+  resolveInfoIconDrawSize,
+  resolveInfoSpecialDrawSize,
+  setInfoCanvasImageSmoothing,
+  shouldSmoothWhenScaledDown,
+  tintInfoSpecialMaskImage
+} from '@/lib/plate/infoLayerImageUtils'
 
 type NSPlateInfoImageCache = Map<string, Promise<HTMLImageElement | null>>
 
@@ -71,10 +80,13 @@ async function drawInfoSpecialLayer(
   const { width, height } = resolveInfoSpecialDrawSize(symbolImage, layer)
 
   context.save()
-  context.globalAlpha = clampAlpha(layer.opacity)
+  context.globalAlpha = clampInfoLayerAlpha(layer.opacity)
 
   if (backgroundImage) {
-    setCanvasImageSmoothing(context, shouldSmoothWhenScaledDown(backgroundImage, width, height))
+    setInfoCanvasImageSmoothing(
+      context,
+      shouldSmoothWhenScaledDown(backgroundImage, width, height)
+    )
     context.drawImage(backgroundImage, layer.x, layer.y, width, height)
   }
 
@@ -89,12 +101,12 @@ async function drawInfoSpecialLayer(
     )
 
     if (tintedMask) {
-      setCanvasImageSmoothing(context, false)
+      setInfoCanvasImageSmoothing(context, false)
       context.drawImage(tintedMask, layer.x, layer.y)
     }
   }
 
-  setCanvasImageSmoothing(context, shouldSmoothWhenScaledDown(symbolImage, width, height))
+  setInfoCanvasImageSmoothing(context, shouldSmoothWhenScaledDown(symbolImage, width, height))
   context.drawImage(symbolImage, layer.x, layer.y, width, height)
   context.restore()
 }
@@ -132,15 +144,15 @@ async function drawInfoBar48Layer(
         Math.round(cellHeight * ((Number(fillImage.naturalHeight) || 0) / emptyNaturalHeight))
       )
     : 0
-  const fillOffsetX = isDefaultBar48SpritePair(layer) ? -1 : 0
+  const fillOffsetX = isDefaultInfoBar48SpritePair(layer) ? -1 : 0
   const smoothEmpty = shouldSmoothWhenScaledDown(emptyImage, cellWidth, cellHeight)
   const smoothFill = fillImage
     ? shouldSmoothWhenScaledDown(fillImage, fillDrawWidth, fillDrawHeight)
     : false
 
   context.save()
-  context.globalAlpha = clampAlpha(layer.opacity)
-  setCanvasImageSmoothing(context, smoothEmpty)
+  context.globalAlpha = clampInfoLayerAlpha(layer.opacity)
+  setInfoCanvasImageSmoothing(context, smoothEmpty)
 
   for (let index = 0; index < NSPLATE_INFO_BAR48_COUNT; index += 1) {
     const col = index % bounds.columns
@@ -155,9 +167,9 @@ async function drawInfoBar48Layer(
       const fillX = x + Math.round((cellWidth - fillDrawWidth) / 2) + fillOffsetX
       const fillY = y + Math.round((cellHeight - fillDrawHeight) / 2)
 
-      setCanvasImageSmoothing(context, smoothFill)
+      setInfoCanvasImageSmoothing(context, smoothFill)
       context.drawImage(fillImage, fillX, fillY, fillDrawWidth, fillDrawHeight)
-      setCanvasImageSmoothing(context, smoothEmpty)
+      setInfoCanvasImageSmoothing(context, smoothEmpty)
     }
   }
 
@@ -205,14 +217,14 @@ async function drawInfoActivityIconLayer(
   }
 
   context.save()
-  context.globalAlpha = clampAlpha(layer.opacity)
+  context.globalAlpha = clampInfoLayerAlpha(layer.opacity)
 
   for (let index = 0; index < drawables.length; index += 1) {
     const { image } = drawables[index]
     const x =
       layer.x + index * (NSPLATE_INFO_ACTIVITY_ICON_SIZE_PX + NSPLATE_INFO_ACTIVITY_ICON_GAP_PX)
 
-    setCanvasImageSmoothing(
+    setInfoCanvasImageSmoothing(
       context,
       shouldSmoothWhenScaledDown(
         image,
@@ -242,44 +254,10 @@ function drawInfoImage(
   opacity: number
 ) {
   context.save()
-  context.globalAlpha = clampAlpha(opacity)
-  setCanvasImageSmoothing(context, shouldSmoothWhenScaledDown(image, width, height))
+  context.globalAlpha = clampInfoLayerAlpha(opacity)
+  setInfoCanvasImageSmoothing(context, shouldSmoothWhenScaledDown(image, width, height))
   context.drawImage(image, x, y, width, height)
   context.restore()
-}
-
-function resolveInfoIconDrawSize(image: HTMLImageElement, layer: NSPlateInfoIconRenderLayer) {
-  if (
-    layer.sizeMode === 'fixed' &&
-    Number.isFinite(layer.targetSize) &&
-    Number(layer.targetSize) > 0
-  ) {
-    const size = Math.max(1, Math.round(Number(layer.targetSize)))
-    return { width: size, height: size }
-  }
-
-  const scale = Number.isFinite(layer.scale) && layer.scale > 0 ? layer.scale : 1
-  return {
-    width: Math.max(1, Math.round(image.naturalWidth * scale)),
-    height: Math.max(1, Math.round(image.naturalHeight * scale))
-  }
-}
-
-function resolveInfoSpecialDrawSize(image: HTMLImageElement, layer: NSPlateInfoSpecialRenderLayer) {
-  if (
-    layer.sizeMode === 'fixed' &&
-    Number.isFinite(layer.targetSize) &&
-    Number(layer.targetSize) > 0
-  ) {
-    const size = Math.max(1, Math.round(Number(layer.targetSize)))
-    return { width: size, height: size }
-  }
-
-  const scale = Number.isFinite(layer.scale) && layer.scale > 0 ? layer.scale : 1
-  return {
-    width: Math.max(1, Math.round(image.naturalWidth * scale)),
-    height: Math.max(1, Math.round(image.naturalHeight * scale))
-  }
 }
 
 function isCurrentRender(options: NSPlateInfoGraphicRenderOptions) {
@@ -319,142 +297,4 @@ function loadInfoImage(source: string, imageCache: NSPlateInfoImageCache = new M
 
   imageCache.set(source, promise)
   return promise
-}
-
-function shouldSmoothWhenScaledDown(
-  image: HTMLImageElement,
-  drawWidth: number,
-  drawHeight: number
-) {
-  const sourceWidth = Math.max(1, Number(image.naturalWidth) || Number(image.width) || 1)
-  const sourceHeight = Math.max(1, Number(image.naturalHeight) || Number(image.height) || 1)
-  const targetWidth = Math.max(1, Number(drawWidth) || 1)
-  const targetHeight = Math.max(1, Number(drawHeight) || 1)
-
-  return targetWidth < sourceWidth || targetHeight < sourceHeight
-}
-
-function setCanvasImageSmoothing(context: CanvasRenderingContext2D, enabled: boolean) {
-  context.imageSmoothingEnabled = enabled
-
-  if ('imageSmoothingQuality' in context) {
-    context.imageSmoothingQuality = enabled ? 'high' : 'low'
-  }
-}
-
-function clampAlpha(value: number) {
-  if (!Number.isFinite(value)) {
-    return 1
-  }
-
-  return Math.min(1, Math.max(0, value))
-}
-
-function tintInfoSpecialMaskImage(
-  maskImage: HTMLImageElement,
-  backgroundImage: HTMLImageElement,
-  width: number,
-  height: number,
-  darkHex: string,
-  lightHex: string
-) {
-  const canvas = document.createElement('canvas')
-  canvas.width = Math.max(1, Math.round(width))
-  canvas.height = Math.max(1, Math.round(height))
-  const context = canvas.getContext('2d', { willReadFrequently: true })
-
-  if (!context) {
-    return null
-  }
-
-  context.clearRect(0, 0, canvas.width, canvas.height)
-  setCanvasImageSmoothing(
-    context,
-    shouldSmoothWhenScaledDown(maskImage, canvas.width, canvas.height)
-  )
-  context.drawImage(maskImage, 0, 0, canvas.width, canvas.height)
-
-  const imageData = context.getImageData(0, 0, canvas.width, canvas.height)
-  const data = imageData.data
-  const backgroundData = getInfoSpecialBackgroundPixelData(
-    backgroundImage,
-    canvas.width,
-    canvas.height
-  )
-  const dark = parseInfoSpecialHexColor(darkHex, '#5f3c22')
-  const light = parseInfoSpecialHexColor(lightHex, '#f6d9a7')
-
-  for (let index = 0; index < data.length; index += 4) {
-    const alpha = data[index + 3]
-
-    if (alpha === 0) {
-      continue
-    }
-
-    if (backgroundData) {
-      const backgroundAlpha = backgroundData[index + 3]
-
-      if (backgroundAlpha === 0 || !isInfoSpecialBackgroundWhite(backgroundData, index)) {
-        data[index + 3] = 0
-        continue
-      }
-    }
-
-    const t = (data[index] + data[index + 1] + data[index + 2]) / 765
-    data[index] = Math.round(dark.r + (light.r - dark.r) * t)
-    data[index + 1] = Math.round(dark.g + (light.g - dark.g) * t)
-    data[index + 2] = Math.round(dark.b + (light.b - dark.b) * t)
-  }
-
-  context.putImageData(imageData, 0, 0)
-  return canvas
-}
-
-function getInfoSpecialBackgroundPixelData(
-  backgroundImage: HTMLImageElement,
-  width: number,
-  height: number
-) {
-  const canvas = document.createElement('canvas')
-  canvas.width = Math.max(1, Math.round(width))
-  canvas.height = Math.max(1, Math.round(height))
-  const context = canvas.getContext('2d', { willReadFrequently: true })
-
-  if (!context) {
-    return null
-  }
-
-  context.clearRect(0, 0, canvas.width, canvas.height)
-  setCanvasImageSmoothing(context, false)
-  context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height)
-  return context.getImageData(0, 0, canvas.width, canvas.height).data
-}
-
-function isInfoSpecialBackgroundWhite(data: Uint8ClampedArray, index: number) {
-  return data[index] === 255 && data[index + 1] === 255 && data[index + 2] === 255
-}
-
-function parseInfoSpecialHexColor(value: string, fallback: string) {
-  const source = /^#[0-9a-fA-F]{6}$/.test(value) ? value : fallback
-  const raw = source.slice(1)
-
-  return {
-    r: Number.parseInt(raw.slice(0, 2), 16),
-    g: Number.parseInt(raw.slice(2, 4), 16),
-    b: Number.parseInt(raw.slice(4, 6), 16)
-  }
-}
-
-function isDefaultBar48SpritePair(layer: NSPlateInfoBar48RenderLayer) {
-  const emptyPath = normalizeBar48PathForCompare(layer.emptySource.url)
-  const fillPath = normalizeBar48PathForCompare(layer.fillSource?.url ?? '')
-
-  return (
-    emptyPath.endsWith('ui/sprites/charactercard_3.png') &&
-    fillPath.endsWith('ui/sprites/charactercard_4.png')
-  )
-}
-
-function normalizeBar48PathForCompare(value: string) {
-  return value.replace(/\\/g, '/').toLowerCase()
 }

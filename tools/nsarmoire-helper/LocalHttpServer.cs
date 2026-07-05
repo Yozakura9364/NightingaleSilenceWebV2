@@ -97,6 +97,9 @@ internal sealed class LocalHttpServer
                 case "/probe" when context.Request.HttpMethod == "GET":
                     await WriteJson(context, snapshotService.GetProbe());
                     break;
+                case "/catalog" when context.Request.HttpMethod == "GET":
+                    await WriteRawJson(context, snapshotService.GetCatalogJson());
+                    break;
                 case "/process/select" when context.Request.HttpMethod == "POST":
                     var request = await ReadJsonBody<ProcessSelectRequest>(context);
                     if (request is null || request.Pid <= 0)
@@ -222,6 +225,15 @@ internal sealed class LocalHttpServer
     private static async Task WriteJson(HttpListenerContext context, object payload, int statusCode = 200)
     {
         var bytes = JsonSerializer.SerializeToUtf8Bytes(payload, JsonOptions);
+        context.Response.StatusCode = statusCode;
+        context.Response.ContentType = "application/json; charset=utf-8";
+        context.Response.ContentLength64 = bytes.Length;
+        context.Response.Headers["Cache-Control"] = "no-store";
+        await context.Response.OutputStream.WriteAsync(bytes);
+    }
+
+    private static async Task WriteRawJson(HttpListenerContext context, byte[] bytes, int statusCode = 200)
+    {
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json; charset=utf-8";
         context.Response.ContentLength64 = bytes.Length;

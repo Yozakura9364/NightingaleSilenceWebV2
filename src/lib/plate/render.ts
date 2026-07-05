@@ -1,10 +1,12 @@
 import { NSPLATE_PORTRAIT_CATEGORIES, NSPLATE_PORTRAIT_FRAME_CATEGORY } from '@/lib/plate/draft'
 import {
   createNSPlateInfoGraphicRenderLayers,
-  createNSPlateInfoTextRenderLayers,
-  type NSPlateInfoGraphicRenderLayer,
-  type NSPlateInfoTextRenderLayer
+  createNSPlateInfoTextRenderLayers
 } from '@/lib/plate/infoLayerRenderDefinitions'
+import type {
+  NSPlateInfoGraphicRenderLayer,
+  NSPlateInfoTextRenderLayer
+} from '@/lib/plate/infoLayerRenderTypes'
 import type { NSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import type {
   NSPlateAssetGroup,

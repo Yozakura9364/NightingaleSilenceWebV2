@@ -13,7 +13,7 @@
     <div v-else class="nsplate-main" :style="panelStyle">
       <NSPlateCanvasArea
         ref="canvasAreaRef"
-        :api-base="boundary.apiBase"
+        :layered-export-data-source="dataSource"
         :mode="activeCanvasMode"
         :portrait-side="portraitSide"
         :selected-assets="selectedAssets"
@@ -96,6 +96,7 @@ import { useNSPlateConfigTransfer } from '@/pages/plate/composables/useNSPlateCo
 import { useNSPlateDraftPersistence } from '@/pages/plate/composables/useNSPlateDraftPersistence'
 import { useNSPlatePanelResize } from '@/pages/plate/composables/useNSPlatePanelResize'
 import { useNSPlateSelectionNote } from '@/pages/plate/composables/useNSPlateSelectionNote'
+import { useNSPlateDataSource } from '@/pages/plate/services/nsplateDataSource'
 import NSPlateAssetPanel from '@/pages/plate/components/NSPlateAssetPanel.vue'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 import NSPlateConfigPanel from '@/pages/plate/components/NSPlateConfigPanel.vue'
@@ -118,6 +119,7 @@ const props = defineProps<{
   boundary: ApiBoundary
 }>()
 const { t } = useLocale()
+const dataSource = useNSPlateDataSource(props.boundary.apiBase)
 
 const {
   isLoading,
@@ -131,7 +133,7 @@ const {
   toggleAsset,
   applyPreset,
   clearAllSelections
-} = useNSPlateData(props.boundary)
+} = useNSPlateData(dataSource)
 
 const { panelStyle, resizePanelBy, startPanelResize } = useNSPlatePanelResize()
 const customPortrait = ref<NSPlateCustomPortraitImage | null>(null)

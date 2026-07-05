@@ -601,7 +601,7 @@ tools/nsarmoire-helper/*
 
 ### 阶段 3：本地助手最小接入
 
-当前已完成 v0.4.1：
+当前已完成 v0.4.3：
 
 1. 新增 `tools/nsarmoire-helper`，使用 C# / .NET 7 构建本地助手。
 2. helper 提供 `/health`、`/processes`、`/process/select`、`/probe`、`/snapshot`、`/snapshot/refresh`。
@@ -611,10 +611,12 @@ tools/nsarmoire-helper/*
 6. helper 支持 `/open-v2`，打开启动参数中配置的 V2 `#/ffxiv/armoire` 页面；接口不接受请求传入的任意 URL。
 7. 雇员读取参考 `Critical-Impact/InventoryTools` 的缓存口径：当前活动雇员的 `10000-10006` 内部 7 块会重排为游戏 UI 的 5 页，每页 35 格，并按雇员 ID 缓存。
 8. 收藏柜读取参考 `Seventhxiv/Collections` 的 `UIState.Cabinet` 口径：helper 读取 `UnlockedItems` bitset，并用 catalog `cabinetEntries` 映射到 itemId。
+9. helper 提供 `/catalog`，返回当前用于收藏柜映射的 `nsarmoire.catalog.v1` JSON；前端优先加载站点静态 catalog，静态加载失败时会尝试用 helper catalog 兜底。
+10. `/health` 返回 catalog 定位状态和收藏柜映射条目数，用于不打开 `/probe` 时快速判断 helper 静态目录是否就绪。
 
 仍待完成：
 
-1. `/catalog` 和 `/icon/:itemId` 暂未实现。
+1. `/icon/:itemId` 暂未实现。
 2. 浏览器直连本地 helper 在公开 HTTPS 页面下仍需实测。
 3. 角色名和服务器已写入 helper snapshot；稳定角色 ID 仍未写入，多角色档案的改名/转服自动合并前需要继续攻克。
 4. 商城时装收集统计必须和完整容器读取同级推进，不能降级为普通后置小功能。

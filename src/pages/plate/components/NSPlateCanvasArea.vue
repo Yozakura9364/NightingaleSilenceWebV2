@@ -45,6 +45,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { textKeys } from '@/config/site'
 import { renderNameplateToCanvas, type NSPlateImageCache } from '@/lib/plate/canvasRenderer'
+import type { NSPlateLayeredExportDataSource } from '@/lib/plate/dataSource'
 import { getNSPlateInfoGraphicAssetSignature } from '@/lib/plate/infoLayerRenderDefinitions'
 import type { NSPlateInfoDraft } from '@/lib/plate/infoLayers'
 import { NSPLATE_CANVAS_DIMENSIONS, createNameplateRenderPlan } from '@/lib/plate/render'
@@ -64,7 +65,7 @@ import { useNSPlateCanvasFrame } from '@/pages/plate/composables/useNSPlateCanva
 import { useNSPlateCanvasViewport } from '@/pages/plate/composables/useNSPlateCanvasViewport'
 
 const props = defineProps<{
-  apiBase: string
+  layeredExportDataSource?: NSPlateLayeredExportDataSource
   mode: NSPlateCanvasMode
   portraitSide: NSPlatePortraitSide
   selectedAssets: NSPlateAssetSummary[]
@@ -145,7 +146,7 @@ const isCanvasReady = ref(false)
 const imageCache: NSPlateImageCache = new Map()
 let renderSerial = 0
 const { canExport, exportErrorText, exportImage, exportLayeredZip } = useNSPlateCanvasExport({
-  apiBase: props.apiBase,
+  layeredExportDataSource: props.layeredExportDataSource,
   canvasRef,
   renderPlan,
   isCanvasReady,
