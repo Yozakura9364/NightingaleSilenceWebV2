@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build:armoire-catalog": "node scripts/build-armoire-catalog.mjs",
+    "build:armoire-store-catalog": "node scripts/build-armoire-store-catalog.mjs",
+    "check:armoire-store-catalog": "node scripts/check-armoire-store-catalog.mjs",
+    "check:armoire-store-catalog:quiet": "node scripts/check-armoire-store-catalog.mjs --pending-limit 0",
     "build:plate-manifest": "node scripts/build-nsplate-manifest.mjs --preview-img-base https://img.nightingalesilence.com/plate-preview/256 --preview-max-edge 256",
     "build:plate-manifest:no-preview": "node scripts/build-nsplate-manifest.mjs",
     "build:plate-thumbnails": "node scripts/build-nsplate-thumbnails.mjs",
@@ -15,7 +18,7 @@
     "typecheck": "vue-tsc -b",
     "build": "vue-tsc -b && vite build",
     "check:i18n": "node scripts/check-ui-copy.mjs",
-    "check": "npm run typecheck && npm run check:i18n && vite build",
+    "check": "npm run typecheck && npm run check:i18n && npm run check:armoire-store-catalog:quiet && vite build",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{ts,vue,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,vue,css}\""

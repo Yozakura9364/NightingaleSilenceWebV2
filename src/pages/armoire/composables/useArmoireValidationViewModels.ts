@@ -190,7 +190,7 @@ function createIdenticalModelCase(
       return `${name}: ${formatCatalogModelEvidence(source.catalog.items[itemId])}`
     })
     .join('；')
-  const itemNames = formatItemIds(group.ownedItemIds, source.catalog, t)
+  const itemNames = formatItemIds(group.storageSpaceItemIds, source.catalog, t)
 
   return {
     key: 'identical-models',

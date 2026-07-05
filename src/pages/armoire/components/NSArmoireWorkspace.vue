@@ -1,92 +1,152 @@
 <template>
   <section class="nsarmoire-workspace">
-    <div class="nsarmoire-workspace__body">
-      <NSArmoireImportPanel
-        class="nsarmoire-workspace__import"
-        :snapshot="snapshot"
-        :error-key="errorKey"
-        :error-detail="errorDetail"
-        :imported-file-name="importedFileName"
-        :helper-status-tone="helperTone"
-        :helper-status-title-key="helperTitleKey"
-        :helper-status-message-key="helperMessageKey"
-        :helper-error-detail="helperDetail"
-        :helper-endpoint="helperEndpoint"
-        :helper-health="helperHealth"
-        :helper-busy="helperBusy"
-        :helper-can-refresh="helperCanRefresh"
-        @import-file="importSnapshotFile"
-        @load-example="loadExampleSnapshot"
-        @connect-helper="connectHelper"
-        @refresh-helper="refreshHelper"
-        @clear="clearSnapshot"
-      />
-
-      <div class="nsarmoire-workspace__main">
-        <section
-          class="nsarmoire-workspace__section"
-          aria-labelledby="nsarmoire-actions-heading"
-        >
-          <div class="nsarmoire-workspace__section-header">
-            <h2 id="nsarmoire-actions-heading">
-              {{ t(textKeys.nsarmoireSectionActions) }}
-            </h2>
-          </div>
-
-          <NSArmoireInsightPanel
-            :analysis="analysis"
-            :catalog="catalog"
-            :snapshot="snapshot"
-            :has-pending-catalog-checks="hasPendingCatalogChecks"
-          />
-        </section>
-
-        <NSArmoireOverview
-          :analysis="analysis?.basic ?? null"
-          :title-key="textKeys.nsarmoireSectionStorage"
+    <div
+      class="nsarmoire-workspace__body"
+      :class="{
+        'nsarmoire-workspace__body--empty': !snapshot
+      }"
+    >
+      <div class="nsarmoire-workspace__shell">
+        <NSArmoireSectionRail
+          v-model:active-section="activeSection"
+          class="nsarmoire-workspace__rail"
+          :items="sectionItems"
         />
 
-        <section
-          class="nsarmoire-workspace__section nsarmoire-workspace__section--reference"
-          aria-labelledby="nsarmoire-reference-heading"
-        >
-          <div class="nsarmoire-workspace__section-header nsarmoire-workspace__section-header--tabs">
-            <h2 id="nsarmoire-reference-heading">
-              {{ t(textKeys.nsarmoireSectionReference) }}
-            </h2>
+        <div class="nsarmoire-workspace__content">
+          <NSArmoireImportPanel
+            class="nsarmoire-workspace__import"
+            :mode="snapshot ? 'compact' : 'hero'"
+            :snapshot="snapshot"
+            :error-key="errorKey"
+            :error-detail="errorDetail"
+            :imported-file-name="importedFileName"
+            :helper-status-tone="helperTone"
+            :helper-status-title-key="helperTitleKey"
+            :helper-status-message-key="helperMessageKey"
+            :helper-error-detail="helperDetail"
+            :helper-endpoint="helperEndpoint"
+            :helper-health="helperHealth"
+            :helper-busy="helperBusy"
+            :helper-can-refresh="helperCanRefresh"
+            :helper-can-shutdown="helperCanShutdown"
+            @import-file="importSnapshotFile"
+            @load-example="loadExampleSnapshot"
+            @connect-helper="connectHelper"
+            @refresh-helper="refreshHelper"
+            @shutdown-helper="shutdownHelper"
+            @clear="clearSnapshot"
+          />
 
-            <AppTabs
-              v-model="activeDetailTab"
-              class="nsarmoire-workspace__reference-tabs"
-              :items="detailTabs"
-              :aria-label="t(textKeys.nsarmoireSectionReference)"
-              id-prefix="nsarmoire-reference-tab"
-              density="compact"
+          <div v-if="snapshot" class="nsarmoire-workspace__main">
+            <section
+              v-show="activeSection === 'cleanup'"
+              class="nsarmoire-workspace__section"
+              aria-labelledby="nsarmoire-cleanup-heading"
+            >
+              <div class="nsarmoire-workspace__section-header">
+                <h2 id="nsarmoire-cleanup-heading">
+                  {{ t(textKeys.nsarmoireSectionCleanup) }}
+                </h2>
+              </div>
+
+              <NSArmoireInsightPanel
+                :analysis="analysis"
+                :catalog="catalog"
+                :snapshot="snapshot"
+                :selected-dye-value-categories="selectedDyeValueCategories"
+                :has-pending-catalog-checks="hasPendingCatalogChecks"
+                @toggle-dye-value-category="toggleDyeValueCategory"
+              />
+
+              <NSArmoireOverview
+                :analysis="analysis?.basic ?? null"
+                :title-key="textKeys.nsarmoireSectionStorage"
+              />
+            </section>
+
+            <section
+              v-if="shouldRenderCollectionSection"
+              v-show="activeSection === 'collection'"
+              class="nsarmoire-workspace__section nsarmoire-workspace__section--reference"
+              aria-labelledby="nsarmoire-collection-heading"
+            >
+              <div
+                class="nsarmoire-workspace__section-header nsarmoire-workspace__section-header--tabs"
+              >
+                <h2 id="nsarmoire-collection-heading">
+                  {{ t(textKeys.nsarmoireSectionCollection) }}
+                </h2>
+
+                <AppTabs
+                  v-model="activeDetailTab"
+                  class="nsarmoire-workspace__reference-tabs"
+                  :items="detailTabs"
+                  :aria-label="t(textKeys.nsarmoireSectionCollection)"
+                  id-prefix="nsarmoire-reference-tab"
+                  density="compact"
+                  stretch
+                />
+              </div>
+
+              <div v-if="!isCollectionLoading" class="nsarmoire-workspace__reference-body">
+                <NSArmoireStorePanel
+                  v-if="activeDetailTab === 'store'"
+                  :armoire-catalog="catalog"
+                  :error="storeCatalogError"
+                  :snapshot="snapshot"
+                  :status="storeCatalogStatus"
+                  :store-catalog="storeCatalog"
+                  @reload="loadStoreCatalog"
+                />
+                <NSArmoireCabinetStatsPanel
+                  v-else-if="activeDetailTab === 'cabinet'"
+                  :analysis="analysis"
+                  :catalog="catalog"
+                />
+                <NSArmoireGlamourSetStatsPanel
+                  v-else-if="activeDetailTab === 'sets'"
+                  :analysis="analysis"
+                  :catalog="catalog"
+                />
+                <NSArmoireCatalogPanel
+                  v-else
+                  :analysis="analysis"
+                  :catalog="catalog"
+                  :snapshot="snapshot"
+                />
+              </div>
+            </section>
+
+            <NSArmoireCharacterPanel
+              v-if="activeSection === 'characters'"
+              :snapshot="snapshot"
+              :helper-endpoint="helperEndpoint"
+              :helper-health="helperHealth"
+              :catalog="catalog"
+              :catalog-status="catalogStatus"
+              :catalog-error="catalogError"
+              @reload-catalog="loadCatalog"
             />
           </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="nsarmoire-workspace__reference-body">
-            <NSArmoireCatalogPanel
-              v-if="activeDetailTab === 'catalog'"
-              :analysis="analysis"
-              :catalog="catalog"
-              :snapshot="snapshot"
-            />
-            <NSArmoireValidationPanel
-              v-else-if="activeDetailTab === 'validation'"
-              :analysis="analysis"
-              :catalog="catalog"
-              :snapshot="snapshot"
-            />
-            <NSArmoireCatalogStatus
-              v-else
-              :catalog="catalog"
-              :status="catalogStatus"
-              :error="catalogError"
-              @reload="loadCatalog"
-            />
-          </div>
-        </section>
+    <div
+      v-if="isCollectionLoading"
+      class="nsarmoire-workspace__loading-overlay"
+      role="status"
+      aria-live="polite"
+    >
+      <div class="nsarmoire-workspace__loading-card">
+        <span class="nsarmoire-workspace__loading-pixels" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+        </span>
+        <span>{{ t(textKeys.nsarmoireCollectionLoading) }}</span>
       </div>
     </div>
 
@@ -103,36 +163,71 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import AppTabs from '@/components/AppTabs.vue'
 import { textKeys } from '@/config/site'
+import NSArmoireCabinetStatsPanel from '@/pages/armoire/components/NSArmoireCabinetStatsPanel.vue'
 import NSArmoireCatalogPanel from '@/pages/armoire/components/NSArmoireCatalogPanel.vue'
-import NSArmoireCatalogStatus from '@/pages/armoire/components/NSArmoireCatalogStatus.vue'
+import NSArmoireCharacterPanel from '@/pages/armoire/components/NSArmoireCharacterPanel.vue'
+import NSArmoireGlamourSetStatsPanel from '@/pages/armoire/components/NSArmoireGlamourSetStatsPanel.vue'
 import { useArmoireCatalog } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
+import { useArmoireDyePreferences } from '@/pages/armoire/composables/useArmoireDyePreferences'
 import { useArmoireHelper } from '@/pages/armoire/composables/useArmoireHelper'
+import { useArmoireStoreCatalog } from '@/pages/armoire/composables/useArmoireStoreCatalog'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
 import NSArmoireInsightPanel from '@/pages/armoire/components/NSArmoireInsightPanel.vue'
 import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
 import NSArmoireOverview from '@/pages/armoire/components/NSArmoireOverview.vue'
 import NSArmoireProcessDialog from '@/pages/armoire/components/NSArmoireProcessDialog.vue'
-import NSArmoireValidationPanel from '@/pages/armoire/components/NSArmoireValidationPanel.vue'
+import NSArmoireSectionRail from '@/pages/armoire/components/NSArmoireSectionRail.vue'
+import NSArmoireStorePanel from '@/pages/armoire/components/NSArmoireStorePanel.vue'
 import { useLocale } from '@/stores/locale'
 
+type ArmoireWorkspaceSection = 'cleanup' | 'collection' | 'characters'
+type ArmoireCollectionDetailTab = 'store' | 'cabinet' | 'sets' | 'catalog'
+
 const { t } = useLocale()
-const activeDetailTab = ref('catalog')
+const activeSection = ref<ArmoireWorkspaceSection>('cleanup')
+const activeDetailTab = ref<ArmoireCollectionDetailTab>('store')
+const mountedCollectionSection = ref(false)
+const isCollectionLoading = ref(false)
+let collectionLoadFrame = 0
+let collectionLoadTimer = 0
+const COLLECTION_LOADING_MIN_MS = 420
+const sectionItems = computed(() => [
+  {
+    id: 'cleanup',
+    labelKey: textKeys.nsarmoireSectionCleanup,
+    shortLabelKey: textKeys.nsarmoireSectionCleanupShort
+  },
+  {
+    id: 'collection',
+    labelKey: textKeys.nsarmoireSectionCollection,
+    shortLabelKey: textKeys.nsarmoireSectionCollectionShort
+  },
+  {
+    id: 'characters',
+    labelKey: textKeys.nsarmoireSectionCharacters,
+    shortLabelKey: textKeys.nsarmoireSectionCharactersShort
+  }
+])
 const detailTabs = computed(() => [
   {
+    value: 'store',
+    label: t(textKeys.nsarmoireCollectionStoreStats)
+  },
+  {
+    value: 'cabinet',
+    label: t(textKeys.nsarmoireCollectionCabinetStats)
+  },
+  {
+    value: 'sets',
+    label: t(textKeys.nsarmoireCollectionGlamourSetStats)
+  },
+  {
     value: 'catalog',
-    label: t(textKeys.nsarmoireCatalogGrid)
-  },
-  {
-    value: 'validation',
-    label: t(textKeys.nsarmoireValidation)
-  },
-  {
-    value: 'data',
-    label: t(textKeys.nsarmoireSectionCatalogData)
+    label: t(textKeys.nsarmoireCollectionCatalog)
   }
 ])
 
@@ -147,14 +242,20 @@ const {
   clearSnapshot
 } = useArmoireSnapshot()
 
+const { catalog, status: catalogStatus, error: catalogError, loadCatalog } = useArmoireCatalog()
 const {
-  catalog,
-  status: catalogStatus,
-  error: catalogError,
-  loadCatalog
-} = useArmoireCatalog()
+  storeCatalog,
+  status: storeCatalogStatus,
+  error: storeCatalogError,
+  loadStoreCatalog
+} = useArmoireStoreCatalog()
 
-const { analysis, hasPendingCatalogChecks } = useArmoireAnalysis(snapshot, catalog)
+const { selectedDyeValueCategories, toggleDyeValueCategory } = useArmoireDyePreferences()
+const { analysis, hasPendingCatalogChecks } = useArmoireAnalysis(
+  snapshot,
+  catalog,
+  selectedDyeValueCategories
+)
 const {
   busy: helperBusy,
   detail: helperDetail,
@@ -164,8 +265,10 @@ const {
   messageKey: helperMessageKey,
   tone: helperTone,
   canRefresh: helperCanRefresh,
+  canShutdown: helperCanShutdown,
   connectHelper,
   refreshHelper,
+  shutdownHelper,
   processes: helperProcesses,
   processPickerOpen: helperProcessPickerOpen,
   processBusy: helperProcessBusy,
@@ -174,6 +277,68 @@ const {
   selectProcess: selectHelperProcess,
   closeProcessPicker: closeHelperProcessPicker
 } = useArmoireHelper(importSnapshotPayload)
+
+const shouldRenderCollectionSection = computed(
+  () => activeSection.value === 'collection' || mountedCollectionSection.value
+)
+
+function cancelCollectionLoadFrame(): void {
+  if (typeof window === 'undefined') {
+    collectionLoadFrame = 0
+    collectionLoadTimer = 0
+    return
+  }
+
+  if (collectionLoadFrame !== 0) {
+    window.cancelAnimationFrame(collectionLoadFrame)
+    collectionLoadFrame = 0
+  }
+
+  if (collectionLoadTimer !== 0) {
+    window.clearTimeout(collectionLoadTimer)
+    collectionLoadTimer = 0
+  }
+}
+
+function queueCollectionSectionMount(): void {
+  isCollectionLoading.value = true
+
+  if (typeof window === 'undefined') {
+    mountedCollectionSection.value = true
+    isCollectionLoading.value = false
+    return
+  }
+
+  cancelCollectionLoadFrame()
+  collectionLoadFrame = window.requestAnimationFrame(() => {
+    collectionLoadFrame = window.requestAnimationFrame(() => {
+      collectionLoadTimer = window.setTimeout(() => {
+        mountedCollectionSection.value = true
+        isCollectionLoading.value = false
+        collectionLoadTimer = 0
+      }, COLLECTION_LOADING_MIN_MS)
+      collectionLoadFrame = 0
+    })
+  })
+}
+
+watch(
+  activeSection,
+  (section) => {
+    if (section === 'collection') {
+      queueCollectionSectionMount()
+      return
+    }
+
+    cancelCollectionLoadFrame()
+    isCollectionLoading.value = false
+  },
+  { flush: 'pre' }
+)
+
+onBeforeUnmount(() => {
+  cancelCollectionLoadFrame()
+})
 </script>
 
 <style scoped>
@@ -185,32 +350,66 @@ const {
   flex: 1;
   min-height: 0;
   background: var(--ns-color-bg-soft);
+  background: #ffffff;
   font-family: var(--ns-font-sans);
   overflow: auto;
 }
 
 .nsarmoire-workspace__body {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: stretch;
-  gap: 12px;
   width: 100%;
   min-width: 0;
-  padding: 14px;
+  background: #ffffff;
+}
+
+.nsarmoire-workspace__shell {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  align-items: stretch;
+  min-width: 0;
+  min-height: calc(100vh - 58px);
+}
+
+.nsarmoire-workspace__content {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  gap: 12px;
+  min-width: 0;
+  padding: 20px;
+}
+
+.nsarmoire-workspace__body--empty .nsarmoire-workspace__content {
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-items: center;
+  min-height: calc(100vh - 58px);
 }
 
 .nsarmoire-workspace__import {
   min-width: 0;
+  width: 100%;
+}
+
+.nsarmoire-workspace__import.nsarmoire-import-panel--compact {
+  justify-self: start;
+  width: min(820px, 100%);
+}
+
+.nsarmoire-workspace__body--empty .nsarmoire-workspace__import {
+  width: min(760px, 100%);
 }
 
 .nsarmoire-workspace__main {
   display: grid;
-  gap: 18px;
+  align-content: start;
+  gap: 12px;
   min-width: 0;
 }
 
 .nsarmoire-workspace__section {
   display: grid;
+  align-content: start;
   gap: 10px;
   min-width: 0;
 }
@@ -251,17 +450,117 @@ const {
 }
 
 .nsarmoire-workspace__section-header--tabs {
-  align-items: end;
+  align-items: stretch;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .nsarmoire-workspace__reference-tabs {
-  flex: 0 1 auto;
-  min-width: min(100%, 360px);
+  width: 100%;
 }
 
 .nsarmoire-workspace__reference-body {
   display: grid;
+  width: 100%;
   min-width: 0;
+}
+
+.nsarmoire-workspace__loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(15, 12, 20, 0.52);
+}
+
+.nsarmoire-workspace__loading-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  max-width: min(360px, 100%);
+  padding: 14px 18px;
+  border: 2px solid var(--ns-pixel-border);
+  background: #ffffff;
+  color: var(--ns-color-text);
+  font-size: 13px;
+  font-weight: 850;
+  box-shadow: 5px 5px 0 var(--ns-pixel-shadow);
+}
+
+.nsarmoire-workspace__loading-pixels {
+  display: grid;
+  grid-template-columns: repeat(2, 8px);
+  grid-template-rows: repeat(2, 8px);
+  gap: 3px;
+}
+
+.nsarmoire-workspace__loading-pixels span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--ns-color-accent);
+  image-rendering: pixelated;
+  animation: nsarmoire-loading-pixel 0.8s steps(1, end) infinite;
+}
+
+.nsarmoire-workspace__loading-pixels span:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.nsarmoire-workspace__loading-pixels span:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.nsarmoire-workspace__loading-pixels span:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+@keyframes nsarmoire-loading-pixel {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.nsarmoire-workspace__content :deep(.nsarmoire-panel),
+.nsarmoire-workspace__content :deep(.nsarmoire-action-card),
+.nsarmoire-workspace__content :deep(.nsarmoire-readable-item),
+.nsarmoire-workspace__content :deep(.nsarmoire-readable-item__related-item),
+.nsarmoire-workspace__content :deep(.nsarmoire-readable-list__item),
+.nsarmoire-workspace__content :deep(.nsarmoire-readable-list__icon),
+.nsarmoire-workspace__content :deep(.nsarmoire-readable-list__related li),
+.nsarmoire-workspace__content :deep(.nsarmoire-readable-list__related-icon),
+.nsarmoire-workspace__content :deep(.nsarmoire-readable-list__related-more-count),
+.nsarmoire-workspace__content :deep(.nsarmoire-summary-list),
+.nsarmoire-workspace__content :deep(.nsarmoire-metric),
+.nsarmoire-workspace__content :deep(.nsarmoire-distribution__row),
+.nsarmoire-workspace__content :deep(.nsarmoire-catalog-card),
+.nsarmoire-workspace__content :deep(.nsarmoire-catalog-card__icon),
+.nsarmoire-workspace__content :deep(.nsarmoire-character-panel__block),
+.nsarmoire-workspace__content :deep(.nsarmoire-character-panel__rows div),
+.nsarmoire-workspace__content :deep(.nsarmoire-validation-case),
+.nsarmoire-workspace__content :deep(.nsarmoire-validation-case__row),
+.nsarmoire-workspace__content :deep(.nsarmoire-catalog-status__summary) {
+  background: #ffffff;
+}
+
+.nsarmoire-workspace__content :deep(.nsarmoire-panel),
+.nsarmoire-workspace__content :deep(.nsarmoire-action-card) {
+  border-color: var(--ns-pixel-border);
+  box-shadow: none;
+}
+
+@media (min-width: 981px) {
+  .nsarmoire-workspace__content {
+    grid-column: 2;
+  }
 }
 
 @media (max-width: 980px) {
@@ -271,6 +570,20 @@ const {
 
   .nsarmoire-workspace__body {
     grid-template-columns: 1fr;
+  }
+
+  .nsarmoire-workspace__shell {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .nsarmoire-workspace__content {
+    padding: 8px;
+  }
+
+  .nsarmoire-workspace__body--empty .nsarmoire-workspace__content {
+    align-items: start;
+    min-height: 0;
   }
 
   .nsarmoire-workspace__section-header--tabs {

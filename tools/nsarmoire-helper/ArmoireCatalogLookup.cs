@@ -5,10 +5,15 @@ namespace NightingaleSilence.NSArmoire.Helper;
 internal sealed class ArmoireCatalogLookup
 {
     private readonly IReadOnlyDictionary<uint, uint> itemIdsByCabinetId;
+    private readonly IReadOnlySet<uint> appearanceItemIds;
 
-    private ArmoireCatalogLookup(IReadOnlyDictionary<uint, uint> itemIdsByCabinetId, string? sourcePath)
+    private ArmoireCatalogLookup(
+        IReadOnlyDictionary<uint, uint> itemIdsByCabinetId,
+        IReadOnlySet<uint> appearanceItemIds,
+        string? sourcePath)
     {
         this.itemIdsByCabinetId = itemIdsByCabinetId;
+        this.appearanceItemIds = appearanceItemIds;
         SourcePath = sourcePath;
     }
 
@@ -16,23 +21,25 @@ internal sealed class ArmoireCatalogLookup
     public bool HasSource => SourcePath is not null;
     public bool IsLoaded => itemIdsByCabinetId.Count > 0;
     public int CabinetEntryCount => itemIdsByCabinetId.Count;
+    public int AppearanceItemCount => appearanceItemIds.Count;
 
     public static ArmoireCatalogLookup LoadDefault()
     {
         var catalogPath = FindCatalogPath();
         if (catalogPath is null)
         {
-            return new ArmoireCatalogLookup(new Dictionary<uint, uint>(), null);
+            return new ArmoireCatalogLookup(new Dictionary<uint, uint>(), new HashSet<uint>(), null);
         }
 
         try
         {
             using var stream = File.OpenRead(catalogPath);
             using var document = JsonDocument.Parse(stream);
+            var appearanceItemIds = ReadAppearanceItemIds(document.RootElement);
             if (!document.RootElement.TryGetProperty("cabinetEntries", out var cabinetEntries)
                 || cabinetEntries.ValueKind != JsonValueKind.Array)
             {
-                return new ArmoireCatalogLookup(new Dictionary<uint, uint>(), catalogPath);
+                return new ArmoireCatalogLookup(new Dictionary<uint, uint>(), appearanceItemIds, catalogPath);
             }
 
             var mapping = new Dictionary<uint, uint>();
@@ -51,12 +58,17 @@ internal sealed class ArmoireCatalogLookup
                 mapping[cabinetId] = itemId;
             }
 
-            return new ArmoireCatalogLookup(mapping, catalogPath);
+            return new ArmoireCatalogLookup(mapping, appearanceItemIds, catalogPath);
         }
         catch
         {
-            return new ArmoireCatalogLookup(new Dictionary<uint, uint>(), catalogPath);
+            return new ArmoireCatalogLookup(new Dictionary<uint, uint>(), new HashSet<uint>(), catalogPath);
         }
+    }
+
+    public bool IsKnownAppearanceItemId(uint itemId)
+    {
+        return appearanceItemIds.Count == 0 || appearanceItemIds.Contains(itemId);
     }
 
     public IReadOnlyList<CabinetStoredItem> ResolveCabinetItems(IReadOnlyList<uint> cabinetIds)
@@ -89,6 +101,25 @@ internal sealed class ArmoireCatalogLookup
         {
             throw new HelperRequestException("catalog_unreadable", "静态目录数据读取失败", 500);
         }
+    }
+
+    private static IReadOnlySet<uint> ReadAppearanceItemIds(JsonElement root)
+    {
+        var itemIds = new HashSet<uint>();
+        if (!root.TryGetProperty("items", out var items) || items.ValueKind != JsonValueKind.Object)
+        {
+            return itemIds;
+        }
+
+        foreach (var item in items.EnumerateObject())
+        {
+            if (uint.TryParse(item.Name, out var itemId) && itemId > 0)
+            {
+                itemIds.Add(itemId);
+            }
+        }
+
+        return itemIds;
     }
 
     private static string? FindCatalogPath()

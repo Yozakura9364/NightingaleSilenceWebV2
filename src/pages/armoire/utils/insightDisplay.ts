@@ -3,13 +3,16 @@ import type {
   ArmoireCatalog,
   ArmoireDuplicateItemGroupState,
   ArmoireDyeRiskItem,
+  ArmoireGlamourSetState,
   ArmoireIdenticalModelGroupState,
+  ArmoireOwnedItem,
   ArmoireRiskLevel,
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
 import {
   formatArmoireText,
   formatArmoireDyeNames,
+  formatArmoireDyeSlotNames,
   formatArmoireDyeResetReasons,
   getArmoireContainerLabel,
   getArmoireItemIconUrl,
@@ -19,6 +22,7 @@ import {
 export const ARMOIRE_INSIGHT_LIST_PREVIEW_LIMIT = 4
 
 type Translate = (key: string) => string
+type ItemLocationMapGetter = () => Map<number, string[]>
 
 interface InsightDisplaySource {
   catalog: ArmoireCatalog
@@ -30,13 +34,22 @@ export interface ArmoireReadableItemView {
   context: string
   iconUrl: string
   tone?: ArmoireRiskLevel
+  details?: ArmoireReadableItemDetailView[]
   relatedItems?: ArmoireReadableItemRelatedView[]
+}
+
+export interface ArmoireReadableItemDetailView {
+  key: string
+  title: string
+  lines: string[]
 }
 
 export interface ArmoireReadableItemRelatedView {
   key: string
   name: string
   iconUrl: string
+  status?: 'stored' | 'unstored'
+  statusLabel?: string
 }
 
 export interface ArmoireActionHintView {
@@ -55,15 +68,18 @@ interface ArmoireActionHintText {
 
 export interface ArmoireDuplicateGroupView {
   key: string
-  ownedEntryCount: number
+  storageSpaceEntryCount: number
   names: string[]
   itemIds: number[]
+  armoireItemIds: number[]
   iconUrl: string
 }
 
 export interface ArmoireIncompleteSetView {
   setItemId: number
   name: string
+  pieceItemIds: number[]
+  storedPieceItemIds: number[]
   missingPieceItemIds: number[]
   iconUrl: string
 }
@@ -73,6 +89,7 @@ export interface ArmoireDuplicateItemView {
   name: string
   ownedEntryCount: number
   iconUrl: string
+  entries: ArmoireOwnedItem[]
 }
 
 export function buildArmoireActionHints(
@@ -154,7 +171,8 @@ export function buildArmoireActionHints(
 export function createArmoireInsightDisplay(
   source: InsightDisplaySource,
   t: Translate,
-  getItemLocationsByItemId: () => Map<number, string[]>
+  getItemLocationsByItemId: ItemLocationMapGetter,
+  getStorageSpaceItemLocationsByItemId: ItemLocationMapGetter = getItemLocationsByItemId
 ) {
   function formatText(key: string, values: Record<string, string | number>): string {
     return formatArmoireText(t, key, values)
@@ -189,10 +207,7 @@ export function createArmoireInsightDisplay(
   }
 
   function formatItemPreview(itemIds: number[]): string {
-    const names = itemIds
-      .slice(0, ARMOIRE_INSIGHT_LIST_PREVIEW_LIMIT)
-      .map(getItemName)
-      .join(' / ')
+    const names = itemIds.slice(0, ARMOIRE_INSIGHT_LIST_PREVIEW_LIMIT).map(getItemName).join(' / ')
 
     if (itemIds.length <= ARMOIRE_INSIGHT_LIST_PREVIEW_LIMIT) {
       return names
@@ -211,27 +226,37 @@ export function createArmoireInsightDisplay(
   }
 
   function formatSetContext(set: ArmoireIncompleteSetView): string {
-    return [
-      formatMissingPieces(set.missingPieceItemIds),
-      formatItemLocations(set.setItemId)
-    ]
+    return [formatMissingPieces(set.missingPieceItemIds), formatItemLocations(set.setItemId)]
       .filter(Boolean)
       .join(' / ')
   }
 
   function formatDuplicateItemContext(item: ArmoireDuplicateItemView): string {
-    return [
-      formatText(textKeys.nsarmoireHintOwnedEntries, { count: item.ownedEntryCount }),
-      formatItemLocations(item.itemId)
-    ]
-      .filter(Boolean)
-      .join(' / ')
+    return formatText(textKeys.nsarmoireHintOwnedEntries, { count: item.ownedEntryCount })
+  }
+
+  function toDuplicateItemDetail(
+    item: ArmoireOwnedItem,
+    index: number
+  ): ArmoireReadableItemDetailView {
+    return {
+      key: `duplicate-entry-${item.itemId}-${index}-${item.container}-${item.slotIndex ?? ''}`,
+      title: formatText(textKeys.nsarmoireHintDuplicateEntryLocation, {
+        index: index + 1,
+        location: getArmoireContainerLabel(item, t)
+      }),
+      lines: [
+        formatText(textKeys.nsarmoireHintDuplicateEntryDyes, {
+          dyes: formatArmoireDyeSlotNames(source.catalog, item.dyes, t)
+        })
+      ]
+    }
   }
 
   function formatDuplicateGroupContext(group: ArmoireDuplicateGroupView): string {
     const itemLocations = group.itemIds
       .map((itemId) => {
-        const locations = getItemLocationsByItemId().get(itemId)
+        const locations = getStorageSpaceItemLocationsByItemId().get(itemId)
 
         if (!locations?.length) {
           return ''
@@ -245,12 +270,7 @@ export function createArmoireInsightDisplay(
       .filter(Boolean)
       .join('；')
 
-    return [
-      formatText(textKeys.nsarmoireHintOwnedEntries, { count: group.ownedEntryCount }),
-      itemLocations
-    ]
-      .filter(Boolean)
-      .join(' / ')
+    return itemLocations
   }
 
   function formatDyeRiskContext(
@@ -259,11 +279,7 @@ export function createArmoireInsightDisplay(
       resetReasonLabel: string
     }
   ): string {
-    return [
-      getArmoireContainerLabel(item, t),
-      item.dyeNames,
-      item.resetReasonLabel
-    ].join(' / ')
+    return [getArmoireContainerLabel(item, t), item.dyeNames, item.resetReasonLabel].join(' / ')
   }
 
   function toRelatedItem(itemId: number): ArmoireReadableItemRelatedView {
@@ -271,6 +287,27 @@ export function createArmoireInsightDisplay(
       key: `related-${itemId}`,
       name: getItemName(itemId),
       iconUrl: getItemIconUrl(itemId)
+    }
+  }
+
+  function toSetPieceRelatedItem(
+    itemId: number,
+    storedPieceItemIds: Set<number>
+  ): ArmoireReadableItemRelatedView {
+    const isStored = storedPieceItemIds.has(itemId)
+    const locations = getItemLocationsByItemId().get(itemId) ?? []
+    const statusLabel =
+      isStored && locations.length > 0
+        ? formatText(textKeys.nsarmoireStatusFoundOutsideSet, {
+            locations: locations.join(' / ')
+          })
+        : t(isStored ? textKeys.nsarmoireStatusStored : textKeys.nsarmoireStatusUnstored)
+
+    return {
+      ...toRelatedItem(itemId),
+      key: `set-piece-${itemId}`,
+      status: isStored ? 'stored' : 'unstored',
+      statusLabel
     }
   }
 
@@ -283,35 +320,50 @@ export function createArmoireInsightDisplay(
     }
   }
 
-  function toIncompleteSetView(set: {
-    setItemId: number
-    setName?: string
-    missingPieceItemIds: number[]
-  }): ArmoireIncompleteSetView {
+  function toIncompleteSetView(set: ArmoireGlamourSetState): ArmoireIncompleteSetView {
     return {
       setItemId: set.setItemId,
       name: set.setName ?? getItemName(set.setItemId),
+      pieceItemIds: set.pieceItemIds,
+      storedPieceItemIds: set.storedPieceItemIds,
       missingPieceItemIds: set.missingPieceItemIds,
       iconUrl: getItemIconUrl(set.setItemId)
     }
   }
 
   function toIncompleteSetItem(set: ArmoireIncompleteSetView): ArmoireReadableItemView {
+    const storedPieceItemIds = new Set(set.storedPieceItemIds)
+
     return {
       key: `set-${set.setItemId}`,
       name: set.name,
       context: formatSetContext(set),
       iconUrl: set.iconUrl,
-      relatedItems: set.missingPieceItemIds.map(toRelatedItem)
+      relatedItems: set.pieceItemIds.map((itemId) =>
+        toSetPieceRelatedItem(itemId, storedPieceItemIds)
+      )
     }
   }
 
-  function toDuplicateItemView(group: ArmoireDuplicateItemGroupState): ArmoireDuplicateItemView {
+  function toSetBucketLoosePieceItem(itemId: number): ArmoireReadableItemView {
+    return {
+      key: `set-bucket-piece-${itemId}`,
+      name: getItemName(itemId),
+      context: formatItemContext(itemId),
+      iconUrl: getItemIconUrl(itemId)
+    }
+  }
+
+  function toDuplicateItemView(
+    group: ArmoireDuplicateItemGroupState,
+    entries: ArmoireOwnedItem[] = []
+  ): ArmoireDuplicateItemView {
     return {
       itemId: group.itemId,
       name: getItemName(group.itemId),
       ownedEntryCount: group.ownedEntryCount,
-      iconUrl: getItemIconUrl(group.itemId)
+      iconUrl: getItemIconUrl(group.itemId),
+      entries
     }
   }
 
@@ -320,20 +372,20 @@ export function createArmoireInsightDisplay(
       key: `duplicate-item-${item.itemId}`,
       name: item.name,
       context: formatDuplicateItemContext(item),
-      iconUrl: item.iconUrl
+      iconUrl: item.iconUrl,
+      details: item.entries.map(toDuplicateItemDetail)
     }
   }
 
-  function toDuplicateGroupView(
-    group: ArmoireIdenticalModelGroupState
-  ): ArmoireDuplicateGroupView {
-    const firstItemId = group.ownedItemIds[0]
+  function toDuplicateGroupView(group: ArmoireIdenticalModelGroupState): ArmoireDuplicateGroupView {
+    const firstItemId = group.storageSpaceItemIds[0]
 
     return {
       key: group.key,
-      ownedEntryCount: group.ownedEntryCount,
-      names: group.ownedItemIds.map(getItemName),
-      itemIds: group.ownedItemIds,
+      storageSpaceEntryCount: group.storageSpaceEntryCount,
+      names: group.storageSpaceItemIds.map(getItemName),
+      itemIds: group.storageSpaceItemIds,
+      armoireItemIds: group.armoireItemIds,
       iconUrl: firstItemId ? getItemIconUrl(firstItemId) : ''
     }
   }
@@ -367,6 +419,7 @@ export function createArmoireInsightDisplay(
     toTransferableItem,
     toIncompleteSetView,
     toIncompleteSetItem,
+    toSetBucketLoosePieceItem,
     toDuplicateItemView,
     toDuplicateItem,
     toDuplicateGroupView,

@@ -7,6 +7,7 @@ const srcDir = join(rootDir, 'src')
 const visibleTextPattern = /[\p{L}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u
 const staticAttributePattern = /\s(aria-label|title|placeholder|alt)="([^"]+)"/g
 const directTextPattern = />([^<]+)</g
+const staticDialogPattern = /\bwindow\.(alert|confirm)\(\s*(['"`])([\s\S]*?)\2\s*\)/g
 const deprecatedConfigPattern = /\b(placeholderCopy|siteLabels)\b/g
 const issues = []
 
@@ -18,6 +19,7 @@ for (const filePath of walk(srcDir)) {
   }
 
   if ((filePath.endsWith('.vue') || filePath.endsWith('.ts')) && relativePath !== 'src/config/site.ts') {
+    checkStaticDialogCopy(filePath)
     checkDeprecatedConfigUsage(filePath)
   }
 }
@@ -84,6 +86,26 @@ function checkStaticAttributes(filePath, source, template, templateOffset) {
     }
 
     addIssue(filePath, source, templateOffset + (match.index ?? 0), name, value)
+  }
+}
+
+function checkStaticDialogCopy(filePath) {
+  const source = readFileSync(filePath, 'utf8')
+
+  for (const match of source.matchAll(staticDialogPattern)) {
+    const [, name, quote, rawValue] = match
+
+    if (quote === '`' && rawValue.includes('${')) {
+      continue
+    }
+
+    const value = rawValue.replace(/\s+/g, ' ').trim()
+
+    if (!value || !visibleTextPattern.test(value)) {
+      continue
+    }
+
+    addIssue(filePath, source, match.index ?? 0, `window.${name}`, value)
   }
 }
 

@@ -120,31 +120,34 @@ internal sealed class SnapshotService : IDisposable
             {
                 items.AddRange(inventoryResult.Containers
                     .SelectMany(container => container.Items)
-                    .Where(item => item.Container != "retainer")
+                    .Where(item => item.Container != "retainer" && IsKnownAppearanceItem(item.ItemId))
                     .Select(item => ToOwnedItem(item)));
             }
 
             items.AddRange(retainerInventoryCache.Entries
-                .SelectMany(entry => entry.Items.Select(item => ToOwnedItem(
-                    item,
-                    retainerId: entry.RetainerId.ToString(),
-                    retainerName: entry.RetainerName))));
+                .SelectMany(entry => entry.Items
+                    .Where(item => IsKnownAppearanceItem(item.ItemId))
+                    .Select(item => ToOwnedItem(
+                        item,
+                        retainerId: entry.RetainerId.ToString(),
+                        retainerName: entry.RetainerName))));
 
             var dresserLoaded = false;
             if (reader is not null)
             {
-                var dresserItems = reader.ReadItems();
+                var dresserItems = SafeReadDresserItems();
                 dresserLoaded = reader.Loaded;
                 if (dresserLoaded)
                 {
                     items.AddRange(dresserItems
+                        .Where(item => IsKnownAppearanceItem(item.ItemId))
                         .Select(item => new ArmoireOwnedItem(
                             ItemId: item.ItemId,
                             Hq: item.Hq,
                             Quantity: null,
                             Dyes: new[] { item.Dye1Id, item.Dye2Id },
                             Container: "glamourDresser",
-                            ContainerName: null,
+                            ContainerName: "投影台",
                             SlotIndex: item.SlotIndex)));
                 }
             }
@@ -273,6 +276,8 @@ internal sealed class SnapshotService : IDisposable
     {
         var processes = processLocator.ListProcesses(selectedPid);
         var characterResult = SafeReadCharacter();
+        var dresserItems = SafeReadDresserItems();
+        var dresserLoaded = (reader?.Loaded ?? false) || dresserItems.Count > 0;
 
         return new HelperHealth(
             Ok: true,
@@ -286,7 +291,7 @@ internal sealed class SnapshotService : IDisposable
             CharacterWorldId: characterResult?.WorldId,
             CharacterWorld: characterResult?.WorldName,
             DresserLocated: reader is not null,
-            DresserLoaded: reader?.Loaded ?? false,
+            DresserLoaded: dresserLoaded,
             CatalogLocated: catalogLookup.HasSource,
             CatalogCabinetEntryCount: catalogLookup.CabinetEntryCount,
             CabinetLocated: cabinetReader is not null,
@@ -343,6 +348,8 @@ internal sealed class SnapshotService : IDisposable
                     : 0,
                 Status: cabinetResult.Status);
 
+        var dresserItems = SafeReadDresserItems();
+        var dresserLoaded = reader?.Loaded ?? false;
         var containers = new List<ContainerProbeResult>
         {
             new(
@@ -351,10 +358,10 @@ internal sealed class SnapshotService : IDisposable
                 ContainerName: "投影台",
                 InventoryType: null,
                 Located: reader is not null,
-                Loaded: reader?.Loaded ?? false,
+                Loaded: dresserLoaded,
                 Size: 800,
-                ItemCount: 0,
-                Status: reader is null ? "not_found" : ((reader?.Loaded ?? false) ? "ready" : "not_loaded"))
+                ItemCount: dresserItems.Count,
+                Status: reader is null ? "not_found" : (dresserLoaded ? "ready" : "not_loaded"))
         };
 
         if (inventoryResult is not null)
@@ -486,6 +493,23 @@ internal sealed class SnapshotService : IDisposable
         }
     }
 
+    private IReadOnlyList<DresserItem> SafeReadDresserItems()
+    {
+        if (reader is null)
+        {
+            return Array.Empty<DresserItem>();
+        }
+
+        try
+        {
+            return reader.ReadItems();
+        }
+        catch
+        {
+            return Array.Empty<DresserItem>();
+        }
+    }
+
     private string[] BuildSupportedContainers()
     {
         var containers = new List<string> { "glamourDresser" };
@@ -519,6 +543,11 @@ internal sealed class SnapshotService : IDisposable
             InventoryType: item.InventoryType,
             RetainerId: retainerId,
             RetainerName: retainerName);
+    }
+
+    private bool IsKnownAppearanceItem(uint itemId)
+    {
+        return catalogLookup.IsKnownAppearanceItemId(itemId);
     }
 
     private static ArmoireCharacter? ToCharacter(CharacterReadResult? result)

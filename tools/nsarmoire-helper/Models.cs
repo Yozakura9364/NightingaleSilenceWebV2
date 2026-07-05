@@ -3,7 +3,7 @@ namespace NightingaleSilence.NSArmoire.Helper;
 internal static class ArmoireContracts
 {
     public const string SnapshotSchemaVersion = "nsarmoire.snapshot.v1";
-    public const string HelperVersion = "0.4.3";
+    public const string HelperVersion = "0.4.5";
 }
 
 internal sealed record ArmoireOwnedItem(
@@ -143,6 +143,8 @@ internal sealed record GameProcessInfo(
 internal sealed record ProcessSelectRequest(int Pid);
 
 internal sealed record OpenV2Result(string Url);
+
+internal sealed record HelperShutdownResult(bool Ok);
 
 internal sealed record ProcessSnapshot(int Id, IntPtr MainModuleBaseAddress, string? ExecutablePath);
 

@@ -1,6 +1,8 @@
 import { isDyedOwnedItem } from '@/lib/armoire/buildOwnedIndex'
+import { getArmoireDyeValueCategories } from '@/lib/armoire/dyeValue'
 import type {
   ArmoireCatalog,
+  ArmoireDyeRiskOptions,
   ArmoireDyeResetReason,
   ArmoireDyeRiskAnalysis,
   ArmoireDyeRiskItem,
@@ -8,13 +10,14 @@ import type {
   ArmoireRiskLevel,
   ArmoireSnapshot
 } from '@/lib/armoire/types'
+import { DEFAULT_ARMOIRE_VALUABLE_DYE_CATEGORIES } from '@/lib/armoire/types'
 
 function getDyedSlotCount(item: ArmoireOwnedItem): number {
   return item.dyes?.filter((dyeId) => dyeId > 0).length ?? 0
 }
 
-function getRiskLevel(clearsDyeOnStorage: boolean): ArmoireRiskLevel {
-  return clearsDyeOnStorage ? 'danger' : 'warning'
+function getRiskLevel(clearsDyeOnStorage: boolean, hasValuableDye: boolean): ArmoireRiskLevel {
+  return clearsDyeOnStorage && hasValuableDye ? 'danger' : 'warning'
 }
 
 function buildGlamourSetPieceItemIds(catalog: ArmoireCatalog): Set<number> {
@@ -60,12 +63,28 @@ function getDyeResetReasons(
 function toDyeRiskItem(
   item: ArmoireOwnedItem,
   catalog: ArmoireCatalog,
-  glamourSetPieceItemIds: Set<number>
+  glamourSetPieceItemIds: Set<number>,
+  valuableDyeCategories: Set<string>
 ): ArmoireDyeRiskItem {
   const dyeIds = item.dyes ?? [0, 0]
   const dyedSlotCount = getDyedSlotCount(item)
   const resetReasons = getDyeResetReasons(item, catalog, glamourSetPieceItemIds)
   const clearsDyeOnStorage = resetReasons.some((reason) => reason !== 'preservedStorage')
+  const itemDyeCategories = getArmoireDyeValueCategories(dyeIds, catalog)
+  const matchedDyeCategories = itemDyeCategories.filter((category) =>
+    valuableDyeCategories.has(category)
+  )
+  const matchedDyeCategorySet = new Set(matchedDyeCategories)
+  const valuableDyeIds = dyeIds.filter((dyeId) => {
+    if (dyeId <= 0) {
+      return false
+    }
+
+    return getArmoireDyeValueCategories([dyeId], catalog).some((category) =>
+      valuableDyeCategories.has(category)
+    )
+  })
+  const hasValuableDye = valuableDyeIds.length > 0
 
   return {
     itemId: item.itemId,
@@ -73,21 +92,33 @@ function toDyeRiskItem(
     containerName: item.containerName,
     dyeIds,
     dyedSlotCount,
+    valuableDyeIds,
+    valuableDyeCategories: Array.from(matchedDyeCategorySet),
+    hasValuableDye,
     clearsDyeOnStorage,
     resetReasons,
-    riskLevel: getRiskLevel(clearsDyeOnStorage)
+    riskLevel: getRiskLevel(clearsDyeOnStorage, hasValuableDye)
   }
 }
 
 export function analyzeDyeRisk(
   snapshot: ArmoireSnapshot,
-  catalog: ArmoireCatalog
+  catalog: ArmoireCatalog,
+  options: ArmoireDyeRiskOptions = {}
 ): ArmoireDyeRiskAnalysis {
   const glamourSetPieceItemIds = buildGlamourSetPieceItemIds(catalog)
+  const selectedValuableDyeCategories = [
+    ...(options.valuableDyeCategories ?? DEFAULT_ARMOIRE_VALUABLE_DYE_CATEGORIES)
+  ]
+  const valuableDyeCategories = new Set<string>(selectedValuableDyeCategories)
   const items = snapshot.items
     .filter(isDyedOwnedItem)
-    .map((item) => toDyeRiskItem(item, catalog, glamourSetPieceItemIds))
+    .map((item) => toDyeRiskItem(item, catalog, glamourSetPieceItemIds, valuableDyeCategories))
     .sort((left, right) => {
+      if (Number(right.riskLevel === 'danger') !== Number(left.riskLevel === 'danger')) {
+        return Number(right.riskLevel === 'danger') - Number(left.riskLevel === 'danger')
+      }
+
       if (Number(right.clearsDyeOnStorage) !== Number(left.clearsDyeOnStorage)) {
         return Number(right.clearsDyeOnStorage) - Number(left.clearsDyeOnStorage)
       }
@@ -102,7 +133,12 @@ export function analyzeDyeRisk(
   return {
     riskItemCount: items.length,
     clearDyeRiskItemCount: items.filter((item) => item.clearsDyeOnStorage).length,
+    valuableDyeRiskItemCount: items.filter((item) => item.hasValuableDye).length,
+    valuableClearDyeRiskItemCount: items.filter(
+      (item) => item.clearsDyeOnStorage && item.hasValuableDye
+    ).length,
     highRiskItemCount: items.filter((item) => item.riskLevel === 'danger').length,
+    selectedValuableDyeCategories,
     items
   }
 }

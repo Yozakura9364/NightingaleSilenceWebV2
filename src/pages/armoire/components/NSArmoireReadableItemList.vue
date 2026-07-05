@@ -7,6 +7,7 @@
         class="nsarmoire-readable-list__item"
         :class="[
           item.tone ? `nsarmoire-readable-list__item--${item.tone}` : undefined,
+          item.details?.length ? 'nsarmoire-readable-list__item--detailed' : undefined,
           item.visibleRelatedItems.length ? 'nsarmoire-readable-list__item--related' : undefined
         ]"
         :title="getItemTitle(item)"
@@ -25,12 +26,19 @@
         <span class="nsarmoire-readable-list__body">
           <span class="nsarmoire-readable-list__name">{{ item.name }}</span>
           <small v-if="item.context">{{ item.context }}</small>
+          <dl v-if="item.details?.length" class="nsarmoire-readable-list__details">
+            <div v-for="detail in item.details" :key="detail.key">
+              <dt>{{ detail.title }}</dt>
+              <dd v-for="line in detail.lines" :key="line">{{ line }}</dd>
+            </div>
+          </dl>
         </span>
         <ul v-if="item.visibleRelatedItems.length" class="nsarmoire-readable-list__related">
           <li
             v-for="relatedItem in item.visibleRelatedItems"
             :key="relatedItem.key"
-            :title="relatedItem.name"
+            :class="relatedItem.status ? `nsarmoire-readable-list__related-item--${relatedItem.status}` : undefined"
+            :title="getRelatedItemTitle(relatedItem)"
           >
             <span class="nsarmoire-readable-list__related-icon">
               <img
@@ -42,7 +50,10 @@
                 referrerpolicy="no-referrer"
               />
             </span>
-            <span>{{ relatedItem.name }}</span>
+            <span class="nsarmoire-readable-list__related-text">
+              <span>{{ relatedItem.name }}</span>
+              <small v-if="relatedItem.statusLabel">{{ relatedItem.statusLabel }}</small>
+            </span>
           </li>
           <li
             v-if="item.hasHiddenRelatedItems"
@@ -56,25 +67,16 @@
         </ul>
       </li>
     </ul>
-
-    <div v-if="hasMoreItems" class="nsarmoire-readable-list__more">
-      <AppButton :disabled="isExpansionPending" @click="showMoreItems">
-        {{ loadMoreLabel }}
-      </AppButton>
-    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
-import AppButton from '@/components/AppButton.vue'
-import { textKeys } from '@/config/site'
-import type { ArmoireReadableItemView } from '@/pages/armoire/utils/insightDisplay'
-import { formatArmoireText } from '@/pages/armoire/utils/itemDisplay'
-import { useLocale } from '@/stores/locale'
+import type {
+  ArmoireReadableItemRelatedView,
+  ArmoireReadableItemView
+} from '@/pages/armoire/utils/insightDisplay'
 
-const EXPANDED_INITIAL_BATCH_SIZE = 12
-const EXPANDED_BATCH_SIZE = 12
 const RELATED_ITEM_PREVIEW_LIMIT = 8
 type WindowWithIdleCallback = Window & {
   requestIdleCallback?: Window['requestIdleCallback']
@@ -87,49 +89,32 @@ const props = defineProps<{
   expanded?: boolean
 }>()
 
-const { t } = useLocale()
 const renderedVisibleCount = ref(0)
-const isExpansionPending = ref(false)
 let animationFrameHandle: number | null = null
 let idleCallbackHandle: number | null = null
 let timeoutHandle: number | null = null
 
 const collapsedVisibleLimit = computed(() => props.limit ?? props.items.length)
 
-const firstExpandedLimit = computed(() =>
-  Math.min(
-    props.items.length,
-    Math.max(collapsedVisibleLimit.value, EXPANDED_INITIAL_BATCH_SIZE)
-  )
-)
-
 const visibleItems = computed(() => {
   return props.items
     .slice(0, Math.min(props.items.length, renderedVisibleCount.value))
     .map((item) => {
       const relatedItems = item.relatedItems ?? []
+      const shouldShowAllRelatedItems = props.expanded === true
+      const visibleRelatedItems = shouldShowAllRelatedItems
+        ? relatedItems
+        : relatedItems.slice(0, RELATED_ITEM_PREVIEW_LIMIT)
 
       return {
         ...item,
-        visibleRelatedItems: relatedItems.slice(0, RELATED_ITEM_PREVIEW_LIMIT),
-        hiddenRelatedItemCount: Math.max(relatedItems.length - RELATED_ITEM_PREVIEW_LIMIT, 0),
-        hasHiddenRelatedItems: relatedItems.length > RELATED_ITEM_PREVIEW_LIMIT,
+        visibleRelatedItems,
+        hiddenRelatedItemCount: Math.max(relatedItems.length - visibleRelatedItems.length, 0),
+        hasHiddenRelatedItems: relatedItems.length > visibleRelatedItems.length,
         relatedTitle: relatedItems.map((relatedItem) => relatedItem.name).join(' / ')
       }
     })
 })
-
-const hasMoreItems = computed(
-  () => props.expanded === true && visibleItems.value.length < props.items.length
-)
-
-const nextBatchCount = computed(() =>
-  Math.min(EXPANDED_BATCH_SIZE, Math.max(props.items.length - visibleItems.value.length, 0))
-)
-
-const loadMoreLabel = computed(() =>
-  formatArmoireText(t, textKeys.nsarmoireLoadMoreList, { count: nextBatchCount.value })
-)
 
 watch(
   () => [props.expanded, props.items.length, props.limit] as const,
@@ -139,27 +124,18 @@ watch(
         renderedVisibleCount.value || collapsedVisibleLimit.value,
         collapsedVisibleLimit.value
       )
-      scheduleVisibleCount(firstExpandedLimit.value)
+      scheduleVisibleCount(props.items.length)
       return
     }
 
     cancelScheduledVisibleCount()
-    isExpansionPending.value = false
     renderedVisibleCount.value = collapsedVisibleLimit.value
   },
   { immediate: true }
 )
 
-function showMoreItems(): void {
-  scheduleVisibleCount(Math.min(
-    props.items.length,
-    renderedVisibleCount.value + EXPANDED_BATCH_SIZE
-  ))
-}
-
 function scheduleVisibleCount(count: number): void {
   cancelScheduledVisibleCount()
-  isExpansionPending.value = true
 
   animationFrameHandle = window.requestAnimationFrame(() => {
     animationFrameHandle = null
@@ -167,7 +143,6 @@ function scheduleVisibleCount(count: number): void {
 
     const commit = () => {
       renderedVisibleCount.value = count
-      isExpansionPending.value = false
       idleCallbackHandle = null
       timeoutHandle = null
     }
@@ -206,10 +181,17 @@ function getItemTitle(item: ArmoireReadableItemView): string {
   return [
     item.name,
     item.context,
+    item.details
+      ?.flatMap((detail) => [detail.title, ...detail.lines])
+      .join('\n'),
     item.relatedItems?.map((relatedItem) => relatedItem.name).join(' / ')
   ]
     .filter(Boolean)
     .join('\n')
+}
+
+function getRelatedItemTitle(item: ArmoireReadableItemRelatedView): string {
+  return [item.name, item.statusLabel].filter(Boolean).join('\n')
 }
 
 function hideBrokenIcon(event: Event): void {
@@ -254,6 +236,10 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__item--danger {
   border-color: var(--ns-status-danger-border);
+}
+
+.nsarmoire-readable-list__item--detailed {
+  grid-column: span 2;
 }
 
 .nsarmoire-readable-list__item--related {
@@ -315,6 +301,32 @@ function hideBrokenIcon(event: Event): void {
   -webkit-line-clamp: 2;
 }
 
+.nsarmoire-readable-list__details {
+  display: grid;
+  gap: 6px;
+  margin: 2px 0 0;
+  color: var(--ns-color-text-muted);
+  font-family: var(--ns-font-sans);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.nsarmoire-readable-list__details div {
+  display: grid;
+  gap: 1px;
+}
+
+.nsarmoire-readable-list__details dt,
+.nsarmoire-readable-list__details dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.nsarmoire-readable-list__details dt {
+  font-weight: 850;
+}
+
 .nsarmoire-readable-list__related {
   grid-column: 3;
   display: flex;
@@ -340,6 +352,10 @@ function hideBrokenIcon(event: Event): void {
   contain: layout paint style;
 }
 
+.nsarmoire-readable-list__related-item--unstored {
+  color: var(--ns-color-text-muted);
+}
+
 .nsarmoire-readable-list__related-icon {
   display: grid;
   place-items: center;
@@ -356,7 +372,13 @@ function hideBrokenIcon(event: Event): void {
   object-fit: contain;
 }
 
-.nsarmoire-readable-list__related span:last-child {
+.nsarmoire-readable-list__related-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nsarmoire-readable-list__related-text > span {
   display: -webkit-box;
   max-width: 100%;
   overflow: hidden;
@@ -368,6 +390,27 @@ function hideBrokenIcon(event: Event): void {
   white-space: normal;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.nsarmoire-readable-list__related-text small {
+  width: fit-content;
+  max-width: 100%;
+  padding: 1px 4px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-pixel-surface);
+  color: var(--ns-color-text-muted);
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1.15;
+}
+
+.nsarmoire-readable-list__related-item--stored .nsarmoire-readable-list__related-text small {
+  border-color: var(--ns-color-success);
+  color: var(--ns-color-success);
+}
+
+.nsarmoire-readable-list__related-item--unstored .nsarmoire-readable-list__related-icon {
+  opacity: 0.58;
 }
 
 .nsarmoire-readable-list__related-more {
@@ -394,6 +437,10 @@ function hideBrokenIcon(event: Event): void {
     grid-template-columns: 1fr;
   }
 
+  .nsarmoire-readable-list__item--detailed {
+    grid-column: 1 / -1;
+  }
+
   .nsarmoire-readable-list__item--related {
     grid-template-columns: 36px minmax(0, 1fr);
     min-height: 0;
@@ -405,8 +452,4 @@ function hideBrokenIcon(event: Event): void {
   }
 }
 
-.nsarmoire-readable-list__more {
-  display: flex;
-  justify-content: flex-start;
-}
 </style>

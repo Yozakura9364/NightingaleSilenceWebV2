@@ -13,6 +13,11 @@ const SOURCE_BRANCH = 'master'
 const SOURCE_FOLDER = 'chs'
 const REQUIRED_FILES = ['Item.csv', 'Cabinet.csv', 'MirageStoreSetItem.csv', 'Stain.csv']
 const EXCLUDED_IDENTICAL_EQUIP_SLOT_CATEGORY_IDS = new Set([6, 14, 17])
+const EXTRA_DYE_1_IDS = new Set([86, 87, 88, 89, 90, 91, 92, 93, 94])
+const EXTRA_DYE_2_IDS = new Set([95, 96, 97, 98, 99, 100, 121, 122, 123, 124, 125])
+const STORE_SPECIAL_DYE_IDS = new Set([
+  101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120
+])
 let gitSourceDirPromise
 
 function parseArgs(argv) {
@@ -102,28 +107,32 @@ async function getGitSourceDir() {
 
 async function checkoutGitSourceDir() {
   const cacheDir = await mkdtemp(join(tmpdir(), 'nsarmoire-csv-'))
-  execFileSync('git', [
-    'clone',
-    '--depth=1',
-    '--filter=blob:none',
-    '--sparse',
-    SOURCE_REPOSITORY_URL,
-    cacheDir
-  ], { stdio: 'ignore' })
-  execFileSync('git', [
-    '-C',
-    cacheDir,
-    'sparse-checkout',
-    'set',
-    '--no-cone',
-    ...REQUIRED_FILES.map((fileName) => `${SOURCE_FOLDER}/${fileName}`)
-  ], { stdio: 'ignore' })
+  execFileSync(
+    'git',
+    ['clone', '--depth=1', '--filter=blob:none', '--sparse', SOURCE_REPOSITORY_URL, cacheDir],
+    { stdio: 'ignore' }
+  )
+  execFileSync(
+    'git',
+    [
+      '-C',
+      cacheDir,
+      'sparse-checkout',
+      'set',
+      '--no-cone',
+      ...REQUIRED_FILES.map((fileName) => `${SOURCE_FOLDER}/${fileName}`)
+    ],
+    { stdio: 'ignore' }
+  )
 
   return join(cacheDir, SOURCE_FOLDER)
 }
 
 function parseCsv(text) {
-  const normalized = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').replace(/\r/g, '\n')
+  const normalized = text
+    .replace(/^\uFEFF/, '')
+    .replace(/\r\n/g, '\n')
+    .replace(/\r/g, '\n')
   const rows = []
   let row = []
   let field = ''
@@ -205,7 +214,9 @@ function parseInteger(value) {
 }
 
 function parseBoolean(value) {
-  const normalized = String(value ?? '').trim().toLowerCase()
+  const normalized = String(value ?? '')
+    .trim()
+    .toLowerCase()
   return normalized === 'true' || normalized === '1'
 }
 
@@ -296,16 +307,43 @@ function buildDyes(stainText) {
     const name = cleanText(row[7] || row[6])
     const color = `#${(colorValue & 0xffffff).toString(16).toUpperCase().padStart(6, '0')}`
 
-    dyes[dyeId] = {
+    const dye = {
       dyeId,
       name,
       color,
       shade: parseInteger(row[2]),
       subOrder: parseInteger(row[3])
     }
+    const valueCategory = getDyeValueCategory(dyeId)
+
+    if (valueCategory) {
+      dye.valueCategory = valueCategory
+    }
+
+    dyes[dyeId] = dye
   }
 
   return dyes
+}
+
+function getDyeValueCategory(dyeId) {
+  if (dyeId >= 1 && dyeId <= 85) {
+    return 'general'
+  }
+
+  if (EXTRA_DYE_1_IDS.has(dyeId)) {
+    return 'extra1'
+  }
+
+  if (EXTRA_DYE_2_IDS.has(dyeId)) {
+    return 'extra2'
+  }
+
+  if (STORE_SPECIAL_DYE_IDS.has(dyeId)) {
+    return 'storeSpecial'
+  }
+
+  return ''
 }
 
 function addIfPositive(record, key, value) {
@@ -339,13 +377,20 @@ function buildItems(itemRows, cabinetItemIds, glamourSets) {
     const equipSlotCategoryId = parseInteger(row.EquipSlotCategory)
     const mainModel = parseModelTuple(row['Model{Main}'])
     const subModel = parseModelTuple(row['Model{Sub}'])
-    const hasModel = equipSlotCategoryId > 0 && (!isEmptyModelTuple(mainModel) || !isEmptyModelTuple(subModel))
+    const hasModel =
+      equipSlotCategoryId > 0 && (!isEmptyModelTuple(mainModel) || !isEmptyModelTuple(subModel))
     const isGlamourous = parseBoolean(row.IsGlamourous)
     const isCabinetStorable = cabinetItemIdSet.has(itemId)
     const isGlamourSetContainer = setContainerIds.has(itemId)
     const isGlamourSetPiece = setPieceIds.has(itemId)
 
-    if (!hasModel && !isGlamourous && !isCabinetStorable && !isGlamourSetContainer && !isGlamourSetPiece) {
+    if (
+      !hasModel &&
+      !isGlamourous &&
+      !isCabinetStorable &&
+      !isGlamourSetContainer &&
+      !isGlamourSetPiece
+    ) {
       continue
     }
 

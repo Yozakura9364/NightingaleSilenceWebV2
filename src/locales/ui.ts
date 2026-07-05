@@ -313,7 +313,7 @@ export const uiMessages: UiMessageMap = {
   'ffxiv.workshop.short': msg({ zh: '狒狒14', en: 'FFXIV', ja: 'FFXIV', ko: 'FFXIV' }),
   'ffxiv.tool.glamour.title': same('幻化工房'),
   'ffxiv.tool.plate.title': same('铭牌工房'),
-  'ffxiv.tool.armoire.title': same('衣柜清理大师'),
+  'ffxiv.tool.armoire.title': same('衣柜管家'),
   'ffxiv.termReview.title': msg({
     zh: 'FFXIV 术语校对',
     en: 'FFXIV term review',
@@ -520,7 +520,7 @@ export const uiMessages: UiMessageMap = {
     ko: '도감'
   }),
   'nsarmoire.panel.validation': msg({
-    zh: draft('判定依据'),
+    zh: '判定依据',
     en: 'Validation evidence',
     ja: '判定根拠',
     ko: '판정 근거'
@@ -555,6 +555,51 @@ export const uiMessages: UiMessageMap = {
     ja: '処理ヒント',
     ko: '처리 힌트'
   }),
+  'nsarmoire.panel.characterProfile': msg({
+    zh: '角色配置',
+    en: 'Character settings',
+    ja: 'キャラクター設定',
+    ko: '캐릭터 설정'
+  }),
+  'nsarmoire.section.navigation': msg({
+    zh: '衣柜工具分区',
+    en: 'Armoire sections',
+    ja: '衣装整理セクション',
+    ko: '의상 정리 섹션'
+  }),
+  'nsarmoire.section.rail.collapse': msg({
+    zh: '收起分区栏',
+    en: 'Collapse section rail',
+    ja: 'セクションバーを折りたたむ',
+    ko: '섹션 바 접기'
+  }),
+  'nsarmoire.section.rail.expand': msg({
+    zh: '展开分区栏',
+    en: 'Expand section rail',
+    ja: 'セクションバーを展開',
+    ko: '섹션 바 펼치기'
+  }),
+  'nsarmoire.section.cleanup': msg({
+    zh: '衣柜清理',
+    en: 'Wardrobe cleanup',
+    ja: '衣装整理',
+    ko: '의상 정리'
+  }),
+  'nsarmoire.section.cleanup.short': msg({ zh: '清', en: 'Clean', ja: '整', ko: '정' }),
+  'nsarmoire.section.collection': msg({
+    zh: '查漏补缺',
+    en: 'Collection gaps',
+    ja: '不足確認',
+    ko: '누락 확인'
+  }),
+  'nsarmoire.section.collection.short': msg({ zh: '补', en: 'Gaps', ja: '補', ko: '누' }),
+  'nsarmoire.section.characters': msg({
+    zh: '角色配置',
+    en: 'Characters',
+    ja: 'キャラクター',
+    ko: '캐릭터'
+  }),
+  'nsarmoire.section.characters.short': msg({ zh: '角', en: 'Char', ja: '人', ko: '캐' }),
   'nsarmoire.section.actions': msg({
     zh: '整理建议',
     en: 'Cleanup suggestions',
@@ -579,6 +624,606 @@ export const uiMessages: UiMessageMap = {
     ja: '静的データ',
     ko: '정적 데이터'
   }),
+  'nsarmoire.section.collection.loading': msg({
+    zh: '整理查漏补缺',
+    en: 'Preparing collection gaps',
+    ja: '不足確認を準備中',
+    ko: '누락 확인 준비 중'
+  }),
+  'nsarmoire.collection.storeStats': msg({
+    zh: '商城统计',
+    en: 'Store stats',
+    ja: 'ストア統計',
+    ko: '상점 통계'
+  }),
+  'nsarmoire.collection.cabinetStats': msg({
+    zh: '收藏柜统计',
+    en: 'Armoire stats',
+    ja: '愛蔵品キャビネット統計',
+    ko: '애장품 보관함 통계'
+  }),
+  'nsarmoire.collection.glamourSetStats': msg({
+    zh: '套装幻影化统计',
+    en: 'Glamour set stats',
+    ja: 'ミラージュセット統計',
+    ko: '투영 세트 통계'
+  }),
+  'nsarmoire.collection.catalog': msg({
+    zh: '图鉴',
+    en: 'Catalog',
+    ja: 'カタログ',
+    ko: '도감'
+  }),
+  'nsarmoire.collection.needsCatalog': msg({
+    zh: '需要先读取静态数据。',
+    en: 'Static data must be loaded first.',
+    ja: '先に静的データを読み込む必要があります。',
+    ko: '먼저 정적 데이터를 불러와야 합니다.'
+  }),
+  'nsarmoire.collection.noItems': msg({
+    zh: '暂无条目。',
+    en: 'No entries.',
+    ja: '項目はありません。',
+    ko: '항목이 없습니다.'
+  }),
+  'nsarmoire.collection.status.stored': msg({
+    zh: '已收纳',
+    en: 'Stored',
+    ja: '収納済み',
+    ko: '수납됨'
+  }),
+  'nsarmoire.collection.status.missing': msg({
+    zh: '未收纳',
+    en: 'Missing',
+    ja: '未収納',
+    ko: '미수납'
+  }),
+  'nsarmoire.collection.status.transferable': msg({
+    zh: '可转入',
+    en: 'Transferable',
+    ja: '移動可能',
+    ko: '이동 가능'
+  }),
+  'nsarmoire.collection.cabinet.summary': msg({
+    zh: '已收纳 {stored} / {total}，当前可转入 {transferable}，仍未收纳 {missing}。',
+    en: '{stored} / {total} stored; {transferable} transferable now; {missing} still missing.',
+    ja: '{stored} / {total} 収納済み、現在 {transferable} 件移動可能、{missing} 件未収納。',
+    ko: '{stored} / {total} 수납됨, 현재 {transferable}개 이동 가능, {missing}개 미수납.'
+  }),
+  'nsarmoire.collection.cabinet.transferable': msg({
+    zh: '可转入收藏柜',
+    en: 'Can move into armoire',
+    ja: 'キャビネットへ移動可能',
+    ko: '보관함으로 이동 가능'
+  }),
+  'nsarmoire.collection.cabinet.missing': msg({
+    zh: '收藏柜未收纳',
+    en: 'Missing from armoire',
+    ja: 'キャビネット未収納',
+    ko: '보관함 미수납'
+  }),
+  'nsarmoire.collection.glamourSet.summary': msg({
+    zh: '已收纳套装 {stored} / {total}，残缺套装 {incomplete}。',
+    en: '{stored} / {total} set baskets stored; {incomplete} incomplete.',
+    ja: 'セット収納 {stored} / {total}、不足あり {incomplete} 件。',
+    ko: '세트 수납 {stored} / {total}, 불완전 세트 {incomplete}개.'
+  }),
+  'nsarmoire.collection.glamourSet.empty': msg({
+    zh: '暂无套装幻影化条目。',
+    en: 'No glamour set entries.',
+    ja: 'ミラージュセット項目はありません。',
+    ko: '투영 세트 항목이 없습니다.'
+  }),
+  'nsarmoire.collection.glamourSet.pieces': msg({
+    zh: '套装散件',
+    en: 'Set pieces',
+    ja: 'セット部品',
+    ko: '세트 부위'
+  }),
+  'nsarmoire.collection.glamourSet.complete': msg({
+    zh: '已完整',
+    en: 'Complete',
+    ja: '完了',
+    ko: '완료'
+  }),
+  'nsarmoire.collection.glamourSet.incomplete': msg({
+    zh: '残缺',
+    en: 'Incomplete',
+    ja: '不足あり',
+    ko: '불완전'
+  }),
+  'nsarmoire.collection.glamourSet.notStored': msg({
+    zh: '未收纳套装',
+    en: 'Set not stored',
+    ja: 'セット未収納',
+    ko: '세트 미수납'
+  }),
+  'nsarmoire.panel.storeOutfits': msg({
+    zh: '商城统计',
+    en: 'Store stats',
+    ja: 'ストア統計',
+    ko: '상점 통계'
+  }),
+  'nsarmoire.store.summary': msg({
+    zh: '按当前角色仓库检测，不等于商城账号购买记录。',
+    en: 'Checked against the current character snapshot; this is not an account purchase record.',
+    ja: '現在のキャラクタースナップショットで確認します。アカウント購入履歴ではありません。',
+    ko: '현재 캐릭터 스냅샷 기준이며 계정 구매 기록은 아닙니다.'
+  }),
+  'nsarmoire.store.metric.label': msg({
+    zh: '商城统计',
+    en: 'Store metrics',
+    ja: 'ストア統計',
+    ko: '상점 통계'
+  }),
+  'nsarmoire.store.metric.total': msg({
+    zh: '商品',
+    en: 'Items',
+    ja: '商品',
+    ko: '상품'
+  }),
+  'nsarmoire.store.metric.mapped': msg({
+    zh: '已映射',
+    en: 'Mapped',
+    ja: '対応済み',
+    ko: '매핑됨'
+  }),
+  'nsarmoire.store.metric.detected': msg({
+    zh: '已检测到',
+    en: 'Detected',
+    ja: '検出済み',
+    ko: '감지됨'
+  }),
+  'nsarmoire.store.metric.partial': msg({
+    zh: '缺部分',
+    en: 'Partial',
+    ja: '一部不足',
+    ko: '일부 누락'
+  }),
+  'nsarmoire.store.metric.needsMapping': msg({
+    zh: '待校正',
+    en: 'Needs mapping',
+    ja: '要確認',
+    ko: '확인 필요'
+  }),
+  'nsarmoire.store.search.label': msg({
+    zh: '搜索商城套装',
+    en: 'Search store outfits',
+    ja: 'ストア衣装検索',
+    ko: '상점 의상 검색'
+  }),
+  'nsarmoire.store.search.placeholder': msg({
+    zh: '输入商品名或散件名',
+    en: 'Product or item name',
+    ja: '商品名または部品名',
+    ko: '상품명 또는 부위명'
+  }),
+  'nsarmoire.store.filter.label': msg({
+    zh: '状态',
+    en: 'Status',
+    ja: '状態',
+    ko: '상태'
+  }),
+  'nsarmoire.store.filter.all': msg({
+    zh: '全部',
+    en: 'All',
+    ja: 'すべて',
+    ko: '전체'
+  }),
+  'nsarmoire.store.tags.label': msg({
+    zh: '标签',
+    en: 'Tags',
+    ja: 'タグ',
+    ko: '태그'
+  }),
+  'nsarmoire.store.tag.npcCostume': msg({
+    zh: 'NPC时装',
+    en: 'NPC costume',
+    ja: 'NPC衣装',
+    ko: 'NPC 의상'
+  }),
+  'nsarmoire.store.tag.bonusCostume': msg({
+    zh: '特典时装',
+    en: 'Bonus costume',
+    ja: '特典衣装',
+    ko: '특전 의상'
+  }),
+  'nsarmoire.store.tag.replicaCostume': msg({
+    zh: '复制品时装',
+    en: 'Replica costume',
+    ja: 'レプリカ衣装',
+    ko: '복제품 의상'
+  }),
+  'nsarmoire.store.tag.fanFestivalCostume': msg({
+    zh: '粉丝节时装',
+    en: 'Fan Festival costume',
+    ja: 'ファンフェス衣装',
+    ko: '팬페스 의상'
+  }),
+  'nsarmoire.store.tag.crossoverCostume': msg({
+    zh: '其他作品时装',
+    en: 'Crossover costume',
+    ja: 'コラボ衣装',
+    ko: '콜라보 의상'
+  }),
+  'nsarmoire.store.tag.moonfireFaire': msg({
+    zh: '红莲节',
+    en: 'Moonfire Faire',
+    ja: '紅蓮祭',
+    ko: '불꽃축제'
+  }),
+  'nsarmoire.store.tag.hatchingTide': msg({
+    zh: '彩蛋狩猎',
+    en: 'Hatching-tide',
+    ja: 'エッグハント',
+    ko: '에그 헌트'
+  }),
+  'nsarmoire.store.tag.theRising': msg({
+    zh: '新生庆典',
+    en: 'The Rising',
+    ja: '新生祭',
+    ko: '신생제'
+  }),
+  'nsarmoire.store.tag.starlightCelebration': msg({
+    zh: '星芒节',
+    en: 'Starlight Celebration',
+    ja: '星芒祭',
+    ko: '별빛축제'
+  }),
+  'nsarmoire.store.tag.valentioneDay': msg({
+    zh: '恋人节',
+    en: "Valentione's Day",
+    ja: 'ヴァレンティオンデー',
+    ko: '발렌티온 데이'
+  }),
+  'nsarmoire.store.tag.littleLadiesDay': msg({
+    zh: '女儿节',
+    en: "Little Ladies' Day",
+    ja: 'プリンセスデー',
+    ko: '프린세스 데이'
+  }),
+  'nsarmoire.store.tag.allSaintsWake': msg({
+    zh: '守护天节',
+    en: "All Saints' Wake",
+    ja: '守護天節',
+    ko: '수호천절'
+  }),
+  'nsarmoire.store.tag.heavensturn': msg({
+    zh: '降神节',
+    en: 'Heavensturn',
+    ja: '降神祭',
+    ko: '강신제'
+  }),
+  'nsarmoire.store.tag.goldSaucerFestival': msg({
+    zh: '金碟嘉年华',
+    en: 'Gold Saucer Festival',
+    ja: 'ゴールドソーサー・フェスティバル',
+    ko: '골드 소서 축제'
+  }),
+  'nsarmoire.store.detailTag.maleOnly': msg({
+    zh: '男性限定',
+    en: 'Male only',
+    ja: '男性用',
+    ko: '남성 전용'
+  }),
+  'nsarmoire.store.detailTag.femaleOnly': msg({
+    zh: '女性限定',
+    en: 'Female only',
+    ja: '女性用',
+    ko: '여성 전용'
+  }),
+  'nsarmoire.store.status.complete': msg({
+    zh: '已检测到',
+    en: 'Detected',
+    ja: '検出済み',
+    ko: '감지됨'
+  }),
+  'nsarmoire.store.status.partial': msg({
+    zh: '缺部分',
+    en: 'Partial',
+    ja: '一部不足',
+    ko: '일부 누락'
+  }),
+  'nsarmoire.store.status.missing': msg({
+    zh: '未检测到',
+    en: 'Not detected',
+    ja: '未検出',
+    ko: '미감지'
+  }),
+  'nsarmoire.store.status.needsMapping': msg({
+    zh: '待校正',
+    en: 'Needs mapping',
+    ja: '要確認',
+    ko: '확인 필요'
+  }),
+  'nsarmoire.store.region.cn': msg({
+    zh: '国服',
+    en: 'CN',
+    ja: '中国版',
+    ko: '중국 서버'
+  }),
+  'nsarmoire.store.region.global': msg({
+    zh: '国际服',
+    en: 'Global',
+    ja: 'グローバル',
+    ko: '글로벌'
+  }),
+  'nsarmoire.store.openLink': msg({
+    zh: '打开商城',
+    en: 'Open store',
+    ja: 'ストアを開く',
+    ko: '상점 열기'
+  }),
+  'nsarmoire.store.items.label': msg({
+    zh: '散件',
+    en: 'Pieces',
+    ja: '部品',
+    ko: '부위'
+  }),
+  'nsarmoire.store.items.empty': msg({
+    zh: '待补散件',
+    en: 'Pieces pending',
+    ja: '部品未設定',
+    ko: '부위 확인 필요'
+  }),
+  'nsarmoire.store.empty': msg({
+    zh: '没有符合条件的商城套装。',
+    en: 'No matching store outfits.',
+    ja: '一致するストア衣装はありません。',
+    ko: '조건에 맞는 상점 의상이 없습니다.'
+  }),
+  'nsarmoire.store.catalog.loading': msg({
+    zh: '商城表加载中',
+    en: 'Loading store catalog',
+    ja: 'ストア表を読み込み中',
+    ko: '상점 목록 불러오는 중'
+  }),
+  'nsarmoire.store.catalog.error': msg({
+    zh: '商城表加载失败',
+    en: 'Store catalog failed to load',
+    ja: 'ストア表の読み込みに失敗',
+    ko: '상점 목록 불러오기 실패'
+  }),
+  'nsarmoire.store.catalog.retry': msg({
+    zh: '重试',
+    en: 'Retry',
+    ja: '再試行',
+    ko: '다시 시도'
+  }),
+  'nsarmoire.storeReview.title': msg({
+    zh: '商城数据校正',
+    en: 'Store data review',
+    ja: 'ストアデータ確認',
+    ko: '상점 데이터 확인'
+  }),
+  'nsarmoire.storeReview.summary': msg({
+    zh: '用于校正商城套装、散件映射和各地区商城链接。',
+    en: 'Review store outfits, piece mappings, and regional store links.',
+    ja: 'ストア衣装、部品対応、地域別リンクを確認します。',
+    ko: '상점 의상, 부위 매핑, 지역별 링크를 확인합니다.'
+  }),
+  'nsarmoire.storeReview.filter.all': msg({
+    zh: '全部',
+    en: 'All',
+    ja: 'すべて',
+    ko: '전체'
+  }),
+  'nsarmoire.storeReview.filter.pendingCorrection': msg({
+    zh: '待校正',
+    en: 'Pending review',
+    ja: '確認待ち',
+    ko: '확인 대기'
+  }),
+  'nsarmoire.storeReview.filter.corrected': msg({
+    zh: '已校正',
+    en: 'Reviewed',
+    ja: '確認済み',
+    ko: '확인됨'
+  }),
+  'nsarmoire.storeReview.filter.needsMapping': msg({
+    zh: '缺物品映射',
+    en: 'Needs item mapping',
+    ja: 'アイテム対応不足',
+    ko: '아이템 매핑 필요'
+  }),
+  'nsarmoire.storeReview.filter.missingLinks': msg({
+    zh: '缺跨服链接',
+    en: 'Missing links',
+    ja: 'リンク不足',
+    ko: '링크 누락'
+  }),
+  'nsarmoire.storeReview.filter.edited': msg({
+    zh: '已编辑',
+    en: 'Edited',
+    ja: '編集済み',
+    ko: '수정됨'
+  }),
+  'nsarmoire.storeReview.column.outfit': msg({
+    zh: '套装',
+    en: 'Outfit',
+    ja: '衣装',
+    ko: '의상'
+  }),
+  'nsarmoire.storeReview.column.items': msg({
+    zh: '物品',
+    en: 'Items',
+    ja: 'アイテム',
+    ko: '아이템'
+  }),
+  'nsarmoire.storeReview.column.links': msg({
+    zh: '商城链接',
+    en: 'Store links',
+    ja: 'ストアリンク',
+    ko: '상점 링크'
+  }),
+  'nsarmoire.storeReview.column.state': msg({
+    zh: '状态',
+    en: 'State',
+    ja: '状態',
+    ko: '상태'
+  }),
+  'nsarmoire.storeReview.region.cn': msg({
+    zh: '国服',
+    en: 'CN',
+    ja: '中国版',
+    ko: '중국 서버'
+  }),
+  'nsarmoire.storeReview.region.global': msg({
+    zh: '国际服',
+    en: 'Global',
+    ja: 'グローバル',
+    ko: '글로벌'
+  }),
+  'nsarmoire.storeReview.region.tw': msg({
+    zh: '繁中服',
+    en: 'TW',
+    ja: '繁体字版',
+    ko: '대만 서버'
+  }),
+  'nsarmoire.storeReview.region.kr': msg({
+    zh: '韩服',
+    en: 'KR',
+    ja: '韓国版',
+    ko: '한국 서버'
+  }),
+  'nsarmoire.storeReview.link.placeholder': msg({
+    zh: '粘贴商城链接',
+    en: 'Paste store link',
+    ja: 'ストアリンクを貼り付け',
+    ko: '상점 링크 붙여넣기'
+  }),
+  'nsarmoire.storeReview.action.copyPatch': msg({
+    zh: '复制校正 JSON',
+    en: 'Copy correction JSON',
+    ja: '修正 JSON をコピー',
+    ko: '수정 JSON 복사'
+  }),
+  'nsarmoire.storeReview.action.downloadPatch': msg({
+    zh: '下载校正 JSON',
+    en: 'Download correction JSON',
+    ja: '修正 JSON をダウンロード',
+    ko: '수정 JSON 다운로드'
+  }),
+  'nsarmoire.storeReview.action.resetDraft': msg({
+    zh: '清空本页编辑',
+    en: 'Clear page edits',
+    ja: 'このページの編集を消去',
+    ko: '이 페이지 수정 내용 지우기'
+  }),
+  'nsarmoire.storeReview.action.openLink': msg({
+    zh: '打开',
+    en: 'Open',
+    ja: '開く',
+    ko: '열기'
+  }),
+  'nsarmoire.storeReview.action.confirmCorrected': msg({
+    zh: '标为已校正',
+    en: 'Mark reviewed',
+    ja: '確認済みにする',
+    ko: '확인됨으로 표시'
+  }),
+  'nsarmoire.storeReview.action.unconfirmCorrected': msg({
+    zh: '改回待校正',
+    en: 'Mark pending',
+    ja: '確認待ちに戻す',
+    ko: '확인 대기로 변경'
+  }),
+  'nsarmoire.storeReview.status.patchCopied': msg({
+    zh: '校正 JSON 已复制',
+    en: 'Correction JSON copied',
+    ja: '修正 JSON をコピーしました',
+    ko: '수정 JSON을 복사했습니다'
+  }),
+  'nsarmoire.storeReview.status.patchCopyFailed': msg({
+    zh: '复制失败',
+    en: 'Copy failed',
+    ja: 'コピーに失敗しました',
+    ko: '복사 실패'
+  }),
+  'nsarmoire.storeReview.status.noChanges': msg({
+    zh: '暂无编辑',
+    en: 'No edits yet',
+    ja: '編集はありません',
+    ko: '수정 없음'
+  }),
+  'nsarmoire.storeReview.status.changedCount': msg({
+    zh: '已编辑 {count} 条',
+    en: '{count} edited',
+    ja: '{count} 件編集済み',
+    ko: '{count}개 수정됨'
+  }),
+  'nsarmoire.storeReview.status.pendingCorrection': msg({
+    zh: '待校正',
+    en: 'Pending review',
+    ja: '確認待ち',
+    ko: '확인 대기'
+  }),
+  'nsarmoire.storeReview.status.corrected': msg({
+    zh: '已校正',
+    en: 'Reviewed',
+    ja: '確認済み',
+    ko: '확인됨'
+  }),
+  'nsarmoire.storeReview.item.add.label': msg({
+    zh: '补物品',
+    en: 'Add item',
+    ja: 'アイテム追加',
+    ko: '아이템 추가'
+  }),
+  'nsarmoire.storeReview.item.add.placeholder': msg({
+    zh: '输入物品 ID 或物品名',
+    en: 'Item ID or item name',
+    ja: 'アイテムIDまたは名前',
+    ko: '아이템 ID 또는 이름'
+  }),
+  'nsarmoire.storeReview.item.add.action': msg({
+    zh: '添加',
+    en: 'Add',
+    ja: '追加',
+    ko: '추가'
+  }),
+  'nsarmoire.storeReview.item.remove.action': msg({
+    zh: '移除',
+    en: 'Remove',
+    ja: '削除',
+    ko: '제거'
+  }),
+  'nsarmoire.storeReview.item.added': msg({
+    zh: '物品已加入校正草稿',
+    en: 'Item added to draft',
+    ja: 'アイテムを修正案に追加しました',
+    ko: '아이템을 수정 초안에 추가했습니다'
+  }),
+  'nsarmoire.storeReview.item.notFound': msg({
+    zh: '没有找到这个物品',
+    en: 'Item not found',
+    ja: 'アイテムが見つかりません',
+    ko: '아이템을 찾지 못했습니다'
+  }),
+  'nsarmoire.storeReview.item.duplicate': msg({
+    zh: '这个物品已经在该套装里',
+    en: 'This item is already in the outfit',
+    ja: 'このアイテムは既に衣装に含まれています',
+    ko: '이 아이템은 이미 의상에 포함되어 있습니다'
+  }),
+  'nsarmoire.storeReview.item.draft': msg({
+    zh: '新增',
+    en: 'New',
+    ja: '新規',
+    ko: '신규'
+  }),
+  'nsarmoire.storeReview.empty.items': msg({
+    zh: '待补物品',
+    en: 'Items pending',
+    ja: 'アイテム未設定',
+    ko: '아이템 확인 필요'
+  }),
+  'nsarmoire.storeReview.empty.results': msg({
+    zh: '没有符合条件的商城套装。',
+    en: 'No matching store outfits.',
+    ja: '一致するストア衣装はありません。',
+    ko: '조건에 맞는 상점 의상이 없습니다.'
+  }),
   'nsarmoire.recommendation.cabinet': msg({
     zh: '可转入收藏柜',
     en: 'Move to armoire',
@@ -591,6 +1236,12 @@ export const uiMessages: UiMessageMap = {
     ja: '不足セット',
     ko: '불완전 세트'
   }),
+  'nsarmoire.recommendation.setPieces': msg({
+    zh: '可进套装桶散件',
+    en: 'Set pieces for baskets',
+    ja: 'セット収納可能な部品',
+    ko: '세트 보관 가능 부위'
+  }),
   'nsarmoire.recommendation.duplicateItems': msg({
     zh: '重复物品检查',
     en: 'Duplicate item check',
@@ -598,7 +1249,7 @@ export const uiMessages: UiMessageMap = {
     ko: '중복 아이템 확인'
   }),
   'nsarmoire.recommendation.duplicates': msg({
-    zh: '同模型多余',
+    zh: '同模型物品检查',
     en: 'Duplicate model cleanup',
     ja: '同一モデル整理',
     ko: '동일 모델 정리'
@@ -731,11 +1382,41 @@ export const uiMessages: UiMessageMap = {
     ja: '不足: {items}',
     ko: '누락: {items}'
   }),
+  'nsarmoire.status.stored': msg({
+    zh: '已收纳',
+    en: 'Stored',
+    ja: '収納済み',
+    ko: '보관됨'
+  }),
+  'nsarmoire.status.unstored': msg({
+    zh: '未收纳',
+    en: 'Not stored',
+    ja: '未収納',
+    ko: '미보관'
+  }),
+  'nsarmoire.status.foundOutsideSet': msg({
+    zh: '外部有：{locations}',
+    en: 'Outside set: {locations}',
+    ja: 'セット外: {locations}',
+    ko: '세트 외부: {locations}'
+  }),
   'nsarmoire.hint.ownedEntries': msg({
     zh: '当前拥有{count}件',
     en: '{count} owned entries',
     ja: '所持記録 {count} 件',
     ko: '보유 항목 {count}개'
+  }),
+  'nsarmoire.hint.duplicateEntry.location': msg({
+    zh: '物品{index}：位于{location}',
+    en: 'Copy {index}: in {location}',
+    ja: 'アイテム{index}: {location}',
+    ko: '아이템 {index}: {location}'
+  }),
+  'nsarmoire.hint.duplicateEntry.dyes': msg({
+    zh: '染色：{dyes}',
+    en: 'Dyes: {dyes}',
+    ja: '染色: {dyes}',
+    ko: '염색: {dyes}'
   }),
   'nsarmoire.hint.currentLocation': msg({
     zh: '当前在：{locations}',
@@ -774,28 +1455,34 @@ export const uiMessages: UiMessageMap = {
     ko: '예시 불러오기'
   }),
   'nsarmoire.action.importSnapshot': msg({
-    zh: draft('导入 snapshot'),
-    en: 'Import snapshot',
-    ja: 'snapshotをインポート',
-    ko: 'snapshot 가져오기'
+    zh: '导入',
+    en: 'Import',
+    ja: 'インポート',
+    ko: '가져오기'
   }),
   'nsarmoire.action.clearSnapshot': msg({
-    zh: draft('清空 snapshot'),
-    en: 'Clear snapshot',
-    ja: 'snapshotをクリア',
-    ko: 'snapshot 지우기'
+    zh: '清空',
+    en: 'Clear',
+    ja: 'クリア',
+    ko: '지우기'
   }),
   'nsarmoire.action.connectHelper': msg({
-    zh: draft('连接本地助手'),
-    en: 'Connect local helper',
-    ja: 'ローカルヘルパーに接続',
-    ko: '로컬 헬퍼 연결'
+    zh: '开启管家',
+    en: 'Start helper',
+    ja: 'ヘルパー起動',
+    ko: '헬퍼 시작'
+  }),
+  'nsarmoire.action.shutdownHelper': msg({
+    zh: '关闭管家',
+    en: 'Stop helper',
+    ja: 'ヘルパー終了',
+    ko: '헬퍼 종료'
   }),
   'nsarmoire.action.refreshHelper': msg({
-    zh: draft('刷新本地数据'),
-    en: 'Refresh local data',
-    ja: 'ローカルデータを更新',
-    ko: '로컬 데이터 새로고침'
+    zh: '刷新',
+    en: 'Refresh',
+    ja: '更新',
+    ko: '새로고침'
   }),
   'nsarmoire.catalog.filter.label': msg({
     zh: draft('图鉴筛选'),
@@ -1164,6 +1851,36 @@ export const uiMessages: UiMessageMap = {
     en: 'Current storage does not clear dyes',
     ja: '現在の収納は染色を消しません',
     ko: '현재 보관은 염색을 지우지 않습니다'
+  }),
+  'nsarmoire.dyePreference.label': msg({
+    zh: '贵重染剂',
+    en: 'Valuable dyes',
+    ja: '高価な染料',
+    ko: '고가 염료'
+  }),
+  'nsarmoire.dyeCategory.general': msg({
+    zh: '通用',
+    en: 'General',
+    ja: '汎用',
+    ko: '일반'
+  }),
+  'nsarmoire.dyeCategory.extra1': msg({
+    zh: '追加1',
+    en: 'Extra 1',
+    ja: '追加1',
+    ko: '추가1'
+  }),
+  'nsarmoire.dyeCategory.extra2': msg({
+    zh: '追加2',
+    en: 'Extra 2',
+    ja: '追加2',
+    ko: '추가2'
+  }),
+  'nsarmoire.dyeCategory.storeSpecial': msg({
+    zh: '商城特殊',
+    en: 'Store special',
+    ja: 'ストア特殊',
+    ko: '상점 특수'
   }),
   'nsarmoire.input.snapshot': msg({
     zh: draft('选择 NSArmoire snapshot JSON'),
@@ -1619,8 +2336,8 @@ export const uiMessages: UiMessageMap = {
     ko: '염료 catalog'
   }),
   'nsarmoire.field.generatedAt': msg({
-    zh: draft('生成时间'),
-    en: 'Generated at',
+    zh: '数据时间',
+    en: 'Data time',
     ja: '生成日時',
     ko: '생성 시간'
   }),
@@ -1630,6 +2347,30 @@ export const uiMessages: UiMessageMap = {
     en: 'Character',
     ja: 'キャラクター',
     ko: '캐릭터'
+  }),
+  'nsarmoire.field.characterWorld': msg({
+    zh: '服务器',
+    en: 'World',
+    ja: 'ワールド',
+    ko: '월드'
+  }),
+  'nsarmoire.field.characterProfileKey': msg({
+    zh: '档案键',
+    en: 'Profile key',
+    ja: 'プロフィールキー',
+    ko: '프로필 키'
+  }),
+  'nsarmoire.field.characterRetainers': msg({
+    zh: '已缓存雇员',
+    en: 'Cached retainers',
+    ja: 'キャッシュ済みリテイナー',
+    ko: '캐시된 고용인'
+  }),
+  'nsarmoire.field.readContainers': msg({
+    zh: '已读取',
+    en: 'Read containers',
+    ja: '読み取り範囲',
+    ko: '읽은 범위'
   }),
   'nsarmoire.field.helperEndpoint': msg({
     zh: draft('本地助手地址'),
@@ -1654,6 +2395,78 @@ export const uiMessages: UiMessageMap = {
     en: 'Not found',
     ja: '未検出',
     ko: '찾지 못함'
+  }),
+  'nsarmoire.character.currentData': msg({
+    zh: '当前数据',
+    en: 'Current data',
+    ja: '現在のデータ',
+    ko: '현재 데이터'
+  }),
+  'nsarmoire.character.noSnapshot': msg({
+    zh: '导入或读取本地助手数据后，这里会显示当前角色和服务器。',
+    en: 'Import data or read from the helper to show the current character and world here.',
+    ja: 'インポートまたはヘルパー読み取り後、ここにキャラクターとワールドを表示します。',
+    ko: '가져오기나 헬퍼 읽기 후 현재 캐릭터와 월드가 여기에 표시됩니다.'
+  }),
+  'nsarmoire.character.staticData': msg({
+    zh: '静态数据',
+    en: 'Static data',
+    ja: '静的データ',
+    ko: '정적 데이터'
+  }),
+  'nsarmoire.character.unknown': msg({
+    zh: '未识别角色',
+    en: 'Unknown character',
+    ja: '不明なキャラクター',
+    ko: '알 수 없는 캐릭터'
+  }),
+  'nsarmoire.character.worldUnknown': msg({
+    zh: '未识别服务器',
+    en: 'Unknown world',
+    ja: '不明なワールド',
+    ko: '알 수 없는 월드'
+  }),
+  'nsarmoire.character.generatedAtEmpty': msg({
+    zh: '未读取',
+    en: 'Not read yet',
+    ja: '未読み込み',
+    ko: '아직 읽지 않음'
+  }),
+  'nsarmoire.character.profileKeyMissing': msg({
+    zh: '等待角色名和服务器',
+    en: 'Waiting for character and world',
+    ja: 'キャラクター名とワールド待ち',
+    ko: '캐릭터명과 월드 대기 중'
+  }),
+  'nsarmoire.character.localProfile.title': msg({
+    zh: '本地角色档案',
+    en: 'Local character profiles',
+    ja: 'ローカルキャラクタープロフィール',
+    ko: '로컬 캐릭터 프로필'
+  }),
+  'nsarmoire.character.localProfile.message': msg({
+    zh: '占位用，待编辑',
+    en: 'Placeholder, to be edited',
+    ja: '仮置き、後で編集',
+    ko: '임시 문구, 수정 예정'
+  }),
+  'nsarmoire.source.manualImport': msg({
+    zh: '手动导入',
+    en: 'Manual import',
+    ja: '手動インポート',
+    ko: '수동 가져오기'
+  }),
+  'nsarmoire.source.localHelper': msg({
+    zh: '本地助手',
+    en: 'Local helper',
+    ja: 'ローカルヘルパー',
+    ko: '로컬 헬퍼'
+  }),
+  'nsarmoire.source.asvelCompatible': msg({
+    zh: 'Asvel 兼容导入',
+    en: 'Asvel-compatible import',
+    ja: 'Asvel互換インポート',
+    ko: 'Asvel 호환 가져오기'
   }),
   'nsarmoire.field.itemId': msg({
     zh: draft('物品 ID'),

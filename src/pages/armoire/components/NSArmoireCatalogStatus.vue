@@ -13,12 +13,12 @@
       </template>
     </AppStatus>
 
-    <div v-if="status === 'ready'" class="nsarmoire-catalog-status__metrics">
-      <article v-for="metric in metrics" :key="metric.key">
-        <span>{{ metric.label }}</span>
-        <strong>{{ metric.value }}</strong>
-      </article>
-    </div>
+    <dl v-if="status === 'ready'" class="nsarmoire-catalog-status__summary">
+      <div v-for="metric in metrics" :key="metric.key">
+        <dt>{{ metric.label }}</dt>
+        <dd>{{ metric.value }}</dd>
+      </div>
+    </dl>
   </section>
 </template>
 
@@ -134,39 +134,36 @@ const metrics = computed(() => [
   min-width: 0;
 }
 
-.nsarmoire-catalog-status__metrics {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 6px;
+.nsarmoire-catalog-status__summary {
+  display: flex;
   min-width: 0;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: 0;
 }
 
-.nsarmoire-catalog-status__metrics article {
-  display: grid;
+.nsarmoire-catalog-status__summary div {
+  display: inline-flex;
+  align-items: baseline;
   gap: 4px;
   min-width: 0;
-  padding: 8px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface);
 }
 
-.nsarmoire-catalog-status__metrics span {
+.nsarmoire-catalog-status__summary dt,
+.nsarmoire-catalog-status__summary dd {
+  margin: 0;
+}
+
+.nsarmoire-catalog-status__summary dt {
   color: var(--ns-color-text-muted);
   font-size: 11px;
   font-weight: 850;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.nsarmoire-catalog-status__metrics strong {
+.nsarmoire-catalog-status__summary dd {
   font-family: var(--ns-font-mono);
   font-size: 13px;
-}
-
-@media (max-width: 720px) {
-  .nsarmoire-catalog-status__metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  font-weight: 850;
 }
 </style>

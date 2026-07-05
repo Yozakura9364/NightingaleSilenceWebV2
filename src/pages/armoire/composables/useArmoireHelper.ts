@@ -10,6 +10,7 @@ import {
   getArmoireHelperDisplayUrl,
   refreshArmoireHelperSnapshot,
   selectArmoireHelperProcess,
+  shutdownArmoireHelper,
   type ArmoireHelperHealth,
   type ArmoireHelperProcess
 } from '@/pages/armoire/services/nsarmoireHelperApi'
@@ -72,6 +73,7 @@ export function useArmoireHelper(
   const messageKey = computed(() => statusMessageKey[status.value])
   const tone = computed(() => statusTone[status.value])
   const canRefresh = computed(() => status.value === 'ready' || status.value === 'dresserNotLoaded')
+  const canShutdown = computed(() => Boolean(health.value) && !busy.value)
 
   async function connectHelper() {
     await loadFromHelper(false)
@@ -79,6 +81,28 @@ export function useArmoireHelper(
 
   async function refreshHelper() {
     await loadFromHelper(true)
+  }
+
+  async function shutdownHelper() {
+    if (!health.value || busy.value) {
+      return
+    }
+
+    busy.value = true
+    detail.value = null
+
+    try {
+      await shutdownArmoireHelper()
+      status.value = 'idle'
+      health.value = null
+      processes.value = []
+      processPickerOpen.value = false
+      processError.value = null
+    } catch (error) {
+      await mapHelperError(error)
+    } finally {
+      busy.value = false
+    }
   }
 
   async function loadFromHelper(refresh: boolean) {
@@ -206,8 +230,10 @@ export function useArmoireHelper(
     messageKey,
     tone,
     canRefresh,
+    canShutdown,
     connectHelper,
     refreshHelper,
+    shutdownHelper,
     processes,
     processPickerOpen,
     processBusy,

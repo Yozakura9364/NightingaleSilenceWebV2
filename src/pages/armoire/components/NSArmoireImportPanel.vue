@@ -1,89 +1,130 @@
 <template>
-  <section class="nsarmoire-panel nsarmoire-import-panel">
-    <div class="nsarmoire-panel__header">
-      <h2>{{ t(textKeys.nsarmoireImport) }}</h2>
+  <section class="nsarmoire-panel nsarmoire-import-panel" :class="`nsarmoire-import-panel--${mode}`">
+    <div v-if="mode === 'hero'" class="nsarmoire-panel__header">
+      <h2>{{ cleanT(textKeys.nsarmoireImport) }}</h2>
     </div>
 
-    <AppStatus
-      class="nsarmoire-import-panel__status"
-      compact
-      :tone="statusTone"
-      :title="statusTitle"
+    <div
+      v-if="mode === 'compact' && snapshot"
+      class="nsarmoire-import-panel__summary"
+      :aria-label="compactSummaryAriaLabel"
+      :title="compactSummaryAriaLabel"
     >
-      <template #actions>
-        <AppButton @click="$emit('load-example')">
-          {{ t(textKeys.nsarmoireLoadExampleSnapshot) }}
-        </AppButton>
+      <span class="nsarmoire-import-panel__summary-line">
+        <span>
+          <b>{{ cleanT(textKeys.nsarmoireCharacter) }}：</b>
+          <strong>{{ characterLabel }}</strong>
+        </span>
+        <span>
+          <b>{{ cleanT(textKeys.nsarmoireGeneratedAt) }}：</b>
+          <span>{{ generatedAtLabel }}</span>
+        </span>
+      </span>
+      <span class="nsarmoire-import-panel__summary-line">
+        <span>
+          <b>{{ cleanT(textKeys.nsarmoireReadContainers) }}：</b>
+          <span>{{ readContainersLabel }}</span>
+        </span>
+      </span>
+    </div>
 
-        <label class="ns-button ns-button--primary nsarmoire-import-button">
-          <span>{{ t(textKeys.nsarmoireImportSnapshot) }}</span>
-          <input
-            ref="fileInput"
-            type="file"
-            accept="application/json,.json"
-            :aria-label="t(textKeys.nsarmoireSnapshotInput)"
-            @change="handleFileChange"
-          />
-        </label>
+    <div v-if="shouldShowStatusRow" class="nsarmoire-import-panel__status-row">
+      <span
+        v-if="mode === 'hero' || !snapshot"
+        class="nsarmoire-import-panel__chip"
+        :class="`nsarmoire-import-panel__chip--${statusTone}`"
+      >
+        <span class="nsarmoire-import-panel__chip-mark" aria-hidden="true"></span>
+        <span>{{ statusTitle }}</span>
+      </span>
 
-        <AppButton v-if="snapshot" @click="$emit('clear')">
-          {{ t(textKeys.nsarmoireClearSnapshot) }}
-        </AppButton>
-      </template>
-    </AppStatus>
+      <span
+        v-if="mode === 'hero' || shouldShowCompactHelperStatus"
+        class="nsarmoire-import-panel__chip"
+        :class="`nsarmoire-import-panel__chip--${helperStatusTone}`"
+      >
+        <span class="nsarmoire-import-panel__chip-mark" aria-hidden="true"></span>
+        <span>{{ cleanT(helperStatusTitleKey) }}</span>
+      </span>
+    </div>
 
-    <AppStatus
-      class="nsarmoire-import-panel__helper"
-      compact
-      :tone="helperStatusTone"
-      :title="t(helperStatusTitleKey)"
-      :message="helperStatusMessage"
-    >
-      <template #actions>
-        <AppButton :disabled="helperBusy" @click="$emit('connect-helper')">
-          {{ t(textKeys.nsarmoireConnectHelper) }}
-        </AppButton>
+    <div class="nsarmoire-import-panel__actions">
+      <AppButton v-if="mode === 'hero'" @click="$emit('load-example')">
+        {{ cleanT(textKeys.nsarmoireLoadExampleSnapshot) }}
+      </AppButton>
 
-        <AppButton
-          :disabled="helperBusy || !helperCanRefresh"
-          @click="$emit('refresh-helper')"
-        >
-          {{ t(textKeys.nsarmoireRefreshHelper) }}
-        </AppButton>
-      </template>
-    </AppStatus>
+      <label class="ns-button ns-button--primary nsarmoire-import-button">
+        <span>{{ cleanT(mode === 'compact' ? textKeys.import : textKeys.nsarmoireImportSnapshot) }}</span>
+        <input
+          ref="fileInput"
+          type="file"
+          accept="application/json,.json"
+          :aria-label="cleanT(textKeys.nsarmoireSnapshotInput)"
+          @change="handleFileChange"
+        />
+      </label>
+
+      <AppButton v-if="snapshot" @click="$emit('clear')">
+        {{ cleanT(textKeys.nsarmoireClearSnapshot) }}
+      </AppButton>
+
+      <AppButton :disabled="helperBusy" @click="$emit('connect-helper')">
+        {{ cleanT(textKeys.nsarmoireConnectHelper) }}
+      </AppButton>
+
+      <AppButton
+        v-if="mode === 'hero' || helperCanRefresh"
+        :disabled="helperBusy || !helperCanRefresh"
+        @click="$emit('refresh-helper')"
+      >
+        {{ cleanT(textKeys.nsarmoireRefreshHelper) }}
+      </AppButton>
+
+      <AppButton
+        v-if="helperCanShutdown"
+        variant="secondary"
+        :disabled="helperBusy"
+        @click="$emit('shutdown-helper')"
+      >
+        {{ cleanT(textKeys.nsarmoireShutdownHelper) }}
+      </AppButton>
+    </div>
+
+    <p v-if="helperErrorDetail" class="nsarmoire-import-panel__helper-error">
+      {{ helperStatusMessage }}
+    </p>
 
     <AppStatus
       v-if="errorKey"
       class="nsarmoire-import-panel__error"
       tone="danger"
-      :title="t(textKeys.nsarmoireSnapshotError)"
+      :title="cleanT(textKeys.nsarmoireSnapshotError)"
       :message="errorMessage"
     />
 
-    <dl v-if="snapshot || helperHealth" class="nsarmoire-snapshot-meta">
+    <dl v-if="mode === 'hero' && (snapshot || helperHealth)" class="nsarmoire-snapshot-meta">
       <div v-if="snapshot">
-        <dt>{{ t(textKeys.nsarmoireGeneratedAt) }}</dt>
+        <dt>{{ cleanT(textKeys.nsarmoireGeneratedAt) }}</dt>
         <dd>{{ snapshot.generatedAt }}</dd>
       </div>
       <div v-if="snapshot">
-        <dt>{{ t(textKeys.nsarmoireSource) }}</dt>
+        <dt>{{ cleanT(textKeys.nsarmoireSource) }}</dt>
         <dd>{{ snapshot.source }}</dd>
       </div>
       <div v-if="characterLabel">
-        <dt>{{ t(textKeys.nsarmoireCharacter) }}</dt>
+        <dt>{{ cleanT(textKeys.nsarmoireCharacter) }}</dt>
         <dd>{{ characterLabel }}</dd>
       </div>
       <div v-if="importedFileName">
-        <dt>{{ t(textKeys.details) }}</dt>
+        <dt>{{ cleanT(textKeys.details) }}</dt>
         <dd>{{ importedFileName }}</dd>
       </div>
       <div>
-        <dt>{{ t(textKeys.nsarmoireHelperEndpoint) }}</dt>
+        <dt>{{ cleanT(textKeys.nsarmoireHelperEndpoint) }}</dt>
         <dd>{{ helperEndpoint }}</dd>
       </div>
       <div v-if="helperHealth">
-        <dt>{{ t(textKeys.nsarmoireHelperCatalog) }}</dt>
+        <dt>{{ cleanT(textKeys.nsarmoireHelperCatalog) }}</dt>
         <dd>{{ helperCatalogLabel }}</dd>
       </div>
     </dl>
@@ -96,11 +137,12 @@ import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
-import type { ArmoireSnapshot } from '@/lib/armoire/types'
+import type { ArmoireContainerKind, ArmoireSnapshot } from '@/lib/armoire/types'
 import type { ArmoireHelperHealth } from '@/pages/armoire/services/nsarmoireHelperApi'
 import { formatArmoireText } from '@/pages/armoire/utils/itemDisplay'
 
 const props = defineProps<{
+  mode: 'hero' | 'compact'
   snapshot: ArmoireSnapshot | null
   errorKey: string | null
   errorDetail: string | null
@@ -113,6 +155,7 @@ const props = defineProps<{
   helperHealth: ArmoireHelperHealth | null
   helperBusy: boolean
   helperCanRefresh: boolean
+  helperCanShutdown: boolean
 }>()
 
 const emit = defineEmits<{
@@ -120,46 +163,137 @@ const emit = defineEmits<{
   'load-example': []
   'connect-helper': []
   'refresh-helper': []
+  'shutdown-helper': []
   clear: []
 }>()
 
-const { t } = useLocale()
+const { current, t } = useLocale()
 const fileInput = ref<HTMLInputElement | null>(null)
+const DRAFT_SUFFIX_PATTERN = /（占位用，待编辑）/g
+
+const containerLabelKeys: Record<ArmoireContainerKind, string> = {
+  inventory: textKeys.nsarmoireContainerInventory,
+  saddlebag: textKeys.nsarmoireContainerSaddlebag,
+  retainer: textKeys.nsarmoireContainerRetainer,
+  armoury: textKeys.nsarmoireContainerArmoury,
+  glamourDresser: textKeys.nsarmoireContainerGlamourDresser,
+  armoire: textKeys.nsarmoireContainerArmoire,
+  manual: textKeys.nsarmoireContainerManual
+}
+const CONTAINER_DISPLAY_ORDER: ArmoireContainerKind[] = [
+  'armoire',
+  'inventory',
+  'armoury',
+  'glamourDresser',
+  'saddlebag',
+  'manual'
+]
+
+function cleanText(value: string): string {
+  return value.replace(DRAFT_SUFFIX_PATTERN, '')
+}
+
+function cleanT(key: string): string {
+  return cleanText(t(key))
+}
 
 const statusTone = computed(() => (props.snapshot ? 'success' : 'info'))
 const statusTitle = computed(() =>
-  t(props.snapshot ? textKeys.nsarmoireSnapshotReady : textKeys.nsarmoireSnapshotEmpty)
+  cleanT(props.snapshot ? textKeys.nsarmoireSnapshotReady : textKeys.nsarmoireSnapshotEmpty)
 )
 const errorMessage = computed(() => {
   if (!props.errorKey) {
     return ''
   }
 
-  return props.errorDetail ? `${t(props.errorKey)}: ${props.errorDetail}` : t(props.errorKey)
+  return props.errorDetail ? `${cleanT(props.errorKey)}: ${props.errorDetail}` : cleanT(props.errorKey)
 })
 const helperStatusMessage = computed(() =>
   props.helperErrorDetail
-    ? `${t(props.helperStatusMessageKey)}: ${props.helperErrorDetail}`
-    : t(props.helperStatusMessageKey)
+    ? `${cleanT(props.helperStatusMessageKey)}: ${props.helperErrorDetail}`
+    : cleanT(props.helperStatusMessageKey)
+)
+const shouldShowCompactHelperStatus = computed(() =>
+  props.helperBusy || Boolean(props.helperErrorDetail) || ['warning', 'danger'].includes(props.helperStatusTone)
+)
+const shouldShowStatusRow = computed(() =>
+  props.mode === 'hero' || !props.snapshot || shouldShowCompactHelperStatus.value
 )
 const helperCatalogLabel = computed(() => {
   if (!props.helperHealth?.catalogLocated) {
-    return t(textKeys.nsarmoireHelperCatalogMissing)
+    return cleanT(textKeys.nsarmoireHelperCatalogMissing)
   }
 
-  return formatArmoireText(t, textKeys.nsarmoireHelperCatalogReady, {
+  return cleanText(formatArmoireText(t, textKeys.nsarmoireHelperCatalogReady, {
     count: props.helperHealth.catalogCabinetEntryCount ?? 0
-  })
+  }))
 })
 const characterLabel = computed(() => {
   const character = props.snapshot?.character
 
   if (!character) {
-    return ''
+    return cleanT(textKeys.nsarmoireCharacterUnknown)
   }
 
-  return [character.name, character.world, character.dataCenter].filter(Boolean).join(' / ')
+  return [character.name || cleanT(textKeys.nsarmoireCharacterUnknown), character.world]
+    .filter(Boolean)
+    .join(' @ ')
 })
+const generatedAtLabel = computed(() => {
+  const value = props.snapshot?.generatedAt
+
+  if (!value) {
+    return cleanT(textKeys.nsarmoireCharacterGeneratedAtEmpty)
+  }
+
+  const date = new Date(value)
+
+  if (Number.isNaN(date.getTime())) {
+    return value
+  }
+
+  return new Intl.DateTimeFormat(current.value, {
+    dateStyle: 'short',
+    timeStyle: 'short'
+  }).format(date)
+})
+const readContainersLabel = computed(() => {
+  const containers = new Set<ArmoireContainerKind>()
+  const retainerLabels: string[] = []
+
+  for (const item of props.snapshot?.items ?? []) {
+    if (item.container === 'retainer') {
+      const retainerLabel = item.retainerName?.trim() || item.containerName?.trim()
+
+      if (retainerLabel && !retainerLabels.includes(retainerLabel)) {
+        retainerLabels.push(retainerLabel)
+      }
+
+      continue
+    }
+
+    if (containerLabelKeys[item.container]) {
+      containers.add(item.container)
+    }
+  }
+
+  const containerLabels = CONTAINER_DISPLAY_ORDER
+    .filter((container) => containers.has(container))
+    .map((container) => cleanT(containerLabelKeys[container]))
+
+  if (!retainerLabels.length && props.snapshot?.items.some((item) => item.container === 'retainer')) {
+    retainerLabels.push(cleanT(containerLabelKeys.retainer))
+  }
+
+  return [...containerLabels, ...retainerLabels].join(' / ')
+})
+const compactSummaryAriaLabel = computed(() =>
+  [
+    `${cleanT(textKeys.nsarmoireCharacter)}: ${characterLabel.value}`,
+    `${cleanT(textKeys.nsarmoireGeneratedAt)}: ${generatedAtLabel.value}`,
+    `${cleanT(textKeys.nsarmoireReadContainers)}: ${readContainersLabel.value}`
+  ].join('；')
+)
 
 function handleFileChange(event: Event) {
   const input = event.target
@@ -179,16 +313,33 @@ function handleFileChange(event: Event) {
 <style scoped>
 .nsarmoire-panel {
   display: grid;
-  gap: 10px;
-  padding: 12px 14px;
+  gap: 6px;
+  padding: 6px 8px;
   border: 2px solid var(--ns-pixel-border);
   background: var(--ns-pixel-surface);
   box-shadow: var(--ns-pixel-soft-shadow);
 }
 
 .nsarmoire-import-panel {
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(240px, 0.8fr) minmax(420px, 1.2fr);
   align-items: center;
+}
+
+.nsarmoire-import-panel--hero {
+  min-height: 260px;
+  grid-template-columns: 1fr;
+  align-content: center;
+  justify-items: start;
+  gap: 16px;
+  padding: 34px;
+  background: #ffffff;
+}
+
+.nsarmoire-import-panel--compact {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 10px;
+  padding: 6px 8px;
+  background: #ffffff;
 }
 
 .nsarmoire-panel__header {
@@ -201,8 +352,13 @@ function handleFileChange(event: Event) {
 .nsarmoire-panel h2 {
   margin: 0;
   font-family: var(--ns-font-decorative);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 950;
+  white-space: nowrap;
+}
+
+.nsarmoire-import-panel--hero h2 {
+  font-size: 24px;
 }
 
 .nsarmoire-import-button {
@@ -222,48 +378,153 @@ function handleFileChange(event: Event) {
   min-width: 0;
 }
 
-.nsarmoire-import-panel__helper {
-  grid-column: 1 / -1;
+.nsarmoire-import-panel__status-row {
+  display: flex;
   min-width: 0;
-}
-
-.nsarmoire-import-panel__status {
-  min-width: 0;
-}
-
-.nsarmoire-import-panel__status :deep(.app-status__content),
-.nsarmoire-import-panel__helper :deep(.app-status__content) {
-  flex: 0 1 auto;
-}
-
-.nsarmoire-import-panel__status :deep(.app-status__actions),
-.nsarmoire-import-panel__helper :deep(.app-status__actions) {
-  flex: 1 1 auto;
+  align-items: center;
   flex-wrap: wrap;
-  min-width: min(100%, 320px);
-  margin-left: auto;
+  gap: 6px;
 }
 
-.nsarmoire-import-panel__status :deep(.ns-button),
-.nsarmoire-import-panel__helper :deep(.ns-button) {
+.nsarmoire-import-panel--compact .nsarmoire-import-panel__status-row {
+  grid-column: 1 / -1;
+}
+
+.nsarmoire-import-panel__chip {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  border: 2px solid var(--ns-pixel-border-soft);
+  background: var(--ns-pixel-window-bg);
+  color: var(--ns-color-text);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.nsarmoire-import-panel__chip span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nsarmoire-import-panel__chip-mark {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-muted);
+}
+
+.nsarmoire-import-panel__chip--info .nsarmoire-import-panel__chip-mark,
+.nsarmoire-import-panel__chip--loading .nsarmoire-import-panel__chip-mark {
+  background: var(--ns-color-cyan);
+}
+
+.nsarmoire-import-panel__chip--success .nsarmoire-import-panel__chip-mark {
+  background: var(--ns-color-success);
+}
+
+.nsarmoire-import-panel__chip--warning .nsarmoire-import-panel__chip-mark {
+  background: var(--ns-color-warning);
+}
+
+.nsarmoire-import-panel__chip--danger .nsarmoire-import-panel__chip-mark {
+  background: var(--ns-color-danger);
+}
+
+.nsarmoire-import-panel__actions {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.nsarmoire-import-panel__summary {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  overflow: hidden;
+  color: var(--ns-color-text);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.nsarmoire-import-panel__summary-line {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+}
+
+.nsarmoire-import-panel__summary-line > span {
+  min-width: 0;
+}
+
+.nsarmoire-import-panel__summary b {
+  color: var(--ns-color-text-muted);
+  font-weight: 850;
+}
+
+.nsarmoire-import-panel__summary strong,
+.nsarmoire-import-panel__summary-line span span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.nsarmoire-import-panel__summary strong {
+  color: var(--ns-color-text);
+  font-weight: 950;
+}
+
+.nsarmoire-import-panel--hero .nsarmoire-import-panel__actions {
+  justify-content: flex-start;
+}
+
+.nsarmoire-import-panel__actions :deep(.ns-button),
+.nsarmoire-import-panel__actions .ns-button {
   flex: 0 1 auto;
   min-width: 0;
   justify-content: center;
+  padding: 6px 10px;
   white-space: nowrap;
+}
+
+.nsarmoire-import-panel--compact .nsarmoire-import-panel__actions :deep(.ns-button),
+.nsarmoire-import-panel--compact .nsarmoire-import-panel__actions .ns-button {
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+.nsarmoire-import-panel__helper-error {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--ns-color-danger);
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .nsarmoire-snapshot-meta {
   display: grid;
   grid-column: 1 / -1;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 4px 10px;
   margin: 0;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .nsarmoire-snapshot-meta div {
   display: grid;
-  gap: 2px;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 4px;
 }
 
 .nsarmoire-snapshot-meta dt,
@@ -282,34 +543,44 @@ function handleFileChange(event: Event) {
   overflow-wrap: anywhere;
 }
 
+@media (max-width: 1280px) {
+  .nsarmoire-import-panel--compact {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .nsarmoire-import-panel--compact .nsarmoire-import-panel__actions {
+    grid-column: 1 / -1;
+  }
+}
+
 @media (max-width: 760px) {
   .nsarmoire-import-panel {
     grid-template-columns: 1fr;
   }
 
-  .nsarmoire-import-panel__status,
-  .nsarmoire-import-panel__helper {
-    flex-wrap: wrap;
+  .nsarmoire-import-panel--hero {
+    min-height: 220px;
+    padding: 20px;
   }
 
-  .nsarmoire-import-panel__status :deep(.app-status__actions),
-  .nsarmoire-import-panel__helper :deep(.app-status__actions) {
-    flex: 1 1 100%;
-    margin-left: 0;
+  .nsarmoire-import-panel__actions {
+    justify-content: stretch;
   }
 
-  .nsarmoire-import-panel__status :deep(.ns-button),
-  .nsarmoire-import-panel__helper :deep(.ns-button) {
-    flex: 1 1 100%;
+  .nsarmoire-import-panel__summary {
+    gap: 3px;
+  }
+
+  .nsarmoire-import-panel__actions :deep(.ns-button),
+  .nsarmoire-import-panel__actions .ns-button {
+    flex: 1 1 160px;
     white-space: normal;
   }
 }
 
 @media (max-width: 640px) {
-  .nsarmoire-import-panel__status :deep(.app-status__title),
-  .nsarmoire-import-panel__helper :deep(.app-status__title) {
-    overflow-wrap: anywhere;
-    white-space: normal;
+  .nsarmoire-import-panel__status-row {
+    grid-column: 1 / -1;
   }
 
   .nsarmoire-snapshot-meta div {

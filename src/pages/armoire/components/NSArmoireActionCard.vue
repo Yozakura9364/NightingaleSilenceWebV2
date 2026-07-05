@@ -1,8 +1,24 @@
 <template>
-  <article class="nsarmoire-action-card" :class="{ 'nsarmoire-action-card--primary': primary }">
+  <article
+    class="nsarmoire-action-card"
+    :class="{
+      'nsarmoire-action-card--primary': primary,
+      'nsarmoire-action-card--sticky-header': stickyHeader
+    }"
+  >
     <div class="nsarmoire-action-card__header">
-      <h3>{{ title }}</h3>
-      <strong v-if="count !== null && count !== undefined">{{ count }}</strong>
+      <span class="nsarmoire-action-card__title-group">
+        <h3>{{ title }}</h3>
+        <strong v-if="count !== null && count !== undefined">{{ count }}</strong>
+      </span>
+      <button
+        v-if="toggleLabel"
+        class="nsarmoire-action-card__toggle"
+        type="button"
+        @click="$emit('toggle')"
+      >
+        {{ toggleLabel }}
+      </button>
     </div>
 
     <p v-if="summary" class="nsarmoire-action-card__summary">
@@ -10,24 +26,17 @@
     </p>
 
     <slot />
-
-    <div v-if="toggleLabel" class="nsarmoire-action-card__footer">
-      <AppButton @click="$emit('toggle')">
-        {{ toggleLabel }}
-      </AppButton>
-    </div>
   </article>
 </template>
 
 <script setup lang="ts">
-import AppButton from '@/components/AppButton.vue'
-
 defineProps<{
   title: string
   count?: number | string | null
   summary?: string
   primary?: boolean
   toggleLabel?: string
+  stickyHeader?: boolean
 }>()
 
 defineEmits<{
@@ -52,9 +61,32 @@ defineEmits<{
 .nsarmoire-action-card__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 12px;
   min-width: 0;
+  flex-wrap: wrap;
+}
+
+.nsarmoire-action-card--sticky-header .nsarmoire-action-card__header {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  box-sizing: border-box;
+  align-self: stretch;
+  width: auto;
+  max-width: none;
+  margin: -12px -12px 0;
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--ns-pixel-border-soft);
+  background: #ffffff;
+  box-shadow: none;
+}
+
+.nsarmoire-action-card__title-group {
+  display: inline-flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 7px;
 }
 
 .nsarmoire-action-card h3 {
@@ -62,11 +94,15 @@ defineEmits<{
   font-family: var(--ns-font-decorative);
   font-size: 14px;
   font-weight: 950;
+  line-height: 1.35;
 }
 
 .nsarmoire-action-card__header strong {
-  font-family: var(--ns-font-decorative);
-  font-size: 20px;
+  flex: 0 0 auto;
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1;
 }
 
 .nsarmoire-action-card__summary {
@@ -75,8 +111,22 @@ defineEmits<{
   line-height: 1.7;
 }
 
-.nsarmoire-action-card__footer {
-  display: flex;
-  justify-content: flex-start;
+.nsarmoire-action-card__toggle {
+  min-height: 28px;
+  padding: 4px 10px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: #ffffff;
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.nsarmoire-action-card__toggle:hover,
+.nsarmoire-action-card__toggle:focus-visible {
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-pixel-hover-surface);
 }
 </style>

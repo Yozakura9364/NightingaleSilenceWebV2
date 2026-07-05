@@ -32,11 +32,7 @@ export function formatArmoireItemId(itemId: number, t: Translate): string {
   return `${t(textKeys.nsarmoireItemId)} ${itemId}`
 }
 
-export function getArmoireItemName(
-  catalog: ArmoireCatalog,
-  itemId: number,
-  t: Translate
-): string {
+export function getArmoireItemName(catalog: ArmoireCatalog, itemId: number, t: Translate): string {
   return catalog.items[itemId]?.name ?? t(textKeys.nsarmoireUnknownItem)
 }
 
@@ -45,11 +41,19 @@ export function getArmoireItemIconUrl(catalog: ArmoireCatalog, itemId: number): 
 }
 
 export function getArmoireContainerLabel(
-  item: Pick<ArmoireDyeRiskItem | ArmoireOwnedItem, 'container' | 'containerName'>,
+  item: Pick<ArmoireDyeRiskItem | ArmoireOwnedItem, 'container' | 'containerName'> & {
+    retainerName?: string
+  },
   t: Translate
 ): string {
   const baseLabel = t(containerLabelKeys[item.container])
-  return item.containerName ? `${baseLabel} / ${item.containerName}` : baseLabel
+  const containerName =
+    item.containerName?.trim() ||
+    (item.container === 'retainer' ? item.retainerName?.trim() : undefined)
+
+  return containerName && containerName !== baseLabel
+    ? `${baseLabel} / ${containerName}`
+    : baseLabel
 }
 
 export function formatArmoireDyeNames(
@@ -62,6 +66,18 @@ export function formatArmoireDyeNames(
     .map((dyeId) => catalog.dyes[dyeId]?.name ?? String(dyeId))
 
   return names.length > 0 ? names.join(' / ') : t(textKeys.nsarmoireCatalogDyeNone)
+}
+
+export function formatArmoireDyeSlotNames(
+  catalog: ArmoireCatalog,
+  dyeIds: [number, number] | undefined,
+  t: Translate
+): string {
+  return (dyeIds ?? [0, 0])
+    .map((dyeId) =>
+      dyeId > 0 ? (catalog.dyes[dyeId]?.name ?? String(dyeId)) : t(textKeys.nsarmoireCatalogDyeNone)
+    )
+    .join(' / ')
 }
 
 const dyeResetReasonLabelKeys: Record<ArmoireDyeResetReason, string> = {
