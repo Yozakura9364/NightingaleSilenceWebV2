@@ -200,44 +200,138 @@
                   class="ns-pixel-popup-menu"
                   :aria-label="t(textKeys.styleLabPopupNavigationSample)"
                 >
-                  <a
-                    class="ns-pixel-popup-menu__item ns-pixel-popup-menu__item--active"
-                    href="#/ffxiv"
-                  >
-                    <span>{{ t(textKeys.ffxivWorkshop) }}</span>
-                    <span>{{ t(textKeys.statusOpen) }}</span>
+                  <a class="ns-pixel-popup-menu__item ns-pixel-popup-menu__item--home" href="#/">
+                    <span class="ns-pixel-popup-menu__item-main">
+                      <span
+                        class="ns-pixel-icon"
+                        :style="pixelIconStyle(pixelHomeIcon)"
+                        aria-hidden="true"
+                      ></span>
+                      <span>{{ t(textKeys.home) }}</span>
+                    </span>
+                    <span class="ns-pixel-popup-menu__item-command">
+                      {{ t(textKeys.homeCommand) }}
+                    </span>
                   </a>
 
+                  <button
+                    class="ns-pixel-popup-menu__item"
+                    :class="{
+                      'ns-pixel-popup-menu__item--active': styleLabPopupSection === 'ffxiv',
+                      'ns-pixel-popup-menu__item--expanded': styleLabPopupSection === 'ffxiv'
+                    }"
+                    type="button"
+                    @click="toggleStyleLabPopupSection('ffxiv')"
+                  >
+                    <span class="ns-pixel-popup-menu__item-main">
+                      <span
+                        class="ns-pixel-icon"
+                        :style="pixelIconStyle(pixelFolderIcon)"
+                        aria-hidden="true"
+                      ></span>
+                      <span>{{ t(textKeys.ffxivWorkshop) }}</span>
+                    </span>
+                    <span class="ns-pixel-popup-menu__item-command">FFXIV TOOLS</span>
+                  </button>
+
                   <div
+                    v-if="styleLabPopupSection === 'ffxiv'"
                     class="ns-pixel-popup-menu__children"
                     :aria-label="t(textKeys.styleLabFfxivChildren)"
                   >
-                    <a href="#/ffxiv/glamour">{{ t(textKeys.glamourTitle) }}</a>
-                    <a href="#/ffxiv/plate">{{ t(textKeys.plateTitle) }}</a>
+                    <a href="#/ffxiv/glamour">
+                      <span class="ns-pixel-popup-menu__child-main">
+                        <span
+                          class="ns-pixel-popup-menu__child-icon ns-pixel-icon"
+                          :style="pixelIconStyle(pixelSparklesIcon)"
+                          aria-hidden="true"
+                        ></span>
+                        <span>{{ t(textKeys.glamourTitle) }}</span>
+                      </span>
+                    </a>
+                    <a href="#/ffxiv/plate">
+                      <span class="ns-pixel-popup-menu__child-main">
+                        <span
+                          class="ns-pixel-popup-menu__child-icon ns-pixel-icon"
+                          :style="pixelIconStyle(pixelAvatarCircleIcon)"
+                          aria-hidden="true"
+                        ></span>
+                        <span>{{ t(textKeys.plateTitle) }}</span>
+                      </span>
+                    </a>
+                    <a href="#/ffxiv/armoire">
+                      <span class="ns-pixel-popup-menu__child-main">
+                        <span
+                          class="ns-pixel-popup-menu__child-icon ns-pixel-icon"
+                          :style="pixelIconStyle(pixelPlaceholderMenuIcon)"
+                          aria-hidden="true"
+                        ></span>
+                        <span>{{ t(textKeys.armoireTitle) }}</span>
+                      </span>
+                    </a>
                   </div>
 
-                  <a class="ns-pixel-popup-menu__item" href="#/about">
-                    <span>{{ t(textKeys.about) }}</span>
-                    <span>{{ t(textKeys.aboutCommand) }}</span>
-                  </a>
-
-                  <a class="ns-pixel-popup-menu__item" href="#/style-lab">
-                    <span>{{ t(textKeys.oc) }}</span>
-                    <span>{{ t(textKeys.statusWip) }}</span>
-                  </a>
+                  <button
+                    class="ns-pixel-popup-menu__item"
+                    :class="{
+                      'ns-pixel-popup-menu__item--active': styleLabPopupSection === 'silence',
+                      'ns-pixel-popup-menu__item--expanded': styleLabPopupSection === 'silence'
+                    }"
+                    type="button"
+                    @click="toggleStyleLabPopupSection('silence')"
+                  >
+                    <span class="ns-pixel-popup-menu__item-main">
+                      <span
+                        class="ns-pixel-icon"
+                        :style="pixelIconStyle(pixelImageIcon)"
+                        aria-hidden="true"
+                      ></span>
+                      <span>{{ t(textKeys.silence) }}</span>
+                    </span>
+                    <span class="ns-pixel-popup-menu__item-command">YOINE</span>
+                  </button>
 
                   <div
+                    v-if="styleLabPopupSection === 'silence'"
                     class="ns-pixel-popup-menu__children"
                     :aria-label="t(textKeys.styleLabOcChildren)"
                   >
-                    <a href="#/style-lab">{{ t(textKeys.silence) }}</a>
+                    <a href="#/silence/angel">
+                      <span class="ns-pixel-popup-menu__child-main">
+                        <span
+                          class="ns-pixel-popup-menu__child-icon ns-pixel-icon"
+                          :style="pixelIconStyle(pixelPlaceholderMenuIcon)"
+                          aria-hidden="true"
+                        ></span>
+                        <span>{{ t(textKeys.silenceAngel) }}</span>
+                      </span>
+                    </a>
+                    <a href="#/silence/glitch">
+                      <span class="ns-pixel-popup-menu__child-main">
+                        <span
+                          class="ns-pixel-popup-menu__child-icon ns-pixel-icon"
+                          :style="pixelIconStyle(pixelPlaceholderMenuIcon)"
+                          aria-hidden="true"
+                        ></span>
+                        <span>{{ t(textKeys.silenceGlitch) }}</span>
+                      </span>
+                    </a>
                   </div>
-                </nav>
 
-                <div class="ns-pixel-menu-popup__status">
-                  <span>{{ t(textKeys.status) }}</span>
-                  <strong>{{ t(textKeys.placeholder) }}</strong>
-                </div>
+                  <a class="ns-pixel-popup-menu__item" href="#/about">
+                    <span class="ns-pixel-popup-menu__item-main">
+                      <span
+                        class="ns-pixel-icon"
+                        :style="pixelIconStyle(pixelStarIcon)"
+                        aria-hidden="true"
+                      ></span>
+                      <span>{{ t(textKeys.about) }}</span>
+                    </span>
+                    <span class="ns-pixel-popup-menu__item-command">
+                      {{ t(textKeys.aboutCommand) }}
+                    </span>
+                  </a>
+                </nav>
               </aside>
             </div>
           </section>
@@ -259,7 +353,12 @@
             </div>
 
             <nav class="ns-pixel-icon-text-bar" :aria-label="t(textKeys.styleLabIconTextBar)">
-              <a class="ns-pixel-icon-text-bar__brand" href="#/">
+              <a
+                class="ns-pixel-icon-text-bar__brand"
+                href="#/"
+                :aria-label="t(textKeys.home)"
+                :title="t(textKeys.home)"
+              >
                 <span
                   class="ns-pixel-icon"
                   :style="pixelIconStyle(pixelHomeIcon)"
@@ -279,6 +378,8 @@
                     'ns-pixel-icon-text-bar__button--pink': action.variant === 'pink',
                     'ns-pixel-icon-text-bar__button--blue': action.variant === 'blue'
                   }"
+                  :aria-label="t(action.labelKey)"
+                  :title="t(action.labelKey)"
                   type="button"
                 >
                   <span
@@ -356,23 +457,67 @@
                 <h2 class="ns-pixel-workbench__panel-title">
                   {{ t(textKeys.styleLabIconMenuSample) }}
                 </h2>
-                <a
-                  v-for="item in pixelIconMenuItems"
-                  :key="item.id"
-                  class="ns-pixel-icon-menu__item"
-                  :class="{ 'ns-pixel-icon-menu__item--active': item.active }"
-                  :href="item.href"
-                >
-                  <span class="ns-pixel-icon-menu__main">
-                    <span
-                      class="ns-pixel-icon"
-                      :style="pixelIconStyle(item.icon)"
-                      aria-hidden="true"
-                    ></span>
-                    <span>{{ t(item.labelKey) }}</span>
-                  </span>
-                  <span>{{ t(item.commandKey) }}</span>
-                </a>
+                <template v-for="item in pixelIconMenuItems" :key="item.id">
+                  <button
+                    v-if="item.children"
+                    class="ns-pixel-icon-menu__item"
+                    :class="{
+                      'ns-pixel-icon-menu__item--active': styleLabIconMenuSection === item.section
+                    }"
+                    type="button"
+                    :aria-expanded="styleLabIconMenuSection === item.section"
+                    @click="setStyleLabIconMenuSection(item.section)"
+                  >
+                    <span class="ns-pixel-icon-menu__main">
+                      <span
+                        class="ns-pixel-icon"
+                        :style="pixelIconStyle(item.icon)"
+                        aria-hidden="true"
+                      ></span>
+                      <span>{{ t(item.labelKey) }}</span>
+                    </span>
+                    <span>{{ t(item.commandKey) }}</span>
+                  </button>
+
+                  <a
+                    v-else
+                    class="ns-pixel-icon-menu__item"
+                    :class="{ 'ns-pixel-icon-menu__item--active': item.active }"
+                    :href="item.href"
+                  >
+                    <span class="ns-pixel-icon-menu__main">
+                      <span
+                        class="ns-pixel-icon"
+                        :style="pixelIconStyle(item.icon)"
+                        aria-hidden="true"
+                      ></span>
+                      <span>{{ t(item.labelKey) }}</span>
+                    </span>
+                    <span>{{ t(item.commandKey) }}</span>
+                  </a>
+
+                  <div
+                    v-if="item.children && styleLabIconMenuSection === item.section"
+                    class="ns-pixel-icon-menu__children"
+                    :aria-label="t(textKeys.styleLabFfxivChildren)"
+                  >
+                    <a
+                      v-for="child in item.children"
+                      :key="child.id"
+                      class="ns-pixel-icon-menu__child"
+                      :href="child.href"
+                    >
+                      <span class="ns-pixel-icon-menu__child-main">
+                        <span
+                          class="ns-pixel-icon-menu__child-icon ns-pixel-icon"
+                          :style="pixelIconStyle(child.icon)"
+                          aria-hidden="true"
+                        ></span>
+                        <span>{{ t(child.labelKey) }}</span>
+                      </span>
+                    </a>
+                  </div>
+                </template>
               </nav>
             </div>
 
@@ -665,6 +810,7 @@
 <script setup lang="ts">
 import '@/styles/experiments/pixel-soft.css'
 import { computed, ref, watch, type CSSProperties } from 'vue'
+import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelDownloadIcon from '@/assets/icons/pixelarticons/download.svg'
 import pixelFolderIcon from '@/assets/icons/pixelarticons/folder.svg'
 import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
@@ -673,6 +819,7 @@ import pixelLanguagesIcon from '@/assets/icons/pixelarticons/languages.svg'
 import pixelMenuIcon from '@/assets/icons/pixelarticons/menu.svg'
 import pixelSearchIcon from '@/assets/icons/pixelarticons/search.svg'
 import pixelSettingsIcon from '@/assets/icons/pixelarticons/settings-2.svg'
+import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import pixelStarIcon from '@/assets/icons/pixelarticons/star.svg'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
@@ -685,6 +832,9 @@ import { ffxivTools, siteLocaleOptions, textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
 import { useTheme, type ThemeMode } from '@/stores/theme'
 
+const pixelPlaceholderMenuIcon =
+  'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 8 8%22 fill=%22%23000%22 shape-rendering=%22crispEdges%22%3E%3Cpath d=%22M1 0h6v1H1zM0 1h1v5H0zM7 1h1v5H7zM1 6h6v1H1zM2 2h1v1H2zM5 2h1v1H5zM3 3h2v1H3zM2 4h4v1H2z%22/%3E%3C/svg%3E'
+
 type FontMode = 'decorative' | 'all-pixel'
 type PixelTone = 'classic' | 'light' | 'cyber-night'
 type PixelIconVariant = 'plain' | 'pink' | 'blue'
@@ -696,9 +846,16 @@ type PixelIconAction = {
   variant?: PixelIconVariant
 }
 type PixelIconMenuItem = PixelIconAction & {
-  href: string
   commandKey: string
+  href?: string
   active?: boolean
+  section?: 'ffxiv' | 'silence'
+  children?: Array<{
+    id: string
+    icon: string
+    href: string
+    labelKey: string
+  }>
 }
 type PixelIconBarAction = PixelIconAction & {
   commandKey?: string
@@ -762,18 +919,6 @@ const pixelIconBarActions: PixelIconBarAction[] = [
     labelKey: textKeys.config,
     commandKey: textKeys.configCommand,
     variant: 'pink'
-  },
-  {
-    id: 'language',
-    icon: pixelLanguagesIcon,
-    labelKey: textKeys.languageMode,
-    commandKey: textKeys.localeZhCommand
-  },
-  {
-    id: 'search',
-    icon: pixelSearchIcon,
-    labelKey: textKeys.styleLabIconSearch,
-    variant: 'blue'
   }
 ]
 const pixelIconMenuItems: PixelIconMenuItem[] = [
@@ -789,8 +934,27 @@ const pixelIconMenuItems: PixelIconMenuItem[] = [
     icon: pixelFolderIcon,
     labelKey: textKeys.ffxivWorkshop,
     commandKey: textKeys.statusOpen,
-    href: '#/ffxiv',
-    active: true
+    section: 'ffxiv',
+    children: [
+      {
+        id: 'glamour',
+        icon: pixelSparklesIcon,
+        href: '#/ffxiv/glamour',
+        labelKey: textKeys.glamourTitle
+      },
+      {
+        id: 'plate',
+        icon: pixelAvatarCircleIcon,
+        href: '#/ffxiv/plate',
+        labelKey: textKeys.plateTitle
+      },
+      {
+        id: 'armoire',
+        icon: pixelPlaceholderMenuIcon,
+        href: '#/ffxiv/armoire',
+        labelKey: textKeys.armoireTitle
+      }
+    ]
   },
   {
     id: 'config',
@@ -909,6 +1073,8 @@ const formalTabs = commonTabs
 const effectivePixelTone = computed<PixelTone>(() =>
   defaultPixelTone(themeMode.value, pixelTone.value)
 )
+const styleLabPopupSection = ref<'ffxiv' | 'silence'>('ffxiv')
+const styleLabIconMenuSection = ref<'ffxiv' | 'silence' | null>('ffxiv')
 
 watch(themeMode, (mode) => {
   pixelTone.value = defaultPixelTone(mode, pixelTone.value)
@@ -935,6 +1101,18 @@ function pixelIconStyle(icon: string): CSSProperties {
 
 function moduleOptionLabel(option: StyleLabModuleOption) {
   return option.labelKey ? t(option.labelKey) : (option.label ?? option.id)
+}
+
+function toggleStyleLabPopupSection(section: 'ffxiv' | 'silence') {
+  styleLabPopupSection.value = section
+}
+
+function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
+  if (!section) {
+    return
+  }
+
+  styleLabIconMenuSection.value = section
 }
 </script>
 
@@ -1145,6 +1323,7 @@ function moduleOptionLabel(option: StyleLabModuleOption) {
 }
 
 .ns-pixel-icon-menu__item {
+  appearance: none;
   display: flex;
   min-width: 0;
   align-items: center;
@@ -1160,6 +1339,7 @@ function moduleOptionLabel(option: StyleLabModuleOption) {
   font-weight: 900;
   text-decoration: none;
   box-shadow: 2px 2px 0 rgba(42, 33, 56, 0.14);
+  cursor: pointer;
 }
 
 .ns-pixel-icon-menu__item--active {
@@ -1178,6 +1358,44 @@ function moduleOptionLabel(option: StyleLabModuleOption) {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.ns-pixel-icon-menu__children {
+  display: grid;
+  gap: 6px;
+  padding-left: 18px;
+}
+
+.ns-pixel-icon-menu__child {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface-pink);
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 11px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 rgba(42, 33, 56, 0.14);
+}
+
+.ns-pixel-icon-menu__child-main {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.ns-pixel-icon-menu__child-icon {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  color: var(--ns-pixel-muted);
 }
 
 .ns-pixel-icon-lab__source {
@@ -1220,24 +1438,33 @@ function moduleOptionLabel(option: StyleLabModuleOption) {
 
   .ns-pixel-icon-text-bar {
     align-items: stretch;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .ns-pixel-icon-text-bar__brand {
-    flex-basis: auto;
+    flex: 1 1 0;
     max-width: none;
-    width: 100%;
+    justify-content: center;
+    padding-inline: 0;
   }
 
   .ns-pixel-icon-text-bar__actions {
     display: grid;
+    flex: 2 1 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
+    width: auto;
   }
 
   .ns-pixel-icon-text-bar__button {
     width: 100%;
     min-width: 0;
+    justify-content: center;
+    padding-inline: 0;
+  }
+
+  .ns-pixel-icon-text-bar__label,
+  .ns-pixel-icon-text-bar__command {
+    display: none;
   }
 
   .ns-pixel-icon-lab__text-button-row .ns-pixel-button {
