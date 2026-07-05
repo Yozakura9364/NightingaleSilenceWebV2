@@ -14,20 +14,6 @@
     <template v-else>
       <p class="nsarmoire-catalog-panel__summary">{{ summary }}</p>
 
-      <ul
-        class="nsarmoire-catalog-panel__metrics"
-        :aria-label="t(textKeys.nsarmoireCatalogMetricLabel)"
-      >
-        <li
-          v-for="metric in resultMetrics"
-          :key="metric.key"
-          :class="`nsarmoire-catalog-panel__metric--${metric.tone}`"
-        >
-          <span>{{ metric.label }}</span>
-          <strong>{{ metric.value }}</strong>
-        </li>
-      </ul>
-
       <div class="nsarmoire-catalog-panel__controls">
         <AppField
           :label="t(textKeys.nsarmoireCatalogSearchLabel)"
@@ -73,7 +59,7 @@
         <NSArmoireCatalogGrid :items="visibleCatalogItems" />
 
         <div v-if="hasMoreCatalogItems" class="nsarmoire-catalog-panel__more">
-          <AppButton @click="showMoreCatalogItems">
+          <AppButton :disabled="isCatalogBatchPending" @click="showMoreCatalogItems">
             {{ loadMoreCatalogLabel }}
           </AppButton>
         </div>
@@ -83,16 +69,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
-import type {
-  ArmoireCatalog,
-  ArmoireSnapshot,
-  ArmoireSnapshotAnalysis
-} from '@/lib/armoire/types'
+import type { ArmoireCatalog, ArmoireSnapshot, ArmoireSnapshotAnalysis } from '@/lib/armoire/types'
 import NSArmoireCatalogFilters from '@/pages/armoire/components/NSArmoireCatalogFilters.vue'
 import NSArmoireCatalogGrid from '@/pages/armoire/components/NSArmoireCatalogGrid.vue'
 import {
@@ -115,10 +97,13 @@ const selectedSort = ref<ArmoireCatalogGridSort>('risk')
 const searchQuery = ref('')
 const searchInputId = 'nsarmoire-catalog-search'
 const sortSelectId = 'nsarmoire-catalog-sort'
-const CATALOG_BATCH_SIZE = 48
-const visibleCatalogCount = ref(CATALOG_BATCH_SIZE)
+const CATALOG_INITIAL_BATCH_SIZE = 24
+const CATALOG_LOAD_STEP = 16
+const visibleCatalogCount = ref(CATALOG_INITIAL_BATCH_SIZE)
+const isCatalogBatchPending = ref(false)
+let catalogBatchFrameId: number | null = null
 
-const { filterOptions, filteredItems, resultMetrics, sortOptions, summary } = useArmoireCatalogGrid(
+const { filterOptions, filteredItems, sortOptions, summary } = useArmoireCatalogGrid(
   props,
   selectedFilter,
   searchQuery,
@@ -130,10 +115,15 @@ const visibleCatalogItems = computed(() =>
   filteredItems.value.slice(0, Math.min(filteredItems.value.length, visibleCatalogCount.value))
 )
 
-const hasMoreCatalogItems = computed(() => visibleCatalogItems.value.length < filteredItems.value.length)
+const hasMoreCatalogItems = computed(
+  () => visibleCatalogItems.value.length < filteredItems.value.length
+)
 
 const nextCatalogBatchCount = computed(() =>
-  Math.min(CATALOG_BATCH_SIZE, Math.max(filteredItems.value.length - visibleCatalogItems.value.length, 0))
+  Math.min(
+    CATALOG_LOAD_STEP,
+    Math.max(filteredItems.value.length - visibleCatalogItems.value.length, 0)
+  )
 )
 
 const loadMoreCatalogLabel = computed(() =>
@@ -141,17 +131,65 @@ const loadMoreCatalogLabel = computed(() =>
 )
 
 watch(
-  () => [selectedFilter.value, selectedSort.value, searchQuery.value, props.snapshot?.items.length] as const,
+  () =>
+    [
+      selectedFilter.value,
+      selectedSort.value,
+      searchQuery.value,
+      props.catalog.generatedAt,
+      props.snapshot?.generatedAt,
+      props.snapshot?.items.length
+    ] as const,
   () => {
-    visibleCatalogCount.value = CATALOG_BATCH_SIZE
+    resetCatalogBatch()
   }
 )
 
+onBeforeUnmount(() => {
+  cancelCatalogBatchFrame()
+})
+
 function showMoreCatalogItems(): void {
-  visibleCatalogCount.value = Math.min(
+  if (isCatalogBatchPending.value) {
+    return
+  }
+
+  const nextCount = Math.min(
     filteredItems.value.length,
-    visibleCatalogCount.value + CATALOG_BATCH_SIZE
+    visibleCatalogCount.value + CATALOG_LOAD_STEP
   )
+
+  if (nextCount <= visibleCatalogCount.value) {
+    return
+  }
+
+  isCatalogBatchPending.value = true
+
+  if (typeof window === 'undefined') {
+    visibleCatalogCount.value = nextCount
+    isCatalogBatchPending.value = false
+    return
+  }
+
+  catalogBatchFrameId = window.requestAnimationFrame(() => {
+    catalogBatchFrameId = null
+    visibleCatalogCount.value = nextCount
+    isCatalogBatchPending.value = false
+  })
+}
+
+function resetCatalogBatch(): void {
+  cancelCatalogBatchFrame()
+  visibleCatalogCount.value = CATALOG_INITIAL_BATCH_SIZE
+}
+
+function cancelCatalogBatchFrame(): void {
+  if (catalogBatchFrameId !== null && typeof window !== 'undefined') {
+    window.cancelAnimationFrame(catalogBatchFrameId)
+  }
+
+  catalogBatchFrameId = null
+  isCatalogBatchPending.value = false
 }
 </script>
 
@@ -185,55 +223,6 @@ function showMoreCatalogItems(): void {
   line-height: 1.7;
 }
 
-.nsarmoire-catalog-panel__metrics {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.nsarmoire-catalog-panel__metrics li {
-  display: grid;
-  min-width: 0;
-  gap: 5px;
-  padding: 9px 10px;
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: var(--ns-color-surface);
-}
-
-.nsarmoire-catalog-panel__metrics span {
-  min-width: 0;
-  color: var(--ns-color-text-muted);
-  font-size: 12px;
-  font-weight: 850;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nsarmoire-catalog-panel__metrics strong {
-  font-family: var(--ns-font-mono);
-  font-size: 18px;
-  line-height: 1;
-}
-
-.nsarmoire-catalog-panel__metric--success {
-  border-color: var(--ns-status-success-border);
-  background: var(--ns-status-success-bg);
-}
-
-.nsarmoire-catalog-panel__metric--warning {
-  border-color: var(--ns-status-warning-border);
-  background: var(--ns-status-warning-bg);
-}
-
-.nsarmoire-catalog-panel__metric--danger {
-  border-color: var(--ns-status-danger-border);
-  background: var(--ns-status-danger-bg);
-}
-
 .nsarmoire-catalog-panel__controls {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(180px, 240px);
@@ -247,17 +236,7 @@ function showMoreCatalogItems(): void {
 }
 
 @media (max-width: 760px) {
-  .nsarmoire-catalog-panel__metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .nsarmoire-catalog-panel__controls {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 420px) {
-  .nsarmoire-catalog-panel__metrics {
     grid-template-columns: 1fr;
   }
 }

@@ -66,6 +66,8 @@ internal sealed class LocalHttpServer
 
     private async Task HandleRequest(HttpListenerContext context)
     {
+        var shouldStop = false;
+
         try
         {
             AddCorsHeaders(context);
@@ -113,6 +115,10 @@ internal sealed class LocalHttpServer
                 case "/snapshot/refresh" when context.Request.HttpMethod == "POST":
                     await WriteJson(context, snapshotService.GetSnapshot());
                     break;
+                case "/shutdown" when context.Request.HttpMethod == "POST":
+                    await WriteJson(context, new HelperShutdownResult(true));
+                    shouldStop = true;
+                    break;
                 default:
                     await WriteJson(
                         context,
@@ -138,6 +144,11 @@ internal sealed class LocalHttpServer
         finally
         {
             context.Response.Close();
+
+            if (shouldStop)
+            {
+                _ = Task.Run(Stop);
+            }
         }
     }
 

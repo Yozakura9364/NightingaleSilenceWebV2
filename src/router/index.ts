@@ -51,6 +51,12 @@ const router = createRouter({
       component: () => import('@/pages/armoire/NSArmoirePage.vue')
     },
     {
+      path: '/ffxiv/armoire/store-review',
+      name: 'ffxiv-armoire-store-review',
+      meta: { titleKey: textKeys.nsarmoireStoreReviewTitle },
+      component: () => import('@/pages/armoire/NSArmoireStoreReviewPage.vue')
+    },
+    {
       path: '/ffxiv/term-review',
       name: 'ffxiv-term-review',
       meta: { titleKey: textKeys.ffxivTermReviewTitle },

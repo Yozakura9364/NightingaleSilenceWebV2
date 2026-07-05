@@ -50,9 +50,9 @@ import { textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
 import type {
   ArmoireBasicAnalysis,
-  ArmoireContainerDistributionEntry,
-  ArmoireContainerKind
+  ArmoireContainerDistributionEntry
 } from '@/lib/armoire/types'
+import { getArmoireContainerLabel } from '@/pages/armoire/utils/itemDisplay'
 
 const props = defineProps<{
   analysis: ArmoireBasicAnalysis | null
@@ -61,16 +61,6 @@ const props = defineProps<{
 
 const { t } = useLocale()
 const titleKey = computed(() => props.titleKey ?? textKeys.nsarmoireOverview)
-
-const containerLabelKeys: Record<ArmoireContainerKind, string> = {
-  inventory: textKeys.nsarmoireContainerInventory,
-  saddlebag: textKeys.nsarmoireContainerSaddlebag,
-  retainer: textKeys.nsarmoireContainerRetainer,
-  armoury: textKeys.nsarmoireContainerArmoury,
-  glamourDresser: textKeys.nsarmoireContainerGlamourDresser,
-  armoire: textKeys.nsarmoireContainerArmoire,
-  manual: textKeys.nsarmoireContainerManual
-}
 
 function formatText(key: string, values: Record<string, string | number>): string {
   return t(key).replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? ''))
@@ -150,8 +140,7 @@ const metrics = computed(() => {
 })
 
 function getContainerLabel(entry: ArmoireContainerDistributionEntry): string {
-  const baseLabel = t(containerLabelKeys[entry.container])
-  return entry.containerName ? `${baseLabel} / ${entry.containerName}` : baseLabel
+  return getArmoireContainerLabel(entry, t)
 }
 </script>
 

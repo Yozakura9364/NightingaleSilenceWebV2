@@ -64,13 +64,15 @@ internal sealed class CabinetMemoryReader : IDisposable
                 Status: vector.Status);
         }
 
-        var cabinetIds = GetSetBitIndexes(vector.Data);
+        var cabinetIds = GetSetBitIndexes(vector.Data)
+            .Where(cabinetId => cabinetId != 0)
+            .ToArray();
         return new CabinetReadResult(
             Located: true,
             Loaded: state == CabinetStateLoaded,
             State: state,
             ByteCount: vector.Data.Length,
-            UnlockedBitCount: cabinetIds.Count,
+            UnlockedBitCount: cabinetIds.Length,
             CabinetIds: cabinetIds,
             Status: state == CabinetStateLoaded ? "ready" : "not_loaded");
     }

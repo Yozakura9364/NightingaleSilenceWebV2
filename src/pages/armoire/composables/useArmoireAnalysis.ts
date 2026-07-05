@@ -2,6 +2,7 @@ import { computed, type Ref } from 'vue'
 import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
 import type {
   ArmoireCatalog,
+  ArmoireDyeValueCategory,
   ArmoireSnapshot,
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
@@ -16,10 +17,15 @@ function hasMissingCatalogCheck(analysis: ArmoireSnapshotAnalysis): boolean {
 
 export function useArmoireAnalysis(
   snapshot: Ref<ArmoireSnapshot | null>,
-  catalog: Ref<ArmoireCatalog>
+  catalog: Ref<ArmoireCatalog>,
+  valuableDyeCategories?: Ref<readonly ArmoireDyeValueCategory[]>
 ) {
   const analysis = computed(() =>
-    snapshot.value ? analyzeArmoireSnapshot(snapshot.value, catalog.value) : null
+    snapshot.value
+      ? analyzeArmoireSnapshot(snapshot.value, catalog.value, {
+          valuableDyeCategories: valuableDyeCategories?.value
+        })
+      : null
   )
 
   const hasPendingCatalogChecks = computed(() =>

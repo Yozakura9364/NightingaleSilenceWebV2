@@ -9,6 +9,7 @@ import {
 import type { ArmoireSnapshot } from '@/lib/armoire/types'
 
 const MAX_SNAPSHOT_FILE_BYTES = 8 * 1024 * 1024
+const SNAPSHOT_STORAGE_KEY = 'nsarmoire.latestSnapshot.v1'
 
 const errorKeyByCode: Record<ArmoireSnapshotErrorCode, string> = {
   invalidRoot: textKeys.nsarmoireSnapshotInvalidRoot,
@@ -30,6 +31,51 @@ export function useArmoireSnapshot() {
   const errorDetail = ref<string | null>(null)
   const importedFileName = ref<string | null>(null)
 
+  function readStoredSnapshot(): ArmoireSnapshot | null {
+    if (typeof window === 'undefined') {
+      return null
+    }
+
+    try {
+      const rawSnapshot = window.localStorage.getItem(SNAPSHOT_STORAGE_KEY)
+
+      if (!rawSnapshot) {
+        return null
+      }
+
+      return normalizeArmoireSnapshot(JSON.parse(rawSnapshot) as unknown)
+    } catch {
+      window.localStorage.removeItem(SNAPSHOT_STORAGE_KEY)
+      return null
+    }
+  }
+
+  function saveStoredSnapshot(nextSnapshot: ArmoireSnapshot) {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    try {
+      window.localStorage.setItem(SNAPSHOT_STORAGE_KEY, JSON.stringify(nextSnapshot))
+    } catch {
+      // Storage can fail in private mode or under quota pressure; the active import should still work.
+    }
+  }
+
+  function clearStoredSnapshot() {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    try {
+      window.localStorage.removeItem(SNAPSHOT_STORAGE_KEY)
+    } catch {
+      // Ignore storage cleanup failures.
+    }
+  }
+
+  snapshot.value = readStoredSnapshot()
+
   function importSnapshotPayload(
     payload: unknown,
     nextImportedFileName: string | null = null
@@ -41,6 +87,7 @@ export function useArmoireSnapshot() {
       const importedSnapshot = normalizeArmoireSnapshot(payload)
       snapshot.value = importedSnapshot
       importedFileName.value = nextImportedFileName
+      saveStoredSnapshot(importedSnapshot)
       return importedSnapshot
     } catch (error) {
       if (error instanceof ArmoireSnapshotError) {
@@ -83,13 +130,17 @@ export function useArmoireSnapshot() {
     errorKey.value = null
     errorDetail.value = null
     importedFileName.value = null
+    clearStoredSnapshot()
   }
 
   function loadExampleSnapshot() {
-    snapshot.value = createExampleArmoireSnapshot()
+    const exampleSnapshot = createExampleArmoireSnapshot()
+
+    snapshot.value = exampleSnapshot
     errorKey.value = null
     errorDetail.value = null
     importedFileName.value = null
+    saveStoredSnapshot(exampleSnapshot)
   }
 
   return {

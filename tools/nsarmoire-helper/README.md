@@ -43,5 +43,6 @@ http://127.0.0.1:8015
 | `GET` | `/snapshot` | Read current available containers as `nsarmoire.snapshot.v1`. |
 | `POST` | `/snapshot/refresh` | Read current available containers again. |
 | `GET` | `/open-v2` | Open the configured V2 NSArmoire page in the system browser. |
+| `POST` | `/shutdown` | Stop the helper process after the response is sent. |
 
 The helper intentionally does not expose local game paths, process paths, stack traces, tokens, or cookies in API errors.

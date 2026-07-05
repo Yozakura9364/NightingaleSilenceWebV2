@@ -146,6 +146,12 @@ export async function refreshArmoireHelperSnapshot(): Promise<ArmoireSnapshot> {
   )
 }
 
+export async function shutdownArmoireHelper(): Promise<void> {
+  await requestHelperJson<unknown>('/shutdown', {
+    method: 'POST'
+  })
+}
+
 function normalizeHelperSnapshot(payload: unknown): ArmoireSnapshot {
   try {
     return normalizeArmoireSnapshot(payload)

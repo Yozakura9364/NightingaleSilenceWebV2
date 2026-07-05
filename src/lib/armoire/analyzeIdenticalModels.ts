@@ -2,10 +2,22 @@ import { getIdenticalModelGroups, hasIdenticalModelCatalog } from '@/lib/armoire
 import { buildOwnedIndex, getOwnedItems } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireCatalog,
+  ArmoireContainerKind,
   ArmoireIdenticalModelAnalysis,
   ArmoireIdenticalModelGroupState,
+  ArmoireOwnedItem,
   ArmoireSnapshot
 } from '@/lib/armoire/types'
+
+const NO_SPACE_COST_CONTAINERS = new Set<ArmoireContainerKind>(['armoire'])
+
+function hasStorageSpaceCost(item: ArmoireOwnedItem): boolean {
+  return !NO_SPACE_COST_CONTAINERS.has(item.container)
+}
+
+function isArmoireEntry(item: ArmoireOwnedItem): boolean {
+  return item.container === 'armoire'
+}
 
 export function analyzeIdenticalModels(
   snapshot: ArmoireSnapshot,
@@ -24,19 +36,43 @@ export function analyzeIdenticalModels(
   const groups: ArmoireIdenticalModelGroupState[] = getIdenticalModelGroups(catalog)
     .map((group) => {
       const ownedItemIds = group.itemIds.filter((itemId) => index.itemIds.has(itemId))
+      const armoireItemIds = ownedItemIds.filter((itemId) =>
+        getOwnedItems(index, itemId).some(isArmoireEntry)
+      )
+      const storageSpaceItemIds = ownedItemIds.filter((itemId) =>
+        getOwnedItems(index, itemId).some(hasStorageSpaceCost)
+      )
       const ownedEntryCount = ownedItemIds.reduce(
         (count, itemId) => count + getOwnedItems(index, itemId).length,
+        0
+      )
+      const armoireEntryCount = armoireItemIds.reduce(
+        (count, itemId) =>
+          count + getOwnedItems(index, itemId).filter(isArmoireEntry).length,
+        0
+      )
+      const storageSpaceEntryCount = storageSpaceItemIds.reduce(
+        (count, itemId) =>
+          count + getOwnedItems(index, itemId).filter(hasStorageSpaceCost).length,
         0
       )
 
       return {
         key: group.key,
         ownedItemIds,
-        ownedEntryCount
+        ownedEntryCount,
+        armoireItemIds,
+        armoireEntryCount,
+        storageSpaceItemIds,
+        storageSpaceEntryCount
       }
     })
-    .filter((group) => group.ownedItemIds.length > 1)
+    .filter((group) => group.ownedItemIds.length > 1 && group.storageSpaceItemIds.length > 0)
     .sort((left, right) => {
+      if (right.storageSpaceEntryCount !== left.storageSpaceEntryCount) {
+        return right.storageSpaceEntryCount - left.storageSpaceEntryCount
+      }
+
       if (right.ownedEntryCount !== left.ownedEntryCount) {
         return right.ownedEntryCount - left.ownedEntryCount
       }

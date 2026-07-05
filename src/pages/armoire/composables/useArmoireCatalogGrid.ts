@@ -1,5 +1,6 @@
 import { computed, type Ref } from 'vue'
 import { textKeys } from '@/config/site'
+import { isArmoireAppearanceItem } from '@/lib/armoire/filterSnapshot'
 import type {
   ArmoireCatalog,
   ArmoireContainerKind,
@@ -18,13 +19,7 @@ import {
 type Translate = (key: string) => string
 
 export type ArmoireCatalogGridFilter =
-  | 'all'
-  | 'cabinet'
-  | 'duplicateItems'
-  | 'duplicateModels'
-  | 'dyed'
-  | 'glamourDresser'
-  | 'armoire'
+  'all' | 'cabinet' | 'duplicateItems' | 'duplicateModels' | 'glamourDresser' | 'armoire'
 
 export type ArmoireCatalogGridSort = 'risk' | 'container' | 'name'
 
@@ -56,13 +51,6 @@ export interface ArmoireCatalogGridFilterOption {
   key: ArmoireCatalogGridFilter
   label: string
   count: number
-}
-
-export interface ArmoireCatalogMetricView {
-  key: string
-  label: string
-  value: number
-  tone: 'neutral' | 'success' | 'warning' | 'danger'
 }
 
 interface CatalogGridSource {
@@ -109,7 +97,7 @@ function createDuplicateModelItemIds(analysis: ArmoireSnapshotAnalysis | null): 
     return new Set()
   }
 
-  return createIdSet(analysis.identicalModels.groups.flatMap((group) => group.ownedItemIds))
+  return createIdSet(analysis.identicalModels.groups.flatMap((group) => group.storageSpaceItemIds))
 }
 
 function createTransferableItemIds(analysis: ArmoireSnapshotAnalysis | null): Set<number> {
@@ -118,18 +106,6 @@ function createTransferableItemIds(analysis: ArmoireSnapshotAnalysis | null): Se
   }
 
   return createIdSet(analysis.cabinetProgress.transferableItemIds)
-}
-
-function createClearDyeRiskItemIds(analysis: ArmoireSnapshotAnalysis | null): Set<number> {
-  if (!analysis) {
-    return new Set()
-  }
-
-  return createIdSet(
-    analysis.dyeRisk.items
-      .filter((item) => item.clearsDyeOnStorage)
-      .map((item) => item.itemId)
-  )
 }
 
 function matchesContainer(item: ArmoireOwnedItem, container: ArmoireContainerKind): boolean {
@@ -218,10 +194,11 @@ export function useArmoireCatalogGrid(
   const transferableItemIds = computed(() => createTransferableItemIds(source.analysis))
   const duplicateItemIds = computed(() => createDuplicateItemIds(source.analysis))
   const duplicateModelItemIds = computed(() => createDuplicateModelItemIds(source.analysis))
-  const clearDyeRiskItemIds = computed(() => createClearDyeRiskItemIds(source.analysis))
 
   const items = computed<ArmoireCatalogCardView[]>(() =>
-    createCatalogItemGroups(source.snapshot?.items ?? []).map((group) => {
+    createCatalogItemGroups(
+      (source.snapshot?.items ?? []).filter((item) => isArmoireAppearanceItem(source.catalog, item))
+    ).map((group) => {
       const filterKeys = new Set<ArmoireCatalogGridFilter>(['all'])
       const tags: ArmoireCatalogCardTagView[] = []
       const groupItems = group.entries
@@ -250,15 +227,6 @@ export function useArmoireCatalogGrid(
           key: 'duplicate-models',
           label: t(textKeys.nsarmoireRecommendationDuplicates),
           tone: 'warning'
-        })
-      }
-
-      if (clearDyeRiskItemIds.value.has(group.itemId)) {
-        filterKeys.add('dyed')
-        tags.push({
-          key: 'dyed',
-          label: t(textKeys.nsarmoireRecommendationDyes),
-          tone: 'danger'
         })
       }
 
@@ -323,7 +291,6 @@ export function useArmoireCatalogGrid(
       { key: 'cabinet', labelKey: textKeys.nsarmoireCatalogFilterCabinet },
       { key: 'duplicateItems', labelKey: textKeys.nsarmoireCatalogFilterDuplicateItems },
       { key: 'duplicateModels', labelKey: textKeys.nsarmoireCatalogFilterDuplicateModels },
-      { key: 'dyed', labelKey: textKeys.nsarmoireCatalogFilterDyed },
       { key: 'glamourDresser', labelKey: textKeys.nsarmoireCatalogFilterGlamourDresser },
       { key: 'armoire', labelKey: textKeys.nsarmoireCatalogFilterArmoire }
     ]
@@ -348,46 +315,9 @@ export function useArmoireCatalogGrid(
     { key: 'name' as const, label: t(textKeys.nsarmoireCatalogSortName) }
   ])
 
-  const resultMetrics = computed<ArmoireCatalogMetricView[]>(() => {
-    const currentItems = filteredItems.value
-    const duplicateCount = currentItems.filter(
-      (item) => item.filterKeys.has('duplicateItems') || item.filterKeys.has('duplicateModels')
-    ).length
-    const dyedCount = currentItems.filter((item) => item.filterKeys.has('dyed')).length
-    const actionItemCount = currentItems.filter((item) => item.tags.length > 0).length
-
-    return [
-      {
-        key: 'visible',
-        label: t(textKeys.nsarmoireCatalogMetricVisible),
-        value: currentItems.length,
-        tone: 'neutral'
-      },
-      {
-        key: 'action-items',
-        label: t(textKeys.nsarmoireCatalogMetricActionItems),
-        value: actionItemCount,
-        tone: actionItemCount > 0 ? 'warning' : 'success'
-      },
-      {
-        key: 'dyed',
-        label: t(textKeys.nsarmoireCatalogMetricDyed),
-        value: dyedCount,
-        tone: dyedCount > 0 ? 'warning' : 'success'
-      },
-      {
-        key: 'duplicates',
-        label: t(textKeys.nsarmoireCatalogMetricDuplicates),
-        value: duplicateCount,
-        tone: duplicateCount > 0 ? 'warning' : 'success'
-      }
-    ]
-  })
-
   return {
     filterOptions,
     filteredItems,
-    resultMetrics,
     sortOptions,
     summary,
     totalItemCount: computed(() => items.value.length)
