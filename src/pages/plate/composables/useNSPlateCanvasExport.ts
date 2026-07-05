@@ -7,13 +7,13 @@ import {
   createNameplateLayeredExportPayload,
   downloadPlateLayeredZip
 } from '@/lib/plate/layeredExport'
+import type { NSPlateLayeredExportDataSource } from '@/lib/plate/dataSource'
 import type { NSPlateNameplateRenderPlan } from '@/lib/plate/render'
 import type { NSPlateLayeredExportPayload } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
-import { useNSPlateApi } from '@/pages/plate/services/nsplateApi'
 
 interface UseNSPlateCanvasExportOptions {
-  apiBase: string
+  layeredExportDataSource?: NSPlateLayeredExportDataSource
   canvasRef: Ref<HTMLCanvasElement | null>
   renderPlan: ComputedRef<NSPlateNameplateRenderPlan>
   isCanvasReady: Ref<boolean>
@@ -22,7 +22,6 @@ interface UseNSPlateCanvasExportOptions {
 
 export function useNSPlateCanvasExport(options: UseNSPlateCanvasExportOptions) {
   const { t } = useLocale()
-  const plateApi = useNSPlateApi(options.apiBase)
   const isExporting = ref(false)
   const exportErrorText = ref('')
   const canExport = computed(() => options.isCanvasReady.value && !isExporting.value)
@@ -90,7 +89,11 @@ export function useNSPlateCanvasExport(options: UseNSPlateCanvasExportOptions) {
     try {
       return await createLayeredZipBlobOnClient(payload)
     } catch {
-      return plateApi.exportLayeredZip(payload)
+      if (!options.layeredExportDataSource?.exportLayeredZip) {
+        throw new Error('layered-zip-export-unavailable')
+      }
+
+      return options.layeredExportDataSource.exportLayeredZip(payload)
     }
   }
 

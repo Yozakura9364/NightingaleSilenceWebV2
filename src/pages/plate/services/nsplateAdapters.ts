@@ -1,4 +1,5 @@
 import { textKeys } from '@/config/site'
+import { joinNSPlateResourceUrl, normalizeNSPlateResourcePath } from '@/lib/plate/assetUrls'
 import {
   NSPLATE_NAMEPLATE_CATEGORIES,
   NSPLATE_PORTRAIT_CATEGORIES,
@@ -104,7 +105,7 @@ function normalizeAssetList(
 ): NSPlateAssetSummary[] {
   return assets.map((asset, index) => {
     const file = normalizeText(asset.file) ?? ''
-    const path = normalizeResourcePath(asset.path ?? file)
+    const path = normalizeNSPlateResourcePath(asset.path ?? file)
     const stableIdPart =
       normalizeText(asset.id) ?? normalizeText(path) ?? normalizeText(file) ?? String(index)
     const legacyIdPart = normalizeText(asset.id) ?? normalizeText(file) ?? normalizeText(path) ?? ''
@@ -125,8 +126,8 @@ function normalizeAssetList(
       label,
       file,
       path,
-      imageUrl: joinResourceUrl(meta?.imgBase, path),
-      previewUrl: joinResourceUrl(meta?.previewImgBase, path),
+      imageUrl: joinNSPlateResourceUrl(meta?.imgBase, path),
+      previewUrl: joinNSPlateResourceUrl(meta?.previewImgBase, path),
       raw: asset
     }
   })
@@ -172,41 +173,4 @@ function pickAssetCategoryLabel(category: string, locale: string) {
 function normalizeText(value: unknown) {
   const text = String(value ?? '').trim()
   return text || undefined
-}
-
-function normalizeResourcePath(path: unknown) {
-  return String(path ?? '')
-    .trim()
-    .replace(/\\/g, '/')
-    .replace(/^\/+/, '')
-}
-
-function normalizeResourceBase(base: string | null | undefined) {
-  const trimmed = String(base ?? '')
-    .trim()
-    .replace(/\/+$/, '')
-
-  if (!trimmed) {
-    return undefined
-  }
-
-  if (/^https?:\/\//i.test(trimmed) || trimmed.startsWith('//')) {
-    return trimmed
-  }
-
-  return trimmed.replace(/^\/portable(?=\/|$)/i, '')
-}
-
-function joinResourceUrl(base: string | null | undefined, path: string) {
-  const normalizedBase = normalizeResourceBase(base)
-
-  if (!normalizedBase || !path) {
-    return undefined
-  }
-
-  if (/^https?:\/\//i.test(path) || path.startsWith('//')) {
-    return path
-  }
-
-  return `${normalizedBase}/${path.replace(/^\/+/, '')}`
 }

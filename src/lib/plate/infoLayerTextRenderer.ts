@@ -1,7 +1,8 @@
 import type {
   NSPlateInfoTextAlign,
   NSPlateInfoTextRenderLayer
-} from '@/lib/plate/infoLayerRenderDefinitions'
+} from '@/lib/plate/infoLayerRenderTypes'
+import { normalizeNSPlateResourcePath, resolveNSPlateImageUrl } from '@/lib/plate/assetUrls'
 
 interface NSPlateInfoTextLayoutRow {
   text: string
@@ -492,18 +493,11 @@ function resolveInfoTextInlineIcon(layer: NSPlateInfoTextRenderLayer) {
 }
 
 function normalizeInfoTextInlineIconPath(value: unknown) {
-  return String(value ?? '')
-    .trim()
-    .replace(/\\/g, '/')
-    .replace(/^\/+/, '')
+  return normalizeNSPlateResourcePath(value)
 }
 
 function resolveInfoTextInlineIconUrl(path: string) {
-  return isAbsoluteInfoTextImageUrl(path) ? path : `/img/${path}`
-}
-
-function isAbsoluteInfoTextImageUrl(value: string) {
-  return /^(https?:)?\/\//i.test(value) || /^data:/i.test(value) || /^blob:/i.test(value)
+  return resolveNSPlateImageUrl(path)
 }
 
 function isWorldTransrateInlineIconPath(value: string) {

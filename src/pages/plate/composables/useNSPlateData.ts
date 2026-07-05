@@ -9,7 +9,7 @@ import {
   toggleAssetInSelection,
   type NSPlateAssetSelectionMap
 } from '@/lib/plate/draft'
-import type { ApiBoundary } from '@/services/apiBoundaries'
+import type { NSPlateCatalogDataSource } from '@/lib/plate/dataSource'
 import type {
   NSPlateAssetGroup,
   NSPlateAssetSummary,
@@ -20,11 +20,9 @@ import type {
   NSPlatePresetsResponse
 } from '@/lib/plate/types'
 import { normalizeFiles, normalizePresets } from '@/pages/plate/services/nsplateAdapters'
-import { useNSPlateApi } from '@/pages/plate/services/nsplateApi'
 
-export function useNSPlateData(boundary: ApiBoundary) {
+export function useNSPlateData(dataSource: NSPlateCatalogDataSource) {
   const { current } = useLocale()
-  const api = useNSPlateApi(boundary.apiBase)
 
   const isLoading = ref(false)
   const errorText = ref<string | null>(null)
@@ -62,7 +60,10 @@ export function useNSPlateData(boundary: ApiBoundary) {
     errorText.value = null
 
     try {
-      const [nextPresets, nextFiles] = await Promise.all([api.fetchPresets(), api.fetchFiles()])
+      const [nextPresets, nextFiles] = await Promise.all([
+        dataSource.fetchPresets(),
+        dataSource.fetchFiles()
+      ])
       presetsResponse.value = nextPresets
       filesResponse.value = nextFiles
     } catch (error) {
