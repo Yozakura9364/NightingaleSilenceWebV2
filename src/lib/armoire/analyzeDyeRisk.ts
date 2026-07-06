@@ -1,7 +1,8 @@
 import { isDyedOwnedItem } from '@/lib/armoire/buildOwnedIndex'
-import { getArmoireDyeValueCategories } from '@/lib/armoire/dyeValue'
+import { getArmoireDyeValueCategory } from '@/lib/armoire/dyeValue'
 import type {
   ArmoireCatalog,
+  ArmoireDyeValueCategory,
   ArmoireDyeRiskOptions,
   ArmoireDyeResetReason,
   ArmoireDyeRiskAnalysis,
@@ -11,6 +12,12 @@ import type {
   ArmoireSnapshot
 } from '@/lib/armoire/types'
 import { DEFAULT_ARMOIRE_VALUABLE_DYE_CATEGORIES } from '@/lib/armoire/types'
+
+interface DyeRiskContext {
+  cabinetItemIds: ReadonlySet<number>
+  glamourSetPieceItemIds: ReadonlySet<number>
+  valuableDyeCategories: ReadonlySet<ArmoireDyeValueCategory>
+}
 
 function getDyedSlotCount(item: ArmoireOwnedItem): number {
   return item.dyes?.filter((dyeId) => dyeId > 0).length ?? 0
@@ -34,10 +41,14 @@ function buildGlamourSetPieceItemIds(catalog: ArmoireCatalog): Set<number> {
   return itemIds
 }
 
-function isCabinetStorable(item: ArmoireOwnedItem, catalog: ArmoireCatalog): boolean {
+function isCabinetStorable(
+  item: ArmoireOwnedItem,
+  catalog: ArmoireCatalog,
+  cabinetItemIds: ReadonlySet<number>
+): boolean {
   return (
     item.container === 'armoire' ||
-    catalog.cabinetItemIds.includes(item.itemId) ||
+    cabinetItemIds.has(item.itemId) ||
     catalog.items[item.itemId]?.isCabinetStorable === true
   )
 }
@@ -45,46 +56,61 @@ function isCabinetStorable(item: ArmoireOwnedItem, catalog: ArmoireCatalog): boo
 function getDyeResetReasons(
   item: ArmoireOwnedItem,
   catalog: ArmoireCatalog,
-  glamourSetPieceItemIds: Set<number>
+  context: DyeRiskContext
 ): ArmoireDyeResetReason[] {
   const reasons: ArmoireDyeResetReason[] = []
 
-  if (isCabinetStorable(item, catalog)) {
+  if (isCabinetStorable(item, catalog, context.cabinetItemIds)) {
     reasons.push('cabinetStorage')
   }
 
-  if (glamourSetPieceItemIds.has(item.itemId)) {
+  if (context.glamourSetPieceItemIds.has(item.itemId)) {
     reasons.push('glamourSetBasket')
   }
 
   return reasons.length > 0 ? reasons : ['preservedStorage']
 }
 
+function getDyeRiskCategories(
+  dyeIds: readonly number[],
+  catalog: ArmoireCatalog,
+  valuableDyeCategories: ReadonlySet<ArmoireDyeValueCategory>
+): Pick<ArmoireDyeRiskItem, 'valuableDyeIds' | 'valuableDyeCategories' | 'hasValuableDye'> {
+  const matchedDyeCategories = new Set<ArmoireDyeValueCategory>()
+  const valuableDyeIds: number[] = []
+
+  for (const dyeId of dyeIds) {
+    if (dyeId <= 0) {
+      continue
+    }
+
+    const category = getArmoireDyeValueCategory(dyeId, catalog)
+
+    if (!category || !valuableDyeCategories.has(category)) {
+      continue
+    }
+
+    matchedDyeCategories.add(category)
+    valuableDyeIds.push(dyeId)
+  }
+
+  return {
+    valuableDyeIds,
+    valuableDyeCategories: Array.from(matchedDyeCategories),
+    hasValuableDye: valuableDyeIds.length > 0
+  }
+}
+
 function toDyeRiskItem(
   item: ArmoireOwnedItem,
   catalog: ArmoireCatalog,
-  glamourSetPieceItemIds: Set<number>,
-  valuableDyeCategories: Set<string>
+  context: DyeRiskContext
 ): ArmoireDyeRiskItem {
   const dyeIds = item.dyes ?? [0, 0]
   const dyedSlotCount = getDyedSlotCount(item)
-  const resetReasons = getDyeResetReasons(item, catalog, glamourSetPieceItemIds)
+  const resetReasons = getDyeResetReasons(item, catalog, context)
   const clearsDyeOnStorage = resetReasons.some((reason) => reason !== 'preservedStorage')
-  const itemDyeCategories = getArmoireDyeValueCategories(dyeIds, catalog)
-  const matchedDyeCategories = itemDyeCategories.filter((category) =>
-    valuableDyeCategories.has(category)
-  )
-  const matchedDyeCategorySet = new Set(matchedDyeCategories)
-  const valuableDyeIds = dyeIds.filter((dyeId) => {
-    if (dyeId <= 0) {
-      return false
-    }
-
-    return getArmoireDyeValueCategories([dyeId], catalog).some((category) =>
-      valuableDyeCategories.has(category)
-    )
-  })
-  const hasValuableDye = valuableDyeIds.length > 0
+  const dyeRiskCategories = getDyeRiskCategories(dyeIds, catalog, context.valuableDyeCategories)
 
   return {
     itemId: item.itemId,
@@ -92,12 +118,10 @@ function toDyeRiskItem(
     containerName: item.containerName,
     dyeIds,
     dyedSlotCount,
-    valuableDyeIds,
-    valuableDyeCategories: Array.from(matchedDyeCategorySet),
-    hasValuableDye,
+    ...dyeRiskCategories,
     clearsDyeOnStorage,
     resetReasons,
-    riskLevel: getRiskLevel(clearsDyeOnStorage, hasValuableDye)
+    riskLevel: getRiskLevel(clearsDyeOnStorage, dyeRiskCategories.hasValuableDye)
   }
 }
 
@@ -106,14 +130,30 @@ export function analyzeDyeRisk(
   catalog: ArmoireCatalog,
   options: ArmoireDyeRiskOptions = {}
 ): ArmoireDyeRiskAnalysis {
-  const glamourSetPieceItemIds = buildGlamourSetPieceItemIds(catalog)
   const selectedValuableDyeCategories = [
     ...(options.valuableDyeCategories ?? DEFAULT_ARMOIRE_VALUABLE_DYE_CATEGORIES)
   ]
-  const valuableDyeCategories = new Set<string>(selectedValuableDyeCategories)
-  const items = snapshot.items
-    .filter(isDyedOwnedItem)
-    .map((item) => toDyeRiskItem(item, catalog, glamourSetPieceItemIds, valuableDyeCategories))
+  const dyedItems = snapshot.items.filter(isDyedOwnedItem)
+
+  if (dyedItems.length === 0) {
+    return {
+      riskItemCount: 0,
+      clearDyeRiskItemCount: 0,
+      valuableDyeRiskItemCount: 0,
+      valuableClearDyeRiskItemCount: 0,
+      highRiskItemCount: 0,
+      selectedValuableDyeCategories,
+      items: []
+    }
+  }
+
+  const context: DyeRiskContext = {
+    cabinetItemIds: new Set(catalog.cabinetItemIds),
+    glamourSetPieceItemIds: buildGlamourSetPieceItemIds(catalog),
+    valuableDyeCategories: new Set(selectedValuableDyeCategories)
+  }
+  const items = dyedItems
+    .map((item) => toDyeRiskItem(item, catalog, context))
     .sort((left, right) => {
       if (Number(right.riskLevel === 'danger') !== Number(left.riskLevel === 'danger')) {
         return Number(right.riskLevel === 'danger') - Number(left.riskLevel === 'danger')

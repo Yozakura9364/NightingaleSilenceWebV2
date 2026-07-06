@@ -1,10 +1,5 @@
 import { hasCabinetCatalog } from '@/lib/armoire/catalog'
-import {
-  getOwnedItems,
-  hasOwnedItem,
-  hasOwnedItemInContainer,
-  isDyedOwnedItem
-} from '@/lib/armoire/buildOwnedIndex'
+import { getOwnedItems, isDyedOwnedItem } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireCabinetProgress,
   ArmoireCatalog,
@@ -29,22 +24,50 @@ export function analyzeCabinetProgress(
     }
   }
 
-  const cabinetItemIds = Array.from(new Set(catalog.cabinetItemIds)).sort((left, right) => left - right)
-  const storedItemIds = cabinetItemIds.filter((itemId) =>
-    hasOwnedItemInContainer(index, itemId, 'armoire')
+  const cabinetItemIds = Array.from(new Set(catalog.cabinetItemIds)).sort(
+    (left, right) => left - right
   )
-  const ownedCabinetItemIds = cabinetItemIds.filter(
-    (itemId) => hasOwnedItem(index, itemId) && !hasOwnedItemInContainer(index, itemId, 'armoire')
-  )
-  const dyedOwnedCabinetItemIds = ownedCabinetItemIds.filter((itemId) =>
-    getOwnedItems(index, itemId).some(isDyedOwnedItem)
-  )
-  const transferableItemIds = ownedCabinetItemIds.filter((itemId) =>
-    getOwnedItems(index, itemId).some((item) => !isDyedOwnedItem(item))
-  )
-  const missingCabinetItemIds = cabinetItemIds.filter(
-    (itemId) => !hasOwnedItemInContainer(index, itemId, 'armoire')
-  )
+  const storedItemIds: number[] = []
+  const ownedCabinetItemIds: number[] = []
+  const dyedOwnedCabinetItemIds: number[] = []
+  const transferableItemIds: number[] = []
+  const missingCabinetItemIds: number[] = []
+
+  for (const itemId of cabinetItemIds) {
+    const ownedItems = getOwnedItems(index, itemId)
+    const isStoredInArmoire = ownedItems.some((item) => item.container === 'armoire')
+
+    if (isStoredInArmoire) {
+      storedItemIds.push(itemId)
+    } else {
+      missingCabinetItemIds.push(itemId)
+    }
+
+    if (ownedItems.length === 0 || isStoredInArmoire) {
+      continue
+    }
+
+    ownedCabinetItemIds.push(itemId)
+
+    let hasDyedItem = false
+    let hasUndyedItem = false
+
+    for (const item of ownedItems) {
+      if (isDyedOwnedItem(item)) {
+        hasDyedItem = true
+      } else {
+        hasUndyedItem = true
+      }
+    }
+
+    if (hasDyedItem) {
+      dyedOwnedCabinetItemIds.push(itemId)
+    }
+
+    if (hasUndyedItem) {
+      transferableItemIds.push(itemId)
+    }
+  }
 
   return {
     status: 'ready',

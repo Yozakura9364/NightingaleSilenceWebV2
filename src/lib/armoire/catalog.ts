@@ -33,6 +33,27 @@ export function hasIdenticalModelCatalog(catalog: ArmoireCatalog): boolean {
   return getIdenticalModelGroups(catalog).length > 0
 }
 
+export function isEmptyArmoireCatalog(catalog: ArmoireCatalog): boolean {
+  if (
+    catalog.cabinetItemIds.length > 0 ||
+    (catalog.cabinetEntries?.length ?? 0) > 0 ||
+    catalog.glamourSetItems.length > 0 ||
+    catalog.identicalGroups.length > 0
+  ) {
+    return false
+  }
+
+  for (const _itemId in catalog.items) {
+    return false
+  }
+
+  for (const _dyeId in catalog.dyes) {
+    return false
+  }
+
+  return true
+}
+
 function getMergedGeneratedAt(catalogs: ArmoireCatalog[]): string {
   const generatedAtValues = catalogs
     .map((catalog) => catalog.generatedAt)
@@ -83,19 +104,27 @@ function mergeGlamourSetItems(catalogs: ArmoireCatalog[]): ArmoireGlamourSet[] {
 }
 
 export function mergeArmoireCatalogs(...catalogs: ArmoireCatalog[]): ArmoireCatalog {
-  if (catalogs.length === 0) {
+  const nonEmptyCatalogs = catalogs.filter((catalog) => !isEmptyArmoireCatalog(catalog))
+
+  if (nonEmptyCatalogs.length === 0) {
     return EMPTY_ARMOIRE_CATALOG
+  }
+
+  if (nonEmptyCatalogs.length === 1) {
+    return nonEmptyCatalogs[0]
   }
 
   return {
     schemaVersion: ARMOIRE_CATALOG_SCHEMA_VERSION,
-    generatedAt: getMergedGeneratedAt(catalogs),
-    items: mergeCatalogItems(catalogs),
-    cabinetItemIds: uniqueSortedNumbers(catalogs.flatMap((catalog) => catalog.cabinetItemIds)),
-    cabinetEntries: catalogs.flatMap((catalog) => catalog.cabinetEntries ?? []),
-    glamourSetItems: mergeGlamourSetItems(catalogs),
-    identicalGroups: catalogs.flatMap((catalog) => catalog.identicalGroups),
-    dyes: Object.assign({}, ...catalogs.map((catalog) => catalog.dyes))
+    generatedAt: getMergedGeneratedAt(nonEmptyCatalogs),
+    items: mergeCatalogItems(nonEmptyCatalogs),
+    cabinetItemIds: uniqueSortedNumbers(
+      nonEmptyCatalogs.flatMap((catalog) => catalog.cabinetItemIds)
+    ),
+    cabinetEntries: nonEmptyCatalogs.flatMap((catalog) => catalog.cabinetEntries ?? []),
+    glamourSetItems: mergeGlamourSetItems(nonEmptyCatalogs),
+    identicalGroups: nonEmptyCatalogs.flatMap((catalog) => catalog.identicalGroups),
+    dyes: Object.assign({}, ...nonEmptyCatalogs.map((catalog) => catalog.dyes))
   }
 }
 
