@@ -72,6 +72,18 @@
             </option>
           </select>
         </AppField>
+
+        <AppField
+          :label="t(textKeys.nsarmoireStoreReviewTagFilterLabel)"
+          for-id="nsarmoire-store-review-tag-filter"
+          density="compact"
+        >
+          <select id="nsarmoire-store-review-tag-filter" v-model="selectedTagFilter">
+            <option v-for="option in tagFilterOptions" :key="option.value" :value="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </AppField>
       </section>
 
       <AppStatus
@@ -86,11 +98,12 @@
           v-for="outfit in visibleOutfits"
           :key="outfit.id"
           class="nsarmoire-store-review__row"
-          :class="{
-            'nsarmoire-store-review__row--edited': isEdited(outfit.id),
-            'nsarmoire-store-review__row--corrected': isCorrected(outfit.id),
-            'nsarmoire-store-review__row--needs-mapping': isNeedsMapping(outfit)
-          }"
+            :class="{
+              'nsarmoire-store-review__row--edited': isEdited(outfit.id),
+              'nsarmoire-store-review__row--corrected': isCorrected(outfit.id),
+              'nsarmoire-store-review__row--excluded': isExcluded(outfit.id),
+              'nsarmoire-store-review__row--needs-mapping': isNeedsMapping(outfit)
+            }"
         >
           <section class="nsarmoire-store-review__outfit">
             <div class="nsarmoire-store-review__cover">
@@ -115,9 +128,67 @@
                 <span v-if="outfit.skuId">{{ outfit.skuId }}</span>
                 <span v-if="outfit.mappingSource">{{ outfit.mappingSource }}</span>
               </div>
-              <ul v-if="getTagLabels(outfit).length > 0" class="nsarmoire-store-review__tags">
-                <li v-for="tag in getTagLabels(outfit)" :key="tag">{{ tag }}</li>
-              </ul>
+              <div class="nsarmoire-store-review__tag-editor">
+                <span class="nsarmoire-store-review__tag-editor-label">
+                  {{ t(textKeys.nsarmoireStoreReviewTagsLabel) }}
+                </span>
+                <div class="nsarmoire-store-review__tag-chip-list">
+                  <button
+                    v-for="tag in getMergedTags(outfit)"
+                    :key="tag"
+                    type="button"
+                    class="nsarmoire-store-review__tag-chip"
+                    @click="removeStoreTag(outfit, tag)"
+                  >
+                    {{ getStoreTagLabel(tag) }}
+                  </button>
+                  <button
+                    v-for="tag in getMergedDetailTags(outfit)"
+                    :key="tag"
+                    type="button"
+                    class="nsarmoire-store-review__tag-chip nsarmoire-store-review__tag-chip--detail"
+                    @click="removeDetailTag(outfit, tag)"
+                  >
+                    {{ getStoreDetailTagLabel(tag) }}
+                  </button>
+                </div>
+                <div class="nsarmoire-store-review__tag-selects">
+                  <select
+                    :value="''"
+                    :disabled="getAvailableStoreTagOptions(outfit).length === 0"
+                    :aria-label="t(textKeys.nsarmoireStoreReviewTagsLabel)"
+                    @change="addStoreTagFromEvent(outfit, $event)"
+                  >
+                    <option disabled value="">
+                      {{ t(textKeys.nsarmoireStoreReviewTagsLabel) }}
+                    </option>
+                    <option
+                      v-for="option in getAvailableStoreTagOptions(outfit)"
+                      :key="option.value"
+                      :value="option.value"
+                    >
+                      {{ option.label }}
+                    </option>
+                  </select>
+                  <select
+                    :value="''"
+                    :disabled="getAvailableStoreDetailTagOptions(outfit).length === 0"
+                    :aria-label="t(textKeys.nsarmoireStoreReviewDetailTagsLabel)"
+                    @change="addDetailTagFromEvent(outfit, $event)"
+                  >
+                    <option disabled value="">
+                      {{ t(textKeys.nsarmoireStoreReviewDetailTagsLabel) }}
+                    </option>
+                    <option
+                      v-for="option in getAvailableStoreDetailTagOptions(outfit)"
+                      :key="option.value"
+                      :value="option.value"
+                    >
+                      {{ option.label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -155,6 +226,57 @@
             <span v-else class="nsarmoire-store-review__empty">
               {{ t(textKeys.nsarmoireStoreReviewNoItems) }}
             </span>
+
+            <div
+              v-if="getCandidateViews(outfit).length > 0"
+              class="nsarmoire-store-review__candidates"
+            >
+              <span class="nsarmoire-store-review__candidate-label">
+                {{ t(textKeys.nsarmoireStoreReviewCandidateItems) }}
+              </span>
+              <div class="nsarmoire-store-review__candidate-list">
+                <div
+                  v-for="candidate in getCandidateViews(outfit)"
+                  :key="candidate.itemId"
+                  class="nsarmoire-store-review__candidate-group"
+                >
+                  <button
+                    type="button"
+                    class="nsarmoire-store-review__candidate"
+                    :disabled="candidate.isAdded"
+                    :aria-label="
+                      formatArmoireText(t, textKeys.nsarmoireStoreReviewCandidateAdd, {
+                        item: candidate.name
+                      })
+                    "
+                    @click="addDraftItemId(outfit, candidate.itemId)"
+                  >
+                    <span class="nsarmoire-store-review__item-fallback" aria-hidden="true" />
+                    <span>{{ candidate.name }}</span>
+                    <span>#{{ candidate.itemId }}</span>
+                    <span
+                      v-if="candidate.pieceItemIds.length > 0"
+                      class="nsarmoire-store-review__candidate-piece-count"
+                    >
+                      {{
+                        formatArmoireText(t, textKeys.nsarmoireStoreReviewCandidatePieceCount, {
+                          count: candidate.pieceItemIds.length
+                        })
+                      }}
+                    </span>
+                  </button>
+                  <button
+                    v-if="candidate.pieceItemIds.length > 0"
+                    type="button"
+                    class="nsarmoire-store-review__candidate-pieces"
+                    :disabled="candidate.arePiecesAdded"
+                    @click="addDraftItemIds(outfit, candidate.pieceItemIds)"
+                  >
+                    {{ t(textKeys.nsarmoireStoreReviewCandidateAddPieces) }}
+                  </button>
+                </div>
+              </div>
+            </div>
 
             <div class="nsarmoire-store-review__add-item">
               <label :for="getItemInputId(outfit.id)">
@@ -227,6 +349,12 @@
               {{ t(textKeys.nsarmoireStoreReviewFilterEdited) }}
             </span>
             <span
+              v-if="isExcluded(outfit.id)"
+              class="nsarmoire-store-review__badge nsarmoire-store-review__badge--excluded"
+            >
+              {{ t(textKeys.nsarmoireStoreReviewStatusExcluded) }}
+            </span>
+            <span
               class="nsarmoire-store-review__badge"
               :class="
                 isCorrected(outfit.id)
@@ -255,6 +383,19 @@
                 )
               }}
             </button>
+            <button
+              type="button"
+              class="nsarmoire-store-review__state-action nsarmoire-store-review__state-action--danger"
+              @click="setExcludedState(outfit.id, !isExcluded(outfit.id))"
+            >
+              {{
+                t(
+                  isExcluded(outfit.id)
+                    ? textKeys.nsarmoireStoreReviewUnexclude
+                    : textKeys.nsarmoireStoreReviewExclude
+                )
+              }}
+            </button>
           </section>
         </li>
       </ol>
@@ -268,10 +409,14 @@ import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { getRequiredFfxivTool, textKeys } from '@/config/site'
-import type {
-  ArmoireStoreLinkRegion,
-  ArmoireStoreOutfit,
-  ArmoireStoreRegionalUrls
+import {
+  ARMOIRE_STORE_DETAIL_TAGS,
+  ARMOIRE_STORE_TAGS,
+  type ArmoireStoreDetailTag,
+  type ArmoireStoreLinkRegion,
+  type ArmoireStoreOutfit,
+  type ArmoireStoreRegionalUrls,
+  type ArmoireStoreTag
 } from '@/lib/armoire/types'
 import FfxivToolShell from '@/pages/ffxiv/components/FfxivToolShell.vue'
 import { useArmoireCatalog } from '@/pages/armoire/composables/useArmoireCatalog'
@@ -281,11 +426,21 @@ import {
   getArmoireItemIconUrl,
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
-import { getArmoireStoreTagLabels } from '@/pages/armoire/utils/storeTagDisplay'
+import {
+  ARMOIRE_STORE_DETAIL_TAG_LABEL_KEYS,
+  ARMOIRE_STORE_TAG_LABEL_KEYS,
+  getArmoireStoreTagLabels
+} from '@/pages/armoire/utils/storeTagDisplay'
 import { useLocale } from '@/stores/locale'
 
 type StoreReviewFilter =
   'all' | 'pendingCorrection' | 'corrected' | 'needsMapping' | 'missingLinks' | 'edited'
+type StoreReviewTagFilter =
+  | 'all'
+  | 'tagged'
+  | 'untagged'
+  | `store:${ArmoireStoreTag}`
+  | `detail:${ArmoireStoreDetailTag}`
 
 interface StoreReviewPieceView {
   key: string
@@ -295,10 +450,27 @@ interface StoreReviewPieceView {
   isDraft: boolean
 }
 
+interface StoreReviewCandidateView {
+  itemId: number
+  name: string
+  iconUrl: string
+  isAdded: boolean
+  pieceItemIds: number[]
+  arePiecesAdded: boolean
+}
+
+interface StoreReviewTagOption<T extends ArmoireStoreTag | ArmoireStoreDetailTag> {
+  value: T
+  label: string
+}
+
 interface StoreReviewDraftEntry {
   regionalStoreUrls?: ArmoireStoreRegionalUrls
   itemIds?: number[]
+  tags?: ArmoireStoreTag[]
+  detailTags?: ArmoireStoreDetailTag[]
   corrected?: boolean
+  excluded?: boolean
 }
 
 interface StoreReviewPatch {
@@ -312,12 +484,18 @@ interface StoreReviewPatch {
     regionalStoreUrls?: ArmoireStoreRegionalUrls
     itemIds?: number[]
     itemNames?: string[]
+    tags?: ArmoireStoreTag[]
+    detailTags?: ArmoireStoreDetailTag[]
     corrected?: boolean
     needsMapping?: boolean
+    excluded?: boolean
   }>
 }
 
 const STORE_REVIEW_DRAFT_KEY = 'nsarmoire.storeReview.draft.v1'
+const CANDIDATE_LIMIT = 12
+const STORE_TAG_SET = new Set<ArmoireStoreTag>(ARMOIRE_STORE_TAGS)
+const STORE_DETAIL_TAG_SET = new Set<ArmoireStoreDetailTag>(ARMOIRE_STORE_DETAIL_TAGS)
 const tool = getRequiredFfxivTool('armoire')
 const { t } = useLocale()
 const { catalog, status: catalogStatus } = useArmoireCatalog()
@@ -329,6 +507,7 @@ const {
 } = useArmoireStoreCatalog()
 const searchQuery = ref('')
 const selectedFilter = ref<StoreReviewFilter>('all')
+const selectedTagFilter = ref<StoreReviewTagFilter>('all')
 const statusMessageKey = ref<string | null>(null)
 const draftEntries = ref<Record<string, StoreReviewDraftEntry>>(loadDraftEntries())
 const itemDraftInputs = ref<Record<string, string>>({})
@@ -350,6 +529,34 @@ const filterOptions = computed<Array<{ value: StoreReviewFilter; label: string }
   { value: 'needsMapping', label: t(textKeys.nsarmoireStoreReviewFilterNeedsMapping) },
   { value: 'missingLinks', label: t(textKeys.nsarmoireStoreReviewFilterMissingLinks) },
   { value: 'edited', label: t(textKeys.nsarmoireStoreReviewFilterEdited) }
+])
+
+const storeTagOptions = computed<Array<StoreReviewTagOption<ArmoireStoreTag>>>(() =>
+  ARMOIRE_STORE_TAGS.map((value) => ({
+    value,
+    label: t(ARMOIRE_STORE_TAG_LABEL_KEYS[value])
+  }))
+)
+
+const storeDetailTagOptions = computed<Array<StoreReviewTagOption<ArmoireStoreDetailTag>>>(() =>
+  ARMOIRE_STORE_DETAIL_TAGS.map((value) => ({
+    value,
+    label: t(ARMOIRE_STORE_DETAIL_TAG_LABEL_KEYS[value])
+  }))
+)
+
+const tagFilterOptions = computed<Array<{ value: StoreReviewTagFilter; label: string }>>(() => [
+  { value: 'all', label: t(textKeys.nsarmoireStoreReviewTagFilterAll) },
+  { value: 'untagged', label: t(textKeys.nsarmoireStoreReviewTagFilterUntagged) },
+  { value: 'tagged', label: t(textKeys.nsarmoireStoreReviewTagFilterTagged) },
+  ...storeTagOptions.value.map((option) => ({
+    value: `store:${option.value}` as StoreReviewTagFilter,
+    label: option.label
+  })),
+  ...storeDetailTagOptions.value.map((option) => ({
+    value: `detail:${option.value}` as StoreReviewTagFilter,
+    label: option.label
+  }))
 ])
 
 const filteredOutfits = computed(() => {
@@ -376,6 +583,10 @@ const filteredOutfits = computed(() => {
       return false
     }
 
+    if (!matchesTagFilter(outfit)) {
+      return false
+    }
+
     if (!query) {
       return true
     }
@@ -395,6 +606,64 @@ const editedCountLabel = computed(() =>
       })
     : t(textKeys.nsarmoireStoreReviewNoChanges)
 )
+const catalogItemsForReview = computed(() =>
+  Object.values(catalog.value.items).filter((item) => item.name?.trim())
+)
+const candidateViewsByOutfitId = computed(() => {
+  const result = new Map<string, StoreReviewCandidateView[]>()
+
+  for (const outfit of storeCatalog.value.outfits) {
+    if (!isNeedsMapping(outfit)) {
+      continue
+    }
+
+    const searchKeys = buildCandidateSearchKeys(outfit)
+
+    if (searchKeys.length === 0) {
+      continue
+    }
+
+    const existingItemIds = new Set(getMergedItemIds(outfit))
+    const candidates = catalogItemsForReview.value
+      .map((item) => {
+        const name = item.name?.trim() ?? ''
+        const score = getCandidateScore(name, searchKeys)
+
+        return {
+          item,
+          name,
+          score
+        }
+      })
+      .filter((entry) => entry.score > 0)
+      .sort(
+        (left, right) =>
+          right.score - left.score ||
+          left.name.length - right.name.length ||
+          left.item.itemId - right.item.itemId
+      )
+      .slice(0, CANDIDATE_LIMIT)
+      .map((entry) => {
+        const pieceItemIds = getCandidatePieceItemIds(entry.item.pieceItemIds)
+
+        return {
+          itemId: entry.item.itemId,
+          name: entry.name,
+          iconUrl: '',
+          isAdded: existingItemIds.has(entry.item.itemId),
+          pieceItemIds,
+          arePiecesAdded:
+            pieceItemIds.length > 0 && pieceItemIds.every((itemId) => existingItemIds.has(itemId))
+        }
+      })
+
+    if (candidates.length > 0) {
+      result.set(outfit.id, candidates)
+    }
+  }
+
+  return result
+})
 
 function isStoreReviewDraftEntry(value: unknown): value is StoreReviewDraftEntry {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -420,7 +689,14 @@ function loadDraftEntries(): Record<string, StoreReviewDraftEntry> {
         continue
       }
 
-      if ('regionalStoreUrls' in value || 'itemIds' in value || 'corrected' in value) {
+      if (
+        'regionalStoreUrls' in value ||
+        'itemIds' in value ||
+        'tags' in value ||
+        'detailTags' in value ||
+        'corrected' in value ||
+        'excluded' in value
+      ) {
         const normalized = normalizeDraftEntry(value)
 
         if (hasStoredDraftEntry(normalized)) {
@@ -451,7 +727,10 @@ function saveDraftEntries(): void {
 function hasDraftEntry(entry: StoreReviewDraftEntry): boolean {
   return Boolean(
     (entry.regionalStoreUrls && Object.keys(entry.regionalStoreUrls).length > 0) ||
-    (entry.itemIds && entry.itemIds.length > 0)
+    (entry.itemIds && entry.itemIds.length > 0) ||
+    entry.tags !== undefined ||
+    entry.detailTags !== undefined ||
+    entry.excluded === true
   )
 }
 
@@ -460,6 +739,9 @@ function hasStoredDraftEntry(entry: StoreReviewDraftEntry): boolean {
 }
 
 function normalizeDraftEntry(entry: StoreReviewDraftEntry): StoreReviewDraftEntry {
+  const shouldKeepTags = Array.isArray(entry.tags)
+  const shouldKeepDetailTags = Array.isArray(entry.detailTags)
+
   return {
     ...(entry.regionalStoreUrls && Object.keys(entry.regionalStoreUrls).length > 0
       ? { regionalStoreUrls: entry.regionalStoreUrls }
@@ -467,12 +749,37 @@ function normalizeDraftEntry(entry: StoreReviewDraftEntry): StoreReviewDraftEntr
     ...(entry.itemIds && entry.itemIds.length > 0
       ? { itemIds: getUniqueItemIds(entry.itemIds) }
       : {}),
-    ...(entry.corrected ? { corrected: true } : {})
+    ...(shouldKeepTags ? { tags: getUniqueStoreTags(entry.tags) } : {}),
+    ...(shouldKeepDetailTags ? { detailTags: getUniqueStoreDetailTags(entry.detailTags) } : {}),
+    ...(entry.corrected ? { corrected: true } : {}),
+    ...(entry.excluded ? { excluded: true } : {})
   }
 }
 
 function getUniqueItemIds(itemIds: number[]): number[] {
   return Array.from(new Set(itemIds.filter((itemId) => Number.isInteger(itemId) && itemId > 0)))
+}
+
+function isStoreTag(value: unknown): value is ArmoireStoreTag {
+  return typeof value === 'string' && STORE_TAG_SET.has(value as ArmoireStoreTag)
+}
+
+function isStoreDetailTag(value: unknown): value is ArmoireStoreDetailTag {
+  return typeof value === 'string' && STORE_DETAIL_TAG_SET.has(value as ArmoireStoreDetailTag)
+}
+
+function getUniqueStoreTags(tags: readonly unknown[] | undefined): ArmoireStoreTag[] {
+  return Array.from(new Set((tags ?? []).filter(isStoreTag)))
+}
+
+function getUniqueStoreDetailTags(
+  detailTags: readonly unknown[] | undefined
+): ArmoireStoreDetailTag[] {
+  return Array.from(new Set((detailTags ?? []).filter(isStoreDetailTag)))
+}
+
+function areSameStringArrays(left: readonly string[], right: readonly string[]): boolean {
+  return left.length === right.length && left.every((value, index) => value === right[index])
 }
 
 function getBaseLink(outfit: ArmoireStoreOutfit, region: ArmoireStoreLinkRegion): string {
@@ -533,14 +840,41 @@ function isCorrected(outfitId: string): boolean {
   return Boolean(draftEntries.value[outfitId]?.corrected)
 }
 
+function isExcluded(outfitId: string): boolean {
+  return Boolean(draftEntries.value[outfitId]?.excluded)
+}
+
 function setCorrectionState(outfitId: string, corrected: boolean): void {
   const nextDraft = { ...draftEntries.value }
   const outfitDraft = { ...(nextDraft[outfitId] ?? {}) }
 
   if (corrected) {
     outfitDraft.corrected = true
+    delete outfitDraft.excluded
   } else {
     delete outfitDraft.corrected
+  }
+
+  if (hasStoredDraftEntry(outfitDraft)) {
+    nextDraft[outfitId] = normalizeDraftEntry(outfitDraft)
+  } else {
+    delete nextDraft[outfitId]
+  }
+
+  draftEntries.value = nextDraft
+  statusMessageKey.value = null
+  saveDraftEntries()
+}
+
+function setExcludedState(outfitId: string, excluded: boolean): void {
+  const nextDraft = { ...draftEntries.value }
+  const outfitDraft = { ...(nextDraft[outfitId] ?? {}) }
+
+  if (excluded) {
+    outfitDraft.excluded = true
+    delete outfitDraft.corrected
+  } else {
+    delete outfitDraft.excluded
   }
 
   if (hasStoredDraftEntry(outfitDraft)) {
@@ -564,6 +898,39 @@ function hasMissingLinks(outfit: ArmoireStoreOutfit): boolean {
   return linkRegions.some((region) => !getLinkValue(outfit, region.value))
 }
 
+function matchesTagFilter(outfit: ArmoireStoreOutfit): boolean {
+  const filter = selectedTagFilter.value
+
+  if (filter === 'all') {
+    return true
+  }
+
+  const tags = getMergedTags(outfit)
+  const detailTags = getMergedDetailTags(outfit)
+
+  if (filter === 'tagged') {
+    return tags.length > 0 || detailTags.length > 0
+  }
+
+  if (filter === 'untagged') {
+    return tags.length === 0 && detailTags.length === 0
+  }
+
+  if (filter.startsWith('store:')) {
+    const tag = filter.slice('store:'.length)
+
+    return isStoreTag(tag) && tags.includes(tag)
+  }
+
+  if (filter.startsWith('detail:')) {
+    const tag = filter.slice('detail:'.length)
+
+    return isStoreDetailTag(tag) && detailTags.includes(tag)
+  }
+
+  return true
+}
+
 function buildSearchText(outfit: ArmoireStoreOutfit): string {
   return [
     outfit.name,
@@ -580,7 +947,138 @@ function buildSearchText(outfit: ArmoireStoreOutfit): string {
 }
 
 function getTagLabels(outfit: ArmoireStoreOutfit): string[] {
-  return getArmoireStoreTagLabels(t, outfit.tags, outfit.detailTags)
+  return getArmoireStoreTagLabels(t, getMergedTags(outfit), getMergedDetailTags(outfit))
+}
+
+function getStoreTagLabel(tag: ArmoireStoreTag): string {
+  return t(ARMOIRE_STORE_TAG_LABEL_KEYS[tag])
+}
+
+function getStoreDetailTagLabel(tag: ArmoireStoreDetailTag): string {
+  return t(ARMOIRE_STORE_DETAIL_TAG_LABEL_KEYS[tag])
+}
+
+function getMergedTags(outfit: ArmoireStoreOutfit): ArmoireStoreTag[] {
+  return getUniqueStoreTags(draftEntries.value[outfit.id]?.tags ?? outfit.tags ?? [])
+}
+
+function getMergedDetailTags(outfit: ArmoireStoreOutfit): ArmoireStoreDetailTag[] {
+  return getUniqueStoreDetailTags(
+    draftEntries.value[outfit.id]?.detailTags ?? outfit.detailTags ?? []
+  )
+}
+
+function getAvailableStoreTagOptions(
+  outfit: ArmoireStoreOutfit
+): Array<StoreReviewTagOption<ArmoireStoreTag>> {
+  const selectedTags = new Set(getMergedTags(outfit))
+
+  return storeTagOptions.value.filter((option) => !selectedTags.has(option.value))
+}
+
+function getAvailableStoreDetailTagOptions(
+  outfit: ArmoireStoreOutfit
+): Array<StoreReviewTagOption<ArmoireStoreDetailTag>> {
+  const selectedTags = new Set(getMergedDetailTags(outfit))
+
+  return storeDetailTagOptions.value.filter((option) => !selectedTags.has(option.value))
+}
+
+function addStoreTagFromEvent(outfit: ArmoireStoreOutfit, event: Event): void {
+  const select = event.currentTarget
+
+  if (!(select instanceof HTMLSelectElement)) {
+    return
+  }
+
+  const tag = select.value
+  select.value = ''
+
+  if (!isStoreTag(tag)) {
+    return
+  }
+
+  setDraftTags(outfit, getUniqueStoreTags([...getMergedTags(outfit), tag]))
+}
+
+function addDetailTagFromEvent(outfit: ArmoireStoreOutfit, event: Event): void {
+  const select = event.currentTarget
+
+  if (!(select instanceof HTMLSelectElement)) {
+    return
+  }
+
+  const tag = select.value
+  select.value = ''
+
+  if (!isStoreDetailTag(tag)) {
+    return
+  }
+
+  setDraftDetailTags(outfit, getUniqueStoreDetailTags([...getMergedDetailTags(outfit), tag]))
+}
+
+function removeStoreTag(outfit: ArmoireStoreOutfit, tag: ArmoireStoreTag): void {
+  setDraftTags(
+    outfit,
+    getUniqueStoreTags(getMergedTags(outfit).filter((currentTag) => currentTag !== tag))
+  )
+}
+
+function removeDetailTag(outfit: ArmoireStoreOutfit, tag: ArmoireStoreDetailTag): void {
+  setDraftDetailTags(
+    outfit,
+    getUniqueStoreDetailTags(getMergedDetailTags(outfit).filter((currentTag) => currentTag !== tag))
+  )
+}
+
+function setDraftTags(outfit: ArmoireStoreOutfit, tags: ArmoireStoreTag[]): void {
+  const baseTags = getUniqueStoreTags(outfit.tags ?? [])
+  const nextTags = getUniqueStoreTags(tags)
+  const nextDraft = { ...draftEntries.value }
+  const outfitDraft = { ...(nextDraft[outfit.id] ?? {}) }
+
+  if (areSameStringArrays(nextTags, baseTags)) {
+    delete outfitDraft.tags
+  } else {
+    outfitDraft.tags = nextTags
+  }
+
+  commitDraftEntry(outfit.id, outfitDraft, nextDraft)
+}
+
+function setDraftDetailTags(
+  outfit: ArmoireStoreOutfit,
+  detailTags: ArmoireStoreDetailTag[]
+): void {
+  const baseTags = getUniqueStoreDetailTags(outfit.detailTags ?? [])
+  const nextTags = getUniqueStoreDetailTags(detailTags)
+  const nextDraft = { ...draftEntries.value }
+  const outfitDraft = { ...(nextDraft[outfit.id] ?? {}) }
+
+  if (areSameStringArrays(nextTags, baseTags)) {
+    delete outfitDraft.detailTags
+  } else {
+    outfitDraft.detailTags = nextTags
+  }
+
+  commitDraftEntry(outfit.id, outfitDraft, nextDraft)
+}
+
+function commitDraftEntry(
+  outfitId: string,
+  outfitDraft: StoreReviewDraftEntry,
+  nextDraft: Record<string, StoreReviewDraftEntry>
+): void {
+  if (hasStoredDraftEntry(outfitDraft)) {
+    nextDraft[outfitId] = normalizeDraftEntry(outfitDraft)
+  } else {
+    delete nextDraft[outfitId]
+  }
+
+  draftEntries.value = nextDraft
+  statusMessageKey.value = null
+  saveDraftEntries()
 }
 
 function getDraftItemIds(outfit: ArmoireStoreOutfit): number[] {
@@ -647,6 +1145,63 @@ function getPieceViews(outfit: ArmoireStoreOutfit): StoreReviewPieceView[] {
   return views
 }
 
+function getCandidateViews(outfit: ArmoireStoreOutfit): StoreReviewCandidateView[] {
+  return candidateViewsByOutfitId.value.get(outfit.id) ?? []
+}
+
+function getCandidatePieceItemIds(pieceItemIds: number[] | undefined): number[] {
+  if (!Array.isArray(pieceItemIds)) {
+    return []
+  }
+
+  return getUniqueItemIds(pieceItemIds.filter((itemId) => catalog.value.items[itemId]))
+}
+
+function buildCandidateSearchKeys(outfit: ArmoireStoreOutfit): string[] {
+  return [
+    outfit.name,
+    outfit.globalProductName,
+    ...outfit.itemNames,
+    ...(outfit.globalItemNames ?? [])
+  ]
+    .map((value) => normalizeCandidateText(value))
+    .filter((value, index, values) => value.length >= 2 && values.indexOf(value) === index)
+}
+
+function normalizeCandidateText(value: string | undefined): string {
+  return String(value ?? '')
+    .toLocaleLowerCase()
+    .replace(/[·・\-—_（）()【】[\]「」『』“”"']/g, '')
+    .replace(/服装套装|装备套装|浴衣套装|装束|套装|服装|新装|夏装|浴衣/g, '')
+    .replace(/\s+/g, '')
+    .trim()
+}
+
+function getCandidateScore(itemName: string, searchKeys: string[]): number {
+  const normalizedItemName = normalizeCandidateText(itemName)
+
+  if (!normalizedItemName) {
+    return 0
+  }
+
+  let score = 0
+
+  for (const key of searchKeys) {
+    if (normalizedItemName === key) {
+      score = Math.max(score, 100)
+      continue
+    }
+
+    if (normalizedItemName.includes(key)) {
+      score = Math.max(score, 80 - Math.min(normalizedItemName.length - key.length, 20))
+      continue
+    }
+
+  }
+
+  return score
+}
+
 function resolveCatalogItemId(input: string): number | undefined {
   const query = input.trim()
 
@@ -685,20 +1240,33 @@ function addDraftItem(outfit: ArmoireStoreOutfit): void {
     return
   }
 
-  if (getMergedItemIds(outfit).includes(itemId)) {
+  addDraftItemId(outfit, itemId)
+  itemDraftInputs.value = {
+    ...itemDraftInputs.value,
+    [outfit.id]: ''
+  }
+}
+
+function addDraftItemId(outfit: ArmoireStoreOutfit, itemId: number): void {
+  addDraftItemIds(outfit, [itemId])
+}
+
+function addDraftItemIds(outfit: ArmoireStoreOutfit, itemIds: number[]): void {
+  const existingItemIds = new Set(getMergedItemIds(outfit))
+  const nextItemIds = getUniqueItemIds(
+    itemIds.filter((itemId) => catalog.value.items[itemId] && !existingItemIds.has(itemId))
+  )
+
+  if (nextItemIds.length === 0) {
     statusMessageKey.value = textKeys.nsarmoireStoreReviewItemDuplicate
     return
   }
 
   const nextDraft = { ...draftEntries.value }
   const outfitDraft = { ...(nextDraft[outfit.id] ?? {}) }
-  outfitDraft.itemIds = getUniqueItemIds([...(outfitDraft.itemIds ?? []), itemId])
+  outfitDraft.itemIds = getUniqueItemIds([...(outfitDraft.itemIds ?? []), ...nextItemIds])
   nextDraft[outfit.id] = normalizeDraftEntry(outfitDraft)
   draftEntries.value = nextDraft
-  itemDraftInputs.value = {
-    ...itemDraftInputs.value,
-    [outfit.id]: ''
-  }
   statusMessageKey.value = textKeys.nsarmoireStoreReviewItemAdded
   saveDraftEntries()
 }
@@ -730,8 +1298,20 @@ function buildPatch(): StoreReviewPatch {
         return null
       }
 
+      if (draft.excluded) {
+        return {
+          id,
+          name: outfit.name,
+          productId: outfit.productId,
+          skuId: outfit.skuId,
+          excluded: true
+        }
+      }
+
       const mergedItemIds = getMergedItemIds(outfit)
       const itemIdsChanged = (draft.itemIds ?? []).length > 0
+      const tagsChanged = draft.tags !== undefined
+      const detailTagsChanged = draft.detailTags !== undefined
       const itemNames = mergedItemIds.map((itemId) => getArmoireItemName(catalog.value, itemId, t))
       const needsMapping =
         itemIdsChanged &&
@@ -746,6 +1326,8 @@ function buildPatch(): StoreReviewPatch {
         skuId: outfit.skuId,
         ...(draft.regionalStoreUrls ? { regionalStoreUrls: draft.regionalStoreUrls } : {}),
         ...(draft.corrected ? { corrected: true } : {}),
+        ...(tagsChanged ? { tags: getMergedTags(outfit) } : {}),
+        ...(detailTagsChanged ? { detailTags: getMergedDetailTags(outfit) } : {}),
         ...(itemIdsChanged
           ? {
               itemIds: mergedItemIds,
@@ -880,7 +1462,7 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-review__controls {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(160px, 240px);
+  grid-template-columns: minmax(220px, 1fr) minmax(150px, 220px) minmax(150px, 220px);
   gap: 10px;
   padding: 12px;
   border: 2px solid var(--ns-pixel-border);
@@ -915,6 +1497,11 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-review__row--corrected {
   border-color: var(--ns-status-success-border);
+}
+
+.nsarmoire-store-review__row--excluded {
+  border-color: var(--ns-status-danger-border);
+  background: var(--ns-status-danger-bg);
 }
 
 .nsarmoire-store-review__row--needs-mapping {
@@ -983,23 +1570,63 @@ function hideBrokenImage(event: Event): void {
   font-size: 12px;
 }
 
-.nsarmoire-store-review__tags {
+.nsarmoire-store-review__tag-editor {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+}
+
+.nsarmoire-store-review__tag-editor-label {
+  color: var(--ns-color-text-muted);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.nsarmoire-store-review__tag-chip-list,
+.nsarmoire-store-review__tag-selects {
   display: flex;
   min-width: 0;
   flex-wrap: wrap;
   gap: 4px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
 }
 
-.nsarmoire-store-review__tags li {
-  padding: 2px 5px;
+.nsarmoire-store-review__tag-chip {
+  min-height: 24px;
+  padding: 2px 6px;
   border: 1px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-surface);
   color: var(--ns-color-text);
   font-size: 11px;
   font-weight: 850;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.nsarmoire-store-review__tag-chip::after {
+  content: '×';
+  margin-left: 4px;
+  color: var(--ns-color-text-muted);
+}
+
+.nsarmoire-store-review__tag-chip:hover {
+  border-color: var(--ns-color-accent);
+  background: var(--ns-color-accent-soft);
+}
+
+.nsarmoire-store-review__tag-chip--detail {
+  border-color: var(--ns-status-info-border);
+  background: var(--ns-status-info-bg);
+}
+
+.nsarmoire-store-review__tag-selects select {
+  min-width: 92px;
+  max-width: 130px;
+  min-height: 26px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: #ffffff;
+  color: var(--ns-color-text);
+  font-size: 12px;
 }
 
 .nsarmoire-store-review__items ul {
@@ -1053,6 +1680,91 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-review__item-draft {
   color: var(--ns-color-text);
   font-weight: 850;
+}
+
+.nsarmoire-store-review__candidates {
+  display: grid;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.nsarmoire-store-review__candidate-label {
+  color: var(--ns-color-text-muted);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.nsarmoire-store-review__candidate-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.nsarmoire-store-review__candidate-group {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 320px;
+}
+
+.nsarmoire-store-review__candidate {
+  display: inline-grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto auto;
+  align-items: center;
+  min-width: 0;
+  max-width: 240px;
+  gap: 5px;
+  padding: 3px 6px 3px 3px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-surface);
+  color: var(--ns-color-text);
+  font: inherit;
+  font-size: 11px;
+  text-align: left;
+}
+
+.nsarmoire-store-review__candidate-pieces {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  margin-left: -1px;
+  padding: 3px 6px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: #ffffff;
+  color: var(--ns-color-text);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.nsarmoire-store-review__candidate:not(:disabled):hover,
+.nsarmoire-store-review__candidate-pieces:not(:disabled):hover {
+  border-color: var(--ns-pixel-border);
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--ns-pixel-shadow);
+}
+
+.nsarmoire-store-review__candidate:disabled,
+.nsarmoire-store-review__candidate-pieces:disabled {
+  opacity: 0.55;
+}
+
+.nsarmoire-store-review__candidate img,
+.nsarmoire-store-review__candidate .nsarmoire-store-review__item-fallback {
+  width: 22px;
+  height: 22px;
+  object-fit: cover;
+}
+
+.nsarmoire-store-review__candidate span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nsarmoire-store-review__candidate-piece-count {
+  color: var(--ns-color-text-muted);
 }
 
 .nsarmoire-store-review__item-remove,
@@ -1162,11 +1874,20 @@ function hideBrokenImage(event: Event): void {
   background: var(--ns-status-success-bg);
 }
 
+.nsarmoire-store-review__badge--excluded {
+  border-color: var(--ns-status-danger-border);
+  background: var(--ns-status-danger-bg);
+}
+
 .nsarmoire-store-review__state-action {
   justify-self: start;
   min-height: 26px;
   margin-top: 2px;
   background: #ffffff;
+}
+
+.nsarmoire-store-review__state-action--danger {
+  border-color: var(--ns-status-danger-border);
 }
 
 @media (max-width: 1180px) {

@@ -66,10 +66,25 @@
                 aria-hidden="true"
               ></span>
               <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
-              <span
-                class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--muted"
-              >
-                {{ t(textKeys.nsarmoireCollectionStatusMissing) }}
+              <span class="nsarmoire-collection-panel__badge-list">
+                <span
+                  v-if="item.isOwned"
+                  class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--owned"
+                >
+                  {{ t(textKeys.nsarmoireCollectionStatusOwned) }}
+                </span>
+                <span
+                  v-if="item.isDyed"
+                  class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--warning"
+                >
+                  {{ t(textKeys.nsarmoireCollectionStatusDyed) }}
+                </span>
+                <span
+                  v-if="!item.isOwned"
+                  class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--muted"
+                >
+                  {{ t(textKeys.nsarmoireCollectionStatusUnowned) }}
+                </span>
               </span>
             </li>
           </ul>
@@ -103,6 +118,8 @@ interface CabinetItemView {
   itemId: number
   name: string
   iconUrl: string
+  isOwned: boolean
+  isDyed: boolean
 }
 
 const props = defineProps<{
@@ -182,11 +199,17 @@ watch(
 )
 
 function toItemViews(itemIds: number[]): CabinetItemView[] {
+  const progress = cabinetProgress.value
+  const ownedItemIds = new Set(progress?.ownedCabinetItemIds ?? [])
+  const dyedOwnedItemIds = new Set(progress?.dyedOwnedCabinetItemIds ?? [])
+
   return itemIds.map((itemId) => ({
     key: `cabinet-${itemId}`,
     itemId,
     name: getArmoireItemName(props.catalog, itemId, t),
-    iconUrl: getArmoireItemIconUrl(props.catalog, itemId)
+    iconUrl: getArmoireItemIconUrl(props.catalog, itemId),
+    isOwned: ownedItemIds.has(itemId),
+    isDyed: dyedOwnedItemIds.has(itemId)
   }))
 }
 
@@ -308,6 +331,24 @@ function hideBrokenImage(event: Event): void {
   font-size: 12px;
   font-weight: 800;
   white-space: nowrap;
+}
+
+.nsarmoire-collection-panel__badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.nsarmoire-collection-panel__badge--owned {
+  border-color: var(--ns-status-success-border);
+  background: var(--ns-status-success-bg);
+}
+
+.nsarmoire-collection-panel__badge--warning {
+  border-color: var(--ns-status-warning-border);
+  background: var(--ns-status-warning-bg);
+  color: var(--ns-color-text);
 }
 
 .nsarmoire-collection-panel__badge--muted {

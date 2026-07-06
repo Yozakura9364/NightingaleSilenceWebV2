@@ -21,6 +21,7 @@ export type ArmoireDyeValueCategory = (typeof ARMOIRE_DYE_VALUE_CATEGORIES)[numb
 export const ARMOIRE_STORE_TAGS = [
   'npcCostume',
   'bonusCostume',
+  'collectorEditionBonus',
   'replicaCostume',
   'fanFestivalCostume',
   'crossoverCostume',
@@ -138,7 +139,7 @@ export interface ArmoireCatalog {
   dyes: Record<number, ArmoireDye>
 }
 
-export type ArmoireStoreRegion = 'cn' | 'global'
+export type ArmoireStoreRegion = 'cn' | 'global' | 'tw'
 export type ArmoireStoreLinkRegion = 'cn' | 'global' | 'tw' | 'kr'
 export type ArmoireStoreRegionalUrls = Partial<Record<ArmoireStoreLinkRegion, string>>
 export type ArmoireStoreMappingSource = 'cn-store' | 'global-store' | 'manual'
@@ -229,6 +230,8 @@ export interface ArmoireCabinetProgress {
   storedCount: number
   storableCount: number
   transferableItemIds: number[]
+  ownedCabinetItemIds: number[]
+  dyedOwnedCabinetItemIds: number[]
   missingCabinetItemIds: number[]
 }
 

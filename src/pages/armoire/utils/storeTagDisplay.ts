@@ -4,6 +4,7 @@ import type { ArmoireStoreDetailTag, ArmoireStoreTag } from '@/lib/armoire/types
 export const ARMOIRE_STORE_TAG_LABEL_KEYS: Record<ArmoireStoreTag, string> = {
   npcCostume: textKeys.nsarmoireStoreTagNpcCostume,
   bonusCostume: textKeys.nsarmoireStoreTagBonusCostume,
+  collectorEditionBonus: textKeys.nsarmoireStoreTagCollectorEditionBonus,
   replicaCostume: textKeys.nsarmoireStoreTagReplicaCostume,
   fanFestivalCostume: textKeys.nsarmoireStoreTagFanFestivalCostume,
   crossoverCostume: textKeys.nsarmoireStoreTagCrossoverCostume,

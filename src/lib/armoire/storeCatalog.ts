@@ -19,7 +19,7 @@ export const EMPTY_ARMOIRE_STORE_CATALOG: ArmoireStoreCatalog = {
   outfits: []
 }
 
-const ARMOIRE_STORE_REGIONS = new Set<ArmoireStoreRegion>(['cn', 'global'])
+const ARMOIRE_STORE_REGIONS = new Set<ArmoireStoreRegion>(['cn', 'global', 'tw'])
 const ARMOIRE_STORE_LINK_REGIONS = new Set<ArmoireStoreLinkRegion>(['cn', 'global', 'tw', 'kr'])
 const ARMOIRE_STORE_MAPPING_SOURCES = new Set<ArmoireStoreMappingSource>([
   'cn-store',
