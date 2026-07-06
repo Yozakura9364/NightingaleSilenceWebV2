@@ -1,18 +1,9 @@
 import { computed, ref, shallowRef } from 'vue'
 import { textKeys } from '@/config/site'
 import type { ArmoireSnapshot } from '@/lib/armoire/types'
-import {
-  ArmoireHelperApiError,
-  ArmoireHelperSnapshotError,
-  fetchArmoireHelperHealth,
-  fetchArmoireHelperProcesses,
-  fetchArmoireHelperSnapshot,
-  getArmoireHelperDisplayUrl,
-  refreshArmoireHelperSnapshot,
-  selectArmoireHelperProcess,
-  shutdownArmoireHelper,
-  type ArmoireHelperHealth,
-  type ArmoireHelperProcess
+import type {
+  ArmoireHelperHealth,
+  ArmoireHelperProcess
 } from '@/pages/armoire/services/nsarmoireHelperApi'
 
 export type ArmoireHelperStatus =
@@ -25,6 +16,15 @@ export type ArmoireHelperStatus =
   | 'error'
 
 type StatusTone = 'info' | 'success' | 'warning' | 'danger' | 'loading'
+type ArmoireHelperApiModule = typeof import('@/pages/armoire/services/nsarmoireHelperApi')
+
+const NSARMOIRE_HELPER_DISPLAY_URL = 'http://127.0.0.1:8015'
+let helperApiPromise: Promise<ArmoireHelperApiModule> | null = null
+
+function loadHelperApi(): Promise<ArmoireHelperApiModule> {
+  helperApiPromise ??= import('@/pages/armoire/services/nsarmoireHelperApi')
+  return helperApiPromise
+}
 
 const statusTitleKey: Record<ArmoireHelperStatus, string> = {
   idle: textKeys.nsarmoireHelperIdle,
@@ -67,7 +67,7 @@ export function useArmoireHelper(
   const processPickerOpen = ref(false)
   const processBusy = ref(false)
   const processError = ref<string | null>(null)
-  const endpoint = getArmoireHelperDisplayUrl()
+  const endpoint = NSARMOIRE_HELPER_DISPLAY_URL
 
   const titleKey = computed(() => statusTitleKey[status.value])
   const messageKey = computed(() => statusMessageKey[status.value])
@@ -92,7 +92,8 @@ export function useArmoireHelper(
     detail.value = null
 
     try {
-      await shutdownArmoireHelper()
+      const helperApi = await loadHelperApi()
+      await helperApi.shutdownArmoireHelper()
       status.value = 'idle'
       health.value = null
       processes.value = []
@@ -111,12 +112,15 @@ export function useArmoireHelper(
     detail.value = null
 
     try {
-      health.value = await fetchArmoireHelperHealth()
+      const helperApi = await loadHelperApi()
+      health.value = await helperApi.fetchArmoireHelperHealth()
       if (await mapHealthStatus(health.value)) {
         return
       }
 
-      const snapshot = refresh ? await refreshArmoireHelperSnapshot() : await fetchArmoireHelperSnapshot()
+      const snapshot = refresh
+        ? await helperApi.refreshArmoireHelperSnapshot()
+        : await helperApi.fetchArmoireHelperSnapshot()
       const imported = loadSnapshotPayload(snapshot, null)
 
       if (!imported) {
@@ -138,7 +142,8 @@ export function useArmoireHelper(
     processError.value = null
 
     try {
-      processes.value = await fetchArmoireHelperProcesses()
+      const helperApi = await loadHelperApi()
+      processes.value = await helperApi.fetchArmoireHelperProcesses()
     } catch (error) {
       processError.value = error instanceof Error ? error.message : String(error)
     } finally {
@@ -151,7 +156,8 @@ export function useArmoireHelper(
     processError.value = null
 
     try {
-      health.value = await selectArmoireHelperProcess(pid)
+      const helperApi = await loadHelperApi()
+      health.value = await helperApi.selectArmoireHelperProcess(pid)
       processPickerOpen.value = false
       await loadFromHelper(false)
     } catch (error) {
@@ -186,7 +192,9 @@ export function useArmoireHelper(
   }
 
   async function mapHelperError(error: unknown) {
-    if (error instanceof ArmoireHelperApiError) {
+    const helperApi = await loadHelperApi()
+
+    if (error instanceof helperApi.ArmoireHelperApiError) {
       detail.value = error.code
 
       if (error.code === 'game_process_not_found') {
@@ -210,7 +218,7 @@ export function useArmoireHelper(
       return
     }
 
-    if (error instanceof ArmoireHelperSnapshotError) {
+    if (error instanceof helperApi.ArmoireHelperSnapshotError) {
       status.value = 'error'
       detail.value = error.code
       return

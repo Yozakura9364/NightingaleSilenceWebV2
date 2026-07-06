@@ -28,6 +28,9 @@
 - 2026-07-06 已进一步拆分物品显示索引：普通工作台改为按当前 snapshot itemId 请求 `public/data/armoire-item-display-chunks/*.json`，每个 chunk 覆盖 2000 个 itemId 区间；`armoire-catalog-display-index.json` 继续保留为完整显示索引和后续脚本/校正兜底，不作为衣柜清理默认请求。`衣柜清理` 默认不再请求 `armoire-identical-model-catalog.json`，同模型索引只在图鉴 tab 或手动刷新静态数据时加载。
 - 2026-07-06 已继续拆分衣柜清理默认依赖：`衣柜清理` 不再默认请求完整 `armoire-cabinet-catalog.json` 和 `armoire-glamour-set-catalog.json`，改为按当前 snapshot itemId 请求 `public/data/armoire-cabinet-item-chunks/*.json` 和 `public/data/armoire-glamour-set-chunks/*.json`。完整收藏柜和套装 catalog 只在查漏补缺对应详情 tab 或手动刷新静态数据时加载。
 - 2026-07-06 已将三类 itemId chunk composable 改为批量合并 reactive state：同一批 snapshot itemId 对应的 chunk 请求完成后最多写入一次 `chunksByKey`，避免每个 chunk 返回都触发 catalog computed 和 snapshot analysis 重算。
+- 2026-07-06 生产预览性能 trace 继续确认：空进 `#/ffxiv/armoire` 不请求 `/data/armoire-catalog.json`，无主线程 long task；后置面板、商城 catalog 校验器和 helper API 已改为按需 chunk，空页不再加载 `itemDisplay-*`、`storeCatalog-*` 或 `nsarmoireHelperApi-*`。当前首屏最大剩余资源是全站中文像素字体 `fusion-pixel-12px-proportional-zh_hans.otf.woff2`，约 713 KB transfer。
+- 2026-07-06 商城统计卡片已扩展为逐散件展示：每件散件显示已拥有/未拥有；已拥有散件列出 snapshot 中的容器位置和染色，超过 3 条副本时折叠剩余数量。地区商城入口按 `regionalStoreUrls` 拆成简中服、繁中服、GLOBAL 和 한국 按钮；该统计仍只表示当前角色 snapshot 中是否出现散件，不等同商城账号购买记录。
+- 2026-07-06 本地 helper 已将背包/兵装库/鞍囊/雇员物品实例的 `spiritbond` 透出到 snapshot。该字段用于验证可交易装备的实例绑定状态，不能由静态 `Item.csv` 交易字段替代；第一轮验证样本为两件 `经典眼镜`：HQ 已绑定、NQ 未绑定。实际 snapshot 中两条 `itemId=9298` 分别输出 `spiritbond: 1` 和 `spiritbond: 0`，可先按 `spiritbond > 0` 判断已绑定；但当前背包 HQ 解析仍不可靠，样本两条均输出 `hq: false`，HQ/NQ 需要另行定位实例 flags/condition 字节。
 
 ## 已读取文件
 

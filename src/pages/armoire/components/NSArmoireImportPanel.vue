@@ -149,7 +149,6 @@ import { textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
 import type { ArmoireContainerKind, ArmoireSnapshot } from '@/lib/armoire/types'
 import type { ArmoireHelperHealth } from '@/pages/armoire/services/nsarmoireHelperApi'
-import { formatArmoireText } from '@/pages/armoire/utils/itemDisplay'
 
 const props = defineProps<{
   mode: 'hero' | 'compact'
@@ -209,6 +208,10 @@ function cleanT(key: string): string {
   return cleanText(t(key))
 }
 
+function formatPanelText(key: string, values: Record<string, string | number>): string {
+  return t(key).replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? ''))
+}
+
 const statusTone = computed(() => (props.snapshot ? 'success' : 'info'))
 const statusTitle = computed(() =>
   cleanT(props.snapshot ? textKeys.nsarmoireSnapshotReady : textKeys.nsarmoireSnapshotEmpty)
@@ -236,7 +239,7 @@ const helperCatalogLabel = computed(() => {
     return cleanT(textKeys.nsarmoireHelperCatalogMissing)
   }
 
-  return cleanText(formatArmoireText(t, textKeys.nsarmoireHelperCatalogReady, {
+  return cleanText(formatPanelText(textKeys.nsarmoireHelperCatalogReady, {
     count: props.helperHealth.catalogCabinetEntryCount ?? 0
   }))
 })
@@ -308,7 +311,7 @@ const readContainersLabel = computed(() => {
   }
 
   return cleanText(
-    formatArmoireText(t, textKeys.nsarmoireReadContainersMore, {
+    formatPanelText(textKeys.nsarmoireReadContainersMore, {
       items: labels.slice(0, READ_CONTAINER_PREVIEW_LIMIT).join(' / '),
       count: labels.length
     })

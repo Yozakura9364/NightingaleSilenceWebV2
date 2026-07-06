@@ -11,6 +11,7 @@ internal sealed record ArmoireOwnedItem(
     bool? Hq,
     int? Quantity,
     int[]? Dyes,
+    int? Spiritbond,
     string Container,
     string? ContainerName,
     int? SlotIndex,

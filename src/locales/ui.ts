@@ -978,6 +978,30 @@ export const uiMessages: UiMessageMap = {
     ja: '繁体字版',
     ko: '대만 서버'
   }),
+  'nsarmoire.store.link.cn': msg({
+    zh: '简中服',
+    en: 'CN',
+    ja: '中国版',
+    ko: '중국'
+  }),
+  'nsarmoire.store.link.global': msg({
+    zh: 'GLOBAL',
+    en: 'GLOBAL',
+    ja: 'GLOBAL',
+    ko: 'GLOBAL'
+  }),
+  'nsarmoire.store.link.tw': msg({
+    zh: '繁中服',
+    en: 'TW',
+    ja: '繁体字版',
+    ko: '대만'
+  }),
+  'nsarmoire.store.link.kr': msg({
+    zh: '한국',
+    en: '한국',
+    ja: '한국',
+    ko: '한국'
+  }),
   'nsarmoire.store.openLink': msg({
     zh: '打开商城',
     en: 'Open store',
@@ -989,6 +1013,42 @@ export const uiMessages: UiMessageMap = {
     en: 'Pieces',
     ja: '部品',
     ko: '부위'
+  }),
+  'nsarmoire.store.piece.location': msg({
+    zh: '位置：{location}',
+    en: 'Location: {location}',
+    ja: '位置：{location}',
+    ko: '위치: {location}'
+  }),
+  'nsarmoire.store.piece.dye': msg({
+    zh: '染色：{dyes}',
+    en: 'Dye: {dyes}',
+    ja: '染色：{dyes}',
+    ko: '염색: {dyes}'
+  }),
+  'nsarmoire.store.piece.bind': msg({
+    zh: '绑定：{state}',
+    en: 'Binding: {state}',
+    ja: 'バインド：{state}',
+    ko: '귀속: {state}'
+  }),
+  'nsarmoire.store.piece.bound': msg({
+    zh: '已绑定',
+    en: 'Bound',
+    ja: 'バインド済み',
+    ko: '귀속됨'
+  }),
+  'nsarmoire.store.piece.unbound': msg({
+    zh: '未绑定',
+    en: 'Unbound',
+    ja: '未バインド',
+    ko: '미귀속'
+  }),
+  'nsarmoire.store.piece.moreEntries': msg({
+    zh: '另有 {count} 件',
+    en: '{count} more',
+    ja: '他 {count} 件',
+    ko: '{count}개 더 있음'
   }),
   'nsarmoire.store.items.empty': msg({
     zh: '待补散件',
