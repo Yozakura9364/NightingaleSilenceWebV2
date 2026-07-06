@@ -263,7 +263,13 @@ function getStatusLabel(status: ArmoireStoreOutfitStatus): string {
 }
 
 function getRegionLabel(region: ArmoireStoreRegion): string {
-  return t(region === 'cn' ? textKeys.nsarmoireStoreRegionCn : textKeys.nsarmoireStoreRegionGlobal)
+  const labelKeys: Record<ArmoireStoreRegion, string> = {
+    cn: textKeys.nsarmoireStoreRegionCn,
+    global: textKeys.nsarmoireStoreRegionGlobal,
+    tw: textKeys.nsarmoireStoreRegionTw
+  }
+
+  return t(labelKeys[region])
 }
 
 function getTagLabels(outfit: ArmoireStoreOutfit): string[] {

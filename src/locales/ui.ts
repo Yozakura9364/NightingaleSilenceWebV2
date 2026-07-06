@@ -684,6 +684,24 @@ export const uiMessages: UiMessageMap = {
     ja: '移動可能',
     ko: '이동 가능'
   }),
+  'nsarmoire.collection.status.owned': msg({
+    zh: '已拥有',
+    en: 'Owned',
+    ja: '所持済み',
+    ko: '보유 중'
+  }),
+  'nsarmoire.collection.status.unowned': msg({
+    zh: '未拥有',
+    en: 'Not owned',
+    ja: '未所持',
+    ko: '미보유'
+  }),
+  'nsarmoire.collection.status.dyed': msg({
+    zh: '有染色',
+    en: 'Dyed',
+    ja: '染色あり',
+    ko: '염색 있음'
+  }),
   'nsarmoire.collection.cabinet.summary': msg({
     zh: '已收纳 {stored} / {total}，当前可转入 {transferable}，仍未收纳 {missing}。',
     en: '{stored} / {total} stored; {transferable} transferable now; {missing} still missing.',
@@ -769,10 +787,10 @@ export const uiMessages: UiMessageMap = {
     ko: '매핑됨'
   }),
   'nsarmoire.store.metric.detected': msg({
-    zh: '已检测到',
-    en: 'Detected',
-    ja: '検出済み',
-    ko: '감지됨'
+    zh: '已拥有',
+    en: 'Owned',
+    ja: '所持済み',
+    ko: '보유'
   }),
   'nsarmoire.store.metric.partial': msg({
     zh: '缺部分',
@@ -827,6 +845,12 @@ export const uiMessages: UiMessageMap = {
     en: 'Bonus costume',
     ja: '特典衣装',
     ko: '특전 의상'
+  }),
+  'nsarmoire.store.tag.collectorEditionBonus': msg({
+    zh: '典藏包',
+    en: "Collector's edition",
+    ja: 'コレクターズエディション',
+    ko: '컬렉터스 에디션'
   }),
   'nsarmoire.store.tag.replicaCostume': msg({
     zh: '复制品时装',
@@ -913,10 +937,10 @@ export const uiMessages: UiMessageMap = {
     ko: '여성 전용'
   }),
   'nsarmoire.store.status.complete': msg({
-    zh: '已检测到',
-    en: 'Detected',
-    ja: '検出済み',
-    ko: '감지됨'
+    zh: '已拥有',
+    en: 'Owned',
+    ja: '所持済み',
+    ko: '보유'
   }),
   'nsarmoire.store.status.partial': msg({
     zh: '缺部分',
@@ -925,10 +949,10 @@ export const uiMessages: UiMessageMap = {
     ko: '일부 누락'
   }),
   'nsarmoire.store.status.missing': msg({
-    zh: '未检测到',
-    en: 'Not detected',
-    ja: '未検出',
-    ko: '미감지'
+    zh: '未拥有',
+    en: 'Not owned',
+    ja: '未所持',
+    ko: '미보유'
   }),
   'nsarmoire.store.status.needsMapping': msg({
     zh: '待校正',
@@ -947,6 +971,12 @@ export const uiMessages: UiMessageMap = {
     en: 'Global',
     ja: 'グローバル',
     ko: '글로벌'
+  }),
+  'nsarmoire.store.region.tw': msg({
+    zh: '繁中服',
+    en: 'TW',
+    ja: '繁体字版',
+    ko: '대만 서버'
   }),
   'nsarmoire.store.openLink': msg({
     zh: '打开商城',
@@ -1128,6 +1158,18 @@ export const uiMessages: UiMessageMap = {
     ja: '確認待ちに戻す',
     ko: '확인 대기로 변경'
   }),
+  'nsarmoire.storeReview.action.exclude': msg({
+    zh: '排除出目录',
+    en: 'Exclude from catalog',
+    ja: 'カタログから除外',
+    ko: '목록에서 제외'
+  }),
+  'nsarmoire.storeReview.action.unexclude': msg({
+    zh: '取消排除',
+    en: 'Keep in catalog',
+    ja: '除外を取り消す',
+    ko: '제외 취소'
+  }),
   'nsarmoire.storeReview.status.patchCopied': msg({
     zh: '校正 JSON 已复制',
     en: 'Correction JSON copied',
@@ -1164,6 +1206,48 @@ export const uiMessages: UiMessageMap = {
     ja: '確認済み',
     ko: '확인됨'
   }),
+  'nsarmoire.storeReview.status.excluded': msg({
+    zh: '将排除',
+    en: 'Will exclude',
+    ja: '除外予定',
+    ko: '제외 예정'
+  }),
+  'nsarmoire.storeReview.tags.label': msg({
+    zh: '商城标签',
+    en: 'Store tags',
+    ja: 'ストアタグ',
+    ko: '상점 태그'
+  }),
+  'nsarmoire.storeReview.detailTags.label': msg({
+    zh: '限定',
+    en: 'Limits',
+    ja: '制限',
+    ko: '제한'
+  }),
+  'nsarmoire.storeReview.tagFilter.label': msg({
+    zh: '标签筛选',
+    en: 'Tag filter',
+    ja: 'タグ絞り込み',
+    ko: '태그 필터'
+  }),
+  'nsarmoire.storeReview.tagFilter.all': msg({
+    zh: '全部标签',
+    en: 'All tags',
+    ja: 'すべてのタグ',
+    ko: '전체 태그'
+  }),
+  'nsarmoire.storeReview.tagFilter.tagged': msg({
+    zh: '已有标签',
+    en: 'Tagged',
+    ja: 'タグあり',
+    ko: '태그 있음'
+  }),
+  'nsarmoire.storeReview.tagFilter.untagged': msg({
+    zh: '未打标签',
+    en: 'Untagged',
+    ja: 'タグなし',
+    ko: '태그 없음'
+  }),
   'nsarmoire.storeReview.item.add.label': msg({
     zh: '补物品',
     en: 'Add item',
@@ -1187,6 +1271,30 @@ export const uiMessages: UiMessageMap = {
     en: 'Remove',
     ja: '削除',
     ko: '제거'
+  }),
+  'nsarmoire.storeReview.item.candidates': msg({
+    zh: '候选物品',
+    en: 'Candidate items',
+    ja: '候補アイテム',
+    ko: '후보 아이템'
+  }),
+  'nsarmoire.storeReview.item.candidateAdd': msg({
+    zh: '加入 {item}',
+    en: 'Add {item}',
+    ja: '{item}を追加',
+    ko: '{item} 추가'
+  }),
+  'nsarmoire.storeReview.item.candidateAddPieces': msg({
+    zh: '加入散件',
+    en: 'Add pieces',
+    ja: '部品を追加',
+    ko: '부품 추가'
+  }),
+  'nsarmoire.storeReview.item.candidatePieceCount': msg({
+    zh: '{count} 件',
+    en: '{count} pieces',
+    ja: '{count} 件',
+    ko: '{count}개'
   }),
   'nsarmoire.storeReview.item.added': msg({
     zh: '物品已加入校正草稿',
@@ -2445,10 +2553,28 @@ export const uiMessages: UiMessageMap = {
     ko: '로컬 캐릭터 프로필'
   }),
   'nsarmoire.character.localProfile.message': msg({
-    zh: '占位用，待编辑',
-    en: 'Placeholder, to be edited',
-    ja: '仮置き、後で編集',
-    ko: '임시 문구, 수정 예정'
+    zh: '本机只保存角色摘要，用于区分不同角色的数据时间和读取范围。',
+    en: 'Only a lightweight character summary is stored locally, for separating data time and read scope by character.',
+    ja: 'キャラクターごとのデータ時刻と読み取り範囲を分けるため、軽量な概要だけをローカル保存します。',
+    ko: '캐릭터별 데이터 시간과 읽은 범위를 구분하기 위해 가벼운 요약만 로컬에 저장합니다.'
+  }),
+  'nsarmoire.character.localProfile.empty': msg({
+    zh: '还没有本地角色档案。',
+    en: 'No local character profiles yet.',
+    ja: 'ローカルキャラクタープロフィールはまだありません。',
+    ko: '아직 로컬 캐릭터 프로필이 없습니다.'
+  }),
+  'nsarmoire.character.localProfile.current': msg({
+    zh: '当前',
+    en: 'Current',
+    ja: '現在',
+    ko: '현재'
+  }),
+  'nsarmoire.character.retainerFallback': msg({
+    zh: '雇员 {count}',
+    en: '{count} retainers',
+    ja: 'リテイナー {count}',
+    ko: '고용인 {count}명'
   }),
   'nsarmoire.source.manualImport': msg({
     zh: '手动导入',

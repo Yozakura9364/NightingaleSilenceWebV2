@@ -24,6 +24,8 @@ export function analyzeCabinetProgress(
       storedCount: snapshot.items.filter((item) => item.container === 'armoire').length,
       storableCount: 0,
       transferableItemIds: [],
+      ownedCabinetItemIds: [],
+      dyedOwnedCabinetItemIds: [],
       missingCabinetItemIds: []
     }
   }
@@ -32,11 +34,14 @@ export function analyzeCabinetProgress(
   const storedItemIds = cabinetItemIds.filter((itemId) =>
     hasOwnedItemInContainer(index, itemId, 'armoire')
   )
-  const transferableItemIds = cabinetItemIds.filter(
-    (itemId) =>
-      hasOwnedItem(index, itemId) &&
-      !hasOwnedItemInContainer(index, itemId, 'armoire') &&
-      !getOwnedItems(index, itemId).some(isDyedOwnedItem)
+  const ownedCabinetItemIds = cabinetItemIds.filter(
+    (itemId) => hasOwnedItem(index, itemId) && !hasOwnedItemInContainer(index, itemId, 'armoire')
+  )
+  const dyedOwnedCabinetItemIds = ownedCabinetItemIds.filter((itemId) =>
+    getOwnedItems(index, itemId).some(isDyedOwnedItem)
+  )
+  const transferableItemIds = ownedCabinetItemIds.filter((itemId) =>
+    getOwnedItems(index, itemId).some((item) => !isDyedOwnedItem(item))
   )
   const missingCabinetItemIds = cabinetItemIds.filter(
     (itemId) => !hasOwnedItemInContainer(index, itemId, 'armoire')
@@ -47,6 +52,8 @@ export function analyzeCabinetProgress(
     storedCount: storedItemIds.length,
     storableCount: cabinetItemIds.length,
     transferableItemIds,
+    ownedCabinetItemIds,
+    dyedOwnedCabinetItemIds,
     missingCabinetItemIds
   }
 }

@@ -121,6 +121,8 @@
             <NSArmoireCharacterPanel
               v-if="activeSection === 'characters'"
               :snapshot="snapshot"
+              :profiles="characterProfiles"
+              :active-profile-key="activeProfileKey"
               :helper-endpoint="helperEndpoint"
               :helper-health="helperHealth"
               :catalog="catalog"
@@ -172,6 +174,7 @@ import NSArmoireCharacterPanel from '@/pages/armoire/components/NSArmoireCharact
 import NSArmoireGlamourSetStatsPanel from '@/pages/armoire/components/NSArmoireGlamourSetStatsPanel.vue'
 import { useArmoireCatalog } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
+import { useArmoireCharacterProfiles } from '@/pages/armoire/composables/useArmoireCharacterProfiles'
 import { useArmoireDyePreferences } from '@/pages/armoire/composables/useArmoireDyePreferences'
 import { useArmoireHelper } from '@/pages/armoire/composables/useArmoireHelper'
 import { useArmoireStoreCatalog } from '@/pages/armoire/composables/useArmoireStoreCatalog'
@@ -241,6 +244,7 @@ const {
   loadExampleSnapshot,
   clearSnapshot
 } = useArmoireSnapshot()
+const { profiles: characterProfiles, activeProfileKey } = useArmoireCharacterProfiles(snapshot)
 
 const { catalog, status: catalogStatus, error: catalogError, loadCatalog } = useArmoireCatalog()
 const {

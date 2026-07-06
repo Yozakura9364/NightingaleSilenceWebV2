@@ -4,11 +4,24 @@ import { resolve } from 'node:path'
 const DEFAULT_ARMOIRE_CATALOG = 'public/data/armoire-catalog.json'
 const DEFAULT_STORE_CATALOG = 'public/data/armoire-store-catalog.json'
 const STORE_SCHEMA_VERSION = 'nsarmoire.storeCatalog.v1'
-const VALID_REGIONS = new Set(['cn', 'global'])
+const VALID_REGIONS = new Set(['cn', 'global', 'tw'])
 const VALID_LINK_REGIONS = new Set(['cn', 'global', 'tw', 'kr'])
+const LINK_URL_PATTERNS = new Map([
+  ['cn', /^https:\/\/qu\.sdo\.com\/product-detail\/[A-Za-z0-9]+(?:[/?#].*)?$/],
+  [
+    'global',
+    /^https:\/\/store\.finalfantasyxiv\.com\/ffxivstore\/[a-z]{2}-[a-z]{2}\/product\/\d+(?:[/?#].*)?$/
+  ],
+  [
+    'tw',
+    /^https:\/\/www\.ffxiv\.com\.tw\/web\/store\/product_detail\.aspx\?id=[A-Za-z0-9_]+(?:[&#].*)?$/
+  ],
+  ['kr', /^https:\/\/www\.ff14\.co\.kr\/shop\/home\/detail\/\d+(?:[/?#].*)?$/i]
+])
 const VALID_STORE_TAGS = new Set([
   'npcCostume',
   'bonusCostume',
+  'collectorEditionBonus',
   'replicaCostume',
   'fanFestivalCostume',
   'crossoverCostume',
@@ -120,6 +133,13 @@ function validateRegionalStoreUrls(outfit, label, issues) {
 
     if (typeof url !== 'string' || !url) {
       addIssue(issues, `${label}.regionalStoreUrls.${region} must be a non-empty string`)
+      continue
+    }
+
+    const pattern = LINK_URL_PATTERNS.get(region)
+
+    if (pattern && !pattern.test(url)) {
+      addIssue(issues, `${label}.regionalStoreUrls.${region} has unsupported URL format`, url)
     }
   }
 }
@@ -238,7 +258,11 @@ function buildDuplicateValues(values) {
 
 function validateOutfitUniqueness(outfits, issues) {
   const duplicateIds = buildDuplicateValues(outfits.map((outfit) => outfit.id))
-  const duplicateProductIds = buildDuplicateValues(outfits.map((outfit) => outfit.productId))
+  const duplicateProductIds = buildDuplicateValues(
+    outfits.map((outfit) =>
+      outfit.productId && outfit.region ? `${outfit.region}:${outfit.productId}` : outfit.productId
+    )
+  )
 
   if (duplicateIds.length > 0) {
     addIssue(issues, 'Duplicate store outfit ids', duplicateIds.join(', '))
@@ -286,7 +310,8 @@ function buildNameIndex(armoireCatalog) {
     .filter((item) => item && typeof item.name === 'string' && item.name.trim())
     .map((item) => ({
       itemId: item.itemId,
-      name: item.name.trim()
+      name: item.name.trim(),
+      pieceItemIds: Array.isArray(item.pieceItemIds) ? item.pieceItemIds : []
     }))
 }
 
@@ -307,11 +332,7 @@ function findCandidateItems(outfit, catalogNameEntries) {
   }
 
   return catalogNameEntries
-    .filter((item) =>
-      searchNames.some(
-        (name) => item.name.includes(name) || name.includes(normalizeForSearch(item.name))
-      )
-    )
+    .filter((item) => searchNames.some((name) => normalizeForSearch(item.name).includes(name)))
     .slice(0, 8)
 }
 
@@ -340,13 +361,53 @@ function printPendingRows(storeCatalog, armoireCatalog, pendingLimit) {
   console.log('\nNeeds mapping:')
   for (const outfit of pending) {
     const candidates = findCandidateItems(outfit, catalogNameEntries)
-      .map((item) => `${item.itemId}:${item.name}`)
+      .map(formatCandidateItem)
       .join(' / ')
     const itemNames = outfit.itemNames.length > 0 ? outfit.itemNames.join(' / ') : '无散件名'
-    console.log(
-      `- ${outfit.name} | items: ${itemNames}${candidates ? ` | candidates: ${candidates}` : ''}`
-    )
+    const links = formatRegionalLinks(outfit)
+    const tags = [...(outfit.tags ?? []), ...(outfit.detailTags ?? [])].join(' / ')
+    const meta = [
+      `id: ${outfit.id}`,
+      outfit.productId ? `product: ${outfit.productId}` : '',
+      outfit.skuId ? `sku: ${outfit.skuId}` : '',
+      tags ? `tags: ${tags}` : '',
+      outfit.notes ? `notes: ${outfit.notes}` : ''
+    ].filter(Boolean)
+
+    console.log(`- ${outfit.name} | ${meta.join(' | ')}`)
+    console.log(`  items: ${itemNames}${candidates ? ` | candidates: ${candidates}` : ''}`)
+    if (links) {
+      console.log(`  links: ${links}`)
+    }
   }
+}
+
+function formatCandidateItem(item) {
+  const pieces = item.pieceItemIds.length > 0 ? ` -> ${item.pieceItemIds.length}件散件` : ''
+
+  return `${item.itemId}:${item.name}${pieces}`
+}
+
+function formatRegionalLinks(outfit) {
+  const links = []
+  const regionalStoreUrls = isRecord(outfit.regionalStoreUrls) ? outfit.regionalStoreUrls : {}
+
+  for (const region of VALID_LINK_REGIONS) {
+    const url = regionalStoreUrls[region]
+    if (typeof url === 'string' && url) {
+      links.push(`${region}=${url}`)
+    }
+  }
+
+  if (
+    typeof outfit.storeUrl === 'string' &&
+    outfit.storeUrl &&
+    !Object.values(regionalStoreUrls).includes(outfit.storeUrl)
+  ) {
+    links.push(`store=${outfit.storeUrl}`)
+  }
+
+  return links.join(' | ')
 }
 
 async function main() {

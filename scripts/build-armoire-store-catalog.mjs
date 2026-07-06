@@ -38,9 +38,36 @@ const GLOBAL_FILTER_IDS_BY_TAG = new Map([
   [7, 'heavensturn'],
   [11, 'goldSaucerFestival']
 ])
+const GLOBAL_STANDALONE_PRODUCT_IDS = [
+  187, 294, 295, 306, 307, 308, 309, 310, 311, 368, 369, 370, 371, 372, 631, 827, 902, 903, 904,
+  905, 906, 907, 908, 1075, 1111
+]
+const GLOBAL_PRODUCT_ID_BY_OUTFIT_ID = new Map([
+  ['cn-142', 134],
+  ['cn-145', 135],
+  ['cn-181', 198],
+  ['cn-387', 469],
+  ['cn-434', 528],
+  ['cn-435', 527],
+  ['cn-583', 625],
+  ['cn-598', 765],
+  ['cn-613', 786],
+  ['cn-196', 386],
+  ['cn-231', 319],
+  ['cn-45', 189],
+  ['cn-1516685016094642176', 857],
+  ['cn-1516685614395330560', 858],
+  ['cn-1655445923972149248', 901],
+  ['cn-1673893209865605120', 913],
+  ['cn-1905464059595239424', 1065],
+  ['cn-1949696744794300417', 1073],
+  ['cn-2047568766563434497', 1147],
+  ['cn-2054809453562417152', 1156]
+])
 const STORE_TAG_ORDER = [
   'npcCostume',
   'bonusCostume',
+  'collectorEditionBonus',
   'replicaCostume',
   'fanFestivalCostume',
   'crossoverCostume',
@@ -67,8 +94,12 @@ const GLOBAL_DETAIL_TAG_BY_ICON_TEXT = new Map([
 ])
 const TEXT_TAG_RULES = [
   {
+    tag: 'collectorEditionBonus',
+    patterns: [/典藏版/, /典藏包/, /コレクターズエディション/i, /collector'?s edition/i]
+  },
+  {
     tag: 'bonusCostume',
-    patterns: [/特典/, /予約特典/, /購入特典/, /コレクターズエディション/i, /collector'?s edition/i]
+    patterns: [/特典/, /予約特典/, /購入特典/]
   },
   {
     tag: 'replicaCostume',
@@ -199,6 +230,7 @@ const SKIP_PRODUCT_WORDS = [
   '发型',
   '染剂',
   '烟花',
+  '星芒树',
   '家具',
   '房屋',
   '季票',
@@ -301,8 +333,18 @@ const CN_PRODUCT_HEADERS = {
 const COVER_ITEM_NAME_HINTS = {
   男性人狼套装: ['人狼身体'],
   女性人狼套装: ['人狼身体'],
-  西德套装: ['首席机械师装备套装', '首席机械师套装']
+  西德套装: ['首席机械师装备套装', '首席机械师套装'],
+  运动休闲套装: ['运动休闲破烂罩衫上衣'],
+  血盟公爵武器套装: ['血盟公爵幻杖']
 }
+const MANUAL_OUTFIT_ITEM_IDS_BY_ID = new Map([
+  ['cn-485', [21017, 21018, 21019, 21020, 21021]],
+  ['cn-484', [21017, 21018, 21019, 21020, 21026]]
+])
+const MANUAL_OUTFIT_DETAIL_TAGS_BY_ID = new Map([
+  ['cn-485', ['maleOnly']],
+  ['cn-484', ['femaleOnly']]
+])
 const STORE_ITEM_NAME_CORRECTIONS = {
   血盟双剑师膝裤: '血盟双剑师长裤'
 }
@@ -864,6 +906,34 @@ function resolveStoreItemIds(itemNames, nameIndex, catalogItemIndex) {
   )
 }
 
+function resolveProductNameItemIds(productName, catalogItemIndex) {
+  const exactMatches = Array.from(catalogItemIndex.values()).filter(
+    (item) => item?.name?.trim() === productName && isStoreAppearanceCatalogItem(item)
+  )
+
+  if (exactMatches.length > 0) {
+    return getUniqueSortedItemIds(exactMatches.map((item) => Number(item.itemId)))
+  }
+
+  const normalizedProductName = normalizeCoverSearchName(productName)
+
+  if (!normalizedProductName || normalizedProductName.length < 2) {
+    return []
+  }
+
+  const normalizedMatches = Array.from(catalogItemIndex.values()).filter(
+    (item) =>
+      normalizeCoverSearchName(item?.name) === normalizedProductName &&
+      isStoreAppearanceCatalogItem(item)
+  )
+
+  if (normalizedMatches.length !== 1) {
+    return []
+  }
+
+  return [Number(normalizedMatches[0].itemId)]
+}
+
 function normalizeCoverSearchName(value) {
   return String(value ?? '')
     .replace(/[·・\-—_（）()【】\[\]「」『』“”"']/g, '')
@@ -960,6 +1030,22 @@ function getGlobalStoreUrl(productId) {
   return `${GLOBAL_STORE_URL.replace(/\/$/, '')}/product/${productId}`
 }
 
+function applyKnownGlobalLink(outfit) {
+  const productId = GLOBAL_PRODUCT_ID_BY_OUTFIT_ID.get(outfit.id)
+
+  if (!productId || outfit.regionalStoreUrls?.global) {
+    return outfit
+  }
+
+  return {
+    ...outfit,
+    regionalStoreUrls: {
+      ...outfit.regionalStoreUrls,
+      global: getGlobalStoreUrl(productId)
+    }
+  }
+}
+
 function getGlobalItems(globalProduct) {
   return Array.isArray(globalProduct?.items) ? globalProduct.items : []
 }
@@ -995,6 +1081,10 @@ function inferStoreTags(globalProduct, outfit, tagsByProductId) {
     if (patterns.some((pattern) => pattern.test(searchText))) {
       tags.add(tag)
     }
+  }
+
+  if (tags.has('collectorEditionBonus')) {
+    tags.delete('bonusCostume')
   }
 
   return getUniqueOrderedValues(Array.from(tags), STORE_TAG_ORDER)
@@ -1038,6 +1128,61 @@ function getGlobalMetadata(globalProduct, productId) {
     ...(globalProduct?.name ? { globalProductName: cleanText(globalProduct.name) } : {}),
     ...(globalItemNames.length > 0 ? { globalItemNames } : {}),
     ...(globalItemUris.length > 0 ? { globalItemUris } : {})
+  }
+}
+
+function formatGlobalPriceLabel(globalProduct) {
+  return (
+    cleanText(globalProduct?.salePriceText) ||
+    cleanText(globalProduct?.priceText) ||
+    (Number.isFinite(Number(globalProduct?.salePrice))
+      ? `${Number(globalProduct.salePrice)} 円`
+      : Number.isFinite(Number(globalProduct?.price))
+        ? `${Number(globalProduct.price)} 円`
+        : undefined)
+  )
+}
+
+function buildOutfitFromGlobalProduct(
+  globalProduct,
+  jaNameIndex,
+  catalogItemIndex,
+  tagsByProductId
+) {
+  const productId = Number(globalProduct?.id ?? 0)
+  const globalItems = getGlobalItems(globalProduct)
+  const { itemIds, unresolvedItemNames } = resolveGlobalStoreItems(
+    globalItems,
+    jaNameIndex,
+    catalogItemIndex
+  )
+  const outfit = {
+    id: `global-${productId}`,
+    region: 'global',
+    name: cleanText(globalProduct?.name),
+    storeUrl: getGlobalStoreUrl(productId),
+    regionalStoreUrls: {
+      global: getGlobalStoreUrl(productId)
+    },
+    sourceUrl: GLOBAL_STORE_URL,
+    productId: String(productId),
+    skuId: cleanText(globalProduct?.skuId),
+    priceLabel: formatGlobalPriceLabel(globalProduct),
+    itemNames: getCatalogItemNames(itemIds, catalogItemIndex),
+    itemIds,
+    mappingSource: itemIds.length > 0 ? 'global-store' : undefined,
+    needsMapping: itemIds.length === 0 || unresolvedItemNames.length > 0,
+    ...getGlobalMetadata(globalProduct, productId)
+  }
+  const tags = inferStoreTags(globalProduct, outfit, tagsByProductId)
+  const detailTags = inferStoreDetailTags(globalProduct)
+  const coverItemId = outfit.itemIds.find((itemId) => catalogItemIndex.get(itemId)?.iconId)
+
+  return {
+    ...outfit,
+    ...(coverItemId ? { coverItemId } : {}),
+    ...(tags.length > 0 ? { tags } : {}),
+    ...(detailTags.length > 0 ? { detailTags } : {})
   }
 }
 
@@ -1111,12 +1256,29 @@ function applyGlobalProductData(
 function buildOutfitFromCnProduct(row, nameIndex, catalogItemIndex) {
   const { product, sku } = normalizeProductRow(row)
   const productId = String(product.productId ?? product.id ?? row.productId ?? '')
+  const outfitId = `cn-${productId}`
   const skuId = String(row.defaultSKUId ?? sku.skuId ?? sku.id ?? '')
-  const itemNames = extractItemNames(product.productName, product.productContent)
-  const itemIds = resolveStoreItemIds(itemNames, nameIndex, catalogItemIndex)
+  const extractedItemNames = extractItemNames(product.productName, product.productContent)
+  const extractedItemIds = resolveStoreItemIds(extractedItemNames, nameIndex, catalogItemIndex)
+  const fallbackItemIds =
+    extractedItemIds.length === 0
+      ? resolveProductNameItemIds(String(product.productName ?? '').trim(), catalogItemIndex)
+      : []
+  const manualItemIds = MANUAL_OUTFIT_ITEM_IDS_BY_ID.get(outfitId) ?? []
+  const itemIds =
+    extractedItemIds.length > 0
+      ? extractedItemIds
+      : fallbackItemIds.length > 0
+        ? fallbackItemIds
+        : manualItemIds
+  const itemNames =
+    extractedItemNames.length > 0
+      ? extractedItemNames
+      : getCatalogItemNames(itemIds, catalogItemIndex)
+  const detailTags = MANUAL_OUTFIT_DETAIL_TAGS_BY_ID.get(outfitId) ?? []
   const storeUrl = skuId ? `https://qu.sdo.com/product-detail/${skuId}` : CN_STORE_URL
   const outfit = {
-    id: `cn-${productId}`,
+    id: outfitId,
     region: 'cn',
     name: String(product.productName ?? '').trim(),
     storeUrl,
@@ -1130,7 +1292,10 @@ function buildOutfitFromCnProduct(row, nameIndex, catalogItemIndex) {
     itemNames,
     itemIds,
     mappingSource: itemIds.length > 0 ? 'cn-store' : undefined,
-    needsMapping: itemIds.length === 0 || itemIds.length < itemNames.length,
+    needsMapping:
+      itemIds.length === 0 ||
+      (extractedItemNames.length > 0 && itemIds.length < extractedItemNames.length),
+    ...(detailTags.length > 0 ? { detailTags } : {}),
     notes: itemNames.length > 0 ? undefined : '商品说明未解析出散件名称，待人工校正'
   }
   const coverItemId = resolveCoverItemId(outfit, catalogItemIndex)
@@ -1226,6 +1391,11 @@ function buildStoreCatalog(outfits) {
         region: 'global',
         url: GLOBAL_STORE_URL,
         note: '有国际服商品链接时，优先使用国际服商品详情 items 与日文 Item.csv 映射 itemIds，并使用国际服 filter/icons 自动生成 tags/detailTags。'
+      },
+      {
+        region: 'tw',
+        url: 'https://www.ffxiv.com.tw/web/store/',
+        note: '繁中服进度与其他服务器不同，只保留人工维护的地区链接并做格式校验；不从繁中服自动抓取商品、补漏或反推 itemIds。'
       }
     ],
     outfits
@@ -1246,6 +1416,18 @@ function buildSummary(catalog, totalCount, output) {
     ).length,
     needsMappingCount: catalog.outfits.filter((outfit) => outfit.needsMapping).length
   }
+}
+
+function getPreservedManualOutfits(existingCatalog, generatedOutfits) {
+  if (!existingCatalog?.outfits) {
+    return []
+  }
+
+  const generatedIds = new Set(generatedOutfits.map((outfit) => outfit.id))
+
+  return existingCatalog.outfits.filter(
+    (outfit) => outfit.corrected === true && !generatedIds.has(outfit.id)
+  )
 }
 
 async function main() {
@@ -1275,10 +1457,29 @@ async function main() {
     .map((outfit) =>
       mergeExistingCorrection(outfit, existingOutfits.get(outfit.id), args.preserveExisting)
     )
+    .map(applyKnownGlobalLink)
+  const baseGlobalProductIds = new Set(
+    baseOutfits.map(getGlobalProductId).filter((productId) => productId > 0)
+  )
   const globalProductIds = Array.from(
-    new Set(baseOutfits.map(getGlobalProductId).filter((productId) => productId > 0))
+    new Set([...baseGlobalProductIds, ...GLOBAL_STANDALONE_PRODUCT_IDS])
   ).sort((left, right) => left - right)
   const globalProducts = await fetchGlobalProducts(globalProductIds)
+  const globalStandaloneOutfits = GLOBAL_STANDALONE_PRODUCT_IDS.filter(
+    (productId) => !baseGlobalProductIds.has(productId) && globalProducts.has(productId)
+  )
+    .map((productId) =>
+      buildOutfitFromGlobalProduct(
+        globalProducts.get(productId),
+        jaNameIndex,
+        catalogItemIndex,
+        globalTagsByProductId
+      )
+    )
+    .filter((outfit) => outfit.productId && outfit.name)
+    .map((outfit) =>
+      mergeExistingCorrection(outfit, existingOutfits.get(outfit.id), args.preserveExisting)
+    )
   const outfits = baseOutfits
     .map((outfit) =>
       applyGlobalProductData(
@@ -1289,6 +1490,8 @@ async function main() {
         globalTagsByProductId
       )
     )
+    .concat(globalStandaloneOutfits)
+    .concat(getPreservedManualOutfits(existingCatalog, baseOutfits.concat(globalStandaloneOutfits)))
     .sort((left, right) => left.name.localeCompare(right.name, 'zh-Hans-CN'))
   const catalog = buildStoreCatalog(outfits)
 
