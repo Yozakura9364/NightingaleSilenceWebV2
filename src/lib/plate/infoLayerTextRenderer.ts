@@ -311,9 +311,7 @@ function drawInfoTextInlineIcon(
   }
 
   const iconGapPx = Math.max(0, Number(row.iconGapPx) || 0)
-  const iconX = row.iconWorldTransrate
-    ? row.textLeft - iconGapPx - iconWidthPx
-    : row.left
+  const iconX = row.iconWorldTransrate ? row.textLeft - iconGapPx - iconWidthPx : row.left
   const iconY = row.iconWorldTransrate
     ? (Number.isFinite(Number(row.iconFixedBottomY))
         ? Number(row.iconFixedBottomY)
@@ -366,48 +364,56 @@ function computeInfoTextLayerLayout(
   context.font = fontSpec
   applyInfoTextCanvasFeatures(context, layer)
 
-  const rows: NSPlateInfoTextLayoutRow[] = wrapInfoTextLines(layer.text, context, wrapWidthPx).map((text, index) => {
-    const textWidth = measureInfoText(context, text)
-    const hasInlineIconOnRow = index === 0 && inlineIcon !== null
-    const isWorldTransrateInlineIcon =
-      hasInlineIconOnRow && isWorldTransrateInlineIconPath(inlineIcon.path)
+  const centerReferenceWidth = resolveInfoTextCenterReferenceWidth(context, layer, wrapWidthPx)
+  const rows: NSPlateInfoTextLayoutRow[] = wrapInfoTextLines(layer.text, context, wrapWidthPx).map(
+    (text, index) => {
+      const textWidth = measureInfoText(context, text)
+      const hasInlineIconOnRow = index === 0 && inlineIcon !== null
+      const isWorldTransrateInlineIcon =
+        hasInlineIconOnRow && isWorldTransrateInlineIconPath(inlineIcon.path)
 
-    if (inlineIcon && isWorldTransrateInlineIcon) {
-      const textLeft = resolveAlignedTextLeft(xAnchor, textWidth, layer.align)
+      if (inlineIcon && isWorldTransrateInlineIcon) {
+        const textLeft = resolveAlignedTextLeft(
+          xAnchor,
+          textWidth,
+          layer.align,
+          centerReferenceWidth
+        )
+
+        return {
+          text,
+          width: textWidth,
+          textWidth,
+          left: textLeft,
+          textLeft,
+          top: yAnchor + index * lineHeightPx,
+          iconPath: inlineIcon.path,
+          iconWidthPx: inlineIcon.width,
+          iconHeightPx: inlineIcon.height,
+          iconGapPx: inlineIcon.gap,
+          iconWorldTransrate: true,
+          iconFixedBottomY: INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y
+        } satisfies NSPlateInfoTextLayoutRow
+      }
+
+      const iconWidth = inlineIcon && hasInlineIconOnRow ? inlineIcon.width + inlineIcon.gap : 0
+      const width = textWidth + iconWidth
+      const left = resolveAlignedTextLeft(xAnchor, width, layer.align, centerReferenceWidth)
 
       return {
         text,
-        width: textWidth,
+        width,
         textWidth,
-        left: textLeft,
-        textLeft,
+        left,
+        textLeft: left + iconWidth,
         top: yAnchor + index * lineHeightPx,
-        iconPath: inlineIcon.path,
-        iconWidthPx: inlineIcon.width,
-        iconHeightPx: inlineIcon.height,
-        iconGapPx: inlineIcon.gap,
-        iconWorldTransrate: true,
-        iconFixedBottomY: INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y
+        iconPath: inlineIcon && hasInlineIconOnRow ? inlineIcon.path : '',
+        iconWidthPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.width : 0,
+        iconHeightPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.height : 0,
+        iconGapPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.gap : 0
       } satisfies NSPlateInfoTextLayoutRow
     }
-
-    const iconWidth = inlineIcon && hasInlineIconOnRow ? inlineIcon.width + inlineIcon.gap : 0
-    const width = textWidth + iconWidth
-    const left = resolveAlignedTextLeft(xAnchor, width, layer.align)
-
-    return {
-      text,
-      width,
-      textWidth,
-      left,
-      textLeft: left + iconWidth,
-      top: yAnchor + index * lineHeightPx,
-      iconPath: inlineIcon && hasInlineIconOnRow ? inlineIcon.path : '',
-      iconWidthPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.width : 0,
-      iconHeightPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.height : 0,
-      iconGapPx: inlineIcon && hasInlineIconOnRow ? inlineIcon.gap : 0
-    } satisfies NSPlateInfoTextLayoutRow
-  })
+  )
 
   if (!rows.length) {
     rows.push({
@@ -503,7 +509,9 @@ function resolveInfoTextInlineIconUrl(path: string) {
 function isWorldTransrateInlineIconPath(value: string) {
   const normalized = value.replace(/\\/g, '/').toLowerCase()
 
-  return normalized === 'ui/sprites/worldtransrate_4.png' || normalized.endsWith('/worldtransrate_4.png')
+  return (
+    normalized === 'ui/sprites/worldtransrate_4.png' || normalized.endsWith('/worldtransrate_4.png')
+  )
 }
 
 function loadInfoTextInlineIconImage(layout: NSPlateInfoTextLayout) {
@@ -583,6 +591,19 @@ function measureInfoText(context: CanvasRenderingContext2D, text: string) {
   return text ? context.measureText(text).width : 0
 }
 
+function resolveInfoTextCenterReferenceWidth(
+  context: CanvasRenderingContext2D,
+  layer: NSPlateInfoTextRenderLayer,
+  wrapWidthPx: number
+) {
+  if (layer.align !== 'center' || layer.centerOnDefaultText !== true) {
+    return 0
+  }
+
+  const referenceRows = wrapInfoTextLines(layer.defaultText, context, wrapWidthPx)
+  return Math.max(0, ...referenceRows.map((row) => measureInfoText(context, row)))
+}
+
 function buildInfoTextLayerFontSpec(layer: NSPlateInfoTextRenderLayer) {
   const style = layer.italic ? 'italic' : 'normal'
   const weight = layer.bold ? 700 : resolveFontVariantWeight(layer.fontVariant)
@@ -644,9 +665,14 @@ function applyInfoTextCanvasFeatures(
   }
 }
 
-function resolveAlignedTextLeft(anchorX: number, width: number, align: NSPlateInfoTextAlign) {
+function resolveAlignedTextLeft(
+  anchorX: number,
+  width: number,
+  align: NSPlateInfoTextAlign,
+  centerReferenceWidth = 0
+) {
   if (align === 'center') {
-    return anchorX - width / 2
+    return anchorX + centerReferenceWidth / 2 - width / 2
   }
 
   if (align === 'right') {

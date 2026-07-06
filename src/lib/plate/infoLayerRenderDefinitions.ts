@@ -139,8 +139,9 @@ export const nsPlateInfoTextRenderDefinitions = {
         scaleYPercent: 94
       }
     ),
-    textLayer('text-11', '作息文字', '平日\n休日', 'AXIS', 'medium', 'left', 611, 780, 24, {
+    textLayer('text-11', '作息文字', '平日\n休日', 'AXIS', 'regular', 'center', 611, 780, 24, {
       positionBySide: splitSide(611, 780, 1191, 780),
+      centerOnDefaultText: true,
       lineHeightMode: 'manual',
       lineHeight: 2,
       kerningVA: -75,
@@ -232,8 +233,9 @@ export const nsPlateInfoTextRenderDefinitions = {
         scaleYPercent: 95
       }
     ),
-    textLayer('text-11', '作息文字', '工作日\n休息日', 'AXIS', 'medium', 'left', 611, 780, 24, {
+    textLayer('text-11', '作息文字', '工作日\n休息日', 'AXIS', 'medium', 'center', 611, 780, 24, {
       positionBySide: splitSide(611, 780, 1191, 780),
+      centerOnDefaultText: true,
       lineHeightMode: 'manual',
       lineHeight: 2,
       kerningVA: -75,
@@ -546,6 +548,7 @@ function textLayer(
     smallCaps: false,
     renderEffect: 'none',
     align,
+    centerOnDefaultText: false,
     x,
     y,
     positionBySide: sameSide(x, y),

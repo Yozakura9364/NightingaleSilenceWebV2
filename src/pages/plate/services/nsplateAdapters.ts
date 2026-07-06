@@ -103,34 +103,66 @@ function normalizeAssetList(
   meta: NSPlateFilesResponse['_meta'],
   locale: string
 ): NSPlateAssetSummary[] {
-  return assets.map((asset, index) => {
-    const file = normalizeText(asset.file) ?? ''
-    const path = normalizeNSPlateResourcePath(asset.path ?? file)
-    const stableIdPart =
-      normalizeText(asset.id) ?? normalizeText(path) ?? normalizeText(file) ?? String(index)
-    const legacyIdPart = normalizeText(asset.id) ?? normalizeText(file) ?? normalizeText(path) ?? ''
-    const legacyId = `${scope}:${category}:${index}:${legacyIdPart}`
-    const label =
-      pickLocalizedName(asset.names, locale) ??
-      normalizeText(asset.name) ??
-      normalizeText(asset.id) ??
-      file ??
-      `${category} ${index + 1}`
+  return assets
+    .map((asset, index) => {
+      const file = normalizeText(asset.file) ?? ''
+      const path = normalizeNSPlateResourcePath(asset.path ?? file)
+      const stableIdPart =
+        normalizeText(asset.id) ?? normalizeText(path) ?? normalizeText(file) ?? String(index)
+      const legacyIdPart =
+        normalizeText(asset.id) ?? normalizeText(file) ?? normalizeText(path) ?? ''
+      const legacyId = `${scope}:${category}:${index}:${legacyIdPart}`
+      const label =
+        pickLocalizedName(asset.names, locale) ??
+        normalizeText(asset.name) ??
+        normalizeText(asset.id) ??
+        file ??
+        `${category} ${index + 1}`
 
-    return {
-      id: `${scope}:${category}:${stableIdPart}`,
-      legacyIds: [legacyId],
-      scope,
-      scopeLabel: pickUiMessage(assetScopeLabels[scope], locale),
-      category,
-      label,
-      file,
-      path,
-      imageUrl: joinNSPlateResourceUrl(meta?.imgBase, path),
-      previewUrl: joinNSPlateResourceUrl(meta?.previewImgBase, path),
-      raw: asset
-    }
-  })
+      return {
+        asset: {
+          id: `${scope}:${category}:${stableIdPart}`,
+          legacyIds: [legacyId],
+          scope,
+          scopeLabel: pickUiMessage(assetScopeLabels[scope], locale),
+          category,
+          label,
+          file,
+          path,
+          imageUrl: joinNSPlateResourceUrl(meta?.imgBase, path),
+          previewUrl: joinNSPlateResourceUrl(meta?.previewImgBase, path),
+          raw: asset
+        },
+        index
+      }
+    })
+    .sort((left, right) => {
+      const groupDelta = getAssetDisplayGroup(left.asset) - getAssetDisplayGroup(right.asset)
+      return groupDelta || left.index - right.index
+    })
+    .map(({ asset }) => asset)
+}
+
+const seasonAssetLabelPattern = /赛季|賽季|Season|Saison|シーズン|시즌/i
+
+function getAssetDisplayGroup(asset: NSPlateAssetSummary) {
+  if (asset.raw.unreleased) {
+    return 2
+  }
+
+  if (isSeasonAsset(asset)) {
+    return 1
+  }
+
+  return 0
+}
+
+function isSeasonAsset(asset: NSPlateAssetSummary) {
+  const rawNames = asset.raw.names ? Object.values(asset.raw.names) : []
+
+  return [asset.label, asset.raw.name, ...rawNames].some((label) =>
+    seasonAssetLabelPattern.test(String(label ?? ''))
+  )
 }
 
 function pickLocalizedName(names: Record<string, string> | undefined, locale: string) {
