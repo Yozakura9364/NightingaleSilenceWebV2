@@ -17,7 +17,33 @@ interface InsightSource {
   hasPendingCatalogChecks?: boolean
 }
 
-export function useArmoireInsightViewModels(source: InsightSource, t: Translate) {
+type InsightListKey =
+  | 'cabinet'
+  | 'sets'
+  | 'setPieces'
+  | 'duplicateItems'
+  | 'duplicateModels'
+  | 'dyes'
+
+interface InsightViewOptions {
+  getListLimit?: (key: InsightListKey) => number | undefined
+}
+
+export function useArmoireInsightViewModels(
+  source: InsightSource,
+  t: Translate,
+  options: InsightViewOptions = {}
+) {
+  function limitItems<T>(key: InsightListKey, items: readonly T[]): readonly T[] {
+    const limit = options.getListLimit?.(key)
+
+    if (typeof limit !== 'number') {
+      return items
+    }
+
+    return items.slice(0, Math.max(0, limit))
+  }
+
   function addItemLocation(
     locations: Map<number, string[]>,
     item: ArmoireSnapshot['items'][number]
@@ -40,6 +66,22 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
     }
 
     return locations
+  })
+
+  const ownedEntriesByItemId = computed(() => {
+    const entries = new Map<number, ArmoireSnapshot['items']>()
+
+    for (const item of source.snapshot?.items ?? []) {
+      const itemEntries = entries.get(item.itemId)
+
+      if (itemEntries) {
+        itemEntries.push(item)
+      } else {
+        entries.set(item.itemId, [item])
+      }
+    }
+
+    return entries
   })
 
   const storageSpaceItemLocationsByItemId = computed(() => {
@@ -68,7 +110,9 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
       return []
     }
 
-    return source.analysis.cabinetProgress.transferableItemIds.map(display.toTransferableItem)
+    return limitItems('cabinet', source.analysis.cabinetProgress.transferableItemIds).map(
+      display.toTransferableItem
+    )
   })
 
   const incompleteSets = computed(() => {
@@ -76,9 +120,11 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
       return []
     }
 
-    return source.analysis.glamourSetProgress.sets
-      .filter((set) => set.isStoredAsSet && set.missingPieceItemIds.length > 0)
-      .map(display.toIncompleteSetView)
+    const sets = source.analysis.glamourSetProgress.sets.filter(
+      (set) => set.isStoredAsSet && set.missingPieceItemIds.length > 0
+    )
+
+    return limitItems('sets', sets).map(display.toIncompleteSetView)
   })
 
   const incompleteSetItems = computed(() => incompleteSets.value.map(display.toIncompleteSetItem))
@@ -92,9 +138,10 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
       return []
     }
 
-    return source.analysis.glamourSetProgress.bucketStorableLoosePieceItemIds.map(
-      display.toSetBucketLoosePieceItem
-    )
+    return limitItems(
+      'setPieces',
+      source.analysis.glamourSetProgress.bucketStorableLoosePieceItemIds
+    ).map(display.toSetBucketLoosePieceItem)
   })
 
   const duplicateItemGroups = computed(() => {
@@ -102,11 +149,8 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
       return []
     }
 
-    return source.analysis.duplicateItems.groups.map((group) =>
-      display.toDuplicateItemView(
-        group,
-        source.snapshot?.items.filter((item) => item.itemId === group.itemId) ?? []
-      )
+    return limitItems('duplicateItems', source.analysis.duplicateItems.groups).map((group) =>
+      display.toDuplicateItemView(group, ownedEntriesByItemId.value.get(group.itemId) ?? [])
     )
   })
 
@@ -117,7 +161,9 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
       return []
     }
 
-    return source.analysis.identicalModels.groups.map(display.toDuplicateGroupView)
+    return limitItems('duplicateModels', source.analysis.identicalModels.groups).map(
+      display.toDuplicateGroupView
+    )
   })
 
   const duplicateModelItems = computed(() =>
@@ -137,9 +183,11 @@ export function useArmoireInsightViewModels(source: InsightSource, t: Translate)
       return []
     }
 
-    return source.analysis.dyeRisk.items
-      .filter((item) => item.clearsDyeOnStorage && item.hasValuableDye)
-      .map(display.toDyeRiskItem)
+    const items = source.analysis.dyeRisk.items.filter(
+      (item) => item.clearsDyeOnStorage && item.hasValuableDye
+    )
+
+    return limitItems('dyes', items).map(display.toDyeRiskItem)
   })
 
   const cabinetCount = computed(() =>

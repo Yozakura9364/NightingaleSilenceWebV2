@@ -11,7 +11,7 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationCabinet)"
         :count="cabinetCount"
-        :toggle-label="getToggleLabel('cabinet', transferableItems.length)"
+        :toggle-label="getToggleLabel('cabinet', cabinetCount)"
         :sticky-header="isListExpanded('cabinet')"
         @toggle="toggleList('cabinet')"
       >
@@ -32,7 +32,7 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationSets)"
         :count="incompleteSetCount"
-        :toggle-label="getToggleLabel('sets', incompleteSetItems.length)"
+        :toggle-label="getToggleLabel('sets', incompleteSetCount)"
         :sticky-header="isListExpanded('sets')"
         @toggle="toggleList('sets')"
       >
@@ -53,7 +53,7 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationSetPieces)"
         :count="setBucketLoosePieceCount"
-        :toggle-label="getToggleLabel('setPieces', setBucketLoosePieceItems.length)"
+        :toggle-label="getToggleLabel('setPieces', setBucketLoosePieceCount)"
         :sticky-header="isListExpanded('setPieces')"
         @toggle="toggleList('setPieces')"
       >
@@ -74,7 +74,7 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationDuplicateItems)"
         :count="duplicateItemCount"
-        :toggle-label="getToggleLabel('duplicateItems', duplicateItemItems.length)"
+        :toggle-label="getToggleLabel('duplicateItems', duplicateItemCount)"
         :sticky-header="isListExpanded('duplicateItems')"
         @toggle="toggleList('duplicateItems')"
       >
@@ -88,7 +88,7 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationDuplicates)"
         :count="duplicateModelCount"
-        :toggle-label="getToggleLabel('duplicateModels', duplicateModelItems.length)"
+        :toggle-label="getToggleLabel('duplicateModels', duplicateModelCount)"
         :sticky-header="isListExpanded('duplicateModels')"
         @toggle="toggleList('duplicateModels')"
       >
@@ -109,7 +109,7 @@
       <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationDyes)"
         :count="dyeRiskCount"
-        :toggle-label="getToggleLabel('dyes', dyeRiskItems.length)"
+        :toggle-label="getToggleLabel('dyes', dyeRiskCount)"
         :sticky-header="isListExpanded('dyes')"
         @toggle="toggleList('dyes')"
       >
@@ -176,6 +176,10 @@ type ExpandableListKey =
 
 const expandedLists = ref<Partial<Record<ExpandableListKey, boolean>>>({})
 
+function getListLimit(key: ExpandableListKey): number | undefined {
+  return isListExpanded(key) ? undefined : listPreviewLimit
+}
+
 const {
   cabinetCount,
   incompleteSetCount,
@@ -193,7 +197,7 @@ const {
   duplicateItemItems,
   duplicateModelItems,
   dyeRiskItems
-} = useArmoireInsightViewModels(props, t)
+} = useArmoireInsightViewModels(props, t, { getListLimit })
 
 function isListExpanded(key: ExpandableListKey): boolean {
   return expandedLists.value[key] === true
@@ -206,8 +210,8 @@ function toggleList(key: ExpandableListKey): void {
   }
 }
 
-function getToggleLabel(key: ExpandableListKey, itemCount: number): string {
-  if (itemCount <= listPreviewLimit) {
+function getToggleLabel(key: ExpandableListKey, itemCount: number | null | undefined): string {
+  if (!itemCount || itemCount <= listPreviewLimit) {
     return ''
   }
 
