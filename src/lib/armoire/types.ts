@@ -313,6 +313,7 @@ export interface ArmoireStoreOutfitState {
   status: ArmoireStoreOutfitStatus
   ownedItemIds: number[]
   missingItemIds: number[]
+  ownedItemsByItemId: Record<number, ArmoireOwnedItem[]>
   mappedItemCount: number
   totalItemCount: number
 }

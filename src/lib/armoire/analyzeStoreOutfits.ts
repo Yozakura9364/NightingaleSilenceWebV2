@@ -1,4 +1,4 @@
-import { buildOwnedIndex, hasOwnedItem } from '@/lib/armoire/buildOwnedIndex'
+import { buildOwnedIndex, getOwnedItems, hasOwnedItem } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireSnapshot,
   ArmoireStoreCatalog,
@@ -8,8 +8,8 @@ import type {
   ArmoireStoreOutfitStatus
 } from '@/lib/armoire/types'
 
-function getUniqueSortedItemIds(itemIds: number[]): number[] {
-  return Array.from(new Set(itemIds)).sort((left, right) => left - right)
+function getUniqueItemIds(itemIds: number[]): number[] {
+  return Array.from(new Set(itemIds))
 }
 
 function getOutfitStatus(
@@ -37,15 +37,21 @@ export function analyzeArmoireStoreOutfits(
 ): ArmoireStoreOutfitAnalysis {
   const index = buildOwnedIndex(snapshot)
   const outfits: ArmoireStoreOutfitState[] = storeCatalog.outfits.map((outfit) => {
-    const itemIds = getUniqueSortedItemIds(outfit.itemIds)
+    const itemIds = getUniqueItemIds(outfit.itemIds)
     const ownedItemIds = itemIds.filter((itemId) => hasOwnedItem(index, itemId))
     const missingItemIds = itemIds.filter((itemId) => !hasOwnedItem(index, itemId))
+    const ownedItemsByItemId: Record<number, ReturnType<typeof getOwnedItems>> = {}
+
+    for (const itemId of itemIds) {
+      ownedItemsByItemId[itemId] = getOwnedItems(index, itemId)
+    }
 
     return {
       outfit,
       status: getOutfitStatus({ ...outfit, itemIds }, ownedItemIds),
       ownedItemIds,
       missingItemIds,
+      ownedItemsByItemId,
       mappedItemCount: itemIds.length,
       totalItemCount: Math.max(itemIds.length, outfit.itemNames.length)
     }

@@ -109,6 +109,7 @@ internal sealed class SnapshotService : IDisposable
                         Hq: false,
                         Quantity: null,
                         Dyes: null,
+                        Spiritbond: null,
                         Container: "armoire",
                         ContainerName: "收藏柜",
                         SlotIndex: checked((int)item.CabinetId),
@@ -146,6 +147,7 @@ internal sealed class SnapshotService : IDisposable
                             Hq: item.Hq,
                             Quantity: null,
                             Dyes: new[] { item.Dye1Id, item.Dye2Id },
+                            Spiritbond: null,
                             Container: "glamourDresser",
                             ContainerName: "投影台",
                             SlotIndex: item.SlotIndex)));
@@ -537,6 +539,7 @@ internal sealed class SnapshotService : IDisposable
             Hq: item.Hq,
             Quantity: item.Quantity,
             Dyes: item.Dyes,
+            Spiritbond: item.Spiritbond,
             Container: item.Container,
             ContainerName: item.ContainerName,
             SlotIndex: item.SlotIndex,

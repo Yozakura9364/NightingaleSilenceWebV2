@@ -8,6 +8,7 @@ Current MVP scope:
 - Reads current character name and home world for snapshot identity.
 - Locates glamour dresser, inventory, armoury, saddlebag, current retainer cache, retainer identities, and cabinet data using external process memory probes.
 - Exposes `nsarmoire.snapshot.v1`.
+- Emits per-instance `hq`, dye, quantity, and `spiritbond` fields for inventory-like containers when they are readable.
 - Emits `character.name` and `character.world` when the character is loaded. Stable character ID is reserved for a later step.
 
 ## Run

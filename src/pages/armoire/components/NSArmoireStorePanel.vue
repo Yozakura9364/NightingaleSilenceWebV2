@@ -110,15 +110,40 @@
                 <li
                   v-for="piece in getPieceViews(state)"
                   :key="piece.key"
+                  class="nsarmoire-store-card__piece"
                   :class="{ 'nsarmoire-store-card__piece--owned': piece.owned }"
                 >
-                  <img v-if="piece.iconUrl" :src="piece.iconUrl" :alt="piece.name" loading="lazy" />
-                  <span
-                    v-else
-                    class="nsarmoire-store-card__piece-fallback"
-                    aria-hidden="true"
-                  ></span>
-                  <span>{{ piece.name }}</span>
+                  <div class="nsarmoire-store-card__piece-summary">
+                    <img
+                      v-if="piece.iconUrl"
+                      :src="piece.iconUrl"
+                      :alt="piece.name"
+                      loading="lazy"
+                    />
+                    <span
+                      v-else
+                      class="nsarmoire-store-card__piece-fallback"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="nsarmoire-store-card__piece-name">{{ piece.name }}</span>
+                    <span class="nsarmoire-store-card__piece-status">
+                      {{ piece.statusLabel }}
+                    </span>
+                  </div>
+
+                  <ul
+                    v-if="piece.entries.length > 0"
+                    class="nsarmoire-store-card__piece-details"
+                  >
+                    <li v-for="entry in piece.entries" :key="entry.key">
+                      <span>{{ entry.locationText }}</span>
+                      <span>{{ entry.dyeText }}</span>
+                      <span v-if="entry.bindText">{{ entry.bindText }}</span>
+                    </li>
+                    <li v-if="piece.hiddenEntryCount > 0">
+                      <span>{{ getHiddenEntryCountLabel(piece.hiddenEntryCount) }}</span>
+                    </li>
+                  </ul>
                 </li>
               </ul>
 
@@ -127,14 +152,21 @@
               </span>
             </div>
 
-            <a
-              class="nsarmoire-store-card__link"
-              :href="state.outfit.storeUrl"
-              target="_blank"
-              rel="noreferrer"
+            <div
+              class="nsarmoire-store-card__links"
+              :aria-label="t(textKeys.nsarmoireStoreOpenLink)"
             >
-              {{ t(textKeys.nsarmoireStoreOpenLink) }}
-            </a>
+              <a
+                v-for="link in getStoreLinkViews(state.outfit)"
+                :key="link.region"
+                class="nsarmoire-store-card__link"
+                :href="link.url"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {{ link.label }}
+              </a>
+            </div>
           </li>
         </ol>
 
@@ -161,9 +193,11 @@ import {
 } from '@/lib/armoire/storeItemDisplayIndex'
 import type {
   ArmoireCatalog,
+  ArmoireOwnedItem,
   ArmoireSnapshot,
   ArmoireStoreCatalog,
   ArmoireStoreItemDisplayIndex,
+  ArmoireStoreLinkRegion,
   ArmoireStoreOutfit,
   ArmoireStoreOutfitState,
   ArmoireStoreOutfitStatus,
@@ -171,7 +205,9 @@ import type {
 } from '@/lib/armoire/types'
 import type { ArmoireStoreCatalogStatus } from '@/pages/armoire/composables/useArmoireStoreCatalog'
 import {
+  formatArmoireDyeNames,
   formatArmoireText,
+  getArmoireContainerLabel,
   getArmoireItemIconUrl,
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
@@ -180,11 +216,27 @@ import { useLocale } from '@/stores/locale'
 
 type StoreStatusFilter = ArmoireStoreOutfitStatus | 'all'
 
+interface StorePieceEntryView {
+  key: string
+  locationText: string
+  dyeText: string
+  bindText?: string
+}
+
 interface StorePieceView {
   key: string
   name: string
   iconUrl: string
   owned: boolean
+  statusLabel: string
+  entries: StorePieceEntryView[]
+  hiddenEntryCount: number
+}
+
+interface StoreLinkView {
+  region: ArmoireStoreLinkRegion
+  url: string
+  label: string
 }
 
 const props = defineProps<{
@@ -202,6 +254,8 @@ defineEmits<{
 
 const { t } = useLocale()
 const STORE_BATCH_SIZE = 48
+const STORE_PIECE_ENTRY_LIMIT = 3
+const STORE_LINK_REGION_ORDER: ArmoireStoreLinkRegion[] = ['cn', 'tw', 'global', 'kr']
 const searchQuery = ref('')
 const selectedStatus = ref<StoreStatusFilter>('all')
 const visibleCount = ref(STORE_BATCH_SIZE)
@@ -278,6 +332,17 @@ function getRegionLabel(region: ArmoireStoreRegion): string {
   return t(labelKeys[region])
 }
 
+function getStoreLinkRegionLabel(region: ArmoireStoreLinkRegion): string {
+  const labelKeys: Record<ArmoireStoreLinkRegion, string> = {
+    cn: textKeys.nsarmoireStoreLinkCn,
+    global: textKeys.nsarmoireStoreLinkGlobal,
+    tw: textKeys.nsarmoireStoreLinkTw,
+    kr: textKeys.nsarmoireStoreLinkKr
+  }
+
+  return t(labelKeys[region])
+}
+
 function getTagLabels(outfit: ArmoireStoreOutfit): string[] {
   return getArmoireStoreTagLabels(t, outfit.tags, outfit.detailTags)
 }
@@ -290,28 +355,101 @@ function getCoverIconUrl(state: ArmoireStoreOutfitState): string {
 
 function getPieceViews(state: ArmoireStoreOutfitState): StorePieceView[] {
   if (state.status === 'needsMapping' && state.outfit.itemNames.length > 0) {
-    const ownedItemIds = new Set(state.ownedItemIds)
-
     return state.outfit.itemNames.map((name, index) => {
       const matchedItemId = getMatchedItemIdByName(state, name)
 
-      return {
-        key: `${state.outfit.id}-name-${index}`,
-        name,
-        iconUrl: matchedItemId ? getStoreItemIconUrl(matchedItemId) : '',
-        owned: matchedItemId ? ownedItemIds.has(matchedItemId) : false
-      }
+      return createPieceView(state, `${state.outfit.id}-name-${index}`, name, matchedItemId)
     })
   }
 
-  const ownedItemIds = new Set(state.ownedItemIds)
+  return state.outfit.itemIds.map((itemId, index) =>
+    createPieceView(
+      state,
+      `${state.outfit.id}-${itemId}-${index}`,
+      getStoreItemName(itemId, state.outfit.itemNames[index]),
+      itemId
+    )
+  )
+}
 
-  return state.outfit.itemIds.map((itemId, index) => ({
-    key: `${state.outfit.id}-${itemId}-${index}`,
-    name: getStoreItemName(itemId, state.outfit.itemNames[index]),
-    iconUrl: getStoreItemIconUrl(itemId),
-    owned: ownedItemIds.has(itemId)
-  }))
+function createPieceView(
+  state: ArmoireStoreOutfitState,
+  key: string,
+  name: string,
+  itemId: number | undefined
+): StorePieceView {
+  const ownedItems = itemId ? getOwnedEntriesForItemId(state, itemId) : []
+  const visibleEntries = ownedItems.slice(0, STORE_PIECE_ENTRY_LIMIT)
+  const owned = ownedItems.length > 0
+
+  return {
+    key,
+    name,
+    iconUrl: itemId ? getStoreItemIconUrl(itemId) : '',
+    owned,
+    statusLabel: getPieceStatusLabel(owned),
+    entries: visibleEntries.map((item, index) => getPieceEntryView(key, item, index)),
+    hiddenEntryCount: Math.max(ownedItems.length - visibleEntries.length, 0)
+  }
+}
+
+function getOwnedEntriesForItemId(
+  state: ArmoireStoreOutfitState,
+  itemId: number
+): ArmoireOwnedItem[] {
+  return state.ownedItemsByItemId[itemId] ?? []
+}
+
+function getPieceEntryView(key: string, item: ArmoireOwnedItem, index: number): StorePieceEntryView {
+  return {
+    key: `${key}-entry-${index}`,
+    locationText: formatArmoireText(t, textKeys.nsarmoireStorePieceLocation, {
+      location: getArmoireContainerLabel(item, t)
+    }),
+    dyeText: formatArmoireText(t, textKeys.nsarmoireStorePieceDye, {
+      dyes: formatArmoireDyeNames(props.armoireCatalog, item.dyes, t)
+    }),
+    bindText: getPieceBindText(item)
+  }
+}
+
+function getPieceBindText(item: ArmoireOwnedItem): string | undefined {
+  if (typeof item.spiritbond !== 'number') {
+    return undefined
+  }
+
+  return formatArmoireText(t, textKeys.nsarmoireStorePieceBind, {
+    state:
+      item.spiritbond > 0
+        ? t(textKeys.nsarmoireStorePieceBound)
+        : t(textKeys.nsarmoireStorePieceUnbound)
+  })
+}
+
+function getPieceStatusLabel(owned: boolean): string {
+  return owned
+    ? t(textKeys.nsarmoireStoreStatusComplete)
+    : t(textKeys.nsarmoireStoreStatusMissing)
+}
+
+function getHiddenEntryCountLabel(count: number): string {
+  return formatArmoireText(t, textKeys.nsarmoireStorePieceMoreEntries, { count })
+}
+
+function getStoreLinkViews(outfit: ArmoireStoreOutfit): StoreLinkView[] {
+  const urls: Partial<Record<ArmoireStoreLinkRegion, string>> = {
+    ...outfit.regionalStoreUrls
+  }
+
+  if (!urls[outfit.region]) {
+    urls[outfit.region] = outfit.storeUrl
+  }
+
+  return STORE_LINK_REGION_ORDER.flatMap((region) => {
+    const url = urls[region]?.trim()
+
+    return url ? [{ region, url, label: getStoreLinkRegionLabel(region) }] : []
+  })
 }
 
 function getMatchedItemIdByName(state: ArmoireStoreOutfitState, name: string): number | undefined {
@@ -507,7 +645,7 @@ function hideBrokenImage(event: Event): void {
   font-weight: 800;
 }
 
-.nsarmoire-store-card__items ul {
+.nsarmoire-store-card__items > ul {
   display: flex;
   min-width: 0;
   flex-wrap: wrap;
@@ -517,12 +655,12 @@ function hideBrokenImage(event: Event): void {
   list-style: none;
 }
 
-.nsarmoire-store-card__items li {
-  display: inline-flex;
-  max-width: 220px;
+.nsarmoire-store-card__piece {
+  display: grid;
+  align-content: start;
+  width: min(320px, 100%);
   min-width: 0;
-  align-items: center;
-  gap: 5px;
+  gap: 4px;
   padding: 3px 6px 3px 3px;
   border: 1px solid var(--ns-pixel-border-soft);
   background: #ffffff;
@@ -533,6 +671,14 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card__piece--owned {
   border-color: var(--ns-status-success-border);
   color: var(--ns-color-text);
+}
+
+.nsarmoire-store-card__piece-summary {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
 }
 
 .nsarmoire-store-card__items img,
@@ -549,11 +695,53 @@ function hideBrokenImage(event: Event): void {
   background: var(--ns-color-surface);
 }
 
-.nsarmoire-store-card__items li span:last-child {
+.nsarmoire-store-card__piece-name {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nsarmoire-store-card__piece-status {
+  flex: 0 0 auto;
+  padding: 1px 4px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-surface);
+  color: var(--ns-color-text);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.nsarmoire-store-card__piece-details {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0 0 0 29px;
+  color: var(--ns-color-text-muted);
+  font-size: 11px;
+  line-height: 1.45;
+  list-style: none;
+}
+
+.nsarmoire-store-card__piece-details li {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 2px 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.nsarmoire-store-card__piece-details span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.nsarmoire-store-card__links {
+  display: grid;
+  gap: 6px;
+  min-width: 88px;
 }
 
 .nsarmoire-store-card__link {
@@ -590,7 +778,7 @@ function hideBrokenImage(event: Event): void {
     justify-self: start;
   }
 
-  .nsarmoire-store-card__link {
+  .nsarmoire-store-card__links {
     justify-self: start;
   }
 }

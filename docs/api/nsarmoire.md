@@ -59,7 +59,9 @@ interface ArmoireSnapshot {
 
 ### 物品实例状态预留
 
-`ArmoireOwnedItem` 中的 `hq`、`quantity`、`dyes`、`spiritbond` 属于用户拥有的“这一条物品实例”的状态，不属于 CSV 静态 catalog。当前第一阶段只正式消费 `dyes` 做染色风险提示；其他字段先作为导入契约预留。
+`ArmoireOwnedItem` 中的 `hq`、`quantity`、`dyes`、`spiritbond` 属于用户拥有的“这一条物品实例”的状态，不属于 CSV 静态 catalog。当前第一阶段已正式消费 `dyes` 做染色风险提示；`spiritbond` 由本地 helper 从背包/兵装库/鞍囊/雇员物品实例读取并透出，用于验证可交易装备是否已绑定在当前角色身上。
+
+绑定状态不能从 `Item.csv` 的可交易/市场字段直接推出；这些静态字段只能说明物品模板规则，不能说明用户背包里某一件副本当前是否已绑定。第一轮验证样本使用同一物品的两件副本：`经典眼镜` HQ 已绑定、NQ 未绑定。`/snapshot` 中两条 `itemId=9298` 分别输出 `spiritbond: 1` 和 `spiritbond: 0`，可先采用 `spiritbond > 0` 作为“已绑定”的保守启发式；但当前 helper 对背包 HQ 的解析仍不可靠，该样本两条都输出了 `hq: false`，HQ/NQ 状态后续需要继续定位物品实例 flags/condition 字节。
 
 当前本地 helper 已优先写入 `character.name` 和 `character.world`，用于把 snapshot 归到“某角色 @ 某服务器”的当前可用身份。`character.id` 仍作为后续稳定身份字段预留；在没有稳定 ID 时，页面可以按角色名 + 服务器展示和人工选择档案，但不能自动处理改名、转服后的历史合并。
 
@@ -344,6 +346,7 @@ helper 输出的 snapshot 形态：
       itemId: number,
       hq: boolean,
       dyes: [number, number],
+      spiritbond?: number,
       container: 'glamourDresser' | 'inventory' | 'armoury' | 'saddlebag' | 'retainer' | 'armoire',
       containerName?: string,
       slotIndex?: number,
