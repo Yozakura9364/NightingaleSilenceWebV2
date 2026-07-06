@@ -1574,6 +1574,12 @@ export const uiMessages: UiMessageMap = {
     ja: 'クリア',
     ko: '지우기'
   }),
+  'nsarmoire.action.downloadHelper': msg({
+    zh: '下载管家',
+    en: 'Download helper',
+    ja: 'ヘルパーをダウンロード',
+    ko: '헬퍼 다운로드'
+  }),
   'nsarmoire.action.connectHelper': msg({
     zh: '开启管家',
     en: 'Start helper',
@@ -2185,10 +2191,10 @@ export const uiMessages: UiMessageMap = {
     ko: '로컬 헬퍼 연결 실패'
   }),
   'nsarmoire.status.helperIdle.message': msg({
-    zh: draft('启动 NSArmoire 本地助手后，可以直接读取投影台 snapshot。'),
-    en: 'Start the NSArmoire local helper to read the glamour dresser snapshot directly.',
-    ja: 'NSArmoireローカルヘルパーを起動すると、ミラージュドレッサーsnapshotを直接読み取れます。',
-    ko: 'NSArmoire 로컬 헬퍼를 시작하면 투영대 snapshot을 직접 읽을 수 있습니다.'
+    zh: draft('从 GitHub Release 下载并启动 NSArmoire 本地助手后，可以直接读取投影台 snapshot。'),
+    en: 'Download and start the NSArmoire local helper from GitHub Releases to read the glamour dresser snapshot directly.',
+    ja: 'GitHub ReleasesからNSArmoireローカルヘルパーをダウンロードして起動すると、ミラージュドレッサーsnapshotを直接読み取れます。',
+    ko: 'GitHub Releases에서 NSArmoire 로컬 헬퍼를 다운로드해 시작하면 투영대 snapshot을 직접 읽을 수 있습니다.'
   }),
   'nsarmoire.status.helperConnecting.message': msg({
     zh: draft('正在检查本机 helper 状态，并尝试读取 snapshot。'),

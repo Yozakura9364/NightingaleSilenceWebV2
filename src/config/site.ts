@@ -358,6 +358,7 @@ export const textKeys = {
   nsarmoireLoadExampleSnapshot: 'nsarmoire.action.loadExampleSnapshot',
   nsarmoireImportSnapshot: 'nsarmoire.action.importSnapshot',
   nsarmoireClearSnapshot: 'nsarmoire.action.clearSnapshot',
+  nsarmoireDownloadHelper: 'nsarmoire.action.downloadHelper',
   nsarmoireConnectHelper: 'nsarmoire.action.connectHelper',
   nsarmoireShutdownHelper: 'nsarmoire.action.shutdownHelper',
   nsarmoireRefreshHelper: 'nsarmoire.action.refreshHelper',

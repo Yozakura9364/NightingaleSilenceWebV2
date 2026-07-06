@@ -68,6 +68,16 @@
         {{ cleanT(textKeys.nsarmoireClearSnapshot) }}
       </AppButton>
 
+      <a
+        v-if="mode === 'hero' || !helperHealth"
+        class="ns-button ns-button--secondary nsarmoire-helper-download"
+        :href="HELPER_RELEASE_URL"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ cleanT(textKeys.nsarmoireDownloadHelper) }}
+      </a>
+
       <AppButton :disabled="helperBusy" @click="$emit('connect-helper')">
         {{ cleanT(textKeys.nsarmoireConnectHelper) }}
       </AppButton>
@@ -169,6 +179,7 @@ const emit = defineEmits<{
 
 const { current, t } = useLocale()
 const fileInput = ref<HTMLInputElement | null>(null)
+const HELPER_RELEASE_URL = 'https://github.com/Yozakura9364/NightingaleSilenceWebV2/releases/latest'
 const DRAFT_SUFFIX_PATTERN = /（占位用，待编辑）/g
 const READ_CONTAINER_PREVIEW_LIMIT = 6
 

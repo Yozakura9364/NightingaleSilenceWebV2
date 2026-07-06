@@ -257,6 +257,14 @@ dotnet run --project .\tools\nsarmoire-helper\NsArmoire.Helper.csproj
 http://127.0.0.1:8015
 ```
 
+正式下载入口：
+
+```text
+https://github.com/Yozakura9364/NightingaleSilenceWebV2/releases/latest
+```
+
+公开页面只跳转到 GitHub Releases 最新页，不直链 `.exe` 或 `.zip`。每个 helper Release 需要写明 helper 版本、支持游戏版本、SHA256、使用步骤、只监听 `127.0.0.1`、不上传用户仓库数据、杀软/SmartScreen 可能提示未知发布者，以及对应源码路径。
+
 当前接口：
 
 | 接口 | 用途 |
