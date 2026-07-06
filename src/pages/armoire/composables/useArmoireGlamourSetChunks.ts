@@ -19,14 +19,17 @@ export function useArmoireGlamourSetChunks() {
   const chunksByKey = shallowRef<Record<string, ArmoireGlamourSetChunk>>({})
   const status = ref<ArmoireGlamourSetChunkStatus>('idle')
   const error = ref<string | null>(null)
-  const loadingKeys = new Map<string, Promise<void>>()
+  const loadingKeys = new Map<string, Promise<ArmoireGlamourSetChunk>>()
   const catalog = computed(() =>
     createArmoireCatalogFromGlamourSetChunks(Object.values(chunksByKey.value))
   )
 
-  async function loadChunk(chunkKey: string, options: { force?: boolean } = {}): Promise<void> {
+  async function loadChunk(
+    chunkKey: string,
+    options: { force?: boolean } = {}
+  ): Promise<ArmoireGlamourSetChunk> {
     if (chunksByKey.value[chunkKey] && options.force !== true) {
-      return
+      return chunksByKey.value[chunkKey]
     }
 
     const existingLoad = loadingKeys.get(chunkKey)
@@ -38,15 +41,11 @@ export function useArmoireGlamourSetChunks() {
       const response = await fetch(getChunkUrl(chunkKey))
 
       if (response.status === 404) {
-        chunksByKey.value = {
-          ...chunksByKey.value,
-          [chunkKey]: {
-            ...EMPTY_ARMOIRE_GLAMOUR_SET_CHUNK,
-            generatedAt: new Date(0).toISOString(),
-            chunkKey
-          }
+        return {
+          ...EMPTY_ARMOIRE_GLAMOUR_SET_CHUNK,
+          generatedAt: new Date(0).toISOString(),
+          chunkKey
         }
-        return
       }
 
       if (!response.ok) {
@@ -59,18 +58,17 @@ export function useArmoireGlamourSetChunks() {
         throw new Error(`invalid armoire glamour set chunk: ${chunkKey}`)
       }
 
-      chunksByKey.value = {
-        ...chunksByKey.value,
-        [chunkKey]: payload
-      }
+      return payload
     })()
 
     loadingKeys.set(chunkKey, loadPromise)
 
     try {
-      await loadPromise
+      return await loadPromise
     } finally {
-      loadingKeys.delete(chunkKey)
+      if (loadingKeys.get(chunkKey) === loadPromise) {
+        loadingKeys.delete(chunkKey)
+      }
     }
   }
 
@@ -90,7 +88,21 @@ export function useArmoireGlamourSetChunks() {
     error.value = null
 
     try {
-      await Promise.all(chunkKeys.map((chunkKey) => loadChunk(chunkKey, options)))
+      const chunks = await Promise.all(chunkKeys.map((chunkKey) => loadChunk(chunkKey, options)))
+      const nextChunksByKey = { ...chunksByKey.value }
+      let hasChanged = false
+
+      for (const chunk of chunks) {
+        if (nextChunksByKey[chunk.chunkKey] !== chunk) {
+          nextChunksByKey[chunk.chunkKey] = chunk
+          hasChanged = true
+        }
+      }
+
+      if (hasChanged) {
+        chunksByKey.value = nextChunksByKey
+      }
+
       status.value = 'ready'
     } catch (chunkError) {
       status.value = 'error'
