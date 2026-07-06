@@ -8,6 +8,7 @@ const DEFAULT_BASE_URL =
 const DEFAULT_OUTPUT = 'public/data/armoire-catalog.json'
 const DEFAULT_CABINET_CATALOG_OUTPUT = 'public/data/armoire-cabinet-catalog.json'
 const DEFAULT_CATALOG_DISPLAY_OUTPUT = 'public/data/armoire-catalog-display-index.json'
+const DEFAULT_ITEM_DISPLAY_CHUNK_DIR = 'public/data/armoire-item-display-chunks'
 const DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT = 'public/data/armoire-glamour-set-catalog.json'
 const DEFAULT_IDENTICAL_MODEL_CATALOG_OUTPUT = 'public/data/armoire-identical-model-catalog.json'
 const DEFAULT_DYE_CATALOG_OUTPUT = 'public/data/armoire-dye-catalog.json'
@@ -16,10 +17,12 @@ const DEFAULT_STORE_ITEM_DISPLAY_OUTPUT = 'public/data/armoire-store-item-displa
 const SCHEMA_VERSION = 'nsarmoire.catalog.v1'
 const CABINET_CATALOG_SCHEMA_VERSION = 'nsarmoire.cabinetCatalog.v1'
 const CATALOG_DISPLAY_SCHEMA_VERSION = 'nsarmoire.catalogDisplayIndex.v1'
+const ITEM_DISPLAY_CHUNK_SCHEMA_VERSION = 'nsarmoire.itemDisplayChunk.v1'
 const GLAMOUR_SET_CATALOG_SCHEMA_VERSION = 'nsarmoire.glamourSetCatalog.v1'
 const IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION = 'nsarmoire.identicalModelCatalog.v1'
 const DYE_CATALOG_SCHEMA_VERSION = 'nsarmoire.dyeCatalog.v1'
 const STORE_ITEM_DISPLAY_SCHEMA_VERSION = 'nsarmoire.storeItemDisplayIndex.v1'
+const ITEM_DISPLAY_CHUNK_SIZE = 2000
 const SOURCE_REPOSITORY = 'InfSein/ffxiv-datamining-mixed'
 const SOURCE_REPOSITORY_URL = `https://github.com/${SOURCE_REPOSITORY}.git`
 const SOURCE_BRANCH = 'master'
@@ -41,6 +44,7 @@ function parseArgs(argv) {
     dyeCatalogOutput: DEFAULT_DYE_CATALOG_OUTPUT,
     glamourSetCatalogOutput: DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT,
     identicalModelCatalogOutput: DEFAULT_IDENTICAL_MODEL_CATALOG_OUTPUT,
+    itemDisplayChunkDir: DEFAULT_ITEM_DISPLAY_CHUNK_DIR,
     output: DEFAULT_OUTPUT,
     storeCatalog: DEFAULT_STORE_CATALOG,
     storeItemDisplayOutput: DEFAULT_STORE_ITEM_DISPLAY_OUTPUT,
@@ -75,6 +79,12 @@ function parseArgs(argv) {
 
     if (arg === '--catalog-display-output') {
       args.catalogDisplayOutput = argv[index + 1] ?? DEFAULT_CATALOG_DISPLAY_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--item-display-chunk-dir') {
+      args.itemDisplayChunkDir = argv[index + 1] ?? DEFAULT_ITEM_DISPLAY_CHUNK_DIR
       index += 1
       continue
     }
@@ -135,6 +145,8 @@ Options:
                       Output cabinet catalog path. Default: ${DEFAULT_CABINET_CATALOG_OUTPUT}
   --catalog-display-output <file>
                       Output catalog display index path. Default: ${DEFAULT_CATALOG_DISPLAY_OUTPUT}
+  --item-display-chunk-dir <dir>
+                      Output item display chunk directory. Default: ${DEFAULT_ITEM_DISPLAY_CHUNK_DIR}
   --glamour-set-catalog-output <file>
                       Output glamour set catalog path. Default: ${DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT}
   --identical-model-catalog-output <file>
@@ -674,6 +686,37 @@ function buildCatalogDisplayIndex(catalog) {
   }
 }
 
+function getItemDisplayChunkKey(itemId) {
+  return String(Math.floor(itemId / ITEM_DISPLAY_CHUNK_SIZE) * ITEM_DISPLAY_CHUNK_SIZE).padStart(
+    6,
+    '0'
+  )
+}
+
+function buildItemDisplayChunks(catalog) {
+  const groupedItems = new Map()
+
+  for (const item of Object.values(catalog.items)) {
+    const chunkKey = getItemDisplayChunkKey(item.itemId)
+    const chunkItems = groupedItems.get(chunkKey) ?? []
+    chunkItems.push(buildDisplayTuple(item.itemId, item))
+    groupedItems.set(chunkKey, chunkItems)
+  }
+
+  return Array.from(groupedItems.entries())
+    .sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey))
+    .map(([chunkKey, items]) => ({
+      schemaVersion: ITEM_DISPLAY_CHUNK_SCHEMA_VERSION,
+      generatedAt: new Date().toISOString(),
+      source: {
+        catalogGeneratedAt: catalog.generatedAt
+      },
+      chunkKey,
+      chunkSize: ITEM_DISPLAY_CHUNK_SIZE,
+      items: items.sort((left, right) => left[0] - right[0])
+    }))
+}
+
 function buildGlamourSetCatalog(catalog) {
   const itemIds = new Set()
 
@@ -763,6 +806,19 @@ async function readJsonFile(path) {
   return JSON.parse(text)
 }
 
+async function writeJsonDir(dir, payloads) {
+  const outputDir = resolve(dir)
+  await mkdir(outputDir, { recursive: true })
+
+  await Promise.all(
+    payloads.map((payload) =>
+      writeFile(resolve(outputDir, `${payload.chunkKey}.json`), JSON.stringify(payload), 'utf8')
+    )
+  )
+
+  return outputDir
+}
+
 function collectStoreDisplayItemIds(storeCatalog) {
   const itemIds = new Set()
 
@@ -838,6 +894,9 @@ async function main() {
   await mkdir(dirname(catalogDisplayOutputPath), { recursive: true })
   await writeFile(catalogDisplayOutputPath, JSON.stringify(catalogDisplayIndex), 'utf8')
 
+  const itemDisplayChunks = buildItemDisplayChunks(catalog)
+  const itemDisplayChunkOutputDir = await writeJsonDir(args.itemDisplayChunkDir, itemDisplayChunks)
+
   const glamourSetCatalog = buildGlamourSetCatalog(catalog)
   const glamourSetCatalogOutputPath = resolve(args.glamourSetCatalogOutput)
 
@@ -877,6 +936,11 @@ async function main() {
           output: catalogDisplayOutputPath,
           itemCount: catalogDisplayIndex.items.length,
           missingItemCount: catalogDisplayIndex.missingItemIds.length
+        },
+        itemDisplayChunks: {
+          output: itemDisplayChunkOutputDir,
+          chunkCount: itemDisplayChunks.length,
+          itemCount: itemDisplayChunks.reduce((count, chunk) => count + chunk.items.length, 0)
         },
         glamourSetCatalog: {
           output: glamourSetCatalogOutputPath,

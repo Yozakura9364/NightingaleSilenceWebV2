@@ -3,6 +3,8 @@ export const ARMOIRE_CATALOG_SCHEMA_VERSION = 'nsarmoire.catalog.v1' as const
 export const ARMOIRE_CABINET_CATALOG_SCHEMA_VERSION = 'nsarmoire.cabinetCatalog.v1' as const
 export const ARMOIRE_CATALOG_DISPLAY_INDEX_SCHEMA_VERSION =
   'nsarmoire.catalogDisplayIndex.v1' as const
+export const ARMOIRE_ITEM_DISPLAY_CHUNK_SCHEMA_VERSION =
+  'nsarmoire.itemDisplayChunk.v1' as const
 export const ARMOIRE_GLAMOUR_SET_CATALOG_SCHEMA_VERSION =
   'nsarmoire.glamourSetCatalog.v1' as const
 export const ARMOIRE_IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION =
@@ -173,6 +175,17 @@ export interface ArmoireCatalogDisplayIndex {
   missingItemIds?: number[]
 }
 
+export interface ArmoireItemDisplayChunk {
+  schemaVersion: typeof ARMOIRE_ITEM_DISPLAY_CHUNK_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  chunkKey: string
+  chunkSize: number
+  items: ArmoireCompactDisplayItem[]
+}
+
 export interface ArmoireGlamourSetCatalog {
   schemaVersion: typeof ARMOIRE_GLAMOUR_SET_CATALOG_SCHEMA_VERSION
   generatedAt: string
@@ -341,6 +354,10 @@ export type ArmoireDyeResetReason = 'cabinetStorage' | 'glamourSetBasket' | 'pre
 
 export interface ArmoireDyeRiskOptions {
   valuableDyeCategories?: readonly ArmoireDyeValueCategory[]
+}
+
+export interface ArmoireSnapshotAnalysisOptions extends ArmoireDyeRiskOptions {
+  filterToCatalogItems?: boolean
 }
 
 export interface ArmoireDyeRiskItem {
