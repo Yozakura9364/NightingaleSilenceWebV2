@@ -1,6 +1,5 @@
 import { hasCabinetCatalog } from '@/lib/armoire/catalog'
 import {
-  buildOwnedIndex,
   getOwnedItems,
   hasOwnedItem,
   hasOwnedItemInContainer,
@@ -9,15 +8,15 @@ import {
 import type {
   ArmoireCabinetProgress,
   ArmoireCatalog,
+  ArmoireOwnedIndex,
   ArmoireSnapshot
 } from '@/lib/armoire/types'
 
 export function analyzeCabinetProgress(
   snapshot: ArmoireSnapshot,
-  catalog: ArmoireCatalog
+  catalog: ArmoireCatalog,
+  index: ArmoireOwnedIndex
 ): ArmoireCabinetProgress {
-  const index = buildOwnedIndex(snapshot)
-
   if (!hasCabinetCatalog(catalog)) {
     return {
       status: 'missingCatalog',

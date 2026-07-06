@@ -1,12 +1,12 @@
 import { getIdenticalModelGroups, hasIdenticalModelCatalog } from '@/lib/armoire/catalog'
-import { buildOwnedIndex, getOwnedItems } from '@/lib/armoire/buildOwnedIndex'
+import { getOwnedItems } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireCatalog,
   ArmoireContainerKind,
   ArmoireIdenticalModelAnalysis,
   ArmoireIdenticalModelGroupState,
+  ArmoireOwnedIndex,
   ArmoireOwnedItem,
-  ArmoireSnapshot
 } from '@/lib/armoire/types'
 
 const NO_SPACE_COST_CONTAINERS = new Set<ArmoireContainerKind>(['armoire'])
@@ -20,11 +20,9 @@ function isArmoireEntry(item: ArmoireOwnedItem): boolean {
 }
 
 export function analyzeIdenticalModels(
-  snapshot: ArmoireSnapshot,
+  index: ArmoireOwnedIndex,
   catalog: ArmoireCatalog
 ): ArmoireIdenticalModelAnalysis {
-  const index = buildOwnedIndex(snapshot)
-
   if (!hasIdenticalModelCatalog(catalog)) {
     return {
       status: 'missingCatalog',

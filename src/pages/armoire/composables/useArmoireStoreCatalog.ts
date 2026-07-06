@@ -1,4 +1,4 @@
-import { onMounted, ref, shallowRef } from 'vue'
+import { ref, shallowRef } from 'vue'
 import {
   EMPTY_ARMOIRE_STORE_CATALOG,
   isArmoireStoreCatalog
@@ -14,7 +14,11 @@ export function useArmoireStoreCatalog() {
   const status = ref<ArmoireStoreCatalogStatus>('idle')
   const error = ref<string | null>(null)
 
-  async function loadStoreCatalog() {
+  async function loadStoreCatalog(options: { force?: boolean } = {}) {
+    if (status.value === 'loading' || (status.value === 'ready' && options.force !== true)) {
+      return
+    }
+
     status.value = 'loading'
     error.value = null
 
@@ -39,10 +43,6 @@ export function useArmoireStoreCatalog() {
       error.value = catalogError instanceof Error ? catalogError.message : String(catalogError)
     }
   }
-
-  onMounted(() => {
-    void loadStoreCatalog()
-  })
 
   return {
     storeCatalog,

@@ -1,6 +1,5 @@
 import { hasGlamourSetCatalog } from '@/lib/armoire/catalog'
 import {
-  buildOwnedIndex,
   getOwnedItems,
   hasOwnedItem,
   hasOwnedItemInContainer
@@ -11,8 +10,7 @@ import type {
   ArmoireGlamourSetProgress,
   ArmoireGlamourSetState,
   ArmoireOwnedIndex,
-  ArmoireOwnedItem,
-  ArmoireSnapshot
+  ArmoireOwnedItem
 } from '@/lib/armoire/types'
 
 const SET_BUCKET_STORAGE_CONTAINERS = new Set<ArmoireContainerKind>([
@@ -77,7 +75,7 @@ function createBucketStorableLoosePieceItemIds(
 }
 
 export function analyzeGlamourSets(
-  snapshot: ArmoireSnapshot,
+  index: ArmoireOwnedIndex,
   catalog: ArmoireCatalog
 ): ArmoireGlamourSetProgress {
   if (!hasGlamourSetCatalog(catalog)) {
@@ -91,7 +89,6 @@ export function analyzeGlamourSets(
     }
   }
 
-  const index = buildOwnedIndex(snapshot)
   const sets = catalog.glamourSetItems
     .map((set) =>
       analyzeGlamourSetState(index, catalog, set.setItemId, set.pieceItemIds, set.setName)

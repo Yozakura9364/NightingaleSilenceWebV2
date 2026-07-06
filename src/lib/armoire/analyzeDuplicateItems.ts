@@ -1,15 +1,11 @@
-import {
-  buildOwnedIndex,
-  getOwnedItemQuantity
-} from '@/lib/armoire/buildOwnedIndex'
+import { getOwnedItemQuantity } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireDuplicateItemAnalysis,
   ArmoireDuplicateItemGroupState,
-  ArmoireSnapshot
+  ArmoireOwnedIndex
 } from '@/lib/armoire/types'
 
-export function analyzeDuplicateItems(snapshot: ArmoireSnapshot): ArmoireDuplicateItemAnalysis {
-  const index = buildOwnedIndex(snapshot)
+export function analyzeDuplicateItems(index: ArmoireOwnedIndex): ArmoireDuplicateItemAnalysis {
   const groups: ArmoireDuplicateItemGroupState[] = []
 
   for (const [itemId, entries] of index.byItemId.entries()) {

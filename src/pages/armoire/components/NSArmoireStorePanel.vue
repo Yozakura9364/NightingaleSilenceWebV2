@@ -155,10 +155,15 @@ import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import { analyzeArmoireStoreOutfits } from '@/lib/armoire/analyzeStoreOutfits'
+import {
+  getArmoireStoreItemDisplay,
+  getArmoireStoreItemIconUrl
+} from '@/lib/armoire/storeItemDisplayIndex'
 import type {
   ArmoireCatalog,
   ArmoireSnapshot,
   ArmoireStoreCatalog,
+  ArmoireStoreItemDisplayIndex,
   ArmoireStoreOutfit,
   ArmoireStoreOutfitState,
   ArmoireStoreOutfitStatus,
@@ -188,6 +193,7 @@ const props = defineProps<{
   snapshot: ArmoireSnapshot
   status: ArmoireStoreCatalogStatus
   storeCatalog: ArmoireStoreCatalog
+  storeItemDisplayIndex: ArmoireStoreItemDisplayIndex
 }>()
 
 defineEmits<{
@@ -279,7 +285,7 @@ function getTagLabels(outfit: ArmoireStoreOutfit): string[] {
 function getCoverIconUrl(state: ArmoireStoreOutfitState): string {
   const coverItemId = state.outfit.coverItemId ?? state.outfit.itemIds[0]
 
-  return coverItemId ? getArmoireItemIconUrl(props.armoireCatalog, coverItemId) : ''
+  return coverItemId ? getStoreItemIconUrl(coverItemId) : ''
 }
 
 function getPieceViews(state: ArmoireStoreOutfitState): StorePieceView[] {
@@ -292,7 +298,7 @@ function getPieceViews(state: ArmoireStoreOutfitState): StorePieceView[] {
       return {
         key: `${state.outfit.id}-name-${index}`,
         name,
-        iconUrl: matchedItemId ? getArmoireItemIconUrl(props.armoireCatalog, matchedItemId) : '',
+        iconUrl: matchedItemId ? getStoreItemIconUrl(matchedItemId) : '',
         owned: matchedItemId ? ownedItemIds.has(matchedItemId) : false
       }
     })
@@ -302,15 +308,33 @@ function getPieceViews(state: ArmoireStoreOutfitState): StorePieceView[] {
 
   return state.outfit.itemIds.map((itemId, index) => ({
     key: `${state.outfit.id}-${itemId}-${index}`,
-    name: getArmoireItemName(props.armoireCatalog, itemId, t),
-    iconUrl: getArmoireItemIconUrl(props.armoireCatalog, itemId),
+    name: getStoreItemName(itemId, state.outfit.itemNames[index]),
+    iconUrl: getStoreItemIconUrl(itemId),
     owned: ownedItemIds.has(itemId)
   }))
 }
 
 function getMatchedItemIdByName(state: ArmoireStoreOutfitState, name: string): number | undefined {
   return state.outfit.itemIds.find(
-    (itemId) => props.armoireCatalog.items[itemId]?.name?.trim() === name.trim()
+    (itemId) =>
+      getArmoireStoreItemDisplay(props.storeItemDisplayIndex, itemId)?.name?.trim() ===
+        name.trim() || props.armoireCatalog.items[itemId]?.name?.trim() === name.trim()
+  )
+}
+
+function getStoreItemName(itemId: number, fallbackName: string | undefined): string {
+  return (
+    getArmoireStoreItemDisplay(props.storeItemDisplayIndex, itemId)?.name ??
+    props.armoireCatalog.items[itemId]?.name ??
+    fallbackName ??
+    getArmoireItemName(props.armoireCatalog, itemId, t)
+  )
+}
+
+function getStoreItemIconUrl(itemId: number): string {
+  return (
+    getArmoireStoreItemIconUrl(props.storeItemDisplayIndex, itemId) ||
+    getArmoireItemIconUrl(props.armoireCatalog, itemId)
   )
 }
 

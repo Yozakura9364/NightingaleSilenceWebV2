@@ -2,7 +2,7 @@
 
 夜莺不语 / Nightingale Silence 的个人与工具网站 V2。这个仓库用于把原本分散的站点和工具逐步重构成一套统一的 Vue 前端。
 
-当前项目还处在 V2 重构早期：应用外壳、路由、公共样式、基础组件、API 边界和迁移文档已经建立；旧工具的完整业务能力还没有迁入。
+当前项目还处在 V2 重构推进期：应用外壳、路由、公共样式、基础组件、API 边界和迁移文档已经建立；NSPlate 与 NSArmoire 已进入核心功能接入阶段，NSGlamour 等旧工具仍按模块计划逐步迁移。
 
 ## 项目目标
 
@@ -21,11 +21,17 @@
 | `#/` | 首页 | 占位视觉首页已接入 |
 | `#/ffxiv` | FFXIV 分类导航页 | 工具入口骨架已接入 |
 | `#/ffxiv/glamour` | 幻化工房 / NSGlamour | 迁移占位页已接入 |
-| `#/ffxiv/plate` | 铭牌工房 / NSPlate | 迁移占位页已接入 |
+| `#/ffxiv/plate` | 铭牌工房 / NSPlate | 核心工作台已接入 |
+| `#/ffxiv/armoire` | 衣柜管家 / NSArmoire | 本地 helper、snapshot 导入和三分区工作台已接入 |
+| `#/ffxiv/armoire/store-review` | NSArmoire 商城数据校正 | 隐藏校正页已接入 |
+| `#/ffxiv/term-review` | FFXIV 术语校正 | 内部校正页已接入 |
 | `#/silence` | Silence 创作入口 | 双入口门厅页已接入 |
 | `#/silence/angel` | 不语·silence | 分组占位页已接入 |
+| `#/silence/angel/:characterId` | 不语·silence 角色页 | 角色资料页骨架已接入 |
 | `#/silence/glitch` | 幽灵·silence | 分组占位页已接入 |
+| `#/silence/glitch/:characterId` | 幽灵·silence 角色页 | 角色资料页骨架已接入 |
 | `#/about` | About | 占位页已接入 |
+| `#/style-lab` | Style Lab | 内部样式实验页 |
 
 ## 技术栈
 

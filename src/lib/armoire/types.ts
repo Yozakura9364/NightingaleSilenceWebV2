@@ -1,6 +1,9 @@
 export const ARMOIRE_SNAPSHOT_SCHEMA_VERSION = 'nsarmoire.snapshot.v1' as const
 export const ARMOIRE_CATALOG_SCHEMA_VERSION = 'nsarmoire.catalog.v1' as const
+export const ARMOIRE_CABINET_CATALOG_SCHEMA_VERSION = 'nsarmoire.cabinetCatalog.v1' as const
 export const ARMOIRE_STORE_CATALOG_SCHEMA_VERSION = 'nsarmoire.storeCatalog.v1' as const
+export const ARMOIRE_STORE_ITEM_DISPLAY_INDEX_SCHEMA_VERSION =
+  'nsarmoire.storeItemDisplayIndex.v1' as const
 
 export const ARMOIRE_CONTAINER_KINDS = [
   'inventory',
@@ -139,6 +142,18 @@ export interface ArmoireCatalog {
   dyes: Record<number, ArmoireDye>
 }
 
+export interface ArmoireCabinetCatalog {
+  schemaVersion: typeof ARMOIRE_CABINET_CATALOG_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  items: Record<number, ArmoireStoreItemDisplay>
+  cabinetItemIds: number[]
+  cabinetEntries?: ArmoireCabinetEntry[]
+  missingItemIds?: number[]
+}
+
 export type ArmoireStoreRegion = 'cn' | 'global' | 'tw'
 export type ArmoireStoreLinkRegion = 'cn' | 'global' | 'tw' | 'kr'
 export type ArmoireStoreRegionalUrls = Partial<Record<ArmoireStoreLinkRegion, string>>
@@ -180,6 +195,23 @@ export interface ArmoireStoreCatalog {
   generatedAt: string
   sources: ArmoireStoreCatalogSource[]
   outfits: ArmoireStoreOutfit[]
+}
+
+export interface ArmoireStoreItemDisplay {
+  itemId: number
+  name?: string
+  iconId?: number
+}
+
+export interface ArmoireStoreItemDisplayIndex {
+  schemaVersion: typeof ARMOIRE_STORE_ITEM_DISPLAY_INDEX_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+    storeCatalogGeneratedAt?: string
+  }
+  items: Record<number, ArmoireStoreItemDisplay>
+  missingItemIds?: number[]
 }
 
 export type ArmoireStoreOutfitStatus = 'complete' | 'partial' | 'missing' | 'needsMapping'

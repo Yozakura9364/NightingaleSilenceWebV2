@@ -6,7 +6,12 @@ import { dirname, join, resolve } from 'node:path'
 const DEFAULT_BASE_URL =
   'https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs'
 const DEFAULT_OUTPUT = 'public/data/armoire-catalog.json'
+const DEFAULT_CABINET_CATALOG_OUTPUT = 'public/data/armoire-cabinet-catalog.json'
+const DEFAULT_STORE_CATALOG = 'public/data/armoire-store-catalog.json'
+const DEFAULT_STORE_ITEM_DISPLAY_OUTPUT = 'public/data/armoire-store-item-display-index.json'
 const SCHEMA_VERSION = 'nsarmoire.catalog.v1'
+const CABINET_CATALOG_SCHEMA_VERSION = 'nsarmoire.cabinetCatalog.v1'
+const STORE_ITEM_DISPLAY_SCHEMA_VERSION = 'nsarmoire.storeItemDisplayIndex.v1'
 const SOURCE_REPOSITORY = 'InfSein/ffxiv-datamining-mixed'
 const SOURCE_REPOSITORY_URL = `https://github.com/${SOURCE_REPOSITORY}.git`
 const SOURCE_BRANCH = 'master'
@@ -23,7 +28,10 @@ let gitSourceDirPromise
 function parseArgs(argv) {
   const args = {
     baseUrl: DEFAULT_BASE_URL,
+    cabinetCatalogOutput: DEFAULT_CABINET_CATALOG_OUTPUT,
     output: DEFAULT_OUTPUT,
+    storeCatalog: DEFAULT_STORE_CATALOG,
+    storeItemDisplayOutput: DEFAULT_STORE_ITEM_DISPLAY_OUTPUT,
     sourceDir: ''
   }
 
@@ -43,6 +51,24 @@ function parseArgs(argv) {
 
     if (arg === '--output') {
       args.output = argv[index + 1] ?? DEFAULT_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--cabinet-catalog-output') {
+      args.cabinetCatalogOutput = argv[index + 1] ?? DEFAULT_CABINET_CATALOG_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--store-item-display-output') {
+      args.storeItemDisplayOutput = argv[index + 1] ?? DEFAULT_STORE_ITEM_DISPLAY_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--store-catalog') {
+      args.storeCatalog = argv[index + 1] ?? DEFAULT_STORE_CATALOG
       index += 1
       continue
     }
@@ -69,6 +95,12 @@ Usage:
 Options:
   --source-dir <dir>  Read CSV files from a local directory instead of GitHub raw URLs.
   --output <file>     Output JSON path. Default: ${DEFAULT_OUTPUT}
+  --cabinet-catalog-output <file>
+                      Output cabinet catalog path. Default: ${DEFAULT_CABINET_CATALOG_OUTPUT}
+  --store-catalog <file>
+                      Store catalog used to build display index. Default: ${DEFAULT_STORE_CATALOG}
+  --store-item-display-output <file>
+                      Output store item display index path. Default: ${DEFAULT_STORE_ITEM_DISPLAY_OUTPUT}
   --base-url <url>    Remote base URL. Default: ${DEFAULT_BASE_URL}
 `)
 }
@@ -531,6 +563,104 @@ function buildSummary(catalog, output) {
   }
 }
 
+function buildDisplayItem(itemId, sourceItem) {
+  const item = { itemId }
+
+  if (sourceItem.name) {
+    item.name = sourceItem.name
+  }
+
+  if (sourceItem.iconId) {
+    item.iconId = sourceItem.iconId
+  }
+
+  return item
+}
+
+function buildCabinetCatalog(catalog) {
+  const cabinetItemIds = Array.from(new Set(catalog.cabinetItemIds)).sort(
+    (left, right) => left - right
+  )
+  const items = {}
+  const missingItemIds = []
+
+  for (const itemId of cabinetItemIds) {
+    const sourceItem = catalog.items[itemId]
+
+    if (!sourceItem) {
+      missingItemIds.push(itemId)
+      continue
+    }
+
+    items[itemId] = buildDisplayItem(itemId, sourceItem)
+  }
+
+  return {
+    schemaVersion: CABINET_CATALOG_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    source: {
+      catalogGeneratedAt: catalog.generatedAt
+    },
+    items,
+    cabinetItemIds,
+    cabinetEntries: catalog.cabinetEntries,
+    missingItemIds
+  }
+}
+
+async function readJsonFile(path) {
+  const text = await readFile(path, 'utf8')
+  return JSON.parse(text)
+}
+
+function collectStoreDisplayItemIds(storeCatalog) {
+  const itemIds = new Set()
+
+  if (!storeCatalog || !Array.isArray(storeCatalog.outfits)) {
+    return itemIds
+  }
+
+  for (const outfit of storeCatalog.outfits) {
+    if (Number.isInteger(outfit.coverItemId) && outfit.coverItemId > 0) {
+      itemIds.add(outfit.coverItemId)
+    }
+
+    for (const itemId of outfit.itemIds ?? []) {
+      if (Number.isInteger(itemId) && itemId > 0) {
+        itemIds.add(itemId)
+      }
+    }
+  }
+
+  return itemIds
+}
+
+async function buildStoreItemDisplayIndex(catalog, storeCatalogPath) {
+  const storeCatalog = await readJsonFile(storeCatalogPath)
+  const itemIds = collectStoreDisplayItemIds(storeCatalog)
+  const items = {}
+
+  for (const itemId of Array.from(itemIds).sort((left, right) => left - right)) {
+    const sourceItem = catalog.items[itemId]
+
+    if (!sourceItem) {
+      continue
+    }
+
+    items[itemId] = buildDisplayItem(itemId, sourceItem)
+  }
+
+  return {
+    schemaVersion: STORE_ITEM_DISPLAY_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    source: {
+      catalogGeneratedAt: catalog.generatedAt,
+      storeCatalogGeneratedAt: storeCatalog.generatedAt
+    },
+    items
+  }
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2))
 
@@ -546,7 +676,38 @@ async function main() {
   await mkdir(dirname(outputPath), { recursive: true })
   await writeFile(outputPath, JSON.stringify(catalog), 'utf8')
 
-  console.log(JSON.stringify(buildSummary(catalog, outputPath), null, 2))
+  const cabinetCatalog = buildCabinetCatalog(catalog)
+  const cabinetCatalogOutputPath = resolve(args.cabinetCatalogOutput)
+
+  await mkdir(dirname(cabinetCatalogOutputPath), { recursive: true })
+  await writeFile(cabinetCatalogOutputPath, JSON.stringify(cabinetCatalog), 'utf8')
+
+  const storeItemDisplayIndex = await buildStoreItemDisplayIndex(catalog, args.storeCatalog)
+  const storeItemDisplayOutputPath = resolve(args.storeItemDisplayOutput)
+
+  await mkdir(dirname(storeItemDisplayOutputPath), { recursive: true })
+  await writeFile(storeItemDisplayOutputPath, JSON.stringify(storeItemDisplayIndex), 'utf8')
+
+  console.log(
+    JSON.stringify(
+      {
+        ...buildSummary(catalog, outputPath),
+        cabinetCatalog: {
+          output: cabinetCatalogOutputPath,
+          itemCount: Object.keys(cabinetCatalog.items).length,
+          cabinetItemCount: cabinetCatalog.cabinetItemIds.length,
+          cabinetEntryCount: cabinetCatalog.cabinetEntries.length,
+          missingItemCount: cabinetCatalog.missingItemIds.length
+        },
+        storeItemDisplayIndex: {
+          output: storeItemDisplayOutputPath,
+          itemCount: Object.keys(storeItemDisplayIndex.items).length
+        }
+      },
+      null,
+      2
+    )
+  )
 }
 
 main().catch((error) => {

@@ -38,7 +38,7 @@
         :message="storeCatalogError ?? undefined"
       >
         <template #actions>
-          <AppButton @click="loadStoreCatalog">
+          <AppButton @click="reloadStoreCatalog">
             {{ t(textKeys.nsarmoireStoreCatalogRetry) }}
           </AppButton>
         </template>
@@ -404,7 +404,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
@@ -498,7 +498,7 @@ const STORE_TAG_SET = new Set<ArmoireStoreTag>(ARMOIRE_STORE_TAGS)
 const STORE_DETAIL_TAG_SET = new Set<ArmoireStoreDetailTag>(ARMOIRE_STORE_DETAIL_TAGS)
 const tool = getRequiredFfxivTool('armoire')
 const { t } = useLocale()
-const { catalog, status: catalogStatus } = useArmoireCatalog()
+const { catalog, status: catalogStatus, loadCatalog } = useArmoireCatalog()
 const {
   storeCatalog,
   status: storeCatalogStatus,
@@ -511,6 +511,15 @@ const selectedTagFilter = ref<StoreReviewTagFilter>('all')
 const statusMessageKey = ref<string | null>(null)
 const draftEntries = ref<Record<string, StoreReviewDraftEntry>>(loadDraftEntries())
 const itemDraftInputs = ref<Record<string, string>>({})
+
+onMounted(() => {
+  void loadCatalog()
+  void loadStoreCatalog()
+})
+
+function reloadStoreCatalog(): void {
+  void loadStoreCatalog({ force: true })
+}
 
 const linkRegions: Array<{ value: ArmoireStoreLinkRegion; labelKey: string }> = [
   { value: 'cn', labelKey: textKeys.nsarmoireStoreReviewRegionCn },

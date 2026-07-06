@@ -97,12 +97,13 @@
                   :snapshot="snapshot"
                   :status="storeCatalogStatus"
                   :store-catalog="storeCatalog"
-                  @reload="loadStoreCatalog"
+                  :store-item-display-index="storeItemDisplayIndex"
+                  @reload="reloadStoreCatalog"
                 />
                 <NSArmoireCabinetStatsPanel
                   v-else-if="activeDetailTab === 'cabinet'"
-                  :analysis="analysis"
-                  :catalog="catalog"
+                  :analysis="cabinetAnalysis"
+                  :catalog="cabinetCatalog"
                 />
                 <NSArmoireGlamourSetStatsPanel
                   v-else-if="activeDetailTab === 'sets'"
@@ -128,7 +129,7 @@
               :catalog="catalog"
               :catalog-status="catalogStatus"
               :catalog-error="catalogError"
-              @reload-catalog="loadCatalog"
+              @reload-catalog="reloadCatalog"
             />
           </div>
         </div>
@@ -168,16 +169,19 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import AppTabs from '@/components/AppTabs.vue'
 import { textKeys } from '@/config/site'
+import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
 import NSArmoireCabinetStatsPanel from '@/pages/armoire/components/NSArmoireCabinetStatsPanel.vue'
 import NSArmoireCatalogPanel from '@/pages/armoire/components/NSArmoireCatalogPanel.vue'
 import NSArmoireCharacterPanel from '@/pages/armoire/components/NSArmoireCharacterPanel.vue'
 import NSArmoireGlamourSetStatsPanel from '@/pages/armoire/components/NSArmoireGlamourSetStatsPanel.vue'
 import { useArmoireCatalog } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
+import { useArmoireCabinetCatalog } from '@/pages/armoire/composables/useArmoireCabinetCatalog'
 import { useArmoireCharacterProfiles } from '@/pages/armoire/composables/useArmoireCharacterProfiles'
 import { useArmoireDyePreferences } from '@/pages/armoire/composables/useArmoireDyePreferences'
 import { useArmoireHelper } from '@/pages/armoire/composables/useArmoireHelper'
 import { useArmoireStoreCatalog } from '@/pages/armoire/composables/useArmoireStoreCatalog'
+import { useArmoireStoreItemDisplayIndex } from '@/pages/armoire/composables/useArmoireStoreItemDisplayIndex'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
 import NSArmoireInsightPanel from '@/pages/armoire/components/NSArmoireInsightPanel.vue'
 import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
@@ -247,18 +251,27 @@ const {
 const { profiles: characterProfiles, activeProfileKey } = useArmoireCharacterProfiles(snapshot)
 
 const { catalog, status: catalogStatus, error: catalogError, loadCatalog } = useArmoireCatalog()
+const { catalog: cabinetCatalog, loadCabinetCatalog } = useArmoireCabinetCatalog()
 const {
   storeCatalog,
   status: storeCatalogStatus,
   error: storeCatalogError,
   loadStoreCatalog
 } = useArmoireStoreCatalog()
+const { storeItemDisplayIndex, loadStoreItemDisplayIndex } = useArmoireStoreItemDisplayIndex()
 
 const { selectedDyeValueCategories, toggleDyeValueCategory } = useArmoireDyePreferences()
 const { analysis, hasPendingCatalogChecks } = useArmoireAnalysis(
   snapshot,
   catalog,
   selectedDyeValueCategories
+)
+const cabinetAnalysis = computed(() =>
+  snapshot.value
+    ? analyzeArmoireSnapshot(snapshot.value, cabinetCatalog.value, {
+        valuableDyeCategories: selectedDyeValueCategories.value
+      })
+    : null
 )
 const {
   busy: helperBusy,
@@ -326,6 +339,54 @@ function queueCollectionSectionMount(): void {
   })
 }
 
+function shouldLoadCatalogForCurrentView(): boolean {
+  if (!snapshot.value) {
+    return false
+  }
+
+  if (activeSection.value === 'characters') {
+    return true
+  }
+
+  return activeSection.value === 'collection' && ['sets', 'catalog'].includes(activeDetailTab.value)
+}
+
+function shouldLoadCabinetCatalogForCurrentView(): boolean {
+  return Boolean(
+    snapshot.value && activeSection.value === 'collection' && activeDetailTab.value === 'cabinet'
+  )
+}
+
+function shouldLoadStoreCatalogForCurrentView(): boolean {
+  return Boolean(
+    snapshot.value && activeSection.value === 'collection' && activeDetailTab.value === 'store'
+  )
+}
+
+function loadCatalogsForCurrentView(): void {
+  if (shouldLoadCatalogForCurrentView()) {
+    void loadCatalog()
+  }
+
+  if (shouldLoadCabinetCatalogForCurrentView()) {
+    void loadCabinetCatalog()
+  }
+
+  if (shouldLoadStoreCatalogForCurrentView()) {
+    void loadStoreCatalog()
+    void loadStoreItemDisplayIndex()
+  }
+}
+
+function reloadCatalog(): void {
+  void loadCatalog({ force: true })
+}
+
+function reloadStoreCatalog(): void {
+  void loadStoreCatalog({ force: true })
+  void loadStoreItemDisplayIndex({ force: true })
+}
+
 watch(
   activeSection,
   (section) => {
@@ -336,8 +397,17 @@ watch(
 
     cancelCollectionLoadFrame()
     isCollectionLoading.value = false
+    loadCatalogsForCurrentView()
   },
   { flush: 'pre' }
+)
+
+watch(
+  [snapshot, activeSection, activeDetailTab],
+  () => {
+    loadCatalogsForCurrentView()
+  },
+  { flush: 'post' }
 )
 
 onBeforeUnmount(() => {
