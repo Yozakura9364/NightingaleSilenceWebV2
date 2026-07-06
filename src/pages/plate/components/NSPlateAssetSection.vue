@@ -33,12 +33,7 @@
       </p>
 
       <template v-else>
-        <label
-          class="nsplate-asset-search"
-          @click.stop
-          @keydown.stop
-          @pointerdown.stop
-        >
+        <label class="nsplate-asset-search" @click.stop @keydown.stop @pointerdown.stop>
           <span class="nsplate-asset-search__label">{{ searchPlaceholder }}</span>
           <span class="nsplate-asset-search__control">
             <input
@@ -348,6 +343,12 @@ function normalizeSearchText(value: unknown) {
   border-color: var(--ns-color-accent);
   outline: 2px solid color-mix(in srgb, var(--ns-color-accent) 35%, transparent);
   outline-offset: 1px;
+}
+
+.nsplate-asset-search input::-webkit-search-cancel-button,
+.nsplate-asset-search input::-webkit-search-decoration {
+  display: none;
+  appearance: none;
 }
 
 .nsplate-asset-search__clear {

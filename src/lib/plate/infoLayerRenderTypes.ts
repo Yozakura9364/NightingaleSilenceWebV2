@@ -22,6 +22,7 @@ export interface NSPlateInfoTextRenderDefinition {
   smallCaps?: boolean
   renderEffect?: NSPlateInfoTextRenderEffect
   align: NSPlateInfoTextAlign
+  centerOnDefaultText?: boolean
   x: number
   y: number
   positionBySide: Record<NSPlateInfoRenderSide, NSPlateInfoLayerPoint>
@@ -89,8 +90,7 @@ export interface NSPlateInfoFixedRenderDefinition extends NSPlateInfoGraphicRend
   height: number
 }
 
-export interface NSPlateInfoSpecialRenderDefinition
-  extends NSPlateInfoGraphicRenderDefinitionBase {
+export interface NSPlateInfoSpecialRenderDefinition extends NSPlateInfoGraphicRenderDefinitionBase {
   type: 'special'
   bgItemId: string
   maskItemId: string
@@ -102,8 +102,7 @@ export interface NSPlateInfoSpecialRenderDefinition
   scale: number
 }
 
-export interface NSPlateInfoBar48RenderDefinition
-  extends NSPlateInfoGraphicRenderDefinitionBase {
+export interface NSPlateInfoBar48RenderDefinition extends NSPlateInfoGraphicRenderDefinitionBase {
   type: 'bar48'
   columns: number
   cellWidth: number

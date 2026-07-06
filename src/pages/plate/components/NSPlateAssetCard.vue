@@ -2,7 +2,8 @@
   <button
     class="nsplate-asset-card"
     :class="{ 'nsplate-asset-card--active': props.active }"
-    :style="activeIconStyle"
+    :data-scope="props.asset.scope"
+    :style="cardStyle"
     type="button"
     @click="emit('select', props.asset)"
   >
@@ -12,6 +13,7 @@
         :src="imageSource"
         :alt="props.asset.label"
         loading="lazy"
+        @load="updateImageRatio"
         @error="useFallbackImage"
       />
     </span>
@@ -36,6 +38,7 @@ const props = withDefaults(
 )
 
 const imageFallbackUsed = ref(false)
+const imageRatio = ref<number | null>(null)
 const imageSource = computed(() => {
   const primary = props.preferOriginal
     ? props.asset.imageUrl || props.asset.previewUrl
@@ -51,10 +54,23 @@ watch(
   () => props.asset.id,
   () => {
     imageFallbackUsed.value = false
+    imageRatio.value = null
   }
 )
 
+function updateImageRatio(event: Event) {
+  const image = event.currentTarget
+
+  if (!(image instanceof HTMLImageElement) || image.naturalWidth <= 0 || image.naturalHeight <= 0) {
+    imageRatio.value = null
+    return
+  }
+
+  imageRatio.value = image.naturalWidth / image.naturalHeight
+}
+
 function useFallbackImage() {
+  imageRatio.value = null
   imageFallbackUsed.value = true
 }
 
@@ -62,15 +78,24 @@ const emit = defineEmits<{
   select: [value: NSPlateAssetSummary]
 }>()
 
-const activeIconStyle = {
-  '--nsplate-asset-card-active-icon': `url("${sparklesIcon}")`
-} as CSSProperties
+const cardStyle = computed(
+  () =>
+    ({
+      '--nsplate-asset-card-active-icon': `url("${sparklesIcon}")`,
+      ...(imageRatio.value
+        ? { '--nsplate-asset-card-thumbnail-ratio': String(imageRatio.value) }
+        : {})
+    }) as CSSProperties
+)
 </script>
 
 <style scoped>
 .nsplate-asset-card {
   position: relative;
   display: grid;
+  --nsplate-asset-card-thumbnail-ratio: 9 / 16;
+  grid-template-rows: auto auto;
+  align-self: start;
   gap: 6px;
   min-width: 0;
   padding: 7px;
@@ -80,6 +105,10 @@ const activeIconStyle = {
   color: var(--ns-color-text);
   font: inherit;
   cursor: pointer;
+}
+
+.nsplate-asset-card[data-scope='nameplate'] {
+  --nsplate-asset-card-thumbnail-ratio: 16 / 9;
 }
 
 .nsplate-asset-card:hover {
@@ -130,7 +159,7 @@ const activeIconStyle = {
 
 .nsplate-asset-card__image {
   display: grid;
-  aspect-ratio: 1;
+  aspect-ratio: var(--nsplate-asset-card-thumbnail-ratio);
   place-items: center;
   overflow: hidden;
   border-radius: var(--ns-radius-xs);
@@ -148,18 +177,22 @@ const activeIconStyle = {
 }
 
 .nsplate-asset-card__image img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
 .nsplate-asset-card__label {
+  display: -webkit-box;
   overflow: hidden;
   color: var(--ns-color-text-muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 800;
-  line-height: 1.25;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+  text-align: center;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 </style>
