@@ -2,9 +2,9 @@ import { computed, ref, shallowRef } from 'vue'
 import {
   createArmoireCatalogFromItemDisplayChunks,
   EMPTY_ARMOIRE_ITEM_DISPLAY_CHUNK,
-  getArmoireItemDisplayChunkKey,
   isArmoireItemDisplayChunk
 } from '@/lib/armoire/itemDisplayChunk'
+import { getArmoireItemIdChunkKeys } from '@/lib/armoire/itemIdChunk'
 import type { ArmoireItemDisplayChunk } from '@/lib/armoire/types'
 
 export type ArmoireItemDisplayChunkStatus = 'idle' | 'loading' | 'ready' | 'error'
@@ -13,16 +13,6 @@ const chunkBaseUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data/armoi
 
 function getChunkUrl(chunkKey: string): string {
   return `${chunkBaseUrl}/${chunkKey}.json`
-}
-
-function getItemDisplayChunkKeys(itemIds: readonly number[]): string[] {
-  return Array.from(
-    new Set(
-      itemIds
-        .filter((itemId) => Number.isInteger(itemId) && itemId > 0)
-        .map(getArmoireItemDisplayChunkKey)
-    )
-  ).sort()
 }
 
 export function useArmoireItemDisplayChunks() {
@@ -88,7 +78,7 @@ export function useArmoireItemDisplayChunks() {
     itemIds: readonly number[],
     options: { force?: boolean } = {}
   ) {
-    const chunkKeys = getItemDisplayChunkKeys(itemIds)
+    const chunkKeys = getArmoireItemIdChunkKeys(itemIds)
 
     if (chunkKeys.length === 0) {
       status.value = 'ready'

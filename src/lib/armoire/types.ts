@@ -3,10 +3,10 @@ export const ARMOIRE_CATALOG_SCHEMA_VERSION = 'nsarmoire.catalog.v1' as const
 export const ARMOIRE_CABINET_CATALOG_SCHEMA_VERSION = 'nsarmoire.cabinetCatalog.v1' as const
 export const ARMOIRE_CATALOG_DISPLAY_INDEX_SCHEMA_VERSION =
   'nsarmoire.catalogDisplayIndex.v1' as const
-export const ARMOIRE_ITEM_DISPLAY_CHUNK_SCHEMA_VERSION =
-  'nsarmoire.itemDisplayChunk.v1' as const
-export const ARMOIRE_GLAMOUR_SET_CATALOG_SCHEMA_VERSION =
-  'nsarmoire.glamourSetCatalog.v1' as const
+export const ARMOIRE_ITEM_DISPLAY_CHUNK_SCHEMA_VERSION = 'nsarmoire.itemDisplayChunk.v1' as const
+export const ARMOIRE_CABINET_ITEM_CHUNK_SCHEMA_VERSION = 'nsarmoire.cabinetItemChunk.v1' as const
+export const ARMOIRE_GLAMOUR_SET_CATALOG_SCHEMA_VERSION = 'nsarmoire.glamourSetCatalog.v1' as const
+export const ARMOIRE_GLAMOUR_SET_CHUNK_SCHEMA_VERSION = 'nsarmoire.glamourSetChunk.v1' as const
 export const ARMOIRE_IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION =
   'nsarmoire.identicalModelCatalog.v1' as const
 export const ARMOIRE_DYE_CATALOG_SCHEMA_VERSION = 'nsarmoire.dyeCatalog.v1' as const
@@ -186,12 +186,40 @@ export interface ArmoireItemDisplayChunk {
   items: ArmoireCompactDisplayItem[]
 }
 
+export interface ArmoireCabinetItemChunk {
+  schemaVersion: typeof ARMOIRE_CABINET_ITEM_CHUNK_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  chunkKey: string
+  chunkSize: number
+  items: ArmoireCompactDisplayItem[]
+  cabinetItemIds: number[]
+  cabinetEntries?: ArmoireCabinetEntry[]
+  missingItemIds?: number[]
+}
+
 export interface ArmoireGlamourSetCatalog {
   schemaVersion: typeof ARMOIRE_GLAMOUR_SET_CATALOG_SCHEMA_VERSION
   generatedAt: string
   source?: {
     catalogGeneratedAt?: string
   }
+  items: ArmoireCompactDisplayItem[]
+  cabinetItemIds: number[]
+  glamourSetItems: ArmoireGlamourSet[]
+  missingItemIds?: number[]
+}
+
+export interface ArmoireGlamourSetChunk {
+  schemaVersion: typeof ARMOIRE_GLAMOUR_SET_CHUNK_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  chunkKey: string
+  chunkSize: number
   items: ArmoireCompactDisplayItem[]
   cabinetItemIds: number[]
   glamourSetItems: ArmoireGlamourSet[]

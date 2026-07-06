@@ -3,6 +3,7 @@ import {
   type ArmoireCatalog,
   type ArmoireCatalogItem,
   type ArmoireCompactDisplayItem,
+  type ArmoireGlamourSet,
   type ArmoireIdenticalGroup,
   type ArmoireModelTuple
 } from '@/lib/armoire/types'
@@ -60,6 +61,27 @@ function mergeCatalogItems(catalogs: ArmoireCatalog[]): Record<number, ArmoireCa
   return items
 }
 
+function mergeGlamourSetItems(catalogs: ArmoireCatalog[]): ArmoireGlamourSet[] {
+  const glamourSets = new Map<number, ArmoireGlamourSet>()
+
+  for (const catalog of catalogs) {
+    for (const set of catalog.glamourSetItems) {
+      const existingSet = glamourSets.get(set.setItemId)
+
+      glamourSets.set(set.setItemId, {
+        setItemId: set.setItemId,
+        setName: set.setName ?? existingSet?.setName,
+        pieceItemIds: uniqueSortedNumbers([
+          ...(existingSet?.pieceItemIds ?? []),
+          ...set.pieceItemIds
+        ])
+      })
+    }
+  }
+
+  return Array.from(glamourSets.values()).sort((left, right) => left.setItemId - right.setItemId)
+}
+
 export function mergeArmoireCatalogs(...catalogs: ArmoireCatalog[]): ArmoireCatalog {
   if (catalogs.length === 0) {
     return EMPTY_ARMOIRE_CATALOG
@@ -71,7 +93,7 @@ export function mergeArmoireCatalogs(...catalogs: ArmoireCatalog[]): ArmoireCata
     items: mergeCatalogItems(catalogs),
     cabinetItemIds: uniqueSortedNumbers(catalogs.flatMap((catalog) => catalog.cabinetItemIds)),
     cabinetEntries: catalogs.flatMap((catalog) => catalog.cabinetEntries ?? []),
-    glamourSetItems: catalogs.flatMap((catalog) => catalog.glamourSetItems),
+    glamourSetItems: mergeGlamourSetItems(catalogs),
     identicalGroups: catalogs.flatMap((catalog) => catalog.identicalGroups),
     dyes: Object.assign({}, ...catalogs.map((catalog) => catalog.dyes))
   }
