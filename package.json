@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build:armoire-catalog": "node scripts/build-armoire-catalog.mjs",
+    "build:armoire-split-catalogs": "node scripts/build-armoire-split-catalogs.mjs",
     "build:armoire-cabinet-catalog": "node scripts/build-armoire-cabinet-catalog.mjs",
     "build:armoire-store-item-display-index": "node scripts/build-armoire-store-item-display-index.mjs",
     "build:armoire-store-catalog": "node scripts/build-armoire-store-catalog.mjs",

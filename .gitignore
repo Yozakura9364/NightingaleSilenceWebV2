@@ -36,3 +36,7 @@ Thumbs.db
 
 # local AI / IDE settings
 .claude/settings.local.json
+
+# local ops runner output
+/tools/ns-ops-runner/logs/
+/tools/ns-ops-runner/*.local.json

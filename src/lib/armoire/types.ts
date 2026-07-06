@@ -1,6 +1,13 @@
 export const ARMOIRE_SNAPSHOT_SCHEMA_VERSION = 'nsarmoire.snapshot.v1' as const
 export const ARMOIRE_CATALOG_SCHEMA_VERSION = 'nsarmoire.catalog.v1' as const
 export const ARMOIRE_CABINET_CATALOG_SCHEMA_VERSION = 'nsarmoire.cabinetCatalog.v1' as const
+export const ARMOIRE_CATALOG_DISPLAY_INDEX_SCHEMA_VERSION =
+  'nsarmoire.catalogDisplayIndex.v1' as const
+export const ARMOIRE_GLAMOUR_SET_CATALOG_SCHEMA_VERSION =
+  'nsarmoire.glamourSetCatalog.v1' as const
+export const ARMOIRE_IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION =
+  'nsarmoire.identicalModelCatalog.v1' as const
+export const ARMOIRE_DYE_CATALOG_SCHEMA_VERSION = 'nsarmoire.dyeCatalog.v1' as const
 export const ARMOIRE_STORE_CATALOG_SCHEMA_VERSION = 'nsarmoire.storeCatalog.v1' as const
 export const ARMOIRE_STORE_ITEM_DISPLAY_INDEX_SCHEMA_VERSION =
   'nsarmoire.storeItemDisplayIndex.v1' as const
@@ -142,6 +149,8 @@ export interface ArmoireCatalog {
   dyes: Record<number, ArmoireDye>
 }
 
+export type ArmoireCompactDisplayItem = [itemId: number, name?: string, iconId?: number]
+
 export interface ArmoireCabinetCatalog {
   schemaVersion: typeof ARMOIRE_CABINET_CATALOG_SCHEMA_VERSION
   generatedAt: string
@@ -152,6 +161,48 @@ export interface ArmoireCabinetCatalog {
   cabinetItemIds: number[]
   cabinetEntries?: ArmoireCabinetEntry[]
   missingItemIds?: number[]
+}
+
+export interface ArmoireCatalogDisplayIndex {
+  schemaVersion: typeof ARMOIRE_CATALOG_DISPLAY_INDEX_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  items: ArmoireCompactDisplayItem[]
+  missingItemIds?: number[]
+}
+
+export interface ArmoireGlamourSetCatalog {
+  schemaVersion: typeof ARMOIRE_GLAMOUR_SET_CATALOG_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  items: ArmoireCompactDisplayItem[]
+  cabinetItemIds: number[]
+  glamourSetItems: ArmoireGlamourSet[]
+  missingItemIds?: number[]
+}
+
+export interface ArmoireIdenticalModelCatalog {
+  schemaVersion: typeof ARMOIRE_IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  items: ArmoireCompactDisplayItem[]
+  identicalGroups: ArmoireIdenticalGroup[]
+  missingItemIds?: number[]
+}
+
+export interface ArmoireDyeCatalog {
+  schemaVersion: typeof ARMOIRE_DYE_CATALOG_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  dyes: Record<number, ArmoireDye>
 }
 
 export type ArmoireStoreRegion = 'cn' | 'global' | 'tw'

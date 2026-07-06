@@ -2,6 +2,7 @@ import {
   ARMOIRE_CATALOG_SCHEMA_VERSION,
   type ArmoireCatalog,
   type ArmoireCatalogItem,
+  type ArmoireCompactDisplayItem,
   type ArmoireIdenticalGroup,
   type ArmoireModelTuple
 } from '@/lib/armoire/types'
@@ -29,6 +30,51 @@ export function hasGlamourSetCatalog(catalog: ArmoireCatalog): boolean {
 
 export function hasIdenticalModelCatalog(catalog: ArmoireCatalog): boolean {
   return getIdenticalModelGroups(catalog).length > 0
+}
+
+function getMergedGeneratedAt(catalogs: ArmoireCatalog[]): string {
+  const generatedAtValues = catalogs
+    .map((catalog) => catalog.generatedAt)
+    .filter(Boolean)
+    .sort()
+
+  return generatedAtValues[generatedAtValues.length - 1] ?? ''
+}
+
+function uniqueSortedNumbers(values: number[]): number[] {
+  return Array.from(new Set(values)).sort((left, right) => left - right)
+}
+
+function mergeCatalogItems(catalogs: ArmoireCatalog[]): Record<number, ArmoireCatalogItem> {
+  const items: Record<number, ArmoireCatalogItem> = {}
+
+  for (const catalog of catalogs) {
+    for (const [itemId, item] of Object.entries(catalog.items)) {
+      items[Number(itemId)] = {
+        ...items[Number(itemId)],
+        ...item
+      }
+    }
+  }
+
+  return items
+}
+
+export function mergeArmoireCatalogs(...catalogs: ArmoireCatalog[]): ArmoireCatalog {
+  if (catalogs.length === 0) {
+    return EMPTY_ARMOIRE_CATALOG
+  }
+
+  return {
+    schemaVersion: ARMOIRE_CATALOG_SCHEMA_VERSION,
+    generatedAt: getMergedGeneratedAt(catalogs),
+    items: mergeCatalogItems(catalogs),
+    cabinetItemIds: uniqueSortedNumbers(catalogs.flatMap((catalog) => catalog.cabinetItemIds)),
+    cabinetEntries: catalogs.flatMap((catalog) => catalog.cabinetEntries ?? []),
+    glamourSetItems: catalogs.flatMap((catalog) => catalog.glamourSetItems),
+    identicalGroups: catalogs.flatMap((catalog) => catalog.identicalGroups),
+    dyes: Object.assign({}, ...catalogs.map((catalog) => catalog.dyes))
+  }
 }
 
 export function getArmoireIconUrl(iconId: number | undefined): string {
@@ -133,6 +179,57 @@ export function getIdenticalModelGroups(catalog: ArmoireCatalog): ArmoireIdentic
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function isPositiveInteger(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value > 0
+}
+
+export function isArmoireCompactDisplayItem(value: unknown): value is ArmoireCompactDisplayItem {
+  return (
+    Array.isArray(value) &&
+    isPositiveInteger(value[0]) &&
+    (value[1] === undefined || typeof value[1] === 'string') &&
+    (value[2] === undefined || isPositiveInteger(value[2]))
+  )
+}
+
+export function isArmoireCompactDisplayItemArray(
+  value: unknown
+): value is ArmoireCompactDisplayItem[] {
+  return Array.isArray(value) && value.every(isArmoireCompactDisplayItem)
+}
+
+export function isPositiveIntegerArray(value: unknown): value is number[] {
+  return Array.isArray(value) && value.every(isPositiveInteger)
+}
+
+export function createCatalogItemFromCompactDisplayItem(
+  item: ArmoireCompactDisplayItem
+): ArmoireCatalogItem {
+  const [itemId, name, iconId] = item
+  const catalogItem: ArmoireCatalogItem = { itemId }
+
+  if (name) {
+    catalogItem.name = name
+  }
+
+  if (iconId) {
+    catalogItem.iconId = iconId
+  }
+
+  return catalogItem
+}
+
+export function createCatalogItemsFromCompactDisplayItems(
+  items: readonly ArmoireCompactDisplayItem[]
+): Record<number, ArmoireCatalogItem> {
+  return Object.fromEntries(
+    items.map((item) => {
+      const catalogItem = createCatalogItemFromCompactDisplayItem(item)
+      return [catalogItem.itemId, catalogItem]
+    })
+  )
 }
 
 export function isArmoireCatalog(value: unknown): value is ArmoireCatalog {

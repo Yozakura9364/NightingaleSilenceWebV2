@@ -71,6 +71,10 @@ const statusTone = computed(() => {
     return 'warning'
   }
 
+  if (props.status === 'idle') {
+    return 'info'
+  }
+
   return 'loading'
 })
 
@@ -93,6 +97,10 @@ const statusMessage = computed(() => {
     return props.error
       ? formatText(textKeys.nsarmoireCatalogErrorWithDetail, { error: props.error })
       : t(textKeys.nsarmoireCatalogError)
+  }
+
+  if (props.status === 'idle') {
+    return t(textKeys.nsarmoireCatalogPending)
   }
 
   return t(textKeys.nsarmoireCatalogLoading)

@@ -7,10 +7,18 @@ const DEFAULT_BASE_URL =
   'https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs'
 const DEFAULT_OUTPUT = 'public/data/armoire-catalog.json'
 const DEFAULT_CABINET_CATALOG_OUTPUT = 'public/data/armoire-cabinet-catalog.json'
+const DEFAULT_CATALOG_DISPLAY_OUTPUT = 'public/data/armoire-catalog-display-index.json'
+const DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT = 'public/data/armoire-glamour-set-catalog.json'
+const DEFAULT_IDENTICAL_MODEL_CATALOG_OUTPUT = 'public/data/armoire-identical-model-catalog.json'
+const DEFAULT_DYE_CATALOG_OUTPUT = 'public/data/armoire-dye-catalog.json'
 const DEFAULT_STORE_CATALOG = 'public/data/armoire-store-catalog.json'
 const DEFAULT_STORE_ITEM_DISPLAY_OUTPUT = 'public/data/armoire-store-item-display-index.json'
 const SCHEMA_VERSION = 'nsarmoire.catalog.v1'
 const CABINET_CATALOG_SCHEMA_VERSION = 'nsarmoire.cabinetCatalog.v1'
+const CATALOG_DISPLAY_SCHEMA_VERSION = 'nsarmoire.catalogDisplayIndex.v1'
+const GLAMOUR_SET_CATALOG_SCHEMA_VERSION = 'nsarmoire.glamourSetCatalog.v1'
+const IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION = 'nsarmoire.identicalModelCatalog.v1'
+const DYE_CATALOG_SCHEMA_VERSION = 'nsarmoire.dyeCatalog.v1'
 const STORE_ITEM_DISPLAY_SCHEMA_VERSION = 'nsarmoire.storeItemDisplayIndex.v1'
 const SOURCE_REPOSITORY = 'InfSein/ffxiv-datamining-mixed'
 const SOURCE_REPOSITORY_URL = `https://github.com/${SOURCE_REPOSITORY}.git`
@@ -29,6 +37,10 @@ function parseArgs(argv) {
   const args = {
     baseUrl: DEFAULT_BASE_URL,
     cabinetCatalogOutput: DEFAULT_CABINET_CATALOG_OUTPUT,
+    catalogDisplayOutput: DEFAULT_CATALOG_DISPLAY_OUTPUT,
+    dyeCatalogOutput: DEFAULT_DYE_CATALOG_OUTPUT,
+    glamourSetCatalogOutput: DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT,
+    identicalModelCatalogOutput: DEFAULT_IDENTICAL_MODEL_CATALOG_OUTPUT,
     output: DEFAULT_OUTPUT,
     storeCatalog: DEFAULT_STORE_CATALOG,
     storeItemDisplayOutput: DEFAULT_STORE_ITEM_DISPLAY_OUTPUT,
@@ -57,6 +69,30 @@ function parseArgs(argv) {
 
     if (arg === '--cabinet-catalog-output') {
       args.cabinetCatalogOutput = argv[index + 1] ?? DEFAULT_CABINET_CATALOG_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--catalog-display-output') {
+      args.catalogDisplayOutput = argv[index + 1] ?? DEFAULT_CATALOG_DISPLAY_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--glamour-set-catalog-output') {
+      args.glamourSetCatalogOutput = argv[index + 1] ?? DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--identical-model-catalog-output') {
+      args.identicalModelCatalogOutput = argv[index + 1] ?? DEFAULT_IDENTICAL_MODEL_CATALOG_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--dye-catalog-output') {
+      args.dyeCatalogOutput = argv[index + 1] ?? DEFAULT_DYE_CATALOG_OUTPUT
       index += 1
       continue
     }
@@ -97,6 +133,14 @@ Options:
   --output <file>     Output JSON path. Default: ${DEFAULT_OUTPUT}
   --cabinet-catalog-output <file>
                       Output cabinet catalog path. Default: ${DEFAULT_CABINET_CATALOG_OUTPUT}
+  --catalog-display-output <file>
+                      Output catalog display index path. Default: ${DEFAULT_CATALOG_DISPLAY_OUTPUT}
+  --glamour-set-catalog-output <file>
+                      Output glamour set catalog path. Default: ${DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT}
+  --identical-model-catalog-output <file>
+                      Output identical model catalog path. Default: ${DEFAULT_IDENTICAL_MODEL_CATALOG_OUTPUT}
+  --dye-catalog-output <file>
+                      Output dye catalog path. Default: ${DEFAULT_DYE_CATALOG_OUTPUT}
   --store-catalog <file>
                       Store catalog used to build display index. Default: ${DEFAULT_STORE_CATALOG}
   --store-item-display-output <file>
@@ -577,6 +621,112 @@ function buildDisplayItem(itemId, sourceItem) {
   return item
 }
 
+function buildDisplayTuple(itemId, sourceItem) {
+  const tuple = [itemId]
+
+  if (sourceItem.name) {
+    tuple[1] = sourceItem.name
+  }
+
+  if (sourceItem.iconId) {
+    if (tuple.length === 1) {
+      tuple[1] = ''
+    }
+
+    tuple[2] = sourceItem.iconId
+  }
+
+  return tuple
+}
+
+function collectDisplayTuples(catalog, itemIds) {
+  const items = []
+  const missingItemIds = []
+
+  for (const itemId of Array.from(itemIds).sort((left, right) => left - right)) {
+    const sourceItem = catalog.items[itemId]
+
+    if (!sourceItem) {
+      missingItemIds.push(itemId)
+      continue
+    }
+
+    items.push(buildDisplayTuple(itemId, sourceItem))
+  }
+
+  return { items, missingItemIds }
+}
+
+function buildCatalogDisplayIndex(catalog) {
+  const { items, missingItemIds } = collectDisplayTuples(
+    catalog,
+    new Set(Object.values(catalog.items).map((item) => item.itemId))
+  )
+
+  return {
+    schemaVersion: CATALOG_DISPLAY_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    source: {
+      catalogGeneratedAt: catalog.generatedAt
+    },
+    items,
+    missingItemIds
+  }
+}
+
+function buildGlamourSetCatalog(catalog) {
+  const itemIds = new Set()
+
+  for (const set of catalog.glamourSetItems) {
+    itemIds.add(set.setItemId)
+
+    for (const itemId of set.pieceItemIds) {
+      itemIds.add(itemId)
+    }
+  }
+
+  const { items, missingItemIds } = collectDisplayTuples(catalog, itemIds)
+
+  return {
+    schemaVersion: GLAMOUR_SET_CATALOG_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    source: {
+      catalogGeneratedAt: catalog.generatedAt
+    },
+    items,
+    cabinetItemIds: catalog.cabinetItemIds,
+    glamourSetItems: catalog.glamourSetItems,
+    missingItemIds
+  }
+}
+
+function buildIdenticalModelCatalog(catalog) {
+  const itemIds = new Set(catalog.identicalGroups.flatMap((group) => group.itemIds))
+  const { items, missingItemIds } = collectDisplayTuples(catalog, itemIds)
+
+  return {
+    schemaVersion: IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    source: {
+      catalogGeneratedAt: catalog.generatedAt
+    },
+    items,
+    identicalGroups: catalog.identicalGroups,
+    missingItemIds
+  }
+}
+
+function buildDyeCatalog(catalog) {
+  return {
+    schemaVersion: DYE_CATALOG_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    source: {
+      catalogGeneratedAt: catalog.generatedAt
+    },
+    dyes: catalog.dyes
+  }
+}
+
 function buildCabinetCatalog(catalog) {
   const cabinetItemIds = Array.from(new Set(catalog.cabinetItemIds)).sort(
     (left, right) => left - right
@@ -682,6 +832,30 @@ async function main() {
   await mkdir(dirname(cabinetCatalogOutputPath), { recursive: true })
   await writeFile(cabinetCatalogOutputPath, JSON.stringify(cabinetCatalog), 'utf8')
 
+  const catalogDisplayIndex = buildCatalogDisplayIndex(catalog)
+  const catalogDisplayOutputPath = resolve(args.catalogDisplayOutput)
+
+  await mkdir(dirname(catalogDisplayOutputPath), { recursive: true })
+  await writeFile(catalogDisplayOutputPath, JSON.stringify(catalogDisplayIndex), 'utf8')
+
+  const glamourSetCatalog = buildGlamourSetCatalog(catalog)
+  const glamourSetCatalogOutputPath = resolve(args.glamourSetCatalogOutput)
+
+  await mkdir(dirname(glamourSetCatalogOutputPath), { recursive: true })
+  await writeFile(glamourSetCatalogOutputPath, JSON.stringify(glamourSetCatalog), 'utf8')
+
+  const identicalModelCatalog = buildIdenticalModelCatalog(catalog)
+  const identicalModelCatalogOutputPath = resolve(args.identicalModelCatalogOutput)
+
+  await mkdir(dirname(identicalModelCatalogOutputPath), { recursive: true })
+  await writeFile(identicalModelCatalogOutputPath, JSON.stringify(identicalModelCatalog), 'utf8')
+
+  const dyeCatalog = buildDyeCatalog(catalog)
+  const dyeCatalogOutputPath = resolve(args.dyeCatalogOutput)
+
+  await mkdir(dirname(dyeCatalogOutputPath), { recursive: true })
+  await writeFile(dyeCatalogOutputPath, JSON.stringify(dyeCatalog), 'utf8')
+
   const storeItemDisplayIndex = await buildStoreItemDisplayIndex(catalog, args.storeCatalog)
   const storeItemDisplayOutputPath = resolve(args.storeItemDisplayOutput)
 
@@ -698,6 +872,27 @@ async function main() {
           cabinetItemCount: cabinetCatalog.cabinetItemIds.length,
           cabinetEntryCount: cabinetCatalog.cabinetEntries.length,
           missingItemCount: cabinetCatalog.missingItemIds.length
+        },
+        catalogDisplayIndex: {
+          output: catalogDisplayOutputPath,
+          itemCount: catalogDisplayIndex.items.length,
+          missingItemCount: catalogDisplayIndex.missingItemIds.length
+        },
+        glamourSetCatalog: {
+          output: glamourSetCatalogOutputPath,
+          itemCount: glamourSetCatalog.items.length,
+          glamourSetCount: glamourSetCatalog.glamourSetItems.length,
+          missingItemCount: glamourSetCatalog.missingItemIds.length
+        },
+        identicalModelCatalog: {
+          output: identicalModelCatalogOutputPath,
+          itemCount: identicalModelCatalog.items.length,
+          identicalGroupCount: identicalModelCatalog.identicalGroups.length,
+          missingItemCount: identicalModelCatalog.missingItemIds.length
+        },
+        dyeCatalog: {
+          output: dyeCatalogOutputPath,
+          dyeCount: Object.keys(dyeCatalog.dyes).length
         },
         storeItemDisplayIndex: {
           output: storeItemDisplayOutputPath,
