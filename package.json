@@ -20,6 +20,7 @@
     "check:plate-static": "node scripts/check-nsplate-static-manifest.mjs",
     "check:plate-static:preview": "node scripts/check-nsplate-static-manifest.mjs --expect-preview --check-preview-remote",
     "check:plate-regression": "node scripts/check-nsplate-regression.mjs",
+    "check:nsglamour-contract": "node scripts/check-nsglamour-contract.mjs",
     "typecheck": "vue-tsc -b",
     "build": "vue-tsc -b && vite build",
     "check:i18n": "node scripts/check-ui-copy.mjs",

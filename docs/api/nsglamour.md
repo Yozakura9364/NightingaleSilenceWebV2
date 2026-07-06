@@ -10,17 +10,53 @@
 | 当前旧服务 | `http://localhost:8765/api` |
 | 当前连通性检查 | `GET /api/glamour/health` |
 
-## 本机代理验证
+## 本机验证与契约检查
 
-最近验证时间：2026-07-03。
+最近验证时间：2026-07-06。
+
+本次验证直连旧服务：`http://127.0.0.1:8765/api/*`。如需验证 V2 dev server 代理，可先启动 Vite，然后运行：
+
+```bash
+NSGLAMOUR_CONTRACT_BASE_URL=http://127.0.0.1:5173/api/glamour npm run check:nsglamour-contract
+```
 
 | V2 路径 | 状态 | 结果摘要 |
 |---------|------|----------|
 | `GET /api/glamour/health` | 200 | 返回 `{ ok: true }`。 |
-| `GET /api/glamour/stains` | 200 | 顶层字段 `locale`、`results`；当前样本 `locale=zh`、`results=126`。 |
-| `GET /api/glamour/ui-localization` | 200 | 顶层字段 `version`、`description`、`generatedAt`、`locales`、`autoFillSources`、`strings`、`scope`。 |
+| `GET /api/glamour/stains?locale=zh` | 200 | 顶层字段 `locale`、`results`；当前样本 `results=126`，约 `42.6 KB` raw / `9.2 KB` gzip，`Cache-Control: public, max-age=3600`。 |
+| `GET /api/glamour/stains?locale=en` | 200 | 当前样本 `results=126`。 |
+| `GET /api/glamour/ui-localization` | 200 | 顶层字段 `version`、`description`、`generatedAt`、`locales`、`autoFillSources`、`strings`、`scope`；当前 `version=2`，约 `102.4 KB` raw / `19.4 KB` gzip，`no-store`。 |
+| `GET /api/glamour/search-items?slot=Body&q=长袍&locale=zh&limit=3` | 200 | 返回 3 条样本，首条当前为 `书龙长袍`。 |
+| `GET /api/glamour/search-items?slot=Body&q=robe&locale=zh&limit=3` | 200 | 返回 3 条样本，说明中文 locale 下仍可用英文名搜索 fallback。 |
+| `POST /api/glamour/equipinfo/parse-text` | 200 | 用 `身体：书龙长袍` 可解析出 1 条 `Body` 装备。空文本返回 400 和 `error` 字段。 |
 
-本机验证通过 V2 dev server 代理访问：`http://127.0.0.1:5173/api/glamour/*`。
+阶段 0 已新增脚本：
+
+```bash
+npm run check:nsglamour-contract
+```
+
+脚本默认检查旧服务直连 `http://127.0.0.1:8765/api`；可通过 `NSGLAMOUR_CONTRACT_BASE_URL` 或 `--base-url` 切到 V2 代理。当前没有本地 `.chara` fixture，因此 `POST /parse-chara` 只在设置 `NSGLAMOUR_CONTRACT_CHARA_FILE` 或 `--chara-file` 后检查。
+
+## 阶段 0 资产与流量约束
+
+当前旧项目资源体积以 2026-07-06 本机统计为准：
+
+| 资源 | 当前体积/数量 | 迁移约束 |
+|------|---------------|----------|
+| `data/item_model_mapping.json` | `47,699,612 B` raw，`4,358,245 B` gzip，`28,935` 条 items | 不进入 V2 前端 bundle；继续由后端持有，后续如静态化必须拆分、版本化并按需加载。 |
+| `font/` | 约 `81.6 MB` | 不整目录迁入；模板字体后续按模板/语言懒加载，并单独确认授权和缓存。 |
+| `static/templates/` | 约 `4.5 MB` | 只迁运行时需要的模板资源；按选中模板加载。 |
+| `templates/` 源/参考文件 | 约 `327.6 MB` | 不进入 V2 构建产物；PSD/SVG 等只作为校准参考。 |
+| `/template` HTML | 约 `12.6 KB` raw / `3.1 KB` gzip | HTML 很轻，但实际首屏还会拉 JS/CSS、字体、Cropper、模板背景等资源。 |
+| `/equipinfo` HTML | 约 `20.1 KB` raw / `3.3 KB` gzip | 比 `/template` 更适合作为第一段轻量迁移入口。 |
+
+迁移时优先目标：
+
+1. 前端不静态 import 完整 mapping、字体目录、源模板目录。
+2. 染剂数据保留 1 小时缓存；UI localization 当前 `no-store`，后续如拆分本地化数据需重新定义版本和缓存。
+3. 装备搜索需要防抖、取消和 limit；默认不做全量拉取。
+4. 模板图片、字体、预览图、Canvas 资源按模板选择后再加载。
 
 ## 迁移原则
 
@@ -126,6 +162,40 @@ interface NSGlamourUiLocalizationResponse {
 - 紧跟装备后的染剂归属。
 - 未识别行。
 
+当前已知请求：
+
+```ts
+interface NSGlamourEquipinfoParseTextRequest {
+  text: string
+  source_locale?: string
+  locale?: string
+}
+```
+
+当前已知响应字段：
+
+```ts
+interface NSGlamourEquipinfoParseTextResponse {
+  file_type: string
+  source_name: string
+  source_title: string
+  source_locale: string
+  locales: string[]
+  default_locale: string
+  locale_labels: Record<string, string>
+  slot_names: Record<string, unknown>
+  dye_labels: Record<string, string>
+  no_dye_labels: Record<string, string>
+  warnings: string[]
+  resolved_equipment: unknown[]
+}
+```
+
+错误样本：
+
+- 空 `text`：400，返回 `{ error: string }`。
+- 文本超过 20000 字：413，返回 `{ error: string }`。
+
 ### `POST /api/glamour/parse-chara`
 
 旧接口：`POST /api/parse-chara`
@@ -152,12 +222,45 @@ interface NSGlamourUiLocalizationResponse {
 
 - 搜索装备候选。
 
+当前已知查询参数：
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| `slot` | string | 装备部位，例如 `MainHand`、`Body`、`Glasses`、`FashionAccessory`。未知部位返回空数组。 |
+| `q` | string | 搜索词；为空时返回空数组。当前可命中当前 locale 名称，也会遍历多语言名称。 |
+| `locale` | string | 展示语言，默认 `zh`。 |
+| `limit` | number | 默认 `30`，后端限制到 `1..80`。 |
+
+当前已知字段：
+
+```ts
+interface NSGlamourSearchItemsResponse {
+  slot: string
+  results: NSGlamourSearchItem[]
+}
+
+interface NSGlamourSearchItem {
+  key: number
+  key_label: string
+  name: string
+  names: Record<string, string>
+  icon: number
+  rarity: number
+  slot_label: string
+  equip_slot_category: number
+  model_main: Record<string, unknown>
+  dye_count: number
+  dye_display_by_locale: Record<string, string>
+  dye_display: string
+  dye_entries: unknown[]
+  is_emperor: boolean
+}
+```
+
 待补充：
 
-- 查询参数。
-- 语言参数。
-- 候选排序规则。
-- 防抖和取消策略。
+- 候选排序规则的完整说明。
+- 前端防抖、取消和最小输入长度策略。
 
 ### `GET /api/glamour/stains`
 
@@ -213,6 +316,18 @@ interface NSGlamourStain {
 - 不能成为开放代理。
 - 需要缓存策略。
 - 需要限制 ID 格式。
+
+当前旧服务缓存行为：
+
+| 路径 | 缓存 |
+|------|------|
+| `/font/<path>` | `public, max-age=31536000, immutable` |
+| `/api/icon/<icon_id>` | `public, max-age=604800` |
+| `/template-preview/<path>` | `public, max-age=31536000, immutable` |
+| `/api/stains` | `public, max-age=3600` |
+| `/api/ui-localization` | `no-store` |
+
+V2 迁移时不能把字体、模板预览和图标缓存策略混为一谈；大资源需要版本号或内容哈希支撑长期缓存。
 
 ## 共享字段警戒线
 

@@ -1,0 +1,106 @@
+import { draftToGlamourPayload, getFilledGlamourDraftEntries } from '@/lib/glamour/draft'
+import { GLAMOUR_DEFAULT_LOCALE } from '@/lib/glamour/equipment'
+import type { GlamourDraft, GlamourRecentSnapshot } from '@/lib/glamour/types'
+
+export const GLAMOUR_RECENT_STORAGE_KEY = 'nsglamour.recentLoadouts'
+export const GLAMOUR_RECENT_LIMIT = 10
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === 'object' && !Array.isArray(value))
+}
+
+function cloneJson<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T
+}
+
+export function normalizeGlamourConfigName(value: unknown): string {
+  const text = String(value || '').trim()
+  return text || '未命名'
+}
+
+export function readGlamourRecentSnapshots(): GlamourRecentSnapshot[] {
+  try {
+    const data = JSON.parse(localStorage.getItem(GLAMOUR_RECENT_STORAGE_KEY) || '[]')
+
+    if (!Array.isArray(data)) {
+      return []
+    }
+
+    return data.filter((item): item is GlamourRecentSnapshot => (
+      isRecord(item) &&
+      typeof item.id === 'string' &&
+      isRecord(item.parsed) &&
+      Array.isArray(item.parsed.resolved_equipment)
+    ))
+  } catch {
+    return []
+  }
+}
+
+export function writeGlamourRecentSnapshots(items: GlamourRecentSnapshot[]) {
+  localStorage.setItem(
+    GLAMOUR_RECENT_STORAGE_KEY,
+    JSON.stringify((Array.isArray(items) ? items : []).slice(0, GLAMOUR_RECENT_LIMIT))
+  )
+}
+
+export function formatGlamourRecentTime(value: string): string {
+  const date = new Date(value)
+
+  if (Number.isNaN(date.getTime())) {
+    return ''
+  }
+
+  return date.toLocaleString('zh-CN', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
+export function getGlamourRecentSnapshotCount(item: GlamourRecentSnapshot): number {
+  return Array.isArray(item.parsed?.resolved_equipment) ? item.parsed.resolved_equipment.length : 0
+}
+
+export function createGlamourRecentSnapshot(
+  draft: GlamourDraft,
+  options: {
+    name: string
+    copyFormat: string
+    customTemplate: string
+  }
+): GlamourRecentSnapshot | undefined {
+  if (!getFilledGlamourDraftEntries(draft).length) {
+    return undefined
+  }
+
+  const displayName = normalizeGlamourConfigName(options.name)
+  const parsed = draftToGlamourPayload(draft)
+
+  return {
+    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    savedAt: new Date().toISOString(),
+    sourceName: displayName,
+    displayName,
+    sourceUrl: typeof draft.source?.title === 'string' ? draft.source.title : '',
+    parsed: cloneJson(parsed),
+    locale: draft.locale || draft.source?.locale || GLAMOUR_DEFAULT_LOCALE,
+    copyFormat: options.copyFormat,
+    customTemplate: options.customTemplate
+  }
+}
+
+export function upsertGlamourRecentSnapshot(snapshot: GlamourRecentSnapshot) {
+  const snapshotKey = snapshot.sourceName
+  const existing = readGlamourRecentSnapshots().filter((item) => item.sourceName !== snapshotKey)
+  writeGlamourRecentSnapshots([snapshot, ...existing])
+}
+
+export function removeGlamourRecentSnapshot(id: string) {
+  writeGlamourRecentSnapshots(readGlamourRecentSnapshots().filter((item) => item.id !== id))
+}
+
+export function clearGlamourRecentSnapshots() {
+  writeGlamourRecentSnapshots([])
+}
