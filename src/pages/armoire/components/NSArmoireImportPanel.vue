@@ -170,6 +170,7 @@ const emit = defineEmits<{
 const { current, t } = useLocale()
 const fileInput = ref<HTMLInputElement | null>(null)
 const DRAFT_SUFFIX_PATTERN = /（占位用，待编辑）/g
+const READ_CONTAINER_PREVIEW_LIMIT = 6
 
 const containerLabelKeys: Record<ArmoireContainerKind, string> = {
   inventory: textKeys.nsarmoireContainerInventory,
@@ -257,7 +258,7 @@ const generatedAtLabel = computed(() => {
     timeStyle: 'short'
   }).format(date)
 })
-const readContainersLabel = computed(() => {
+const readContainerLabels = computed(() => {
   const containers = new Set<ArmoireContainerKind>()
   const retainerLabels: string[] = []
 
@@ -285,13 +286,28 @@ const readContainersLabel = computed(() => {
     retainerLabels.push(cleanT(containerLabelKeys.retainer))
   }
 
-  return [...containerLabels, ...retainerLabels].join(' / ')
+  return [...containerLabels, ...retainerLabels]
+})
+const fullReadContainersLabel = computed(() => readContainerLabels.value.join(' / '))
+const readContainersLabel = computed(() => {
+  const labels = readContainerLabels.value
+
+  if (labels.length <= READ_CONTAINER_PREVIEW_LIMIT) {
+    return fullReadContainersLabel.value
+  }
+
+  return cleanText(
+    formatArmoireText(t, textKeys.nsarmoireReadContainersMore, {
+      items: labels.slice(0, READ_CONTAINER_PREVIEW_LIMIT).join(' / '),
+      count: labels.length
+    })
+  )
 })
 const compactSummaryAriaLabel = computed(() =>
   [
     `${cleanT(textKeys.nsarmoireCharacter)}: ${characterLabel.value}`,
     `${cleanT(textKeys.nsarmoireGeneratedAt)}: ${generatedAtLabel.value}`,
-    `${cleanT(textKeys.nsarmoireReadContainers)}: ${readContainersLabel.value}`
+    `${cleanT(textKeys.nsarmoireReadContainers)}: ${fullReadContainersLabel.value}`
   ].join('；')
 )
 

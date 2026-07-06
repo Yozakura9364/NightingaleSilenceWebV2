@@ -2480,6 +2480,12 @@ export const uiMessages: UiMessageMap = {
     ja: '読み取り範囲',
     ko: '읽은 범위'
   }),
+  'nsarmoire.field.readContainersMore': msg({
+    zh: '{items} 等 {count} 项',
+    en: '{items}, and {count} total',
+    ja: '{items} など合計 {count} 項目',
+    ko: '{items} 등 총 {count}개'
+  }),
   'nsarmoire.field.helperEndpoint': msg({
     zh: draft('本地助手地址'),
     en: 'Local helper endpoint',

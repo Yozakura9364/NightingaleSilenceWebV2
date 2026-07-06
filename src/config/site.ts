@@ -510,6 +510,7 @@ export const textKeys = {
   nsarmoireCharacterProfileKey: 'nsarmoire.field.characterProfileKey',
   nsarmoireCharacterRetainers: 'nsarmoire.field.characterRetainers',
   nsarmoireReadContainers: 'nsarmoire.field.readContainers',
+  nsarmoireReadContainersMore: 'nsarmoire.field.readContainersMore',
   nsarmoireHelperEndpoint: 'nsarmoire.field.helperEndpoint',
   nsarmoireHelperCatalog: 'nsarmoire.field.helperCatalog',
   nsarmoireHelperCatalogReady: 'nsarmoire.field.helperCatalogReady',
