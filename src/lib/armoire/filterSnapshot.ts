@@ -1,7 +1,11 @@
 import type { ArmoireCatalog, ArmoireOwnedItem, ArmoireSnapshot } from '@/lib/armoire/types'
 
 export function hasArmoireCatalogItems(catalog: ArmoireCatalog): boolean {
-  return Object.keys(catalog.items).length > 0
+  for (const _itemId in catalog.items) {
+    return true
+  }
+
+  return false
 }
 
 export function isArmoireCatalogItem(catalog: ArmoireCatalog, itemId: number): boolean {
@@ -12,10 +16,6 @@ export function isArmoireAppearanceItem(
   catalog: ArmoireCatalog,
   item: Pick<ArmoireOwnedItem, 'itemId'>
 ): boolean {
-  if (!hasArmoireCatalogItems(catalog)) {
-    return false
-  }
-
   return isArmoireCatalogItem(catalog, item.itemId)
 }
 
@@ -27,6 +27,6 @@ export function filterArmoireSnapshotForCatalog(
     return { ...snapshot, items: [] }
   }
 
-  const items = snapshot.items.filter((item) => isArmoireAppearanceItem(catalog, item))
+  const items = snapshot.items.filter((item) => isArmoireCatalogItem(catalog, item.itemId))
   return items.length === snapshot.items.length ? snapshot : { ...snapshot, items }
 }
