@@ -178,13 +178,13 @@ import NSArmoireGlamourSetStatsPanel from '@/pages/armoire/components/NSArmoireG
 import type { ArmoireCatalogStatus } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
 import { useArmoireCabinetCatalog } from '@/pages/armoire/composables/useArmoireCabinetCatalog'
-import { useArmoireCatalogDisplayIndex } from '@/pages/armoire/composables/useArmoireCatalogDisplayIndex'
 import { useArmoireCharacterProfiles } from '@/pages/armoire/composables/useArmoireCharacterProfiles'
 import { useArmoireDyeCatalog } from '@/pages/armoire/composables/useArmoireDyeCatalog'
 import { useArmoireDyePreferences } from '@/pages/armoire/composables/useArmoireDyePreferences'
 import { useArmoireGlamourSetCatalog } from '@/pages/armoire/composables/useArmoireGlamourSetCatalog'
 import { useArmoireHelper } from '@/pages/armoire/composables/useArmoireHelper'
 import { useArmoireIdenticalModelCatalog } from '@/pages/armoire/composables/useArmoireIdenticalModelCatalog'
+import { useArmoireItemDisplayChunks } from '@/pages/armoire/composables/useArmoireItemDisplayChunks'
 import { useArmoireStoreCatalog } from '@/pages/armoire/composables/useArmoireStoreCatalog'
 import { useArmoireStoreItemDisplayIndex } from '@/pages/armoire/composables/useArmoireStoreItemDisplayIndex'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
@@ -256,11 +256,11 @@ const {
 const { profiles: characterProfiles, activeProfileKey } = useArmoireCharacterProfiles(snapshot)
 
 const {
-  catalog: catalogDisplayCatalog,
-  status: catalogDisplayIndexStatus,
-  error: catalogDisplayIndexError,
-  loadCatalogDisplayIndex
-} = useArmoireCatalogDisplayIndex()
+  catalog: itemDisplayCatalog,
+  status: itemDisplayChunkStatus,
+  error: itemDisplayChunkError,
+  loadItemDisplayChunksForItemIds
+} = useArmoireItemDisplayChunks()
 const {
   catalog: cabinetCatalog,
   status: cabinetCatalogStatus,
@@ -294,7 +294,7 @@ const {
 const { storeItemDisplayIndex, loadStoreItemDisplayIndex } = useArmoireStoreItemDisplayIndex()
 const catalog = computed(() =>
   mergeArmoireCatalogs(
-    catalogDisplayCatalog.value,
+    itemDisplayCatalog.value,
     cabinetCatalog.value,
     glamourSetCatalog.value,
     identicalModelCatalog.value,
@@ -303,15 +303,18 @@ const catalog = computed(() =>
 )
 
 const { selectedDyeValueCategories, toggleDyeValueCategory } = useArmoireDyePreferences()
+const shouldFilterSnapshotToItemDisplayCatalog = computed(() => itemDisplayChunkStatus.value === 'ready')
 const { analysis, hasPendingCatalogChecks } = useArmoireAnalysis(
   snapshot,
   catalog,
-  selectedDyeValueCategories
+  selectedDyeValueCategories,
+  shouldFilterSnapshotToItemDisplayCatalog
 )
 const cabinetAnalysis = computed(() =>
   snapshot.value
     ? analyzeArmoireSnapshot(snapshot.value, cabinetCatalog.value, {
-        valuableDyeCategories: selectedDyeValueCategories.value
+        valuableDyeCategories: selectedDyeValueCategories.value,
+        filterToCatalogItems: true
       })
     : null
 )
@@ -342,7 +345,7 @@ const shouldRenderCollectionSection = computed(
 )
 const catalogStatus = computed<ArmoireCatalogStatus>(() => {
   const statuses = [
-    catalogDisplayIndexStatus.value,
+    itemDisplayChunkStatus.value,
     cabinetCatalogStatus.value,
     glamourSetCatalogStatus.value,
     identicalModelCatalogStatus.value,
@@ -365,7 +368,7 @@ const catalogStatus = computed<ArmoireCatalogStatus>(() => {
 })
 const catalogError = computed(() =>
   [
-    catalogDisplayIndexError.value,
+    itemDisplayChunkError.value,
     cabinetCatalogError.value,
     glamourSetCatalogError.value,
     identicalModelCatalogError.value,
@@ -424,7 +427,7 @@ function shouldLoadCabinetCatalogForCurrentView(): boolean {
   )
 }
 
-function shouldLoadCatalogDisplayIndexForCurrentView(): boolean {
+function shouldLoadItemDisplayChunksForCurrentView(): boolean {
   return Boolean(
     snapshot.value &&
       (activeSection.value === 'cleanup' ||
@@ -443,8 +446,8 @@ function shouldLoadGlamourSetCatalogForCurrentView(): boolean {
 function shouldLoadIdenticalModelCatalogForCurrentView(): boolean {
   return Boolean(
     snapshot.value &&
-      (activeSection.value === 'cleanup' ||
-        (activeSection.value === 'collection' && activeDetailTab.value === 'catalog'))
+      activeSection.value === 'collection' &&
+      activeDetailTab.value === 'catalog'
   )
 }
 
@@ -467,8 +470,8 @@ function loadCatalogsForCurrentView(): void {
     void loadCabinetCatalog()
   }
 
-  if (shouldLoadCatalogDisplayIndexForCurrentView()) {
-    void loadCatalogDisplayIndex()
+  if (shouldLoadItemDisplayChunksForCurrentView() && snapshot.value) {
+    void loadItemDisplayChunksForItemIds(snapshot.value.items.map((item) => item.itemId))
   }
 
   if (shouldLoadGlamourSetCatalogForCurrentView()) {
@@ -490,7 +493,12 @@ function loadCatalogsForCurrentView(): void {
 }
 
 function reloadCatalog(): void {
-  void loadCatalogDisplayIndex({ force: true })
+  if (snapshot.value) {
+    void loadItemDisplayChunksForItemIds(
+      snapshot.value.items.map((item) => item.itemId),
+      { force: true }
+    )
+  }
   void loadCabinetCatalog({ force: true })
   void loadGlamourSetCatalog({ force: true })
   void loadIdenticalModelCatalog({ force: true })

@@ -18,12 +18,14 @@ function hasMissingCatalogCheck(analysis: ArmoireSnapshotAnalysis): boolean {
 export function useArmoireAnalysis(
   snapshot: Ref<ArmoireSnapshot | null>,
   catalog: Ref<ArmoireCatalog>,
-  valuableDyeCategories?: Ref<readonly ArmoireDyeValueCategory[]>
+  valuableDyeCategories?: Ref<readonly ArmoireDyeValueCategory[]>,
+  filterToCatalogItems?: Ref<boolean>
 ) {
   const analysis = computed(() =>
     snapshot.value
       ? analyzeArmoireSnapshot(snapshot.value, catalog.value, {
-          valuableDyeCategories: valuableDyeCategories?.value
+          valuableDyeCategories: valuableDyeCategories?.value,
+          filterToCatalogItems: filterToCatalogItems?.value
         })
       : null
   )

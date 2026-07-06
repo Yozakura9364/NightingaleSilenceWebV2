@@ -12,17 +12,17 @@ import {
 } from '@/lib/armoire/filterSnapshot'
 import type {
   ArmoireCatalog,
-  ArmoireDyeRiskOptions,
   ArmoireSnapshot,
+  ArmoireSnapshotAnalysisOptions,
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
 
 export function analyzeArmoireSnapshot(
   snapshot: ArmoireSnapshot,
   catalog: ArmoireCatalog = EMPTY_ARMOIRE_CATALOG,
-  options: ArmoireDyeRiskOptions = {}
+  options: ArmoireSnapshotAnalysisOptions = {}
 ): ArmoireSnapshotAnalysis {
-  const hasCatalogItems = hasArmoireCatalogItems(catalog)
+  const hasCatalogItems = options.filterToCatalogItems === true && hasArmoireCatalogItems(catalog)
   const analysisSnapshot = hasCatalogItems
     ? filterArmoireSnapshotForCatalog(snapshot, catalog)
     : snapshot
