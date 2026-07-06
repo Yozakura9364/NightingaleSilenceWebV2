@@ -19,7 +19,13 @@ import {
 type Translate = (key: string) => string
 
 export type ArmoireCatalogGridFilter =
-  'all' | 'cabinet' | 'duplicateItems' | 'duplicateModels' | 'glamourDresser' | 'armoire'
+  | 'all'
+  | 'cabinet'
+  | 'duplicateItems'
+  | 'duplicateModels'
+  | 'dyedRisk'
+  | 'glamourDresser'
+  | 'armoire'
 
 export type ArmoireCatalogGridSort = 'risk' | 'container' | 'name'
 
@@ -98,6 +104,18 @@ function createDuplicateModelItemIds(analysis: ArmoireSnapshotAnalysis | null): 
   }
 
   return createIdSet(analysis.identicalModels.groups.flatMap((group) => group.storageSpaceItemIds))
+}
+
+function createDyeRiskItemIds(analysis: ArmoireSnapshotAnalysis | null): Set<number> {
+  if (!analysis) {
+    return new Set()
+  }
+
+  return createIdSet(
+    analysis.dyeRisk.items
+      .filter((item) => item.clearsDyeOnStorage && item.hasValuableDye)
+      .map((item) => item.itemId)
+  )
 }
 
 function createTransferableItemIds(analysis: ArmoireSnapshotAnalysis | null): Set<number> {
@@ -194,6 +212,7 @@ export function useArmoireCatalogGrid(
   const transferableItemIds = computed(() => createTransferableItemIds(source.analysis))
   const duplicateItemIds = computed(() => createDuplicateItemIds(source.analysis))
   const duplicateModelItemIds = computed(() => createDuplicateModelItemIds(source.analysis))
+  const dyeRiskItemIds = computed(() => createDyeRiskItemIds(source.analysis))
 
   const items = computed<ArmoireCatalogCardView[]>(() =>
     createCatalogItemGroups(
@@ -227,6 +246,15 @@ export function useArmoireCatalogGrid(
           key: 'duplicate-models',
           label: t(textKeys.nsarmoireRecommendationDuplicates),
           tone: 'warning'
+        })
+      }
+
+      if (dyeRiskItemIds.value.has(group.itemId)) {
+        filterKeys.add('dyedRisk')
+        tags.push({
+          key: 'dyed-risk',
+          label: t(textKeys.nsarmoireRecommendationDyes),
+          tone: 'danger'
         })
       }
 
@@ -291,6 +319,7 @@ export function useArmoireCatalogGrid(
       { key: 'cabinet', labelKey: textKeys.nsarmoireCatalogFilterCabinet },
       { key: 'duplicateItems', labelKey: textKeys.nsarmoireCatalogFilterDuplicateItems },
       { key: 'duplicateModels', labelKey: textKeys.nsarmoireCatalogFilterDuplicateModels },
+      { key: 'dyedRisk', labelKey: textKeys.nsarmoireCatalogFilterDyed },
       { key: 'glamourDresser', labelKey: textKeys.nsarmoireCatalogFilterGlamourDresser },
       { key: 'armoire', labelKey: textKeys.nsarmoireCatalogFilterArmoire }
     ]

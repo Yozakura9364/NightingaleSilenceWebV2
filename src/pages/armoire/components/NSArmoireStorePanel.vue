@@ -536,11 +536,11 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-card {
   display: grid;
-  grid-template-columns: 52px minmax(180px, 0.95fr) minmax(260px, 1.35fr) auto;
+  grid-template-columns: 62px minmax(200px, 0.95fr) minmax(300px, 1.35fr) auto;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   min-width: 0;
-  padding: 10px;
+  padding: 12px;
   border: 2px solid var(--ns-pixel-border-soft);
   background: #ffffff;
 }
@@ -548,8 +548,8 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card__cover {
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
+  width: 62px;
+  height: 62px;
   border: 2px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-surface);
 }
@@ -557,8 +557,8 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card__cover img,
 .nsarmoire-store-card__cover span {
   display: block;
-  width: 44px;
-  height: 44px;
+  width: 54px;
+  height: 54px;
   image-rendering: auto;
   object-fit: cover;
 }
@@ -584,7 +584,7 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card__items {
   display: grid;
   min-width: 0;
-  gap: 6px;
+  gap: 7px;
 }
 
 .nsarmoire-store-card__title-row {
@@ -649,7 +649,7 @@ function hideBrokenImage(event: Event): void {
   display: flex;
   min-width: 0;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -658,10 +658,10 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card__piece {
   display: grid;
   align-content: start;
-  width: min(320px, 100%);
+  width: min(360px, 100%);
   min-width: 0;
-  gap: 4px;
-  padding: 3px 6px 3px 3px;
+  gap: 5px;
+  padding: 5px 8px 5px 5px;
   border: 1px solid var(--ns-pixel-border-soft);
   background: #ffffff;
   color: var(--ns-color-text-muted);
@@ -675,17 +675,17 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-card__piece-summary {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr) auto;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 5px;
+  gap: 7px;
   min-width: 0;
 }
 
 .nsarmoire-store-card__items img,
 .nsarmoire-store-card__piece-fallback {
   flex: 0 0 auto;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border: 1px solid var(--ns-pixel-border-soft);
   image-rendering: auto;
   object-fit: cover;
@@ -716,7 +716,7 @@ function hideBrokenImage(event: Event): void {
   display: grid;
   gap: 2px;
   margin: 0;
-  padding: 0 0 0 29px;
+  padding: 0 0 0 39px;
   color: var(--ns-color-text-muted);
   font-size: 11px;
   line-height: 1.45;

@@ -111,6 +111,40 @@
       </section>
 
       <section class="nsarmoire-character-panel__block">
+        <h3>{{ cleanT(textKeys.nsarmoireDyePreferenceLabel) }}</h3>
+
+        <fieldset class="nsarmoire-character-panel__dye-fieldset">
+          <legend>{{ cleanT(textKeys.nsarmoireDyePreferenceCategories) }}</legend>
+          <label v-for="option in dyeValueCategoryOptions" :key="option.value">
+            <input
+              type="checkbox"
+              :checked="isDyeValueCategorySelected(option.value)"
+              @change="$emit('toggle-dye-value-category', option.value)"
+            />
+            <span>{{ cleanT(option.labelKey) }}</span>
+          </label>
+        </fieldset>
+
+        <fieldset class="nsarmoire-character-panel__dye-fieldset">
+          <legend>{{ cleanT(textKeys.nsarmoireDyePreferenceStoreSpecial) }}</legend>
+          <label v-for="dye in storeSpecialDyeOptions" :key="dye.dyeId">
+            <input
+              type="checkbox"
+              :checked="isValuableDyeIdSelected(dye.dyeId)"
+              @change="$emit('toggle-valuable-dye-id', dye.dyeId)"
+            />
+            <span
+              v-if="dye.color"
+              class="nsarmoire-character-panel__dye-swatch"
+              :style="{ backgroundColor: dye.color }"
+              aria-hidden="true"
+            />
+            <span>{{ dye.name }}</span>
+          </label>
+        </fieldset>
+      </section>
+
+      <section class="nsarmoire-character-panel__block">
         <h3>{{ cleanT(textKeys.nsarmoireCharacterStaticData) }}</h3>
 
         <NSArmoireCatalogStatus
@@ -129,11 +163,13 @@ import { computed } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import type {
+  ArmoireDyeValueCategory,
   ArmoireCatalog,
   ArmoireContainerKind,
   ArmoireSnapshot,
   ArmoireSnapshotSource
 } from '@/lib/armoire/types'
+import { ARMOIRE_STORE_SPECIAL_DYE_IDS } from '@/lib/armoire/types'
 import NSArmoireCatalogStatus from '@/pages/armoire/components/NSArmoireCatalogStatus.vue'
 import {
   getReadContainers,
@@ -153,10 +189,14 @@ const props = defineProps<{
   catalog: ArmoireCatalog
   catalogStatus: ArmoireCatalogStatus
   catalogError: string | null
+  selectedDyeValueCategories: readonly ArmoireDyeValueCategory[]
+  selectedValuableDyeIds: readonly number[]
 }>()
 
 defineEmits<{
   'reload-catalog': []
+  'toggle-dye-value-category': [category: ArmoireDyeValueCategory]
+  'toggle-valuable-dye-id': [dyeId: number]
 }>()
 
 const { current, t } = useLocale()
@@ -177,6 +217,12 @@ const containerLabelKeys: Record<ArmoireContainerKind, string> = {
   armoire: textKeys.nsarmoireContainerArmoire,
   manual: textKeys.nsarmoireContainerManual
 }
+
+const dyeValueCategoryOptions: Array<{ value: ArmoireDyeValueCategory; labelKey: string }> = [
+  { value: 'general', labelKey: textKeys.nsarmoireDyeCategoryGeneral },
+  { value: 'extra1', labelKey: textKeys.nsarmoireDyeCategoryExtra1 },
+  { value: 'extra2', labelKey: textKeys.nsarmoireDyeCategoryExtra2 }
+]
 
 function cleanText(value: string): string {
   return value.replace(DRAFT_SUFFIX_PATTERN, '')
@@ -224,6 +270,14 @@ const currentReadContainersLabel = computed(() => {
   )
 })
 
+const storeSpecialDyeOptions = computed(() =>
+  ARMOIRE_STORE_SPECIAL_DYE_IDS.map((dyeId) => ({
+    dyeId,
+    name: props.catalog.dyes[dyeId]?.name ?? String(dyeId),
+    color: props.catalog.dyes[dyeId]?.color
+  }))
+)
+
 function formatDateLabel(value: string | undefined): string {
   if (!value) {
     return cleanT(textKeys.nsarmoireCharacterGeneratedAtEmpty)
@@ -242,6 +296,14 @@ function formatDateLabel(value: string | undefined): string {
 
 function getSourceLabel(source: ArmoireSnapshotSource): string {
   return cleanT(sourceLabelKeys[source])
+}
+
+function isDyeValueCategorySelected(category: ArmoireDyeValueCategory): boolean {
+  return props.selectedDyeValueCategories.includes(category)
+}
+
+function isValuableDyeIdSelected(dyeId: number): boolean {
+  return props.selectedValuableDyeIds.includes(dyeId)
 }
 
 function getRetainerSummary(snapshot: ArmoireSnapshot | null): {
@@ -460,6 +522,55 @@ function getProfileTitle(profile: ArmoireCharacterProfile): string {
   background: var(--ns-status-success-bg);
   font-size: 12px;
   font-weight: 850;
+}
+
+.nsarmoire-character-panel__dye-fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.nsarmoire-character-panel__dye-fieldset legend {
+  width: 100%;
+  margin: 0 0 2px;
+  padding: 0;
+  color: var(--ns-color-text-muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.nsarmoire-character-panel__dye-fieldset label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 24px;
+  padding: 3px 7px;
+  border: 1px solid var(--ns-color-border);
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.nsarmoire-character-panel__dye-fieldset input {
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  accent-color: var(--ns-color-accent);
+}
+
+.nsarmoire-character-panel__dye-swatch {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+  border: 1px solid var(--ns-color-border-strong);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.32),
+    0 0 0 1px rgb(0 0 0 / 0.06);
 }
 
 @media (max-width: 720px) {

@@ -490,6 +490,7 @@ function buildItems(itemRows, cabinetItemIds, glamourSets) {
     const hasModel =
       equipSlotCategoryId > 0 && (!isEmptyModelTuple(mainModel) || !isEmptyModelTuple(subModel))
     const isGlamourous = parseBoolean(row.IsGlamourous)
+    const isTradable = !parseBoolean(row.IsUntradable)
     const isCabinetStorable = cabinetItemIdSet.has(itemId)
     const isGlamourSetContainer = setContainerIds.has(itemId)
     const isGlamourSetPiece = setPieceIds.has(itemId)
@@ -517,6 +518,10 @@ function buildItems(itemRows, cabinetItemIds, glamourSets) {
     addIfPositive(item, 'equipSlotCategoryId', equipSlotCategoryId)
 
     item.isGlamourous = isGlamourous
+
+    if (isTradable) {
+      item.isTradable = true
+    }
 
     if (isCabinetStorable) {
       item.isCabinetStorable = true
@@ -657,17 +662,48 @@ function buildDisplayItem(itemId, sourceItem) {
 
 function buildDisplayTuple(itemId, sourceItem) {
   const tuple = [itemId]
+  const hasIcon = sourceItem.iconId > 0
+  const hasDyeSlotCount = sourceItem.dyeSlotCount > 0
+  const isTradable = sourceItem.isTradable === true
 
   if (sourceItem.name) {
     tuple[1] = sourceItem.name
   }
 
-  if (sourceItem.iconId) {
+  if (hasIcon) {
     if (tuple.length === 1) {
       tuple[1] = ''
     }
 
     tuple[2] = sourceItem.iconId
+  }
+
+  if (hasDyeSlotCount) {
+    if (tuple.length === 1) {
+      tuple[1] = ''
+    }
+
+    if (!hasIcon) {
+      tuple[2] = 0
+    }
+
+    tuple[3] = sourceItem.dyeSlotCount
+  }
+
+  if (isTradable) {
+    if (tuple.length === 1) {
+      tuple[1] = ''
+    }
+
+    if (!hasIcon) {
+      tuple[2] = 0
+    }
+
+    if (!hasDyeSlotCount) {
+      tuple[3] = 0
+    }
+
+    tuple[4] = 1
   }
 
   return tuple

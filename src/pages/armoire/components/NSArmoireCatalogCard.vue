@@ -58,23 +58,23 @@ watch(
 <style scoped>
 .nsarmoire-catalog-card {
   display: grid;
-  grid-template-columns: 54px minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 12px;
   min-width: 0;
-  min-height: 112px;
-  padding: 10px;
+  min-height: 128px;
+  padding: 12px;
   border: 2px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-surface);
   contain: layout paint style;
   content-visibility: auto;
-  contain-intrinsic-size: auto 112px;
+  contain-intrinsic-size: auto 128px;
 }
 
 .nsarmoire-catalog-card__icon {
   display: grid;
   place-items: center;
-  width: 54px;
-  height: 54px;
+  width: 64px;
+  height: 64px;
   border: 2px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-bg-soft);
   color: var(--ns-color-text-muted);
@@ -85,15 +85,15 @@ watch(
 }
 
 .nsarmoire-catalog-card__icon img {
-  width: 48px;
-  height: 48px;
+  width: 58px;
+  height: 58px;
   image-rendering: auto;
   object-fit: contain;
 }
 
 .nsarmoire-catalog-card__body {
   display: grid;
-  gap: 7px;
+  gap: 8px;
   min-width: 0;
 }
 
@@ -105,7 +105,7 @@ watch(
 
 .nsarmoire-catalog-card h3 {
   font-family: var(--ns-font-decorative);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 950;
   line-height: 1.35;
   overflow-wrap: anywhere;
@@ -122,7 +122,7 @@ watch(
   gap: 4px;
   margin: 0;
   color: var(--ns-color-text-muted);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .nsarmoire-catalog-card__meta div {
@@ -157,7 +157,7 @@ watch(
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-bg-soft);
   color: var(--ns-color-text-muted);
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 850;
 }
 

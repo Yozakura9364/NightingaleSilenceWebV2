@@ -240,8 +240,10 @@ export function isArmoireCompactDisplayItem(value: unknown): value is ArmoireCom
   return (
     Array.isArray(value) &&
     isPositiveInteger(value[0]) &&
-    (value[1] === undefined || typeof value[1] === 'string') &&
-    (value[2] === undefined || isPositiveInteger(value[2]))
+    (value[1] === undefined || value[1] === null || typeof value[1] === 'string') &&
+    (value[2] === undefined || value[2] === null || value[2] === 0 || isPositiveInteger(value[2])) &&
+    (value[3] === undefined || value[3] === null || value[3] === 0 || isPositiveInteger(value[3])) &&
+    (value[4] === undefined || value[4] === null || value[4] === 0 || value[4] === 1)
   )
 }
 
@@ -258,15 +260,23 @@ export function isPositiveIntegerArray(value: unknown): value is number[] {
 export function createCatalogItemFromCompactDisplayItem(
   item: ArmoireCompactDisplayItem
 ): ArmoireCatalogItem {
-  const [itemId, name, iconId] = item
+  const [itemId, name, iconId, dyeSlotCount, isTradable] = item
   const catalogItem: ArmoireCatalogItem = { itemId }
 
   if (name) {
     catalogItem.name = name
   }
 
-  if (iconId) {
+  if (iconId && iconId > 0) {
     catalogItem.iconId = iconId
+  }
+
+  if (dyeSlotCount && dyeSlotCount > 0) {
+    catalogItem.dyeSlotCount = dyeSlotCount
+  }
+
+  if (isTradable === 1) {
+    catalogItem.isTradable = true
   }
 
   return catalogItem

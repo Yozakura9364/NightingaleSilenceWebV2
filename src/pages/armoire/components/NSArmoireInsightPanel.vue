@@ -30,27 +30,6 @@
       </NSArmoireActionCard>
 
       <NSArmoireActionCard
-        :title="t(textKeys.nsarmoireRecommendationSets)"
-        :count="incompleteSetCount"
-        :toggle-label="getToggleLabel('sets', incompleteSetCount)"
-        :sticky-header="isListExpanded('sets')"
-        @toggle="toggleList('sets')"
-      >
-        <AppStatus
-          v-if="isSetCatalogMissing"
-          compact
-          tone="warning"
-          :message="t(textKeys.nsarmoireCatalogPending)"
-        />
-        <NSArmoireReadableItemList
-          v-else
-          :items="incompleteSetItems"
-          :limit="listPreviewLimit"
-          :expanded="isListExpanded('sets')"
-        />
-      </NSArmoireActionCard>
-
-      <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationSetPieces)"
         :count="setBucketLoosePieceCount"
         :toggle-label="getToggleLabel('setPieces', setBucketLoosePieceCount)"
@@ -68,6 +47,27 @@
           :items="setBucketLoosePieceItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('setPieces')"
+        />
+      </NSArmoireActionCard>
+
+      <NSArmoireActionCard
+        :title="t(textKeys.nsarmoireRecommendationTradableItems)"
+        :count="tradableItemCount"
+        :toggle-label="getToggleLabel('tradableItems', tradableItemCount)"
+        :sticky-header="isListExpanded('tradableItems')"
+        @toggle="toggleList('tradableItems')"
+      >
+        <AppStatus
+          v-if="isTradableCatalogMissing"
+          compact
+          tone="warning"
+          :message="t(textKeys.nsarmoireCatalogPending)"
+        />
+        <NSArmoireReadableItemList
+          v-else
+          :items="tradableItems"
+          :limit="listPreviewLimit"
+          :expanded="isListExpanded('tradableItems')"
         />
       </NSArmoireActionCard>
 
@@ -106,30 +106,6 @@
         />
       </NSArmoireActionCard>
 
-      <NSArmoireActionCard
-        :title="t(textKeys.nsarmoireRecommendationDyes)"
-        :count="dyeRiskCount"
-        :toggle-label="getToggleLabel('dyes', dyeRiskCount)"
-        :sticky-header="isListExpanded('dyes')"
-        @toggle="toggleList('dyes')"
-      >
-        <fieldset class="nsarmoire-insight-panel__dye-preferences">
-          <legend>{{ t(textKeys.nsarmoireDyePreferenceLabel) }}</legend>
-          <label v-for="option in dyeValueCategoryOptions" :key="option.value">
-            <input
-              type="checkbox"
-              :checked="isDyeValueCategorySelected(option.value)"
-              @change="emit('toggleDyeValueCategory', option.value)"
-            />
-            <span>{{ t(option.labelKey) }}</span>
-          </label>
-        </fieldset>
-        <NSArmoireReadableItemList
-          :items="dyeRiskItems"
-          :limit="listPreviewLimit"
-          :expanded="isListExpanded('dyes')"
-        />
-      </NSArmoireActionCard>
     </div>
   </section>
 </template>
@@ -140,7 +116,6 @@ import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import type {
   ArmoireCatalog,
-  ArmoireDyeValueCategory,
   ArmoireSnapshot,
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
@@ -154,49 +129,50 @@ const props = defineProps<{
   analysis: ArmoireSnapshotAnalysis | null
   catalog: ArmoireCatalog
   snapshot: ArmoireSnapshot | null
-  selectedDyeValueCategories: readonly ArmoireDyeValueCategory[]
   hasPendingCatalogChecks?: boolean
 }>()
 
 const emit = defineEmits<{
-  toggleDyeValueCategory: [category: ArmoireDyeValueCategory]
+  loadIdenticalModelCatalog: []
 }>()
 
 const { t } = useLocale()
 const listPreviewLimit = ARMOIRE_INSIGHT_LIST_PREVIEW_LIMIT
-const dyeValueCategoryOptions: Array<{ value: ArmoireDyeValueCategory; labelKey: string }> = [
-  { value: 'general', labelKey: textKeys.nsarmoireDyeCategoryGeneral },
-  { value: 'extra1', labelKey: textKeys.nsarmoireDyeCategoryExtra1 },
-  { value: 'extra2', labelKey: textKeys.nsarmoireDyeCategoryExtra2 },
-  { value: 'storeSpecial', labelKey: textKeys.nsarmoireDyeCategoryStoreSpecial }
-]
 
 type ExpandableListKey =
-  'cabinet' | 'sets' | 'setPieces' | 'duplicateItems' | 'duplicateModels' | 'dyes'
+  'cabinet' | 'setPieces' | 'tradableItems' | 'duplicateItems' | 'duplicateModels'
 
 const expandedLists = ref<Partial<Record<ExpandableListKey, boolean>>>({})
 
-function getListLimit(key: ExpandableListKey): number | undefined {
-  return isListExpanded(key) ? undefined : listPreviewLimit
+function isExpandableListKey(key: string): key is ExpandableListKey {
+  return (
+    key === 'cabinet' ||
+    key === 'setPieces' ||
+    key === 'tradableItems' ||
+    key === 'duplicateItems' ||
+    key === 'duplicateModels'
+  )
+}
+
+function getListLimit(key: string): number | undefined {
+  return isExpandableListKey(key) && isListExpanded(key) ? undefined : listPreviewLimit
 }
 
 const {
   cabinetCount,
-  incompleteSetCount,
   setBucketLoosePieceCount,
+  tradableItemCount,
   duplicateItemCount,
   duplicateModelCount,
-  dyeRiskCount,
   isCabinetCatalogMissing,
-  isSetCatalogMissing,
   isSetBucketLoosePieceCatalogMissing,
+  isTradableCatalogMissing,
   isIdenticalModelCatalogMissing,
   transferableItems,
-  incompleteSetItems,
   setBucketLoosePieceItems,
+  tradableItems,
   duplicateItemItems,
-  duplicateModelItems,
-  dyeRiskItems
+  duplicateModelItems
 } = useArmoireInsightViewModels(props, t, { getListLimit })
 
 function isListExpanded(key: ExpandableListKey): boolean {
@@ -204,6 +180,11 @@ function isListExpanded(key: ExpandableListKey): boolean {
 }
 
 function toggleList(key: ExpandableListKey): void {
+  if (key === 'duplicateModels' && isIdenticalModelCatalogMissing.value) {
+    emit('loadIdenticalModelCatalog')
+    return
+  }
+
   expandedLists.value = {
     ...expandedLists.value,
     [key]: !isListExpanded(key)
@@ -211,6 +192,10 @@ function toggleList(key: ExpandableListKey): void {
 }
 
 function getToggleLabel(key: ExpandableListKey, itemCount: number | null | undefined): string {
+  if (key === 'duplicateModels' && isIdenticalModelCatalogMissing.value) {
+    return t(textKeys.nsarmoireReloadCatalog)
+  }
+
   if (!itemCount || itemCount <= listPreviewLimit) {
     return ''
   }
@@ -218,9 +203,6 @@ function getToggleLabel(key: ExpandableListKey, itemCount: number | null | undef
   return isListExpanded(key) ? t(textKeys.nsarmoireCollapseList) : t(textKeys.nsarmoireExpandList)
 }
 
-function isDyeValueCategorySelected(category: ArmoireDyeValueCategory): boolean {
-  return props.selectedDyeValueCategories.includes(category)
-}
 </script>
 
 <style scoped>
@@ -235,41 +217,4 @@ function isDyeValueCategorySelected(category: ArmoireDyeValueCategory): boolean 
   gap: 10px;
 }
 
-.nsarmoire-insight-panel__dye-preferences {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-
-.nsarmoire-insight-panel__dye-preferences legend {
-  width: 100%;
-  margin: 0 0 2px;
-  padding: 0;
-  color: var(--ns-color-text-muted);
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.nsarmoire-insight-panel__dye-preferences label {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  min-height: 24px;
-  padding: 3px 7px;
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
-  font-size: 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.nsarmoire-insight-panel__dye-preferences input {
-  width: 13px;
-  height: 13px;
-  margin: 0;
-  accent-color: var(--ns-color-accent);
-}
 </style>

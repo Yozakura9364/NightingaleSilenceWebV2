@@ -37,6 +37,12 @@ export interface ArmoireValidationCaseView {
   rows: ArmoireValidationEvidenceRowView[]
 }
 
+function isValidationEvidenceRow(
+  row: ArmoireValidationEvidenceRowView | null
+): row is ArmoireValidationEvidenceRowView {
+  return row !== null
+}
+
 interface ValidationSource {
   analysis: ArmoireSnapshotAnalysis | null
   catalog: ArmoireCatalog
@@ -332,11 +338,13 @@ function createDyeCase(source: ValidationSource, t: Translate): ArmoireValidatio
         value: `${dyeNames} / raw=[${item.dyeIds.join(', ')}]`,
         code: true
       },
-      {
-        key: 'dye-reset',
-        label: t(textKeys.nsarmoireValidationEvidenceDyeReset),
-        value: resetReasonLabel
-      },
+      resetReasonLabel
+        ? {
+            key: 'dye-reset',
+            label: t(textKeys.nsarmoireValidationEvidenceDyeReset),
+            value: resetReasonLabel
+          }
+        : null,
       createResultRow(
         formatArmoireText(t, textKeys.nsarmoireValidationDyesResult, {
           slots: item.dyedSlotCount
@@ -349,7 +357,7 @@ function createDyeCase(source: ValidationSource, t: Translate): ArmoireValidatio
         value: getArmoireContainerLabel(item, t)
       },
       createFieldsRow('snapshot.items[].dyes / Cabinet.csv / MirageStoreSetItem.csv', t)
-    ]
+    ].filter(isValidationEvidenceRow)
   }
 }
 

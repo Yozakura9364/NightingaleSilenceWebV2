@@ -12,17 +12,19 @@ import type {
 import {
   formatArmoireText,
   formatArmoireDyeNames,
-  formatArmoireDyeSlotNames,
   formatArmoireDyeResetReasons,
+  getArmoireDyeSlotViews,
   getArmoireContainerLabel,
   getArmoireItemIconUrl,
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
+import type { ArmoireDyeSlotView } from '@/pages/armoire/utils/itemDisplay'
 
 export const ARMOIRE_INSIGHT_LIST_PREVIEW_LIMIT = 4
 
 type Translate = (key: string) => string
 type ItemLocationMapGetter = () => Map<number, string[]>
+type ArmoireReadableItemTone = ArmoireRiskLevel | 'muted'
 
 interface InsightDisplaySource {
   catalog: ArmoireCatalog
@@ -33,7 +35,7 @@ export interface ArmoireReadableItemView {
   name: string
   context: string
   iconUrl: string
-  tone?: ArmoireRiskLevel
+  tone?: ArmoireReadableItemTone
   details?: ArmoireReadableItemDetailView[]
   relatedItems?: ArmoireReadableItemRelatedView[]
 }
@@ -42,6 +44,13 @@ export interface ArmoireReadableItemDetailView {
   key: string
   title: string
   lines: string[]
+  dyeLine?: ArmoireReadableItemDyeLineView
+}
+
+export interface ArmoireReadableItemDyeLineView {
+  label: string
+  slots: ArmoireDyeSlotView[]
+  suffix?: string
 }
 
 export interface ArmoireReadableItemRelatedView {
@@ -60,10 +69,9 @@ export interface ArmoireActionHintView {
 
 interface ArmoireActionHintText {
   cabinetSummary: string
-  glamourSetSummary: string
+  tradableSummary: string
   duplicateItemSummary: string
   duplicateSummary: string
-  dyeSummary: string
 }
 
 export interface ArmoireDuplicateGroupView {
@@ -113,12 +121,23 @@ export function buildArmoireActionHints(
 
   if (
     analysis.glamourSetProgress.status === 'ready' &&
-    analysis.glamourSetProgress.incompleteStoredSetCount > 0
+    analysis.glamourSetProgress.bucketStorableLoosePieceItemIds.length > 0
   ) {
     hints.push({
-      key: 'sets',
-      title: t(textKeys.nsarmoireRecommendationSets),
-      message: text.glamourSetSummary
+      key: 'set-pieces',
+      title: t(textKeys.nsarmoireRecommendationSetPieces),
+      message: t(textKeys.nsarmoireHintSetPiecesSummary)
+    })
+  }
+
+  if (
+    analysis.tradableItems.status === 'ready' &&
+    analysis.tradableItems.unboundTradableEntryCount > 0
+  ) {
+    hints.push({
+      key: 'tradable-items',
+      title: t(textKeys.nsarmoireRecommendationTradableItems),
+      message: text.tradableSummary
     })
   }
 
@@ -138,14 +157,6 @@ export function buildArmoireActionHints(
       key: 'duplicates',
       title: t(textKeys.nsarmoireRecommendationDuplicates),
       message: text.duplicateSummary
-    })
-  }
-
-  if (analysis.dyeRisk.clearDyeRiskItemCount > 0) {
-    hints.push({
-      key: 'dyes',
-      title: t(textKeys.nsarmoireRecommendationDyes),
-      message: text.dyeSummary
     })
   }
 
@@ -188,6 +199,20 @@ export function createArmoireInsightDisplay(
 
   function formatDyeNames(dyeIds: [number, number]): string {
     return formatArmoireDyeNames(source.catalog, dyeIds, t)
+  }
+
+  function getItemDyeSlotCount(itemId: number): number | undefined {
+    return source.catalog.items[itemId]?.dyeSlotCount
+  }
+
+  function getValuableDyeSlotViews(item: ArmoireDyeRiskItem): ArmoireDyeSlotView[] {
+    const valuableDyeIds = new Set(item.valuableDyeIds.map(String))
+
+    return getArmoireDyeSlotViews(source.catalog, item.dyeIds, getItemDyeSlotCount(item.itemId), t)
+      .filter((slot) => {
+        const keyParts = slot.key.split('-')
+        return valuableDyeIds.has(keyParts[keyParts.length - 1] ?? '')
+      })
   }
 
   function formatItemLocations(itemId: number): string {
@@ -239,17 +264,23 @@ export function createArmoireInsightDisplay(
     item: ArmoireOwnedItem,
     index: number
   ): ArmoireReadableItemDetailView {
+    const dyeSlots = getArmoireDyeSlotViews(source.catalog, item.dyes, getItemDyeSlotCount(item.itemId), t)
+    const dyeLine =
+      dyeSlots.length > 0
+        ? {
+            label: formatText(textKeys.nsarmoireHintDuplicateEntryDyes, { dyes: '' }),
+            slots: dyeSlots
+          }
+        : undefined
+
     return {
       key: `duplicate-entry-${item.itemId}-${index}-${item.container}-${item.slotIndex ?? ''}`,
       title: formatText(textKeys.nsarmoireHintDuplicateEntryLocation, {
         index: index + 1,
         location: getArmoireContainerLabel(item, t)
       }),
-      lines: [
-        formatText(textKeys.nsarmoireHintDuplicateEntryDyes, {
-          dyes: formatArmoireDyeSlotNames(source.catalog, item.dyes, t)
-        })
-      ]
+      lines: [],
+      dyeLine
     }
   }
 
@@ -279,7 +310,9 @@ export function createArmoireInsightDisplay(
       resetReasonLabel: string
     }
   ): string {
-    return [getArmoireContainerLabel(item, t), item.dyeNames, item.resetReasonLabel].join(' / ')
+    return [getArmoireContainerLabel(item, t), item.dyeNames, item.resetReasonLabel]
+      .filter(Boolean)
+      .join(' / ')
   }
 
   function toRelatedItem(itemId: number): ArmoireReadableItemRelatedView {
@@ -287,6 +320,27 @@ export function createArmoireInsightDisplay(
       key: `related-${itemId}`,
       name: getItemName(itemId),
       iconUrl: getItemIconUrl(itemId)
+    }
+  }
+
+  function formatRelatedItemLocation(itemId: number): string {
+    const locations =
+      getStorageSpaceItemLocationsByItemId().get(itemId) ?? getItemLocationsByItemId().get(itemId)
+
+    if (!locations?.length) {
+      return ''
+    }
+
+    return formatText(textKeys.nsarmoireHintCurrentLocation, {
+      locations: locations.join(' / ')
+    })
+  }
+
+  function toDuplicateModelRelatedItem(itemId: number): ArmoireReadableItemRelatedView {
+    return {
+      ...toRelatedItem(itemId),
+      key: `duplicate-model-related-${itemId}`,
+      statusLabel: formatRelatedItemLocation(itemId)
     }
   }
 
@@ -345,12 +399,46 @@ export function createArmoireInsightDisplay(
     }
   }
 
-  function toSetBucketLoosePieceItem(itemId: number): ArmoireReadableItemView {
+  function toSetBucketLoosePieceItem(
+    itemId: number,
+    valuableDyeItem?: ArmoireDyeRiskItem
+  ): ArmoireReadableItemView {
+    const valuableDyeSlots = valuableDyeItem ? getValuableDyeSlotViews(valuableDyeItem) : []
+    const details =
+      valuableDyeSlots.length > 0
+        ? [
+            {
+              key: `valuable-dye-${itemId}`,
+              title: '',
+              lines: [],
+              dyeLine: {
+                label: t(textKeys.nsarmoireHintDyed),
+                slots: valuableDyeSlots,
+                suffix: t(textKeys.nsarmoireHintValuableDyeDeferredSuffix)
+              }
+            }
+          ]
+        : undefined
+
     return {
       key: `set-bucket-piece-${itemId}`,
       name: getItemName(itemId),
       context: formatItemContext(itemId),
-      iconUrl: getItemIconUrl(itemId)
+      iconUrl: getItemIconUrl(itemId),
+      tone: valuableDyeItem ? 'muted' : undefined,
+      details
+    }
+  }
+
+  function toTradableItem(item: ArmoireOwnedItem, index: number): ArmoireReadableItemView {
+    return {
+      key: `tradable-${item.itemId}-${item.container}-${item.containerName ?? ''}-${item.slotIndex ?? index}`,
+      name: getItemName(item.itemId),
+      context: [
+        getArmoireContainerLabel(item, t),
+        t(textKeys.nsarmoireHintTradableUnbound)
+      ].join(' / '),
+      iconUrl: getItemIconUrl(item.itemId)
     }
   }
 
@@ -396,7 +484,7 @@ export function createArmoireInsightDisplay(
       name: group.names.join(' / '),
       context: formatDuplicateGroupContext(group),
       iconUrl: group.iconUrl,
-      relatedItems: group.itemIds.map(toRelatedItem)
+      relatedItems: group.itemIds.map(toDuplicateModelRelatedItem)
     }
   }
 
@@ -420,6 +508,7 @@ export function createArmoireInsightDisplay(
     toIncompleteSetView,
     toIncompleteSetItem,
     toSetBucketLoosePieceItem,
+    toTradableItem,
     toDuplicateItemView,
     toDuplicateItem,
     toDuplicateGroupView,

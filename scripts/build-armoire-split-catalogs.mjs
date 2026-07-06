@@ -155,17 +155,49 @@ function assertArmoireCatalog(catalog) {
 
 function toDisplayTuple(itemId, sourceItem) {
   const tuple = [itemId]
+  const hasIcon = Number.isInteger(sourceItem?.iconId) && sourceItem.iconId > 0
+  const hasDyeSlotCount =
+    Number.isInteger(sourceItem?.dyeSlotCount) && sourceItem.dyeSlotCount > 0
+  const isTradable = sourceItem?.isTradable === true
 
   if (typeof sourceItem?.name === 'string' && sourceItem.name.trim()) {
     tuple[1] = sourceItem.name
   }
 
-  if (Number.isInteger(sourceItem?.iconId) && sourceItem.iconId > 0) {
+  if (hasIcon) {
     if (tuple.length === 1) {
       tuple[1] = ''
     }
 
     tuple[2] = sourceItem.iconId
+  }
+
+  if (hasDyeSlotCount) {
+    if (tuple.length === 1) {
+      tuple[1] = ''
+    }
+
+    if (!hasIcon) {
+      tuple[2] = 0
+    }
+
+    tuple[3] = sourceItem.dyeSlotCount
+  }
+
+  if (isTradable) {
+    if (tuple.length === 1) {
+      tuple[1] = ''
+    }
+
+    if (!hasIcon) {
+      tuple[2] = 0
+    }
+
+    if (!hasDyeSlotCount) {
+      tuple[3] = 0
+    }
+
+    tuple[4] = 1
   }
 
   return tuple

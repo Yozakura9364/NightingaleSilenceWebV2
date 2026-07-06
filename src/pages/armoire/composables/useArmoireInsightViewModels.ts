@@ -21,6 +21,7 @@ type InsightListKey =
   | 'cabinet'
   | 'sets'
   | 'setPieces'
+  | 'tradableItems'
   | 'duplicateItems'
   | 'duplicateModels'
   | 'dyes'
@@ -129,6 +130,18 @@ export function useArmoireInsightViewModels(
 
   const incompleteSetItems = computed(() => incompleteSets.value.map(display.toIncompleteSetItem))
 
+  const valuableDyeItemsByItemId = computed(() => {
+    const items = new Map<number, NonNullable<ArmoireSnapshotAnalysis['dyeRisk']['items'][number]>>()
+
+    for (const item of source.analysis?.dyeRisk.items ?? []) {
+      if (item.hasValuableDye && !items.has(item.itemId)) {
+        items.set(item.itemId, item)
+      }
+    }
+
+    return items
+  })
+
   const setBucketLoosePieceItems = computed(() => {
     if (
       !source.analysis ||
@@ -138,10 +151,32 @@ export function useArmoireInsightViewModels(
       return []
     }
 
-    return limitItems(
-      'setPieces',
-      source.analysis.glamourSetProgress.bucketStorableLoosePieceItemIds
-    ).map(display.toSetBucketLoosePieceItem)
+    const itemIds = source.analysis.glamourSetProgress.bucketStorableLoosePieceItemIds
+      .slice()
+      .sort((left, right) => {
+        const leftHasValuableDye = valuableDyeItemsByItemId.value.has(left)
+        const rightHasValuableDye = valuableDyeItemsByItemId.value.has(right)
+
+        if (Number(leftHasValuableDye) !== Number(rightHasValuableDye)) {
+          return Number(leftHasValuableDye) - Number(rightHasValuableDye)
+        }
+
+        return left - right
+      })
+
+    return limitItems('setPieces', itemIds).map((itemId) =>
+      display.toSetBucketLoosePieceItem(itemId, valuableDyeItemsByItemId.value.get(itemId))
+    )
+  })
+
+  const tradableItems = computed(() => {
+    if (!source.analysis || source.analysis.tradableItems.status !== 'ready') {
+      return []
+    }
+
+    return limitItems('tradableItems', source.analysis.tradableItems.items).map(
+      display.toTradableItem
+    )
   })
 
   const duplicateItemGroups = computed(() => {
@@ -209,6 +244,12 @@ export function useArmoireInsightViewModels(
       : null
   )
 
+  const tradableItemCount = computed(() =>
+    source.analysis?.tradableItems.status === 'ready'
+      ? source.analysis.tradableItems.unboundTradableEntryCount
+      : null
+  )
+
   const duplicateItemCount = computed(() => source.analysis?.duplicateItems.duplicateItemCount ?? 0)
 
   const duplicateModelCount = computed(() =>
@@ -231,6 +272,10 @@ export function useArmoireInsightViewModels(
     () =>
       source.analysis?.glamourSetProgress.status === 'missingCatalog' ||
       source.analysis?.cabinetProgress.status === 'missingCatalog'
+  )
+
+  const isTradableCatalogMissing = computed(
+    () => source.analysis?.tradableItems.status === 'missingCatalog'
   )
 
   const isIdenticalModelCatalogMissing = computed(
@@ -290,6 +335,23 @@ export function useArmoireInsightViewModels(
     })
   })
 
+  const tradableSummary = computed(() => {
+    if (!source.analysis || source.analysis.tradableItems.status !== 'ready') {
+      return ''
+    }
+
+    const count = source.analysis.tradableItems.unboundTradableEntryCount
+
+    if (count === 0) {
+      return t(textKeys.nsarmoireHintTradableItemsNone)
+    }
+
+    return display.formatText(textKeys.nsarmoireHintTradableItemsSummary, {
+      count,
+      items: display.formatItemPreview(source.analysis.tradableItems.items.map((item) => item.itemId))
+    })
+  })
+
   const duplicateSummary = computed(() => {
     if (!source.analysis || source.analysis.identicalModels.status !== 'ready') {
       return ''
@@ -342,10 +404,9 @@ export function useArmoireInsightViewModels(
       t,
       {
         cabinetSummary: cabinetSummary.value,
-        glamourSetSummary: glamourSetSummary.value,
+        tradableSummary: tradableSummary.value,
         duplicateItemSummary: duplicateItemSummary.value,
-        duplicateSummary: duplicateSummary.value,
-        dyeSummary: dyeSummary.value
+        duplicateSummary: duplicateSummary.value
       },
       source.hasPendingCatalogChecks === true
     )
@@ -356,21 +417,25 @@ export function useArmoireInsightViewModels(
     cabinetCount,
     incompleteSetCount,
     setBucketLoosePieceCount,
+    tradableItemCount,
     duplicateItemCount,
     duplicateModelCount,
     dyeRiskCount: dyeClearRiskCount,
     isCabinetCatalogMissing,
     isSetCatalogMissing,
     isSetBucketLoosePieceCatalogMissing,
+    isTradableCatalogMissing,
     isIdenticalModelCatalogMissing,
     cabinetSummary,
     glamourSetSummary,
     duplicateItemSummary,
+    tradableSummary,
     duplicateSummary,
     dyeSummary,
     transferableItems,
     incompleteSetItems,
     setBucketLoosePieceItems,
+    tradableItems,
     duplicateItemItems,
     duplicateModelItems,
     dyeRiskItems: dyeClearRiskItems

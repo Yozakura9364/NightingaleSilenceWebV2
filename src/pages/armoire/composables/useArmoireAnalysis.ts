@@ -11,6 +11,7 @@ function hasMissingCatalogCheck(analysis: ArmoireSnapshotAnalysis): boolean {
   return (
     analysis.cabinetProgress.status === 'missingCatalog' ||
     analysis.glamourSetProgress.status === 'missingCatalog' ||
+    analysis.tradableItems.status === 'missingCatalog' ||
     analysis.identicalModels.status === 'missingCatalog'
   )
 }
@@ -19,12 +20,14 @@ export function useArmoireAnalysis(
   snapshot: Ref<ArmoireSnapshot | null>,
   catalog: Ref<ArmoireCatalog>,
   valuableDyeCategories?: Ref<readonly ArmoireDyeValueCategory[]>,
+  valuableDyeIds?: Ref<readonly number[]>,
   filterToCatalogItems?: Ref<boolean>
 ) {
   const analysis = computed(() =>
     snapshot.value
       ? analyzeArmoireSnapshot(snapshot.value, catalog.value, {
           valuableDyeCategories: valuableDyeCategories?.value,
+          valuableDyeIds: valuableDyeIds?.value,
           filterToCatalogItems: filterToCatalogItems?.value
         })
       : null

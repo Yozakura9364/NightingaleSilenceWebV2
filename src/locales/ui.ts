@@ -979,10 +979,10 @@ export const uiMessages: UiMessageMap = {
     ko: '대만 서버'
   }),
   'nsarmoire.store.link.cn': msg({
-    zh: '简中服',
-    en: 'CN',
-    ja: '中国版',
-    ko: '중국'
+    zh: 'Simplified Chinese',
+    en: 'Simplified Chinese',
+    ja: 'Simplified Chinese',
+    ko: 'Simplified Chinese'
   }),
   'nsarmoire.store.link.global': msg({
     zh: 'GLOBAL',
@@ -991,10 +991,10 @@ export const uiMessages: UiMessageMap = {
     ko: 'GLOBAL'
   }),
   'nsarmoire.store.link.tw': msg({
-    zh: '繁中服',
-    en: 'TW',
-    ja: '繁体字版',
-    ko: '대만'
+    zh: 'Traditional Chinese',
+    en: 'Traditional Chinese',
+    ja: 'Traditional Chinese',
+    ko: 'Traditional Chinese'
   }),
   'nsarmoire.store.link.kr': msg({
     zh: '한국',
@@ -1405,10 +1405,16 @@ export const uiMessages: UiMessageMap = {
     ko: '불완전 세트'
   }),
   'nsarmoire.recommendation.setPieces': msg({
-    zh: '可进套装桶散件',
-    en: 'Set pieces for baskets',
+    zh: '可套装幻影化',
+    en: 'Can be stored as glamour sets',
     ja: 'セット収納可能な部品',
     ko: '세트 보관 가능 부위'
+  }),
+  'nsarmoire.recommendation.tradableItems': msg({
+    zh: '可交易物品检查',
+    en: 'Tradable item check',
+    ja: '取引可能アイテム確認',
+    ko: '거래 가능 아이템 확인'
   }),
   'nsarmoire.recommendation.duplicateItems': msg({
     zh: '重复物品检查',
@@ -1423,8 +1429,8 @@ export const uiMessages: UiMessageMap = {
     ko: '동일 모델 정리'
   }),
   'nsarmoire.recommendation.dyes': msg({
-    zh: '已染色可收纳物品（高风险）',
-    en: 'Check dyes first',
+    zh: '染色高风险',
+    en: 'Dye risk',
     ja: '染色を先に確認',
     ko: '염색 먼저 확인'
   }),
@@ -1443,8 +1449,8 @@ export const uiMessages: UiMessageMap = {
     ko: '투영대에 {dresser}개, 애장품 보관함에 {armoire}개가 있습니다. 아래 제안은 컨테이너별로 판단합니다.'
   }),
   'nsarmoire.summary.dyeWarning': msg({
-    zh: '有 {count} 条已经染色；收藏柜和套装幻影化篓子会清除染色，其他收纳系统暂按保留处理。',
-    en: '{count} entries are dyed. Armoire storage and glamour-set baskets clear dyes; other storage is treated as preserving dyes.',
+    zh: '有 {count} 条已经染色；请按物品位置确认是否需要保留当前染色。',
+    en: '{count} entries are dyed. Check the item locations before deciding whether to keep the current dyes.',
     ja: '{count} 件が染色済みです。愛蔵品キャビネットとセット収納は染色を消しますが、他の収納は保持として扱います。',
     ko: '{count}개 항목이 염색되어 있습니다. 애장품 보관함과 세트 보관은 염색을 지우며, 다른 보관은 유지로 봅니다.'
   }),
@@ -1477,6 +1483,42 @@ export const uiMessages: UiMessageMap = {
     en: 'No stored glamour sets are missing pieces right now.',
     ja: 'セット収納済みでパーツ不足のものはありません。',
     ko: '세트 보관되었지만 파츠가 누락된 항목은 없습니다.'
+  }),
+  'nsarmoire.hint.setPieces.summary': msg({
+    zh: '已有套装幻影化的散件可以整理；已染贵重染剂的条目会暂不优先。',
+    en: 'Some pieces can be stored as glamour sets. Items with valuable dyes are de-prioritized.',
+    ja: 'セット収納できる部品があります。高価な染料付きの項目は優先度を下げています。',
+    ko: '세트 보관 가능한 부위가 있습니다. 고가 염료가 적용된 항목은 우선순위를 낮춥니다.'
+  }),
+  'nsarmoire.hint.dyed': msg({
+    zh: '已染',
+    en: 'Dyed',
+    ja: '染色済み',
+    ko: '염색됨'
+  }),
+  'nsarmoire.hint.valuableDyeDeferredSuffix': msg({
+    zh: '，暂不优先',
+    en: ', not prioritized',
+    ja: '、優先度低',
+    ko: ', 우선순위 낮음'
+  }),
+  'nsarmoire.hint.tradableItems.summary': msg({
+    zh: '发现 {count} 件未绑定的可交易外观，可以先确认是否需要保留在角色身上：{items}。',
+    en: '{count} unbound tradable glamour items were found. Check whether they need to stay on this character: {items}.',
+    ja: '未バインドの取引可能ミラプリ品が {count} 件あります。キャラクターに残すか確認: {items}。',
+    ko: '미귀속 거래 가능 외형 아이템이 {count}개 있습니다. 이 캐릭터에 둘지 확인: {items}.'
+  }),
+  'nsarmoire.hint.tradableItems.none': msg({
+    zh: '当前没有发现未绑定的可交易外观。',
+    en: 'No unbound tradable glamour items were found.',
+    ja: '未バインドの取引可能ミラプリ品はありません。',
+    ko: '미귀속 거래 가능 외형 아이템이 없습니다.'
+  }),
+  'nsarmoire.hint.tradableEntry.unbound': msg({
+    zh: '未绑定',
+    en: 'Unbound',
+    ja: '未バインド',
+    ko: '미귀속'
   }),
   'nsarmoire.hint.duplicateItems.summary': msg({
     zh: draft('发现 {count} 种物品有多条记录，可以确认是否真的都要保留：{items}。'),
@@ -1521,8 +1563,8 @@ export const uiMessages: UiMessageMap = {
     ko: '처리 힌트 없음'
   }),
   'nsarmoire.hint.allClear.message': msg({
-    zh: draft('当前导入的数据没有触发收藏柜、套装、重复物品、同模型或清染色风险提示。'),
-    en: 'The current import did not trigger armoire, set, duplicate item, duplicate model, or dye-clearing risk hints.',
+    zh: draft('当前导入的数据没有触发收藏柜、套装幻影化、可交易、重复物品或同模型提示。'),
+    en: 'The current import did not trigger armoire, glamour-set, tradable item, duplicate item, or duplicate model hints.',
     ja: '今回のデータでは、キャビネット、セット、重複アイテム、同一モデル、染色消去リスクのヒントはありません。',
     ko: '현재 가져온 데이터에서는 보관함, 세트, 중복 아이템, 동일 모델, 염색 삭제 위험 힌트가 없습니다.'
   }),
@@ -1985,8 +2027,8 @@ export const uiMessages: UiMessageMap = {
     ko: 'Cabinet.csv에 itemId {itemId}가 포함되어 있습니다.'
   }),
   'nsarmoire.validation.dyes.rule': msg({
-    zh: 'snapshot 的 dyes 字段记录当前染色；只有收藏柜和套装幻影化篓子会清除染色，其他收纳系统不会。',
-    en: 'snapshot.dyes records current dyes. Only armoire storage and glamour-set baskets clear dyes; other storage does not.',
+    zh: 'snapshot 的 dyes 字段记录当前染色；清染色风险按收纳目标判断。',
+    en: 'snapshot.dyes records current dyes. Dye-clearing risk is determined by the target storage.',
     ja: 'snapshotのdyesは現在の染色を記録します。染色を消すのはキャビネットとセット収納だけで、他の収納は消しません。',
     ko: 'snapshot.dyes는 현재 염색을 기록합니다. 염색을 지우는 것은 보관함과 세트 보관뿐이며 다른 보관은 지우지 않습니다.'
   }),
@@ -2009,14 +2051,14 @@ export const uiMessages: UiMessageMap = {
     ko: '염색 슬롯 {slots}개가 감지되었습니다.'
   }),
   'nsarmoire.dyeReset.cabinet': msg({
-    zh: '收藏柜会清除染色',
-    en: 'Armoire storage clears dyes',
+    zh: '清除当前染色',
+    en: 'Clears current dyes',
     ja: 'キャビネット収納は染色を消します',
     ko: '보관함 보관은 염색을 지웁니다'
   }),
   'nsarmoire.dyeReset.glamourSetBasket': msg({
-    zh: '套装幻影化篓子会清除染色',
-    en: 'Glamour-set baskets clear dyes',
+    zh: '清除当前染色',
+    en: 'Clears current dyes',
     ja: 'セット収納は染色を消します',
     ko: '세트 보관은 염색을 지웁니다'
   }),
@@ -2032,21 +2074,33 @@ export const uiMessages: UiMessageMap = {
     ja: '高価な染料',
     ko: '고가 염료'
   }),
+  'nsarmoire.dyePreference.categories': msg({
+    zh: '染剂分类',
+    en: 'Dye categories',
+    ja: '染料カテゴリ',
+    ko: '염료 분류'
+  }),
+  'nsarmoire.dyePreference.storeSpecial': msg({
+    zh: '商城染剂',
+    en: 'Store dyes',
+    ja: 'ストア染料',
+    ko: '상점 염료'
+  }),
   'nsarmoire.dyeCategory.general': msg({
-    zh: '通用',
-    en: 'General',
+    zh: '普通染剂',
+    en: 'Normal dyes',
     ja: '汎用',
     ko: '일반'
   }),
   'nsarmoire.dyeCategory.extra1': msg({
-    zh: '追加1',
-    en: 'Extra 1',
+    zh: '追加染剂1',
+    en: 'Extra dye 1',
     ja: '追加1',
     ko: '추가1'
   }),
   'nsarmoire.dyeCategory.extra2': msg({
-    zh: '追加2',
-    en: 'Extra 2',
+    zh: '追加染剂2',
+    en: 'Extra dye 2',
     ja: '追加2',
     ko: '추가2'
   }),

@@ -10,6 +10,12 @@ import type {
 
 type Translate = (key: string) => string
 
+export interface ArmoireDyeSlotView {
+  key: string
+  name: string
+  color?: string
+}
+
 const containerLabelKeys: Record<ArmoireContainerKind, string> = {
   inventory: textKeys.nsarmoireContainerInventory,
   saddlebag: textKeys.nsarmoireContainerSaddlebag,
@@ -51,9 +57,7 @@ export function getArmoireContainerLabel(
     item.containerName?.trim() ||
     (item.container === 'retainer' ? item.retainerName?.trim() : undefined)
 
-  return containerName && containerName !== baseLabel
-    ? `${baseLabel} / ${containerName}`
-    : baseLabel
+  return containerName && containerName !== baseLabel ? containerName : baseLabel
 }
 
 export function formatArmoireDyeNames(
@@ -71,18 +75,64 @@ export function formatArmoireDyeNames(
 export function formatArmoireDyeSlotNames(
   catalog: ArmoireCatalog,
   dyeIds: [number, number] | undefined,
-  t: Translate
+  t: Translate,
+  dyeSlotCount?: number
 ): string {
+  const dyes = getArmoireDyeSlotViews(catalog, dyeIds, dyeSlotCount, t)
+  return dyes.length > 0 ? dyes.map((dye) => dye.name).join(' / ') : ''
+}
+
+export function getArmoireDyeSlotViews(
+  catalog: ArmoireCatalog,
+  dyeIds: [number, number] | undefined,
+  dyeSlotCount: number | undefined,
+  t: Translate
+): ArmoireDyeSlotView[] {
+  const visibleSlotCount = getVisibleDyeSlotCount(dyeIds, dyeSlotCount)
+
   return (dyeIds ?? [0, 0])
-    .map((dyeId) =>
-      dyeId > 0 ? (catalog.dyes[dyeId]?.name ?? String(dyeId)) : t(textKeys.nsarmoireCatalogDyeNone)
-    )
-    .join(' / ')
+    .slice(0, visibleSlotCount)
+    .map((dyeId, index) => {
+      if (dyeId <= 0) {
+        return {
+          key: `${index}-0`,
+          name: t(textKeys.nsarmoireCatalogDyeNone)
+        }
+      }
+
+      const dye = catalog.dyes[dyeId]
+      return {
+        key: `${index}-${dyeId}`,
+        name: dye?.name ?? String(dyeId),
+        color: normalizeDyeColor(dye?.color) ?? undefined
+      }
+    })
+}
+
+function normalizeDyeColor(color: string | undefined): string | null {
+  if (!color || !/^#[0-9a-f]{6}$/i.test(color)) {
+    return null
+  }
+
+  return color
+}
+
+function getVisibleDyeSlotCount(
+  dyeIds: [number, number] | undefined,
+  dyeSlotCount: number | undefined
+): number {
+  if (typeof dyeSlotCount === 'number' && dyeSlotCount > 0) {
+    return Math.min(Math.trunc(dyeSlotCount), 2)
+  }
+
+  const dyes = dyeIds ?? [0, 0]
+  const lastDyedSlotIndex = dyes.reduce((lastIndex, dyeId, index) => (dyeId > 0 ? index : lastIndex), -1)
+  return lastDyedSlotIndex + 1
 }
 
 const dyeResetReasonLabelKeys: Record<ArmoireDyeResetReason, string> = {
-  cabinetStorage: textKeys.nsarmoireDyeResetCabinet,
-  glamourSetBasket: textKeys.nsarmoireDyeResetGlamourSetBasket,
+  cabinetStorage: '',
+  glamourSetBasket: '',
   preservedStorage: textKeys.nsarmoireDyeResetPreservedStorage
 }
 
@@ -90,5 +140,9 @@ export function formatArmoireDyeResetReasons(
   reasons: ArmoireDyeResetReason[],
   t: Translate
 ): string {
-  return reasons.map((reason) => t(dyeResetReasonLabelKeys[reason])).join(' / ')
+  return reasons
+    .map((reason) => dyeResetReasonLabelKeys[reason])
+    .filter(Boolean)
+    .map((key) => t(key))
+    .join(' / ')
 }

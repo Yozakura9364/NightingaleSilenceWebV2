@@ -54,9 +54,8 @@
                 :analysis="analysis"
                 :catalog="catalog"
                 :snapshot="snapshot"
-                :selected-dye-value-categories="selectedDyeValueCategories"
                 :has-pending-catalog-checks="hasPendingCatalogChecks"
-                @toggle-dye-value-category="toggleDyeValueCategory"
+                @load-identical-model-catalog="loadIdenticalModelCatalogForCleanup"
               />
 
               <NSArmoireOverview
@@ -129,6 +128,10 @@
               :catalog="catalog"
               :catalog-status="catalogStatus"
               :catalog-error="catalogError"
+              :selected-dye-value-categories="selectedDyeValueCategories"
+              :selected-valuable-dye-ids="selectedValuableDyeIds"
+              @toggle-dye-value-category="toggleDyeValueCategory"
+              @toggle-valuable-dye-id="toggleValuableDyeId"
               @reload-catalog="reloadCatalog"
             />
           </div>
@@ -241,7 +244,9 @@ const mountedCollectionSection = ref(false)
 const isCollectionLoading = ref(false)
 let collectionLoadFrame = 0
 let collectionLoadTimer = 0
+let cleanupIdenticalModelCatalogTimer = 0
 const COLLECTION_LOADING_MIN_MS = 420
+const CLEANUP_IDENTICAL_MODEL_CATALOG_LOAD_DELAY_MS = 180
 const sectionItems = computed(() => [
   {
     id: 'cleanup',
@@ -351,7 +356,12 @@ const catalog = computed(() =>
   )
 )
 
-const { selectedDyeValueCategories, toggleDyeValueCategory } = useArmoireDyePreferences()
+const {
+  selectedDyeValueCategories,
+  selectedValuableDyeIds,
+  toggleDyeValueCategory,
+  toggleValuableDyeId
+} = useArmoireDyePreferences()
 const shouldFilterSnapshotToItemDisplayCatalog = computed(
   () => itemDisplayChunkStatus.value === 'ready'
 )
@@ -359,12 +369,14 @@ const { analysis, hasPendingCatalogChecks } = useArmoireAnalysis(
   snapshot,
   catalog,
   selectedDyeValueCategories,
+  selectedValuableDyeIds,
   shouldFilterSnapshotToItemDisplayCatalog
 )
 const cabinetAnalysis = computed(() =>
   snapshot.value
     ? analyzeArmoireSnapshot(snapshot.value, cabinetCatalog.value, {
         valuableDyeCategories: selectedDyeValueCategories.value,
+        valuableDyeIds: selectedValuableDyeIds.value,
         filterToCatalogItems: true
       })
     : null
@@ -531,10 +543,61 @@ function shouldLoadIdenticalModelCatalogForCurrentView(): boolean {
   )
 }
 
+function shouldQueueIdenticalModelCatalogForCleanup(): boolean {
+  return Boolean(
+    snapshot.value && activeSection.value === 'cleanup' && identicalModelCatalogStatus.value === 'idle'
+  )
+}
+
+function cancelCleanupIdenticalModelCatalogLoad(): void {
+  if (typeof window === 'undefined') {
+    cleanupIdenticalModelCatalogTimer = 0
+    return
+  }
+
+  if (cleanupIdenticalModelCatalogTimer !== 0) {
+    window.clearTimeout(cleanupIdenticalModelCatalogTimer)
+    cleanupIdenticalModelCatalogTimer = 0
+  }
+}
+
+function queueIdenticalModelCatalogForCleanup(): void {
+  if (!shouldQueueIdenticalModelCatalogForCleanup()) {
+    cancelCleanupIdenticalModelCatalogLoad()
+    return
+  }
+
+  if (typeof window === 'undefined') {
+    void loadIdenticalModelCatalog()
+    return
+  }
+
+  if (cleanupIdenticalModelCatalogTimer !== 0) {
+    return
+  }
+
+  cleanupIdenticalModelCatalogTimer = window.setTimeout(() => {
+    cleanupIdenticalModelCatalogTimer = 0
+
+    if (shouldQueueIdenticalModelCatalogForCleanup()) {
+      void loadIdenticalModelCatalog()
+    }
+  }, CLEANUP_IDENTICAL_MODEL_CATALOG_LOAD_DELAY_MS)
+}
+
+function loadIdenticalModelCatalogForCleanup(): void {
+  if (!snapshot.value) {
+    return
+  }
+
+  void loadIdenticalModelCatalog()
+}
+
 function shouldLoadDyeCatalogForCurrentView(): boolean {
   return Boolean(
     snapshot.value &&
     (activeSection.value === 'cleanup' ||
+      activeSection.value === 'characters' ||
       (activeSection.value === 'collection' &&
         ['store', 'catalog'].includes(activeDetailTab.value)))
   )
@@ -634,7 +697,10 @@ function loadCatalogsForCurrentView(): void {
   }
 
   if (shouldLoadIdenticalModelCatalogForCurrentView()) {
+    cancelCleanupIdenticalModelCatalogLoad()
     void loadIdenticalModelCatalog()
+  } else {
+    queueIdenticalModelCatalogForCleanup()
   }
 
   if (shouldLoadDyeCatalogForCurrentView()) {
@@ -686,6 +752,7 @@ watch(
 
 onBeforeUnmount(() => {
   cancelCollectionLoadFrame()
+  cancelCleanupIdenticalModelCatalogLoad()
 })
 </script>
 

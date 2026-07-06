@@ -5,6 +5,7 @@ import { analyzeDuplicateItems } from '@/lib/armoire/analyzeDuplicateItems'
 import { analyzeDyeRisk } from '@/lib/armoire/analyzeDyeRisk'
 import { analyzeGlamourSets } from '@/lib/armoire/analyzeGlamourSets'
 import { analyzeIdenticalModels } from '@/lib/armoire/analyzeIdenticalModels'
+import { analyzeTradableItems } from '@/lib/armoire/analyzeTradableItems'
 import { buildOwnedIndex } from '@/lib/armoire/buildOwnedIndex'
 import {
   filterArmoireSnapshotForCatalog,
@@ -33,6 +34,7 @@ export function analyzeArmoireSnapshot(
     cabinetProgress: analyzeCabinetProgress(analysisSnapshot, catalog, index),
     glamourSetProgress: analyzeGlamourSets(index, catalog),
     dyeRisk: analyzeDyeRisk(analysisSnapshot, catalog, options),
+    tradableItems: analyzeTradableItems(index, catalog),
     duplicateItems: analyzeDuplicateItems(index),
     identicalModels: analyzeIdenticalModels(index, catalog)
   }

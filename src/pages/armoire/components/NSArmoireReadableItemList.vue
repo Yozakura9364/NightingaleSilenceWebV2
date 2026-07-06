@@ -28,8 +28,30 @@
           <small v-if="item.context">{{ item.context }}</small>
           <dl v-if="item.details?.length" class="nsarmoire-readable-list__details">
             <div v-for="detail in item.details" :key="detail.key">
-              <dt>{{ detail.title }}</dt>
+              <dt v-if="detail.title">{{ detail.title }}</dt>
               <dd v-for="line in detail.lines" :key="line">{{ line }}</dd>
+              <dd
+                v-if="detail.dyeLine"
+                class="nsarmoire-readable-list__detail-line--dyes"
+              >
+                <span>{{ detail.dyeLine.label }}</span>
+                <span class="nsarmoire-readable-list__dye-slots">
+                  <span
+                    v-for="dyeSlot in detail.dyeLine.slots"
+                    :key="dyeSlot.key"
+                    class="nsarmoire-readable-list__dye-slot"
+                  >
+                    <span
+                      v-if="dyeSlot.color"
+                      class="nsarmoire-readable-list__dye-swatch"
+                      :style="{ backgroundColor: dyeSlot.color }"
+                      aria-hidden="true"
+                    />
+                    <span>{{ dyeSlot.name }}</span>
+                  </span>
+                </span>
+                <span v-if="detail.dyeLine.suffix">{{ detail.dyeLine.suffix }}</span>
+              </dd>
             </div>
           </dl>
         </span>
@@ -182,7 +204,15 @@ function getItemTitle(item: ArmoireReadableItemView): string {
     item.name,
     item.context,
     item.details
-      ?.flatMap((detail) => [detail.title, ...detail.lines])
+      ?.flatMap((detail) => [
+        detail.title,
+        ...detail.lines,
+        detail.dyeLine
+          ? `${detail.dyeLine.label}${detail.dyeLine.slots
+              .map((slot) => slot.name)
+              .join(' / ')}${detail.dyeLine.suffix ?? ''}`
+          : ''
+      ])
       .join('\n'),
     item.relatedItems?.map((relatedItem) => relatedItem.name).join(' / ')
   ]
@@ -213,8 +243,8 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(252px, 1fr));
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -222,40 +252,43 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__item {
   display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
+  grid-template-columns: 44px minmax(0, 1fr);
   align-items: start;
-  gap: 8px;
+  gap: 10px;
   min-width: 0;
-  padding: 7px 8px;
+  padding: 9px 10px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface);
   contain: layout paint style;
   content-visibility: auto;
-  contain-intrinsic-size: auto 64px;
+  contain-intrinsic-size: auto 76px;
 }
 
 .nsarmoire-readable-list__item--danger {
   border-color: var(--ns-status-danger-border);
 }
 
-.nsarmoire-readable-list__item--detailed {
-  grid-column: span 2;
+.nsarmoire-readable-list__item--muted {
+  color: var(--ns-color-text-muted);
+  background: var(--ns-color-bg-soft);
+  filter: grayscale(0.45);
+  opacity: 0.72;
 }
 
 .nsarmoire-readable-list__item--related {
   grid-column: 1 / -1;
-  grid-template-columns: 40px minmax(150px, 240px) minmax(0, 1fr);
-  gap: 8px 12px;
+  grid-template-columns: 48px minmax(170px, 280px) minmax(0, 1fr);
+  gap: 10px 14px;
   min-height: 0;
-  padding: 8px 10px;
-  contain-intrinsic-size: auto 78px;
+  padding: 10px 12px;
+  contain-intrinsic-size: auto 92px;
 }
 
 .nsarmoire-readable-list__icon {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-pixel-surface);
   image-rendering: auto;
@@ -263,8 +296,8 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__icon img {
   display: block;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 
@@ -274,7 +307,7 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__body {
   display: grid;
-  gap: 4px;
+  gap: 5px;
   min-width: 0;
 }
 
@@ -285,7 +318,7 @@ function hideBrokenIcon(event: Event): void {
 }
 
 .nsarmoire-readable-list__name {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 900;
   line-height: 1.3;
 }
@@ -295,7 +328,7 @@ function hideBrokenIcon(event: Event): void {
   overflow: hidden;
   color: var(--ns-color-text-muted);
   font-family: var(--ns-font-mono);
-  font-size: 10.5px;
+  font-size: 11px;
   line-height: 1.35;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -327,6 +360,45 @@ function hideBrokenIcon(event: Event): void {
   font-weight: 850;
 }
 
+.nsarmoire-readable-list__detail-line--dyes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.nsarmoire-readable-list__dye-slots,
+.nsarmoire-readable-list__dye-slot {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.nsarmoire-readable-list__dye-slots {
+  flex-wrap: wrap;
+  gap: 2px 4px;
+}
+
+.nsarmoire-readable-list__dye-slot {
+  gap: 3px;
+}
+
+.nsarmoire-readable-list__dye-slot + .nsarmoire-readable-list__dye-slot::before {
+  content: '/';
+  color: var(--ns-color-text-muted);
+}
+
+.nsarmoire-readable-list__dye-swatch {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+  border: 1px solid var(--ns-color-border-strong);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.32),
+    0 0 0 1px rgb(0 0 0 / 0.06);
+}
+
 .nsarmoire-readable-list__related {
   grid-column: 3;
   display: flex;
@@ -340,11 +412,11 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__related li {
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr);
+  grid-template-columns: 40px minmax(0, 1fr);
   align-items: center;
-  gap: 7px;
-  width: clamp(150px, 18vw, 220px);
-  min-height: 44px;
+  gap: 8px;
+  width: clamp(170px, 19vw, 240px);
+  min-height: 52px;
   min-width: 0;
   padding: 5px 7px;
   border: 1px solid var(--ns-pixel-border-soft);
@@ -359,16 +431,16 @@ function hideBrokenIcon(event: Event): void {
 .nsarmoire-readable-list__related-icon {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-pixel-surface);
 }
 
 .nsarmoire-readable-list__related-icon img {
   display: block;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   object-fit: contain;
 }
 
@@ -417,14 +489,14 @@ function hideBrokenIcon(event: Event): void {
   align-content: center;
   justify-content: center;
   width: auto;
-  min-height: 44px;
+  min-height: 52px;
 }
 
 .nsarmoire-readable-list__related-more-count {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-pixel-surface);
   font-family: var(--ns-font-decorative);
@@ -442,7 +514,7 @@ function hideBrokenIcon(event: Event): void {
   }
 
   .nsarmoire-readable-list__item--related {
-    grid-template-columns: 36px minmax(0, 1fr);
+    grid-template-columns: 44px minmax(0, 1fr);
     min-height: 0;
   }
 

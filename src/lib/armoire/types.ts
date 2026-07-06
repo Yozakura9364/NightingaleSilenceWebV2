@@ -30,6 +30,29 @@ export const ARMOIRE_DYE_VALUE_CATEGORIES = ['general', 'extra1', 'extra2', 'sto
 
 export type ArmoireDyeValueCategory = (typeof ARMOIRE_DYE_VALUE_CATEGORIES)[number]
 
+export const ARMOIRE_STORE_SPECIAL_DYE_IDS = [
+  101,
+  102,
+  103,
+  104,
+  105,
+  106,
+  107,
+  108,
+  109,
+  110,
+  111,
+  112,
+  113,
+  114,
+  115,
+  116,
+  117,
+  118,
+  119,
+  120
+] as const
+
 export const ARMOIRE_STORE_TAGS = [
   'npcCostume',
   'bonusCostume',
@@ -55,9 +78,15 @@ export const ARMOIRE_STORE_DETAIL_TAGS = ['maleOnly', 'femaleOnly'] as const
 export type ArmoireStoreDetailTag = (typeof ARMOIRE_STORE_DETAIL_TAGS)[number]
 
 export const DEFAULT_ARMOIRE_VALUABLE_DYE_CATEGORIES: readonly ArmoireDyeValueCategory[] = [
+  'general',
   'extra1',
-  'extra2',
-  'storeSpecial'
+  'extra2'
+] as const
+
+export const DEFAULT_ARMOIRE_VALUABLE_STORE_DYE_IDS: readonly number[] = [
+  101,
+  102,
+  103
 ] as const
 
 export type ArmoireSnapshotSource = 'manual-import' | 'local-helper' | 'asvel-compatible'
@@ -105,6 +134,7 @@ export interface ArmoireCatalogItem {
   itemUiCategoryId?: number
   equipSlotCategoryId?: number
   isGlamourous?: boolean
+  isTradable?: boolean
   isCabinetStorable?: boolean
   isGlamourSetContainer?: boolean
   pieceItemIds?: number[]
@@ -151,7 +181,13 @@ export interface ArmoireCatalog {
   dyes: Record<number, ArmoireDye>
 }
 
-export type ArmoireCompactDisplayItem = [itemId: number, name?: string, iconId?: number]
+export type ArmoireCompactDisplayItem = [
+  itemId: number,
+  name?: string | null,
+  iconId?: number | null,
+  dyeSlotCount?: number | null,
+  isTradable?: 1 | null
+]
 
 export interface ArmoireCabinetCatalog {
   schemaVersion: typeof ARMOIRE_CABINET_CATALOG_SCHEMA_VERSION
@@ -383,6 +419,7 @@ export type ArmoireDyeResetReason = 'cabinetStorage' | 'glamourSetBasket' | 'pre
 
 export interface ArmoireDyeRiskOptions {
   valuableDyeCategories?: readonly ArmoireDyeValueCategory[]
+  valuableDyeIds?: readonly number[]
 }
 
 export interface ArmoireSnapshotAnalysisOptions extends ArmoireDyeRiskOptions {
@@ -410,7 +447,14 @@ export interface ArmoireDyeRiskAnalysis {
   valuableClearDyeRiskItemCount: number
   highRiskItemCount: number
   selectedValuableDyeCategories: ArmoireDyeValueCategory[]
+  selectedValuableDyeIds: number[]
   items: ArmoireDyeRiskItem[]
+}
+
+export interface ArmoireTradableItemAnalysis {
+  status: ArmoireCatalogAnalysisStatus
+  unboundTradableEntryCount: number
+  items: ArmoireOwnedItem[]
 }
 
 export interface ArmoireIdenticalModelGroupState {
@@ -445,6 +489,7 @@ export interface ArmoireSnapshotAnalysis {
   cabinetProgress: ArmoireCabinetProgress
   glamourSetProgress: ArmoireGlamourSetProgress
   dyeRisk: ArmoireDyeRiskAnalysis
+  tradableItems: ArmoireTradableItemAnalysis
   duplicateItems: ArmoireDuplicateItemAnalysis
   identicalModels: ArmoireIdenticalModelAnalysis
 }
