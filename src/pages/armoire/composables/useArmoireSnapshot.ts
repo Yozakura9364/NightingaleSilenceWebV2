@@ -43,7 +43,9 @@ export function useArmoireSnapshot() {
         return null
       }
 
-      return normalizeArmoireSnapshot(JSON.parse(rawSnapshot) as unknown)
+      const storedSnapshot = normalizeArmoireSnapshot(JSON.parse(rawSnapshot) as unknown)
+      window.localStorage.removeItem(SNAPSHOT_STORAGE_KEY)
+      return storedSnapshot
     } catch {
       window.localStorage.removeItem(SNAPSHOT_STORAGE_KEY)
       return null
@@ -51,14 +53,16 @@ export function useArmoireSnapshot() {
   }
 
   function saveStoredSnapshot(nextSnapshot: ArmoireSnapshot) {
+    void nextSnapshot
+
     if (typeof window === 'undefined') {
       return
     }
 
     try {
-      window.localStorage.setItem(SNAPSHOT_STORAGE_KEY, JSON.stringify(nextSnapshot))
+      window.localStorage.removeItem(SNAPSHOT_STORAGE_KEY)
     } catch {
-      // Storage can fail in private mode or under quota pressure; the active import should still work.
+      // Full snapshots are persisted in IndexedDB. The legacy localStorage slot is migration-only.
     }
   }
 
@@ -133,6 +137,19 @@ export function useArmoireSnapshot() {
     clearStoredSnapshot()
   }
 
+  function forgetStoredSnapshot() {
+    clearStoredSnapshot()
+    importedFileName.value = null
+  }
+
+  function replaceSnapshotFromCache(nextSnapshot: ArmoireSnapshot) {
+    errorKey.value = null
+    errorDetail.value = null
+    importedFileName.value = null
+    snapshot.value = normalizeArmoireSnapshot(nextSnapshot)
+    saveStoredSnapshot(snapshot.value)
+  }
+
   function loadExampleSnapshot() {
     const exampleSnapshot = createExampleArmoireSnapshot()
 
@@ -150,6 +167,8 @@ export function useArmoireSnapshot() {
     importedFileName,
     importSnapshotPayload,
     importSnapshotFile,
+    replaceSnapshotFromCache,
+    forgetStoredSnapshot,
     loadExampleSnapshot,
     clearSnapshot
   }

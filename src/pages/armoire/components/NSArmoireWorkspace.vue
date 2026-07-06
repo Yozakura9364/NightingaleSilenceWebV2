@@ -123,6 +123,10 @@
               :snapshot="snapshot"
               :profiles="characterProfiles"
               :active-profile-key="activeProfileKey"
+              :profile-storage-status="profileStorageStatus"
+              :profile-storage-error="profileStorageError"
+              :switching-profile-key="switchingProfileKey"
+              :deleting-profile-key="deletingProfileKey"
               :helper-endpoint="helperEndpoint"
               :helper-health="helperHealth"
               :catalog="catalog"
@@ -132,6 +136,8 @@
               :selected-valuable-dye-ids="selectedValuableDyeIds"
               @toggle-dye-value-category="toggleDyeValueCategory"
               @toggle-valuable-dye-id="toggleValuableDyeId"
+              @switch-profile="switchCharacterProfile"
+              @delete-profile="deleteCharacterProfile"
               @reload-catalog="reloadCatalog"
             />
           </div>
@@ -140,7 +146,7 @@
     </div>
 
     <div
-      v-if="isCollectionLoading"
+      v-if="isWorkspaceLoadingOverlayVisible"
       class="nsarmoire-workspace__loading-overlay"
       role="status"
       aria-live="polite"
@@ -152,7 +158,7 @@
           <span />
           <span />
         </span>
-        <span>{{ t(textKeys.nsarmoireCollectionLoading) }}</span>
+        <span>{{ t(workspaceLoadingMessageKey) }}</span>
       </div>
     </div>
 
@@ -290,10 +296,21 @@ const {
   importedFileName,
   importSnapshotPayload,
   importSnapshotFile,
+  replaceSnapshotFromCache,
+  forgetStoredSnapshot,
   loadExampleSnapshot,
   clearSnapshot
 } = useArmoireSnapshot()
-const { profiles: characterProfiles, activeProfileKey } = useArmoireCharacterProfiles(snapshot)
+const {
+  profiles: characterProfiles,
+  activeProfileKey,
+  storageStatus: profileStorageStatus,
+  storageError: profileStorageError,
+  switchingProfileKey,
+  deletingProfileKey,
+  loadProfileSnapshot,
+  deleteProfile
+} = useArmoireCharacterProfiles(snapshot)
 
 const {
   catalog: itemDisplayCatalog,
@@ -405,6 +422,17 @@ const {
 
 const shouldRenderCollectionSection = computed(
   () => activeSection.value === 'collection' || mountedCollectionSection.value
+)
+const isRestoringProfile = computed(
+  () => profileStorageStatus.value === 'loading' && !snapshot.value
+)
+const isWorkspaceLoadingOverlayVisible = computed(
+  () => isCollectionLoading.value || isRestoringProfile.value
+)
+const workspaceLoadingMessageKey = computed(() =>
+  isRestoringProfile.value
+    ? textKeys.nsarmoireCharacterLocalProfileLoading
+    : textKeys.nsarmoireCollectionLoading
 )
 const catalogStatus = computed<ArmoireCatalogStatus>(() => {
   const statuses = [
@@ -545,7 +573,9 @@ function shouldLoadIdenticalModelCatalogForCurrentView(): boolean {
 
 function shouldQueueIdenticalModelCatalogForCleanup(): boolean {
   return Boolean(
-    snapshot.value && activeSection.value === 'cleanup' && identicalModelCatalogStatus.value === 'idle'
+    snapshot.value &&
+    activeSection.value === 'cleanup' &&
+    identicalModelCatalogStatus.value === 'idle'
   )
 }
 
@@ -655,9 +685,7 @@ async function loadStoreItemDisplayIndex(options: { force?: boolean } = {}): Pro
   storeItemDisplayIndexStatus.value = 'loading'
 
   try {
-    const { isArmoireStoreItemDisplayIndex } = await import(
-      '@/lib/armoire/storeItemDisplayIndex'
-    )
+    const { isArmoireStoreItemDisplayIndex } = await import('@/lib/armoire/storeItemDisplayIndex')
     const response = await fetch(STORE_ITEM_DISPLAY_INDEX_URL)
 
     if (!response.ok) {
@@ -725,6 +753,27 @@ function reloadCatalog(): void {
 function reloadStoreCatalog(): void {
   void loadStoreCatalog({ force: true })
   void loadStoreItemDisplayIndex({ force: true })
+}
+
+async function switchCharacterProfile(profileKey: string): Promise<void> {
+  const cachedSnapshot = await loadProfileSnapshot(profileKey)
+
+  if (!cachedSnapshot) {
+    return
+  }
+
+  replaceSnapshotFromCache(cachedSnapshot)
+  activeSection.value = 'cleanup'
+}
+
+async function deleteCharacterProfile(profileKey: string): Promise<void> {
+  const isDeletingCurrentProfile = activeProfileKey.value === profileKey
+
+  await deleteProfile(profileKey)
+
+  if (isDeletingCurrentProfile) {
+    forgetStoredSnapshot()
+  }
 }
 
 watch(

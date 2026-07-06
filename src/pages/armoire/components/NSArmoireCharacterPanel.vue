@@ -11,7 +11,41 @@
       :message="cleanT(textKeys.nsarmoireCharacterNoSnapshot)"
     />
 
-    <template v-else>
+    <template v-if="snapshot">
+      <section class="nsarmoire-character-panel__block">
+        <h3>{{ cleanT(textKeys.nsarmoireDyePreferenceLabel) }}</h3>
+
+        <fieldset class="nsarmoire-character-panel__dye-fieldset">
+          <legend>{{ cleanT(textKeys.nsarmoireDyePreferenceStoreSpecial) }}</legend>
+          <label v-for="dye in storeSpecialDyeOptions" :key="dye.dyeId">
+            <input
+              type="checkbox"
+              :checked="isValuableDyeIdSelected(dye.dyeId)"
+              @change="$emit('toggle-valuable-dye-id', dye.dyeId)"
+            />
+            <span
+              v-if="dye.color"
+              class="nsarmoire-character-panel__dye-swatch"
+              :style="{ backgroundColor: dye.color }"
+              aria-hidden="true"
+            />
+            <span>{{ dye.name }}</span>
+          </label>
+        </fieldset>
+
+        <fieldset class="nsarmoire-character-panel__dye-fieldset">
+          <legend>{{ cleanT(textKeys.nsarmoireDyePreferenceCategories) }}</legend>
+          <label v-for="option in dyeValueCategoryOptions" :key="option.value">
+            <input
+              type="checkbox"
+              :checked="isDyeValueCategorySelected(option.value)"
+              @change="$emit('toggle-dye-value-category', option.value)"
+            />
+            <span>{{ cleanT(option.labelKey) }}</span>
+          </label>
+        </fieldset>
+      </section>
+
       <section class="nsarmoire-character-panel__block">
         <h3>{{ cleanT(textKeys.nsarmoireCharacterCurrentData) }}</h3>
 
@@ -54,112 +88,115 @@
           </div>
         </dl>
       </section>
-
-      <section class="nsarmoire-character-panel__block">
-        <h3>{{ cleanT(textKeys.nsarmoireCharacterLocalProfileTitle) }}</h3>
-        <p class="nsarmoire-character-panel__hint">
-          {{ cleanT(textKeys.nsarmoireCharacterLocalProfileMessage) }}
-        </p>
-
-        <ul v-if="profiles.length" class="nsarmoire-character-panel__profile-list">
-          <li
-            v-for="profile in profiles"
-            :key="profile.key"
-            class="nsarmoire-character-panel__profile"
-            :class="{
-              'nsarmoire-character-panel__profile--active': profile.key === activeProfileKey
-            }"
-          >
-            <div class="nsarmoire-character-panel__profile-title">
-              <strong>{{ getProfileTitle(profile) }}</strong>
-              <span
-                v-if="profile.key === activeProfileKey"
-                class="nsarmoire-character-panel__profile-badge"
-              >
-                {{ cleanT(textKeys.nsarmoireCharacterLocalProfileCurrent) }}
-              </span>
-            </div>
-
-            <dl class="nsarmoire-character-panel__profile-meta">
-              <div>
-                <dt>{{ cleanT(textKeys.nsarmoireGeneratedAt) }}</dt>
-                <dd>{{ formatDateLabel(profile.lastDataAt) }}</dd>
-              </div>
-              <div>
-                <dt>{{ cleanT(textKeys.nsarmoireReadContainers) }}</dt>
-                <dd :title="getProfileReadContainersLabel(profile)">
-                  {{ getProfileReadContainersLabel(profile) }}
-                </dd>
-              </div>
-              <div>
-                <dt>{{ cleanT(textKeys.nsarmoireMetricEntries) }}</dt>
-                <dd>{{ profile.entryCount }}</dd>
-              </div>
-              <div>
-                <dt>{{ cleanT(textKeys.nsarmoireSource) }}</dt>
-                <dd>{{ getSourceLabel(profile.source) }}</dd>
-              </div>
-            </dl>
-          </li>
-        </ul>
-
-        <AppStatus
-          v-else
-          tone="info"
-          :message="cleanT(textKeys.nsarmoireCharacterLocalProfilesEmpty)"
-        />
-      </section>
-
-      <section class="nsarmoire-character-panel__block">
-        <h3>{{ cleanT(textKeys.nsarmoireDyePreferenceLabel) }}</h3>
-
-        <fieldset class="nsarmoire-character-panel__dye-fieldset">
-          <legend>{{ cleanT(textKeys.nsarmoireDyePreferenceCategories) }}</legend>
-          <label v-for="option in dyeValueCategoryOptions" :key="option.value">
-            <input
-              type="checkbox"
-              :checked="isDyeValueCategorySelected(option.value)"
-              @change="$emit('toggle-dye-value-category', option.value)"
-            />
-            <span>{{ cleanT(option.labelKey) }}</span>
-          </label>
-        </fieldset>
-
-        <fieldset class="nsarmoire-character-panel__dye-fieldset">
-          <legend>{{ cleanT(textKeys.nsarmoireDyePreferenceStoreSpecial) }}</legend>
-          <label v-for="dye in storeSpecialDyeOptions" :key="dye.dyeId">
-            <input
-              type="checkbox"
-              :checked="isValuableDyeIdSelected(dye.dyeId)"
-              @change="$emit('toggle-valuable-dye-id', dye.dyeId)"
-            />
-            <span
-              v-if="dye.color"
-              class="nsarmoire-character-panel__dye-swatch"
-              :style="{ backgroundColor: dye.color }"
-              aria-hidden="true"
-            />
-            <span>{{ dye.name }}</span>
-          </label>
-        </fieldset>
-      </section>
-
-      <section class="nsarmoire-character-panel__block">
-        <h3>{{ cleanT(textKeys.nsarmoireCharacterStaticData) }}</h3>
-
-        <NSArmoireCatalogStatus
-          :catalog="catalog"
-          :status="catalogStatus"
-          :error="catalogError"
-          @reload="$emit('reload-catalog')"
-        />
-      </section>
     </template>
+
+    <section class="nsarmoire-character-panel__block">
+      <h3>{{ cleanT(textKeys.nsarmoireCharacterLocalProfileTitle) }}</h3>
+      <p class="nsarmoire-character-panel__hint">
+        {{ cleanT(textKeys.nsarmoireCharacterLocalProfileMessage) }}
+      </p>
+
+      <AppStatus
+        v-if="profileStorageStatus === 'loading' && !profiles.length"
+        tone="loading"
+        compact
+        :message="cleanT(textKeys.nsarmoireCharacterLocalProfileLoading)"
+      />
+      <AppStatus
+        v-else-if="profileStorageStatus === 'error'"
+        tone="danger"
+        compact
+        :title="cleanT(textKeys.nsarmoireCharacterLocalProfileError)"
+        :message="profileStorageError ?? cleanT(textKeys.nsarmoireCharacterLocalProfileError)"
+      />
+
+      <ul v-if="profiles.length" class="nsarmoire-character-panel__profile-list">
+        <li
+          v-for="profile in profiles"
+          :key="profile.key"
+          class="nsarmoire-character-panel__profile"
+          :class="{
+            'nsarmoire-character-panel__profile--active': profile.key === activeProfileKey
+          }"
+        >
+          <div class="nsarmoire-character-panel__profile-title">
+            <strong>{{ getProfileTitle(profile) }}</strong>
+            <span
+              v-if="profile.key === activeProfileKey"
+              class="nsarmoire-character-panel__profile-badge"
+            >
+              {{ cleanT(textKeys.nsarmoireCharacterLocalProfileCurrent) }}
+            </span>
+          </div>
+
+          <dl class="nsarmoire-character-panel__profile-meta">
+            <div>
+              <dt>{{ cleanT(textKeys.nsarmoireGeneratedAt) }}</dt>
+              <dd>{{ formatDateLabel(profile.lastDataAt) }}</dd>
+            </div>
+            <div>
+              <dt>{{ cleanT(textKeys.nsarmoireReadContainers) }}</dt>
+              <dd :title="getProfileReadContainersLabel(profile)">
+                {{ getProfileReadContainersLabel(profile) }}
+              </dd>
+            </div>
+            <div>
+              <dt>{{ cleanT(textKeys.nsarmoireMetricEntries) }}</dt>
+              <dd>{{ profile.entryCount }}</dd>
+            </div>
+            <div>
+              <dt>{{ cleanT(textKeys.nsarmoireSource) }}</dt>
+              <dd>{{ getSourceLabel(profile.source) }}</dd>
+            </div>
+          </dl>
+
+          <div class="nsarmoire-character-panel__profile-actions">
+            <AppButton
+              size="compact"
+              :disabled="profile.key === activeProfileKey || isProfileActionBusy(profile.key)"
+              @click="$emit('switch-profile', profile.key)"
+            >
+              {{
+                profile.key === activeProfileKey
+                  ? cleanT(textKeys.nsarmoireCharacterLocalProfileCurrent)
+                  : getSwitchProfileLabel(profile.key)
+              }}
+            </AppButton>
+            <AppButton
+              size="compact"
+              variant="danger"
+              :disabled="isProfileActionBusy(profile.key)"
+              @click="$emit('delete-profile', profile.key)"
+            >
+              {{ getDeleteProfileLabel(profile.key) }}
+            </AppButton>
+          </div>
+        </li>
+      </ul>
+
+      <AppStatus
+        v-else-if="profileStorageStatus !== 'loading'"
+        tone="info"
+        :message="cleanT(textKeys.nsarmoireCharacterLocalProfilesEmpty)"
+      />
+    </section>
+
+    <section v-if="snapshot" class="nsarmoire-character-panel__block">
+      <h3>{{ cleanT(textKeys.nsarmoireCharacterStaticData) }}</h3>
+
+      <NSArmoireCatalogStatus
+        :catalog="catalog"
+        :status="catalogStatus"
+        :error="catalogError"
+        @reload="$emit('reload-catalog')"
+      />
+    </section>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import type {
@@ -173,7 +210,8 @@ import { ARMOIRE_STORE_SPECIAL_DYE_IDS } from '@/lib/armoire/types'
 import NSArmoireCatalogStatus from '@/pages/armoire/components/NSArmoireCatalogStatus.vue'
 import {
   getReadContainers,
-  type ArmoireCharacterProfile
+  type ArmoireCharacterProfile,
+  type ArmoireCharacterProfileStorageStatus
 } from '@/pages/armoire/composables/useArmoireCharacterProfiles'
 import type { ArmoireCatalogStatus } from '@/pages/armoire/composables/useArmoireCatalog'
 import type { ArmoireHelperHealth } from '@/pages/armoire/services/nsarmoireHelperApi'
@@ -184,6 +222,10 @@ const props = defineProps<{
   snapshot: ArmoireSnapshot | null
   profiles: readonly ArmoireCharacterProfile[]
   activeProfileKey: string | null
+  profileStorageStatus: ArmoireCharacterProfileStorageStatus
+  profileStorageError: string | null
+  switchingProfileKey: string | null
+  deletingProfileKey: string | null
   helperEndpoint: string
   helperHealth: ArmoireHelperHealth | null
   catalog: ArmoireCatalog
@@ -197,6 +239,8 @@ defineEmits<{
   'reload-catalog': []
   'toggle-dye-value-category': [category: ArmoireDyeValueCategory]
   'toggle-valuable-dye-id': [dyeId: number]
+  'switch-profile': [profileKey: string]
+  'delete-profile': [profileKey: string]
 }>()
 
 const { current, t } = useLocale()
@@ -304,6 +348,22 @@ function isDyeValueCategorySelected(category: ArmoireDyeValueCategory): boolean 
 
 function isValuableDyeIdSelected(dyeId: number): boolean {
   return props.selectedValuableDyeIds.includes(dyeId)
+}
+
+function isProfileActionBusy(profileKey: string): boolean {
+  return props.switchingProfileKey === profileKey || props.deletingProfileKey === profileKey
+}
+
+function getSwitchProfileLabel(profileKey: string): string {
+  return props.switchingProfileKey === profileKey
+    ? cleanT(textKeys.nsarmoireCharacterLocalProfileSwitching)
+    : cleanT(textKeys.nsarmoireCharacterLocalProfileSwitch)
+}
+
+function getDeleteProfileLabel(profileKey: string): string {
+  return props.deletingProfileKey === profileKey
+    ? cleanT(textKeys.nsarmoireCharacterLocalProfileDeleting)
+    : cleanT(textKeys.nsarmoireCharacterLocalProfileDelete)
 }
 
 function getRetainerSummary(snapshot: ArmoireSnapshot | null): {
@@ -522,6 +582,15 @@ function getProfileTitle(profile: ArmoireCharacterProfile): string {
   background: var(--ns-status-success-bg);
   font-size: 12px;
   font-weight: 850;
+}
+
+.nsarmoire-character-panel__profile-actions {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
 }
 
 .nsarmoire-character-panel__dye-fieldset {

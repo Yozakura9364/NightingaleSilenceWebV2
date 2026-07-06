@@ -1,12 +1,19 @@
-import { computed, readonly, ref, watch, type Ref } from 'vue'
-import type {
-  ArmoireContainerKind,
-  ArmoireSnapshot,
-  ArmoireSnapshotSource
-} from '@/lib/armoire/types'
+import { computed, onMounted, readonly, ref, toRaw, watch, type Ref } from 'vue'
+import { normalizeArmoireSnapshot } from '@/lib/armoire/normalizeSnapshot'
+import type { ArmoireContainerKind, ArmoireSnapshot } from '@/lib/armoire/types'
+import {
+  deleteArmoireSnapshotRecord,
+  getArmoireSnapshotRecord,
+  listArmoireSnapshotProfiles,
+  putArmoireSnapshotRecord,
+  type ArmoireStoredSnapshotProfile,
+  type ArmoireStoredSnapshotRecord
+} from '@/pages/armoire/services/armoireSnapshotStore'
 
-const STORAGE_KEY = 'nsarmoire.characterProfiles.v1'
-const MAX_PROFILE_COUNT = 50
+export type ArmoireCharacterProfile = ArmoireStoredSnapshotProfile
+export type ArmoireCharacterProfileStorageStatus = 'idle' | 'loading' | 'ready' | 'error'
+
+const ACTIVE_PROFILE_STORAGE_KEY = 'nsarmoire.activeProfileKey.v1'
 const UNKNOWN_PROFILE_PREFIX = 'unidentified'
 const CONTAINER_DISPLAY_ORDER: ArmoireContainerKind[] = [
   'armoire',
@@ -17,114 +24,6 @@ const CONTAINER_DISPLAY_ORDER: ArmoireContainerKind[] = [
   'manual',
   'retainer'
 ]
-
-export interface ArmoireCharacterProfile {
-  key: string
-  name?: string
-  world?: string
-  dataCenter?: string
-  source: ArmoireSnapshotSource
-  lastDataAt: string
-  cachedAt: string
-  entryCount: number
-  containers: readonly ArmoireContainerKind[]
-  retainerNames: readonly string[]
-  retainerCount: number
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
-
-function normalizeString(value: unknown, maxLength: number): string | undefined {
-  if (typeof value !== 'string') {
-    return undefined
-  }
-
-  const trimmed = value.trim()
-  return trimmed ? trimmed.slice(0, maxLength) : undefined
-}
-
-function isContainerKind(value: unknown): value is ArmoireContainerKind {
-  return CONTAINER_DISPLAY_ORDER.includes(value as ArmoireContainerKind)
-}
-
-function normalizeProfile(value: unknown): ArmoireCharacterProfile | null {
-  if (!isRecord(value)) {
-    return null
-  }
-
-  const key = normalizeString(value.key, 160)
-  const source = normalizeString(value.source, 40) as ArmoireSnapshotSource | undefined
-  const lastDataAt = normalizeString(value.lastDataAt, 80)
-  const cachedAt = normalizeString(value.cachedAt, 80)
-
-  if (!key || !source || !lastDataAt || !cachedAt) {
-    return null
-  }
-
-  return {
-    key,
-    name: normalizeString(value.name, 80),
-    world: normalizeString(value.world, 80),
-    dataCenter: normalizeString(value.dataCenter, 80),
-    source,
-    lastDataAt,
-    cachedAt,
-    entryCount:
-      typeof value.entryCount === 'number' &&
-      Number.isInteger(value.entryCount) &&
-      value.entryCount >= 0
-        ? value.entryCount
-        : 0,
-    containers: Array.isArray(value.containers) ? value.containers.filter(isContainerKind) : [],
-    retainerNames: Array.isArray(value.retainerNames)
-      ? value.retainerNames
-          .map((name) => normalizeString(name, 80))
-          .filter((name): name is string => Boolean(name))
-      : [],
-    retainerCount:
-      typeof value.retainerCount === 'number' &&
-      Number.isInteger(value.retainerCount) &&
-      value.retainerCount >= 0
-        ? value.retainerCount
-        : 0
-  }
-}
-
-function readStoredProfiles(): ArmoireCharacterProfile[] {
-  if (typeof window === 'undefined') {
-    return []
-  }
-
-  try {
-    const rawProfiles = window.localStorage.getItem(STORAGE_KEY)
-    const parsed = rawProfiles ? (JSON.parse(rawProfiles) as unknown) : []
-
-    if (!Array.isArray(parsed)) {
-      return []
-    }
-
-    return parsed
-      .map(normalizeProfile)
-      .filter((profile): profile is ArmoireCharacterProfile => Boolean(profile))
-  } catch {
-    window.localStorage.removeItem(STORAGE_KEY)
-    return []
-  }
-}
-
-function saveStoredProfiles(nextProfiles: readonly ArmoireCharacterProfile[]): void {
-  if (typeof window === 'undefined') {
-    return
-  }
-
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextProfiles))
-  } catch {
-    // Profile summaries are a convenience cache; analysis should continue when storage is unavailable.
-  }
-}
 
 function getTimestamp(value: string): number {
   const timestamp = new Date(value).getTime()
@@ -158,6 +57,35 @@ function createUnknownProfileKey(
       `${snapshot.source}|${snapshot.generatedAt}|${snapshot.items.length}|${containers.join(',')}`
     )
   ].join(':')
+}
+
+function saveActiveProfileKey(key: string | null): void {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  try {
+    if (key) {
+      window.localStorage.setItem(ACTIVE_PROFILE_STORAGE_KEY, key)
+    } else {
+      window.localStorage.removeItem(ACTIVE_PROFILE_STORAGE_KEY)
+    }
+  } catch {
+    // Active profile is a convenience pointer. Snapshot switching still works without it.
+  }
+}
+
+function readActiveProfileKey(): string | null {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  try {
+    const key = window.localStorage.getItem(ACTIVE_PROFILE_STORAGE_KEY)?.trim()
+    return key || null
+  } catch {
+    return null
+  }
 }
 
 export function getArmoireCharacterProfileKey(snapshot: ArmoireSnapshot | null): string | null {
@@ -235,36 +163,154 @@ function createProfileFromSnapshot(snapshot: ArmoireSnapshot): ArmoireCharacterP
   }
 }
 
+function createRecordFromSnapshot(snapshot: ArmoireSnapshot): ArmoireStoredSnapshotRecord {
+  const storedSnapshot = normalizeArmoireSnapshot(
+    JSON.parse(JSON.stringify(toRaw(snapshot))) as unknown
+  )
+
+  return {
+    ...createProfileFromSnapshot(storedSnapshot),
+    snapshot: storedSnapshot
+  }
+}
+
 export function useArmoireCharacterProfiles(snapshot: Ref<ArmoireSnapshot | null>) {
-  const profiles = ref<ArmoireCharacterProfile[]>(readStoredProfiles().sort(sortProfiles))
+  const profiles = ref<ArmoireCharacterProfile[]>([])
+  const storageStatus = ref<ArmoireCharacterProfileStorageStatus>('idle')
+  const storageError = ref<string | null>(null)
+  const switchingProfileKey = ref<string | null>(null)
+  const deletingProfileKey = ref<string | null>(null)
 
-  function upsertProfile(nextProfile: ArmoireCharacterProfile): void {
-    profiles.value = [
-      nextProfile,
-      ...profiles.value.filter((profile) => profile.key !== nextProfile.key)
-    ]
-      .sort(sortProfiles)
-      .slice(0, MAX_PROFILE_COUNT)
+  async function refreshProfiles(): Promise<void> {
+    storageStatus.value = 'loading'
+    storageError.value = null
 
-    saveStoredProfiles(profiles.value)
+    try {
+      profiles.value = (await listArmoireSnapshotProfiles()).sort(sortProfiles)
+      storageStatus.value = 'ready'
+    } catch (error) {
+      storageStatus.value = 'error'
+      storageError.value = error instanceof Error ? error.message : String(error)
+    }
   }
 
-  watch(
-    snapshot,
-    (nextSnapshot) => {
-      if (!nextSnapshot) {
-        return
+  async function initializeProfiles(): Promise<void> {
+    storageStatus.value = 'loading'
+    storageError.value = null
+
+    try {
+      profiles.value = (await listArmoireSnapshotProfiles()).sort(sortProfiles)
+
+      const storedActiveProfileKey = readActiveProfileKey()
+
+      if (storedActiveProfileKey && activeProfileKey.value !== storedActiveProfileKey) {
+        const record = await getArmoireSnapshotRecord(storedActiveProfileKey)
+
+        if (record) {
+          snapshot.value = record.snapshot
+          profiles.value = [
+            record,
+            ...profiles.value.filter((profile) => profile.key !== record.key)
+          ].sort(sortProfiles)
+        } else {
+          saveActiveProfileKey(null)
+        }
+      } else if (!storedActiveProfileKey && snapshot.value) {
+        await cacheSnapshot(snapshot.value)
       }
 
-      upsertProfile(createProfileFromSnapshot(nextSnapshot))
-    },
-    { immediate: true }
-  )
+      storageStatus.value = 'ready'
+    } catch (error) {
+      storageStatus.value = 'error'
+      storageError.value = error instanceof Error ? error.message : String(error)
+    }
+  }
+
+  async function cacheSnapshot(nextSnapshot: ArmoireSnapshot): Promise<void> {
+    const record = createRecordFromSnapshot(nextSnapshot)
+
+    try {
+      await putArmoireSnapshotRecord(record)
+      saveActiveProfileKey(record.key)
+      profiles.value = [
+        record,
+        ...profiles.value.filter((profile) => profile.key !== record.key)
+      ].sort(sortProfiles)
+      storageStatus.value = 'ready'
+      storageError.value = null
+    } catch (error) {
+      storageStatus.value = 'error'
+      storageError.value = error instanceof Error ? error.message : String(error)
+    }
+  }
+
+  async function loadProfileSnapshot(key: string): Promise<ArmoireSnapshot | null> {
+    switchingProfileKey.value = key
+    storageError.value = null
+
+    try {
+      const record = await getArmoireSnapshotRecord(key)
+
+      if (!record) {
+        await refreshProfiles()
+        return null
+      }
+
+      saveActiveProfileKey(record.key)
+      return record.snapshot
+    } catch (error) {
+      storageStatus.value = 'error'
+      storageError.value = error instanceof Error ? error.message : String(error)
+      return null
+    } finally {
+      switchingProfileKey.value = null
+    }
+  }
+
+  async function deleteProfile(key: string): Promise<void> {
+    deletingProfileKey.value = key
+    storageError.value = null
+
+    try {
+      await deleteArmoireSnapshotRecord(key)
+      profiles.value = profiles.value.filter((profile) => profile.key !== key)
+
+      if (activeProfileKey.value === key) {
+        saveActiveProfileKey(null)
+      }
+
+      storageStatus.value = 'ready'
+    } catch (error) {
+      storageStatus.value = 'error'
+      storageError.value = error instanceof Error ? error.message : String(error)
+    } finally {
+      deletingProfileKey.value = null
+    }
+  }
+
+  watch(snapshot, (nextSnapshot) => {
+    if (!nextSnapshot) {
+      return
+    }
+
+    void cacheSnapshot(nextSnapshot)
+  })
+
+  onMounted(() => {
+    void initializeProfiles()
+  })
 
   const activeProfileKey = computed(() => getArmoireCharacterProfileKey(snapshot.value))
 
   return {
     profiles: readonly(profiles),
-    activeProfileKey
+    activeProfileKey,
+    storageStatus: readonly(storageStatus),
+    storageError: readonly(storageError),
+    switchingProfileKey: readonly(switchingProfileKey),
+    deletingProfileKey: readonly(deletingProfileKey),
+    refreshProfiles,
+    loadProfileSnapshot,
+    deleteProfile
   }
 }

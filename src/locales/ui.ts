@@ -2679,10 +2679,10 @@ export const uiMessages: UiMessageMap = {
     ko: '로컬 캐릭터 프로필'
   }),
   'nsarmoire.character.localProfile.message': msg({
-    zh: '本机只保存角色摘要，用于区分不同角色的数据时间和读取范围。',
-    en: 'Only a lightweight character summary is stored locally, for separating data time and read scope by character.',
-    ja: 'キャラクターごとのデータ時刻と読み取り範囲を分けるため、軽量な概要だけをローカル保存します。',
-    ko: '캐릭터별 데이터 시간과 읽은 범위를 구분하기 위해 가벼운 요약만 로컬에 저장합니다.'
+    zh: '本机保存每个角色最近一次读取的数据，点击切换会载入对应角色。',
+    en: 'The latest snapshot for each character is stored locally. Switch to load that character.',
+    ja: '各キャラクターの最新スナップショットをローカル保存します。切替で読み込みます。',
+    ko: '각 캐릭터의 최신 스냅샷을 로컬에 저장합니다. 전환하면 해당 캐릭터를 불러옵니다.'
   }),
   'nsarmoire.character.localProfile.empty': msg({
     zh: '还没有本地角色档案。',
@@ -2695,6 +2695,42 @@ export const uiMessages: UiMessageMap = {
     en: 'Current',
     ja: '現在',
     ko: '현재'
+  }),
+  'nsarmoire.character.localProfile.switch': msg({
+    zh: '切换',
+    en: 'Switch',
+    ja: '切替',
+    ko: '전환'
+  }),
+  'nsarmoire.character.localProfile.switching': msg({
+    zh: '切换中',
+    en: 'Switching',
+    ja: '切替中',
+    ko: '전환 중'
+  }),
+  'nsarmoire.character.localProfile.delete': msg({
+    zh: '删除本地缓存',
+    en: 'Delete local cache',
+    ja: 'ローカルキャッシュを削除',
+    ko: '로컬 캐시 삭제'
+  }),
+  'nsarmoire.character.localProfile.deleting': msg({
+    zh: '删除中',
+    en: 'Deleting',
+    ja: '削除中',
+    ko: '삭제 중'
+  }),
+  'nsarmoire.character.localProfile.loading': msg({
+    zh: '正在读取本地角色缓存。',
+    en: 'Reading local character cache.',
+    ja: 'ローカルキャラクターキャッシュを読み込み中です。',
+    ko: '로컬 캐릭터 캐시를 읽는 중입니다.'
+  }),
+  'nsarmoire.character.localProfile.error': msg({
+    zh: '本地角色缓存读取失败。',
+    en: 'Failed to read local character cache.',
+    ja: 'ローカルキャラクターキャッシュの読み込みに失敗しました。',
+    ko: '로컬 캐릭터 캐시를 읽지 못했습니다.'
   }),
   'nsarmoire.character.retainerFallback': msg({
     zh: '雇员 {count}',
