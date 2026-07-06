@@ -4,12 +4,16 @@ import { dirname, resolve } from 'node:path'
 const DEFAULT_ARMOIRE_CATALOG = 'public/data/armoire-catalog.json'
 const DEFAULT_DISPLAY_OUTPUT = 'public/data/armoire-catalog-display-index.json'
 const DEFAULT_ITEM_DISPLAY_CHUNK_DIR = 'public/data/armoire-item-display-chunks'
+const DEFAULT_CABINET_ITEM_CHUNK_DIR = 'public/data/armoire-cabinet-item-chunks'
 const DEFAULT_GLAMOUR_SET_OUTPUT = 'public/data/armoire-glamour-set-catalog.json'
+const DEFAULT_GLAMOUR_SET_CHUNK_DIR = 'public/data/armoire-glamour-set-chunks'
 const DEFAULT_IDENTICAL_MODEL_OUTPUT = 'public/data/armoire-identical-model-catalog.json'
 const DEFAULT_DYE_OUTPUT = 'public/data/armoire-dye-catalog.json'
 const CATALOG_DISPLAY_SCHEMA_VERSION = 'nsarmoire.catalogDisplayIndex.v1'
 const ITEM_DISPLAY_CHUNK_SCHEMA_VERSION = 'nsarmoire.itemDisplayChunk.v1'
+const CABINET_ITEM_CHUNK_SCHEMA_VERSION = 'nsarmoire.cabinetItemChunk.v1'
 const GLAMOUR_SET_SCHEMA_VERSION = 'nsarmoire.glamourSetCatalog.v1'
+const GLAMOUR_SET_CHUNK_SCHEMA_VERSION = 'nsarmoire.glamourSetChunk.v1'
 const IDENTICAL_MODEL_SCHEMA_VERSION = 'nsarmoire.identicalModelCatalog.v1'
 const DYE_SCHEMA_VERSION = 'nsarmoire.dyeCatalog.v1'
 const ITEM_DISPLAY_CHUNK_SIZE = 2000
@@ -19,7 +23,9 @@ function parseArgs(argv) {
     armoireCatalog: DEFAULT_ARMOIRE_CATALOG,
     displayOutput: DEFAULT_DISPLAY_OUTPUT,
     itemDisplayChunkDir: DEFAULT_ITEM_DISPLAY_CHUNK_DIR,
+    cabinetItemChunkDir: DEFAULT_CABINET_ITEM_CHUNK_DIR,
     glamourSetOutput: DEFAULT_GLAMOUR_SET_OUTPUT,
+    glamourSetChunkDir: DEFAULT_GLAMOUR_SET_CHUNK_DIR,
     identicalModelOutput: DEFAULT_IDENTICAL_MODEL_OUTPUT,
     dyeOutput: DEFAULT_DYE_OUTPUT
   }
@@ -50,8 +56,20 @@ function parseArgs(argv) {
       continue
     }
 
+    if (arg === '--cabinet-item-chunk-dir') {
+      args.cabinetItemChunkDir = argv[index + 1] ?? DEFAULT_CABINET_ITEM_CHUNK_DIR
+      index += 1
+      continue
+    }
+
     if (arg === '--glamour-set-output') {
       args.glamourSetOutput = argv[index + 1] ?? DEFAULT_GLAMOUR_SET_OUTPUT
+      index += 1
+      continue
+    }
+
+    if (arg === '--glamour-set-chunk-dir') {
+      args.glamourSetChunkDir = argv[index + 1] ?? DEFAULT_GLAMOUR_SET_CHUNK_DIR
       index += 1
       continue
     }
@@ -84,7 +102,9 @@ Options:
   --armoire-catalog <file>       Full Armoire item catalog. Default: ${DEFAULT_ARMOIRE_CATALOG}
   --display-output <file>        Output display index path. Default: ${DEFAULT_DISPLAY_OUTPUT}
   --item-display-chunk-dir <dir> Output item display chunk directory. Default: ${DEFAULT_ITEM_DISPLAY_CHUNK_DIR}
+  --cabinet-item-chunk-dir <dir> Output cabinet item chunk directory. Default: ${DEFAULT_CABINET_ITEM_CHUNK_DIR}
   --glamour-set-output <file>    Output glamour set catalog path. Default: ${DEFAULT_GLAMOUR_SET_OUTPUT}
+  --glamour-set-chunk-dir <dir>  Output glamour set chunk directory. Default: ${DEFAULT_GLAMOUR_SET_CHUNK_DIR}
   --identical-model-output <file>
                                  Output identical model catalog path. Default: ${DEFAULT_IDENTICAL_MODEL_OUTPUT}
   --dye-output <file>            Output dye catalog path. Default: ${DEFAULT_DYE_OUTPUT}
@@ -217,6 +237,55 @@ function buildItemDisplayChunks(catalog) {
     }))
 }
 
+function getCatalogItemChunkKeys(catalog) {
+  return Array.from(
+    new Set(Object.values(catalog.items).map((item) => getItemDisplayChunkKey(item.itemId)))
+  ).sort()
+}
+
+function uniqueSortedNumbers(values) {
+  return Array.from(new Set(values)).sort((left, right) => left - right)
+}
+
+function buildCabinetItemChunks(catalog) {
+  const cabinetItemIds = uniqueSortedNumbers(catalog.cabinetItemIds)
+  const cabinetEntriesByItemId = new Map()
+  const groupedItemIds = new Map()
+
+  for (const entry of catalog.cabinetEntries ?? []) {
+    const entries = cabinetEntriesByItemId.get(entry.itemId) ?? []
+    entries.push(entry)
+    cabinetEntriesByItemId.set(entry.itemId, entries)
+  }
+
+  for (const itemId of cabinetItemIds) {
+    const chunkKey = getItemDisplayChunkKey(itemId)
+    const itemIds = groupedItemIds.get(chunkKey) ?? []
+    itemIds.push(itemId)
+    groupedItemIds.set(chunkKey, itemIds)
+  }
+
+  return getCatalogItemChunkKeys(catalog)
+    .map((chunkKey) => [chunkKey, groupedItemIds.get(chunkKey) ?? []])
+    .map(([chunkKey, itemIds]) => {
+      const { items, missingItemIds } = collectDisplayTuples(catalog, new Set(itemIds))
+
+      return {
+        schemaVersion: CABINET_ITEM_CHUNK_SCHEMA_VERSION,
+        generatedAt: new Date().toISOString(),
+        source: {
+          catalogGeneratedAt: catalog.generatedAt
+        },
+        chunkKey,
+        chunkSize: ITEM_DISPLAY_CHUNK_SIZE,
+        items,
+        cabinetItemIds: uniqueSortedNumbers(itemIds),
+        cabinetEntries: itemIds.flatMap((itemId) => cabinetEntriesByItemId.get(itemId) ?? []),
+        missingItemIds
+      }
+    })
+}
+
 function buildGlamourSetCatalog(catalog) {
   const displayItemIds = new Set()
 
@@ -241,6 +310,48 @@ function buildGlamourSetCatalog(catalog) {
     glamourSetItems: catalog.glamourSetItems,
     missingItemIds
   }
+}
+
+function getGlamourSetItemIds(set) {
+  return uniqueSortedNumbers([set.setItemId, ...set.pieceItemIds])
+}
+
+function buildGlamourSetChunks(catalog) {
+  const cabinetItemIds = new Set(catalog.cabinetItemIds)
+  const groupedSets = new Map()
+
+  for (const set of catalog.glamourSetItems) {
+    const chunkKeys = new Set(getGlamourSetItemIds(set).map(getItemDisplayChunkKey))
+
+    for (const chunkKey of chunkKeys) {
+      const sets = groupedSets.get(chunkKey) ?? []
+      sets.push(set)
+      groupedSets.set(chunkKey, sets)
+    }
+  }
+
+  return getCatalogItemChunkKeys(catalog)
+    .map((chunkKey) => [chunkKey, groupedSets.get(chunkKey) ?? []])
+    .map(([chunkKey, sets]) => {
+      const itemIds = new Set(sets.flatMap(getGlamourSetItemIds))
+      const { items, missingItemIds } = collectDisplayTuples(catalog, itemIds)
+
+      return {
+        schemaVersion: GLAMOUR_SET_CHUNK_SCHEMA_VERSION,
+        generatedAt: new Date().toISOString(),
+        source: {
+          catalogGeneratedAt: catalog.generatedAt
+        },
+        chunkKey,
+        chunkSize: ITEM_DISPLAY_CHUNK_SIZE,
+        items,
+        cabinetItemIds: uniqueSortedNumbers(
+          Array.from(itemIds).filter((itemId) => cabinetItemIds.has(itemId))
+        ),
+        glamourSetItems: sets.sort((left, right) => left.setItemId - right.setItemId),
+        missingItemIds
+      }
+    })
 }
 
 function buildIdenticalModelCatalog(catalog) {
@@ -283,14 +394,18 @@ async function main() {
 
   const displayIndex = buildCatalogDisplayIndex(armoireCatalog)
   const itemDisplayChunks = buildItemDisplayChunks(armoireCatalog)
+  const cabinetItemChunks = buildCabinetItemChunks(armoireCatalog)
   const glamourSetCatalog = buildGlamourSetCatalog(armoireCatalog)
+  const glamourSetChunks = buildGlamourSetChunks(armoireCatalog)
   const identicalModelCatalog = buildIdenticalModelCatalog(armoireCatalog)
   const dyeCatalog = buildDyeCatalog(armoireCatalog)
 
   const outputs = {
     catalogDisplayIndex: await writeJsonFile(args.displayOutput, displayIndex),
     itemDisplayChunkDir: await writeJsonDir(args.itemDisplayChunkDir, itemDisplayChunks),
+    cabinetItemChunkDir: await writeJsonDir(args.cabinetItemChunkDir, cabinetItemChunks),
     glamourSetCatalog: await writeJsonFile(args.glamourSetOutput, glamourSetCatalog),
+    glamourSetChunkDir: await writeJsonDir(args.glamourSetChunkDir, glamourSetChunks),
     identicalModelCatalog: await writeJsonFile(args.identicalModelOutput, identicalModelCatalog),
     dyeCatalog: await writeJsonFile(args.dyeOutput, dyeCatalog)
   }
@@ -302,7 +417,9 @@ async function main() {
         generatedAt: {
           catalogDisplayIndex: displayIndex.generatedAt,
           itemDisplayChunks: itemDisplayChunks[0]?.generatedAt ?? '',
+          cabinetItemChunks: cabinetItemChunks[0]?.generatedAt ?? '',
           glamourSetCatalog: glamourSetCatalog.generatedAt,
+          glamourSetChunks: glamourSetChunks[0]?.generatedAt ?? '',
           identicalModelCatalog: identicalModelCatalog.generatedAt,
           dyeCatalog: dyeCatalog.generatedAt
         },
@@ -313,15 +430,37 @@ async function main() {
             (count, chunk) => count + chunk.items.length,
             0
           ),
+          cabinetItemChunks: cabinetItemChunks.length,
+          cabinetItemChunkItems: cabinetItemChunks.reduce(
+            (count, chunk) => count + chunk.items.length,
+            0
+          ),
           glamourSetItems: glamourSetCatalog.items.length,
           glamourSets: glamourSetCatalog.glamourSetItems.length,
+          glamourSetChunks: glamourSetChunks.length,
+          glamourSetChunkItems: glamourSetChunks.reduce(
+            (count, chunk) => count + chunk.items.length,
+            0
+          ),
+          glamourSetChunkSets: glamourSetChunks.reduce(
+            (count, chunk) => count + chunk.glamourSetItems.length,
+            0
+          ),
           identicalModelItems: identicalModelCatalog.items.length,
           identicalModelGroups: identicalModelCatalog.identicalGroups.length,
           dyes: Object.keys(dyeCatalog.dyes).length
         },
         missing: {
           catalogDisplayItems: displayIndex.missingItemIds.length,
+          cabinetItemChunkItems: cabinetItemChunks.reduce(
+            (count, chunk) => count + chunk.missingItemIds.length,
+            0
+          ),
           glamourSetItems: glamourSetCatalog.missingItemIds.length,
+          glamourSetChunkItems: glamourSetChunks.reduce(
+            (count, chunk) => count + chunk.missingItemIds.length,
+            0
+          ),
           identicalModelItems: identicalModelCatalog.missingItemIds.length
         }
       },

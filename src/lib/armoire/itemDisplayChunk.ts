@@ -8,8 +8,9 @@ import {
   type ArmoireCatalog,
   type ArmoireItemDisplayChunk
 } from '@/lib/armoire/types'
+import { ARMOIRE_ITEM_ID_CHUNK_SIZE, getArmoireItemIdChunkKey } from '@/lib/armoire/itemIdChunk'
 
-export const ARMOIRE_ITEM_DISPLAY_CHUNK_SIZE = 2000
+export const ARMOIRE_ITEM_DISPLAY_CHUNK_SIZE = ARMOIRE_ITEM_ID_CHUNK_SIZE
 
 export const EMPTY_ARMOIRE_ITEM_DISPLAY_CHUNK: ArmoireItemDisplayChunk = {
   schemaVersion: ARMOIRE_ITEM_DISPLAY_CHUNK_SCHEMA_VERSION,
@@ -24,11 +25,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 export function getArmoireItemDisplayChunkKey(itemId: number): string {
-  const chunkStart =
-    Math.floor(Math.max(0, Math.trunc(itemId)) / ARMOIRE_ITEM_DISPLAY_CHUNK_SIZE) *
-    ARMOIRE_ITEM_DISPLAY_CHUNK_SIZE
-
-  return String(chunkStart).padStart(6, '0')
+  return getArmoireItemIdChunkKey(itemId)
 }
 
 export function isArmoireItemDisplayChunk(value: unknown): value is ArmoireItemDisplayChunk {

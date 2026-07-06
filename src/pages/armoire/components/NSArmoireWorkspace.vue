@@ -178,10 +178,12 @@ import NSArmoireGlamourSetStatsPanel from '@/pages/armoire/components/NSArmoireG
 import type { ArmoireCatalogStatus } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
 import { useArmoireCabinetCatalog } from '@/pages/armoire/composables/useArmoireCabinetCatalog'
+import { useArmoireCabinetItemChunks } from '@/pages/armoire/composables/useArmoireCabinetItemChunks'
 import { useArmoireCharacterProfiles } from '@/pages/armoire/composables/useArmoireCharacterProfiles'
 import { useArmoireDyeCatalog } from '@/pages/armoire/composables/useArmoireDyeCatalog'
 import { useArmoireDyePreferences } from '@/pages/armoire/composables/useArmoireDyePreferences'
 import { useArmoireGlamourSetCatalog } from '@/pages/armoire/composables/useArmoireGlamourSetCatalog'
+import { useArmoireGlamourSetChunks } from '@/pages/armoire/composables/useArmoireGlamourSetChunks'
 import { useArmoireHelper } from '@/pages/armoire/composables/useArmoireHelper'
 import { useArmoireIdenticalModelCatalog } from '@/pages/armoire/composables/useArmoireIdenticalModelCatalog'
 import { useArmoireItemDisplayChunks } from '@/pages/armoire/composables/useArmoireItemDisplayChunks'
@@ -262,6 +264,12 @@ const {
   loadItemDisplayChunksForItemIds
 } = useArmoireItemDisplayChunks()
 const {
+  catalog: cabinetItemChunkCatalog,
+  status: cabinetItemChunkStatus,
+  error: cabinetItemChunkError,
+  loadCabinetItemChunksForItemIds
+} = useArmoireCabinetItemChunks()
+const {
   catalog: cabinetCatalog,
   status: cabinetCatalogStatus,
   error: cabinetCatalogError,
@@ -273,6 +281,12 @@ const {
   error: glamourSetCatalogError,
   loadGlamourSetCatalog
 } = useArmoireGlamourSetCatalog()
+const {
+  catalog: glamourSetChunkCatalog,
+  status: glamourSetChunkStatus,
+  error: glamourSetChunkError,
+  loadGlamourSetChunksForItemIds
+} = useArmoireGlamourSetChunks()
 const {
   catalog: identicalModelCatalog,
   status: identicalModelCatalogStatus,
@@ -295,7 +309,9 @@ const { storeItemDisplayIndex, loadStoreItemDisplayIndex } = useArmoireStoreItem
 const catalog = computed(() =>
   mergeArmoireCatalogs(
     itemDisplayCatalog.value,
+    cabinetItemChunkCatalog.value,
     cabinetCatalog.value,
+    glamourSetChunkCatalog.value,
     glamourSetCatalog.value,
     identicalModelCatalog.value,
     dyeCatalog.value
@@ -303,7 +319,9 @@ const catalog = computed(() =>
 )
 
 const { selectedDyeValueCategories, toggleDyeValueCategory } = useArmoireDyePreferences()
-const shouldFilterSnapshotToItemDisplayCatalog = computed(() => itemDisplayChunkStatus.value === 'ready')
+const shouldFilterSnapshotToItemDisplayCatalog = computed(
+  () => itemDisplayChunkStatus.value === 'ready'
+)
 const { analysis, hasPendingCatalogChecks } = useArmoireAnalysis(
   snapshot,
   catalog,
@@ -346,7 +364,9 @@ const shouldRenderCollectionSection = computed(
 const catalogStatus = computed<ArmoireCatalogStatus>(() => {
   const statuses = [
     itemDisplayChunkStatus.value,
+    cabinetItemChunkStatus.value,
     cabinetCatalogStatus.value,
+    glamourSetChunkStatus.value,
     glamourSetCatalogStatus.value,
     identicalModelCatalogStatus.value,
     dyeCatalogStatus.value
@@ -366,16 +386,19 @@ const catalogStatus = computed<ArmoireCatalogStatus>(() => {
 
   return 'idle'
 })
-const catalogError = computed(() =>
-  [
-    itemDisplayChunkError.value,
-    cabinetCatalogError.value,
-    glamourSetCatalogError.value,
-    identicalModelCatalogError.value,
-    dyeCatalogError.value
-  ]
-    .filter(Boolean)
-    .join(' / ') || null
+const catalogError = computed(
+  () =>
+    [
+      itemDisplayChunkError.value,
+      cabinetItemChunkError.value,
+      cabinetCatalogError.value,
+      glamourSetChunkError.value,
+      glamourSetCatalogError.value,
+      identicalModelCatalogError.value,
+      dyeCatalogError.value
+    ]
+      .filter(Boolean)
+      .join(' / ') || null
 )
 
 function cancelCollectionLoadFrame(): void {
@@ -421,41 +444,65 @@ function queueCollectionSectionMount(): void {
 function shouldLoadCabinetCatalogForCurrentView(): boolean {
   return Boolean(
     snapshot.value &&
-      (activeSection.value === 'cleanup' ||
-        (activeSection.value === 'collection' &&
-          ['cabinet', 'catalog'].includes(activeDetailTab.value)))
+    activeSection.value === 'collection' &&
+    ['cabinet', 'catalog'].includes(activeDetailTab.value)
   )
+}
+
+function shouldLoadCleanupItemChunksForCurrentView(): boolean {
+  return Boolean(snapshot.value && activeSection.value === 'cleanup')
+}
+
+function getSnapshotItemIds(): number[] {
+  return snapshot.value?.items.map((item) => item.itemId) ?? []
+}
+
+function loadSnapshotItemChunks(options: { force?: boolean } = {}): void {
+  const itemIds = getSnapshotItemIds()
+
+  if (itemIds.length === 0) {
+    return
+  }
+
+  void loadItemDisplayChunksForItemIds(itemIds, options)
+}
+
+function loadCleanupItemChunks(options: { force?: boolean } = {}): void {
+  const itemIds = getSnapshotItemIds()
+
+  if (itemIds.length === 0) {
+    return
+  }
+
+  void loadCabinetItemChunksForItemIds(itemIds, options)
+  void loadGlamourSetChunksForItemIds(itemIds, options)
 }
 
 function shouldLoadItemDisplayChunksForCurrentView(): boolean {
   return Boolean(
     snapshot.value &&
-      (activeSection.value === 'cleanup' ||
-        (activeSection.value === 'collection' && activeDetailTab.value === 'catalog'))
+    (activeSection.value === 'cleanup' ||
+      (activeSection.value === 'collection' && activeDetailTab.value === 'catalog'))
   )
 }
 
 function shouldLoadGlamourSetCatalogForCurrentView(): boolean {
   return Boolean(
-    snapshot.value &&
-      (activeSection.value === 'cleanup' ||
-        (activeSection.value === 'collection' && activeDetailTab.value === 'sets'))
+    snapshot.value && activeSection.value === 'collection' && activeDetailTab.value === 'sets'
   )
 }
 
 function shouldLoadIdenticalModelCatalogForCurrentView(): boolean {
   return Boolean(
-    snapshot.value &&
-      activeSection.value === 'collection' &&
-      activeDetailTab.value === 'catalog'
+    snapshot.value && activeSection.value === 'collection' && activeDetailTab.value === 'catalog'
   )
 }
 
 function shouldLoadDyeCatalogForCurrentView(): boolean {
   return Boolean(
     snapshot.value &&
-      (activeSection.value === 'cleanup' ||
-        (activeSection.value === 'collection' && activeDetailTab.value === 'catalog'))
+    (activeSection.value === 'cleanup' ||
+      (activeSection.value === 'collection' && activeDetailTab.value === 'catalog'))
   )
 }
 
@@ -470,8 +517,12 @@ function loadCatalogsForCurrentView(): void {
     void loadCabinetCatalog()
   }
 
-  if (shouldLoadItemDisplayChunksForCurrentView() && snapshot.value) {
-    void loadItemDisplayChunksForItemIds(snapshot.value.items.map((item) => item.itemId))
+  if (shouldLoadCleanupItemChunksForCurrentView()) {
+    loadCleanupItemChunks()
+  }
+
+  if (shouldLoadItemDisplayChunksForCurrentView()) {
+    loadSnapshotItemChunks()
   }
 
   if (shouldLoadGlamourSetCatalogForCurrentView()) {
@@ -493,12 +544,8 @@ function loadCatalogsForCurrentView(): void {
 }
 
 function reloadCatalog(): void {
-  if (snapshot.value) {
-    void loadItemDisplayChunksForItemIds(
-      snapshot.value.items.map((item) => item.itemId),
-      { force: true }
-    )
-  }
+  loadSnapshotItemChunks({ force: true })
+  loadCleanupItemChunks({ force: true })
   void loadCabinetCatalog({ force: true })
   void loadGlamourSetCatalog({ force: true })
   void loadIdenticalModelCatalog({ force: true })
@@ -530,7 +577,7 @@ watch(
   () => {
     loadCatalogsForCurrentView()
   },
-  { flush: 'post' }
+  { flush: 'post', immediate: true }
 )
 
 onBeforeUnmount(() => {
