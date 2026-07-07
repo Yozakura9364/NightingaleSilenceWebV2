@@ -397,7 +397,7 @@ helper 输出的 snapshot 形态：
 - catalog 加载失败时，不计算正式收藏柜收集度。
 - catalog 加载失败时，不计算正式套装缺件进度。
 - catalog 加载失败时，不输出正式同模型推荐。
-- 不保存完整 snapshot 到 `localStorage`。
+- 不保存完整 snapshot 到 `localStorage`。多角色切换所需的完整 snapshot 保存到浏览器 IndexedDB `nsarmoire-character-cache`，对象仓库为 `snapshots`，key 为 `角色名@服务器` 或未识别 fallback key；`localStorage` 只保存 active profile key 和旧缓存迁移槽位。
 
 ## 当前前端分析
 
