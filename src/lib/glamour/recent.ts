@@ -13,6 +13,32 @@ function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
 }
 
+function normalizeRecentSnapshot(value: unknown, index: number): GlamourRecentSnapshot | undefined {
+  if (!isRecord(value) || !isRecord(value.parsed) || !Array.isArray(value.parsed.resolved_equipment)) {
+    return undefined
+  }
+
+  const sourceName = normalizeGlamourConfigName(value.sourceName || value.displayName)
+  const displayName = normalizeGlamourConfigName(value.displayName || sourceName)
+  const savedAt = typeof value.savedAt === 'string' && value.savedAt ? value.savedAt : new Date(0).toISOString()
+  const id =
+    typeof value.id === 'string' && value.id
+      ? value.id
+      : `legacy-${index}-${savedAt}-${sourceName}`.replace(/\s+/g, '-')
+
+  return {
+    id,
+    savedAt,
+    sourceName,
+    displayName,
+    sourceUrl: typeof value.sourceUrl === 'string' ? value.sourceUrl : '',
+    parsed: value.parsed,
+    locale: typeof value.locale === 'string' && value.locale ? value.locale : GLAMOUR_DEFAULT_LOCALE,
+    copyFormat: typeof value.copyFormat === 'string' ? value.copyFormat : undefined,
+    customTemplate: typeof value.customTemplate === 'string' ? value.customTemplate : undefined
+  }
+}
+
 export function normalizeGlamourConfigName(value: unknown): string {
   const text = String(value || '').trim()
   return text || '未命名'
@@ -26,12 +52,9 @@ export function readGlamourRecentSnapshots(): GlamourRecentSnapshot[] {
       return []
     }
 
-    return data.filter((item): item is GlamourRecentSnapshot => (
-      isRecord(item) &&
-      typeof item.id === 'string' &&
-      isRecord(item.parsed) &&
-      Array.isArray(item.parsed.resolved_equipment)
-    ))
+    return data
+      .map((item, index) => normalizeRecentSnapshot(item, index))
+      .filter((item): item is GlamourRecentSnapshot => Boolean(item))
   } catch {
     return []
   }
@@ -83,7 +106,7 @@ export function createGlamourRecentSnapshot(
     savedAt: new Date().toISOString(),
     sourceName: displayName,
     displayName,
-    sourceUrl: typeof draft.source?.title === 'string' ? draft.source.title : '',
+    sourceUrl: typeof draft.source?.url === 'string' ? draft.source.url : '',
     parsed: cloneJson(parsed),
     locale: draft.locale || draft.source?.locale || GLAMOUR_DEFAULT_LOCALE,
     copyFormat: options.copyFormat,

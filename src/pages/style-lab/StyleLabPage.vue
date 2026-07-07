@@ -181,7 +181,7 @@
               </div>
 
               <aside
-                class="ns-pixel-window ns-pixel-menu-popup"
+                class="ns-pixel-window ns-pixel-menu-popup ns-pixel-menu-popup--animated-icons"
                 :aria-label="t(textKeys.styleLabPopupWindowSample)"
               >
                 <div class="ns-pixel-window__bar">
@@ -666,6 +666,113 @@
             </div>
           </section>
 
+          <section
+            class="ns-pixel-window ns-pixel-page-turn-lab"
+            :aria-label="t(textKeys.nsglamourWorkspace)"
+          >
+            <div class="ns-pixel-window__bar">
+              <span class="ns-pixel-window__title">
+                <span class="ns-pixel-window__icon" aria-hidden="true"></span>
+                {{ t(textKeys.nsglamourWorkspace) }}
+              </span>
+              <span class="ns-pixel-window__controls" aria-hidden="true">
+                <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
+                <span class="ns-pixel-window__control ns-pixel-window__control--max"></span>
+                <span class="ns-pixel-window__control ns-pixel-window__control--close"></span>
+              </span>
+            </div>
+
+            <div class="ns-pixel-page-turn-lab__stage">
+              <button
+                class="ns-pixel-page-turn ns-pixel-page-turn--prev"
+                type="button"
+                :aria-label="t(textKeys.nsglamourTemplatePage)"
+              >
+                <span
+                  class="ns-pixel-page-turn__arrow"
+                  :style="pixelIconStyle(pixelChevronLeftIcon)"
+                  aria-hidden="true"
+                ></span>
+                <span class="ns-pixel-page-turn__label">
+                  {{ t(textKeys.nsglamourTemplatePage) }}
+                </span>
+              </button>
+
+              <button
+                class="ns-pixel-page-turn ns-pixel-page-turn--next"
+                type="button"
+                :aria-label="t(textKeys.nsglamourEquipInfoPage)"
+              >
+                <span
+                  class="ns-pixel-page-turn__arrow"
+                  :style="pixelIconStyle(pixelChevronRightIcon)"
+                  aria-hidden="true"
+                ></span>
+                <span class="ns-pixel-page-turn__label">
+                  {{ t(textKeys.nsglamourEquipInfoPage) }}
+                </span>
+              </button>
+            </div>
+          </section>
+
+          <section
+            class="ns-pixel-window ns-pixel-rail-reflow-lab"
+            :aria-label="t(textKeys.nsarmoireSectionNavigation)"
+          >
+            <div class="ns-pixel-window__bar">
+              <span class="ns-pixel-window__title">
+                <span class="ns-pixel-window__icon" aria-hidden="true"></span>
+                {{ t(textKeys.nsarmoireSectionNavigation) }}
+              </span>
+              <span class="ns-pixel-window__controls" aria-hidden="true">
+                <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
+                <span class="ns-pixel-window__control ns-pixel-window__control--max"></span>
+                <span class="ns-pixel-window__control ns-pixel-window__control--close"></span>
+              </span>
+            </div>
+
+            <div class="ns-pixel-rail-reflow" :aria-label="t(textKeys.nsarmoireSectionNavigation)">
+              <nav class="ns-pixel-rail-reflow__rail">
+                <button
+                  v-for="item in pixelRailDemoItems"
+                  :key="item.id"
+                  class="ns-pixel-rail-reflow__item"
+                  :class="{ 'ns-pixel-rail-reflow__item--active': item.active }"
+                  type="button"
+                  :aria-label="t(item.labelKey)"
+                  :title="t(item.labelKey)"
+                >
+                  <span
+                    class="ns-pixel-rail-reflow__icon"
+                    :style="pixelIconStyle(item.icon)"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="ns-pixel-rail-reflow__label">{{ t(item.labelKey) }}</span>
+                </button>
+              </nav>
+
+              <section
+                class="ns-pixel-rail-reflow__content"
+                :aria-label="t(textKeys.styleLabWorkbenchCanvas)"
+              >
+                <div class="ns-pixel-rail-reflow__toolbar">
+                  <span>{{ t(textKeys.nsarmoireSectionCleanup) }}</span>
+                  <span>{{ t(textKeys.styleLabReady) }}</span>
+                </div>
+                <div class="ns-pixel-rail-reflow__grid">
+                  <article class="ns-pixel-rail-reflow__card">
+                    <strong>{{ t(textKeys.nsarmoireSectionStorage) }}</strong>
+                    <span>{{ t(textKeys.placeholder) }}</span>
+                  </article>
+                  <article class="ns-pixel-rail-reflow__card">
+                    <strong>{{ t(textKeys.nsarmoireSectionCollection) }}</strong>
+                    <span>{{ t(textKeys.placeholder) }}</span>
+                  </article>
+                </div>
+              </section>
+            </div>
+          </section>
+
           <section class="ns-pixel-window">
             <div class="ns-pixel-window__bar">
               <span class="ns-pixel-window__title">
@@ -810,7 +917,11 @@
 <script setup lang="ts">
 import '@/styles/experiments/pixel-soft.css'
 import { computed, ref, watch, type CSSProperties } from 'vue'
+import pixelChevronLeftIcon from '@/assets/icons/chevron-left.svg'
+import pixelChevronRightIcon from '@/assets/icons/chevron-right.svg'
+import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
+import pixelBroomIcon from '@/assets/icons/pixelarticons/broom.svg'
 import pixelDownloadIcon from '@/assets/icons/pixelarticons/download.svg'
 import pixelFolderIcon from '@/assets/icons/pixelarticons/folder.svg'
 import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
@@ -821,6 +932,7 @@ import pixelSearchIcon from '@/assets/icons/pixelarticons/search.svg'
 import pixelSettingsIcon from '@/assets/icons/pixelarticons/settings-2.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import pixelStarIcon from '@/assets/icons/pixelarticons/star.svg'
+import pixelUserIcon from '@/assets/icons/pixelarticons/user.svg'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppNotebookList from '@/components/AppNotebookList.vue'
@@ -919,6 +1031,24 @@ const pixelIconBarActions: PixelIconBarAction[] = [
     labelKey: textKeys.config,
     commandKey: textKeys.configCommand,
     variant: 'pink'
+  }
+]
+const pixelRailDemoItems: PixelIconBarAction[] = [
+  {
+    id: 'cleanup',
+    icon: pixelBroomIcon,
+    labelKey: textKeys.nsarmoireSectionCleanup,
+    active: true
+  },
+  {
+    id: 'collection',
+    icon: pixelArchiveIcon,
+    labelKey: textKeys.nsarmoireSectionCollection
+  },
+  {
+    id: 'characters',
+    icon: pixelUserIcon,
+    labelKey: textKeys.nsarmoireSectionCharacters
   }
 ]
 const pixelIconMenuItems: PixelIconMenuItem[] = [
@@ -1166,6 +1296,326 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+}
+
+.ns-pixel-page-turn-lab {
+  margin-bottom: 30px;
+  gap: 16px;
+}
+
+.ns-pixel-page-turn-lab__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(142px, 174px));
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  min-height: 106px;
+  padding: 12px;
+  border: 2px solid var(--ns-pixel-border);
+  background:
+    linear-gradient(90deg, rgba(255, 124, 194, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(94, 220, 235, 0.08) 1px, transparent 1px),
+    var(--ns-pixel-surface-blue);
+  background-size: 14px 14px;
+}
+
+.ns-pixel-page-turn {
+  display: inline-flex;
+  overflow: hidden;
+  width: 40px;
+  min-width: 0;
+  height: 52px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  border: 2px solid transparent;
+  background: transparent;
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: none;
+  transition: none;
+}
+
+.ns-pixel-page-turn--prev {
+  flex-direction: row-reverse;
+  justify-self: end;
+}
+
+.ns-pixel-page-turn--next {
+  justify-self: start;
+}
+
+.ns-pixel-page-turn:hover,
+.ns-pixel-page-turn:focus-visible {
+  width: 146px;
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-pixel-surface-pink);
+  box-shadow: 4px 4px 0 var(--ns-pixel-shadow);
+  outline: 0;
+  transform: translate(-1px, -1px);
+}
+
+.ns-pixel-page-turn:active {
+  box-shadow: 1px 1px 0 var(--ns-pixel-shadow);
+  transform: translate(2px, 2px);
+}
+
+.ns-pixel-page-turn--next:hover,
+.ns-pixel-page-turn--next:focus-visible {
+  background: var(--ns-pixel-surface-blue);
+}
+
+.ns-pixel-page-turn__arrow {
+  display: block;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  image-rendering: pixelated;
+  mask: var(--ns-pixel-icon-url) center / 100% 100% no-repeat;
+  -webkit-mask: var(--ns-pixel-icon-url) center / 100% 100% no-repeat;
+}
+
+.ns-pixel-page-turn__label {
+  display: grid;
+  overflow: hidden;
+  width: 86px;
+  max-width: 0;
+  min-height: 32px;
+  place-items: center;
+  font-size: 13px;
+  line-height: 1.15;
+  opacity: 0;
+  text-align: center;
+  transform: translateX(-8px);
+  transition: none;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.ns-pixel-page-turn--prev .ns-pixel-page-turn__label {
+  transform: translateX(8px);
+}
+
+.ns-pixel-page-turn:hover .ns-pixel-page-turn__label,
+.ns-pixel-page-turn:focus-visible .ns-pixel-page-turn__label {
+  max-width: 86px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ns-pixel-page-turn:focus-visible {
+  box-shadow:
+    0 0 0 3px var(--ns-focus-ring),
+    4px 4px 0 var(--ns-pixel-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ns-pixel-page-turn,
+  .ns-pixel-page-turn__label {
+    transition: none;
+  }
+}
+
+.ns-pixel-rail-reflow-lab {
+  margin-bottom: 30px;
+  gap: 16px;
+}
+
+.ns-pixel-rail-reflow {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  min-height: 236px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface-blue);
+  transition: none;
+}
+
+.ns-pixel-rail-reflow:has(.ns-pixel-rail-reflow__rail:hover),
+.ns-pixel-rail-reflow:has(.ns-pixel-rail-reflow__rail:focus-within) {
+  grid-template-columns: 132px minmax(0, 1fr);
+}
+
+.ns-pixel-rail-reflow__rail {
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 5px;
+  border-right: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface-pink);
+}
+
+.ns-pixel-rail-reflow__item {
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: 22px 0;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 0;
+  width: 34px;
+  min-height: 40px;
+  padding: 5px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(42, 33, 56, 0.16);
+  transition: none;
+}
+
+.ns-pixel-rail-reflow__rail:hover .ns-pixel-rail-reflow__item,
+.ns-pixel-rail-reflow__rail:focus-within .ns-pixel-rail-reflow__item {
+  grid-template-columns: 22px minmax(0, 1fr);
+  justify-content: start;
+  justify-items: start;
+  gap: 8px;
+  width: 100%;
+}
+
+.ns-pixel-rail-reflow__item:hover,
+.ns-pixel-rail-reflow__item:focus-visible,
+.ns-pixel-rail-reflow__item--active {
+  background: var(--ns-pixel-surface-blue);
+  outline: 0;
+}
+
+.ns-pixel-rail-reflow__icon {
+  display: block;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  background: currentColor;
+  image-rendering: pixelated;
+  mask: var(--ns-pixel-icon-url) center / 18px 18px no-repeat;
+  -webkit-mask: var(--ns-pixel-icon-url) center / 18px 18px no-repeat;
+}
+
+.ns-pixel-rail-reflow__label {
+  overflow: hidden;
+  max-width: 0;
+  opacity: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: none;
+}
+
+.ns-pixel-rail-reflow__rail:hover .ns-pixel-rail-reflow__label,
+.ns-pixel-rail-reflow__rail:focus-within .ns-pixel-rail-reflow__label {
+  max-width: 82px;
+  opacity: 1;
+}
+
+.ns-pixel-rail-reflow__content {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  gap: 10px;
+  padding: 12px;
+  background:
+    linear-gradient(90deg, rgba(255, 124, 194, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(94, 220, 235, 0.08) 1px, transparent 1px),
+    var(--ns-pixel-surface);
+  background-size: 14px 14px;
+}
+
+.ns-pixel-rail-reflow__toolbar {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 12px;
+  font-weight: 900;
+  box-shadow: 2px 2px 0 rgba(42, 33, 56, 0.16);
+}
+
+.ns-pixel-rail-reflow__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  min-width: 0;
+}
+
+.ns-pixel-rail-reflow__card {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  min-height: 136px;
+  gap: 8px;
+  padding: 10px;
+  border: 2px solid var(--ns-pixel-border);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 2px 2px 0 rgba(42, 33, 56, 0.16);
+}
+
+.ns-pixel-rail-reflow__card strong {
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.ns-pixel-rail-reflow__card span {
+  color: var(--ns-pixel-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.ns-pixel-menu-popup--animated-icons .ns-pixel-icon {
+  transform-origin: center;
+}
+
+.ns-pixel-menu-popup--animated-icons
+  :is(
+    .ns-pixel-popup-menu__item:hover,
+    .ns-pixel-popup-menu__item:focus-visible,
+    .ns-pixel-popup-menu__item--active,
+    .ns-pixel-popup-menu__children a:hover,
+    .ns-pixel-popup-menu__children a:focus-visible
+  )
+  .ns-pixel-icon {
+  animation: ns-pixel-menu-icon-step 420ms steps(2, jump-none) infinite;
+}
+
+.ns-pixel-menu-popup--animated-icons
+  :is(.ns-pixel-popup-menu__item--active, .ns-pixel-popup-menu__item--expanded)
+  > .ns-pixel-popup-menu__item-main
+  .ns-pixel-icon {
+  animation-duration: 520ms;
+}
+
+@keyframes ns-pixel-menu-icon-step {
+  0%,
+  100% {
+    filter: none;
+    transform: translate(0, 0);
+  }
+
+  50% {
+    filter: drop-shadow(2px 2px 0 rgba(42, 33, 56, 0.18));
+    transform: translate(-1px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ns-pixel-menu-popup--animated-icons .ns-pixel-icon {
+    animation: none;
+  }
 }
 
 .ns-pixel-icon-lab {
@@ -1429,6 +1879,77 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
   }
 
   .style-common-components__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ns-pixel-page-turn-lab__stage {
+    grid-template-columns: repeat(2, minmax(126px, 1fr));
+    gap: 8px;
+    min-height: 96px;
+    padding: 10px;
+  }
+
+  .ns-pixel-page-turn {
+    width: 38px;
+    height: 48px;
+    padding-inline: 7px;
+  }
+
+  .ns-pixel-page-turn:hover,
+  .ns-pixel-page-turn:focus-visible {
+    width: 132px;
+  }
+
+  .ns-pixel-page-turn__arrow {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ns-pixel-page-turn__label {
+    width: 78px;
+    min-height: 32px;
+    font-size: 12px;
+  }
+
+  .ns-pixel-page-turn:hover .ns-pixel-page-turn__label,
+  .ns-pixel-page-turn:focus-visible .ns-pixel-page-turn__label {
+    max-width: 78px;
+  }
+
+  .ns-pixel-rail-reflow {
+    grid-template-columns: 1fr;
+  }
+
+  .ns-pixel-rail-reflow:has(.ns-pixel-rail-reflow__rail:hover),
+  .ns-pixel-rail-reflow:has(.ns-pixel-rail-reflow__rail:focus-within) {
+    grid-template-columns: 1fr;
+  }
+
+  .ns-pixel-rail-reflow__rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-content: start;
+    border-right: 0;
+    border-bottom: 2px solid var(--ns-pixel-border);
+  }
+
+  .ns-pixel-rail-reflow__item,
+  .ns-pixel-rail-reflow__rail:hover .ns-pixel-rail-reflow__item,
+  .ns-pixel-rail-reflow__rail:focus-within .ns-pixel-rail-reflow__item {
+    grid-template-columns: 22px minmax(0, 1fr);
+    justify-content: start;
+    justify-items: start;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .ns-pixel-rail-reflow__label,
+  .ns-pixel-rail-reflow__rail:hover .ns-pixel-rail-reflow__label,
+  .ns-pixel-rail-reflow__rail:focus-within .ns-pixel-rail-reflow__label {
+    max-width: none;
+    opacity: 1;
+  }
+
+  .ns-pixel-rail-reflow__grid {
     grid-template-columns: 1fr;
   }
 

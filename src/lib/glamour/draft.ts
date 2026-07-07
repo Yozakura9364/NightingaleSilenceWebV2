@@ -1,6 +1,7 @@
 import {
   GLAMOUR_DEFAULT_LOCALE,
   GLAMOUR_SLOT_DEFINITIONS,
+  cleanGlamourText,
   createDyeEntryFromStain,
   getCandidateDyeCount,
   getCandidateName,
@@ -35,9 +36,34 @@ export interface GlamourTemplateDraftEntry {
 export interface GlamourTemplateDraft {
   version: 1
   sourceName: string
+  sourceMeta?: {
+    title?: string
+    url?: string
+    sourceTitle?: string
+    source_title?: string
+    sourceUrl?: string
+    source_url?: string
+    sourceId?: string
+    source_id?: string
+    fileType?: string
+    file_type?: string
+    authorName?: string
+    author_name?: string
+    authorWorld?: string
+    author_world?: string
+    authorLabel?: string
+    author_label?: string
+    race?: string
+    gender?: string
+    [key: string]: unknown
+  }
   locale: GlamourLocale
   createdAt: string
   entries: GlamourTemplateDraftEntry[]
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === 'object' && !Array.isArray(value))
 }
 
 function normalizeLocaleList(payload: GlamourImportPayload | undefined): GlamourLocale[] {
@@ -74,6 +100,154 @@ function selectDraftLocale(
   return locales.includes(preferred) ? preferred : locales[0] || GLAMOUR_DEFAULT_LOCALE
 }
 
+function getSlotNamesForPayload(): Record<string, LocalizedTextMap> {
+  return Object.fromEntries(GLAMOUR_SLOT_DEFINITIONS.map((slot) => [slot.key, slot.names]))
+}
+
+function isTemplateDraft(value: unknown): value is GlamourTemplateDraft {
+  return isRecord(value) && Array.isArray(value.entries)
+}
+
+function cleanStoredMeta(value: unknown): Record<string, unknown> {
+  if (!isRecord(value)) {
+    return {}
+  }
+
+  const {
+    _storeLocale,
+    _storeDisplayName,
+    _storeTimestamp,
+    _templateDraft,
+    _templateParsed,
+    ...rest
+  } = value
+
+  return rest
+}
+
+function withStoreMetadata(payload: Record<string, unknown>, source: Record<string, unknown>): GlamourImportPayload {
+  return {
+    ...payload,
+    _storeLocale: source._storeLocale,
+    _storeDisplayName: source._storeDisplayName,
+    _storeTimestamp: source._storeTimestamp
+  } as GlamourImportPayload
+}
+
+function readStringAlias(source: Record<string, unknown>, keys: string[]): string {
+  for (const key of keys) {
+    const value = source[key]
+
+    if (value === undefined || value === null) {
+      continue
+    }
+
+    const text = String(value).trim()
+
+    if (text) {
+      return text
+    }
+  }
+
+  return ''
+}
+
+function readAuthorAlias(source: Record<string, unknown>): Record<string, unknown> {
+  const author = source.author
+  return isRecord(author) ? author : {}
+}
+
+export function templateDraftToGlamourPayload(draft: GlamourTemplateDraft): GlamourImportPayload {
+  const locale = normalizeGlamourLocale(draft.locale || GLAMOUR_DEFAULT_LOCALE)
+  const draftRecord = isRecord(draft) ? draft : {}
+  const sourceMeta = isRecord(draft.sourceMeta) ? draft.sourceMeta : {}
+  const author = readAuthorAlias(draftRecord)
+  const sourceTitle =
+    readStringAlias(sourceMeta, ['sourceTitle', 'source_title', 'title']) ||
+    readStringAlias(draftRecord, ['source_title', 'sourceTitle', 'source_name', 'sourceName'])
+  const sourceUrl =
+    readStringAlias(sourceMeta, ['sourceUrl', 'source_url', 'url']) ||
+    readStringAlias(draftRecord, ['source_url', 'sourceUrl', 'url'])
+  const sourceName =
+    readStringAlias(draftRecord, ['sourceName', 'source_name']) ||
+    sourceTitle ||
+    '手动编辑'
+  const authorName =
+    readStringAlias(sourceMeta, ['authorName', 'author_name']) ||
+    readStringAlias(author, ['name', 'authorName', 'author_name'])
+  const authorWorld =
+    readStringAlias(sourceMeta, ['authorWorld', 'author_world']) ||
+    readStringAlias(author, ['world', 'authorWorld', 'author_world'])
+  const authorLabel =
+    readStringAlias(sourceMeta, ['authorLabel', 'author_label']) ||
+    readStringAlias(author, ['label', 'authorLabel', 'author_label']) ||
+    readStringAlias(draftRecord, ['source_author', 'authorLabel', 'author_label'])
+  const sourceId = readStringAlias(sourceMeta, ['sourceId', 'source_id'])
+
+  return {
+    file_type: readStringAlias(sourceMeta, ['fileType', 'file_type']) || '模板同步',
+    source_name: sourceName,
+    source_title: sourceTitle || sourceName,
+    source_url: sourceUrl,
+    source_id: sourceId,
+    source_author: authorLabel,
+    race: readStringAlias(sourceMeta, ['race']),
+    gender: readStringAlias(sourceMeta, ['gender']),
+    createdAt: draft.createdAt,
+    source_locale: locale,
+    default_locale: locale,
+    locales: ['zh', 'en', 'ja', 'ko', 'tc', 'fr', 'de'],
+    author: {
+      name: authorName,
+      world: authorWorld,
+      label: authorLabel
+    },
+    slot_names: getSlotNamesForPayload(),
+    resolved_equipment: (Array.isArray(draft.entries) ? draft.entries : [])
+      .filter((entry) => entry?.slot && entry.item)
+      .map((entry) => ({
+        slot: entry.slot,
+        slot_names: getSlotNamesForPayload()[entry.slot],
+        candidates: [
+          {
+            ...entry.item,
+            key: entry.item?.key || '',
+            name: cleanGlamourText(entry.item?.name || getCandidateName(entry.item, locale, locale)),
+            icon: entry.item?.icon || 0,
+            dye_count: entry.item?.dye_count || 0,
+            dye_display: entry.item?.dye_display || '',
+            dye_display_by_locale: entry.item?.dye_display_by_locale || {},
+            dye_entries: Array.isArray(entry.item?.dye_entries) ? entry.item.dye_entries : []
+          }
+        ]
+      }))
+  }
+}
+
+export function storedGlamourValueToPayload(value: unknown): GlamourImportPayload | undefined {
+  if (!isRecord(value)) {
+    return undefined
+  }
+
+  if (isRecord(value._templateParsed)) {
+    return withStoreMetadata(cleanStoredMeta(value._templateParsed), value)
+  }
+
+  if (isTemplateDraft(value._templateDraft)) {
+    return withStoreMetadata(templateDraftToGlamourPayload(value._templateDraft), value)
+  }
+
+  if (Array.isArray(value.resolved_equipment)) {
+    return withStoreMetadata(cleanStoredMeta(value), value)
+  }
+
+  if (isTemplateDraft(value)) {
+    return templateDraftToGlamourPayload(value)
+  }
+
+  return undefined
+}
+
 export function createEmptyGlamourDraft(preferredLocale = GLAMOUR_DEFAULT_LOCALE): GlamourDraft {
   const locale = normalizeGlamourLocale(preferredLocale)
   const payload: GlamourImportPayload = {
@@ -104,20 +278,38 @@ export function createEmptyGlamourDraft(preferredLocale = GLAMOUR_DEFAULT_LOCALE
 
 export function createGlamourDraftFromPayload(
   payload: GlamourImportPayload,
-  options: { preferredLocale?: string; importedAt?: string } = {}
+  options: { preferredLocale?: string; importedAt?: string; importMode?: 'template-link' | '' } = {}
 ): GlamourDraft {
   const locale = selectDraftLocale(payload, options.preferredLocale)
   const locales = normalizeLocaleList(payload)
   const slotNames = payload.slot_names ?? {}
+  const author = payload.author && typeof payload.author === 'object' && !Array.isArray(payload.author)
+    ? payload.author as Record<string, unknown>
+    : {}
+  const sourceUrl = String(payload.source_url || '').trim()
+  const sourceIdMatch = sourceUrl.match(/(?:detail\/|[?&](?:id|glamour_id|glamourId)=)(\d+)/i)
+  const sourceId =
+    String(payload.source_id || payload.sourceId || '').trim() ||
+    (sourceIdMatch ? sourceIdMatch[1] : '')
 
   return {
     version: 1,
     source: {
       type: payload.file_type || '',
-      name: payload.source_name || '',
+      name: typeof payload._storeDisplayName === 'string' && payload._storeDisplayName.trim()
+        ? payload._storeDisplayName.trim()
+        : payload.source_name || '',
       title: payload.source_title || '',
       locale: normalizeGlamourLocale(payload.source_locale || payload.default_locale || locale),
-      importedAt: options.importedAt || new Date().toISOString()
+      importedAt: options.importedAt || new Date().toISOString(),
+      url: sourceUrl,
+      sourceId,
+      authorName: String(author.name || '').trim(),
+      authorWorld: String(author.world || '').trim(),
+      authorLabel: String(author.label || payload.source_author || '').trim(),
+      race: String(payload.race || '').trim(),
+      gender: String(payload.gender || '').trim(),
+      importMode: options.importMode || ''
     },
     locale,
     locales,
@@ -348,10 +540,20 @@ export function draftToGlamourPayload(draft: GlamourDraft): GlamourImportPayload
     file_type: draft.source.type,
     source_name: draft.source.name,
     source_title: draft.source.title,
+    source_url: draft.source.url,
+    source_id: draft.source.sourceId,
+    source_author: draft.source.authorLabel,
+    race: draft.source.race,
+    gender: draft.source.gender,
     source_locale: draft.source.locale,
     default_locale: draft.locale,
     locales: draft.locales,
     locale_labels: draft.localeLabels,
+    author: {
+      name: draft.source.authorName,
+      world: draft.source.authorWorld,
+      label: draft.source.authorLabel
+    },
     slot_names: draft.slotNames,
     dye_labels: draft.dyeLabels,
     no_dye_labels: draft.noDyeLabels,
@@ -364,8 +566,20 @@ function getDraftSourceName(draft: GlamourDraft): string {
   return draft.source.name || draft.source.title || '手动编辑'
 }
 
+function isManualTemplateDraftSource(draft: GlamourDraft): boolean {
+  return (
+    draft.source.name === '手动编辑' &&
+    !draft.source.title &&
+    !draft.source.url &&
+    !draft.source.authorName &&
+    !draft.source.authorWorld &&
+    !draft.source.authorLabel
+  )
+}
+
 export function draftToGlamourTemplateDraft(draft: GlamourDraft): GlamourTemplateDraft {
   const entries: GlamourTemplateDraftEntry[] = []
+  const manualSource = isManualTemplateDraftSource(draft)
 
   for (const entry of getFilledGlamourDraftEntries(draft)) {
     const candidate = getSelectedCandidate(entry)
@@ -398,6 +612,17 @@ export function draftToGlamourTemplateDraft(draft: GlamourDraft): GlamourTemplat
   return {
     version: 1,
     sourceName: getDraftSourceName(draft),
+    sourceMeta: {
+      fileType: manualSource ? '' : draft.source.type,
+      sourceTitle: manualSource ? '' : draft.source.title || draft.source.name || '',
+      sourceUrl: manualSource ? '' : draft.source.url || '',
+      sourceId: manualSource ? '' : draft.source.sourceId || '',
+      authorName: manualSource ? '' : draft.source.authorName || '',
+      authorWorld: manualSource ? '' : draft.source.authorWorld || '',
+      authorLabel: manualSource ? '' : draft.source.authorLabel || '',
+      race: manualSource ? '' : draft.source.race || '',
+      gender: manualSource ? '' : draft.source.gender || ''
+    },
     locale: draft.locale,
     createdAt: new Date().toISOString(),
     entries

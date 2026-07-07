@@ -1,6 +1,6 @@
 <template>
   <section class="nsglamour-recent ns-panel" :class="`nsglamour-recent--${variant}`">
-    <header class="nsglamour-panel-header">
+    <header v-if="showSave" class="nsglamour-panel-header">
       <h2>{{ t(textKeys.nsglamourRecentPanel) }}</h2>
       <AppButton size="compact" :disabled="disabled" @click="saveConfig">
         {{ t(textKeys.nsglamourSaveConfig) }}
@@ -55,11 +55,13 @@ const props = withDefaults(
     disabled?: boolean
     defaultName?: string
     variant?: 'panel' | 'popover'
+    showSave?: boolean
   }>(),
   {
     disabled: false,
     defaultName: '',
-    variant: 'panel'
+    variant: 'panel',
+    showSave: true
   }
 )
 
@@ -109,6 +111,8 @@ function formatDeleteLabel(item: GlamourRecentSnapshot): string {
 .nsglamour-recent--popover {
   width: min(320px, calc(100vw - 48px));
   padding: 10px;
+  border: 2px solid var(--ns-pixel-border-soft);
+  background: #fff;
   box-shadow: 0 10px 24px rgba(20, 28, 45, 0.12);
 }
 

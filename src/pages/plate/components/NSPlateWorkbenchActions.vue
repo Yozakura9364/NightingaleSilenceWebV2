@@ -1,7 +1,7 @@
 <template>
   <section class="nsplate-workbench-actions" :aria-label="t(textKeys.nsplateWorkbenchActions)">
     <button
-      class="nsplate-workbench-actions__trigger"
+      class="nsplate-workbench-actions__trigger ns-icon-button"
       type="button"
       :aria-label="t(textKeys.nsplateWorkbenchActions)"
       :title="t(textKeys.nsplateWorkbenchActions)"
@@ -30,13 +30,13 @@
     <div
       v-if="isMenuOpen"
       id="nsplate-workbench-actions-menu"
-      class="nsplate-workbench-actions__menu"
+      class="nsplate-workbench-actions__menu ns-workbench-panel ns-workbench-panel--solid"
       role="menu"
       @keydown.esc.stop.prevent="closeMenu"
     >
       <div class="nsplate-workbench-actions__group" role="group">
         <button
-          class="nsplate-workbench-actions__button"
+          class="nsplate-workbench-actions__button ns-compact-action ns-compact-action--flush"
           type="button"
           role="menuitem"
           :disabled="!canImportConfig"
@@ -45,7 +45,7 @@
           {{ t(textKeys.nsplateImportConfig) }}
         </button>
         <button
-          class="nsplate-workbench-actions__button"
+          class="nsplate-workbench-actions__button ns-compact-action ns-compact-action--flush"
           type="button"
           role="menuitem"
           :disabled="!canImportConfig"
@@ -54,7 +54,7 @@
           {{ t(textKeys.nsplatePasteConfig) }}
         </button>
         <button
-          class="nsplate-workbench-actions__button"
+          class="nsplate-workbench-actions__button ns-compact-action ns-compact-action--flush"
           type="button"
           role="menuitem"
           :disabled="!canImportConfig"
@@ -63,7 +63,7 @@
           {{ t(textKeys.nsplateCopyConfig) }}
         </button>
         <button
-          class="nsplate-workbench-actions__button"
+          class="nsplate-workbench-actions__button ns-compact-action ns-compact-action--flush"
           type="button"
           role="menuitem"
           :disabled="!canImportConfig"
@@ -74,12 +74,12 @@
       </div>
 
       <div class="nsplate-workbench-actions__group" role="group">
-        <label class="nsplate-workbench-actions__toggle">
+        <label class="nsplate-workbench-actions__toggle ns-compact-action ns-compact-action--flush">
           <input v-model="exportScale2x" type="checkbox" :disabled="!canExport" />
           <span>{{ t(textKeys.nsplateExportScale2x) }}</span>
         </label>
         <button
-          class="nsplate-workbench-actions__button"
+          class="nsplate-workbench-actions__button ns-compact-action ns-compact-action--flush"
           type="button"
           role="menuitem"
           :disabled="!canExport"
@@ -88,7 +88,7 @@
           {{ t(textKeys.nsplateExportPng) }}
         </button>
         <button
-          class="nsplate-workbench-actions__button"
+          class="nsplate-workbench-actions__button ns-compact-action ns-compact-action--flush"
           type="button"
           role="menuitem"
           :disabled="!canExport"
@@ -97,7 +97,7 @@
           {{ t(textKeys.nsplateExportJpg) }}
         </button>
         <button
-          class="nsplate-workbench-actions__button"
+          class="nsplate-workbench-actions__button ns-compact-action ns-compact-action--flush"
           type="button"
           role="menuitem"
           :disabled="!canExport"
@@ -197,14 +197,8 @@ function exportLayeredZip() {
 }
 
 .nsplate-workbench-actions__trigger {
-  display: inline-grid;
   width: 36px;
-  height: 34px;
-  place-items: center;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
-  cursor: pointer;
+  min-width: 36px;
 }
 
 .nsplate-workbench-actions__trigger:hover,
@@ -231,13 +225,9 @@ function exportLayeredZip() {
   top: calc(100% + 6px);
   right: 0;
   z-index: 6;
-  display: grid;
   width: min(304px, calc(100vw - 28px));
   gap: 8px;
   padding: 8px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
 }
 
 .nsplate-workbench-actions__group {
@@ -250,16 +240,9 @@ function exportLayeredZip() {
 
 .nsplate-workbench-actions__button,
 .nsplate-workbench-actions__toggle {
-  min-width: 0;
-  min-height: 32px;
   padding: 0 8px;
-  border: 0;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
   font-size: 11px;
   font-weight: 950;
-  text-align: center;
   white-space: nowrap;
 }
 
@@ -285,10 +268,6 @@ function exportLayeredZip() {
 }
 
 .nsplate-workbench-actions__toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   cursor: pointer;
 }
 
@@ -301,7 +280,6 @@ function exportLayeredZip() {
 
 .nsplate-workbench-actions__button:disabled,
 .nsplate-workbench-actions__toggle:has(input:disabled) {
-  opacity: 0.46;
   cursor: not-allowed;
 }
 

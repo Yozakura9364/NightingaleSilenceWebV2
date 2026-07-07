@@ -116,6 +116,14 @@ export interface GlamourDraftSource {
   title: string
   locale: GlamourLocale
   importedAt: string
+  url?: string
+  sourceId?: string
+  authorName?: string
+  authorWorld?: string
+  authorLabel?: string
+  race?: string
+  gender?: string
+  importMode?: 'template-link' | ''
 }
 
 export interface GlamourDraft {

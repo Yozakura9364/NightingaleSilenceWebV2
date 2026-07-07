@@ -513,16 +513,25 @@ function mainHandBlocksOffHand(candidate: GlamourCandidate | undefined): boolean
   return toNumber(candidate?.equip_slot_category) === 13
 }
 
+function shouldIgnoreEmperorItems(): boolean {
+  return typeof localStorage !== 'undefined' && localStorage.getItem('nsglamour.ignoreEmperor') === '1'
+}
+
 export function getVisibleEquipmentEntries(
   payload: Pick<GlamourImportPayload, 'resolved_equipment' | 'slot_names'> | undefined
 ): GlamourEquipmentEntry[] {
   const entriesBySlot = new Map<string, GlamourEquipmentEntry>()
   const rawEntries = Array.isArray(payload?.resolved_equipment) ? payload.resolved_equipment : []
+  const ignoreEmperor = shouldIgnoreEmperorItems()
 
   for (const rawEntry of rawEntries) {
     const entry = normalizeEquipmentEntry(rawEntry)
 
     if (!entry || entriesBySlot.has(entry.slot)) {
+      continue
+    }
+
+    if (ignoreEmperor && getSelectedCandidate(entry)?.is_emperor === true) {
       continue
     }
 

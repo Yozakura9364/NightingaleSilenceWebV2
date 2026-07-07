@@ -17,10 +17,12 @@ import {
   replaceGlamourDraftEntryCandidate,
   selectGlamourDraftEntryCandidate,
   setGlamourDraftEntryDye,
-  setGlamourDraftLocale
+  setGlamourDraftLocale,
+  storedGlamourValueToPayload
 } from '@/lib/glamour/draft'
 import { normalizeGlamourLocale } from '@/lib/glamour/equipment'
 import {
+  GLAMOUR_RECENT_STORAGE_KEY,
   clearGlamourRecentSnapshots,
   createGlamourRecentSnapshot,
   readGlamourRecentSnapshots,
@@ -39,11 +41,49 @@ import { useLocale } from '@/stores/locale'
 const COPY_FORMAT_KEY = 'nsglamour.copyFormat'
 const CUSTOM_TEMPLATE_KEY = 'nsglamour.copyTemplate'
 
-const sharedDraft = ref<GlamourDraft>(createEmptyGlamourDraft())
-const updatedAt = ref('')
+const initialDraft = loadStoredDraft()
+const sharedDraft = ref<GlamourDraft>(initialDraft)
+const updatedAt = ref(initialDraft.source.importedAt || '')
 const copyFormat = ref<GlamourCopyFormat>(loadCopyFormat())
 const customCopyTemplate = ref(loadCustomCopyTemplate())
 const recentSnapshots = ref<GlamourRecentSnapshot[]>(readGlamourRecentSnapshots())
+let storageListenerInstalled = false
+let draftStorageRefreshId: number | undefined
+
+function readJsonStorage(key: string): unknown {
+  try {
+    const raw = localStorage.getItem(key)
+    return raw ? JSON.parse(raw) : undefined
+  } catch {
+    return undefined
+  }
+}
+
+function loadStoredDraft(): GlamourDraft {
+  const storePayload = storedGlamourValueToPayload(readJsonStorage(GLAMOUR_STORE_EQUIPMENT_STORAGE_KEY))
+  const cardPayload = storedGlamourValueToPayload(readJsonStorage(GLAMOUR_CARD_DRAFT_STORAGE_KEY))
+  const payload = storePayload || cardPayload
+
+  if (!payload) {
+    return createEmptyGlamourDraft()
+  }
+
+  const preferredLocale = String(payload._storeLocale || payload.default_locale || payload.source_locale || '')
+  return createGlamourDraftFromPayload(payload, {
+    preferredLocale,
+    importedAt: getStoredImportedAt(payload)
+  })
+}
+
+function getStoredImportedAt(payload: GlamourImportPayload): string {
+  const timestamp = Number(payload._storeTimestamp)
+
+  if (Number.isFinite(timestamp) && timestamp > 0) {
+    return new Date(timestamp).toISOString()
+  }
+
+  return typeof payload.createdAt === 'string' ? payload.createdAt : ''
+}
 
 function loadCopyFormat(): GlamourCopyFormat {
   return normalizeGlamourCopyFormat(localStorage.getItem(COPY_FORMAT_KEY) || undefined)
@@ -72,7 +112,47 @@ function refreshRecentSnapshots() {
   recentSnapshots.value = readGlamourRecentSnapshots()
 }
 
+function refreshDraftFromStorage() {
+  const storedDraft = loadStoredDraft()
+  sharedDraft.value = storedDraft
+  updatedAt.value = storedDraft.source.importedAt || ''
+}
+
+function scheduleDraftStorageRefresh() {
+  if (draftStorageRefreshId !== undefined) {
+    window.clearTimeout(draftStorageRefreshId)
+  }
+
+  draftStorageRefreshId = window.setTimeout(() => {
+    draftStorageRefreshId = undefined
+    refreshDraftFromStorage()
+  }, 0)
+}
+
+function installStorageSyncListener() {
+  if (storageListenerInstalled || typeof window === 'undefined') {
+    return
+  }
+
+  storageListenerInstalled = true
+  window.addEventListener('storage', (event) => {
+    if (
+      event.key === GLAMOUR_STORE_EQUIPMENT_STORAGE_KEY ||
+      event.key === GLAMOUR_CARD_DRAFT_STORAGE_KEY
+    ) {
+      scheduleDraftStorageRefresh()
+      return
+    }
+
+    if (event.key === GLAMOUR_RECENT_STORAGE_KEY) {
+      refreshRecentSnapshots()
+    }
+  })
+}
+
 export function useGlamourDraft() {
+  installStorageSyncListener()
+
   const { current } = useLocale()
 
   const filledEntries = computed(() => getFilledGlamourDraftEntries(sharedDraft.value))
@@ -84,9 +164,14 @@ export function useGlamourDraft() {
     })
   )
 
-  function acceptPayload(payload: GlamourImportPayload, preferredLocale?: string) {
+  function acceptPayload(
+    payload: GlamourImportPayload,
+    preferredLocale?: string,
+    options: { importMode?: 'template-link' | '' } = {}
+  ) {
     sharedDraft.value = createGlamourDraftFromPayload(payload, {
-      preferredLocale: preferredLocale || normalizeGlamourLocale(current.value)
+      preferredLocale: preferredLocale || normalizeGlamourLocale(current.value),
+      importMode: options.importMode || ''
     })
     updatedAt.value = new Date().toISOString()
     syncSharedDraftStorage(sharedDraft.value)
@@ -157,23 +242,38 @@ export function useGlamourDraft() {
     return true
   }
 
-  function restoreRecentConfig(item: GlamourRecentSnapshot) {
+  function restoreRecentConfig(item: GlamourRecentSnapshot, options: { mode?: 'template' | 'equipinfo' } = {}) {
     const restored = createGlamourDraftFromPayload(item.parsed, {
       preferredLocale: item.locale || item.parsed.source_locale || item.parsed.default_locale,
       importedAt: item.savedAt
     })
     const displayName = item.displayName || item.sourceName || restored.source.name
+    const templateMode = options.mode === 'template'
 
     sharedDraft.value = {
       ...restored,
       source: {
         ...restored.source,
-        name: displayName
+        type: templateMode ? '' : restored.source.type,
+        name: templateMode ? '手动编辑' : displayName,
+        title: templateMode ? '' : restored.source.title,
+        url: templateMode ? '' : restored.source.url,
+        sourceId: templateMode ? '' : restored.source.sourceId,
+        authorName: templateMode ? '' : restored.source.authorName,
+        authorWorld: templateMode ? '' : restored.source.authorWorld,
+        authorLabel: templateMode ? '' : restored.source.authorLabel,
+        race: templateMode ? '' : restored.source.race,
+        gender: templateMode ? '' : restored.source.gender,
+        importMode: ''
       }
     }
-    copyFormat.value = normalizeGlamourCopyFormat(item.copyFormat)
-    customCopyTemplate.value =
-      typeof item.customTemplate === 'string' ? item.customTemplate : loadCustomCopyTemplate()
+
+    if (!templateMode) {
+      copyFormat.value = normalizeGlamourCopyFormat(item.copyFormat)
+      customCopyTemplate.value =
+        typeof item.customTemplate === 'string' ? item.customTemplate : loadCustomCopyTemplate()
+    }
+
     localStorage.removeItem(GLAMOUR_CARD_DRAFT_STORAGE_KEY)
     localStorage.setItem(COPY_FORMAT_KEY, copyFormat.value)
     localStorage.setItem(CUSTOM_TEMPLATE_KEY, customCopyTemplate.value)

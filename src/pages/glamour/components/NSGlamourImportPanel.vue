@@ -41,7 +41,9 @@
           <input
             id="nsglamour-import-url"
             v-model="url"
-            type="url"
+            type="text"
+            inputmode="url"
+            autocomplete="url"
             :disabled="props.busy"
             :placeholder="t(textKeys.nsglamourImportLinkPlaceholder)"
             spellcheck="false"
@@ -84,6 +86,7 @@
 
     <AppStatus
       v-if="props.statusMessage"
+      class="nsglamour-import__status"
       compact
       :tone="props.statusTone"
       :message="props.statusMessage"
@@ -99,6 +102,7 @@ import AppStatus from '@/components/AppStatus.vue'
 import AppToolbar from '@/components/AppToolbar.vue'
 import recentIconUrl from '@/assets/icons/pixelarticons/clock.svg'
 import { textKeys } from '@/config/site'
+import { normalizeGlamourLinkUrl } from '@/lib/glamour/links'
 import type { GlamourRecentSnapshot } from '@/lib/glamour/types'
 import NSGlamourRecentPanel from '@/pages/glamour/components/NSGlamourRecentPanel.vue'
 import { useLocale } from '@/stores/locale'
@@ -152,7 +156,7 @@ function submitText() {
 }
 
 function submitLink() {
-  emit('import-link', { url: url.value })
+  emit('import-link', { url: normalizeGlamourLinkUrl(url.value) })
 }
 
 function handleDragOver(event: DragEvent) {
@@ -288,6 +292,24 @@ onBeforeUnmount(() => {
 .nsglamour-import__text-form {
   display: grid;
   gap: 12px;
+}
+
+.nsglamour-import__status {
+  min-height: 0;
+  padding: 4px 0 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.nsglamour-import__status :deep(.app-status__mark) {
+  width: 8px;
+  height: 8px;
+  border-width: 2px;
+}
+
+.nsglamour-import__status :deep(.app-status__message) {
+  font-size: 12px;
 }
 
 .nsglamour-import__link-row {

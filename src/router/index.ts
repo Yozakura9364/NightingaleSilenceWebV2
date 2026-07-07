@@ -36,6 +36,18 @@ const router = createRouter({
       path: siteRoutes.glamour,
       name: 'ffxiv-glamour',
       meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle },
+      redirect: siteRoutes.glamourTemplate
+    },
+    {
+      path: siteRoutes.glamourTemplate,
+      name: 'ffxiv-glamour-template',
+      meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle },
+      component: () => import('@/pages/glamour/NSGlamourPage.vue')
+    },
+    {
+      path: siteRoutes.glamourEquipInfo,
+      name: 'ffxiv-glamour-equipinfo',
+      meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle },
       component: () => import('@/pages/glamour/NSGlamourPage.vue')
     },
     {

@@ -2808,6 +2808,18 @@ export const uiMessages: UiMessageMap = {
   }),
 
   'nsglamour.workspace.title': same('NSGlamour'),
+  'nsglamour.page.template': msg({
+    zh: '图片模板',
+    en: 'Template',
+    ja: 'テンプレート',
+    ko: '템플릿'
+  }),
+  'nsglamour.page.equipinfo': msg({
+    zh: '装备信息',
+    en: 'Equipment',
+    ja: '装備情報',
+    ko: '장비 정보'
+  }),
   'nsglamour.panel.import': msg({
     zh: '装备信息',
     en: 'Import',
@@ -2819,6 +2831,287 @@ export const uiMessages: UiMessageMap = {
     en: 'Equipment',
     ja: '装備',
     ko: '장비'
+  }),
+  'nsglamour.template.settings': msg({
+    zh: '模板设置',
+    en: 'Template settings',
+    ja: 'テンプレート設定',
+    ko: '템플릿 설정'
+  }),
+  'nsglamour.template.author': msg({
+    zh: '模板作者：',
+    en: 'Template author: ',
+    ja: 'テンプレート作者：',
+    ko: '템플릿 제작자: '
+  }),
+  'nsglamour.template.change': msg({
+    zh: '更换模板',
+    en: 'Change template',
+    ja: 'テンプレート変更',
+    ko: '템플릿 변경'
+  }),
+  'nsglamour.template.selector.title': msg({
+    zh: '选择模板',
+    en: 'Select template',
+    ja: 'テンプレート選択',
+    ko: '템플릿 선택'
+  }),
+  'nsglamour.template.selector.hint': msg({
+    zh: '按可生成语言筛选模板。',
+    en: 'Filter templates by available output language.',
+    ja: '生成可能な言語でテンプレートを絞り込みます。',
+    ko: '생성 가능한 언어로 템플릿을 필터링합니다.'
+  }),
+  'nsglamour.template.selector.close': msg({
+    zh: '关闭',
+    en: 'Close',
+    ja: '閉じる',
+    ko: '닫기'
+  }),
+  'nsglamour.template.selector.filter': msg({
+    zh: '模板语言筛选',
+    en: 'Template language filter',
+    ja: 'テンプレート言語フィルター',
+    ko: '템플릿 언어 필터'
+  }),
+  'nsglamour.template.selector.list': msg({
+    zh: '模板选择',
+    en: 'Template selection',
+    ja: 'テンプレート選択',
+    ko: '템플릿 선택'
+  }),
+  'nsglamour.template.selector.all': msg({
+    zh: '全部',
+    en: 'All',
+    ja: 'すべて',
+    ko: '전체'
+  }),
+  'nsglamour.template.selector.empty': msg({
+    zh: '没有符合筛选的模板',
+    en: 'No templates match this filter',
+    ja: '条件に合うテンプレートがありません',
+    ko: '필터에 맞는 템플릿이 없습니다'
+  }),
+  'nsglamour.template.selector.cardTitle': msg({
+    zh: '{template}；支持语言：{languages}',
+    en: '{template}; supported languages: {languages}',
+    ja: '{template}；対応言語：{languages}',
+    ko: '{template}; 지원 언어: {languages}'
+  }),
+  'nsglamour.template.authorLinks': msg({
+    zh: '作者链接',
+    en: 'Author links',
+    ja: '作者リンク',
+    ko: '제작자 링크'
+  }),
+  'nsglamour.template.author.website': msg({
+    zh: '主页',
+    en: 'Website',
+    ja: 'ホーム',
+    ko: '홈'
+  }),
+  'nsglamour.template.author.weibo': same('微博'),
+  'nsglamour.template.author.xiaohongshu': same('小红书'),
+  'nsglamour.template.author.douyin': same('抖音'),
+  'nsglamour.template.titleText': msg({
+    zh: '标题文字',
+    en: 'Title text',
+    ja: 'タイトル文字',
+    ko: '제목 텍스트'
+  }),
+  'nsglamour.template.characterName': msg({
+    zh: '角色名',
+    en: 'Character name',
+    ja: 'キャラクター名',
+    ko: '캐릭터 이름'
+  }),
+  'nsglamour.template.nameWorld': msg({
+    zh: '名字与服务器',
+    en: 'Name and world',
+    ja: '名前とワールド',
+    ko: '이름과 서버'
+  }),
+  'nsglamour.template.name': msg({
+    zh: '名字',
+    en: 'Name',
+    ja: '名前',
+    ko: '이름'
+  }),
+  'nsglamour.template.world': msg({
+    zh: '服务器',
+    en: 'World',
+    ja: 'ワールド',
+    ko: '서버'
+  }),
+  'nsglamour.template.symbol': msg({
+    zh: '特殊符号',
+    en: 'Symbol',
+    ja: '記号',
+    ko: '기호'
+  }),
+  'nsglamour.template.dyeStyleOne': msg({
+    zh: '染剂样式1',
+    en: 'Dye style 1',
+    ja: '染色スタイル1',
+    ko: '염료 스타일 1'
+  }),
+  'nsglamour.template.dyeStyleTwo': msg({
+    zh: '染剂样式2',
+    en: 'Dye style 2',
+    ja: '染色スタイル2',
+    ko: '염료 스타일 2'
+  }),
+  'nsglamour.template.equipmentData': msg({
+    zh: '装备数据',
+    en: 'Equipment data',
+    ja: '装備データ',
+    ko: '장비 데이터'
+  }),
+  'nsglamour.template.importLink': msg({
+    zh: '从网页导入',
+    en: 'Import from page',
+    ja: 'ページから読み込み',
+    ko: '웹에서 가져오기'
+  }),
+  'nsglamour.template.import.title': msg({
+    zh: '从网页导入',
+    en: 'Import from page',
+    ja: 'ページから読み込み',
+    ko: '웹에서 가져오기'
+  }),
+  'nsglamour.template.import.urlLabel': msg({
+    zh: '幻化链接',
+    en: 'Glamour link',
+    ja: 'ミラプリリンク',
+    ko: '코디 링크'
+  }),
+  'nsglamour.template.import.urlPlaceholder': same('https://...'),
+  'nsglamour.template.import.hint': same('请输入石之家或 Eorzea Collection 幻化链接'),
+  'nsglamour.template.import.submit': msg({
+    zh: '载入',
+    en: 'Load',
+    ja: '読み込み',
+    ko: '불러오기'
+  }),
+  'nsglamour.template.import.close': msg({
+    zh: '关闭',
+    en: 'Close',
+    ja: '閉じる',
+    ko: '닫기'
+  }),
+  'nsglamour.template.layoutLanguage': msg({
+    zh: '排版语言',
+    en: 'Layout language',
+    ja: 'レイアウト言語',
+    ko: '배치 언어'
+  }),
+  'nsglamour.template.language.currentEdit': msg({
+    zh: '当前编辑',
+    en: 'Current edit',
+    ja: '現在編集中',
+    ko: '현재 편집'
+  }),
+  'nsglamour.template.language.output': msg({
+    zh: '输出语言',
+    en: 'Output language',
+    ja: '出力言語',
+    ko: '출력 언어'
+  }),
+  'nsglamour.template.clearDraft': msg({
+    zh: '清空配装',
+    en: 'Clear outfit',
+    ja: 'ミラプリをクリア',
+    ko: '코디 비우기'
+  }),
+  'nsglamour.template.canvas': msg({
+    zh: '模板预览',
+    en: 'Template preview',
+    ja: 'テンプレートプレビュー',
+    ko: '템플릿 미리보기'
+  }),
+  'nsglamour.template.saveImage': msg({
+    zh: '保存图片',
+    en: 'Save image',
+    ja: '画像を保存',
+    ko: '이미지 저장'
+  }),
+  'nsglamour.template.image.upload': msg({
+    zh: '上传图片',
+    en: 'Upload image',
+    ja: '画像をアップロード',
+    ko: '이미지 업로드'
+  }),
+  'nsglamour.template.image.recent': msg({
+    zh: '最近图片',
+    en: 'Recent images',
+    ja: '最近の画像',
+    ko: '최근 이미지'
+  }),
+  'nsglamour.template.image.recent.empty': msg({
+    zh: '暂无图片',
+    en: 'No recent images',
+    ja: '最近の画像なし',
+    ko: '최근 이미지 없음'
+  }),
+  'nsglamour.template.image.recent.clear': msg({
+    zh: '清空',
+    en: 'Clear',
+    ja: 'クリア',
+    ko: '비우기'
+  }),
+  'nsglamour.template.image.recent.fallback': msg({
+    zh: '图片',
+    en: 'Image',
+    ja: '画像',
+    ko: '이미지'
+  }),
+  'nsglamour.template.crop.title': msg({
+    zh: '裁剪图片',
+    en: 'Crop image',
+    ja: '画像をトリミング',
+    ko: '이미지 자르기'
+  }),
+  'nsglamour.template.crop.hint': msg({
+    zh: '调整取景后用于对应图片区域。',
+    en: 'Adjust the framing for the target image area.',
+    ja: '対応する画像エリアに合わせて構図を調整します。',
+    ko: '대상 이미지 영역에 맞게 구도를 조정합니다.'
+  }),
+  'nsglamour.template.crop.canvas': msg({
+    zh: '图片裁剪预览',
+    en: 'Image crop preview',
+    ja: '画像トリミングプレビュー',
+    ko: '이미지 자르기 미리보기'
+  }),
+  'nsglamour.template.crop.zoom': msg({
+    zh: '缩放',
+    en: 'Zoom',
+    ja: 'ズーム',
+    ko: '확대/축소'
+  }),
+  'nsglamour.template.crop.zoomPercent': msg({
+    zh: '缩放百分比',
+    en: 'Zoom percentage',
+    ja: 'ズーム倍率',
+    ko: '확대/축소 비율'
+  }),
+  'nsglamour.template.crop.cancel': msg({
+    zh: '取消',
+    en: 'Cancel',
+    ja: 'キャンセル',
+    ko: '취소'
+  }),
+  'nsglamour.template.crop.reset': msg({
+    zh: '重置',
+    en: 'Reset',
+    ja: 'リセット',
+    ko: '초기화'
+  }),
+  'nsglamour.template.crop.apply': msg({
+    zh: '使用裁剪',
+    en: 'Use crop',
+    ja: 'トリミングを使用',
+    ko: '자른 이미지 사용'
   }),
   'nsglamour.panel.copy': msg({
     zh: '文案生成',
@@ -3093,6 +3386,7 @@ export const uiMessages: UiMessageMap = {
     ko: '가져오기 실패'
   }),
   'nsglamour.status.linkRequired': same('请输入石之家或 Eorzea Collection 幻化链接'),
+  'nsglamour.status.unsupportedLink': same('无法识别，请输入石之家或 Eorzea Collection 幻化链接'),
   'nsglamour.status.textRequired': msg({
     zh: '请输入装备文字',
     en: 'Enter equipment text',
