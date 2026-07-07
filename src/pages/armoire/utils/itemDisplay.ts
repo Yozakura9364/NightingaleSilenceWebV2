@@ -2,11 +2,13 @@ import { textKeys } from '@/config/site'
 import { getArmoireIconUrl } from '@/lib/armoire/catalog'
 import type {
   ArmoireCatalog,
+  ArmoireCatalogItem,
   ArmoireContainerKind,
   ArmoireDyeResetReason,
   ArmoireDyeRiskItem,
   ArmoireOwnedItem
 } from '@/lib/armoire/types'
+import { useLocale, type Locale } from '@/stores/locale'
 
 type Translate = (key: string) => string
 
@@ -39,11 +41,43 @@ export function formatArmoireItemId(itemId: number, t: Translate): string {
 }
 
 export function getArmoireItemName(catalog: ArmoireCatalog, itemId: number, t: Translate): string {
-  return catalog.items[itemId]?.name ?? t(textKeys.nsarmoireUnknownItem)
+  return (
+    getLocalizedArmoireItemName(catalog.items[itemId], useLocale().current.value) ??
+    t(textKeys.nsarmoireUnknownItem)
+  )
+}
+
+export function getLocalizedArmoireItemName(
+  item: Pick<ArmoireCatalogItem, 'name' | 'localizedNames'> | undefined,
+  locale: Locale
+): string | undefined {
+  if (!item) {
+    return undefined
+  }
+
+  const localeName =
+    locale === 'zh-CN' || locale === 'en' || locale === 'ja' || locale === 'ko'
+      ? item.localizedNames?.[locale]
+      : undefined
+
+  return (
+    localeName ??
+    (locale === 'fr' || locale === 'de' ? item.localizedNames?.en : undefined) ??
+    item.localizedNames?.['zh-CN'] ??
+    item.localizedNames?.en ??
+    item.name
+  )
 }
 
 export function getArmoireItemIconUrl(catalog: ArmoireCatalog, itemId: number): string {
   return getArmoireIconUrl(catalog.items[itemId]?.iconId)
+}
+
+export function canShowArmoireBindState(
+  catalog: ArmoireCatalog,
+  item: Pick<ArmoireOwnedItem, 'itemId' | 'spiritbond'>
+): item is Pick<ArmoireOwnedItem, 'itemId'> & { spiritbond: number } {
+  return typeof item.spiritbond === 'number' && catalog.items[item.itemId]?.isTradable === true
 }
 
 export function getArmoireContainerLabel(

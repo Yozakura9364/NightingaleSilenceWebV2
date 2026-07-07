@@ -1,4 +1,5 @@
 import { buildOwnedIndex, getOwnedItems, hasOwnedItem } from '@/lib/armoire/buildOwnedIndex'
+import { filterArmoireSnapshotForActionableItems } from '@/lib/armoire/filterSnapshot'
 import type {
   ArmoireSnapshot,
   ArmoireStoreCatalog,
@@ -35,7 +36,7 @@ export function analyzeArmoireStoreOutfits(
   snapshot: ArmoireSnapshot,
   storeCatalog: ArmoireStoreCatalog
 ): ArmoireStoreOutfitAnalysis {
-  const index = buildOwnedIndex(snapshot)
+  const index = buildOwnedIndex(filterArmoireSnapshotForActionableItems(snapshot))
   const outfits: ArmoireStoreOutfitState[] = storeCatalog.outfits.map((outfit) => {
     const itemIds = getUniqueItemIds(outfit.itemIds)
     const ownedItemIds = itemIds.filter((itemId) => hasOwnedItem(index, itemId))

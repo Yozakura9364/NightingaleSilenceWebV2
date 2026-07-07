@@ -22,6 +22,7 @@ type InsightListKey =
   | 'sets'
   | 'setPieces'
   | 'tradableItems'
+  | 'crafterGathererReplicas'
   | 'duplicateItems'
   | 'duplicateModels'
   | 'dyes'
@@ -179,6 +180,17 @@ export function useArmoireInsightViewModels(
     )
   })
 
+  const crafterGathererReplicaItems = computed(() => {
+    if (!source.analysis || source.analysis.crafterGathererReplicas.status !== 'ready') {
+      return []
+    }
+
+    return limitItems(
+      'crafterGathererReplicas',
+      source.analysis.crafterGathererReplicas.items
+    ).map(display.toCrafterGathererReplicaItem)
+  })
+
   const duplicateItemGroups = computed(() => {
     if (!source.analysis) {
       return []
@@ -250,6 +262,12 @@ export function useArmoireInsightViewModels(
       : null
   )
 
+  const crafterGathererReplicaCount = computed(() =>
+    source.analysis?.crafterGathererReplicas.status === 'ready'
+      ? source.analysis.crafterGathererReplicas.entryCount
+      : null
+  )
+
   const duplicateItemCount = computed(() => source.analysis?.duplicateItems.duplicateItemCount ?? 0)
 
   const duplicateModelCount = computed(() =>
@@ -276,6 +294,10 @@ export function useArmoireInsightViewModels(
 
   const isTradableCatalogMissing = computed(
     () => source.analysis?.tradableItems.status === 'missingCatalog'
+  )
+
+  const isCrafterGathererReplicaCatalogMissing = computed(
+    () => source.analysis?.crafterGathererReplicas.status === 'missingCatalog'
   )
 
   const isIdenticalModelCatalogMissing = computed(
@@ -352,6 +374,14 @@ export function useArmoireInsightViewModels(
     })
   })
 
+  const crafterGathererReplicaSummary = computed(() => {
+    if (!source.analysis || source.analysis.crafterGathererReplicas.status !== 'ready') {
+      return ''
+    }
+
+    return display.formatReplicaRecycleSummary(source.analysis.crafterGathererReplicas)
+  })
+
   const duplicateSummary = computed(() => {
     if (!source.analysis || source.analysis.identicalModels.status !== 'ready') {
       return ''
@@ -405,6 +435,7 @@ export function useArmoireInsightViewModels(
       {
         cabinetSummary: cabinetSummary.value,
         tradableSummary: tradableSummary.value,
+        replicaSummary: crafterGathererReplicaSummary.value,
         duplicateItemSummary: duplicateItemSummary.value,
         duplicateSummary: duplicateSummary.value
       },
@@ -418,6 +449,7 @@ export function useArmoireInsightViewModels(
     incompleteSetCount,
     setBucketLoosePieceCount,
     tradableItemCount,
+    crafterGathererReplicaCount,
     duplicateItemCount,
     duplicateModelCount,
     dyeRiskCount: dyeClearRiskCount,
@@ -425,17 +457,20 @@ export function useArmoireInsightViewModels(
     isSetCatalogMissing,
     isSetBucketLoosePieceCatalogMissing,
     isTradableCatalogMissing,
+    isCrafterGathererReplicaCatalogMissing,
     isIdenticalModelCatalogMissing,
     cabinetSummary,
     glamourSetSummary,
     duplicateItemSummary,
     tradableSummary,
+    crafterGathererReplicaSummary,
     duplicateSummary,
     dyeSummary,
     transferableItems,
     incompleteSetItems,
     setBucketLoosePieceItems,
     tradableItems,
+    crafterGathererReplicaItems,
     duplicateItemItems,
     duplicateModelItems,
     dyeRiskItems: dyeClearRiskItems

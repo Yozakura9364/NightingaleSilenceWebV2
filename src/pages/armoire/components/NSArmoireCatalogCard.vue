@@ -1,5 +1,13 @@
 <template>
-  <article class="nsarmoire-catalog-card">
+  <article
+    class="nsarmoire-catalog-card"
+    @contextmenu="openItemWikiByContextMenu(item.name, $event)"
+    @pointerdown="startItemWikiLongPress(item.name, $event)"
+    @pointermove="moveItemWikiLongPress"
+    @pointerup="cancelItemWikiLongPress"
+    @pointercancel="cancelItemWikiLongPress"
+    @pointerleave="cancelItemWikiLongPress"
+  >
     <div class="nsarmoire-catalog-card__icon" aria-hidden="true">
       <img
         v-if="item.iconUrl && !imageFailed"
@@ -40,12 +48,19 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import type { ArmoireCatalogCardView } from '@/pages/armoire/composables/useArmoireCatalogGrid'
+import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
 
 const props = defineProps<{
   item: ArmoireCatalogCardView
 }>()
 
 const imageFailed = ref(false)
+const {
+  cancelItemWikiLongPress,
+  moveItemWikiLongPress,
+  openItemWikiByContextMenu,
+  startItemWikiLongPress
+} = useArmoireItemWikiNavigation()
 
 watch(
   () => props.item.iconUrl,
@@ -68,6 +83,8 @@ watch(
   contain: layout paint style;
   content-visibility: auto;
   contain-intrinsic-size: auto 128px;
+  cursor: context-menu;
+  -webkit-touch-callout: none;
 }
 
 .nsarmoire-catalog-card__icon {

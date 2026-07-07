@@ -93,11 +93,12 @@
         :message="t(textKeys.nsarmoireStoreReviewNoResults)"
       />
 
-      <ol v-else class="nsarmoire-store-review__list">
-        <li
-          v-for="outfit in visibleOutfits"
-          :key="outfit.id"
-          class="nsarmoire-store-review__row"
+      <template v-else>
+        <ol class="nsarmoire-store-review__list">
+          <li
+            v-for="outfit in visibleOutfits"
+            :key="outfit.id"
+            class="nsarmoire-store-review__row"
             :class="{
               'nsarmoire-store-review__row--edited': isEdited(outfit.id),
               'nsarmoire-store-review__row--corrected': isCorrected(outfit.id),
@@ -329,6 +330,17 @@
                   {{ t(textKeys.nsarmoireStoreReviewOpenLink) }}
                 </a>
               </div>
+              <div class="nsarmoire-store-review__link-control">
+                <input
+                  :id="getPriceInputId(outfit.id, region.value)"
+                  :value="getPriceValue(outfit, region.value)"
+                  type="text"
+                  autocomplete="off"
+                  :aria-label="`${t(region.labelKey)} ${t(textKeys.nsarmoireStoreReviewPricePlaceholder)}`"
+                  :placeholder="t(textKeys.nsarmoireStoreReviewPricePlaceholder)"
+                  @input="updatePrice(outfit, region.value, $event)"
+                />
+              </div>
             </div>
           </section>
 
@@ -397,14 +409,25 @@
               }}
             </button>
           </section>
-        </li>
-      </ol>
+          </li>
+        </ol>
+
+        <div
+          v-if="hasMoreVisibleOutfits"
+          ref="loadMoreSentinel"
+          class="nsarmoire-store-review__load-more"
+        >
+          <AppButton @click="loadMoreVisibleOutfits">
+            {{ t(textKeys.nsarmoireLoadMoreList) }}
+          </AppButton>
+        </div>
+      </template>
     </main>
   </FfxivToolShell>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
@@ -415,6 +438,7 @@ import {
   type ArmoireStoreDetailTag,
   type ArmoireStoreLinkRegion,
   type ArmoireStoreOutfit,
+  type ArmoireStoreRegionalPriceLabels,
   type ArmoireStoreRegionalUrls,
   type ArmoireStoreTag
 } from '@/lib/armoire/types'
@@ -466,6 +490,7 @@ interface StoreReviewTagOption<T extends ArmoireStoreTag | ArmoireStoreDetailTag
 
 interface StoreReviewDraftEntry {
   regionalStoreUrls?: ArmoireStoreRegionalUrls
+  regionalPriceLabels?: ArmoireStoreRegionalPriceLabels
   itemIds?: number[]
   tags?: ArmoireStoreTag[]
   detailTags?: ArmoireStoreDetailTag[]
@@ -482,6 +507,7 @@ interface StoreReviewPatch {
     productId?: string
     skuId?: string
     regionalStoreUrls?: ArmoireStoreRegionalUrls
+    regionalPriceLabels?: ArmoireStoreRegionalPriceLabels
     itemIds?: number[]
     itemNames?: string[]
     tags?: ArmoireStoreTag[]
@@ -493,6 +519,7 @@ interface StoreReviewPatch {
 }
 
 const STORE_REVIEW_DRAFT_KEY = 'nsarmoire.storeReview.draft.v1'
+const STORE_REVIEW_BATCH_SIZE = 10
 const CANDIDATE_LIMIT = 12
 const STORE_TAG_SET = new Set<ArmoireStoreTag>(ARMOIRE_STORE_TAGS)
 const STORE_DETAIL_TAG_SET = new Set<ArmoireStoreDetailTag>(ARMOIRE_STORE_DETAIL_TAGS)
@@ -511,10 +538,17 @@ const selectedTagFilter = ref<StoreReviewTagFilter>('all')
 const statusMessageKey = ref<string | null>(null)
 const draftEntries = ref<Record<string, StoreReviewDraftEntry>>(loadDraftEntries())
 const itemDraftInputs = ref<Record<string, string>>({})
+const visibleOutfitCount = ref(STORE_REVIEW_BATCH_SIZE)
+const loadMoreSentinel = ref<HTMLElement | null>(null)
+let loadMoreObserver: IntersectionObserver | null = null
 
 onMounted(() => {
   void loadCatalog()
   void loadStoreCatalog()
+})
+
+onBeforeUnmount(() => {
+  disconnectLoadMoreObserver()
 })
 
 function reloadStoreCatalog(): void {
@@ -604,7 +638,10 @@ const filteredOutfits = computed(() => {
   })
 })
 
-const visibleOutfits = computed(() => filteredOutfits.value)
+const visibleOutfits = computed(() => filteredOutfits.value.slice(0, visibleOutfitCount.value))
+const hasMoreVisibleOutfits = computed(
+  () => visibleOutfitCount.value < filteredOutfits.value.length
+)
 const editedCount = computed(
   () => Object.values(draftEntries.value).filter((entry) => hasStoredDraftEntry(entry)).length
 )
@@ -621,7 +658,7 @@ const catalogItemsForReview = computed(() =>
 const candidateViewsByOutfitId = computed(() => {
   const result = new Map<string, StoreReviewCandidateView[]>()
 
-  for (const outfit of storeCatalog.value.outfits) {
+  for (const outfit of visibleOutfits.value) {
     if (!isNeedsMapping(outfit)) {
       continue
     }
@@ -674,6 +711,51 @@ const candidateViewsByOutfitId = computed(() => {
   return result
 })
 
+watch(
+  [searchQuery, selectedFilter, selectedTagFilter, () => storeCatalog.value.generatedAt],
+  () => {
+    visibleOutfitCount.value = STORE_REVIEW_BATCH_SIZE
+  }
+)
+
+watch(
+  loadMoreSentinel,
+  (element) => {
+    observeLoadMoreSentinel(element)
+  },
+  { flush: 'post' }
+)
+
+function loadMoreVisibleOutfits(): void {
+  visibleOutfitCount.value = Math.min(
+    visibleOutfitCount.value + STORE_REVIEW_BATCH_SIZE,
+    filteredOutfits.value.length
+  )
+}
+
+function observeLoadMoreSentinel(element: HTMLElement | null): void {
+  disconnectLoadMoreObserver()
+
+  if (!element || typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+    return
+  }
+
+  loadMoreObserver = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        loadMoreVisibleOutfits()
+      }
+    },
+    { rootMargin: '600px 0px' }
+  )
+  loadMoreObserver.observe(element)
+}
+
+function disconnectLoadMoreObserver(): void {
+  loadMoreObserver?.disconnect()
+  loadMoreObserver = null
+}
+
 function isStoreReviewDraftEntry(value: unknown): value is StoreReviewDraftEntry {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
@@ -700,6 +782,7 @@ function loadDraftEntries(): Record<string, StoreReviewDraftEntry> {
 
       if (
         'regionalStoreUrls' in value ||
+        'regionalPriceLabels' in value ||
         'itemIds' in value ||
         'tags' in value ||
         'detailTags' in value ||
@@ -736,6 +819,7 @@ function saveDraftEntries(): void {
 function hasDraftEntry(entry: StoreReviewDraftEntry): boolean {
   return Boolean(
     (entry.regionalStoreUrls && Object.keys(entry.regionalStoreUrls).length > 0) ||
+    (entry.regionalPriceLabels && Object.keys(entry.regionalPriceLabels).length > 0) ||
     (entry.itemIds && entry.itemIds.length > 0) ||
     entry.tags !== undefined ||
     entry.detailTags !== undefined ||
@@ -754,6 +838,9 @@ function normalizeDraftEntry(entry: StoreReviewDraftEntry): StoreReviewDraftEntr
   return {
     ...(entry.regionalStoreUrls && Object.keys(entry.regionalStoreUrls).length > 0
       ? { regionalStoreUrls: entry.regionalStoreUrls }
+      : {}),
+    ...(entry.regionalPriceLabels && Object.keys(entry.regionalPriceLabels).length > 0
+      ? { regionalPriceLabels: entry.regionalPriceLabels }
       : {}),
     ...(entry.itemIds && entry.itemIds.length > 0
       ? { itemIds: getUniqueItemIds(entry.itemIds) }
@@ -799,6 +886,32 @@ function getLinkValue(outfit: ArmoireStoreOutfit, region: ArmoireStoreLinkRegion
   return draftEntries.value[outfit.id]?.regionalStoreUrls?.[region] ?? getBaseLink(outfit, region)
 }
 
+function getFallbackPriceRegion(outfit: ArmoireStoreOutfit): ArmoireStoreLinkRegion {
+  if (outfit.region === 'cn' || outfit.region === 'global') {
+    return outfit.region
+  }
+
+  if (outfit.regionalStoreUrls?.global) {
+    return 'global'
+  }
+
+  return 'cn'
+}
+
+function getBasePriceLabel(outfit: ArmoireStoreOutfit, region: ArmoireStoreLinkRegion): string {
+  return (
+    outfit.regionalPriceLabels?.[region] ??
+    (outfit.priceLabel && getFallbackPriceRegion(outfit) === region ? outfit.priceLabel : '')
+  )
+}
+
+function getPriceValue(outfit: ArmoireStoreOutfit, region: ArmoireStoreLinkRegion): string {
+  return (
+    draftEntries.value[outfit.id]?.regionalPriceLabels?.[region] ??
+    getBasePriceLabel(outfit, region)
+  )
+}
+
 function updateLink(
   outfit: ArmoireStoreOutfit,
   region: ArmoireStoreLinkRegion,
@@ -826,6 +939,46 @@ function updateLink(
     outfitDraft.regionalStoreUrls = regionalStoreUrls
   } else {
     delete outfitDraft.regionalStoreUrls
+  }
+
+  if (hasStoredDraftEntry(outfitDraft)) {
+    nextDraft[outfit.id] = normalizeDraftEntry(outfitDraft)
+  } else {
+    delete nextDraft[outfit.id]
+  }
+
+  draftEntries.value = nextDraft
+  statusMessageKey.value = null
+  saveDraftEntries()
+}
+
+function updatePrice(
+  outfit: ArmoireStoreOutfit,
+  region: ArmoireStoreLinkRegion,
+  event: Event
+): void {
+  const input = event.currentTarget
+
+  if (!(input instanceof HTMLInputElement)) {
+    return
+  }
+
+  const value = input.value.trim()
+  const baseValue = getBasePriceLabel(outfit, region)
+  const nextDraft = { ...draftEntries.value }
+  const outfitDraft = { ...(nextDraft[outfit.id] ?? {}) }
+  const regionalPriceLabels = { ...(outfitDraft.regionalPriceLabels ?? {}) }
+
+  if (!value || value === baseValue) {
+    delete regionalPriceLabels[region]
+  } else {
+    regionalPriceLabels[region] = value
+  }
+
+  if (Object.keys(regionalPriceLabels).length > 0) {
+    outfitDraft.regionalPriceLabels = regionalPriceLabels
+  } else {
+    delete outfitDraft.regionalPriceLabels
   }
 
   if (hasStoredDraftEntry(outfitDraft)) {
@@ -1334,6 +1487,7 @@ function buildPatch(): StoreReviewPatch {
         productId: outfit.productId,
         skuId: outfit.skuId,
         ...(draft.regionalStoreUrls ? { regionalStoreUrls: draft.regionalStoreUrls } : {}),
+        ...(draft.regionalPriceLabels ? { regionalPriceLabels: draft.regionalPriceLabels } : {}),
         ...(draft.corrected ? { corrected: true } : {}),
         ...(tagsChanged ? { tags: getMergedTags(outfit) } : {}),
         ...(detailTagsChanged ? { detailTags: getMergedDetailTags(outfit) } : {}),
@@ -1398,6 +1552,10 @@ function resetDraft(): void {
 
 function getLinkInputId(outfitId: string, region: ArmoireStoreLinkRegion): string {
   return `nsarmoire-store-review-${outfitId}-${region}`
+}
+
+function getPriceInputId(outfitId: string, region: ArmoireStoreLinkRegion): string {
+  return `nsarmoire-store-review-${outfitId}-${region}-price`
 }
 
 function getItemInputId(outfitId: string): string {

@@ -1,6 +1,7 @@
 import { getArmoireIconUrl } from '@/lib/armoire/catalog'
 import {
   ARMOIRE_STORE_ITEM_DISPLAY_INDEX_SCHEMA_VERSION,
+  type ArmoireLocalizedNames,
   type ArmoireStoreItemDisplay,
   type ArmoireStoreItemDisplayIndex
 } from '@/lib/armoire/types'
@@ -22,8 +23,24 @@ function isStoreItemDisplay(value: unknown): value is ArmoireStoreItemDisplay {
     Number.isInteger(value.itemId) &&
     value.itemId > 0 &&
     (value.name === undefined || typeof value.name === 'string') &&
+    isLocalizedNames(value.localizedNames) &&
     (value.iconId === undefined ||
       (typeof value.iconId === 'number' && Number.isInteger(value.iconId) && value.iconId > 0))
+  )
+}
+
+function isLocalizedNames(value: unknown): value is ArmoireLocalizedNames | undefined {
+  if (value === undefined) {
+    return true
+  }
+
+  if (!isRecord(value)) {
+    return false
+  }
+
+  return Object.entries(value).every(
+    ([locale, name]) =>
+      ['zh-CN', 'en', 'ja', 'ko'].includes(locale) && typeof name === 'string'
   )
 }
 

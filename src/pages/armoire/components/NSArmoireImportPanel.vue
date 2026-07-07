@@ -1,5 +1,8 @@
 <template>
-  <section class="nsarmoire-panel nsarmoire-import-panel" :class="`nsarmoire-import-panel--${mode}`">
+  <section
+    class="nsarmoire-panel nsarmoire-import-panel"
+    :class="`nsarmoire-import-panel--${mode}`"
+  >
     <div v-if="mode === 'hero'" class="nsarmoire-panel__header">
       <h2>{{ cleanT(textKeys.nsarmoireImport) }}</h2>
     </div>
@@ -26,9 +29,24 @@
           <span>{{ readContainersLabel }}</span>
         </span>
       </span>
+      <span
+        v-if="cachedRetainersLabel"
+        class="nsarmoire-import-panel__summary-line nsarmoire-import-panel__summary-line--retainers"
+      >
+        <span>
+          <b>{{ cleanT(textKeys.nsarmoireCharacterRetainers) }}：</b>
+          <span>{{ cachedRetainersLabel }}</span>
+        </span>
+      </span>
     </div>
 
-    <div v-if="shouldShowStatusRow" class="nsarmoire-import-panel__status-row">
+    <div
+      v-if="shouldRenderStatusRow"
+      class="nsarmoire-import-panel__status-row"
+      :class="{
+        'nsarmoire-import-panel__status-row--reserved': !shouldShowStatusRow
+      }"
+    >
       <span
         v-if="mode === 'hero' || !snapshot"
         class="nsarmoire-import-panel__chip"
@@ -54,7 +72,9 @@
       </AppButton>
 
       <label class="ns-button ns-button--primary nsarmoire-import-button">
-        <span>{{ cleanT(mode === 'compact' ? textKeys.import : textKeys.nsarmoireImportSnapshot) }}</span>
+        <span>{{
+          cleanT(mode === 'compact' ? textKeys.import : textKeys.nsarmoireImportSnapshot)
+        }}</span>
         <input
           ref="fileInput"
           type="file"
@@ -64,22 +84,16 @@
         />
       </label>
 
-      <AppButton v-if="snapshot" @click="$emit('clear')">
-        {{ cleanT(textKeys.nsarmoireClearSnapshot) }}
-      </AppButton>
-
-      <a
-        v-if="mode === 'hero' || !helperHealth"
-        class="ns-button ns-button--secondary nsarmoire-helper-download"
-        :href="HELPER_RELEASE_URL"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {{ cleanT(textKeys.nsarmoireDownloadHelper) }}
-      </a>
-
       <AppButton :disabled="helperBusy" @click="$emit('connect-helper')">
         {{ cleanT(textKeys.nsarmoireConnectHelper) }}
+      </AppButton>
+
+      <AppButton
+        v-if="helperCanSelectProcess"
+        :disabled="helperBusy"
+        @click="$emit('select-helper-process')"
+      >
+        {{ cleanT(textKeys.nsarmoireSelectHelperProcess) }}
       </AppButton>
 
       <AppButton
@@ -88,6 +102,15 @@
         @click="$emit('refresh-helper')"
       >
         {{ cleanT(textKeys.nsarmoireRefreshHelper) }}
+      </AppButton>
+
+      <AppButton
+        v-if="helperCanClearRetainerCache"
+        variant="secondary"
+        :disabled="helperBusy"
+        @click="$emit('clear-retainer-cache')"
+      >
+        {{ cleanT(textKeys.nsarmoireClearRetainerCache) }}
       </AppButton>
 
       <AppButton
@@ -148,7 +171,10 @@ import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
 import type { ArmoireContainerKind, ArmoireSnapshot } from '@/lib/armoire/types'
-import type { ArmoireHelperHealth } from '@/pages/armoire/services/nsarmoireHelperApi'
+import type {
+  ArmoireHelperHealth,
+  ArmoireHelperProbe
+} from '@/pages/armoire/services/nsarmoireHelperApi'
 
 const props = defineProps<{
   mode: 'hero' | 'compact'
@@ -162,25 +188,26 @@ const props = defineProps<{
   helperErrorDetail: string | null
   helperEndpoint: string
   helperHealth: ArmoireHelperHealth | null
+  helperProbe: ArmoireHelperProbe | null
   helperBusy: boolean
   helperCanRefresh: boolean
   helperCanShutdown: boolean
+  helperCanSelectProcess: boolean
+  helperCanClearRetainerCache: boolean
 }>()
 
 const emit = defineEmits<{
   'import-file': [file: File]
   'load-example': []
   'connect-helper': []
+  'select-helper-process': []
   'refresh-helper': []
+  'clear-retainer-cache': []
   'shutdown-helper': []
-  clear: []
 }>()
 
 const { current, t } = useLocale()
 const fileInput = ref<HTMLInputElement | null>(null)
-const HELPER_RELEASE_URL = 'https://github.com/Yozakura9364/NightingaleSilenceWebV2/releases/latest'
-const DRAFT_SUFFIX_PATTERN = /（占位用，待编辑）/g
-const READ_CONTAINER_PREVIEW_LIMIT = 6
 
 const containerLabelKeys: Record<ArmoireContainerKind, string> = {
   inventory: textKeys.nsarmoireContainerInventory,
@@ -201,7 +228,7 @@ const CONTAINER_DISPLAY_ORDER: ArmoireContainerKind[] = [
 ]
 
 function cleanText(value: string): string {
-  return value.replace(DRAFT_SUFFIX_PATTERN, '')
+  return value
 }
 
 function cleanT(key: string): string {
@@ -221,27 +248,35 @@ const errorMessage = computed(() => {
     return ''
   }
 
-  return props.errorDetail ? `${cleanT(props.errorKey)}: ${props.errorDetail}` : cleanT(props.errorKey)
+  return props.errorDetail
+    ? `${cleanT(props.errorKey)}: ${props.errorDetail}`
+    : cleanT(props.errorKey)
 })
 const helperStatusMessage = computed(() =>
   props.helperErrorDetail
     ? `${cleanT(props.helperStatusMessageKey)}: ${props.helperErrorDetail}`
     : cleanT(props.helperStatusMessageKey)
 )
-const shouldShowCompactHelperStatus = computed(() =>
-  props.helperBusy || Boolean(props.helperErrorDetail) || ['warning', 'danger'].includes(props.helperStatusTone)
+const shouldShowCompactHelperStatus = computed(
+  () =>
+    props.helperBusy ||
+    Boolean(props.helperErrorDetail) ||
+    ['warning', 'danger'].includes(props.helperStatusTone)
 )
-const shouldShowStatusRow = computed(() =>
-  props.mode === 'hero' || !props.snapshot || shouldShowCompactHelperStatus.value
+const shouldRenderStatusRow = computed(() => props.mode === 'hero' || props.mode === 'compact')
+const shouldShowStatusRow = computed(
+  () => props.mode === 'hero' || !props.snapshot || shouldShowCompactHelperStatus.value
 )
 const helperCatalogLabel = computed(() => {
   if (!props.helperHealth?.catalogLocated) {
     return cleanT(textKeys.nsarmoireHelperCatalogMissing)
   }
 
-  return cleanText(formatPanelText(textKeys.nsarmoireHelperCatalogReady, {
-    count: props.helperHealth.catalogCabinetEntryCount ?? 0
-  }))
+  return cleanText(
+    formatPanelText(textKeys.nsarmoireHelperCatalogReady, {
+      count: props.helperHealth.catalogCabinetEntryCount ?? 0
+    })
+  )
 })
 const characterLabel = computed(() => {
   const character = props.snapshot?.character
@@ -274,16 +309,9 @@ const generatedAtLabel = computed(() => {
 })
 const readContainerLabels = computed(() => {
   const containers = new Set<ArmoireContainerKind>()
-  const retainerLabels: string[] = []
 
   for (const item of props.snapshot?.items ?? []) {
     if (item.container === 'retainer') {
-      const retainerLabel = item.retainerName?.trim() || item.containerName?.trim()
-
-      if (retainerLabel && !retainerLabels.includes(retainerLabel)) {
-        retainerLabels.push(retainerLabel)
-      }
-
       continue
     }
 
@@ -292,36 +320,57 @@ const readContainerLabels = computed(() => {
     }
   }
 
-  const containerLabels = CONTAINER_DISPLAY_ORDER
-    .filter((container) => containers.has(container))
-    .map((container) => cleanT(containerLabelKeys[container]))
+  const containerLabels = CONTAINER_DISPLAY_ORDER.filter((container) =>
+    containers.has(container)
+  ).map((container) => cleanT(containerLabelKeys[container]))
 
-  if (!retainerLabels.length && props.snapshot?.items.some((item) => item.container === 'retainer')) {
-    retainerLabels.push(cleanT(containerLabelKeys.retainer))
-  }
-
-  return [...containerLabels, ...retainerLabels]
+  return containerLabels
 })
 const fullReadContainersLabel = computed(() => readContainerLabels.value.join(' / '))
-const readContainersLabel = computed(() => {
-  const labels = readContainerLabels.value
+const readContainersLabel = computed(() => fullReadContainersLabel.value)
+const cachedRetainerNamesFromSnapshot = computed(() => {
+  const names: string[] = []
 
-  if (labels.length <= READ_CONTAINER_PREVIEW_LIMIT) {
-    return fullReadContainersLabel.value
+  for (const item of props.snapshot?.items ?? []) {
+    if (item.container !== 'retainer') {
+      continue
+    }
+
+    const retainerName = item.retainerName?.trim()
+    if (retainerName && !names.includes(retainerName)) {
+      names.push(retainerName)
+    }
   }
 
-  return cleanText(
-    formatPanelText(textKeys.nsarmoireReadContainersMore, {
-      items: labels.slice(0, READ_CONTAINER_PREVIEW_LIMIT).join(' / '),
-      count: labels.length
-    })
-  )
+  return names
+})
+const cachedRetainersLabel = computed(() => {
+  const total = props.helperProbe?.retainers.filter((retainer) => retainer.available).length ?? 0
+  const cachedNamesFromProbe = props.helperProbe
+    ? props.helperProbe.retainers
+        .filter((retainer) => retainer.inventoryCached)
+        .sort((a, b) => a.slot - b.slot)
+        .map((retainer) => retainer.name)
+    : []
+  const names = cachedNamesFromProbe.length
+    ? cachedNamesFromProbe
+    : cachedRetainerNamesFromSnapshot.value
+
+  if (!names.length) {
+    return ''
+  }
+
+  const prefix = total > 0 ? `${names.length}/${total}` : String(names.length)
+  return `${prefix}：${names.join(' / ')}`
 })
 const compactSummaryAriaLabel = computed(() =>
   [
     `${cleanT(textKeys.nsarmoireCharacter)}: ${characterLabel.value}`,
     `${cleanT(textKeys.nsarmoireGeneratedAt)}: ${generatedAtLabel.value}`,
-    `${cleanT(textKeys.nsarmoireReadContainers)}: ${fullReadContainersLabel.value}`
+    `${cleanT(textKeys.nsarmoireReadContainers)}: ${fullReadContainersLabel.value}`,
+    cachedRetainersLabel.value
+      ? `${cleanT(textKeys.nsarmoireCharacterRetainers)}: ${cachedRetainersLabel.value}`
+      : ''
   ].join('；')
 )
 
@@ -366,9 +415,12 @@ function handleFileChange(event: Event) {
 }
 
 .nsarmoire-import-panel--compact {
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(360px, 1fr) minmax(360px, auto);
+  grid-template-rows: minmax(30px, auto) auto;
   gap: 6px 10px;
+  min-height: 86px;
   padding: 6px 8px;
+  align-items: start;
   background: #ffffff;
 }
 
@@ -411,13 +463,20 @@ function handleFileChange(event: Event) {
 .nsarmoire-import-panel__status-row {
   display: flex;
   min-width: 0;
+  min-height: 30px;
   align-items: center;
   flex-wrap: wrap;
   gap: 6px;
 }
 
 .nsarmoire-import-panel--compact .nsarmoire-import-panel__status-row {
-  grid-column: 1 / -1;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.nsarmoire-import-panel--compact .nsarmoire-import-panel__status-row--reserved {
+  visibility: hidden;
 }
 
 .nsarmoire-import-panel__chip {
@@ -486,6 +545,12 @@ function handleFileChange(event: Event) {
   line-height: 1.35;
 }
 
+.nsarmoire-import-panel--compact .nsarmoire-import-panel__summary {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  align-self: center;
+}
+
 .nsarmoire-import-panel__summary-line {
   display: flex;
   min-width: 0;
@@ -516,6 +581,13 @@ function handleFileChange(event: Event) {
 
 .nsarmoire-import-panel--hero .nsarmoire-import-panel__actions {
   justify-content: flex-start;
+}
+
+.nsarmoire-import-panel--compact .nsarmoire-import-panel__actions {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: end;
+  justify-self: end;
 }
 
 .nsarmoire-import-panel__actions :deep(.ns-button),
@@ -576,10 +648,22 @@ function handleFileChange(event: Event) {
 @media (max-width: 1280px) {
   .nsarmoire-import-panel--compact {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(30px, auto) auto;
+  }
+
+  .nsarmoire-import-panel--compact .nsarmoire-import-panel__summary,
+  .nsarmoire-import-panel--compact .nsarmoire-import-panel__status-row,
+  .nsarmoire-import-panel--compact .nsarmoire-import-panel__actions {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .nsarmoire-import-panel--compact .nsarmoire-import-panel__status-row {
+    justify-self: start;
   }
 
   .nsarmoire-import-panel--compact .nsarmoire-import-panel__actions {
-    grid-column: 1 / -1;
+    justify-self: end;
   }
 }
 

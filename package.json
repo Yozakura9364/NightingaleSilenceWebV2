@@ -11,6 +11,7 @@
     "build:armoire-store-item-display-index": "node scripts/build-armoire-store-item-display-index.mjs",
     "build:armoire-store-catalog": "node scripts/build-armoire-store-catalog.mjs",
     "apply:armoire-store-corrections": "node scripts/apply-armoire-store-corrections.mjs",
+    "scrape:armoire-store-prices": "node scripts/scrape-armoire-store-prices.mjs",
     "check:armoire-store-catalog": "node scripts/check-armoire-store-catalog.mjs",
     "check:armoire-store-catalog:quiet": "node scripts/check-armoire-store-catalog.mjs --pending-limit 0",
     "audit:armoire-store-coverage": "node scripts/audit-armoire-store-coverage.mjs",

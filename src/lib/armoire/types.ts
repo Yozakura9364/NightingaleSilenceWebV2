@@ -10,6 +10,8 @@ export const ARMOIRE_GLAMOUR_SET_CHUNK_SCHEMA_VERSION = 'nsarmoire.glamourSetChu
 export const ARMOIRE_IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION =
   'nsarmoire.identicalModelCatalog.v1' as const
 export const ARMOIRE_DYE_CATALOG_SCHEMA_VERSION = 'nsarmoire.dyeCatalog.v1' as const
+export const ARMOIRE_CRAFTER_GATHERER_REPLICA_CATALOG_SCHEMA_VERSION =
+  'nsarmoire.crafterGathererReplicaCatalog.v1' as const
 export const ARMOIRE_STORE_CATALOG_SCHEMA_VERSION = 'nsarmoire.storeCatalog.v1' as const
 export const ARMOIRE_STORE_ITEM_DISPLAY_INDEX_SCHEMA_VERSION =
   'nsarmoire.storeItemDisplayIndex.v1' as const
@@ -126,10 +128,12 @@ export interface ArmoireOwnedIndex {
 }
 
 export type ArmoireModelTuple = [number, number, number, number]
+export type ArmoireLocalizedNames = Partial<Record<'zh-CN' | 'en' | 'ja' | 'ko', string>>
 
 export interface ArmoireCatalogItem {
   itemId: number
   name?: string
+  localizedNames?: ArmoireLocalizedNames
   iconId?: number
   itemUiCategoryId?: number
   equipSlotCategoryId?: number
@@ -179,6 +183,7 @@ export interface ArmoireCatalog {
   glamourSetItems: ArmoireGlamourSet[]
   identicalGroups: ArmoireIdenticalGroup[]
   dyes: Record<number, ArmoireDye>
+  crafterGathererReplicaItemIds?: number[]
 }
 
 export type ArmoireCompactDisplayItem = [
@@ -186,7 +191,8 @@ export type ArmoireCompactDisplayItem = [
   name?: string | null,
   iconId?: number | null,
   dyeSlotCount?: number | null,
-  isTradable?: 1 | null
+  isTradable?: 1 | null,
+  localizedNames?: ArmoireLocalizedNames | null
 ]
 
 export interface ArmoireCabinetCatalog {
@@ -282,10 +288,25 @@ export interface ArmoireDyeCatalog {
   dyes: Record<number, ArmoireDye>
 }
 
+export interface ArmoireCrafterGathererReplicaCatalog {
+  schemaVersion: typeof ARMOIRE_CRAFTER_GATHERER_REPLICA_CATALOG_SCHEMA_VERSION
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  items: ArmoireCompactDisplayItem[]
+  itemIds: number[]
+  excludedItemIds?: number[]
+  missingItemIds?: number[]
+}
+
 export type ArmoireStoreRegion = 'cn' | 'global' | 'tw'
 export type ArmoireStoreLinkRegion = 'cn' | 'global' | 'tw' | 'kr'
 export type ArmoireStoreRegionalUrls = Partial<Record<ArmoireStoreLinkRegion, string>>
 export type ArmoireStoreMappingSource = 'cn-store' | 'global-store' | 'manual'
+export type ArmoireStoreLocalizedNames = ArmoireLocalizedNames &
+  Partial<Record<'fr' | 'de', string>>
+export type ArmoireStoreRegionalPriceLabels = Partial<Record<ArmoireStoreLinkRegion, string>>
 
 export interface ArmoireStoreCatalogSource {
   region: ArmoireStoreLinkRegion
@@ -297,6 +318,7 @@ export interface ArmoireStoreOutfit {
   id: string
   region: ArmoireStoreRegion
   name: string
+  localizedNames?: ArmoireStoreLocalizedNames
   storeUrl: string
   regionalStoreUrls?: ArmoireStoreRegionalUrls
   sourceUrl: string
@@ -307,6 +329,7 @@ export interface ArmoireStoreOutfit {
   globalItemNames?: string[]
   globalItemUris?: string[]
   priceLabel?: string
+  regionalPriceLabels?: ArmoireStoreRegionalPriceLabels
   coverItemId?: number
   itemNames: string[]
   itemIds: number[]
@@ -328,6 +351,7 @@ export interface ArmoireStoreCatalog {
 export interface ArmoireStoreItemDisplay {
   itemId: number
   name?: string
+  localizedNames?: ArmoireLocalizedNames
   iconId?: number
 }
 
@@ -457,6 +481,27 @@ export interface ArmoireTradableItemAnalysis {
   items: ArmoireOwnedItem[]
 }
 
+export interface ArmoireReplicaDyeReturn {
+  dyeId: number
+  count: number
+}
+
+export interface ArmoireCrafterGathererReplicaEntry {
+  item: ArmoireOwnedItem
+  voucherCount: number
+  dyeIds: [number, number]
+  returnedDyeIds: number[]
+}
+
+export interface ArmoireCrafterGathererReplicaAnalysis {
+  status: ArmoireCatalogAnalysisStatus
+  entryCount: number
+  totalQuantity: number
+  voucherCount: number
+  returnedDyes: ArmoireReplicaDyeReturn[]
+  items: ArmoireCrafterGathererReplicaEntry[]
+}
+
 export interface ArmoireIdenticalModelGroupState {
   key: string
   ownedItemIds: number[]
@@ -490,6 +535,7 @@ export interface ArmoireSnapshotAnalysis {
   glamourSetProgress: ArmoireGlamourSetProgress
   dyeRisk: ArmoireDyeRiskAnalysis
   tradableItems: ArmoireTradableItemAnalysis
+  crafterGathererReplicas: ArmoireCrafterGathererReplicaAnalysis
   duplicateItems: ArmoireDuplicateItemAnalysis
   identicalModels: ArmoireIdenticalModelAnalysis
 }

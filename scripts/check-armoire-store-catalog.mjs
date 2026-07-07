@@ -7,16 +7,22 @@ const STORE_SCHEMA_VERSION = 'nsarmoire.storeCatalog.v1'
 const VALID_REGIONS = new Set(['cn', 'global', 'tw'])
 const VALID_LINK_REGIONS = new Set(['cn', 'global', 'tw', 'kr'])
 const LINK_URL_PATTERNS = new Map([
-  ['cn', /^https:\/\/qu\.sdo\.com\/product-detail\/[A-Za-z0-9]+(?:[/?#].*)?$/],
+  [
+    'cn',
+    /^https:\/\/(?:qu\.sdo\.com\/product-detail\/[A-Za-z0-9]+|ffpay\.sdo\.com\/pc\/giftsStation\/index\.html#\/index|actff1\.web\.sdo\.com\/[A-Za-z0-9_-]+\/index\.html#\/index)(?:[/?#].*)?$/
+  ],
   [
     'global',
-    /^https:\/\/store\.finalfantasyxiv\.com\/ffxivstore\/[a-z]{2}-[a-z]{2}\/product\/\d+(?:[/?#].*)?$/
+    /^https:\/\/(?:store\.finalfantasyxiv\.com\/ffxivstore\/[a-z]{2}-[a-z]{2}\/product\/\d+|jp\.finalfantasyxiv\.com\/product\/)(?:[/?#].*)?$/
   ],
   [
     'tw',
     /^https:\/\/www\.ffxiv\.com\.tw\/web\/store\/product_detail\.aspx\?id=[A-Za-z0-9_]+(?:[&#].*)?$/
   ],
-  ['kr', /^https:\/\/www\.ff14\.co\.kr\/shop\/home\/detail\/\d+(?:[/?#].*)?$/i]
+  [
+    'kr',
+    /^https:\/\/www\.ff14\.co\.kr\/(?:shop\/home\/detail\/\d+|member\/event\/news\/index\.aspx|main)(?:[/?#].*)?$/i
+  ]
 ])
 const VALID_STORE_TAGS = new Set([
   'npcCostume',
@@ -37,6 +43,7 @@ const VALID_STORE_TAGS = new Set([
 ])
 const VALID_STORE_DETAIL_TAGS = new Set(['maleOnly', 'femaleOnly'])
 const VALID_MAPPING_SOURCES = new Set(['cn-store', 'global-store', 'manual'])
+const VALID_LOCALIZED_NAME_LOCALES = new Set(['zh-CN', 'en', 'ja', 'ko', 'fr', 'de'])
 
 function parseArgs(argv) {
   const args = {
@@ -97,6 +104,26 @@ function isRecord(value) {
 
 function isStringArray(value) {
   return Array.isArray(value) && value.every((item) => typeof item === 'string')
+}
+
+function isLocalizedNames(value) {
+  return (
+    value === undefined ||
+    (isRecord(value) &&
+      Object.entries(value).every(
+        ([locale, name]) => VALID_LOCALIZED_NAME_LOCALES.has(locale) && typeof name === 'string'
+      ))
+  )
+}
+
+function isRegionalPriceLabels(value) {
+  return (
+    value === undefined ||
+    (isRecord(value) &&
+      Object.entries(value).every(
+        ([region, label]) => VALID_LINK_REGIONS.has(region) && typeof label === 'string'
+      ))
+  )
 }
 
 function isEnumArray(value, enumValues) {
@@ -188,6 +215,14 @@ function validateOutfitShape(outfit, index, issues) {
     if (typeof outfit[key] !== 'string' || !outfit[key]) {
       addIssue(issues, `${label}.${key} must be a non-empty string`)
     }
+  }
+
+  if (!isLocalizedNames(outfit.localizedNames)) {
+    addIssue(issues, `${label}.localizedNames must be a locale-to-string object when present`)
+  }
+
+  if (!isRegionalPriceLabels(outfit.regionalPriceLabels)) {
+    addIssue(issues, `${label}.regionalPriceLabels must be a region-to-string object when present`)
   }
 
   if (typeof outfit.region === 'string' && !VALID_REGIONS.has(outfit.region)) {

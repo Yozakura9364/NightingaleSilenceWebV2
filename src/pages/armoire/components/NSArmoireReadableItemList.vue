@@ -11,6 +11,12 @@
           item.visibleRelatedItems.length ? 'nsarmoire-readable-list__item--related' : undefined
         ]"
         :title="getItemTitle(item)"
+        @contextmenu="openItemWikiByContextMenu(getWikiItemName(item), $event)"
+        @pointerdown="startItemWikiLongPress(getWikiItemName(item), $event)"
+        @pointermove="moveItemWikiLongPress"
+        @pointerup="cancelItemWikiLongPress"
+        @pointercancel="cancelItemWikiLongPress"
+        @pointerleave="cancelItemWikiLongPress"
       >
         <span class="nsarmoire-readable-list__icon" aria-hidden="true">
           <img
@@ -61,6 +67,12 @@
             :key="relatedItem.key"
             :class="relatedItem.status ? `nsarmoire-readable-list__related-item--${relatedItem.status}` : undefined"
             :title="getRelatedItemTitle(relatedItem)"
+            @contextmenu.stop="openItemWikiByContextMenu(getWikiItemName(relatedItem), $event)"
+            @pointerdown.stop="startItemWikiLongPress(getWikiItemName(relatedItem), $event)"
+            @pointermove.stop="moveItemWikiLongPress"
+            @pointerup.stop="cancelItemWikiLongPress"
+            @pointercancel.stop="cancelItemWikiLongPress"
+            @pointerleave.stop="cancelItemWikiLongPress"
           >
             <span class="nsarmoire-readable-list__related-icon">
               <img
@@ -98,6 +110,7 @@ import type {
   ArmoireReadableItemRelatedView,
   ArmoireReadableItemView
 } from '@/pages/armoire/utils/insightDisplay'
+import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
 
 const RELATED_ITEM_PREVIEW_LIMIT = 8
 type WindowWithIdleCallback = Window & {
@@ -110,6 +123,13 @@ const props = defineProps<{
   limit?: number
   expanded?: boolean
 }>()
+
+const {
+  cancelItemWikiLongPress,
+  moveItemWikiLongPress,
+  openItemWikiByContextMenu,
+  startItemWikiLongPress
+} = useArmoireItemWikiNavigation()
 
 const renderedVisibleCount = ref(0)
 let animationFrameHandle: number | null = null
@@ -224,6 +244,12 @@ function getRelatedItemTitle(item: ArmoireReadableItemRelatedView): string {
   return [item.name, item.statusLabel].filter(Boolean).join('\n')
 }
 
+function getWikiItemName(
+  item: Pick<ArmoireReadableItemView | ArmoireReadableItemRelatedView, 'name' | 'wikiItemName'>
+): string {
+  return item.wikiItemName ?? item.name
+}
+
 function hideBrokenIcon(event: Event): void {
   const image = event.currentTarget
 
@@ -262,6 +288,8 @@ function hideBrokenIcon(event: Event): void {
   contain: layout paint style;
   content-visibility: auto;
   contain-intrinsic-size: auto 76px;
+  cursor: context-menu;
+  -webkit-touch-callout: none;
 }
 
 .nsarmoire-readable-list__item--danger {
@@ -422,6 +450,8 @@ function hideBrokenIcon(event: Event): void {
   border: 1px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-bg-soft);
   contain: layout paint style;
+  cursor: context-menu;
+  -webkit-touch-callout: none;
 }
 
 .nsarmoire-readable-list__related-item--unstored {

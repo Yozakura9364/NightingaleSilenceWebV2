@@ -43,6 +43,12 @@
                   v-for="piece in set.pieces"
                   :key="piece.key"
                   :class="{ 'nsarmoire-set-card__piece--stored': piece.stored }"
+                  @contextmenu="openItemWikiByContextMenu(piece.name, $event)"
+                  @pointerdown="startItemWikiLongPress(piece.name, $event)"
+                  @pointermove="moveItemWikiLongPress"
+                  @pointerup="cancelItemWikiLongPress"
+                  @pointercancel="cancelItemWikiLongPress"
+                  @pointerleave="cancelItemWikiLongPress"
                 >
                   <img
                     v-if="piece.iconUrl"
@@ -87,6 +93,7 @@ import {
   getArmoireItemIconUrl,
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
+import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
 import { useLocale } from '@/stores/locale'
 
 type SetStatus = 'complete' | 'incomplete' | 'notStored'
@@ -115,6 +122,12 @@ const props = defineProps<{
 }>()
 
 const { t } = useLocale()
+const {
+  cancelItemWikiLongPress,
+  moveItemWikiLongPress,
+  openItemWikiByContextMenu,
+  startItemWikiLongPress
+} = useArmoireItemWikiNavigation()
 const SET_BATCH_SIZE = 10
 const visibleSetCount = ref(SET_BATCH_SIZE)
 
@@ -353,6 +366,8 @@ function hideBrokenImage(event: Event): void {
   padding: 5px;
   border: 1px solid var(--ns-pixel-border-soft);
   background: #ffffff;
+  cursor: context-menu;
+  -webkit-touch-callout: none;
 }
 
 .nsarmoire-set-card__pieces img,

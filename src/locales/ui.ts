@@ -2,11 +2,10 @@ import type { Locale } from '@/stores/locale'
 
 export type UiMessageMap = Record<string, Record<Locale, string>>
 
-const placeholder = '占位用，待编辑'
-const draftSuffix = '（占位用，待编辑）'
+const placeholder = ''
 
 function draft(value: string): string {
-  return `${value}${draftSuffix}`
+  return value
 }
 
 function same(value: string): Record<Locale, string> {
@@ -502,8 +501,8 @@ export const uiMessages: UiMessageMap = {
     ko: '개요'
   }),
   'nsarmoire.panel.distribution': msg({
-    zh: draft('容器分布'),
-    en: 'Container distribution',
+    zh: '背包分布',
+    en: 'Inventory distribution',
     ja: 'コンテナ分布',
     ko: '컨테이너 분포'
   }),
@@ -607,10 +606,10 @@ export const uiMessages: UiMessageMap = {
     ko: '정리 제안'
   }),
   'nsarmoire.section.storage': msg({
-    zh: '衣服在哪',
-    en: 'Where gear is',
-    ja: '装備の場所',
-    ko: '장비 위치'
+    zh: '衣柜统计',
+    en: 'Wardrobe stats',
+    ja: 'ワードローブ統計',
+    ko: '옷장 통계'
   }),
   'nsarmoire.section.reference': msg({
     zh: '核对资料',
@@ -649,10 +648,10 @@ export const uiMessages: UiMessageMap = {
     ko: '투영 세트 통계'
   }),
   'nsarmoire.collection.catalog': msg({
-    zh: '图鉴',
-    en: 'Catalog',
-    ja: 'カタログ',
-    ko: '도감'
+    zh: '衣柜统计',
+    en: 'Wardrobe stats',
+    ja: 'ワードローブ統計',
+    ko: '옷장 통계'
   }),
   'nsarmoire.collection.needsCatalog': msg({
     zh: '需要先读取静态数据。',
@@ -859,10 +858,10 @@ export const uiMessages: UiMessageMap = {
     ko: '복제품 의상'
   }),
   'nsarmoire.store.tag.fanFestivalCostume': msg({
-    zh: '粉丝节时装',
-    en: 'Fan Festival costume',
-    ja: 'ファンフェス衣装',
-    ko: '팬페스 의상'
+    zh: '运营活动时装',
+    en: 'Promotional costume',
+    ja: 'プロモーション衣装',
+    ko: '프로모션 의상'
   }),
   'nsarmoire.store.tag.crossoverCostume': msg({
     zh: '其他作品时装',
@@ -924,6 +923,18 @@ export const uiMessages: UiMessageMap = {
     ja: 'ゴールドソーサー・フェスティバル',
     ko: '골드 소서 축제'
   }),
+  'nsarmoire.store.group.seasonal': msg({
+    zh: '节日时装',
+    en: 'Seasonal outfits',
+    ja: 'シーズナル衣装',
+    ko: '시즌 의상'
+  }),
+  'nsarmoire.store.group.other': msg({
+    zh: '其他商城外观',
+    en: 'Other store outfits',
+    ja: 'その他ストア外見',
+    ko: '기타 상점 외형'
+  }),
   'nsarmoire.store.detailTag.maleOnly': msg({
     zh: '男性限定',
     en: 'Male only',
@@ -961,22 +972,28 @@ export const uiMessages: UiMessageMap = {
     ko: '확인 필요'
   }),
   'nsarmoire.store.region.cn': msg({
-    zh: '国服',
+    zh: '简中服',
     en: 'CN',
     ja: '中国版',
     ko: '중국 서버'
   }),
   'nsarmoire.store.region.global': msg({
-    zh: '国际服',
-    en: 'Global',
-    ja: 'グローバル',
-    ko: '글로벌'
+    zh: 'Global Server',
+    en: 'Global Server',
+    ja: 'Global Server',
+    ko: 'Global Server'
   }),
   'nsarmoire.store.region.tw': msg({
     zh: '繁中服',
     en: 'TW',
     ja: '繁体字版',
     ko: '대만 서버'
+  }),
+  'nsarmoire.store.region.kr': msg({
+    zh: '한국',
+    en: '한국',
+    ja: '한국',
+    ko: '한국'
   }),
   'nsarmoire.store.link.cn': msg({
     zh: 'Simplified Chinese',
@@ -1007,6 +1024,18 @@ export const uiMessages: UiMessageMap = {
     en: 'Open store',
     ja: 'ストアを開く',
     ko: '상점 열기'
+  }),
+  'nsarmoire.store.noLink': msg({
+    zh: '暂无链接',
+    en: 'No link yet',
+    ja: 'リンク未登録',
+    ko: '링크 없음'
+  }),
+  'nsarmoire.store.noPrice': msg({
+    zh: '暂无价格',
+    en: 'No price yet',
+    ja: '価格未登録',
+    ko: '가격 없음'
   }),
   'nsarmoire.store.items.label': msg({
     zh: '散件',
@@ -1087,10 +1116,10 @@ export const uiMessages: UiMessageMap = {
     ko: '상점 데이터 확인'
   }),
   'nsarmoire.storeReview.summary': msg({
-    zh: '用于校正商城套装、散件映射和各地区商城链接。',
-    en: 'Review store outfits, piece mappings, and regional store links.',
-    ja: 'ストア衣装、部品対応、地域別リンクを確認します。',
-    ko: '상점 의상, 부위 매핑, 지역별 링크를 확인합니다.'
+    zh: '用于校正商城套装、散件映射、各地区商城链接和价格。',
+    en: 'Review store outfits, piece mappings, regional store links, and prices.',
+    ja: 'ストア衣装、部品対応、地域別リンク、価格を確認します。',
+    ko: '상점 의상, 부위 매핑, 지역별 링크와 가격을 확인합니다.'
   }),
   'nsarmoire.storeReview.filter.all': msg({
     zh: '全部',
@@ -1153,7 +1182,7 @@ export const uiMessages: UiMessageMap = {
     ko: '상태'
   }),
   'nsarmoire.storeReview.region.cn': msg({
-    zh: '国服',
+    zh: '简中服',
     en: 'CN',
     ja: '中国版',
     ko: '중국 서버'
@@ -1171,16 +1200,22 @@ export const uiMessages: UiMessageMap = {
     ko: '대만 서버'
   }),
   'nsarmoire.storeReview.region.kr': msg({
-    zh: '韩服',
-    en: 'KR',
-    ja: '韓国版',
-    ko: '한국 서버'
+    zh: '한국',
+    en: '한국',
+    ja: '한국',
+    ko: '한국'
   }),
   'nsarmoire.storeReview.link.placeholder': msg({
     zh: '粘贴商城链接',
     en: 'Paste store link',
     ja: 'ストアリンクを貼り付け',
     ko: '상점 링크 붙여넣기'
+  }),
+  'nsarmoire.storeReview.price.placeholder': msg({
+    zh: '填写价格',
+    en: 'Enter price',
+    ja: '価格を入力',
+    ko: '가격 입력'
   }),
   'nsarmoire.storeReview.action.copyPatch': msg({
     zh: '复制校正 JSON',
@@ -1416,6 +1451,12 @@ export const uiMessages: UiMessageMap = {
     ja: '取引可能アイテム確認',
     ko: '거래 가능 아이템 확인'
   }),
+  'nsarmoire.recommendation.crafterGathererReplicas': msg({
+    zh: '生产采集复制品',
+    en: 'Crafter and gatherer replicas',
+    ja: 'クラフター・ギャザラーレプリカ',
+    ko: '제작 채집 복제품'
+  }),
   'nsarmoire.recommendation.duplicateItems': msg({
     zh: '重复物品检查',
     en: 'Duplicate item check',
@@ -1435,15 +1476,13 @@ export const uiMessages: UiMessageMap = {
     ko: '염색 먼저 확인'
   }),
   'nsarmoire.summary.inventory': msg({
-    zh: draft('当前导入了 {entries} 条记录，分布在 {containers} 个容器里。'),
-    en: '{entries} entries are imported across {containers} containers.',
-    ja: '{entries} 件の記録が {containers} 個のコンテナにあります。',
-    ko: '{entries}개 항목이 {containers}개 컨테이너에 있습니다.'
+    zh: '当前检测到了{entries}件外观物品，分布在{containers}个物品收纳系统里。',
+    en: '{entries} glamour items were detected across {containers} storage systems.',
+    ja: '{entries}件のミラプリ用アイテムを検出しました。{containers}個の保管システムに分布しています。',
+    ko: '{containers}개 보관 시스템에서 {entries}개의 외형 아이템을 감지했습니다.'
   }),
   'nsarmoire.summary.storage': msg({
-    zh: draft(
-      '其中投影台有 {dresser} 条，收藏柜有 {armoire} 条；后面的建议会按容器判断能不能整理。'
-    ),
+    zh: '其中投影台有 {dresser} 条，收藏柜有 {armoire} 条；后面的建议会按容器判断能不能整理。',
     en: '{dresser} are in the glamour dresser and {armoire} are in the armoire; suggestions below use container-aware checks.',
     ja: 'ミラージュドレッサーに {dresser} 件、愛蔵品キャビネットに {armoire} 件あります。下の提案はコンテナ別に判定します。',
     ko: '투영대에 {dresser}개, 애장품 보관함에 {armoire}개가 있습니다. 아래 제안은 컨테이너별로 판단합니다.'
@@ -1455,7 +1494,7 @@ export const uiMessages: UiMessageMap = {
     ko: '{count}개 항목이 염색되어 있습니다. 애장품 보관함과 세트 보관은 염색을 지우며, 다른 보관은 유지로 봅니다.'
   }),
   'nsarmoire.summary.noDyeWarning': msg({
-    zh: draft('未发现染色条目，当前这批数据不需要检查清染色风险。'),
+    zh: '未发现染色条目，当前这批数据不需要检查清染色风险。',
     en: 'No dyed entries were found, so dye-clearing risk does not need review for this import.',
     ja: '染色済み項目はありません。今回のデータでは染色消去リスクの確認は不要です。',
     ko: '염색 항목이 없어 이번 데이터에서는 염색 삭제 위험 확인이 필요 없습니다.'
@@ -1519,6 +1558,36 @@ export const uiMessages: UiMessageMap = {
     en: 'Unbound',
     ja: '未バインド',
     ko: '미귀속'
+  }),
+  'nsarmoire.hint.replicaRecycle.summary': msg({
+    zh: '发现 {count} 件生产采集复制品，可兑换 {vouchers} 个染剂兑换券，并返还已染染剂：{dyes}。',
+    en: '{count} crafter/gatherer replicas can be exchanged for {vouchers} dye vouchers and dyed colors returned: {dyes}.',
+    ja: '{count} 件のクラフター・ギャザラーレプリカを {vouchers} 個の染料交換券に交換でき、染色済み染料も返却されます: {dyes}。',
+    ko: '제작/채집 복제품 {count}개를 염료 교환권 {vouchers}개로 교환할 수 있으며 염색한 염료도 반환됩니다: {dyes}.'
+  }),
+  'nsarmoire.hint.replicaRecycle.none': msg({
+    zh: '当前没有发现生产采集复制品。',
+    en: 'No crafter/gatherer replicas were found.',
+    ja: 'クラフター・ギャザラーレプリカは見つかりませんでした。',
+    ko: '제작/채집 복제품이 없습니다.'
+  }),
+  'nsarmoire.hint.replicaRecycle.reward': msg({
+    zh: '回收可得：染剂兑换券 x{count}',
+    en: 'Recycle reward: dye voucher x{count}',
+    ja: '回収報酬: 染料交換券 x{count}',
+    ko: '회수 보상: 염료 교환권 x{count}'
+  }),
+  'nsarmoire.hint.replicaRecycle.dyes': msg({
+    zh: '返还染剂',
+    en: 'Returned dyes',
+    ja: '返却染料',
+    ko: '반환 염료'
+  }),
+  'nsarmoire.hint.replicaRecycle.noReturnedDyes': msg({
+    zh: '无染剂返还',
+    en: 'No dyed colors to return',
+    ja: '返却される染料なし',
+    ko: '반환될 염료 없음'
   }),
   'nsarmoire.hint.duplicateItems.summary': msg({
     zh: draft('发现 {count} 种物品有多条记录，可以确认是否真的都要保留：{items}。'),
@@ -1682,11 +1751,29 @@ export const uiMessages: UiMessageMap = {
     ja: 'ヘルパーをダウンロード',
     ko: '헬퍼 다운로드'
   }),
+  'nsarmoire.action.downloadHelperShort': msg({
+    zh: '下载',
+    en: 'Download',
+    ja: 'ダウンロード',
+    ko: '다운로드'
+  }),
   'nsarmoire.action.connectHelper': msg({
-    zh: '开启管家',
-    en: 'Start helper',
-    ja: 'ヘルパー起動',
-    ko: '헬퍼 시작'
+    zh: '连接管家',
+    en: 'Connect helper',
+    ja: 'ヘルパーに接続',
+    ko: '헬퍼 연결'
+  }),
+  'nsarmoire.action.selectHelperProcess': msg({
+    zh: '选择进程',
+    en: 'Select process',
+    ja: 'プロセスを選択',
+    ko: '프로세스 선택'
+  }),
+  'nsarmoire.action.clearRetainerCache': msg({
+    zh: '清雇员缓存',
+    en: 'Clear retainer cache',
+    ja: 'リテイナーキャッシュをクリア',
+    ko: '고용인 캐시 지우기'
   }),
   'nsarmoire.action.shutdownHelper': msg({
     zh: '关闭管家',
@@ -2213,7 +2300,7 @@ export const uiMessages: UiMessageMap = {
     ko: 'dyes가 잘못되었습니다'
   }),
   'nsarmoire.status.catalogStatus': msg({
-    zh: draft('静态 catalog'),
+    zh: '静态 catalog',
     en: 'Static catalog',
     ja: '静的catalog',
     ko: '정적 catalog'
@@ -2448,33 +2535,33 @@ export const uiMessages: UiMessageMap = {
     ja: 'catalogを再読み込み',
     ko: 'catalog 다시 읽기'
   }),
-  'nsarmoire.metric.entries': msg({ zh: draft('条目'), en: 'Entries', ja: '項目', ko: '항목' }),
+  'nsarmoire.metric.entries': msg({ zh: '条目', en: 'Entries', ja: '項目', ko: '항목' }),
   'nsarmoire.metric.uniqueItems': msg({
-    zh: draft('不同物品'),
+    zh: '不同物品',
     en: 'Unique items',
     ja: '固有アイテム',
     ko: '고유 아이템'
   }),
   'nsarmoire.metric.totalQuantity': msg({
-    zh: draft('总数量'),
+    zh: '总数量',
     en: 'Total quantity',
     ja: '総数',
     ko: '총수량'
   }),
   'nsarmoire.metric.dyedEntries': msg({
-    zh: draft('染色条目'),
+    zh: '染色条目',
     en: 'Dyed entries',
     ja: '染色項目',
     ko: '염색 항목'
   }),
   'nsarmoire.metric.glamourDresser': msg({
-    zh: draft('投影台条目'),
+    zh: '投影台条目',
     en: 'Glamour dresser entries',
     ja: 'ミラージュドレッサー項目',
     ko: '투영대 항목'
   }),
   'nsarmoire.metric.armoire': msg({
-    zh: draft('收藏柜条目'),
+    zh: '收藏柜条目',
     en: 'Armoire entries',
     ja: '愛蔵品キャビネット項目',
     ko: '애장품 보관함 항목'
@@ -2534,31 +2621,31 @@ export const uiMessages: UiMessageMap = {
     ko: '중복 그룹'
   }),
   'nsarmoire.metric.catalogItems': msg({
-    zh: draft('物品目录'),
+    zh: '物品目录',
     en: 'Item catalog',
     ja: 'アイテムカタログ',
     ko: '아이템 catalog'
   }),
   'nsarmoire.metric.catalogCabinetItems': msg({
-    zh: draft('收藏柜目录'),
+    zh: '收藏柜目录',
     en: 'Armoire catalog',
     ja: 'キャビネットカタログ',
     ko: '보관함 catalog'
   }),
   'nsarmoire.metric.catalogSets': msg({
-    zh: draft('套装目录'),
+    zh: '套装目录',
     en: 'Set catalog',
     ja: 'セットカタログ',
     ko: '세트 catalog'
   }),
   'nsarmoire.metric.catalogModelGroups': msg({
-    zh: draft('同模型目录'),
+    zh: '同模型目录',
     en: 'Model groups',
     ja: '同一モデルカタログ',
     ko: '동일 모델 catalog'
   }),
   'nsarmoire.metric.catalogDyes': msg({
-    zh: draft('染剂目录'),
+    zh: '染剂目录',
     en: 'Dye catalog',
     ja: '染料カタログ',
     ko: '염료 catalog'
@@ -2731,6 +2818,54 @@ export const uiMessages: UiMessageMap = {
     en: 'Failed to read local character cache.',
     ja: 'ローカルキャラクターキャッシュの読み込みに失敗しました。',
     ko: '로컬 캐릭터 캐시를 읽지 못했습니다.'
+  }),
+  'nsarmoire.character.localProfile.unavailable': msg({
+    zh: '浏览器本地角色缓存不可用。当前页面仍可使用，但角色切换不会保存。',
+    en: 'Local character cache is unavailable. This page still works, but character switching will not be saved.',
+    ja: 'ブラウザーのローカルキャラクターキャッシュを利用できません。このページは使用できますが、キャラクター切替は保存されません。',
+    ko: '브라우저 로컬 캐릭터 캐시를 사용할 수 없습니다. 현재 페이지는 사용할 수 있지만 캐릭터 전환은 저장되지 않습니다.'
+  }),
+  'nsarmoire.character.localProfile.cachedAt': msg({
+    zh: '本机缓存时间',
+    en: 'Cached locally',
+    ja: 'ローカル保存日時',
+    ko: '로컬 캐시 시간'
+  }),
+  'nsarmoire.character.localProfile.count': msg({
+    zh: '本机已保存 {count} 个角色',
+    en: '{count} characters saved locally',
+    ja: '{count} キャラクターをローカル保存済み',
+    ko: '로컬에 {count}개 캐릭터 저장됨'
+  }),
+  'nsarmoire.character.localProfile.switchSuccess': msg({
+    zh: '已切换到本地角色缓存。',
+    en: 'Switched to the local character cache.',
+    ja: 'ローカルキャラクターキャッシュに切り替えました。',
+    ko: '로컬 캐릭터 캐시로 전환했습니다.'
+  }),
+  'nsarmoire.character.localProfile.deleteSuccess': msg({
+    zh: '已删除这份本地角色缓存。',
+    en: 'Deleted this local character cache.',
+    ja: 'このローカルキャラクターキャッシュを削除しました。',
+    ko: '이 로컬 캐릭터 캐시를 삭제했습니다.'
+  }),
+  'nsarmoire.character.localProfile.deleteCurrentSuccess': msg({
+    zh: '已删除当前角色的本地缓存；当前页面数据会保留到切换或清空。',
+    en: 'Deleted the current character cache. Current page data remains until you switch or clear it.',
+    ja: '現在のキャラクターキャッシュを削除しました。現在のページデータは切替またはクリアまで保持されます。',
+    ko: '현재 캐릭터 캐시를 삭제했습니다. 현재 페이지 데이터는 전환하거나 비울 때까지 유지됩니다.'
+  }),
+  'nsarmoire.character.localProfile.clearCurrent': msg({
+    zh: '清空当前页面数据',
+    en: 'Clear current page data',
+    ja: '現在のページデータをクリア',
+    ko: '현재 페이지 데이터 비우기'
+  }),
+  'nsarmoire.character.localProfile.clearCurrentSuccess': msg({
+    zh: '已清空当前页面数据；本地角色缓存仍保留。',
+    en: 'Cleared the current page data. Local character caches remain saved.',
+    ja: '現在のページデータをクリアしました。ローカルキャラクターキャッシュは保持されます。',
+    ko: '현재 페이지 데이터를 비웠습니다. 로컬 캐릭터 캐시는 유지됩니다.'
   }),
   'nsarmoire.character.retainerFallback': msg({
     zh: '雇员 {count}',

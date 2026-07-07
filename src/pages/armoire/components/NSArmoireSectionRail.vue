@@ -13,7 +13,7 @@
         :aria-label="t(item.labelKey)"
         :aria-current="item.id === activeSection ? 'page' : undefined"
         :title="t(item.labelKey)"
-        @click="emit('update:activeSection', item.id)"
+        @click="selectSection(item.id, $event)"
       >
         <span
           class="nsarmoire-section-rail__icon"
@@ -61,6 +61,14 @@ function getIconStyle(sectionId: string) {
 }
 
 const { t } = useLocale()
+
+function selectSection(sectionId: string, event: MouseEvent): void {
+  emit('update:activeSection', sectionId)
+
+  if (event.currentTarget instanceof HTMLButtonElement) {
+    event.currentTarget.blur()
+  }
+}
 </script>
 
 <style scoped>
@@ -103,13 +111,7 @@ const { t } = useLocale()
   line-height: 1.2;
   text-align: left;
   cursor: pointer;
-  transition:
-    background var(--ns-transition-fast),
-    border-color var(--ns-transition-fast),
-    color var(--ns-transition-fast),
-    box-shadow var(--ns-transition-fast),
-    transform var(--ns-transition-fast),
-    width var(--ns-transition-fast);
+  transition: none;
 }
 
 .nsarmoire-section-rail__item::after {
@@ -122,10 +124,8 @@ const { t } = useLocale()
   box-shadow: 2px 0 0 var(--ns-color-cyan);
   content: '';
   opacity: 0;
-  transform: translateX(-2px);
-  transition:
-    opacity var(--ns-transition-fast),
-    transform var(--ns-transition-fast);
+  transform: none;
+  transition: none;
 }
 
 .nsarmoire-section-rail__item:hover,
@@ -137,24 +137,21 @@ const { t } = useLocale()
 .nsarmoire-section-rail__item:hover {
   background: var(--ns-pixel-hover-surface);
   box-shadow: var(--ns-pixel-button-shadow-hover);
-  transform: translate(-2px, -2px);
 }
 
 .nsarmoire-section-rail__item--active {
   background: var(--ns-pixel-cyan-surface);
   box-shadow: var(--ns-pixel-button-shadow);
-  transform: translate(-1px, -1px);
 }
 
 .nsarmoire-section-rail__item:hover::after,
 .nsarmoire-section-rail__item--active::after {
   opacity: 1;
-  transform: translateX(0);
+  transform: none;
 }
 
 .nsarmoire-section-rail__item:active {
   box-shadow: var(--ns-pixel-soft-shadow);
-  transform: translate(1px, 1px);
 }
 
 .nsarmoire-section-rail__item:focus-visible {
@@ -170,10 +167,7 @@ const { t } = useLocale()
   width: 22px;
   height: 22px;
   line-height: 0;
-  transition:
-    color var(--ns-transition-fast),
-    filter var(--ns-transition-fast),
-    transform var(--ns-transition-fast);
+  transition: none;
 }
 
 .nsarmoire-section-rail__icon::before {
@@ -189,7 +183,7 @@ const { t } = useLocale()
 .nsarmoire-section-rail__item:hover .nsarmoire-section-rail__icon,
 .nsarmoire-section-rail__item:focus-visible .nsarmoire-section-rail__icon {
   filter: drop-shadow(2px 2px 0 rgba(42, 33, 56, 0.14));
-  transform: translate(-1px, -1px) rotate(-4deg) scale(1.08);
+  transform: none;
 }
 
 .nsarmoire-section-rail__item--active .nsarmoire-section-rail__icon {
@@ -204,9 +198,7 @@ const { t } = useLocale()
   opacity: 0;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition:
-    max-width var(--ns-transition-fast),
-    opacity var(--ns-transition-fast);
+  transition: none;
 }
 
 @media (min-width: 981px) {
@@ -221,9 +213,7 @@ const { t } = useLocale()
     height: calc(100vh - 58px);
     min-height: 0;
     overflow-y: auto;
-    transition:
-      width var(--ns-transition-fast),
-      box-shadow var(--ns-transition-fast);
+    transition: none;
   }
 
   .nsarmoire-section-rail:hover {
@@ -302,7 +292,7 @@ const { t } = useLocale()
   .nsarmoire-section-rail__item::after,
   .nsarmoire-section-rail__icon,
   .nsarmoire-section-rail__label {
-    transition-duration: 0.01ms;
+    transition: none;
   }
 
   .nsarmoire-section-rail__item:hover,

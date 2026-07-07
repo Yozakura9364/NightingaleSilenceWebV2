@@ -1,8 +1,9 @@
-import { computed, ref, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, ref, shallowRef } from 'vue'
 import { textKeys } from '@/config/site'
 import type { ArmoireSnapshot } from '@/lib/armoire/types'
 import type {
   ArmoireHelperHealth,
+  ArmoireHelperProbe,
   ArmoireHelperProcess
 } from '@/pages/armoire/services/nsarmoireHelperApi'
 
@@ -19,6 +20,9 @@ type StatusTone = 'info' | 'success' | 'warning' | 'danger' | 'loading'
 type ArmoireHelperApiModule = typeof import('@/pages/armoire/services/nsarmoireHelperApi')
 
 const NSARMOIRE_HELPER_DISPLAY_URL = 'http://127.0.0.1:8015'
+const PROBE_VISIBLE_INTERVAL_MS = 2000
+const PROBE_HIDDEN_INTERVAL_MS = 10000
+const AUTO_REFRESH_AFTER_RETAINER_CACHE_MS = 1400
 let helperApiPromise: Promise<ArmoireHelperApiModule> | null = null
 
 function loadHelperApi(): Promise<ArmoireHelperApiModule> {
@@ -63,17 +67,34 @@ export function useArmoireHelper(
   const busy = ref(false)
   const detail = ref<string | null>(null)
   const health = shallowRef<ArmoireHelperHealth | null>(null)
+  const probe = shallowRef<ArmoireHelperProbe | null>(null)
   const processes = shallowRef<ArmoireHelperProcess[]>([])
   const processPickerOpen = ref(false)
   const processBusy = ref(false)
   const processError = ref<string | null>(null)
   const endpoint = NSARMOIRE_HELPER_DISPLAY_URL
+  let probeTimer = 0
+  let autoRefreshTimer = 0
+  let probeBusy = false
+  let autoRefreshBusy = false
+  let lastRetainerCacheSignature = ''
+  const handleVisibilityChange = () => {
+    if (health.value && probeTimer !== 0) {
+      stopProbePolling()
+      startProbePolling()
+    }
+  }
 
   const titleKey = computed(() => statusTitleKey[status.value])
   const messageKey = computed(() => statusMessageKey[status.value])
   const tone = computed(() => statusTone[status.value])
   const canRefresh = computed(() => status.value === 'ready' || status.value === 'dresserNotLoaded')
   const canShutdown = computed(() => Boolean(health.value) && !busy.value)
+  const canSelectProcess = computed(() => Boolean(health.value) && !busy.value)
+  const canClearRetainerCache = computed(
+    () => Boolean(health.value) && !busy.value && cachedRetainers.value.length > 0
+  )
+  const cachedRetainers = computed(() => probe.value?.retainerCaches ?? [])
 
   async function connectHelper() {
     await loadFromHelper(false)
@@ -96,9 +117,11 @@ export function useArmoireHelper(
       await helperApi.shutdownArmoireHelper()
       status.value = 'idle'
       health.value = null
+      probe.value = null
       processes.value = []
       processPickerOpen.value = false
       processError.value = null
+      stopProbePolling()
     } catch (error) {
       await mapHelperError(error)
     } finally {
@@ -130,8 +153,12 @@ export function useArmoireHelper(
       }
 
       status.value = 'ready'
+      startProbePolling()
     } catch (error) {
       await mapHelperError(error)
+      if (health.value && String(status.value) === 'dresserNotLoaded') {
+        startProbePolling()
+      }
     } finally {
       busy.value = false
     }
@@ -151,6 +178,11 @@ export function useArmoireHelper(
     }
   }
 
+  async function openProcessPicker() {
+    processPickerOpen.value = true
+    await loadProcesses()
+  }
+
   async function selectProcess(pid: number) {
     processBusy.value = true
     processError.value = null
@@ -158,6 +190,8 @@ export function useArmoireHelper(
     try {
       const helperApi = await loadHelperApi()
       health.value = await helperApi.selectArmoireHelperProcess(pid)
+      probe.value = null
+      lastRetainerCacheSignature = ''
       processPickerOpen.value = false
       await loadFromHelper(false)
     } catch (error) {
@@ -165,6 +199,29 @@ export function useArmoireHelper(
       await mapHelperError(error)
     } finally {
       processBusy.value = false
+    }
+  }
+
+  async function clearRetainerCache() {
+    if (!health.value || busy.value) {
+      return
+    }
+
+    busy.value = true
+    detail.value = null
+    cancelAutoRefresh()
+
+    try {
+      const helperApi = await loadHelperApi()
+      health.value = await helperApi.clearArmoireHelperRetainerCache()
+      probe.value = null
+      lastRetainerCacheSignature = ''
+      await refreshSnapshotSilently({ ignoreBusy: true })
+      startProbePolling()
+    } catch (error) {
+      await mapHelperError(error)
+    } finally {
+      busy.value = false
     }
   }
 
@@ -228,24 +285,160 @@ export function useArmoireHelper(
     detail.value = error instanceof Error ? error.message : String(error)
   }
 
+  function getProbeIntervalMs(): number {
+    return typeof document !== 'undefined' && document.visibilityState === 'hidden'
+      ? PROBE_HIDDEN_INTERVAL_MS
+      : PROBE_VISIBLE_INTERVAL_MS
+  }
+
+  function startProbePolling() {
+    if (!health.value || typeof window === 'undefined') {
+      return
+    }
+
+    stopProbePolling()
+    void pollHelperProbe()
+  }
+
+  function stopProbePolling() {
+    if (typeof window !== 'undefined' && probeTimer !== 0) {
+      window.clearTimeout(probeTimer)
+    }
+
+    probeTimer = 0
+    cancelAutoRefresh()
+  }
+
+  function scheduleProbePolling() {
+    if (!health.value || typeof window === 'undefined') {
+      return
+    }
+
+    probeTimer = window.setTimeout(() => {
+      probeTimer = 0
+      void pollHelperProbe()
+    }, getProbeIntervalMs())
+  }
+
+  async function pollHelperProbe() {
+    if (!health.value) {
+      return
+    }
+
+    if (probeBusy || busy.value) {
+      scheduleProbePolling()
+      return
+    }
+
+    probeBusy = true
+
+    try {
+      const helperApi = await loadHelperApi()
+      const nextProbe = await helperApi.fetchArmoireHelperProbe()
+      const nextSignature = buildRetainerCacheSignature(nextProbe)
+      const changed =
+        lastRetainerCacheSignature !== '' && nextSignature !== lastRetainerCacheSignature
+
+      probe.value = nextProbe
+      lastRetainerCacheSignature = nextSignature
+
+      if (changed) {
+        scheduleAutoRefresh()
+      }
+    } catch (error) {
+      await mapHelperError(error)
+    } finally {
+      probeBusy = false
+      scheduleProbePolling()
+    }
+  }
+
+  function buildRetainerCacheSignature(currentProbe: ArmoireHelperProbe): string {
+    return currentProbe.retainerCaches
+      .map((entry) => `${entry.retainerId}:${entry.itemCount}`)
+      .sort()
+      .join('|')
+  }
+
+  function scheduleAutoRefresh() {
+    if (typeof window === 'undefined') {
+      void refreshSnapshotSilently()
+      return
+    }
+
+    cancelAutoRefresh()
+    autoRefreshTimer = window.setTimeout(() => {
+      autoRefreshTimer = 0
+      void refreshSnapshotSilently()
+    }, AUTO_REFRESH_AFTER_RETAINER_CACHE_MS)
+  }
+
+  function cancelAutoRefresh() {
+    if (typeof window !== 'undefined' && autoRefreshTimer !== 0) {
+      window.clearTimeout(autoRefreshTimer)
+    }
+
+    autoRefreshTimer = 0
+  }
+
+  async function refreshSnapshotSilently(options: { ignoreBusy?: boolean } = {}) {
+    if (!health.value || autoRefreshBusy || (busy.value && options.ignoreBusy !== true)) {
+      return
+    }
+
+    autoRefreshBusy = true
+
+    try {
+      const helperApi = await loadHelperApi()
+      const snapshot = await helperApi.refreshArmoireHelperSnapshot()
+      const imported = loadSnapshotPayload(snapshot, null)
+
+      if (imported) {
+        status.value = 'ready'
+        detail.value = null
+      }
+    } catch (error) {
+      await mapHelperError(error)
+    } finally {
+      autoRefreshBusy = false
+    }
+  }
+
+  if (typeof document !== 'undefined') {
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+  }
+
+  onBeforeUnmount(() => {
+    stopProbePolling()
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  })
+
   return {
     status,
     busy,
     detail,
     health,
+    probe,
     endpoint,
     titleKey,
     messageKey,
     tone,
     canRefresh,
     canShutdown,
+    canSelectProcess,
+    canClearRetainerCache,
+    cachedRetainers,
     connectHelper,
     refreshHelper,
+    clearRetainerCache,
     shutdownHelper,
     processes,
     processPickerOpen,
     processBusy,
     processError,
+    openProcessPicker,
     loadProcesses,
     selectProcess,
     closeProcessPicker

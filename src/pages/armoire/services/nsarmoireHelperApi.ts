@@ -24,6 +24,52 @@ export interface ArmoireHelperHealth {
   gameProcessCount?: number
 }
 
+export interface ArmoireHelperProbe {
+  ok: boolean
+  helperVersion: string
+  gameProcessFound: boolean
+  selectedPid?: number | null
+  character: {
+    located: boolean
+    loaded: boolean
+    name?: string | null
+    worldId?: number | null
+    worldName?: string | null
+    status: string
+  }
+  dresserLocated: boolean
+  dresserLoaded: boolean
+  inventoryLocated: boolean
+  retainerManagerLocated: boolean
+  inventoryContainerTableLocated: boolean
+  retainers: ArmoireHelperRetainerProbe[]
+  retainerCaches: ArmoireHelperRetainerCacheProbe[]
+}
+
+export interface ArmoireHelperRetainerProbe {
+  slot: number
+  retainerId: number
+  name: string
+  jobId: number
+  level: number
+  itemCount: number
+  marketItemCount: number
+  available: boolean
+  ventureId: number
+  ventureComplete: number
+  isActive: boolean
+  inventoryCached: boolean
+  cachedItemCount: number
+  cachedAt?: string | null
+}
+
+export interface ArmoireHelperRetainerCacheProbe {
+  retainerId: string
+  retainerName: string
+  itemCount: number
+  updatedAt: string
+}
+
 export interface ArmoireHelperProcess {
   pid: number
   processName: string
@@ -110,6 +156,10 @@ export async function fetchArmoireHelperHealth(): Promise<ArmoireHelperHealth> {
   return requestHelperJson<ArmoireHelperHealth>('/health')
 }
 
+export async function fetchArmoireHelperProbe(): Promise<ArmoireHelperProbe> {
+  return requestHelperJson<ArmoireHelperProbe>('/probe')
+}
+
 export async function fetchArmoireHelperProcesses(): Promise<ArmoireHelperProcess[]> {
   const payload = await requestHelperJson<ArmoireHelperProcessListPayload>('/processes')
   return Array.isArray(payload.processes) ? payload.processes : []
@@ -122,6 +172,12 @@ export async function selectArmoireHelperProcess(pid: number): Promise<ArmoireHe
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ pid })
+  })
+}
+
+export async function clearArmoireHelperRetainerCache(): Promise<ArmoireHelperHealth> {
+  return requestHelperJson<ArmoireHelperHealth>('/retainer-cache/clear', {
+    method: 'POST'
   })
 }
 

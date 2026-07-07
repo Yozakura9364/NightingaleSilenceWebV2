@@ -111,6 +111,9 @@ internal sealed class LocalHttpServer
 
                     await WriteJson(context, snapshotService.SelectProcess(request.Pid));
                     break;
+                case "/retainer-cache/clear" when context.Request.HttpMethod == "POST":
+                    await WriteJson(context, snapshotService.ClearRetainerCache());
+                    break;
                 case "/snapshot" when context.Request.HttpMethod is "GET" or "POST":
                 case "/snapshot/refresh" when context.Request.HttpMethod == "POST":
                     await WriteJson(context, snapshotService.GetSnapshot());

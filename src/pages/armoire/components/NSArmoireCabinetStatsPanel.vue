@@ -21,7 +21,16 @@
           <h3>{{ t(textKeys.nsarmoireCabinetTransferableTitle) }}</h3>
 
           <ul v-if="hasVisibleTransferableItems" class="nsarmoire-collection-panel__list">
-            <li v-for="item in visibleTransferableItems" :key="item.key">
+            <li
+              v-for="item in visibleTransferableItems"
+              :key="item.key"
+              @contextmenu="openItemWikiByContextMenu(item.name, $event)"
+              @pointerdown="startItemWikiLongPress(item.name, $event)"
+              @pointermove="moveItemWikiLongPress"
+              @pointerup="cancelItemWikiLongPress"
+              @pointercancel="cancelItemWikiLongPress"
+              @pointerleave="cancelItemWikiLongPress"
+            >
               <img
                 v-if="item.iconUrl"
                 :src="item.iconUrl"
@@ -52,7 +61,16 @@
           <h3>{{ t(textKeys.nsarmoireCabinetMissingTitle) }}</h3>
 
           <ul v-if="hasVisibleMissingItems" class="nsarmoire-collection-panel__list">
-            <li v-for="item in visibleMissingItems" :key="item.key">
+            <li
+              v-for="item in visibleMissingItems"
+              :key="item.key"
+              @contextmenu="openItemWikiByContextMenu(item.name, $event)"
+              @pointerdown="startItemWikiLongPress(item.name, $event)"
+              @pointermove="moveItemWikiLongPress"
+              @pointerup="cancelItemWikiLongPress"
+              @pointercancel="cancelItemWikiLongPress"
+              @pointerleave="cancelItemWikiLongPress"
+            >
               <img
                 v-if="item.iconUrl"
                 :src="item.iconUrl"
@@ -111,6 +129,7 @@ import {
   getArmoireItemIconUrl,
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
+import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
 import { useLocale } from '@/stores/locale'
 
 interface CabinetItemView {
@@ -128,6 +147,12 @@ const props = defineProps<{
 }>()
 
 const { t } = useLocale()
+const {
+  cancelItemWikiLongPress,
+  moveItemWikiLongPress,
+  openItemWikiByContextMenu,
+  startItemWikiLongPress
+} = useArmoireItemWikiNavigation()
 const CABINET_BATCH_SIZE = 24
 const visibleTransferableCount = ref(CABINET_BATCH_SIZE)
 const visibleMissingCount = ref(CABINET_BATCH_SIZE)
@@ -303,6 +328,8 @@ function hideBrokenImage(event: Event): void {
   padding: 6px;
   border: 1px solid var(--ns-pixel-border-soft);
   background: #ffffff;
+  cursor: context-menu;
+  -webkit-touch-callout: none;
 }
 
 .nsarmoire-collection-panel__list img,

@@ -106,6 +106,15 @@ function buildDisplayItem(itemId, sourceItem) {
     item.name = sourceItem.name
   }
 
+  if (
+    sourceItem.localizedNames &&
+    typeof sourceItem.localizedNames === 'object' &&
+    !Array.isArray(sourceItem.localizedNames) &&
+    Object.keys(sourceItem.localizedNames).length > 0
+  ) {
+    item.localizedNames = sourceItem.localizedNames
+  }
+
   if (Number.isInteger(sourceItem.iconId) && sourceItem.iconId > 0) {
     item.iconId = sourceItem.iconId
   }

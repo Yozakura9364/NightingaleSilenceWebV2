@@ -87,14 +87,30 @@
             <dd>{{ helperEndpoint }}</dd>
           </div>
         </dl>
+
+        <div class="nsarmoire-character-panel__block-actions">
+          <AppButton size="compact" variant="secondary" @click="$emit('clear-current-profile')">
+            {{ cleanT(textKeys.nsarmoireCharacterLocalProfileClearCurrent) }}
+          </AppButton>
+        </div>
       </section>
     </template>
 
     <section class="nsarmoire-character-panel__block">
-      <h3>{{ cleanT(textKeys.nsarmoireCharacterLocalProfileTitle) }}</h3>
+      <div class="nsarmoire-character-panel__block-heading">
+        <h3>{{ cleanT(textKeys.nsarmoireCharacterLocalProfileTitle) }}</h3>
+        <span class="nsarmoire-character-panel__profile-count">{{ localProfileCountLabel }}</span>
+      </div>
       <p class="nsarmoire-character-panel__hint">
         {{ cleanT(textKeys.nsarmoireCharacterLocalProfileMessage) }}
       </p>
+
+      <AppStatus
+        v-if="profileActionStatusKey"
+        tone="success"
+        compact
+        :message="cleanT(profileActionStatusKey)"
+      />
 
       <AppStatus
         v-if="profileStorageStatus === 'loading' && !profiles.length"
@@ -107,7 +123,7 @@
         tone="danger"
         compact
         :title="cleanT(textKeys.nsarmoireCharacterLocalProfileError)"
-        :message="profileStorageError ?? cleanT(textKeys.nsarmoireCharacterLocalProfileError)"
+        :message="localProfileErrorMessage"
       />
 
       <ul v-if="profiles.length" class="nsarmoire-character-panel__profile-list">
@@ -133,6 +149,10 @@
             <div>
               <dt>{{ cleanT(textKeys.nsarmoireGeneratedAt) }}</dt>
               <dd>{{ formatDateLabel(profile.lastDataAt) }}</dd>
+            </div>
+            <div>
+              <dt>{{ cleanT(textKeys.nsarmoireCharacterLocalProfileCachedAt) }}</dt>
+              <dd>{{ formatDateLabel(profile.cachedAt) }}</dd>
             </div>
             <div>
               <dt>{{ cleanT(textKeys.nsarmoireReadContainers) }}</dt>
@@ -222,6 +242,7 @@ const props = defineProps<{
   snapshot: ArmoireSnapshot | null
   profiles: readonly ArmoireCharacterProfile[]
   activeProfileKey: string | null
+  profileActionStatusKey: string | null
   profileStorageStatus: ArmoireCharacterProfileStorageStatus
   profileStorageError: string | null
   switchingProfileKey: string | null
@@ -241,10 +262,10 @@ defineEmits<{
   'toggle-valuable-dye-id': [dyeId: number]
   'switch-profile': [profileKey: string]
   'delete-profile': [profileKey: string]
+  'clear-current-profile': []
 }>()
 
 const { current, t } = useLocale()
-const DRAFT_SUFFIX_PATTERN = /（占位用，待编辑）/g
 
 const sourceLabelKeys: Record<ArmoireSnapshotSource, string> = {
   'manual-import': textKeys.nsarmoireSourceManualImport,
@@ -269,7 +290,7 @@ const dyeValueCategoryOptions: Array<{ value: ArmoireDyeValueCategory; labelKey:
 ]
 
 function cleanText(value: string): string {
-  return value.replace(DRAFT_SUFFIX_PATTERN, '')
+  return value
 }
 
 function cleanT(key: string): string {
@@ -312,6 +333,22 @@ const currentReadContainersLabel = computed(() => {
     currentRetainerSummary.value.retainerNames,
     currentRetainerSummary.value.retainerCount
   )
+})
+const localProfileCountLabel = computed(() =>
+  cleanText(
+    formatArmoireText(t, textKeys.nsarmoireCharacterLocalProfileCount, {
+      count: props.profiles.length
+    })
+  )
+)
+const localProfileErrorMessage = computed(() => {
+  const message = cleanT(textKeys.nsarmoireCharacterLocalProfileUnavailable)
+
+  if (!props.profileStorageError) {
+    return message
+  }
+
+  return `${message} ${props.profileStorageError}`
 })
 
 const storeSpecialDyeOptions = computed(() =>
@@ -483,6 +520,30 @@ function getProfileTitle(profile: ArmoireCharacterProfile): string {
 
 .nsarmoire-character-panel h3 {
   font-size: 14px;
+}
+
+.nsarmoire-character-panel__block-heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.nsarmoire-character-panel__profile-count {
+  color: var(--ns-color-text-muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.nsarmoire-character-panel__block-actions {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 .nsarmoire-character-panel__hint {

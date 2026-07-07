@@ -61,6 +61,7 @@ const GLOBAL_PRODUCT_ID_BY_OUTFIT_ID = new Map([
   ['cn-1673893209865605120', 913],
   ['cn-1905464059595239424', 1065],
   ['cn-1949696744794300417', 1073],
+  ['cn-2029848962696134657', 1141],
   ['cn-2047568766563434497', 1147],
   ['cn-2054809453562417152', 1156]
 ])
@@ -339,7 +340,8 @@ const COVER_ITEM_NAME_HINTS = {
 }
 const MANUAL_OUTFIT_ITEM_IDS_BY_ID = new Map([
   ['cn-485', [21017, 21018, 21019, 21020, 21021]],
-  ['cn-484', [21017, 21018, 21019, 21020, 21026]]
+  ['cn-484', [21017, 21018, 21019, 21020, 21026]],
+  ['cn-2029848962696134657', [50451, 50452, 50453]]
 ])
 const MANUAL_OUTFIT_DETAIL_TAGS_BY_ID = new Map([
   ['cn-485', ['maleOnly']],
@@ -717,15 +719,15 @@ async function fetchJson(url) {
   return response.json()
 }
 
-function buildGlobalProductUrl(productId) {
+function buildGlobalProductUrl(productId, lang = 'ja-jp', currency = 'JPY') {
   const url = new URL(`${GLOBAL_PRODUCT_API_BASE}/products/${productId}`)
-  url.searchParams.set('lang', 'ja-jp')
-  url.searchParams.set('currency', 'JPY')
+  url.searchParams.set('lang', lang)
+  url.searchParams.set('currency', currency)
   return url
 }
 
-async function fetchGlobalProduct(productId) {
-  const payload = await fetchJson(buildGlobalProductUrl(productId))
+async function fetchGlobalProduct(productId, lang = 'ja-jp', currency = 'JPY') {
+  const payload = await fetchJson(buildGlobalProductUrl(productId, lang, currency))
 
   if (!payload?.product) {
     throw new Error(`Global product ${productId} returned no product`)
@@ -734,14 +736,14 @@ async function fetchGlobalProduct(productId) {
   return payload.product
 }
 
-async function fetchGlobalProducts(productIds) {
+async function fetchGlobalProducts(productIds, lang = 'ja-jp', currency = 'JPY') {
   const products = new Map()
 
   for (const productId of productIds) {
     try {
-      products.set(productId, await fetchGlobalProduct(productId))
+      products.set(productId, await fetchGlobalProduct(productId, lang, currency))
     } catch (error) {
-      console.warn(`Global product fetch failed for ${productId}: ${String(error)}`)
+      console.warn(`Global product fetch failed for ${productId} (${lang}): ${String(error)}`)
     }
   }
 
@@ -1087,6 +1089,10 @@ function inferStoreTags(globalProduct, outfit, tagsByProductId) {
     tags.delete('bonusCostume')
   }
 
+  if (tags.has('crossoverCostume')) {
+    return ['crossoverCostume']
+  }
+
   return getUniqueOrderedValues(Array.from(tags), STORE_TAG_ORDER)
 }
 
@@ -1131,25 +1137,50 @@ function getGlobalMetadata(globalProduct, productId) {
   }
 }
 
+function getGlobalLocalizedNames(globalProduct, localizedGlobalProducts = {}) {
+  const localizedNames = {}
+  const jaName = cleanText(globalProduct?.name)
+  const enName = cleanText(localizedGlobalProducts.en?.name)
+
+  if (jaName) {
+    localizedNames.ja = jaName
+  }
+
+  if (enName) {
+    localizedNames.en = enName
+  }
+
+  return Object.keys(localizedNames).length > 0 ? localizedNames : undefined
+}
+
 function formatGlobalPriceLabel(globalProduct) {
-  return (
-    cleanText(globalProduct?.salePriceText) ||
-    cleanText(globalProduct?.priceText) ||
-    (Number.isFinite(Number(globalProduct?.salePrice))
-      ? `${Number(globalProduct.salePrice)} 円`
-      : Number.isFinite(Number(globalProduct?.price))
-        ? `${Number(globalProduct.price)} 円`
-        : undefined)
-  )
+  const priceText = cleanText(globalProduct?.salePriceText) || cleanText(globalProduct?.priceText)
+  const textAmount = priceText.match(/([\d,]+)\s*円/)?.[1]
+
+  if (textAmount) {
+    return `${textAmount.replace(/,/g, '')} crysta`
+  }
+
+  if (Number.isFinite(Number(globalProduct?.salePrice))) {
+    return `${Number(globalProduct.salePrice)} crysta`
+  }
+
+  if (Number.isFinite(Number(globalProduct?.price))) {
+    return `${Number(globalProduct.price)} crysta`
+  }
+
+  return undefined
 }
 
 function buildOutfitFromGlobalProduct(
   globalProduct,
   jaNameIndex,
   catalogItemIndex,
-  tagsByProductId
+  tagsByProductId,
+  localizedGlobalProducts
 ) {
   const productId = Number(globalProduct?.id ?? 0)
+  const priceLabel = formatGlobalPriceLabel(globalProduct)
   const globalItems = getGlobalItems(globalProduct)
   const { itemIds, unresolvedItemNames } = resolveGlobalStoreItems(
     globalItems,
@@ -1167,11 +1198,13 @@ function buildOutfitFromGlobalProduct(
     sourceUrl: GLOBAL_STORE_URL,
     productId: String(productId),
     skuId: cleanText(globalProduct?.skuId),
-    priceLabel: formatGlobalPriceLabel(globalProduct),
+    priceLabel,
+    ...(priceLabel ? { regionalPriceLabels: { global: priceLabel } } : {}),
     itemNames: getCatalogItemNames(itemIds, catalogItemIndex),
     itemIds,
     mappingSource: itemIds.length > 0 ? 'global-store' : undefined,
     needsMapping: itemIds.length === 0 || unresolvedItemNames.length > 0,
+    localizedNames: getGlobalLocalizedNames(globalProduct, localizedGlobalProducts),
     ...getGlobalMetadata(globalProduct, productId)
   }
   const tags = inferStoreTags(globalProduct, outfit, tagsByProductId)
@@ -1191,7 +1224,8 @@ function applyGlobalProductData(
   globalProduct,
   jaNameIndex,
   catalogItemIndex,
-  tagsByProductId
+  tagsByProductId,
+  localizedGlobalProducts
 ) {
   const productId = Number(globalProduct?.id ?? getGlobalProductId(outfit) ?? 0)
   const globalItems = getGlobalItems(globalProduct)
@@ -1203,6 +1237,12 @@ function applyGlobalProductData(
   const tags = inferStoreTags(globalProduct, outfit, tagsByProductId)
   const detailTags = inferStoreDetailTags(globalProduct)
   const globalMetadata = getGlobalMetadata(globalProduct, productId)
+  const localizedNames = {
+    ...outfit.localizedNames,
+    ...getGlobalLocalizedNames(globalProduct, localizedGlobalProducts)
+  }
+  const localizedNameMetadata =
+    Object.keys(localizedNames).length > 0 ? { localizedNames } : {}
   const regionalStoreUrls =
     productId > 0
       ? {
@@ -1219,6 +1259,7 @@ function applyGlobalProductData(
     return {
       ...outfit,
       ...globalMetadata,
+      ...localizedNameMetadata,
       ...(outfit.tags ? { tags: outfit.tags } : tags.length > 0 ? { tags } : {}),
       ...(outfit.detailTags
         ? { detailTags: outfit.detailTags }
@@ -1234,6 +1275,7 @@ function applyGlobalProductData(
     return {
       ...outfit,
       ...globalMetadata,
+      ...localizedNameMetadata,
       ...tagMetadata,
       regionalStoreUrls,
       needsMapping: outfit.needsMapping || globalItems.length > 0,
@@ -1244,6 +1286,7 @@ function applyGlobalProductData(
   return {
     ...outfit,
     ...globalMetadata,
+    ...localizedNameMetadata,
     ...tagMetadata,
     regionalStoreUrls,
     itemNames: getCatalogItemNames(itemIds, catalogItemIndex),
@@ -1277,10 +1320,14 @@ function buildOutfitFromCnProduct(row, nameIndex, catalogItemIndex) {
       : getCatalogItemNames(itemIds, catalogItemIndex)
   const detailTags = MANUAL_OUTFIT_DETAIL_TAGS_BY_ID.get(outfitId) ?? []
   const storeUrl = skuId ? `https://qu.sdo.com/product-detail/${skuId}` : CN_STORE_URL
+  const priceLabel = formatPriceLabel(row)
   const outfit = {
     id: outfitId,
     region: 'cn',
     name: String(product.productName ?? '').trim(),
+    localizedNames: {
+      'zh-CN': String(product.productName ?? '').trim()
+    },
     storeUrl,
     regionalStoreUrls: {
       cn: storeUrl
@@ -1288,7 +1335,8 @@ function buildOutfitFromCnProduct(row, nameIndex, catalogItemIndex) {
     sourceUrl: CN_STORE_URL,
     productId,
     skuId,
-    priceLabel: formatPriceLabel(row),
+    priceLabel,
+    ...(priceLabel ? { regionalPriceLabels: { cn: priceLabel } } : {}),
     itemNames,
     itemIds,
     mappingSource: itemIds.length > 0 ? 'cn-store' : undefined,
@@ -1327,8 +1375,20 @@ function mergeExistingCorrection(outfit, existingOutfit, preserveExisting) {
   }
 
   const regionalStoreUrls = {
-    ...existingOutfit.regionalStoreUrls,
-    ...outfit.regionalStoreUrls
+    ...outfit.regionalStoreUrls,
+    ...existingOutfit.regionalStoreUrls
+  }
+  const localizedNames = {
+    ...outfit.localizedNames,
+    ...existingOutfit.localizedNames
+  }
+  const regionalPriceLabels = {
+    ...outfit.regionalPriceLabels,
+    ...existingOutfit.regionalPriceLabels
+  }
+  const preservedMetadata = {
+    ...(Object.keys(localizedNames).length > 0 ? { localizedNames } : {}),
+    ...(Object.keys(regionalPriceLabels).length > 0 ? { regionalPriceLabels } : {})
   }
 
   const existingItemIds = getUniqueSortedItemIds(existingOutfit.itemIds ?? [])
@@ -1342,6 +1402,7 @@ function mergeExistingCorrection(outfit, existingOutfit, preserveExisting) {
   if (!shouldPreserveItemIds) {
     return {
       ...outfit,
+      ...preservedMetadata,
       regionalStoreUrls,
       coverItemId: existingOutfit.coverItemId ?? outfit.coverItemId,
       corrected: existingOutfit.corrected,
@@ -1360,6 +1421,7 @@ function mergeExistingCorrection(outfit, existingOutfit, preserveExisting) {
 
   return {
     ...outfit,
+    ...preservedMetadata,
     regionalStoreUrls,
     coverItemId: existingOutfit.coverItemId ?? outfit.coverItemId,
     itemIds: existingItemIds,
@@ -1465,6 +1527,7 @@ async function main() {
     new Set([...baseGlobalProductIds, ...GLOBAL_STANDALONE_PRODUCT_IDS])
   ).sort((left, right) => left - right)
   const globalProducts = await fetchGlobalProducts(globalProductIds)
+  const enGlobalProducts = await fetchGlobalProducts(globalProductIds, 'en-us', 'USD')
   const globalStandaloneOutfits = GLOBAL_STANDALONE_PRODUCT_IDS.filter(
     (productId) => !baseGlobalProductIds.has(productId) && globalProducts.has(productId)
   )
@@ -1473,7 +1536,10 @@ async function main() {
         globalProducts.get(productId),
         jaNameIndex,
         catalogItemIndex,
-        globalTagsByProductId
+        globalTagsByProductId,
+        {
+          en: enGlobalProducts.get(productId)
+        }
       )
     )
     .filter((outfit) => outfit.productId && outfit.name)
@@ -1487,7 +1553,10 @@ async function main() {
         globalProducts.get(getGlobalProductId(outfit)),
         jaNameIndex,
         catalogItemIndex,
-        globalTagsByProductId
+        globalTagsByProductId,
+        {
+          en: enGlobalProducts.get(getGlobalProductId(outfit))
+        }
       )
     )
     .concat(globalStandaloneOutfits)

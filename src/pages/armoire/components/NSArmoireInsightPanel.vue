@@ -72,6 +72,27 @@
       </NSArmoireActionCard>
 
       <NSArmoireActionCard
+        :title="t(textKeys.nsarmoireRecommendationCrafterGathererReplicas)"
+        :count="crafterGathererReplicaCount"
+        :toggle-label="getToggleLabel('crafterGathererReplicas', crafterGathererReplicaCount)"
+        :sticky-header="isListExpanded('crafterGathererReplicas')"
+        @toggle="toggleList('crafterGathererReplicas')"
+      >
+        <AppStatus
+          v-if="isCrafterGathererReplicaCatalogMissing"
+          compact
+          tone="warning"
+          :message="t(textKeys.nsarmoireCatalogPending)"
+        />
+        <NSArmoireReadableItemList
+          v-else
+          :items="crafterGathererReplicaItems"
+          :limit="listPreviewLimit"
+          :expanded="isListExpanded('crafterGathererReplicas')"
+        />
+      </NSArmoireActionCard>
+
+      <NSArmoireActionCard
         :title="t(textKeys.nsarmoireRecommendationDuplicateItems)"
         :count="duplicateItemCount"
         :toggle-label="getToggleLabel('duplicateItems', duplicateItemCount)"
@@ -140,7 +161,12 @@ const { t } = useLocale()
 const listPreviewLimit = ARMOIRE_INSIGHT_LIST_PREVIEW_LIMIT
 
 type ExpandableListKey =
-  'cabinet' | 'setPieces' | 'tradableItems' | 'duplicateItems' | 'duplicateModels'
+  | 'cabinet'
+  | 'setPieces'
+  | 'tradableItems'
+  | 'crafterGathererReplicas'
+  | 'duplicateItems'
+  | 'duplicateModels'
 
 const expandedLists = ref<Partial<Record<ExpandableListKey, boolean>>>({})
 
@@ -149,6 +175,7 @@ function isExpandableListKey(key: string): key is ExpandableListKey {
     key === 'cabinet' ||
     key === 'setPieces' ||
     key === 'tradableItems' ||
+    key === 'crafterGathererReplicas' ||
     key === 'duplicateItems' ||
     key === 'duplicateModels'
   )
@@ -162,15 +189,18 @@ const {
   cabinetCount,
   setBucketLoosePieceCount,
   tradableItemCount,
+  crafterGathererReplicaCount,
   duplicateItemCount,
   duplicateModelCount,
   isCabinetCatalogMissing,
   isSetBucketLoosePieceCatalogMissing,
   isTradableCatalogMissing,
+  isCrafterGathererReplicaCatalogMissing,
   isIdenticalModelCatalogMissing,
   transferableItems,
   setBucketLoosePieceItems,
   tradableItems,
+  crafterGathererReplicaItems,
   duplicateItemItems,
   duplicateModelItems
 } = useArmoireInsightViewModels(props, t, { getListLimit })

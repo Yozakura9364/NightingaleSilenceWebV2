@@ -14,19 +14,24 @@ const TRADABLE_CHECK_CONTAINERS = new Set<ArmoireContainerKind>([
   'armoury'
 ])
 
-function isUnboundTradableAppearance(
-  item: ArmoireOwnedItem,
-  catalog: ArmoireCatalog
-): boolean {
+function isKnownUnboundItemInstance(item: ArmoireOwnedItem): boolean {
+  return item.spiritbond === 0
+}
+
+function isTradableAppearanceItem(item: ArmoireOwnedItem, catalog: ArmoireCatalog): boolean {
+  return catalog.items[item.itemId]?.isTradable === true
+}
+
+function isUnboundTradableAppearance(item: ArmoireOwnedItem, catalog: ArmoireCatalog): boolean {
   if (!TRADABLE_CHECK_CONTAINERS.has(item.container)) {
     return false
   }
 
-  if (item.spiritbond !== 0) {
+  if (!isKnownUnboundItemInstance(item)) {
     return false
   }
 
-  return catalog.items[item.itemId]?.isTradable === true
+  return isTradableAppearanceItem(item, catalog)
 }
 
 export function analyzeTradableItems(

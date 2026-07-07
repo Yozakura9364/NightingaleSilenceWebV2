@@ -3,7 +3,7 @@
     <div
       class="nsarmoire-workspace__body"
       :class="{
-        'nsarmoire-workspace__body--empty': !snapshot
+        'nsarmoire-workspace__body--empty': !snapshot && activeSection !== 'characters'
       }"
     >
       <div class="nsarmoire-workspace__shell">
@@ -14,9 +14,21 @@
         />
 
         <div class="nsarmoire-workspace__content">
+          <a
+            class="nsarmoire-workspace__helper-download"
+            :href="HELPER_RELEASE_URL"
+            target="_blank"
+            rel="noopener noreferrer"
+            :aria-label="t(textKeys.nsarmoireDownloadHelper)"
+            :title="t(textKeys.nsarmoireDownloadHelper)"
+          >
+            <span>{{ t(textKeys.nsarmoireDownloadHelperShort) }}</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+
           <NSArmoireImportPanel
             class="nsarmoire-workspace__import"
-            :mode="snapshot ? 'compact' : 'hero'"
+            :mode="snapshot || activeSection === 'characters' ? 'compact' : 'hero'"
             :snapshot="snapshot"
             :error-key="errorKey"
             :error-detail="errorDetail"
@@ -27,19 +39,24 @@
             :helper-error-detail="helperDetail"
             :helper-endpoint="helperEndpoint"
             :helper-health="helperHealth"
+            :helper-probe="helperProbe"
             :helper-busy="helperBusy"
             :helper-can-refresh="helperCanRefresh"
             :helper-can-shutdown="helperCanShutdown"
+            :helper-can-select-process="helperCanSelectProcess"
+            :helper-can-clear-retainer-cache="helperCanClearRetainerCache"
             @import-file="importSnapshotFile"
             @load-example="loadExampleSnapshot"
             @connect-helper="connectHelper"
+            @select-helper-process="openHelperProcessPicker"
             @refresh-helper="refreshHelper"
+            @clear-retainer-cache="clearHelperRetainerCache"
             @shutdown-helper="shutdownHelper"
-            @clear="clearSnapshot"
           />
 
-          <div v-if="snapshot" class="nsarmoire-workspace__main">
+          <div v-if="snapshot || activeSection === 'characters'" class="nsarmoire-workspace__main">
             <section
+              v-if="snapshot"
               v-show="activeSection === 'cleanup'"
               class="nsarmoire-workspace__section"
               aria-labelledby="nsarmoire-cleanup-heading"
@@ -57,15 +74,10 @@
                 :has-pending-catalog-checks="hasPendingCatalogChecks"
                 @load-identical-model-catalog="loadIdenticalModelCatalogForCleanup"
               />
-
-              <NSArmoireOverview
-                :analysis="analysis?.basic ?? null"
-                :title-key="textKeys.nsarmoireSectionStorage"
-              />
             </section>
 
             <section
-              v-if="shouldRenderCollectionSection"
+              v-if="snapshot && shouldRenderCollectionSection"
               v-show="activeSection === 'collection'"
               class="nsarmoire-workspace__section nsarmoire-workspace__section--reference"
               aria-labelledby="nsarmoire-collection-heading"
@@ -109,11 +121,12 @@
                   :analysis="analysis"
                   :catalog="catalog"
                 />
-                <NSArmoireCatalogPanel
+                <NSArmoireOverview
                   v-else
-                  :analysis="analysis"
+                  :analysis="analysis?.basic ?? null"
                   :catalog="catalog"
                   :snapshot="snapshot"
+                  :title-key="textKeys.nsarmoireCollectionCatalog"
                 />
               </div>
             </section>
@@ -123,6 +136,7 @@
               :snapshot="snapshot"
               :profiles="characterProfiles"
               :active-profile-key="activeProfileKey"
+              :profile-action-status-key="profileActionStatusKey"
               :profile-storage-status="profileStorageStatus"
               :profile-storage-error="profileStorageError"
               :switching-profile-key="switchingProfileKey"
@@ -138,6 +152,7 @@
               @toggle-valuable-dye-id="toggleValuableDyeId"
               @switch-profile="switchCharacterProfile"
               @delete-profile="deleteCharacterProfile"
+              @clear-current-profile="clearCurrentProfileData"
               @reload-catalog="reloadCatalog"
             />
           </div>
@@ -185,6 +200,7 @@ import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalys
 import { useArmoireCabinetCatalog } from '@/pages/armoire/composables/useArmoireCabinetCatalog'
 import { useArmoireCabinetItemChunks } from '@/pages/armoire/composables/useArmoireCabinetItemChunks'
 import { useArmoireCharacterProfiles } from '@/pages/armoire/composables/useArmoireCharacterProfiles'
+import { useArmoireCrafterGathererReplicaCatalog } from '@/pages/armoire/composables/useArmoireCrafterGathererReplicaCatalog'
 import { useArmoireDyeCatalog } from '@/pages/armoire/composables/useArmoireDyeCatalog'
 import { useArmoireDyePreferences } from '@/pages/armoire/composables/useArmoireDyePreferences'
 import { useArmoireGlamourSetCatalog } from '@/pages/armoire/composables/useArmoireGlamourSetCatalog'
@@ -198,7 +214,7 @@ import NSArmoireSectionRail from '@/pages/armoire/components/NSArmoireSectionRai
 import { useLocale } from '@/stores/locale'
 
 type ArmoireWorkspaceSection = 'cleanup' | 'collection' | 'characters'
-type ArmoireCollectionDetailTab = 'store' | 'cabinet' | 'sets' | 'catalog'
+type ArmoireCollectionDetailTab = 'store' | 'cabinet' | 'sets' | 'storage'
 type ArmoireStoreCatalogStatus = 'idle' | 'loading' | 'ready' | 'error'
 type ArmoireStoreItemDisplayIndexStatus = 'idle' | 'loading' | 'ready' | 'error'
 
@@ -216,13 +232,11 @@ const EMPTY_WORKSPACE_STORE_ITEM_DISPLAY_INDEX: ArmoireStoreItemDisplayIndex = {
 const DATA_BASE_URL = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data`
 const STORE_CATALOG_URL = `${DATA_BASE_URL}/armoire-store-catalog.json`
 const STORE_ITEM_DISPLAY_INDEX_URL = `${DATA_BASE_URL}/armoire-store-item-display-index.json`
+const HELPER_RELEASE_URL = 'https://github.com/Yozakura9364/NightingaleSilenceWebV2/releases/latest'
 
 const AppTabs = defineAsyncComponent(() => import('@/components/AppTabs.vue'))
 const NSArmoireCabinetStatsPanel = defineAsyncComponent(
   () => import('@/pages/armoire/components/NSArmoireCabinetStatsPanel.vue')
-)
-const NSArmoireCatalogPanel = defineAsyncComponent(
-  () => import('@/pages/armoire/components/NSArmoireCatalogPanel.vue')
 )
 const NSArmoireCharacterPanel = defineAsyncComponent(
   () => import('@/pages/armoire/components/NSArmoireCharacterPanel.vue')
@@ -248,10 +262,10 @@ const activeSection = ref<ArmoireWorkspaceSection>('cleanup')
 const activeDetailTab = ref<ArmoireCollectionDetailTab>('store')
 const mountedCollectionSection = ref(false)
 const isCollectionLoading = ref(false)
+const profileActionStatusKey = ref<string | null>(null)
 let collectionLoadFrame = 0
 let collectionLoadTimer = 0
 let cleanupIdenticalModelCatalogTimer = 0
-const COLLECTION_LOADING_MIN_MS = 420
 const CLEANUP_IDENTICAL_MODEL_CATALOG_LOAD_DELAY_MS = 180
 const sectionItems = computed(() => [
   {
@@ -284,7 +298,7 @@ const detailTabs = computed(() => [
     label: t(textKeys.nsarmoireCollectionGlamourSetStats)
   },
   {
-    value: 'catalog',
+    value: 'storage',
     label: t(textKeys.nsarmoireCollectionCatalog)
   }
 ])
@@ -354,6 +368,12 @@ const {
   error: dyeCatalogError,
   loadDyeCatalog
 } = useArmoireDyeCatalog()
+const {
+  catalog: crafterGathererReplicaCatalog,
+  status: crafterGathererReplicaCatalogStatus,
+  error: crafterGathererReplicaCatalogError,
+  loadCrafterGathererReplicaCatalog
+} = useArmoireCrafterGathererReplicaCatalog()
 const storeCatalog = shallowRef<ArmoireStoreCatalog>(EMPTY_WORKSPACE_STORE_CATALOG)
 const storeCatalogStatus = ref<ArmoireStoreCatalogStatus>('idle')
 const storeCatalogError = ref<string | null>(null)
@@ -369,7 +389,8 @@ const catalog = computed(() =>
     glamourSetChunkCatalog.value,
     glamourSetCatalog.value,
     identicalModelCatalog.value,
-    dyeCatalog.value
+    dyeCatalog.value,
+    crafterGathererReplicaCatalog.value
   )
 )
 
@@ -403,18 +424,23 @@ const {
   detail: helperDetail,
   endpoint: helperEndpoint,
   health: helperHealth,
+  probe: helperProbe,
   titleKey: helperTitleKey,
   messageKey: helperMessageKey,
   tone: helperTone,
   canRefresh: helperCanRefresh,
   canShutdown: helperCanShutdown,
+  canSelectProcess: helperCanSelectProcess,
+  canClearRetainerCache: helperCanClearRetainerCache,
   connectHelper,
   refreshHelper,
+  clearRetainerCache: clearHelperRetainerCache,
   shutdownHelper,
   processes: helperProcesses,
   processPickerOpen: helperProcessPickerOpen,
   processBusy: helperProcessBusy,
   processError: helperProcessError,
+  openProcessPicker: openHelperProcessPicker,
   loadProcesses: loadHelperProcesses,
   selectProcess: selectHelperProcess,
   closeProcessPicker: closeHelperProcessPicker
@@ -442,7 +468,8 @@ const catalogStatus = computed<ArmoireCatalogStatus>(() => {
     glamourSetChunkStatus.value,
     glamourSetCatalogStatus.value,
     identicalModelCatalogStatus.value,
-    dyeCatalogStatus.value
+    dyeCatalogStatus.value,
+    crafterGathererReplicaCatalogStatus.value
   ]
 
   if (statuses.includes('loading')) {
@@ -468,7 +495,8 @@ const catalogError = computed(
       glamourSetChunkError.value,
       glamourSetCatalogError.value,
       identicalModelCatalogError.value,
-      dyeCatalogError.value
+      dyeCatalogError.value,
+      crafterGathererReplicaCatalogError.value
     ]
       .filter(Boolean)
       .join(' / ') || null
@@ -493,32 +521,20 @@ function cancelCollectionLoadFrame(): void {
 }
 
 function queueCollectionSectionMount(): void {
-  isCollectionLoading.value = true
+  cancelCollectionLoadFrame()
+  mountedCollectionSection.value = true
+  isCollectionLoading.value = false
 
   if (typeof window === 'undefined') {
-    mountedCollectionSection.value = true
-    isCollectionLoading.value = false
     return
   }
-
-  cancelCollectionLoadFrame()
-  collectionLoadFrame = window.requestAnimationFrame(() => {
-    collectionLoadFrame = window.requestAnimationFrame(() => {
-      collectionLoadTimer = window.setTimeout(() => {
-        mountedCollectionSection.value = true
-        isCollectionLoading.value = false
-        collectionLoadTimer = 0
-      }, COLLECTION_LOADING_MIN_MS)
-      collectionLoadFrame = 0
-    })
-  })
 }
 
 function shouldLoadCabinetCatalogForCurrentView(): boolean {
   return Boolean(
     snapshot.value &&
     activeSection.value === 'collection' &&
-    ['cabinet', 'catalog'].includes(activeDetailTab.value)
+    activeDetailTab.value === 'cabinet'
   )
 }
 
@@ -555,7 +571,7 @@ function shouldLoadItemDisplayChunksForCurrentView(): boolean {
   return Boolean(
     snapshot.value &&
     (activeSection.value === 'cleanup' ||
-      (activeSection.value === 'collection' && activeDetailTab.value === 'catalog'))
+      (activeSection.value === 'collection' && activeDetailTab.value === 'storage'))
   )
 }
 
@@ -566,9 +582,7 @@ function shouldLoadGlamourSetCatalogForCurrentView(): boolean {
 }
 
 function shouldLoadIdenticalModelCatalogForCurrentView(): boolean {
-  return Boolean(
-    snapshot.value && activeSection.value === 'collection' && activeDetailTab.value === 'catalog'
-  )
+  return false
 }
 
 function shouldQueueIdenticalModelCatalogForCleanup(): boolean {
@@ -629,7 +643,14 @@ function shouldLoadDyeCatalogForCurrentView(): boolean {
     (activeSection.value === 'cleanup' ||
       activeSection.value === 'characters' ||
       (activeSection.value === 'collection' &&
-        ['store', 'catalog'].includes(activeDetailTab.value)))
+        ['store', 'storage'].includes(activeDetailTab.value)))
+  )
+}
+
+function shouldLoadCrafterGathererReplicaCatalogForCurrentView(): boolean {
+  return Boolean(
+    snapshot.value &&
+      (activeSection.value === 'cleanup' || activeSection.value === 'characters')
   )
 }
 
@@ -735,6 +756,10 @@ function loadCatalogsForCurrentView(): void {
     void loadDyeCatalog()
   }
 
+  if (shouldLoadCrafterGathererReplicaCatalogForCurrentView()) {
+    void loadCrafterGathererReplicaCatalog()
+  }
+
   if (shouldLoadStoreCatalogForCurrentView()) {
     void loadStoreCatalog()
     void loadStoreItemDisplayIndex()
@@ -748,6 +773,7 @@ function reloadCatalog(): void {
   void loadGlamourSetCatalog({ force: true })
   void loadIdenticalModelCatalog({ force: true })
   void loadDyeCatalog({ force: true })
+  void loadCrafterGathererReplicaCatalog({ force: true })
 }
 
 function reloadStoreCatalog(): void {
@@ -756,6 +782,7 @@ function reloadStoreCatalog(): void {
 }
 
 async function switchCharacterProfile(profileKey: string): Promise<void> {
+  profileActionStatusKey.value = null
   const cachedSnapshot = await loadProfileSnapshot(profileKey)
 
   if (!cachedSnapshot) {
@@ -763,17 +790,33 @@ async function switchCharacterProfile(profileKey: string): Promise<void> {
   }
 
   replaceSnapshotFromCache(cachedSnapshot)
+  profileActionStatusKey.value = textKeys.nsarmoireCharacterLocalProfileSwitchSuccess
   activeSection.value = 'cleanup'
 }
 
 async function deleteCharacterProfile(profileKey: string): Promise<void> {
+  profileActionStatusKey.value = null
   const isDeletingCurrentProfile = activeProfileKey.value === profileKey
 
   await deleteProfile(profileKey)
 
+  if (profileStorageStatus.value === 'error') {
+    return
+  }
+
   if (isDeletingCurrentProfile) {
     forgetStoredSnapshot()
+    profileActionStatusKey.value = textKeys.nsarmoireCharacterLocalProfileDeleteCurrentSuccess
+    return
   }
+
+  profileActionStatusKey.value = textKeys.nsarmoireCharacterLocalProfileDeleteSuccess
+}
+
+function clearCurrentProfileData(): void {
+  clearSnapshot()
+  profileActionStatusKey.value = textKeys.nsarmoireCharacterLocalProfileClearCurrentSuccess
+  activeSection.value = 'characters'
 }
 
 watch(
@@ -827,20 +870,54 @@ onBeforeUnmount(() => {
 }
 
 .nsarmoire-workspace__shell {
+  --nsarmoire-import-compact-max: 820px;
+  --nsarmoire-import-hero-max: 760px;
+
   display: grid;
   grid-template-columns: 48px minmax(0, 1fr);
   align-items: stretch;
   min-width: 0;
   min-height: calc(100vh - 58px);
+  transition: none;
 }
 
 .nsarmoire-workspace__content {
+  position: relative;
   display: grid;
   grid-template-rows: auto 1fr;
   align-content: start;
   gap: 12px;
   min-width: 0;
   padding: 20px;
+}
+
+.nsarmoire-workspace__helper-download {
+  position: fixed;
+  top: 72px;
+  right: 22px;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 76px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 2px solid var(--ns-pixel-border);
+  background: #ffffff;
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: none;
+}
+
+.nsarmoire-workspace__helper-download:hover,
+.nsarmoire-workspace__helper-download:focus-visible {
+  outline: none;
+  box-shadow: 2px 2px 0 rgba(68, 58, 76, 0.18);
 }
 
 .nsarmoire-workspace__body--empty .nsarmoire-workspace__content {
@@ -857,11 +934,11 @@ onBeforeUnmount(() => {
 
 .nsarmoire-workspace__import.nsarmoire-import-panel--compact {
   justify-self: start;
-  width: min(820px, 100%);
+  width: min(var(--nsarmoire-import-compact-max), 100%);
 }
 
 .nsarmoire-workspace__body--empty .nsarmoire-workspace__import {
-  width: min(760px, 100%);
+  width: min(var(--nsarmoire-import-hero-max), 100%);
 }
 
 .nsarmoire-workspace__main {
@@ -1022,6 +1099,14 @@ onBeforeUnmount(() => {
 }
 
 @media (min-width: 981px) {
+  .nsarmoire-workspace__shell:has(.nsarmoire-section-rail:hover),
+  .nsarmoire-workspace__shell:has(.nsarmoire-section-rail:focus-within) {
+    --nsarmoire-import-compact-max: 752px;
+    --nsarmoire-import-hero-max: 692px;
+
+    grid-template-columns: 116px minmax(0, 1fr);
+  }
+
   .nsarmoire-workspace__content {
     grid-column: 2;
   }
@@ -1043,6 +1128,14 @@ onBeforeUnmount(() => {
 
   .nsarmoire-workspace__content {
     padding: 8px;
+  }
+
+  .nsarmoire-workspace__helper-download {
+    position: static;
+    justify-self: end;
+    min-width: 72px;
+    min-height: 32px;
+    font-size: 12px;
   }
 
   .nsarmoire-workspace__body--empty .nsarmoire-workspace__content {

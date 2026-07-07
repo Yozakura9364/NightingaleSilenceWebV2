@@ -83,6 +83,16 @@ internal sealed class SnapshotService : IDisposable
         }
     }
 
+    public HelperHealth ClearRetainerCache()
+    {
+        lock (syncRoot)
+        {
+            EnsureReader();
+            retainerInventoryCache.Clear();
+            return BuildHealth();
+        }
+    }
+
     public ArmoireSnapshot GetSnapshot()
     {
         lock (syncRoot)

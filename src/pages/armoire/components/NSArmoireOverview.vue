@@ -18,25 +18,43 @@
         </p>
       </div>
 
-      <div class="nsarmoire-metrics">
-        <article v-for="metric in metrics" :key="metric.key" class="nsarmoire-metric">
-          <span>{{ metric.label }}</span>
-          <strong>{{ metric.value }}</strong>
-        </article>
-      </div>
-
       <section class="nsarmoire-distribution" :aria-label="t(textKeys.nsarmoireDistribution)">
         <h3>{{ t(textKeys.nsarmoireDistribution) }}</h3>
 
         <div class="nsarmoire-distribution__table">
-          <div
+          <details
             v-for="entry in analysis.distribution"
             :key="entry.key"
             class="nsarmoire-distribution__row"
+            :open="expandedContainerKeys.has(entry.key)"
+            @toggle="handleContainerToggle(entry.key, $event)"
           >
-            <span>{{ getContainerLabel(entry) }}</span>
-            <strong>{{ entry.entryCount }}</strong>
-          </div>
+            <summary>
+              <span>{{ getContainerLabel(entry) }}</span>
+              <strong>{{ entry.entryCount }}</strong>
+            </summary>
+
+            <div v-if="expandedContainerKeys.has(entry.key)" class="nsarmoire-distribution__items">
+              <span
+                v-for="(item, index) in getContainerItems(entry)"
+                :key="getContainerItemKey(entry, item, index)"
+                class="nsarmoire-distribution__item"
+                :title="getContainerItemTitle(item)"
+              >
+                <img
+                  v-if="getContainerItemIconUrl(item)"
+                  :src="getContainerItemIconUrl(item)"
+                  :alt="getContainerItemName(item)"
+                  loading="lazy"
+                  @error="hideBrokenImage"
+                />
+                <span v-else aria-hidden="true"></span>
+                <b v-if="getContainerItemQuantity(item) > 1">
+                  {{ getContainerItemQuantity(item) }}
+                </b>
+              </span>
+            </div>
+          </details>
         </div>
       </section>
     </template>
@@ -44,23 +62,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
+import { getOwnedItemQuantity } from '@/lib/armoire/buildOwnedIndex'
 import { useLocale } from '@/stores/locale'
 import type {
   ArmoireBasicAnalysis,
-  ArmoireContainerDistributionEntry
+  ArmoireCatalog,
+  ArmoireContainerDistributionEntry,
+  ArmoireOwnedItem,
+  ArmoireSnapshot
 } from '@/lib/armoire/types'
-import { getArmoireContainerLabel } from '@/pages/armoire/utils/itemDisplay'
+import {
+  canShowArmoireBindState,
+  formatArmoireDyeNames,
+  formatArmoireText,
+  getArmoireContainerLabel,
+  getArmoireItemIconUrl,
+  getArmoireItemName
+} from '@/pages/armoire/utils/itemDisplay'
 
 const props = defineProps<{
   analysis: ArmoireBasicAnalysis | null
+  catalog: ArmoireCatalog
+  snapshot: ArmoireSnapshot | null
   titleKey?: string
 }>()
 
 const { t } = useLocale()
 const titleKey = computed(() => props.titleKey ?? textKeys.nsarmoireOverview)
+const expandedContainerKeys = ref(new Set<string>())
 
 function formatText(key: string, values: Record<string, string | number>): string {
   return t(key).replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? ''))
@@ -71,11 +103,6 @@ const summaries = computed(() => {
     return []
   }
 
-  const dyeKey =
-    props.analysis.dyedEntryCount > 0
-      ? textKeys.nsarmoireSummaryDyeWarning
-      : textKeys.nsarmoireSummaryNoDyeWarning
-
   return [
     {
       key: 'inventory',
@@ -83,64 +110,124 @@ const summaries = computed(() => {
         entries: props.analysis.entryCount,
         containers: props.analysis.distribution.length
       })
-    },
-    {
-      key: 'storage',
-      text: formatText(textKeys.nsarmoireSummaryStorage, {
-        dresser: props.analysis.glamourDresserEntryCount,
-        armoire: props.analysis.armoireEntryCount
-      })
-    },
-    {
-      key: 'dye',
-      text: formatText(dyeKey, {
-        count: props.analysis.dyedEntryCount
-      })
     }
   ]
 })
 
-const metrics = computed(() => {
-  if (!props.analysis) {
-    return []
+const itemsByContainerKey = computed(() => {
+  const groups = new Map<string, ArmoireOwnedItem[]>()
+
+  for (const item of props.snapshot?.items ?? []) {
+    const key = getContainerKey(item)
+    const items = groups.get(key)
+
+    if (items) {
+      items.push(item)
+    } else {
+      groups.set(key, [item])
+    }
   }
 
-  return [
-    {
-      key: 'entries',
-      label: t(textKeys.nsarmoireMetricEntries),
-      value: props.analysis.entryCount
-    },
-    {
-      key: 'uniqueItems',
-      label: t(textKeys.nsarmoireMetricUniqueItems),
-      value: props.analysis.uniqueItemCount
-    },
-    {
-      key: 'totalQuantity',
-      label: t(textKeys.nsarmoireMetricTotalQuantity),
-      value: props.analysis.totalQuantity
-    },
-    {
-      key: 'dyedEntries',
-      label: t(textKeys.nsarmoireMetricDyedEntries),
-      value: props.analysis.dyedEntryCount
-    },
-    {
-      key: 'glamourDresser',
-      label: t(textKeys.nsarmoireMetricGlamourDresser),
-      value: props.analysis.glamourDresserEntryCount
-    },
-    {
-      key: 'armoire',
-      label: t(textKeys.nsarmoireMetricArmoire),
-      value: props.analysis.armoireEntryCount
-    }
-  ]
+  return groups
 })
+
+watch(
+  () => props.snapshot,
+  () => {
+    expandedContainerKeys.value = new Set()
+  }
+)
 
 function getContainerLabel(entry: ArmoireContainerDistributionEntry): string {
   return getArmoireContainerLabel(entry, t)
+}
+
+function getContainerKey(item: ArmoireOwnedItem): string {
+  return `${item.container}::${item.containerName ?? ''}`
+}
+
+function getContainerItems(entry: ArmoireContainerDistributionEntry): ArmoireOwnedItem[] {
+  return itemsByContainerKey.value.get(entry.key) ?? []
+}
+
+function getContainerItemKey(
+  entry: ArmoireContainerDistributionEntry,
+  item: ArmoireOwnedItem,
+  index: number
+): string {
+  return `${entry.key}-${item.itemId}-${item.slotIndex ?? index}-${item.containerName ?? ''}`
+}
+
+function getContainerItemName(item: ArmoireOwnedItem): string {
+  return getArmoireItemName(props.catalog, item.itemId, t)
+}
+
+function getContainerItemIconUrl(item: ArmoireOwnedItem): string {
+  return getArmoireItemIconUrl(props.catalog, item.itemId)
+}
+
+function getContainerItemQuantity(item: ArmoireOwnedItem): number {
+  return getOwnedItemQuantity(item)
+}
+
+function getContainerItemTitle(item: ArmoireOwnedItem): string {
+  const quantity = getContainerItemQuantity(item)
+  const quantityLabel = quantity > 1 ? ` x${quantity}` : ''
+  const lines = [
+    `${getContainerItemName(item)}${quantityLabel}`,
+    formatArmoireText(t, textKeys.nsarmoireStorePieceLocation, {
+      location: getArmoireContainerLabel(item, t)
+    }),
+    formatArmoireText(t, textKeys.nsarmoireStorePieceDye, {
+      dyes: formatArmoireDyeNames(props.catalog, item.dyes, t)
+    })
+  ]
+  const bindText = getContainerItemBindText(item)
+
+  if (bindText) {
+    lines.push(bindText)
+  }
+
+  return lines.join('\n')
+}
+
+function getContainerItemBindText(item: ArmoireOwnedItem): string | undefined {
+  if (!canShowArmoireBindState(props.catalog, item)) {
+    return undefined
+  }
+
+  return formatArmoireText(t, textKeys.nsarmoireStorePieceBind, {
+    state:
+      item.spiritbond > 0
+        ? t(textKeys.nsarmoireStorePieceBound)
+        : t(textKeys.nsarmoireStorePieceUnbound)
+  })
+}
+
+function handleContainerToggle(key: string, event: Event): void {
+  const target = event.currentTarget
+
+  if (!(target instanceof HTMLDetailsElement)) {
+    return
+  }
+
+  const nextKeys = new Set(expandedContainerKeys.value)
+
+  if (target.open) {
+    nextKeys.add(key)
+  } else {
+    nextKeys.delete(key)
+  }
+
+  expandedContainerKeys.value = nextKeys
+}
+
+function hideBrokenImage(event: Event): void {
+  const image = event.currentTarget
+
+  if (image instanceof HTMLImageElement) {
+    image.style.visibility = 'hidden'
+  }
 }
 </script>
 
@@ -189,36 +276,6 @@ function getContainerLabel(entry: ArmoireContainerDistributionEntry): string {
   font-size: 14px;
 }
 
-.nsarmoire-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.nsarmoire-metric {
-  display: grid;
-  gap: 8px;
-  min-width: 0;
-  padding: 12px;
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: var(--ns-color-bg-soft);
-}
-
-.nsarmoire-metric span {
-  color: var(--ns-color-text-muted);
-  font-size: 12px;
-  font-weight: 850;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nsarmoire-metric strong {
-  font-family: var(--ns-font-decorative);
-  font-size: 24px;
-  font-weight: 950;
-}
-
 .nsarmoire-distribution {
   display: grid;
   gap: 10px;
@@ -232,36 +289,91 @@ function getContainerLabel(entry: ArmoireContainerDistributionEntry): string {
 }
 
 .nsarmoire-distribution__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 12px;
-  min-height: 34px;
-  padding: 7px 10px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface);
 }
 
-.nsarmoire-distribution__row span {
+.nsarmoire-distribution__row summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 34px;
+  padding: 7px 10px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.nsarmoire-distribution__row summary::-webkit-details-marker {
+  display: none;
+}
+
+.nsarmoire-distribution__row summary::before {
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid var(--ns-color-text-muted);
+  content: '';
+}
+
+.nsarmoire-distribution__row[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.nsarmoire-distribution__row summary span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.nsarmoire-distribution__row strong {
+.nsarmoire-distribution__row summary strong {
   font-family: var(--ns-font-mono);
 }
 
-@media (max-width: 720px) {
-  .nsarmoire-metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.nsarmoire-distribution__items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(38px, 38px));
+  gap: 6px;
+  padding: 0 10px 10px;
 }
 
-@media (max-width: 460px) {
-  .nsarmoire-metrics {
-    grid-template-columns: 1fr;
-  }
+.nsarmoire-distribution__item {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: #ffffff;
+}
+
+.nsarmoire-distribution__item img,
+.nsarmoire-distribution__item > span {
+  display: block;
+  width: 32px;
+  height: 32px;
+  image-rendering: auto;
+  object-fit: cover;
+}
+
+.nsarmoire-distribution__item > span {
+  background: var(--ns-color-surface);
+}
+
+.nsarmoire-distribution__item b {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  min-width: 15px;
+  padding: 0 2px;
+  border: 1px solid var(--ns-pixel-border);
+  background: #ffffff;
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-mono);
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
 }
 </style>

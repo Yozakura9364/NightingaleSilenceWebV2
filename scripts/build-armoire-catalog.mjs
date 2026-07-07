@@ -14,6 +14,8 @@ const DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT = 'public/data/armoire-glamour-set-cata
 const DEFAULT_GLAMOUR_SET_CHUNK_DIR = 'public/data/armoire-glamour-set-chunks'
 const DEFAULT_IDENTICAL_MODEL_CATALOG_OUTPUT = 'public/data/armoire-identical-model-catalog.json'
 const DEFAULT_DYE_CATALOG_OUTPUT = 'public/data/armoire-dye-catalog.json'
+const DEFAULT_CRAFTER_GATHERER_REPLICA_CATALOG_OUTPUT =
+  'public/data/armoire-crafter-gatherer-replica-catalog.json'
 const DEFAULT_STORE_CATALOG = 'public/data/armoire-store-catalog.json'
 const DEFAULT_STORE_ITEM_DISPLAY_OUTPUT = 'public/data/armoire-store-item-display-index.json'
 const SCHEMA_VERSION = 'nsarmoire.catalog.v1'
@@ -25,6 +27,8 @@ const GLAMOUR_SET_CATALOG_SCHEMA_VERSION = 'nsarmoire.glamourSetCatalog.v1'
 const GLAMOUR_SET_CHUNK_SCHEMA_VERSION = 'nsarmoire.glamourSetChunk.v1'
 const IDENTICAL_MODEL_CATALOG_SCHEMA_VERSION = 'nsarmoire.identicalModelCatalog.v1'
 const DYE_CATALOG_SCHEMA_VERSION = 'nsarmoire.dyeCatalog.v1'
+const CRAFTER_GATHERER_REPLICA_CATALOG_SCHEMA_VERSION =
+  'nsarmoire.crafterGathererReplicaCatalog.v1'
 const STORE_ITEM_DISPLAY_SCHEMA_VERSION = 'nsarmoire.storeItemDisplayIndex.v1'
 const ITEM_DISPLAY_CHUNK_SIZE = 2000
 const SOURCE_REPOSITORY = 'InfSein/ffxiv-datamining-mixed'
@@ -32,13 +36,29 @@ const SOURCE_REPOSITORY_URL = `https://github.com/${SOURCE_REPOSITORY}.git`
 const SOURCE_BRANCH = 'master'
 const SOURCE_FOLDER = 'chs'
 const REQUIRED_FILES = ['Item.csv', 'Cabinet.csv', 'MirageStoreSetItem.csv', 'Stain.csv']
+const ITEM_NAME_LOCALE_SOURCES = [
+  { locale: 'zh-CN', folder: 'chs' },
+  { locale: 'en', folder: 'en' },
+  { locale: 'ja', folder: 'ja' },
+  {
+    locale: 'ko',
+    url: 'https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/master/csv/Item.csv',
+    repositoryUrl: 'https://github.com/Ra-Workspace/ffxiv-datamining-ko.git',
+    repositoryPath: 'csv/Item.csv',
+    localRelativePaths: ['ko/Item.csv', 'ffxiv-datamining-ko/csv/Item.csv']
+  }
+]
 const EXCLUDED_IDENTICAL_EQUIP_SLOT_CATEGORY_IDS = new Set([6, 14, 17])
 const EXTRA_DYE_1_IDS = new Set([86, 87, 88, 89, 90, 91, 92, 93, 94])
 const EXTRA_DYE_2_IDS = new Set([95, 96, 97, 98, 99, 100, 121, 122, 123, 124, 125])
 const STORE_SPECIAL_DYE_IDS = new Set([
   101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120
 ])
+const CRAFTER_GATHERER_REPLICA_RARITY_VALUES = new Set([2, 3])
+const CRAFTER_GATHERER_REPLICA_EQUIP_SLOT_CATEGORY_IDS = new Set([3, 4, 5, 7, 8])
+const EXCLUDED_CRAFTER_GATHERER_REPLICA_ITEM_IDS = new Set([23343, 23344])
 let gitSourceDirPromise
+const localeGitFilePromises = new Map()
 
 function parseArgs(argv) {
   const args = {
@@ -46,6 +66,7 @@ function parseArgs(argv) {
     cabinetCatalogOutput: DEFAULT_CABINET_CATALOG_OUTPUT,
     cabinetItemChunkDir: DEFAULT_CABINET_ITEM_CHUNK_DIR,
     catalogDisplayOutput: DEFAULT_CATALOG_DISPLAY_OUTPUT,
+    crafterGathererReplicaCatalogOutput: DEFAULT_CRAFTER_GATHERER_REPLICA_CATALOG_OUTPUT,
     dyeCatalogOutput: DEFAULT_DYE_CATALOG_OUTPUT,
     glamourSetCatalogOutput: DEFAULT_GLAMOUR_SET_CATALOG_OUTPUT,
     glamourSetChunkDir: DEFAULT_GLAMOUR_SET_CHUNK_DIR,
@@ -125,6 +146,13 @@ function parseArgs(argv) {
       continue
     }
 
+    if (arg === '--crafter-gatherer-replica-catalog-output') {
+      args.crafterGathererReplicaCatalogOutput =
+        argv[index + 1] ?? DEFAULT_CRAFTER_GATHERER_REPLICA_CATALOG_OUTPUT
+      index += 1
+      continue
+    }
+
     if (arg === '--store-item-display-output') {
       args.storeItemDisplayOutput = argv[index + 1] ?? DEFAULT_STORE_ITEM_DISPLAY_OUTPUT
       index += 1
@@ -175,6 +203,8 @@ Options:
                       Output identical model catalog path. Default: ${DEFAULT_IDENTICAL_MODEL_CATALOG_OUTPUT}
   --dye-catalog-output <file>
                       Output dye catalog path. Default: ${DEFAULT_DYE_CATALOG_OUTPUT}
+  --crafter-gatherer-replica-catalog-output <file>
+                      Output crafter/gatherer replica recycle catalog path. Default: ${DEFAULT_CRAFTER_GATHERER_REPLICA_CATALOG_OUTPUT}
   --store-catalog <file>
                       Store catalog used to build display index. Default: ${DEFAULT_STORE_CATALOG}
   --store-item-display-output <file>
@@ -210,9 +240,109 @@ async function readSourceFile(fileName, args) {
   return readFile(join(gitSourceDir, fileName), 'utf8')
 }
 
+async function readLocalizedItemFile(source, args) {
+  const { locale, folder, url: sourceUrl, localRelativePaths = [] } = source
+
+  if (folder === SOURCE_FOLDER) {
+    return readSourceFile('Item.csv', args)
+  }
+
+  if (args.sourceDir) {
+    const siblingRoot = dirname(args.sourceDir)
+    const candidatePaths = [
+      ...(folder ? [join(siblingRoot, folder, 'Item.csv')] : []),
+      ...localRelativePaths.map((relativePath) => join(siblingRoot, relativePath))
+    ]
+
+    for (const candidatePath of candidatePaths) {
+      try {
+        return await readFile(candidatePath, 'utf8')
+      } catch {
+        // Try the next known local layout.
+      }
+    }
+
+    console.warn(`Local ${locale} Item.csv not found; tried: ${candidatePaths.join(', ')}; skipping.`)
+    return ''
+  }
+
+  const baseRootUrl = args.baseUrl.replace(new RegExp(`/${SOURCE_FOLDER}$`), '')
+  const url = sourceUrl ?? `${baseRootUrl}/${folder}/Item.csv`
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'NightingaleSilence NSArmoire catalog builder'
+      }
+    })
+
+    if (response.ok) {
+      return response.text()
+    }
+
+    throw new Error(`${response.status} ${response.statusText}`)
+  } catch (error) {
+    console.warn(`Remote ${locale} Item.csv fetch failed; falling back to git sparse checkout if available.`)
+    console.warn(String(error))
+  }
+
+  if (source.repositoryUrl && source.repositoryPath) {
+    try {
+      return await readLocaleGitFile(source)
+    } catch (error) {
+      console.warn(`${locale} Item.csv git sparse fallback failed; skipping.`)
+      console.warn(String(error))
+      return ''
+    }
+  }
+
+  if (!folder) {
+    console.warn(`${locale} Item.csv has no same-repository sparse fallback; skipping.`)
+    return ''
+  }
+
+  const gitSourceDir = await getGitSourceDir()
+  const gitItemPath = join(dirname(gitSourceDir), folder, 'Item.csv')
+
+  try {
+    return await readFile(gitItemPath, 'utf8')
+  } catch {
+    console.warn(`${locale} Item.csv not found at ${gitItemPath}; skipping.`)
+    return ''
+  }
+}
+
 async function getGitSourceDir() {
   gitSourceDirPromise ??= checkoutGitSourceDir()
   return gitSourceDirPromise
+}
+
+async function readLocaleGitFile(source) {
+  const cacheKey = `${source.repositoryUrl}:${source.repositoryPath}`
+  let filePromise = localeGitFilePromises.get(cacheKey)
+
+  if (!filePromise) {
+    filePromise = checkoutLocaleGitFile(source)
+    localeGitFilePromises.set(cacheKey, filePromise)
+  }
+
+  return filePromise
+}
+
+async function checkoutLocaleGitFile(source) {
+  const cacheDir = await mkdtemp(join(tmpdir(), 'nsarmoire-locale-csv-'))
+  execFileSync(
+    'git',
+    ['clone', '--depth=1', '--filter=blob:none', '--sparse', source.repositoryUrl, cacheDir],
+    { stdio: 'ignore' }
+  )
+  execFileSync(
+    'git',
+    ['-C', cacheDir, 'sparse-checkout', 'set', '--no-cone', source.repositoryPath],
+    { stdio: 'ignore' }
+  )
+
+  return readFile(join(cacheDir, source.repositoryPath), 'utf8')
 }
 
 async function checkoutGitSourceDir() {
@@ -230,7 +360,10 @@ async function checkoutGitSourceDir() {
       'sparse-checkout',
       'set',
       '--no-cone',
-      ...REQUIRED_FILES.map((fileName) => `${SOURCE_FOLDER}/${fileName}`)
+      ...REQUIRED_FILES.map((fileName) => `${SOURCE_FOLDER}/${fileName}`),
+      ...ITEM_NAME_LOCALE_SOURCES.filter(
+        (source) => source.folder && source.folder !== SOURCE_FOLDER
+      ).map((source) => `${source.folder}/Item.csv`)
     ],
     { stdio: 'ignore' }
   )
@@ -462,7 +595,7 @@ function addIfPositive(record, key, value) {
   }
 }
 
-function buildItems(itemRows, cabinetItemIds, glamourSets) {
+function buildItems(itemRows, cabinetItemIds, glamourSets, localizedNamesByItemId) {
   const cabinetItemIdSet = new Set(cabinetItemIds)
   const setContainerIds = new Set(glamourSets.map((set) => set.setItemId))
   const setPieceIds = new Set(glamourSets.flatMap((set) => set.pieceItemIds))
@@ -511,6 +644,11 @@ function buildItems(itemRows, cabinetItemIds, glamourSets) {
 
     if (name) {
       item.name = name
+    }
+
+    const localizedNames = localizedNamesByItemId.get(itemId)
+    if (localizedNames && Object.keys(localizedNames).length > 0) {
+      item.localizedNames = localizedNames
     }
 
     addIfPositive(item, 'iconId', parseInteger(row.Icon))
@@ -593,7 +731,43 @@ async function loadCsvSources(args) {
   const entries = await Promise.all(
     REQUIRED_FILES.map(async (fileName) => [fileName, await readSourceFile(fileName, args)])
   )
-  return Object.fromEntries(entries)
+  const csvByFileName = Object.fromEntries(entries)
+
+  csvByFileName.localizedItemCsvByLocale = Object.fromEntries(
+    await Promise.all(
+      ITEM_NAME_LOCALE_SOURCES.map(async (source) => [
+        source.locale,
+        await readLocalizedItemFile(source, args)
+      ])
+    )
+  )
+
+  return csvByFileName
+}
+
+function buildLocalizedNamesByItemId(localizedItemCsvByLocale) {
+  const namesByItemId = new Map()
+
+  for (const [locale, csvText] of Object.entries(localizedItemCsvByLocale ?? {})) {
+    if (!csvText) {
+      continue
+    }
+
+    for (const row of loadSheetRows(csvText)) {
+      const itemId = parseInteger(row['#'])
+      const name = cleanText(row.Name)
+
+      if (itemId <= 0 || !name) {
+        continue
+      }
+
+      const localizedNames = namesByItemId.get(itemId) ?? {}
+      localizedNames[locale] = name
+      namesByItemId.set(itemId, localizedNames)
+    }
+  }
+
+  return namesByItemId
 }
 
 function buildCatalog(csvByFileName, args) {
@@ -603,7 +777,13 @@ function buildCatalog(csvByFileName, args) {
   const cabinetItemIds = buildCabinetItemIds(cabinetRows)
   const cabinetEntries = buildCabinetEntries(cabinetRows)
   const glamourSetRows = buildGlamourSetRows(mirageRows)
-  const { items, names } = buildItems(itemRows, cabinetItemIds, glamourSetRows)
+  const localizedNamesByItemId = buildLocalizedNamesByItemId(csvByFileName.localizedItemCsvByLocale)
+  const { items, names } = buildItems(
+    itemRows,
+    cabinetItemIds,
+    glamourSetRows,
+    localizedNamesByItemId
+  )
   const glamourSetItems = buildGlamourSets(glamourSetRows, names)
   const identicalGroups = buildIdenticalGroups(items)
   const dyes = buildDyes(csvByFileName['Stain.csv'])
@@ -653,6 +833,10 @@ function buildDisplayItem(itemId, sourceItem) {
     item.name = sourceItem.name
   }
 
+  if (sourceItem.localizedNames && Object.keys(sourceItem.localizedNames).length > 0) {
+    item.localizedNames = sourceItem.localizedNames
+  }
+
   if (sourceItem.iconId) {
     item.iconId = sourceItem.iconId
   }
@@ -665,6 +849,8 @@ function buildDisplayTuple(itemId, sourceItem) {
   const hasIcon = sourceItem.iconId > 0
   const hasDyeSlotCount = sourceItem.dyeSlotCount > 0
   const isTradable = sourceItem.isTradable === true
+  const hasLocalizedNames =
+    sourceItem.localizedNames && Object.keys(sourceItem.localizedNames).length > 0
 
   if (sourceItem.name) {
     tuple[1] = sourceItem.name
@@ -704,6 +890,26 @@ function buildDisplayTuple(itemId, sourceItem) {
     }
 
     tuple[4] = 1
+  }
+
+  if (hasLocalizedNames) {
+    if (tuple.length === 1) {
+      tuple[1] = ''
+    }
+
+    if (!hasIcon) {
+      tuple[2] = 0
+    }
+
+    if (!hasDyeSlotCount) {
+      tuple[3] = 0
+    }
+
+    if (!isTradable) {
+      tuple[4] = 0
+    }
+
+    tuple[5] = sourceItem.localizedNames
   }
 
   return tuple
@@ -919,6 +1125,44 @@ function buildDyeCatalog(catalog) {
   }
 }
 
+function isCrafterGathererReplicaRow(row) {
+  const itemId = parseInteger(row['#'])
+  const name = cleanText(row.Name)
+
+  return (
+    itemId > 0 &&
+    name.includes('（复制品）') &&
+    parseInteger(row['Level{Item}']) === 1 &&
+    parseInteger(row['Level{Equip}']) === 1 &&
+    CRAFTER_GATHERER_REPLICA_RARITY_VALUES.has(parseInteger(row.Rarity)) &&
+    CRAFTER_GATHERER_REPLICA_EQUIP_SLOT_CATEGORY_IDS.has(
+      parseInteger(row.EquipSlotCategory)
+    ) &&
+    !EXCLUDED_CRAFTER_GATHERER_REPLICA_ITEM_IDS.has(itemId)
+  )
+}
+
+function buildCrafterGathererReplicaCatalog(catalog, itemRows) {
+  const itemIds = uniqueSortedNumbers(
+    itemRows.filter(isCrafterGathererReplicaRow).map((row) => parseInteger(row['#']))
+  )
+  const { items, missingItemIds } = collectDisplayTuples(catalog, itemIds)
+
+  return {
+    schemaVersion: CRAFTER_GATHERER_REPLICA_CATALOG_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    source: {
+      catalogGeneratedAt: catalog.generatedAt
+    },
+    items,
+    itemIds,
+    excludedItemIds: Array.from(EXCLUDED_CRAFTER_GATHERER_REPLICA_ITEM_IDS).sort(
+      (left, right) => left - right
+    ),
+    missingItemIds
+  }
+}
+
 function buildCabinetCatalog(catalog) {
   const cabinetItemIds = Array.from(new Set(catalog.cabinetItemIds)).sort(
     (left, right) => left - right
@@ -1070,6 +1314,21 @@ async function main() {
   await mkdir(dirname(dyeCatalogOutputPath), { recursive: true })
   await writeFile(dyeCatalogOutputPath, JSON.stringify(dyeCatalog), 'utf8')
 
+  const crafterGathererReplicaCatalog = buildCrafterGathererReplicaCatalog(
+    catalog,
+    loadSheetRows(csvByFileName['Item.csv'])
+  )
+  const crafterGathererReplicaCatalogOutputPath = resolve(
+    args.crafterGathererReplicaCatalogOutput
+  )
+
+  await mkdir(dirname(crafterGathererReplicaCatalogOutputPath), { recursive: true })
+  await writeFile(
+    crafterGathererReplicaCatalogOutputPath,
+    JSON.stringify(crafterGathererReplicaCatalog),
+    'utf8'
+  )
+
   const storeItemDisplayIndex = await buildStoreItemDisplayIndex(catalog, args.storeCatalog)
   const storeItemDisplayOutputPath = resolve(args.storeItemDisplayOutput)
 
@@ -1138,6 +1397,11 @@ async function main() {
         dyeCatalog: {
           output: dyeCatalogOutputPath,
           dyeCount: Object.keys(dyeCatalog.dyes).length
+        },
+        crafterGathererReplicaCatalog: {
+          output: crafterGathererReplicaCatalogOutputPath,
+          itemCount: crafterGathererReplicaCatalog.itemIds.length,
+          missingItemCount: crafterGathererReplicaCatalog.missingItemIds.length
         },
         storeItemDisplayIndex: {
           output: storeItemDisplayOutputPath,

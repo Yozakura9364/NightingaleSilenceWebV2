@@ -131,6 +131,24 @@ function normalizeRegionalStoreUrls(value) {
   return Object.keys(urls).length > 0 ? urls : undefined
 }
 
+function normalizeRegionalPriceLabels(value) {
+  if (!isRecord(value)) {
+    return undefined
+  }
+
+  const priceLabels = {}
+
+  for (const region of ['cn', 'global', 'tw', 'kr']) {
+    const priceLabel = typeof value[region] === 'string' ? value[region].trim() : ''
+
+    if (priceLabel) {
+      priceLabels[region] = priceLabel
+    }
+  }
+
+  return Object.keys(priceLabels).length > 0 ? priceLabels : undefined
+}
+
 function normalizeRegionalStoreUrl(region, value) {
   const url = typeof value === 'string' ? value.trim() : ''
 
@@ -240,6 +258,7 @@ function normalizeCorrection(rawCorrection, index) {
   return {
     id,
     regionalStoreUrls: normalizeRegionalStoreUrls(rawCorrection.regionalStoreUrls),
+    regionalPriceLabels: normalizeRegionalPriceLabels(rawCorrection.regionalPriceLabels),
     itemIds,
     itemNames: rawCorrection.itemNames,
     tags: normalizeTagArray(rawCorrection.tags, 'tags', id, STORE_TAG_SET),
@@ -258,6 +277,14 @@ function applyCorrection(outfit, correction) {
           regionalStoreUrls: {
             ...outfit.regionalStoreUrls,
             ...correction.regionalStoreUrls
+          }
+        }
+      : {}),
+    ...(correction.regionalPriceLabels
+      ? {
+          regionalPriceLabels: {
+            ...outfit.regionalPriceLabels,
+            ...correction.regionalPriceLabels
           }
         }
       : {})

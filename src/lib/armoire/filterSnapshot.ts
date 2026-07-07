@@ -1,5 +1,7 @@
 import type { ArmoireCatalog, ArmoireOwnedItem, ArmoireSnapshot } from '@/lib/armoire/types'
 
+export const ARMOIRE_RETAINER_MARKET_INVENTORY_TYPE = 12002
+
 export function hasArmoireCatalogItems(catalog: ArmoireCatalog): boolean {
   for (const _itemId in catalog.items) {
     return true
@@ -28,5 +30,27 @@ export function filterArmoireSnapshotForCatalog(
   }
 
   const items = snapshot.items.filter((item) => isArmoireCatalogItem(catalog, item.itemId))
+  return items.length === snapshot.items.length ? snapshot : { ...snapshot, items }
+}
+
+export function isArmoireRetainerMarketItem(
+  item: Pick<ArmoireOwnedItem, 'container' | 'containerName' | 'inventoryType'>
+): boolean {
+  if (item.container !== 'retainer') {
+    return false
+  }
+
+  if (item.inventoryType === ARMOIRE_RETAINER_MARKET_INVENTORY_TYPE) {
+    return true
+  }
+
+  return item.containerName?.trim().endsWith('市场') === true
+}
+
+export function filterArmoireSnapshotForActionableItems(
+  snapshot: ArmoireSnapshot
+): ArmoireSnapshot {
+  const items = snapshot.items.filter((item) => !isArmoireRetainerMarketItem(item))
+
   return items.length === snapshot.items.length ? snapshot : { ...snapshot, items }
 }

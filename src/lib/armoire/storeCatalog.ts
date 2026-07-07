@@ -28,6 +28,7 @@ const ARMOIRE_STORE_MAPPING_SOURCES = new Set<ArmoireStoreMappingSource>([
 ])
 const ARMOIRE_STORE_TAG_SET = new Set<ArmoireStoreTag>(ARMOIRE_STORE_TAGS)
 const ARMOIRE_STORE_DETAIL_TAG_SET = new Set<ArmoireStoreDetailTag>(ARMOIRE_STORE_DETAIL_TAGS)
+const ARMOIRE_STORE_LOCALIZED_NAME_LOCALES = new Set(['zh-CN', 'en', 'ja', 'ko', 'fr', 'de'])
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -39,6 +40,20 @@ function isStoreRegion(value: unknown): value is ArmoireStoreRegion {
 
 function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === 'string')
+}
+
+function isLocalizedNames(value: unknown): value is ArmoireStoreOutfit['localizedNames'] {
+  if (value === undefined) {
+    return true
+  }
+
+  if (!isRecord(value)) {
+    return false
+  }
+
+  return Object.entries(value).every(
+    ([locale, name]) => ARMOIRE_STORE_LOCALIZED_NAME_LOCALES.has(locale) && typeof name === 'string'
+  )
 }
 
 function isStoreTagArray(value: unknown): value is ArmoireStoreTag[] | undefined {
@@ -78,6 +93,23 @@ function isRegionalStoreUrls(value: unknown): value is ArmoireStoreOutfit['regio
   )
 }
 
+function isRegionalPriceLabels(
+  value: unknown
+): value is ArmoireStoreOutfit['regionalPriceLabels'] {
+  if (value === undefined) {
+    return true
+  }
+
+  if (!isRecord(value)) {
+    return false
+  }
+
+  return Object.entries(value).every(
+    ([region, label]) =>
+      ARMOIRE_STORE_LINK_REGIONS.has(region as ArmoireStoreLinkRegion) && typeof label === 'string'
+  )
+}
+
 function isItemIdArray(value: unknown): value is number[] {
   return Array.isArray(value) && value.every((item) => Number.isInteger(item) && item > 0)
 }
@@ -102,6 +134,7 @@ function isStoreOutfit(value: unknown): value is ArmoireStoreOutfit {
     typeof value.id === 'string' &&
     isStoreRegion(value.region) &&
     typeof value.name === 'string' &&
+    isLocalizedNames(value.localizedNames) &&
     typeof value.storeUrl === 'string' &&
     isRegionalStoreUrls(value.regionalStoreUrls) &&
     typeof value.sourceUrl === 'string' &&
@@ -112,6 +145,7 @@ function isStoreOutfit(value: unknown): value is ArmoireStoreOutfit {
     (value.globalItemNames === undefined || isStringArray(value.globalItemNames)) &&
     (value.globalItemUris === undefined || isStringArray(value.globalItemUris)) &&
     (value.priceLabel === undefined || typeof value.priceLabel === 'string') &&
+    isRegionalPriceLabels(value.regionalPriceLabels) &&
     isOptionalItemId(value.coverItemId) &&
     isStringArray(value.itemNames) &&
     isItemIdArray(value.itemIds) &&

@@ -12,6 +12,7 @@ function hasMissingCatalogCheck(analysis: ArmoireSnapshotAnalysis): boolean {
     analysis.cabinetProgress.status === 'missingCatalog' ||
     analysis.glamourSetProgress.status === 'missingCatalog' ||
     analysis.tradableItems.status === 'missingCatalog' ||
+    analysis.crafterGathererReplicas.status === 'missingCatalog' ||
     analysis.identicalModels.status === 'missingCatalog'
   )
 }

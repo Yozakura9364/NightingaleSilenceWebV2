@@ -61,7 +61,7 @@ interface ArmoireSnapshot {
 
 `ArmoireOwnedItem` 中的 `hq`、`quantity`、`dyes`、`spiritbond` 属于用户拥有的“这一条物品实例”的状态，不属于 CSV 静态 catalog。当前第一阶段已正式消费 `dyes` 做染色风险提示；`spiritbond` 由本地 helper 从背包/兵装库/鞍囊/雇员物品实例读取并透出，用于验证可交易装备是否已绑定在当前角色身上。
 
-绑定状态不能从 `Item.csv` 的可交易/市场字段直接推出；这些静态字段只能说明物品模板规则，不能说明用户背包里某一件副本当前是否已绑定。第一轮验证样本使用同一物品的两件副本：`经典眼镜` HQ 已绑定、NQ 未绑定。`/snapshot` 中两条 `itemId=9298` 分别输出 `spiritbond: 1` 和 `spiritbond: 0`，可先采用 `spiritbond > 0` 作为“已绑定”的保守启发式；但当前 helper 对背包 HQ 的解析仍不可靠，该样本两条都输出了 `hq: false`，HQ/NQ 状态后续需要继续定位物品实例 flags/condition 字节。
+绑定状态不能从 `Item.csv` 的可交易/市场字段直接推出；这些静态字段只能说明物品模板规则，不能说明用户背包里某一件副本当前是否已绑定。第一轮验证样本使用同一物品的两件副本：`经典眼镜` HQ 已绑定、NQ 未绑定。`/snapshot` 中两条 `itemId=9298` 分别输出 `spiritbond: 1` 和 `spiritbond: 0`。当前分析口径无视 HQ/NQ，只使用绑定关系：`spiritbond === 0` 视为已知未绑定，`spiritbond > 0` 视为已绑定，缺失 `spiritbond` 时不进入未绑定可交易清单。
 
 当前本地 helper 已优先写入 `character.name` 和 `character.world`，用于把 snapshot 归到“某角色 @ 某服务器”的当前可用身份。`character.id` 仍作为后续稳定身份字段预留；在没有稳定 ID 时，页面可以按角色名 + 服务器展示和人工选择档案，但不能自动处理改名、转服后的历史合并。
 
@@ -82,6 +82,7 @@ interface ArmoireCatalog {
   glamourSetItems: ArmoireGlamourSet[]
   identicalGroups: ArmoireIdenticalGroup[]
   dyes: Record<number, ArmoireDye>
+  crafterGathererReplicaItemIds?: number[]
 }
 
 interface ArmoireCabinetEntry {
@@ -92,10 +93,12 @@ interface ArmoireCabinetEntry {
 interface ArmoireCatalogItem {
   itemId: number
   name?: string
+  localizedNames?: Partial<Record<'zh-CN' | 'en' | 'ja' | 'ko', string>>
   iconId?: number
   itemUiCategoryId?: number
   equipSlotCategoryId?: number
   isGlamourous?: boolean
+  isTradable?: boolean
   isCabinetStorable?: boolean
   isGlamourSetContainer?: boolean
   pieceItemIds?: number[]
@@ -118,6 +121,26 @@ interface ArmoireDye {
 页面优先加载站点静态 catalog；静态 catalog 加载失败时，会尝试从本地 helper `/catalog` 读取同结构 catalog。两者都失败时，使用空 catalog 表示“正式静态数据未接入”。依赖 `Cabinet.csv`、`MirageStoreSetItem.csv` 和同模型分组的分析会明确显示等待 catalog，不输出伪结果。
 
 同模型第一版判定口径：同时比较 `Item.csv` 的 `Model{Main}` / 灰机 `主模型`、`Model{Sub}` / 灰机 `副模型`、`ItemUICategory` 和 `EquipSlotCategory`。主副模型两组四元组完全一致，且物品 UI 分类、装备槽位分类也一致，才归为同模型；这是并且关系。`EquipSlotCategory=0` 的非装备、`6` 腰带、`14` 暂未纳入的主副手组合、`17` 灵魂水晶不进入第一版同模分组。
+
+普通页面运行时不再默认请求完整 `public/data/armoire-catalog.json`。页面会按分区和当前 snapshot itemId 加载轻量目录或 chunk，例如 `armoire-item-display-chunks/*.json`、`armoire-cabinet-item-chunks/*.json`、`armoire-glamour-set-chunks/*.json`、`armoire-dye-catalog.json`、`armoire-store-catalog.json` 和 `armoire-crafter-gatherer-replica-catalog.json`。完整 catalog 继续作为构建源、脚本校验和隐藏校正页兜底输入。
+
+生产采集复制品回收目录单独输出：
+
+```ts
+interface ArmoireCrafterGathererReplicaCatalog {
+  schemaVersion: 'nsarmoire.crafterGathererReplicaCatalog.v1'
+  generatedAt: string
+  source?: {
+    catalogGeneratedAt?: string
+  }
+  items: ArmoireCompactDisplayItem[]
+  itemIds: number[]
+  excludedItemIds?: number[]
+  missingItemIds?: number[]
+}
+```
+
+当前生成口径：中文名包含 `（复制品）`、`Level{Item}=1`、`Level{Equip}=1`、`Rarity` 为蓝色/绿色、`EquipSlotCategory` 属于生产采集防具槽位，并显式排除误命中的 `23343`、`23344`。当前候选 275 件，`missingItemIds` 为 0。
 
 第一版静态 catalog 生成命令：
 
@@ -154,23 +177,34 @@ interface ArmoireStoreCatalog {
 }
 
 interface ArmoireStoreCatalogSource {
-  region: 'cn' | 'global'
+  region: 'cn' | 'global' | 'tw' | 'kr'
   url: string
   note?: string
 }
 
 interface ArmoireStoreOutfit {
   id: string
-  region: 'cn' | 'global'
+  region: 'cn' | 'global' | 'tw'
   name: string
+  localizedNames?: Partial<Record<'zh-CN' | 'en' | 'ja' | 'ko' | 'fr' | 'de', string>>
   storeUrl: string
+  regionalStoreUrls?: Partial<Record<'cn' | 'global' | 'tw' | 'kr', string>>
   sourceUrl: string
   productId?: string
   skuId?: string
+  globalProductId?: string
+  globalProductName?: string
+  globalItemNames?: string[]
+  globalItemUris?: string[]
   priceLabel?: string
+  regionalPriceLabels?: Partial<Record<'cn' | 'global' | 'tw' | 'kr', string>>
   coverItemId?: number
   itemNames: string[]
   itemIds: number[]
+  tags?: ArmoireStoreTag[]
+  detailTags?: ArmoireStoreDetailTag[]
+  mappingSource?: 'cn-store' | 'global-store' | 'manual'
+  corrected?: boolean
   needsMapping?: boolean
   notes?: string
 }
@@ -182,7 +216,10 @@ interface ArmoireStoreOutfit {
 - `coverItemId` 只用于商城卡片封面图标，可以来自套装幻影化物品、装备套装或代表性散件；它不参与拥有状态检测。
 - `itemIds` 只在商城说明里的散件名能和 `armoire-catalog.json` 物品名精确匹配时自动填入。
 - `needsMapping: true` 表示仍需人工校正商品和游戏物品关系。
-- 国际服商城当前先记录来源，商品表和 itemId 映射后续补齐。
+- `localizedNames` 用于让商城套装名随界面语言切换；游戏物品名优先来自静态 Item 数据。
+- `regionalStoreUrls` 记录各地区入口；前端只外显短链域名，不外显 `cn/tw/global/kr` 字段名。
+- `regionalPriceLabels` 记录各地区价格文本；前端按固定地区标签展示，例如 `简中服`、`繁中服`、`Global Server`、`한국`。
+- 国际服商城价格如果抓到日元网页金额，目录中按同数值 `crysta` 展示，例如 `550 円` 写成 `550 crysta`。
 - 前端“商城”面板只根据当前 snapshot 中是否存在这些 `itemIds` 显示“已检测到 / 缺部分 / 未检测到 / 待校正”，不等同于商城账号购买记录。
 - 真正的账号购买状态必须来自用户手动标记、导入清单，或后续明确授权的数据读取；不能默认抓取商城账号。
 
@@ -194,12 +231,18 @@ npm run build:armoire-store-catalog
 
 生成脚本：`scripts/build-armoire-store-catalog.mjs`。
 校验脚本：`scripts/check-armoire-store-catalog.mjs`。
+价格抓取辅助脚本：`scripts/scrape-armoire-store-prices.mjs`，入口命令为：
+
+```bash
+npm run scrape:armoire-store-prices
+```
 
 默认行为：
 
 - 读取 `public/data/armoire-catalog.json`，用游戏物品名精确匹配商城说明里的散件名。
 - 输出 `public/data/armoire-store-catalog.json`。
 - 如果输出文件已经存在，会尽量保留已人工校正的 `itemIds`，避免重新抓取覆盖用户修正。
+- 如果输出文件已经存在，会尽量保留已人工校正的 `localizedNames`、`regionalStoreUrls`、`regionalPriceLabels`、`tags`、`detailTags`、`coverItemId` 和 `itemIds`。
 - 如果需要完全按当前抓取结果重建，可运行：
 
 ```bash
@@ -275,6 +318,7 @@ https://github.com/Yozakura9364/NightingaleSilenceWebV2/releases/latest
 | `GET /processes` | 返回当前可选择的 `ffxiv_dx11` 进程列表，包含 PID、窗口标题、可读状态和当前选中标记。 |
 | `POST /process/select` | 使用 `{ "pid": number }` 选择要读取的游戏进程，并重置投影台读取器。 |
 | `GET /probe` | 实验性读取能力探针，返回投影台、收藏柜、背包、兵装库、鞍囊、当前加载雇员容器、雇员缓存和 0-10 个雇员身份槽的定位、加载状态、容器大小和计数。 |
+| `POST /retainer-cache/clear` | 清空当前 helper 进程内的雇员库存缓存，并返回新的 helper health。 |
 | `GET /catalog` | 返回 helper 当前找到的 `nsarmoire.catalog.v1` JSON；当前来源为仓库内 `public/data/armoire-catalog.json`，用于和收藏柜 bitset 映射口径保持一致。 |
 | `GET /snapshot` | 读取当前可用容器数据并返回 `nsarmoire.snapshot.v1`。 |
 | `POST /snapshot/refresh` | 重新读取当前可用容器数据并返回 `nsarmoire.snapshot.v1`。 |
@@ -291,7 +335,9 @@ https://github.com/Yozakura9364/NightingaleSilenceWebV2/releases/latest
 - 雇员身份通过 `RetainerManager.Instance` 读取，最多 10 个槽位；当前已能取得雇员名、雇员 ID、职业、等级、仓库占用数、上架数和当前选中状态。
 - `InventoryManager` 中的 `10000-10006` 是当前加载雇员仓库的 7 个 25 格内存块，总计 175 格；游戏 UI 展示为 5 页，每页 35 格。helper snapshot 不直接外显内部块，而是按全局 slot 重排为 `雇员名 背包 1-5`。
 - 多雇员归档的正式交互口径不是一次性读完所有雇员；helper 会在用户打开或切换某个雇员且其 7 个内部块加载完成时，把该雇员库存写入本次 helper 进程的内存缓存。用户逐个打开雇员后，snapshot 会逐步累积多个雇员，这与游戏内检索系统需要访问过雇员后才有完整数据的体验一致。
-- 当前雇员缓存同时纳入雇员背包、雇员已装备和雇员市场；雇员 ID 以字符串形式写入 `retainerId`，避免 JavaScript 64 位整数精度问题。
+- 当前雇员缓存同时纳入雇员背包、雇员已装备和雇员市场；雇员 ID 以字符串形式写入 `retainerId`，避免 JavaScript 64 位整数精度问题。前端行动建议会过滤雇员市场上架物品：`inventoryType=12002` 或容器名以 `市场` 结尾的条目不进入商城拥有状态、可交易物品、重复物品、同模型和生产采集复制品回收建议。
+- 前端连接 helper 后会轮询 `/probe`：页面可见时约 2 秒一次，隐藏时约 10 秒一次。检测到雇员缓存签名变化后，会延迟约 1.4 秒调用 `/snapshot/refresh` 更新页面，减少“每打开一个雇员还要手动刷新一次”的操作。
+- `/retainer-cache/clear` 只清空 helper 进程内缓存，不清空当前页面已经显示的 snapshot；页面数据会在下一次刷新或重新读取后更新。
 - `/probe` 是当前验证入口；它不外显物品 ID，只返回容器状态和数量。
 - `/snapshot` 在容器读取成功时会把这些容器中的物品记录并入 snapshot。
 - 收藏柜通过 `UIState.Cabinet` 读取：`State == Loaded` 时读取 `UnlockedItems` bitset，再用 `public/data/armoire-catalog.json` 的 `cabinetEntries` 把 Cabinet RowId 映射回 ItemId，输出 `container: 'armoire'`。
@@ -402,9 +448,11 @@ helper 输出的 snapshot 形态：
 ## 当前前端分析
 
 - 基础统计：条目数、不同物品数、总数量、染色条目数、投影台条目数、收藏柜条目数。
-- 容器分布：按 `container + containerName` 聚合。
+- 衣柜统计：按 `container + containerName` 聚合，并以折叠容器展示每个容器中的物品图标；展开后才渲染该容器物品。
 - 染色风险：基于 snapshot 的 `dyes` 字段识别已染色条目，并结合用户选择的贵重染剂类别判断是否进入高风险清单。默认贵重类别为 `extra1`、`extra2`、`storeSpecial`；用户可以选择任意子集，也可以全不选。`general`、`extra1`、`extra2` 是一对多颜色范围，`storeSpecial` 是商城特殊染剂一对一颜色范围。分类表随游戏版本和染剂系统调整需要复核。
 - 收藏柜、套装、同模型：已建立纯函数接口；同模型按 `主模型`、`副模型`、`ItemUICategory`、`EquipSlotCategory` 都完全一致分组，但没有正式 catalog 时返回 `missingCatalog`。
+- 可交易物品检查：只提示静态 catalog 判定可交易、且实例 `spiritbond === 0` 的外观物品；缺失 `spiritbond` 或已绑定的条目不提示。
+- 生产采集复制品：基于轻量复制品 catalog 命中当前 snapshot 中仍拥有的生产/采集复制品，每件按 `染剂兑换券 x4` 统计，并展示当前染剂返还。
 
 ## 安全边界
 

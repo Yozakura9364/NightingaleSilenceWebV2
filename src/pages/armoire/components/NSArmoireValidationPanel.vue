@@ -1,7 +1,7 @@
 <template>
-  <section class="nsarmoire-panel nsarmoire-validation-panel">
-    <div class="nsarmoire-panel__header">
-      <h2>{{ t(textKeys.nsarmoireValidation) }}</h2>
+  <section class="nsarmoire-panel ns-workbench-panel nsarmoire-validation-panel">
+    <div class="nsarmoire-panel__header ns-workbench-panel__header">
+      <h2 class="ns-workbench-panel__title">{{ t(textKeys.nsarmoireValidation) }}</h2>
       <span class="nsarmoire-validation-panel__badge">
         {{ t(textKeys.nsarmoireValidationTechnicalBadge) }}
       </span>
@@ -69,29 +69,6 @@ const { validationCases } = useArmoireValidationViewModels(props, t)
 </script>
 
 <style scoped>
-.nsarmoire-panel {
-  display: grid;
-  gap: 14px;
-  padding: 16px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-surface);
-  box-shadow: var(--ns-pixel-soft-shadow);
-}
-
-.nsarmoire-panel__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.nsarmoire-panel h2 {
-  margin: 0;
-  font-family: var(--ns-font-decorative);
-  font-size: 16px;
-  font-weight: 950;
-}
-
 .nsarmoire-validation-panel__badge {
   flex: 0 0 auto;
   padding: 3px 7px;

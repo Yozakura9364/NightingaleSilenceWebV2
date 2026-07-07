@@ -1,6 +1,8 @@
 import { textKeys } from '@/config/site'
 import type {
   ArmoireCatalog,
+  ArmoireCrafterGathererReplicaAnalysis,
+  ArmoireCrafterGathererReplicaEntry,
   ArmoireDuplicateItemGroupState,
   ArmoireDyeRiskItem,
   ArmoireGlamourSetState,
@@ -33,6 +35,7 @@ interface InsightDisplaySource {
 export interface ArmoireReadableItemView {
   key: string
   name: string
+  wikiItemName?: string
   context: string
   iconUrl: string
   tone?: ArmoireReadableItemTone
@@ -56,6 +59,7 @@ export interface ArmoireReadableItemDyeLineView {
 export interface ArmoireReadableItemRelatedView {
   key: string
   name: string
+  wikiItemName?: string
   iconUrl: string
   status?: 'stored' | 'unstored'
   statusLabel?: string
@@ -70,6 +74,7 @@ export interface ArmoireActionHintView {
 interface ArmoireActionHintText {
   cabinetSummary: string
   tradableSummary: string
+  replicaSummary: string
   duplicateItemSummary: string
   duplicateSummary: string
 }
@@ -141,6 +146,17 @@ export function buildArmoireActionHints(
     })
   }
 
+  if (
+    analysis.crafterGathererReplicas.status === 'ready' &&
+    analysis.crafterGathererReplicas.entryCount > 0
+  ) {
+    hints.push({
+      key: 'crafter-gatherer-replicas',
+      title: t(textKeys.nsarmoireRecommendationCrafterGathererReplicas),
+      message: text.replicaSummary
+    })
+  }
+
   if (analysis.duplicateItems.duplicateItemCount > 0) {
     hints.push({
       key: 'duplicate-items',
@@ -199,6 +215,10 @@ export function createArmoireInsightDisplay(
 
   function formatDyeNames(dyeIds: [number, number]): string {
     return formatArmoireDyeNames(source.catalog, dyeIds, t)
+  }
+
+  function getDyeName(dyeId: number): string {
+    return source.catalog.dyes[dyeId]?.name ?? `#${dyeId}`
   }
 
   function getItemDyeSlotCount(itemId: number): number | undefined {
@@ -316,9 +336,12 @@ export function createArmoireInsightDisplay(
   }
 
   function toRelatedItem(itemId: number): ArmoireReadableItemRelatedView {
+    const name = getItemName(itemId)
+
     return {
       key: `related-${itemId}`,
-      name: getItemName(itemId),
+      name,
+      wikiItemName: name,
       iconUrl: getItemIconUrl(itemId)
     }
   }
@@ -366,9 +389,12 @@ export function createArmoireInsightDisplay(
   }
 
   function toTransferableItem(itemId: number): ArmoireReadableItemView {
+    const name = getItemName(itemId)
+
     return {
       key: `cabinet-${itemId}`,
-      name: getItemName(itemId),
+      name,
+      wikiItemName: name,
       context: formatItemContext(itemId),
       iconUrl: getItemIconUrl(itemId)
     }
@@ -391,6 +417,7 @@ export function createArmoireInsightDisplay(
     return {
       key: `set-${set.setItemId}`,
       name: set.name,
+      wikiItemName: set.name,
       context: formatSetContext(set),
       iconUrl: set.iconUrl,
       relatedItems: set.pieceItemIds.map((itemId) =>
@@ -403,6 +430,7 @@ export function createArmoireInsightDisplay(
     itemId: number,
     valuableDyeItem?: ArmoireDyeRiskItem
   ): ArmoireReadableItemView {
+    const name = getItemName(itemId)
     const valuableDyeSlots = valuableDyeItem ? getValuableDyeSlotViews(valuableDyeItem) : []
     const details =
       valuableDyeSlots.length > 0
@@ -422,7 +450,8 @@ export function createArmoireInsightDisplay(
 
     return {
       key: `set-bucket-piece-${itemId}`,
-      name: getItemName(itemId),
+      name,
+      wikiItemName: name,
       context: formatItemContext(itemId),
       iconUrl: getItemIconUrl(itemId),
       tone: valuableDyeItem ? 'muted' : undefined,
@@ -431,14 +460,86 @@ export function createArmoireInsightDisplay(
   }
 
   function toTradableItem(item: ArmoireOwnedItem, index: number): ArmoireReadableItemView {
+    const name = getItemName(item.itemId)
+
     return {
       key: `tradable-${item.itemId}-${item.container}-${item.containerName ?? ''}-${item.slotIndex ?? index}`,
-      name: getItemName(item.itemId),
+      name,
+      wikiItemName: name,
       context: [
         getArmoireContainerLabel(item, t),
         t(textKeys.nsarmoireHintTradableUnbound)
       ].join(' / '),
       iconUrl: getItemIconUrl(item.itemId)
+    }
+  }
+
+  function formatReplicaRecycleSummary(analysis: ArmoireCrafterGathererReplicaAnalysis): string {
+    if (analysis.entryCount === 0) {
+      return t(textKeys.nsarmoireHintReplicaRecycleNone)
+    }
+
+    const returnedDyes =
+      analysis.returnedDyes.length > 0
+        ? analysis.returnedDyes
+            .map((dye) => `${getDyeName(dye.dyeId)} x${dye.count}`)
+            .join(' / ')
+        : t(textKeys.nsarmoireHintReplicaRecycleNoReturnedDyes)
+
+    return formatText(textKeys.nsarmoireHintReplicaRecycleSummary, {
+      count: analysis.totalQuantity,
+      vouchers: analysis.voucherCount,
+      dyes: returnedDyes
+    })
+  }
+
+  function toCrafterGathererReplicaItem(
+    entry: ArmoireCrafterGathererReplicaEntry,
+    index: number
+  ): ArmoireReadableItemView {
+    const name = getItemName(entry.item.itemId)
+    const dyeSlots = getArmoireDyeSlotViews(
+      source.catalog,
+      entry.dyeIds,
+      getItemDyeSlotCount(entry.item.itemId),
+      t
+    )
+    const returnedDyeSlots = dyeSlots.filter((slot) => {
+      const keyParts = slot.key.split('-')
+      const dyeId = Number(keyParts[keyParts.length - 1] ?? 0)
+      return entry.returnedDyeIds.includes(dyeId)
+    })
+    const details: ArmoireReadableItemDetailView[] = [
+      {
+        key: `replica-reward-${entry.item.itemId}-${index}`,
+        title: '',
+        lines: [
+          formatText(textKeys.nsarmoireHintReplicaRecycleReward, {
+            count: entry.voucherCount
+          })
+        ]
+      }
+    ]
+
+    if (returnedDyeSlots.length > 0) {
+      details.push({
+        key: `replica-dyes-${entry.item.itemId}-${index}`,
+        title: '',
+        lines: [],
+        dyeLine: {
+          label: t(textKeys.nsarmoireHintReplicaRecycleDyes),
+          slots: returnedDyeSlots
+        }
+      })
+    }
+
+    return {
+      key: `crafter-gatherer-replica-${entry.item.itemId}-${entry.item.container}-${entry.item.containerName ?? ''}-${entry.item.slotIndex ?? index}`,
+      name,
+      wikiItemName: name,
+      context: getArmoireContainerLabel(entry.item, t),
+      iconUrl: getItemIconUrl(entry.item.itemId),
+      details
     }
   }
 
@@ -459,6 +560,7 @@ export function createArmoireInsightDisplay(
     return {
       key: `duplicate-item-${item.itemId}`,
       name: item.name,
+      wikiItemName: item.name,
       context: formatDuplicateItemContext(item),
       iconUrl: item.iconUrl,
       details: item.entries.map(toDuplicateItemDetail)
@@ -482,6 +584,7 @@ export function createArmoireInsightDisplay(
     return {
       key: `duplicate-model-${group.key}`,
       name: group.names.join(' / '),
+      wikiItemName: group.names[0],
       context: formatDuplicateGroupContext(group),
       iconUrl: group.iconUrl,
       relatedItems: group.itemIds.map(toDuplicateModelRelatedItem)
@@ -489,12 +592,14 @@ export function createArmoireInsightDisplay(
   }
 
   function toDyeRiskItem(item: ArmoireDyeRiskItem, index: number): ArmoireReadableItemView {
+    const name = getItemName(item.itemId)
     const dyeNames = formatDyeNames(item.dyeIds)
     const resetReasonLabel = formatArmoireDyeResetReasons(item.resetReasons, t)
 
     return {
       key: `dye-${item.itemId}-${item.container}-${item.containerName ?? ''}-${index}`,
-      name: getItemName(item.itemId),
+      name,
+      wikiItemName: name,
       context: formatDyeRiskContext({ ...item, dyeNames, resetReasonLabel }),
       iconUrl: getItemIconUrl(item.itemId),
       tone: item.riskLevel
@@ -504,11 +609,13 @@ export function createArmoireInsightDisplay(
   return {
     formatText,
     formatItemPreview,
+    formatReplicaRecycleSummary,
     toTransferableItem,
     toIncompleteSetView,
     toIncompleteSetItem,
     toSetBucketLoosePieceItem,
     toTradableItem,
+    toCrafterGathererReplicaItem,
     toDuplicateItemView,
     toDuplicateItem,
     toDuplicateGroupView,

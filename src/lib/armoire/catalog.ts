@@ -5,6 +5,7 @@ import {
   type ArmoireCompactDisplayItem,
   type ArmoireGlamourSet,
   type ArmoireIdenticalGroup,
+  type ArmoireLocalizedNames,
   type ArmoireModelTuple
 } from '@/lib/armoire/types'
 
@@ -15,7 +16,8 @@ export const EMPTY_ARMOIRE_CATALOG: ArmoireCatalog = {
   cabinetItemIds: [],
   glamourSetItems: [],
   identicalGroups: [],
-  dyes: {}
+  dyes: {},
+  crafterGathererReplicaItemIds: []
 }
 
 const EXCLUDED_APPEARANCE_EQUIP_SLOT_CATEGORY_IDS = new Set([6, 14, 17])
@@ -40,6 +42,10 @@ export function isEmptyArmoireCatalog(catalog: ArmoireCatalog): boolean {
     catalog.glamourSetItems.length > 0 ||
     catalog.identicalGroups.length > 0
   ) {
+    return false
+  }
+
+  if ((catalog.crafterGathererReplicaItemIds?.length ?? 0) > 0) {
     return false
   }
 
@@ -124,7 +130,10 @@ export function mergeArmoireCatalogs(...catalogs: ArmoireCatalog[]): ArmoireCata
     cabinetEntries: nonEmptyCatalogs.flatMap((catalog) => catalog.cabinetEntries ?? []),
     glamourSetItems: mergeGlamourSetItems(nonEmptyCatalogs),
     identicalGroups: nonEmptyCatalogs.flatMap((catalog) => catalog.identicalGroups),
-    dyes: Object.assign({}, ...nonEmptyCatalogs.map((catalog) => catalog.dyes))
+    dyes: Object.assign({}, ...nonEmptyCatalogs.map((catalog) => catalog.dyes)),
+    crafterGathererReplicaItemIds: uniqueSortedNumbers(
+      nonEmptyCatalogs.flatMap((catalog) => catalog.crafterGathererReplicaItemIds ?? [])
+    )
   }
 }
 
@@ -236,6 +245,21 @@ function isPositiveInteger(value: unknown): value is number {
   return typeof value === 'number' && Number.isInteger(value) && value > 0
 }
 
+function isLocalizedNames(value: unknown): value is ArmoireLocalizedNames {
+  if (value === undefined || value === null) {
+    return true
+  }
+
+  if (!isRecord(value)) {
+    return false
+  }
+
+  return Object.entries(value).every(
+    ([locale, name]) =>
+      ['zh-CN', 'en', 'ja', 'ko'].includes(locale) && typeof name === 'string'
+  )
+}
+
 export function isArmoireCompactDisplayItem(value: unknown): value is ArmoireCompactDisplayItem {
   return (
     Array.isArray(value) &&
@@ -243,7 +267,8 @@ export function isArmoireCompactDisplayItem(value: unknown): value is ArmoireCom
     (value[1] === undefined || value[1] === null || typeof value[1] === 'string') &&
     (value[2] === undefined || value[2] === null || value[2] === 0 || isPositiveInteger(value[2])) &&
     (value[3] === undefined || value[3] === null || value[3] === 0 || isPositiveInteger(value[3])) &&
-    (value[4] === undefined || value[4] === null || value[4] === 0 || value[4] === 1)
+    (value[4] === undefined || value[4] === null || value[4] === 0 || value[4] === 1) &&
+    isLocalizedNames(value[5])
   )
 }
 
@@ -260,11 +285,15 @@ export function isPositiveIntegerArray(value: unknown): value is number[] {
 export function createCatalogItemFromCompactDisplayItem(
   item: ArmoireCompactDisplayItem
 ): ArmoireCatalogItem {
-  const [itemId, name, iconId, dyeSlotCount, isTradable] = item
+  const [itemId, name, iconId, dyeSlotCount, isTradable, localizedNames] = item
   const catalogItem: ArmoireCatalogItem = { itemId }
 
   if (name) {
     catalogItem.name = name
+  }
+
+  if (localizedNames && Object.keys(localizedNames).length > 0) {
+    catalogItem.localizedNames = localizedNames
   }
 
   if (iconId && iconId > 0) {
