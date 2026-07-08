@@ -1,3 +1,6 @@
+using System.Security.Cryptography;
+using System.Text;
+
 namespace NightingaleSilence.NSArmoire.Helper;
 
 internal sealed class SnapshotService : IDisposable
@@ -420,11 +423,14 @@ internal sealed class SnapshotService : IDisposable
                 UpdatedAt: entry.UpdatedAt.ToString("O")))
             .ToArray();
 
+        var snapshotContentHash = BuildSnapshotContentHash(dresserItems, cabinetResult, inventoryResult);
+
         return new HelperProbe(
             Ok: true,
             HelperVersion: ArmoireContracts.HelperVersion,
             GameProcessFound: gameProcessFound,
             SelectedPid: selectedPid,
+            SnapshotContentHash: snapshotContentHash,
             Character: character,
             DresserLocated: reader is not null,
             DresserLoaded: reader?.Loaded ?? false,
@@ -435,6 +441,79 @@ internal sealed class SnapshotService : IDisposable
             Retainers: retainers,
             RetainerCaches: retainerCaches,
             Containers: containers);
+    }
+
+    private string BuildSnapshotContentHash(
+        IReadOnlyList<DresserItem> dresserItems,
+        CabinetReadResult? cabinetResult,
+        InventoryReadResult? inventoryResult)
+    {
+        var builder = new StringBuilder();
+        builder.AppendLine("nsarmoire-probe-content-v1");
+
+        foreach (var item in dresserItems.OrderBy(item => item.SlotIndex))
+        {
+            builder.Append("D|")
+                .Append(item.SlotIndex).Append('|')
+                .Append(item.ItemId).Append('|')
+                .Append(item.Hq ? 1 : 0).Append('|')
+                .Append(item.Dye1Id).Append('|')
+                .Append(item.Dye2Id).AppendLine();
+        }
+
+        if (cabinetResult is { Loaded: true, Status: "ready" })
+        {
+            foreach (var cabinetId in cabinetResult.CabinetIds.OrderBy(id => id))
+            {
+                builder.Append("C|").Append(cabinetId).AppendLine();
+            }
+        }
+
+        if (inventoryResult is not null)
+        {
+            foreach (var item in inventoryResult.Containers
+                .SelectMany(container => container.Items)
+                .Where(item => item.Container != "retainer" && IsKnownAppearanceItem(item.ItemId))
+                .OrderBy(item => item.InventoryType)
+                .ThenBy(item => item.SlotIndex)
+                .ThenBy(item => item.ItemId))
+            {
+                AppendInventoryItemHash(builder, "I", item, retainerId: null);
+            }
+        }
+
+        foreach (var entry in retainerInventoryCache.Entries.OrderBy(entry => entry.RetainerId))
+        {
+            foreach (var item in entry.Items
+                .Where(item => IsKnownAppearanceItem(item.ItemId))
+                .OrderBy(item => item.InventoryType)
+                .ThenBy(item => item.SlotIndex)
+                .ThenBy(item => item.ItemId))
+            {
+                AppendInventoryItemHash(builder, "R", item, entry.RetainerId.ToString());
+            }
+        }
+
+        return Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(builder.ToString())))
+            .ToLowerInvariant();
+    }
+
+    private static void AppendInventoryItemHash(
+        StringBuilder builder,
+        string prefix,
+        InventoryItemRecord item,
+        string? retainerId)
+    {
+        builder.Append(prefix).Append('|')
+            .Append(retainerId ?? string.Empty).Append('|')
+            .Append(item.InventoryType).Append('|')
+            .Append(item.SlotIndex).Append('|')
+            .Append(item.ItemId).Append('|')
+            .Append(item.Hq ? 1 : 0).Append('|')
+            .Append(item.Quantity?.ToString() ?? string.Empty).Append('|')
+            .Append(item.Spiritbond).Append('|')
+            .Append(string.Join(',', item.Dyes))
+            .AppendLine();
     }
 
     private InventoryReadResult? SafeReadInventory()

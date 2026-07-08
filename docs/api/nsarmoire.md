@@ -282,7 +282,7 @@ source: 'asvel-compatible'
 container: 'glamourDresser'
 ```
 
-## 本地 helper v0.5.0
+## 本地 helper v0.5.1
 
 正式 helper 已拆为独立项目：
 
@@ -308,7 +308,7 @@ http://127.0.0.1:8015
 https://github.com/Yozakura9364/NSArmoireButler/releases/latest
 ```
 
-公开页面只跳转到 `NSArmoireButler` GitHub Releases 最新页，不直链 `.exe` 或 `.zip`。每个 helper Release 需要写明 helper 版本、支持游戏版本、SHA256、使用步骤、只监听 `127.0.0.1`、不上传用户仓库数据、杀软/SmartScreen 可能提示未知发布者，以及对应源码路径。
+公开页面只跳转到 `NSArmoireButler` GitHub Releases 最新页，不直链 `.exe` 或 `.zip`。每个 helper Release 需要写明 helper 版本、支持游戏版本、使用步骤、只监听 `127.0.0.1`、不上传用户仓库数据、杀软/SmartScreen 可能提示未知发布者，以及对应源码路径。Release 页面面向普通用户，不外显 SHA256 校验文案。
 
 当前独立 helper 默认启动后打开：
 
@@ -344,7 +344,7 @@ https://nightingalesilence.com/#/ffxiv/armoire?connect=1
 - `InventoryManager` 中的 `10000-10006` 是当前加载雇员仓库的 7 个 25 格内存块，总计 175 格；游戏 UI 展示为 5 页，每页 35 格。helper snapshot 不直接外显内部块，而是按全局 slot 重排为 `雇员名 背包 1-5`。
 - 多雇员归档的正式交互口径不是一次性读完所有雇员；helper 会在用户打开或切换某个雇员且其 7 个内部块加载完成时，把该雇员库存写入本次 helper 进程的内存缓存。用户逐个打开雇员后，snapshot 会逐步累积多个雇员，这与游戏内检索系统需要访问过雇员后才有完整数据的体验一致。
 - 当前雇员缓存同时纳入雇员背包、雇员已装备和雇员市场；雇员 ID 以字符串形式写入 `retainerId`，避免 JavaScript 64 位整数精度问题。前端行动建议会过滤雇员市场上架物品：`inventoryType=12002` 或容器名以 `市场` 结尾的条目不进入商城拥有状态、可交易物品、重复物品、同模型和生产采集复制品回收建议。
-- 前端连接 helper 后会轮询 `/probe`：页面可见时约 2 秒一次，隐藏时约 10 秒一次。检测到雇员缓存签名变化后，会延迟约 1.4 秒调用 `/snapshot/refresh` 更新页面，减少“每打开一个雇员还要手动刷新一次”的操作。
+- 前端连接 helper 后会轮询 `/probe`：页面可见时约 2 秒一次，隐藏时约 10 秒一次。首次探针只记录刷新签名；后续检测到角色、容器、雇员状态、雇员缓存或 `snapshotContentHash` 等探针签名变化后，会延迟约 1.4 秒调用 `/snapshot/refresh` 更新页面，减少“每打开一个雇员还要手动刷新一次”的操作，同时避免每 2 秒重建完整 snapshot。`snapshotContentHash` 只暴露稳定内容哈希，不外显物品明细，用于覆盖同容器等量交换、染色或绑定状态变化。
 - `/retainer-cache/clear` 只清空 helper 进程内缓存，不清空当前页面已经显示的 snapshot；页面数据会在下一次刷新或重新读取后更新。
 - `/probe` 是当前验证入口；它不外显物品 ID，只返回容器状态和数量。
 - `/snapshot` 在容器读取成功时会把这些容器中的物品记录并入 snapshot。

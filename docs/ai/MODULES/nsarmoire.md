@@ -14,6 +14,7 @@
 - 当前本地助手正式项目：`H:\NightingaleSilenceWeb\NSArmoireButler`；V2 内 `tools/nsarmoire-helper` 只作为历史内置副本/开发参考。
 - 当前本地助手分发口径：公开页面跳转到 `NSArmoireButler` 仓库 GitHub Releases 最新页，由用户下载 zip；页面不直链 `.exe` 或 `.zip`。
 - 2026-07-08 已开始拆分 `NSArmoireButler` 独立项目：独立项目使用 `NSArmoireButler.exe` 作为发布产物，默认启动后打开 `https://nightingalesilence.com/#/ffxiv/armoire?connect=1`，网页带 `connect=1` 时自动连接本机 helper。Release 包提供 `register-protocol.ps1` 注册 `nsarmoire-butler://start`；网页连接失败时可尝试唤起该协议并自动重试连接。
+- 2026-07-08 `NSArmoireButler` 当前 helper 版本为 `0.5.1`，`/probe` 增加 `snapshotContentHash`，用于前端保留 2 秒探针但只在可读衣柜内容变化时刷新完整 snapshot。Release 面向普通用户，不外显 SHA256 校验文案。
 - 当前本地助手端口：`8015`，开发期 `/api/armoire/*` 代理到 `http://127.0.0.1:8015/*`；生产/公开页面直连 `http://127.0.0.1:8015`。
 - 2026-07-05 已完成三分区工作台第一版：`NSArmoireWorkspace.vue` 改为“导入区 + 分区轨道 + 当前分区内容”，新增 `NSArmoireSectionRail.vue` 和 `NSArmoireCharacterPanel.vue`。当前分区包括衣柜清理、查漏补缺、角色配置；衣柜清理承接整理建议和容器分布，查漏补缺承接图鉴、商城、判定依据和静态数据，角色配置展示当前 snapshot 的角色名、服务器、来源、生成时间、条目数、雇员缓存数和本地角色缓存列表。尚未实现手动合并、商城账号购买状态或稳定角色 ID 自动合并。
 - 2026-07-05 已建立第一版商城目录：`public/data/armoire-store-catalog.json` 记录国服商城公开商品列表中筛出的外观商品；有国际服商品链接时，未校正条目的 `itemIds` 以国际服商城商品详情 `items` + 日文 `Item.csv` 映射结果为主，国服商城说明只保留为国服商品名、链接、价格和无国际服链接时的待校正参考。商城卡片封面使用 `coverItemId`，仅用于展示图标，不参与拥有状态检测；`NSArmoireStorePanel.vue` 当前只根据 snapshot 检测这些物品是否出现在角色仓库中，不等同于账号购买记录。目录可通过 `npm run build:armoire-store-catalog` 刷新，生成脚本会尽量保留已有人工 `corrected: true`、`itemIds` 和 `coverItemId` 校正。
@@ -32,7 +33,7 @@
 - 2026-07-06 生产预览性能 trace 继续确认：空进 `#/ffxiv/armoire` 不请求 `/data/armoire-catalog.json`，无主线程 long task；后置面板、商城 catalog 校验器和 helper API 已改为按需 chunk，空页不再加载 `itemDisplay-*`、`storeCatalog-*` 或 `nsarmoireHelperApi-*`。当前首屏最大剩余资源是全站中文像素字体 `fusion-pixel-12px-proportional-zh_hans.otf.woff2`，约 713 KB transfer。
 - 2026-07-06 商城统计卡片已扩展为逐散件展示：每件散件显示已拥有/未拥有；已拥有散件列出 snapshot 中的容器位置和染色，超过 3 条副本时折叠剩余数量。地区商城入口按 `regionalStoreUrls` 拆成简中服、繁中服、GLOBAL 和 한국 按钮；该统计仍只表示当前角色 snapshot 中是否出现散件，不等同商城账号购买记录。
 - 2026-07-06 本地 helper 已将背包/兵装库/鞍囊/雇员物品实例的 `spiritbond` 透出到 snapshot。该字段用于验证可交易装备的实例绑定状态，不能由静态 `Item.csv` 交易字段替代；第一轮验证样本为两件 `经典眼镜`：HQ 已绑定、NQ 未绑定。实际 snapshot 中两条 `itemId=9298` 分别输出 `spiritbond: 1` 和 `spiritbond: 0`。当前分析口径无视 HQ/NQ，只使用绑定关系：`spiritbond === 0` 视为已知未绑定，`spiritbond > 0` 视为已绑定，缺失 `spiritbond` 时不进入未绑定可交易清单。
-- 2026-07-08 helper 前端接入已支持多进程选择、雇员缓存探针轮询、连接后静默刷新 snapshot、手动清空雇员缓存。页面可通过 `/processes` 和 `/process/select` 切换读取目标进程；连接 helper 后可见页面每 2 秒、隐藏页面每 10 秒轮询 `/probe`，每次探针成功后延迟约 1.4 秒自动调用 `/snapshot/refresh`，让背包、雇员缓存和其他已加载容器持续更新。
+- 2026-07-08 helper 前端接入已支持多进程选择、雇员缓存探针轮询、连接后静默刷新 snapshot、手动清空雇员缓存。页面可通过 `/processes` 和 `/process/select` 切换读取目标进程；连接 helper 后可见页面每 2 秒、隐藏页面每 10 秒轮询 `/probe`，首次探针只记录刷新签名，后续仅在角色、容器、雇员状态、雇员缓存或 `snapshotContentHash` 等探针签名变化时，延迟约 1.4 秒自动调用 `/snapshot/refresh`，避免每 2 秒重建完整 snapshot。`snapshotContentHash` 只暴露稳定内容哈希，不外显物品明细，可覆盖同容器等量交换、染色或绑定状态变化。
 - 2026-07-08 衣柜分析新增行动项过滤：`inventoryType=12002` 或雇员容器名以 `市场` 结尾的雇员市场上架物品会从商城拥有状态、可交易物品、重复物品、同模型和生产采集复制品等行动建议中排除，避免把已挂市场的物品当成可整理背包库存。
 - 2026-07-08 `衣柜统计` 已替换原查漏补缺图鉴位置，按容器/背包折叠展示当前 snapshot 物品图标；展开时才渲染对应容器图标。单件物品卡片和商城散件支持右键打开灰机 wiki，移动端用长按。
 - 2026-07-08 商城面板改为“分组图标总览 + 选中详情”结构：先按来源/标签分组，再在组内按 Global 商品编号倒序；未拥有图标灰化。详情卡展示本地化套装名、各地区价格、右上角地区短链、暂无链接状态、填充色块标签和散件位置/染色。商城数据校正页改为每次加载 10 条并支持继续滚动加载，同时可编辑 `regionalPriceLabels`。
@@ -732,7 +733,7 @@ tools/nsarmoire-helper/*（历史内置副本/开发参考）
 8. 收藏柜读取参考 `Seventhxiv/Collections` 的 `UIState.Cabinet` 口径：helper 读取 `UnlockedItems` bitset，并用 catalog `cabinetEntries` 映射到 itemId。
 9. helper 提供 `/catalog`，返回当前用于收藏柜映射的 `nsarmoire.catalog.v1` JSON；前端优先加载站点静态 catalog，静态加载失败时会尝试用 helper catalog 兜底。
 10. `/health` 返回 catalog 定位状态和收藏柜映射条目数，用于不打开 `/probe` 时快速判断 helper 静态目录是否就绪。
-11. 前端连接 helper 后会轮询 `/probe`；页面可见时约 2 秒一次，隐藏时约 10 秒一次。每次探针成功后自动调用 `/snapshot/refresh` 刷新当前 snapshot，不再只在雇员缓存签名变化时刷新。
+11. 前端连接 helper 后会轮询 `/probe`；页面可见时约 2 秒一次，隐藏时约 10 秒一次。首次探针只记录刷新签名，后续仅在角色、容器、雇员状态、雇员缓存或 `snapshotContentHash` 等探针签名变化时，延迟约 1.4 秒调用 `/snapshot/refresh` 刷新当前 snapshot，保留自动捕捉雇员切换的能力，同时避免每 2 秒重建完整数据。`snapshotContentHash` 由 helper 在已读取的投影台、收藏柜、背包类容器和雇员缓存外观物品上计算，不包含生成时间、缓存更新时间或物品明细。
 12. `/retainer-cache/clear` 清空当前 helper 进程内的雇员库存缓存；前端删除缓存后保留当前页面数据，直到用户刷新或重新读取。
 
 仍待完成：
