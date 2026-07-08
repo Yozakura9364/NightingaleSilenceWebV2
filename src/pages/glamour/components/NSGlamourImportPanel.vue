@@ -1,7 +1,7 @@
 <template>
   <section ref="rootEl" class="nsglamour-import ns-panel">
     <header class="nsglamour-panel-header">
-      <h2>{{ t(textKeys.nsglamourImportPanel) }}</h2>
+      <h2 class="ns-heading-bloom">{{ t(textKeys.nsglamourImportPanel) }}</h2>
       <div class="nsglamour-import__recent">
         <button
           type="button"
@@ -248,6 +248,7 @@ onBeforeUnmount(() => {
 .nsglamour-import__recent {
   position: relative;
   display: inline-flex;
+  align-self: center;
   justify-self: end;
 }
 
@@ -255,30 +256,32 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  min-width: 34px;
-  height: 34px;
-  min-height: 34px;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
   padding: 0;
-  border: 0;
-  border-bottom: 2px solid transparent;
+  border: 2px solid var(--ns-pixel-border-soft);
   border-radius: 0;
-  background: transparent;
-  color: var(--ns-color-text, #222);
+  background: var(--ns-pixel-surface);
+  color: var(--ns-color-text);
+  box-shadow: var(--ns-pixel-soft-shadow);
   cursor: pointer;
 }
 
 .nsglamour-import__recent-button:hover,
-.nsglamour-import__recent-button:focus {
-  border-bottom-color: var(--ns-color-accent, #d97706);
-  color: var(--ns-color-accent, #d97706);
+.nsglamour-import__recent-button:focus-visible {
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-pixel-hover-surface);
+  color: var(--ns-color-accent-strong);
   outline: none;
 }
 
 .nsglamour-import__recent-button img {
   display: block;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
+  filter: var(--ns-pixel-icon-filter);
 }
 
 .nsglamour-import__recent-panel {

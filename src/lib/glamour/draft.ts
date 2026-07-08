@@ -27,6 +27,7 @@ import type {
 
 export const GLAMOUR_CARD_DRAFT_STORAGE_KEY = 'nsglamour.cardDraft.v2'
 export const GLAMOUR_STORE_EQUIPMENT_STORAGE_KEY = 'nsglamour.store.equipment'
+const GLAMOUR_LOCALE_ORDER: GlamourLocale[] = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']
 
 export interface GlamourTemplateDraftEntry {
   slot: string
@@ -71,7 +72,22 @@ function normalizeLocaleList(payload: GlamourImportPayload | undefined): Glamour
   const normalized = locales.map(normalizeGlamourLocale).filter(Boolean)
   const fallback = normalizeGlamourLocale(payload?.source_locale || payload?.default_locale)
   const values = [...normalized, fallback, GLAMOUR_DEFAULT_LOCALE]
-  return Array.from(new Set(values))
+  return orderGlamourLocales(Array.from(new Set(values)))
+}
+
+function orderGlamourLocales(locales: GlamourLocale[]): GlamourLocale[] {
+  return [...locales].sort((left, right) => {
+    const leftIndex = GLAMOUR_LOCALE_ORDER.indexOf(left)
+    const rightIndex = GLAMOUR_LOCALE_ORDER.indexOf(right)
+    const normalizedLeftIndex = leftIndex === -1 ? GLAMOUR_LOCALE_ORDER.length : leftIndex
+    const normalizedRightIndex = rightIndex === -1 ? GLAMOUR_LOCALE_ORDER.length : rightIndex
+
+    if (normalizedLeftIndex !== normalizedRightIndex) {
+      return normalizedLeftIndex - normalizedRightIndex
+    }
+
+    return left.localeCompare(right)
+  })
 }
 
 function normalizeWarnings(value: unknown): string[] {
@@ -196,7 +212,7 @@ export function templateDraftToGlamourPayload(draft: GlamourTemplateDraft): Glam
     createdAt: draft.createdAt,
     source_locale: locale,
     default_locale: locale,
-    locales: ['zh', 'en', 'ja', 'ko', 'tc', 'fr', 'de'],
+    locales: GLAMOUR_LOCALE_ORDER,
     author: {
       name: authorName,
       world: authorWorld,
@@ -324,7 +340,9 @@ export function createGlamourDraftFromPayload(
 
 export function setGlamourDraftLocale(draft: GlamourDraft, locale: string): GlamourDraft {
   const normalized = normalizeGlamourLocale(locale)
-  const locales = draft.locales.includes(normalized) ? draft.locales : [...draft.locales, normalized]
+  const locales = orderGlamourLocales(
+    draft.locales.includes(normalized) ? draft.locales : [...draft.locales, normalized]
+  )
 
   return {
     ...draft,

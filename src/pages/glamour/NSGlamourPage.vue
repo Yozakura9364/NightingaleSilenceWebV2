@@ -61,11 +61,16 @@ const turnIconStyle = computed(
 
 <style scoped>
 .nsglamour-page {
+  --ns-ffxiv-workspace-bg: #fff;
+
   position: relative;
   box-sizing: border-box;
+  flex: 1 1 auto;
+  width: 100%;
   height: 100%;
   min-height: 0;
   padding-inline: 46px;
+  background: var(--ns-ffxiv-workspace-bg);
 }
 
 .nsglamour-page-turn {
@@ -98,7 +103,7 @@ const turnIconStyle = computed(
   border-color: var(--ns-pixel-border);
   background: var(--ns-pixel-pink-surface);
   color: var(--ns-color-accent-strong);
-  box-shadow: 4px 4px 0 var(--ns-pixel-shadow);
+  box-shadow: var(--ns-pixel-button-shadow-hover);
   outline: none;
 }
 
@@ -153,14 +158,14 @@ const turnIconStyle = computed(
 }
 
 .nsglamour-page-turn:active {
-  box-shadow: 1px 1px 0 var(--ns-pixel-shadow);
+  box-shadow: var(--ns-pixel-soft-shadow);
   transform: translate(2px, calc(-50% + 2px));
 }
 
 .nsglamour-page-turn:focus-visible {
   box-shadow:
-    0 0 0 3px var(--ns-focus-ring),
-    4px 4px 0 var(--ns-pixel-shadow);
+    var(--ns-focus-ring),
+    var(--ns-pixel-button-shadow-hover);
 }
 
 @media (max-width: 720px) {

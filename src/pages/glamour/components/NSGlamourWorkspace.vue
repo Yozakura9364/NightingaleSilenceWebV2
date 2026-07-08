@@ -318,12 +318,12 @@ function getImportErrorMessage(error: unknown): string {
 <style scoped>
 .nsglamour-workspace {
   display: grid;
-  grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: clamp(400px, 25vw, 520px) minmax(0, 1fr);
+  gap: 16px;
   height: 100%;
   min-height: 0;
   padding: 14px;
-  background: var(--ns-body-background);
+  background: #fff;
 }
 
 .nsglamour-workspace__side,
@@ -339,7 +339,7 @@ function getImportErrorMessage(error: unknown): string {
   align-content: stretch;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1080px) {
   .nsglamour-workspace {
     grid-template-columns: 1fr;
     height: auto;

@@ -49,6 +49,8 @@ export interface GlamourTemplateItem {
   dyeCount: number
   isEmperor: boolean
   equipSlotCategory?: number | string
+  ecVariantLabel?: string
+  ecVariantKind?: string
 }
 
 export interface GlamourTemplateDye {
@@ -96,22 +98,8 @@ function isTemplateDyeExcludedSlot(entry: GlamourEquipmentEntry, format: Glamour
   return format.includeAccessories !== true && GLAMOUR_ACCESSORY_SLOTS.has(entry.slot)
 }
 
-function normalizeTemplateDyeName(name: string, locale: GlamourLocale, stripSuffix: boolean): string {
-  const text = String(name || '').trim().replace(/^【(.+)】$/u, '$1').replace(/[【】]/gu, '')
-
-  if (!stripSuffix) {
-    return text
-  }
-
-  if (locale === 'zh') {
-    return text.replace(/染剂$/u, '')
-  }
-
-  if (locale === 'tc') {
-    return text.replace(/染劑$/u, '')
-  }
-
-  return text
+function normalizeTemplateDyeName(name: string): string {
+  return String(name || '').trim().replace(/^【(.+)】$/u, '$1').replace(/[【】]/gu, '')
 }
 
 function makeTemplateNoDye(locale: GlamourLocale, draft: GlamourDraft): GlamourTemplateDye {
@@ -144,14 +132,13 @@ function getTemplateDyeSlotCount(
 function toTemplateDye(
   dye: GlamourDyeEntry,
   draft: GlamourDraft,
-  locale: GlamourLocale,
-  format: GlamourTemplateDyeFormat
+  locale: GlamourLocale
 ): GlamourTemplateDye {
   const isEmpty = isNoDyeEntry(dye)
   const sourceName = getDyeEntryName(dye, draft.noDyeLabels, locale)
   return {
     id: dye.id,
-    name: isEmpty ? getNoDyeLabel(draft.noDyeLabels, locale) : normalizeTemplateDyeName(sourceName, locale, format.stripDyeSuffix === true),
+    name: isEmpty ? getNoDyeLabel(draft.noDyeLabels, locale) : normalizeTemplateDyeName(sourceName),
     names: dye.names,
     hex: dye.hex,
     rgb: dye.rgb,
@@ -180,7 +167,7 @@ function getTemplateDyes(
 
   const dyes = getDisplayDyeEntries(candidate, entry.slot, draft.noDyeLabels, locale)
     .slice(0, dyeSlotCount)
-    .map((dye) => toTemplateDye(dye, draft, locale, format))
+    .map((dye) => toTemplateDye(dye, draft, locale))
 
   while (dyes.length < dyeSlotCount) {
     dyes.push(makeTemplateNoDye(locale, draft))
@@ -195,6 +182,9 @@ function toTemplateItem(
   draft: GlamourDraft,
   locale: GlamourLocale
 ): GlamourTemplateItem {
+  const ecVariantLabel = String(candidate.ec_variant_label || '').trim()
+  const ecVariantKind = String(candidate.ec_variant_kind || '').trim()
+
   return {
     key: candidate.key,
     name: getCandidateName(candidate, locale, draft.source.locale),
@@ -203,7 +193,9 @@ function toTemplateItem(
     rarity: candidate.rarity,
     dyeCount: getCandidateDyeCount(candidate, entry.slot),
     isEmperor: candidate.is_emperor === true,
-    equipSlotCategory: candidate.equip_slot_category
+    equipSlotCategory: candidate.equip_slot_category,
+    ecVariantLabel,
+    ecVariantKind
   }
 }
 
@@ -237,7 +229,18 @@ export function createGlamourTemplateRows(
   const locale = options.locale || locales[0] || draft.locale
   const maxRows = Math.max(0, Number(template.equipmentFormat.maxRows || 0))
   const format = template.equipmentFormat.dye
-  const rows = getOrderedFilledEntries(draft)
+  const sourceEntries = getOrderedFilledEntries(draft).filter((entry) => {
+    const candidate = getSelectedCandidate(entry)
+
+    return Boolean(
+      candidate &&
+        locales.some((candidateLocale) =>
+          getCandidateName(candidate, candidateLocale, draft.source.locale).trim()
+        )
+    )
+  })
+  const limitedEntries = maxRows > 0 ? sourceEntries.slice(0, maxRows) : sourceEntries
+  const rows = limitedEntries
     .map((entry) => {
       const candidate = getSelectedCandidate(entry)
 
@@ -246,11 +249,8 @@ export function createGlamourTemplateRows(
       }
 
       const itemName = getCandidateName(candidate, locale, draft.source.locale).trim()
-      const hasLocalizedName = locales.some((candidateLocale) =>
-        getCandidateName(candidate, candidateLocale, draft.source.locale).trim()
-      )
 
-      if (!itemName || !hasLocalizedName) {
+      if (!itemName) {
         return null
       }
 
@@ -273,5 +273,5 @@ export function createGlamourTemplateRows(
     })
     .filter((row): row is GlamourTemplateRow => Boolean(row))
 
-  return maxRows > 0 ? rows.slice(0, maxRows) : rows
+  return rows
 }

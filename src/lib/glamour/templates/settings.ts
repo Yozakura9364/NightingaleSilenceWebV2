@@ -103,6 +103,16 @@ function getSubtitleTextFromSettings(settings: GlamourTemplateSettings): string 
   return formatGlamourTemplateSubtitleParts(getSubtitlePartsFromSettings(settings))
 }
 
+export function getGlamourTemplateSubtitleParts(settings: GlamourTemplateSettings) {
+  const parts = getSubtitlePartsFromSettings(settings)
+
+  if (!parts) {
+    return null
+  }
+
+  return { ...parts }
+}
+
 export function getGlamourTemplateSubtitleText(settings: GlamourTemplateSettings): string {
   return getSubtitleTextFromSettings(settings)
 }
@@ -375,7 +385,7 @@ export function getDefaultGlamourTemplateSettings(templateId = GLAMOUR_TEMPLATE_
     showIcons: true,
     dyeFrameMode: 'psd',
     locales: getDefaultLocaleList(template),
-    textColor: '#1f2933',
+    textColor: '#1c2130',
     panelColor: '#ffffff',
     storySwatchColors: [...DEFAULT_STORY_SWATCH_COLORS]
   }

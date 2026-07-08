@@ -21,14 +21,33 @@ const TEMPLATE_SOURCE_FILES = [
   'src/lib/glamour/equipment.ts',
   'src/lib/glamour/recent.ts',
   'src/lib/glamour/links.ts',
+  'src/pages/glamour/NSGlamourPage.vue',
+  'src/pages/glamour/components/NSGlamourEquipmentPanel.vue',
   'src/pages/glamour/components/NSGlamourImportPanel.vue',
   'src/pages/glamour/components/NSGlamourWorkspace.vue',
-  'src/pages/glamour/components/NSGlamourTemplateWorkspace.vue'
+  'src/pages/glamour/components/NSGlamourTemplateWorkspace.vue',
+  'src/locales/ui.ts'
 ]
 const LEGACY_TEMPLATE_DEFINITIONS_FILE = resolve('..', 'NSGlamour', 'static', 'template-definitions.js')
 const LEGACY_TEMPLATE_RENDERERS_FILE = resolve('..', 'NSGlamour', 'static', 'template-renderers.js')
+const LEGACY_TEMPLATE_FILE = resolve('..', 'NSGlamour', 'static', 'template.js')
 const TEMPLATE_IDS = ['eorzea', 'horizontal', 'story', 'risingstones', 'ec', 'silence-fashion']
 const TEMPLATE_RENDER_MODES = ['eorzea', 'horizontal', 'double-pic', 'risingstones', 'ec', 'silence-fashion']
+const TEMPLATE_RENDER_ASSET_FILES = [
+  'public/data/glamour/templates/eorzea-magazine.png',
+  'public/data/glamour/templates/eorzea-horizontal-magazine-bg.png',
+  'public/data/glamour/templates/double-pic-left-mask.png',
+  'public/data/glamour/templates/silence-fashion-background.png',
+  'public/data/glamour/templates/com_icon_clear.svg'
+]
+const TEMPLATE_PREVIEW_ASSET_FILES = [
+  'public/data/glamour/template-preview/1-Eorzea Magazine/1-Preview.webp',
+  'public/data/glamour/template-preview/2-Double Pic/2-Preview.webp',
+  'public/data/glamour/template-preview/3-Eorzea Collection/3-preview.webp',
+  'public/data/glamour/template-preview/4-Horizontal Eorzea Magazine/4-Preview.webp',
+  'public/data/glamour/template-preview/5-Risingstones/5-preview.webp',
+  'public/data/glamour/template-preview/6-Silence Fashion/6-preview.webp'
+]
 const TEMPLATE_SLOT_ORDER = [
   'MainHand',
   'OffHand',
@@ -287,16 +306,21 @@ async function checkLocalTemplateDataLayer() {
     equipment,
     recent,
     links,
+    glamourPage,
+    equipmentPanel,
     importPanel,
     glamourWorkspace,
     templateWorkspace,
+    uiLocaleSource,
     legacyDefinitions,
-    legacyRenderers
+    legacyRenderers,
+    legacyTemplate
   ] = await Promise.all(
     [
       ...TEMPLATE_SOURCE_FILES.map((filePath) => resolve(filePath)),
       LEGACY_TEMPLATE_DEFINITIONS_FILE,
-      LEGACY_TEMPLATE_RENDERERS_FILE
+      LEGACY_TEMPLATE_RENDERERS_FILE,
+      LEGACY_TEMPLATE_FILE
     ].map(
       (filePath) => readFile(filePath, 'utf8')
     )
@@ -308,8 +332,48 @@ async function checkLocalTemplateDataLayer() {
   assertSameArray(v2Order, legacyOrder, 'V2 template select order must match legacy /template')
 
   validateTemplateDefinitions(definitions, legacyDefinitions, legacyOrder)
+  validateTemplateImageSlotRegions(definitions, legacyDefinitions, legacyTemplate)
+  validateTemplateEquipmentFormats(definitions, legacyDefinitions, legacyTemplate)
   validateTemplateRenderProfiles(renderProfiles, legacyRenderers)
+  validateEcTemplateColors(renderer, legacyTemplate)
+  validateCanvasRendererConstants(renderer, legacyTemplate)
+  validateTemplateSettingsDefaults(settings, legacyTemplate)
   validateTemplateImageSlots(imageSlots, legacyDefinitions)
+  validateNsglamourVisibleText(uiLocaleSource)
+  await validateTemplatePublicAssets()
+
+  assert(
+    glamourPage.includes('--ns-ffxiv-workspace-bg: #fff') &&
+      !glamourPage.includes('#fff8fc') &&
+      glamourWorkspace.includes('background: #fff;') &&
+      templateWorkspace.includes('background: #fff;') &&
+      !glamourWorkspace.includes('#fff8fc') &&
+      !templateWorkspace.includes('#fff8fc'),
+    'NSGlamour equipinfo/template workspace backgrounds must stay pure white outside the title bar'
+  )
+  assert(
+    equipmentPanel.includes('nsglamour-slot--selected-no-dye') &&
+      countSubstring(equipmentPanel, 'v-else-if="!entry.itemName" class="nsglamour-slot__search"') === 2 &&
+      !equipmentPanel.includes('<div v-else class="nsglamour-slot__search">'),
+    'selected NSGlamour equipment without dye rows must center the selected item and must not render an empty-slot search box'
+  )
+  assert(
+    /nsglamour-slot__candidate-panel[\s\S]*?width:\s*min\(420px, calc\(100vw - 42px\)\)/.test(equipmentPanel) &&
+      /nsglamour-slot__candidate-option[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*52px/.test(equipmentPanel) &&
+      /nsglamour-slot__candidate-option img[\s\S]*?width:\s*42px[\s\S]*?height:\s*42px/.test(equipmentPanel) &&
+      /nsglamour-slot__candidate-option span[\s\S]*?font-size:\s*14px/.test(equipmentPanel) &&
+      /nsglamour-slot__search-result[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*52px/.test(equipmentPanel) &&
+      /nsglamour-slot__search-result img[\s\S]*?width:\s*42px[\s\S]*?height:\s*42px/.test(equipmentPanel) &&
+      /nsglamour-slot__search-result[\s\S]*?font-size:\s*14px/.test(equipmentPanel),
+    'NSGlamour equipment candidates/search results must stay aligned with selected equipment icon and text sizing'
+  )
+  assert(
+    /nsglamour-slot__dye-chip[\s\S]*?radial-gradient\(circle at 11px center, var\(--nsglamour-dye-color, #000000\) 0 5px, transparent 6px\)/.test(equipmentPanel) &&
+      /nsglamour-slot__dye-chip\.empty-dye[\s\S]*?com_icon_clear\.svg'\) 6px center \/ 10px 10px no-repeat/.test(equipmentPanel) &&
+      /nsglamour-template__dye-chip::before[\s\S]*?width:\s*10px[\s\S]*?height:\s*10px/.test(templateWorkspace) &&
+      /nsglamour-template__dye-chip\.empty-dye::before[\s\S]*?com_icon_clear\.svg'\) center \/ 10px 10px no-repeat/.test(templateWorkspace),
+    'NSGlamour clear dye icon must occupy the same 10px box as normal dye swatches in equipinfo and template editors'
+  )
 
   assert(
     settings.includes('nsglamour.templateWorkspaceSettings'),
@@ -338,12 +402,27 @@ async function checkLocalTemplateDataLayer() {
     settings.includes('bottomText') &&
       settings.includes('padding: clampNumber') &&
       settings.includes('nameSize: clampNumber') &&
-      settings.includes('showIcons'),
+      settings.includes('showIcons') &&
+      settings.includes('getGlamourTemplateSubtitleParts'),
     'template settings must preserve legacy canvas-only settings for later renderer migration'
   )
   assert(
     rows.includes('createGlamourTemplateRows'),
     'template row adapter must expose createGlamourTemplateRows'
+  )
+  assert(
+    rows.includes('const sourceEntries = getOrderedFilledEntries(draft).filter') &&
+      rows.includes('locales.some((candidateLocale)') &&
+      rows.includes('const limitedEntries = maxRows > 0 ? sourceEntries.slice(0, maxRows) : sourceEntries') &&
+      rows.includes('const rows = limitedEntries'),
+    'template row adapter must preserve legacy order: filter renderable rows by selected locales before maxRows, then map each output locale'
+  )
+  assert(
+    rows.includes('normalizeTemplateDyeName(sourceName)') &&
+      !rows.includes('normalizeTemplateDyeName(sourceName, locale, format.stripDyeSuffix') &&
+      renderer.includes('function normalizeDyeLabel') &&
+      renderer.includes("replace(/染剂$/u, '').replace(/染劑$/u, '')"),
+    'template row adapter must keep legacy dye text suffixes; EC/Risingstones chip renderers trim dye suffixes locally'
   )
   assert(
     renderData.includes('createGlamourTemplateRenderData') &&
@@ -357,6 +436,8 @@ async function checkLocalTemplateDataLayer() {
       renderData.includes('profile.forceIcons') &&
       renderData.includes('localizedRows') &&
       renderData.includes('getGlamourTemplateSubtitleText') &&
+      renderData.includes('getGlamourTemplateSubtitleParts') &&
+      renderData.includes('subtitleParts') &&
       renderData.includes('storySwatchColors') &&
       templateComposable.includes('createGlamourTemplateRenderData') &&
       templateComposable.includes('templateRenderData'),
@@ -371,6 +452,8 @@ async function checkLocalTemplateDataLayer() {
       renderer.includes('drawEorzeaGuides') &&
       renderer.includes('drawEorzeaTitle') &&
       renderer.includes('drawEorzeaEquipment') &&
+      renderer.includes('const suffix = locale === \'tc\' ? \'染劑\' : \'染剂\'') &&
+      renderer.includes('text.replace(/染剂$/u, suffix)') &&
       renderer.includes('drawEorzeaImageSlots') &&
       renderer.includes("assets?.['figma-background']?.image") &&
       renderer.includes("options.renderData.template.renderMode === 'horizontal'") &&
@@ -397,15 +480,28 @@ async function checkLocalTemplateDataLayer() {
       renderer.includes('drawRisingstonesEquipment') &&
       renderer.includes('rowHeight: 247') &&
       renderer.includes('getRisingstonesNameWidth') &&
+      renderer.includes('nameWeight: 400') &&
+      renderer.includes('"Noto Sans SC Variable", "HarmonyOS Sans SC", "Source Han Sans CN", "Microsoft YaHei", sans-serif') &&
+      renderer.includes('fontFamily: layout.fontFamily') &&
+      renderer.includes('inkCenter?: boolean') &&
+      renderer.includes('layout.inkCenter') &&
+      renderer.includes('getTextInkCenterBaseline(ctx, text, centerY)') &&
       renderer.includes('RISINGSTONES_TEMPLATE.copyright.lines') &&
+      renderer.includes('© 2010-${TEMPLATE_COPYRIGHT_END_YEAR} SQUARE ENIX CO., LTD. All Rights Reserved.') &&
       renderer.includes("options.renderData.template.renderMode === 'ec'") &&
       renderer.includes('renderEcTemplateCanvas') &&
       renderer.includes('EC_TEMPLATE_LAYOUTS') &&
       renderer.includes('drawEcEquipment') &&
       renderer.includes('EC_ITEM_RARITY_COLORS') &&
       renderer.includes('drawEcCenteredFittedText') &&
+      renderer.includes('drawEcSubtitle') &&
+      renderer.includes('renderData.text.subtitleParts') &&
+      renderer.includes('NS Cambria') &&
       renderer.includes('trackingSize = size * (tracking / 1000)') &&
       renderer.includes('getEcItemNameColor') &&
+      renderer.includes('getEcVariantLabel') &&
+      renderer.includes('makeEcVariantDye') &&
+      renderer.includes("row.slot === 'Glasses'") &&
       renderer.includes("options.renderData.template.renderMode === 'silence-fashion'") &&
       renderer.includes('renderSilenceFashionTemplateCanvas') &&
       renderer.includes('SILENCE_FASHION_TEMPLATE') &&
@@ -427,11 +523,25 @@ async function checkLocalTemplateDataLayer() {
       renderer.includes('GlamourTemplateLoadedAssetMap') &&
       renderer.includes('renderData.canvas.imageSlots') &&
       renderer.includes('resolveIcon?.(row.item.icon)?.image') &&
+      rows.includes('ecVariantLabel?: string') &&
+      rows.includes('candidate.ec_variant_label') &&
       templateWorkspace.includes('renderGlamourTemplateCanvas') &&
+      templateWorkspace.includes('templateCanvasFonts') &&
+      templateWorkspace.includes('ensureTemplateCanvasFonts') &&
+      templateWorkspace.includes('document.fonts') &&
+      templateWorkspace.includes('fontSet.load(font, fontLoadText)') &&
+      templateWorkspace.includes('templateFontLoadFallbackText') &&
+      templateWorkspace.includes('loadGlamourTemplateRenderAssets') &&
+      templateWorkspace.includes('templateRenderAssets') &&
+      templateWorkspace.includes('loadTemplateRenderAssets') &&
+      templateWorkspace.includes('templateRenderData.value.requiredAssets.join') &&
+      templateWorkspace.includes('assets: templateRenderAssets.value') &&
       !templateWorkspace.includes('renderGlamourTemplateCanvasFallback') &&
       templateWorkspace.includes('drawGlamourTemplateImageCover') &&
       templateWorkspace.includes('templateIconImages') &&
       templateWorkspace.includes('preloadTemplateIcons') &&
+      templateWorkspace.includes('shouldPreloadTemplateCanvasIcons') &&
+      templateWorkspace.includes("renderMode === 'ec' || renderMode === 'risingstones'") &&
       templateWorkspace.includes('resolveIcon: getTemplateIcon') &&
       !templateWorkspace.includes('function drawTemplateCanvasFallback') &&
       !templateWorkspace.includes('function drawImageCover'),
@@ -443,8 +553,15 @@ async function checkLocalTemplateDataLayer() {
       assets.includes('resolveGlamourTemplateRenderAssetUrl') &&
       assets.includes('loadGlamourTemplateRenderAssets') &&
       assets.includes('new Image()') &&
-      /GLAMOUR_TEMPLATE_RENDER_ASSET_URLS:\s*GlamourTemplateRenderAssetUrlMap\s*=\s*\{\}/.test(assets),
-    'template render assets must keep an explicit empty URL map until runtime asset/public strategy is confirmed'
+      assets.includes("'figma-background': '/data/glamour/templates/eorzea-magazine.png'") &&
+      assets.includes("'horizontal-background': '/data/glamour/templates/eorzea-horizontal-magazine-bg.png'") &&
+      assets.includes("'double-pic-left-mask': '/data/glamour/templates/double-pic-left-mask.png'") &&
+      assets.includes("'silence-fashion-background': '/data/glamour/templates/silence-fashion-background.png'") &&
+      assets.includes("'clear-dye-icon': '/data/glamour/templates/com_icon_clear.svg'") &&
+      !assets.includes('template-preview') &&
+      !assets.includes('.psd') &&
+      !assets.includes('Codia'),
+    'template render assets must only expose confirmed public runtime backgrounds and masks through the V2 lazy-load boundary'
   )
   assert(
     rows.includes('isTemplateDyeExcludedSlot') && /isTemplateDyeExcludedSlot\(entry, format\)[\s\S]*?return \[\]/.test(rows),
@@ -498,11 +615,19 @@ async function checkLocalTemplateDataLayer() {
   )
   assert(
     templateWorkspace.includes('toggleTemplateLocale') &&
+      templateWorkspace.includes("const templateLanguageDisplayOrder: GlamourLocale[] = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']") &&
+      templateWorkspace.includes('sortTemplateLanguageOptions(languageOptions.value)') &&
+      templateWorkspace.includes('sortTemplateLanguageOptions(option.languageOptions)') &&
+      templateWorkspace.includes('sortTemplateLocales(option.localeOrder)') &&
       !templateWorkspace.includes('languageSettingRows') &&
       !templateWorkspace.includes('moveTemplateLocale') &&
       !templateWorkspace.includes('removeTemplateLocale') &&
       !templateWorkspace.includes('nsglamour-template__language-order-controls'),
-    'template workspace must keep language switching without exposing extra language order controls'
+    'template workspace must keep fixed language display order without exposing extra language order controls'
+  )
+  assert(
+    !templateWorkspace.includes('nsglamourTemplateSelectorHint'),
+    'template selector must not show extra V2-only hint text that is absent from legacy /template'
   )
   assert(
     !/<div class="nsglamour-template__item-body">[\s\S]*?\{\{\s*row\.dyeText\s*\}\}/.test(templateWorkspace) &&
@@ -533,6 +658,10 @@ async function checkLocalTemplateDataLayer() {
       templateWorkspace.includes('saveCurrentTemplateRuntimeImages') &&
       templateWorkspace.includes('applyTemplateRuntimeImages') &&
       templateWorkspace.includes('carryTemplateImagesIntoCurrentTemplate') &&
+      templateWorkspace.includes('makeTemplateImageForSlotFromSource') &&
+      templateWorkspace.includes('const sourceUrl = sourceImage.sourceUrl || sourceImage.imageUrl') &&
+      templateWorkspace.includes('drawGlamourTemplateImageCover(ctx, source, 0, 0, output.width, output.height)') &&
+      /makeTemplateImageForSlotFromSource[\s\S]*?backupOnly:\s*false/.test(templateWorkspace) &&
       templateWorkspace.includes('loadGlamourTemplateImageStoreRecords') &&
       templateWorkspace.includes('saveGlamourTemplateImageStoreSlot') &&
       templateWorkspace.includes('restoreCurrentTemplateImagesFromStore') &&
@@ -544,16 +673,50 @@ async function checkLocalTemplateDataLayer() {
       templateWorkspace.includes('applyImageCrop') &&
       templateWorkspace.includes('resetImageCrop') &&
       templateWorkspace.includes('renderCroppedImageDataUrl') &&
+      templateWorkspace.includes('cropCanvasDisplayStyle') &&
+      templateWorkspace.includes('getCropAspectRatio') &&
+      templateWorkspace.includes('slot?.aspectRatio') &&
+      templateWorkspace.includes('window.addEventListener(\'resize\', updateCropViewportSize)') &&
+      templateWorkspace.includes('width: 100%;\n  height: 100%;') &&
+      !templateWorkspace.includes('max-height: min(62vh, 620px);') &&
       templateWorkspace.includes('writeGlamourTemplateImageSessionSlot') &&
       templateWorkspace.includes('findGlamourTemplateImageSessionRecord') &&
+      templateWorkspace.includes('let nearestSlotId = activeImageSlotId.value') &&
+      templateWorkspace.includes('let nearestDistance = Number.POSITIVE_INFINITY') &&
+      templateWorkspace.includes('for (let index = slots.length - 1; index >= 0; index -= 1)') &&
+      templateWorkspace.includes('handleTemplateDocumentDragEvent') &&
+      templateWorkspace.includes('getTemplateDocumentDragTargets') &&
+      templateWorkspace.includes("['dragenter', 'dragover', 'dragleave', 'drop']") &&
+      templateWorkspace.includes('target.addEventListener(eventName, handleTemplateDocumentDragEvent as EventListener, { capture: true })') &&
+      templateWorkspace.includes('target.removeEventListener(eventName, handleTemplateDocumentDragEvent as EventListener, { capture: true })') &&
+      templateWorkspace.includes('previewResizeObserver') &&
+      templateWorkspace.includes('updatePreviewSize') &&
+      templateWorkspace.includes('previewSize.height * aspectRatio') &&
+      templateWorkspace.includes('redrawTemplateCanvasAfterPageResume') &&
+      templateWorkspace.includes('canvasResumeRenderFrame') &&
+      templateWorkspace.includes("document.addEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)") &&
+      templateWorkspace.includes("window.addEventListener('pageshow', redrawTemplateCanvasAfterPageResume)") &&
+      templateWorkspace.includes("window.addEventListener('focus', redrawTemplateCanvasAfterPageResume)") &&
+      templateWorkspace.includes("document.removeEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)") &&
+      templateWorkspace.includes("window.removeEventListener('pageshow', redrawTemplateCanvasAfterPageResume)") &&
+      templateWorkspace.includes("window.removeEventListener('focus', redrawTemplateCanvasAfterPageResume)") &&
+      templateWorkspace.includes('closeFloatingTemplatePanels') &&
+      templateWorkspace.includes("window.addEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)") &&
+      templateWorkspace.includes("window.removeEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)") &&
+      !templateWorkspace.includes('width: min(100%, 760px)') &&
       !templateWorkspace.includes('nsglamour-template__preview-row'),
-    'template workspace must use the legacy canvas/upload/crop surface, runtime image cache, carry-forward switching, IndexedDB image store, and same-tab image backup instead of the temporary DOM preview rows'
+    'template workspace must use the legacy canvas/upload/crop surface, runtime image cache, carry-forward switching, IndexedDB image store, resume redraw, header popover cleanup, and same-tab image backup instead of the temporary DOM preview rows'
   )
   assert(
     templateWorkspace.includes('getTemplateSelectorCardTitle') &&
       templateWorkspace.includes('getTemplateLanguageSummary') &&
-      templateWorkspace.includes('nsglamourTemplateSelectorCardTitle'),
-    'template selector cards must preserve the legacy author/summary/supported-language title'
+      templateWorkspace.includes('getTemplatePreviewUrl') &&
+      templateWorkspace.includes('/data/glamour/template-preview/') &&
+      templateWorkspace.includes('legacyPreviewPath') &&
+      templateWorkspace.includes('nsglamourTemplateSelectorCardTitle') &&
+      templateWorkspace.includes('loading="lazy"') &&
+      !templateWorkspace.includes('{{ option.sourceWidth }}'),
+    'template selector cards must preserve the legacy preview image and author/summary/supported-language title'
   )
   assert(
     templateComposable.includes('selectedLocales.value.includes(draftLocale)') &&
@@ -701,8 +864,8 @@ function validateTemplateDefinitions(definitions, legacyDefinitions, templateIds
     )
     assertSameArray(
       extractArrayProperty(v2Block, 'localeOrder'),
-      resolveLegacyLocaleOrder(legacyBlock),
-      `template ${templateId} localeOrder must match legacy /template`
+      normalizeTemplateLocaleOrder(resolveLegacyLocaleOrder(legacyBlock)),
+      `template ${templateId} localeOrder must use the V2 template display order while preserving legacy-supported locales`
     )
     validateTemplateControls(v2Block, legacyBlock, templateId)
     validateTemplateLanguageOptions(v2Block, legacyBlock, templateId)
@@ -733,7 +896,107 @@ function validateTemplateLanguageOptions(v2Block, legacyBlock, templateId) {
   )
 }
 
+function validateTemplateImageSlotRegions(definitions, legacyDefinitions, legacyTemplate) {
+  for (const templateId of TEMPLATE_IDS) {
+    const v2Block = extractObjectBlock(definitions, templateId)
+    const legacyBlock = extractObjectBlock(legacyDefinitions, templateId)
+    const v2Slots = extractImageSlotBlocks(v2Block, legacyTemplate)
+    const legacySlots = extractImageSlotBlocks(legacyBlock, legacyTemplate)
+
+    assert(
+      v2Slots.length === legacySlots.length,
+      `template ${templateId} image slot count must match legacy /template`
+    )
+
+    for (let index = 0; index < legacySlots.length; index += 1) {
+      assertTemplateSlotRect(v2Slots[index], legacySlots[index], legacyTemplate, templateId, index, 'region')
+      assertTemplateOptionalSlotRect(v2Slots[index], legacySlots[index], legacyTemplate, templateId, index, 'uploadRegion')
+      assertTemplateOptionalSlotRect(v2Slots[index], legacySlots[index], legacyTemplate, templateId, index, 'dropRegion')
+    }
+  }
+}
+
+function validateTemplateEquipmentFormats(definitions, legacyDefinitions, legacyTemplate) {
+  for (const templateId of TEMPLATE_IDS) {
+    const v2Format = extractObjectPropertyBlock(extractObjectBlock(definitions, templateId), 'equipmentFormat')
+    const legacyFormat = extractObjectPropertyBlock(extractObjectBlock(legacyDefinitions, templateId), 'equipmentFormat')
+    const v2ItemName = extractObjectPropertyBlock(v2Format, 'itemName')
+    const legacyItemName = extractObjectPropertyBlock(legacyFormat, 'itemName')
+    const v2Dye = extractObjectPropertyBlock(v2Format, 'dye')
+    const legacyDye = extractObjectPropertyBlock(legacyFormat, 'dye')
+
+    assertSameStringProperty(v2Format, legacyFormat, 'source', `template ${templateId} equipmentFormat`)
+    assertSameOptionalNumericPropertyResolved(
+      v2Format,
+      legacyFormat,
+      'maxRows',
+      legacyTemplate,
+      `template ${templateId} equipmentFormat`
+    )
+
+    for (const property of ['wrap', 'shrink', 'shrinkOnOverflow', 'inlineDye']) {
+      assertSameOptionalBooleanProperty(v2ItemName, legacyItemName, property, `template ${templateId} itemName`)
+    }
+    assertSameOptionalNumericPropertyResolved(v2ItemName, legacyItemName, 'minScale', legacyTemplate, `template ${templateId} itemName`)
+
+    assertSameStringProperty(v2Dye, legacyDye, 'mode', `template ${templateId} dye`)
+    for (const property of [
+      'includeAccessories',
+      'showWhenDyeCountZero',
+      'showEmptySlots',
+      'stripDyeSuffix',
+      'reserveLineHeight'
+    ]) {
+      assertSameOptionalBooleanProperty(v2Dye, legacyDye, property, `template ${templateId} dye`)
+    }
+    for (const property of ['maxSlots', 'forceSlotCount']) {
+      assertSameOptionalNumericPropertyResolved(v2Dye, legacyDye, property, legacyTemplate, `template ${templateId} dye`)
+    }
+    assertSameOptionalStringProperty(v2Dye, legacyDye, 'separator', `template ${templateId} dye`)
+  }
+}
+
+function assertTemplateSlotRect(v2Slot, legacySlot, legacyTemplate, templateId, slotIndex, property) {
+  assertSameNumericPropertiesResolved(
+    extractRectPropertyBlock(v2Slot, property, legacyTemplate),
+    extractRectPropertyBlock(legacySlot, property, legacyTemplate),
+    ['x', 'y', 'width', 'height'],
+    `template ${templateId} imageSlots[${slotIndex}].${property}`,
+    legacyTemplate
+  )
+}
+
+function extractImageSlotBlocks(block, legacyTemplate) {
+  const literal = new RegExp('imageSlots\\s*:\\s*\\[', 'm').exec(block)
+
+  if (literal) {
+    return extractObjectArrayPropertyBlocks(block, 'imageSlots')
+  }
+
+  const reference = block.match(/imageSlots\s*:\s*([A-Z0-9_]+)/m)
+  assert(reference, 'template block must include imageSlots')
+  return extractObjectArrayBlocks(extractAssignedArrayBlock(legacyTemplate, reference[1]))
+}
+
+function assertTemplateOptionalSlotRect(v2Slot, legacySlot, legacyTemplate, templateId, slotIndex, property) {
+  const v2HasProperty = hasObjectLikeProperty(v2Slot, property)
+  const legacyHasProperty = hasObjectLikeProperty(legacySlot, property)
+
+  assert(
+    v2HasProperty === legacyHasProperty,
+    `template ${templateId} imageSlots[${slotIndex}].${property} presence must match legacy /template`
+  )
+
+  if (!legacyHasProperty) {
+    return
+  }
+
+  assertTemplateSlotRect(v2Slot, legacySlot, legacyTemplate, templateId, slotIndex, property)
+}
+
 function validateTemplateImageSlots(imageSlots, legacyDefinitions) {
+  const recentImageRecordBlock = extractInterfaceBlock(imageSlots, 'GlamourTemplateRecentImageRecord')
+
   assert(
     imageSlots.includes('nsglamour.templateImageSessionBackup.v2') &&
       imageSlots.includes('nsglamour.templateImageSessionBackup.v1') &&
@@ -757,6 +1020,14 @@ function validateTemplateImageSlots(imageSlots, legacyDefinitions) {
       imageSlots.includes('navigator.storage.persist') &&
       imageSlots.includes('indexedDB.open'),
     'template image slot helper must preserve legacy IndexedDB image persistence boundary and the confirmed recent-image stash'
+  )
+  assert(
+    recentImageRecordBlock.includes('imageName: string') &&
+      recentImageRecordBlock.includes('thumbnailUrl: string') &&
+      recentImageRecordBlock.includes('blob: Blob') &&
+      recentImageRecordBlock.includes('updatedAt: number') &&
+      !/\b(path|filePath|sourceUrl|sourceName)\b/.test(recentImageRecordBlock),
+    'template recent-image stash records must only expose thumbnail, file name, time, and local Blob; no paths or source metadata'
   )
   assert(
     imageSlots.includes('GLAMOUR_TEMPLATE_IMAGE_SLOT_ALIASES') &&
@@ -799,7 +1070,7 @@ function validateTemplateRenderProfiles(renderProfiles, legacyRenderers) {
     )
     assertSameArray(
       extractArrayProperty(v2Block, 'assets'),
-      extractLegacyRenderAssets(legacyBlock),
+      withV2ClearDyeAsset(renderMode, extractLegacyRenderAssets(legacyBlock)),
       `render profile ${renderMode} asset requirements must match legacy /template loadAssets`
     )
   }
@@ -821,6 +1092,650 @@ function validateTemplateRenderProfiles(renderProfiles, legacyRenderers) {
       renderProfiles.includes('GLAMOUR_TEMPLATE_DEFAULT_RENDER_PROFILE'),
     'template render profiles must expose the V2 renderer profile lookup boundary'
   )
+}
+
+function validateEcTemplateColors(renderer, legacyTemplate) {
+  const legacyColors = extractAssignedObjectBlock(legacyTemplate, 'EC_TEMPLATE_COLORS')
+  const v2Colors = extractAssignedObjectBlock(renderer, 'EC_TEMPLATE_COLORS')
+
+  for (const property of ['background', 'row', 'rowDeep', 'accent', 'text', 'textDim', 'line', 'placeholder']) {
+    assert(
+      extractStringProperty(v2Colors, property).toLowerCase() === extractStringProperty(legacyColors, property).toLowerCase(),
+      `EC template color ${property} must match legacy /template`
+    )
+  }
+}
+
+function validateCanvasRendererConstants(renderer, legacyTemplate) {
+  const v2Eorzea = extractAssignedObjectBlock(renderer, 'EORZEA_TEMPLATE')
+  assert(
+    extractNumericProperty(v2Eorzea, 'sourceSize') === extractAssignedNumber(legacyTemplate, 'FIGMA_SOURCE_SIZE'),
+    'Eorzea template sourceSize must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2Eorzea, 'maskFill').toLowerCase() ===
+      extractAssignedString(legacyTemplate, 'FIGMA_MASK_FILL').toLowerCase(),
+    'Eorzea template maskFill must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2Eorzea, 'textColor').toLowerCase() ===
+      extractAssignedString(legacyTemplate, 'FIGMA_TEXT_COLOR').toLowerCase(),
+    'Eorzea template textColor must match legacy /template'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2Eorzea, 'titleMask'),
+    extractAssignedObjectBlock(legacyTemplate, 'FIGMA_TITLE_MASK'),
+    ['x', 'y', 'width', 'height'],
+    'Eorzea title mask'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2Eorzea, 'titleText'),
+    extractAssignedObjectBlock(legacyTemplate, 'FIGMA_TITLE_TEXT'),
+    ['right', 'baselineY', 'width', 'maxSize', 'minSize'],
+    'Eorzea title text'
+  )
+  assert(
+    extractNumericProperty(v2Eorzea, 'titleTracking') === extractAssignedNumber(legacyTemplate, 'FIGMA_TITLE_TRACKING'),
+    'Eorzea titleTracking must match legacy /template'
+  )
+  assert(
+    extractNumericProperty(v2Eorzea, 'itemNameTracking') === extractAssignedNumber(legacyTemplate, 'FIGMA_ITEM_NAME_TRACKING'),
+    'Eorzea itemNameTracking must match legacy /template'
+  )
+  const v2EorzeaLayouts = extractObjectPropertyBlock(v2Eorzea, 'layouts')
+  const legacyEorzeaLayouts = extractAssignedObjectBlock(legacyTemplate, 'FIGMA_EQUIPMENT_LAYOUTS')
+  for (const layoutName of ['roomy', 'sixRows', 'compact']) {
+    const v2Layout = extractObjectPropertyBlock(v2EorzeaLayouts, layoutName)
+    const legacyLayout = extractObjectPropertyBlock(legacyEorzeaLayouts, layoutName)
+    assertSameNumericArray(
+      extractNumericArrayProperty(v2Layout, 'rowY'),
+      extractNumericArrayProperty(legacyLayout, 'rowY'),
+      `Eorzea ${layoutName}.rowY must match legacy /template`
+    )
+    assertSameNumericArray(
+      extractNumericArrayProperty(v2Layout, 'dyeX'),
+      extractNumericArrayProperty(legacyLayout, 'dyeX'),
+      `Eorzea ${layoutName}.dyeX must match legacy /template`
+    )
+    assertSameNumericProperties(
+      v2Layout,
+      legacyLayout,
+      [
+        'nameX',
+        'nameWidth',
+        'nameSize',
+        'lineHeight',
+        'dyeYOffset',
+        'dyeWidth',
+        'dyeHeight',
+        'dyeRadius',
+        'dyeTextWidth',
+        'dyeTextXOffset',
+        'dyeTextYOffset',
+        'dyeFontSize'
+      ],
+      `Eorzea ${layoutName}`
+    )
+  }
+
+  const v2Horizontal = extractAssignedObjectBlock(renderer, 'HORIZONTAL_TEMPLATE')
+  const legacyHorizontalEquipment = extractAssignedObjectBlock(legacyTemplate, 'HORIZONTAL_TEMPLATE_EQUIPMENT_TEXT')
+  const legacyHorizontalTitle = extractAssignedObjectBlock(legacyTemplate, 'HORIZONTAL_TEMPLATE_TITLE')
+  const legacyHorizontalTitleLine = extractAssignedObjectBlock(legacyTemplate, 'HORIZONTAL_TEMPLATE_TITLE_LINE')
+  const legacyHorizontalContentGroup = extractAssignedObjectBlock(legacyTemplate, 'HORIZONTAL_TEMPLATE_CONTENT_GROUP')
+
+  assert(
+    extractNumericProperty(v2Horizontal, 'sourceWidth') === extractAssignedNumber(legacyTemplate, 'HORIZONTAL_TEMPLATE_SOURCE_WIDTH'),
+    'horizontal template sourceWidth must match legacy /template'
+  )
+  assert(
+    extractNumericProperty(v2Horizontal, 'sourceHeight') === extractAssignedNumber(legacyTemplate, 'HORIZONTAL_TEMPLATE_SOURCE_HEIGHT'),
+    'horizontal template sourceHeight must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2Horizontal, 'textColor').toLowerCase() ===
+      extractAssignedString(legacyTemplate, 'HORIZONTAL_TEMPLATE_TEXT_COLOR').toLowerCase(),
+    'horizontal template textColor must match legacy /template'
+  )
+  assertSameArray(
+    extractArrayProperty(v2Horizontal, 'lineColors').map((color) => color.toLowerCase()),
+    extractQuotedArray(legacyTemplate, 'HORIZONTAL_TEMPLATE_LINE_COLORS').map((color) => color.toLowerCase()),
+    'horizontal template lineColors must match legacy /template'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2Horizontal, 'equipmentText'),
+    legacyHorizontalEquipment,
+    [
+      'x',
+      'y',
+      'width',
+      'height',
+      'itemSize',
+      'dyeSize',
+      'itemLineHeight',
+      'dyeLineHeight',
+      'itemInkHeight',
+      'dyeInkHeight',
+      'topPadding',
+      'groupGap'
+    ],
+    'horizontal equipment text'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2Horizontal, 'title'),
+    legacyHorizontalTitle,
+    ['x', 'y', 'width', 'height', 'size', 'clipBleedTop', 'clipBleedBottom'],
+    'horizontal title'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2Horizontal, 'titleLine'),
+    legacyHorizontalTitleLine,
+    ['x', 'y', 'width', 'height'],
+    'horizontal title line'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2Horizontal, 'contentGroup'),
+    legacyHorizontalContentGroup,
+    ['top', 'bottom'],
+    'horizontal content group'
+  )
+
+  const v2DoublePic = extractAssignedObjectBlock(renderer, 'DOUBLE_PIC_TEMPLATE')
+  const legacyDoublePicEquipment = extractAssignedObjectBlock(legacyTemplate, 'STORY_TEMPLATE_EQUIPMENT_TEXT')
+  const legacyDoublePicCopyrightRect = extractAssignedObjectBlock(legacyTemplate, 'DOUBLE_PIC_COPYRIGHT_RECT')
+  const legacyDoublePicCopyrightStyle = extractAssignedObjectBlock(legacyTemplate, 'DOUBLE_PIC_COPYRIGHT_TEXT_STYLE')
+  const v2DoublePicEquipment = extractObjectPropertyBlock(v2DoublePic, 'equipment')
+  const v2DoublePicCopyright = extractObjectPropertyBlock(v2DoublePic, 'copyright')
+
+  assert(
+    extractNumericProperty(v2DoublePic, 'sourceWidth') === extractAssignedNumber(legacyTemplate, 'DOUBLE_PIC_SOURCE_WIDTH'),
+    'Double Pic sourceWidth must match legacy /template'
+  )
+  assert(
+    extractNumericProperty(v2DoublePic, 'sourceHeight') === extractAssignedNumber(legacyTemplate, 'DOUBLE_PIC_SOURCE_HEIGHT'),
+    'Double Pic sourceHeight must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2DoublePic, 'background').toLowerCase() ===
+      extractAssignedString(legacyTemplate, 'STORY_TEMPLATE_BACKGROUND_COLOR').toLowerCase(),
+    'Double Pic background must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2DoublePic, 'frameBlack').toLowerCase() ===
+      extractAssignedString(legacyTemplate, 'STORY_TEMPLATE_FRAME_BLACK').toLowerCase(),
+    'Double Pic frameBlack must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2DoublePic, 'frameWhite').toLowerCase() ===
+      extractAssignedString(legacyTemplate, 'STORY_TEMPLATE_FRAME_WHITE').toLowerCase(),
+    'Double Pic frameWhite must match legacy /template'
+  )
+  assert(
+    extractNumericProperty(v2DoublePic, 'fontWeight') === extractAssignedNumber(legacyTemplate, 'STORY_TEMPLATE_FONT_WEIGHT'),
+    'Double Pic fontWeight must match legacy /template'
+  )
+  assertSameNumericProperties(
+    v2DoublePicEquipment,
+    legacyDoublePicEquipment,
+    [
+      'x',
+      'y',
+      'width',
+      'height',
+      'maxFontSize',
+      'lineHeightRatio',
+      'underlineOffsetRatio',
+      'underlineWidth',
+      'outerGlowOpacity',
+      'outerGlowSpread',
+      'outerGlowSize'
+    ],
+    'Double Pic equipment text'
+  )
+  assert(
+    extractStringProperty(v2DoublePicEquipment, 'outerGlowColor').toLowerCase() ===
+      extractStringProperty(legacyDoublePicEquipment, 'outerGlowColor').toLowerCase(),
+    'Double Pic equipment outerGlowColor must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2DoublePicCopyright, 'text') === extractAssignedString(legacyTemplate, 'DOUBLE_PIC_COPYRIGHT_TEXT'),
+    'Double Pic copyright text must match legacy /template'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2DoublePicCopyright, 'rect'),
+    legacyDoublePicCopyrightRect,
+    ['x', 'y', 'width', 'height'],
+    'Double Pic copyright rect'
+  )
+  assertSameNumericProperties(
+    v2DoublePicCopyright,
+    legacyDoublePicCopyrightStyle,
+    ['maxFontSize', 'minFontSize'],
+    'Double Pic copyright text style'
+  )
+
+  validateEcCanvasConstants(renderer, legacyTemplate)
+  validateRisingstonesCanvasConstants(renderer, legacyTemplate)
+
+  const v2SilenceFashion = extractAssignedObjectBlock(renderer, 'SILENCE_FASHION_TEMPLATE')
+  const legacySilenceFashion = extractAssignedObjectBlock(legacyTemplate, 'SILENCE_FASHION_TEMPLATE')
+  assertSameNumericProperties(
+    v2SilenceFashion,
+    legacySilenceFashion,
+    ['sourceSize', 'equipmentBottom', 'equipmentRight'],
+    'Silence Fashion template'
+  )
+  assert(
+    extractStringProperty(v2SilenceFashion, 'textColor').toLowerCase() ===
+      extractStringProperty(legacySilenceFashion, 'textColor').toLowerCase(),
+    'Silence Fashion textColor must match legacy /template'
+  )
+  for (const property of ['imageRegion', 'avatarRegion']) {
+    assertSameNumericProperties(
+      extractObjectPropertyBlock(v2SilenceFashion, property),
+      extractObjectPropertyBlock(legacySilenceFashion, property),
+      ['x', 'y', 'width', 'height'],
+      `Silence Fashion ${property}`
+    )
+  }
+  for (const property of ['character', 'title']) {
+    assertSameNumericProperties(
+      extractObjectPropertyBlock(v2SilenceFashion, property),
+      extractObjectPropertyBlock(legacySilenceFashion, property),
+      ['x', 'y', 'width', 'size', 'minSize', 'weight'],
+      `Silence Fashion ${property}`
+    )
+  }
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2SilenceFashion, 'zh'),
+    extractObjectPropertyBlock(legacySilenceFashion, 'zh'),
+    [
+      'maxRows',
+      'itemX',
+      'dyeX',
+      'width',
+      'y',
+      'bottom',
+      'rowStep',
+      'itemSize',
+      'dyeSize',
+      'itemLineHeight',
+      'dyeLineHeight',
+      'groupGap',
+      'weight',
+      'dyeYOffset'
+    ],
+    'Silence Fashion zh equipment'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2SilenceFashion, 'enJa'),
+    extractObjectPropertyBlock(legacySilenceFashion, 'enJa'),
+    [
+      'maxRows',
+      'itemX',
+      'dyeX',
+      'width',
+      'y',
+      'bottom',
+      'rowStep',
+      'jaSize',
+      'enSize',
+      'dyeSize',
+      'jaLineHeight',
+      'enLineHeight',
+      'dyeLineHeight',
+      'lineGap',
+      'groupGap',
+      'weight'
+    ],
+    'Silence Fashion enJa equipment'
+  )
+}
+
+function validateEcCanvasConstants(renderer, legacyTemplate) {
+  const v2Ec = {
+    sourceSize: extractAssignedNumber(renderer, 'EC_TEMPLATE_SOURCE_SIZE'),
+    colors: extractAssignedObjectBlock(renderer, 'EC_TEMPLATE_COLORS'),
+    rarityColors: extractAssignedObjectBlock(renderer, 'EC_ITEM_RARITY_COLORS'),
+    title: extractAssignedObjectBlock(renderer, 'EC_TEMPLATE_TITLE'),
+    subtitle: extractAssignedObjectBlock(renderer, 'EC_TEMPLATE_SUBTITLE'),
+    header: extractAssignedObjectBlock(renderer, 'EC_TEMPLATE_EQUIPMENT_HEADER'),
+    copyright: extractAssignedObjectBlock(renderer, 'EC_TEMPLATE_COPYRIGHT'),
+    cornerMarks: extractAssignedArrayBlock(renderer, 'EC_TEMPLATE_CORNER_MARKS'),
+    layouts: extractAssignedObjectBlock(renderer, 'EC_TEMPLATE_LAYOUTS')
+  }
+  const legacyEc = {
+    sourceSize: extractAssignedNumber(legacyTemplate, 'EC_TEMPLATE_SOURCE_SIZE'),
+    colors: extractAssignedObjectBlock(legacyTemplate, 'EC_TEMPLATE_COLORS'),
+    rarityColors: extractAssignedObjectBlock(legacyTemplate, 'EC_ITEM_RARITY_COLORS'),
+    title: extractAssignedObjectBlock(legacyTemplate, 'EC_TEMPLATE_TITLE'),
+    subtitle: extractAssignedObjectBlock(legacyTemplate, 'EC_TEMPLATE_SUBTITLE'),
+    header: extractAssignedObjectBlock(legacyTemplate, 'EC_TEMPLATE_EQUIPMENT_HEADER'),
+    copyright: extractAssignedObjectBlock(legacyTemplate, 'EC_TEMPLATE_COPYRIGHT'),
+    cornerMarks: extractAssignedArrayBlock(legacyTemplate, 'EC_TEMPLATE_CORNER_MARKS'),
+    layouts: extractAssignedObjectBlock(legacyTemplate, 'EC_TEMPLATE_LAYOUTS')
+  }
+
+  assert(v2Ec.sourceSize === legacyEc.sourceSize, 'EC template source size must match legacy /template')
+
+  for (const property of ['background', 'row', 'rowDeep', 'accent', 'text', 'textDim', 'line', 'placeholder']) {
+    assert(
+      extractStringProperty(v2Ec.colors, property).toLowerCase() ===
+        extractStringProperty(legacyEc.colors, property).toLowerCase(),
+      `EC template color ${property} must match legacy /template`
+    )
+  }
+
+  for (const property of ['1', '2', '3', '4', '7']) {
+    assert(
+      extractStringProperty(v2Ec.rarityColors, property).toLowerCase() ===
+        extractStringProperty(legacyEc.rarityColors, property).toLowerCase(),
+      `EC template rarity color ${property} must match legacy /template`
+    )
+  }
+
+  assertSameNumericProperties(
+    v2Ec.title,
+    legacyEc.title,
+    ['x', 'y', 'width', 'height', 'maxSize', 'minSize', 'tracking'],
+    'EC title'
+  )
+  assertSameNumericProperties(
+    v2Ec.subtitle,
+    legacyEc.subtitle,
+    ['x', 'y', 'width', 'height', 'maxSize', 'minSize'],
+    'EC subtitle'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2Ec.header, 'label'),
+    extractObjectPropertyBlock(legacyEc.header, 'label'),
+    ['x', 'y', 'width', 'height'],
+    'EC equipment header label'
+  )
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2Ec.header, 'line'),
+    extractObjectPropertyBlock(legacyEc.header, 'line'),
+    ['x', 'y', 'width', 'height'],
+    'EC equipment header line'
+  )
+  assertSameNumericProperties(v2Ec.header, legacyEc.header, ['labelSize', 'labelLineGap'], 'EC equipment header')
+  assertSameNumericProperties(
+    v2Ec.copyright,
+    legacyEc.copyright,
+    ['x', 'y', 'width', 'height', 'titleSize', 'textSize'],
+    'EC copyright'
+  )
+  assertSameNumericArray(
+    extractNumericArrayProperty(v2Ec.copyright, 'lineY'),
+    extractNumericArrayProperty(legacyEc.copyright, 'lineY'),
+    'EC copyright lineY must match legacy /template'
+  )
+
+  for (const index of [0, 1]) {
+    assertSameNumericProperties(
+      extractObjectArrayBlock(v2Ec.cornerMarks, index),
+      extractObjectArrayBlock(legacyEc.cornerMarks, index),
+      ['x', 'y', 'size'],
+      `EC corner mark ${index}`
+    )
+  }
+
+  for (const layoutName of ['normal', 'dense', 'compact']) {
+    const v2Layout = extractObjectPropertyBlock(v2Ec.layouts, layoutName)
+    const legacyLayout = extractObjectPropertyBlock(legacyEc.layouts, layoutName)
+    assertSameNumericArray(
+      extractNumericArrayProperty(v2Layout, 'rowY'),
+      extractNumericArrayProperty(legacyLayout, 'rowY'),
+      `EC ${layoutName}.rowY must match legacy /template`
+    )
+    assertSameNumericProperties(
+      v2Layout,
+      legacyLayout,
+      [
+        'maxRows',
+        'rowX',
+        'rowWidth',
+        'rowHeight',
+        'rowRadius',
+        'iconX',
+        'iconYOffset',
+        'iconSize',
+        'iconRadius',
+        'nameX',
+        'nameWidth',
+        'nameHeight',
+        'nameSize',
+        'nameMinSize',
+        'nameWeight',
+        'dyeYOffset',
+        'dyeHeight',
+        'dyeRadius',
+        'dyeFontSize',
+        'dyeDotSize',
+        'dyeDotXOffset',
+        'dyeTextXOffset',
+        'dyeTextYOffset',
+        'dyeGap'
+      ],
+      `EC ${layoutName}`
+    )
+    for (const index of [0, 1]) {
+      assertSameNumericProperties(
+        extractObjectArrayPropertyBlock(v2Layout, 'dyes', index),
+        extractObjectArrayPropertyBlock(legacyLayout, 'dyes', index),
+        ['x', 'minWidth'],
+        `EC ${layoutName}.dyes[${index}]`
+      )
+    }
+  }
+}
+
+function validateRisingstonesCanvasConstants(renderer, legacyTemplate) {
+  const v2 = extractAssignedObjectBlock(renderer, 'RISINGSTONES_TEMPLATE')
+  const legacy = extractAssignedObjectBlock(legacyTemplate, 'RISINGSTONES_TEMPLATE')
+
+  assertSameNumericProperties(
+    v2,
+    legacy,
+    ['sourceSize', 'backgroundStrokeWidth', 'imageRadius', 'imageStrokeWidth', 'avatarRadius', 'avatarStrokeWidth'],
+    'Risingstones template'
+  )
+  assert(
+    extractStringProperty(v2, 'background').toLowerCase() === extractStringProperty(legacy, 'background').toLowerCase(),
+    'Risingstones background must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2, 'borderColor').toLowerCase() === extractStringProperty(legacy, 'borderColor').toLowerCase(),
+    'Risingstones borderColor must match legacy /template'
+  )
+  assert(
+    extractStringProperty(v2, 'imagePlaceholder').toLowerCase() ===
+      extractStringProperty(legacy, 'imagePlaceholder').toLowerCase(),
+    'Risingstones imagePlaceholder must match legacy /template'
+  )
+  assert(
+    (extractOptionalStringProperty(v2, 'sourceText') || '最终幻想14 - FINAL FANTASY XIV') ===
+      (extractOptionalStringProperty(legacy, 'sourceText') || '最终幻想14 - FINAL FANTASY XIV'),
+    'Risingstones sourceText fallback must match legacy /template'
+  )
+  assert(
+    extractBooleanProperty(v2, 'showMeta', true) === extractBooleanProperty(legacy, 'showMeta', true),
+    'Risingstones showMeta must match legacy /template'
+  )
+
+  for (const property of ['imageRegion', 'avatarRegion']) {
+    assertSameNumericProperties(
+      extractObjectPropertyBlock(v2, property),
+      extractObjectPropertyBlock(legacy, property),
+      ['x', 'y', 'width', 'height'],
+      `Risingstones ${property}`
+    )
+  }
+  for (const property of ['title', 'author', 'source']) {
+    assertSameNumericProperties(
+      extractObjectPropertyBlock(v2, property),
+      extractObjectPropertyBlock(legacy, property),
+      ['x', 'y', 'width', 'height', 'maxSize', 'minSize'],
+      `Risingstones ${property}`
+    )
+  }
+
+  for (const index of [0, 1, 2]) {
+    const v2Meta = extractObjectArrayPropertyBlock(v2, 'meta', index)
+    const legacyMeta = extractObjectArrayPropertyBlock(legacy, 'meta', index)
+    assertSameNumericProperties(v2Meta, legacyMeta, ['x', 'y', 'width', 'height'], `Risingstones meta[${index}]`)
+    assert(
+      extractStringProperty(v2Meta, 'key') === extractStringProperty(legacyMeta, 'key'),
+      `Risingstones meta[${index}].key must match legacy /template`
+    )
+  }
+
+  const v2Equipment = extractObjectPropertyBlock(v2, 'equipment')
+  const legacyEquipment = extractObjectPropertyBlock(legacy, 'equipment')
+  assertSameNumericProperties(
+    v2Equipment,
+    legacyEquipment,
+    [
+      'maxRows',
+      'rowStartY',
+      'rowStep',
+      'rowBottom',
+      'rowX',
+      'rowWidth',
+      'rowHeight',
+      'rowRadius',
+      'iconX',
+      'iconYOffset',
+      'iconSize',
+      'iconRadius',
+      'nameX',
+      'nameWidth',
+      'nameYOffset',
+      'nameHeight',
+      'nameSize',
+      'nameMinSize',
+      'nameWeight',
+      'dyeYOffset',
+      'dyeHeight',
+      'dyeFontSize',
+      'dyeMinFontSize',
+      'dyeDotSize',
+      'dyeDotRadius',
+      'dyeDotStrokeWidth',
+      'dyeDotXOffset',
+      'dyeTextXOffset',
+      'dyeTextYOffset',
+      'dyeTextHeight',
+      'dyeTextWidth',
+      'dyeTextRightPadding',
+      'dyeGap'
+    ],
+    'Risingstones equipment'
+  )
+  assert(
+    normalizeFontLiteral(extractStringProperty(v2Equipment, 'fontFamily')) ===
+      normalizeFontLiteral(extractStringProperty(legacyEquipment, 'fontFamily')),
+    'Risingstones equipment fontFamily must match legacy /template'
+  )
+  for (const index of [0, 1]) {
+    assertSameNumericProperties(
+      extractObjectArrayPropertyBlock(v2Equipment, 'dyes', index),
+      extractObjectArrayPropertyBlock(legacyEquipment, 'dyes', index),
+      ['x', 'minWidth'],
+      `Risingstones equipment.dyes[${index}]`
+    )
+  }
+
+  for (const property of ['textColor', 'textDim', 'accent', 'dyeText']) {
+    assert(
+      extractStringProperty(v2, property).toLowerCase() === extractStringProperty(legacy, property).toLowerCase(),
+      `Risingstones ${property} must match legacy /template`
+    )
+  }
+
+  assertSameNumericProperties(
+    extractObjectPropertyBlock(v2, 'copyright'),
+    extractObjectPropertyBlock(legacy, 'copyright'),
+    ['x', 'y', 'width', 'height'],
+    'Risingstones copyright'
+  )
+}
+
+function validateTemplateSettingsDefaults(settings, legacyTemplate) {
+  const legacyDefaults = extractAssignedObjectBlock(legacyTemplate, 'DEFAULT_TEMPLATE_SETTINGS')
+
+  for (const property of ['textColor', 'panelColor']) {
+    assert(
+      settings.includes(`${property}: '${extractStringProperty(legacyDefaults, property)}'`),
+      `template setting default ${property} must match legacy /template`
+    )
+  }
+}
+
+async function validateTemplatePublicAssets() {
+  const assetFiles = [...TEMPLATE_RENDER_ASSET_FILES, ...TEMPLATE_PREVIEW_ASSET_FILES]
+  const files = await Promise.all(
+    assetFiles.map(async (filePath) => ({
+      filePath,
+      bytes: await readFile(resolve(filePath))
+    }))
+  )
+
+  for (const file of files) {
+    assert(file.bytes.length > 0, `template public asset must not be empty: ${file.filePath}`)
+  }
+}
+
+function validateNsglamourVisibleText(uiLocaleSource) {
+  const nsglamourBlock = extractNsglamourLocaleBlock(uiLocaleSource)
+  const forbiddenVisiblePatterns = [
+    { pattern: /模型码/u, label: '模型码' },
+    { pattern: /候选数量/u, label: '候选数量' },
+    { pattern: /个候选/u, label: 'X个候选' },
+    { pattern: /未导入/u, label: '未导入' },
+    { pattern: /(^|[^a-z0-9_])\.chara([^a-z0-9_]|$)/iu, label: '.chara' },
+    { pattern: /chara\s*文件/iu, label: 'chara 文件' },
+    { pattern: /model\s*code/iu, label: 'model code' }
+  ]
+
+  for (const { pattern, label } of forbiddenVisiblePatterns) {
+    assert(
+      !pattern.test(nsglamourBlock),
+      `NSGlamour visible UI text must not expose internal import/debug wording: ${label}`
+    )
+  }
+
+  assert(
+    /'nsglamour\.locale\.zh'\s*:\s*same\('简体中文'\)/u.test(nsglamourBlock),
+    'NSGlamour zh locale label must stay 简体中文'
+  )
+  assert(
+    /'nsglamour\.equipment\.search\.placeholder'\s*:\s*msg\(\{[\s\S]*?zh:\s*'搜索装备名'/u.test(nsglamourBlock),
+    'NSGlamour empty equipment/search placeholder must stay 搜索装备名'
+  )
+  assert(
+    /'nsglamour\.equipment\.switchCandidate'\s*:\s*msg\(\{[\s\S]*?zh:\s*'切换匹配项'/u.test(nsglamourBlock) &&
+      /'nsglamour\.equipment\.switchCandidate\.symbol'\s*:\s*same\('⇄'\)/u.test(nsglamourBlock),
+    'NSGlamour candidate switch UI must preserve the legacy visible switch-match control without candidate counts'
+  )
+}
+
+function extractNsglamourLocaleBlock(uiLocaleSource) {
+  const start = uiLocaleSource.indexOf("'nsglamour.")
+  assert(start >= 0, 'ui locale source must include nsglamour keys')
+
+  const end = uiLocaleSource.indexOf("\n  'nsplate.", start)
+  assert(end > start, 'ui locale source must keep nsglamour keys before nsplate keys')
+
+  return uiLocaleSource.slice(start, end)
+}
+
+function countSubstring(source, substring) {
+  if (!substring) {
+    return 0
+  }
+
+  return source.split(substring).length - 1
 }
 
 function extractQuotedArray(source, name) {
@@ -847,6 +1762,58 @@ function extractOptionalQuotedArray(block, property) {
   return extractQuotedStrings(extractBalancedBlock(block, openBracketIndex, '[', ']'))
 }
 
+function extractNumericArrayProperty(block, property) {
+  const match = block.match(new RegExp(`${escapeRegExp(property)}\\s*:\\s*\\[([\\s\\S]*?)\\]`, 'm'))
+  assert(match, `template block must include numeric array property ${property}`)
+  return Array.from(match[1].matchAll(/-?[0-9]+(?:\.[0-9]+)?/g)).map((entry) => Number(entry[0]))
+}
+
+function extractAssignedArrayBlock(source, name) {
+  const pattern = new RegExp(`${escapeRegExp(name)}(?:\\s*:[^=]+)?\\s*=\\s*\\[`, 'm')
+  const match = pattern.exec(source)
+  assert(match, `source must assign array ${name}`)
+
+  const openBracketIndex = source.indexOf('[', match.index)
+  return extractBalancedBlock(source, openBracketIndex, '[', ']')
+}
+
+function extractObjectArrayPropertyBlock(block, property, index) {
+  const blocks = extractObjectArrayPropertyBlocks(block, property)
+  assert(blocks[index], `object array property ${property} must include index ${index}`)
+  return blocks[index]
+}
+
+function extractObjectArrayPropertyBlocks(block, property) {
+  const pattern = new RegExp(`${escapeRegExp(property)}\\s*:\\s*\\[`, 'm')
+  const match = pattern.exec(block)
+  assert(match, `object block must include object array property ${property}`)
+
+  const openBracketIndex = block.indexOf('[', match.index)
+  return extractObjectArrayBlocks(extractBalancedBlock(block, openBracketIndex, '[', ']'))
+}
+
+function extractObjectArrayBlock(arrayBlock, index) {
+  const blocks = extractObjectArrayBlocks(arrayBlock)
+  assert(blocks[index], `object array must include index ${index}`)
+  return blocks[index]
+}
+
+function extractObjectArrayBlocks(arrayBlock) {
+  const blocks = []
+
+  for (let cursor = 0; cursor < arrayBlock.length; cursor += 1) {
+    if (arrayBlock[cursor] !== '{') {
+      continue
+    }
+
+    const objectBlock = extractBalancedBlock(arrayBlock, cursor, '{', '}')
+    blocks.push(objectBlock)
+    cursor += objectBlock.length - 1
+  }
+
+  return blocks
+}
+
 function extractQuotedStrings(source) {
   return Array.from(source.matchAll(/['"]([^'"]+)['"]/g)).map((match) => match[1])
 }
@@ -864,11 +1831,59 @@ function extractControlProperties(block) {
   )
 }
 
+function extractObjectPropertyBlock(block, property) {
+  const pattern = new RegExp(`${escapeRegExp(property)}\\s*:\\s*\\{`, 'm')
+  const match = pattern.exec(block)
+  assert(match, `object block must include object property ${property}`)
+
+  const openBraceIndex = block.indexOf('{', match.index)
+  return extractBalancedBlock(block, openBraceIndex, '{', '}')
+}
+
+function extractRectPropertyBlock(block, property, legacyTemplate) {
+  const pattern = new RegExp(`${escapeRegExp(property)}\\s*:\\s*(\\{|[A-Za-z0-9_.]+)`, 'm')
+  const match = pattern.exec(block)
+  assert(match, `object block must include rect property ${property}`)
+
+  if (match[1] === '{') {
+    const openBraceIndex = block.indexOf('{', match.index)
+    return extractBalancedBlock(block, openBraceIndex, '{', '}')
+  }
+
+  return resolveLegacyRectReference(legacyTemplate, match[1])
+}
+
+function resolveLegacyRectReference(legacyTemplate, reference) {
+  if (reference === 'FIGMA_IMAGE_REGION' || reference === 'EC_TEMPLATE_IMAGE_REGION') {
+    return extractAssignedObjectBlock(legacyTemplate, reference)
+  }
+
+  const nested = reference.match(/^(RISINGSTONES_TEMPLATE|SILENCE_FASHION_TEMPLATE)\.([A-Za-z0-9_]+)$/)
+  if (nested) {
+    return extractObjectPropertyBlock(extractAssignedObjectBlock(legacyTemplate, nested[1]), nested[2])
+  }
+
+  throw new Error(`unsupported legacy rect reference ${reference}`)
+}
+
+function hasObjectLikeProperty(block, property) {
+  return new RegExp(`${escapeRegExp(property)}\\s*:\\s*(\\{|[A-Za-z0-9_.]+)`, 'm').test(block)
+}
+
 function extractObjectBlock(source, key) {
   const quotedKey = key.includes('-') ? `['"]${escapeRegExp(key)}['"]` : `(?:${escapeRegExp(key)}|['"]${escapeRegExp(key)}['"])`
   const pattern = new RegExp(`${quotedKey}\\s*:\\s*\\{`, 'm')
   const match = pattern.exec(source)
   assert(match, `template definitions must include ${key}`)
+
+  const openBraceIndex = source.indexOf('{', match.index)
+  return extractBalancedBlock(source, openBraceIndex, '{', '}')
+}
+
+function extractInterfaceBlock(source, name) {
+  const pattern = new RegExp(`interface\\s+${escapeRegExp(name)}\\s*\\{`, 'm')
+  const match = pattern.exec(source)
+  assert(match, `source must include interface ${name}`)
 
   const openBraceIndex = source.indexOf('{', match.index)
   return extractBalancedBlock(source, openBraceIndex, '{', '}')
@@ -931,10 +1946,51 @@ function extractBooleanProperty(block, property, fallback) {
   return match ? match[1] === 'true' : fallback
 }
 
+function hasValueProperty(block, property) {
+  return new RegExp(`${escapeRegExp(property)}\\s*:`, 'm').test(block)
+}
+
 function extractNumericProperty(block, property) {
-  const match = block.match(new RegExp(`${escapeRegExp(property)}\\s*:\\s*([0-9]+(?:\\.[0-9]+)?)`, 'm'))
+  const match = block.match(new RegExp(`${escapeRegExp(property)}\\s*:\\s*(-?[0-9]+(?:\\.[0-9]+)?)`, 'm'))
   assert(match, `template block must include numeric property ${property}`)
   return Number(match[1])
+}
+
+function extractNumericPropertyResolved(block, property, source) {
+  const match = block.match(new RegExp(`${escapeRegExp(property)}\\s*:\\s*([^,\\n}]+)`, 'm'))
+  assert(match, `template block must include numeric property ${property}`)
+  return resolveNumericExpression(match[1], source)
+}
+
+function resolveNumericExpression(value, source) {
+  const text = String(value || '').trim()
+
+  if (/^-?[0-9]+(?:\.[0-9]+)?$/.test(text)) {
+    return Number(text)
+  }
+
+  if (/^[A-Z][A-Z0-9_]*$/.test(text)) {
+    return extractAssignedNumber(source, text)
+  }
+
+  const path = text.match(/^([A-Z][A-Z0-9_]*)(?:\.([A-Za-z0-9_]+))(?:\.([A-Za-z0-9_]+))?$/)
+  if (path) {
+    let block = extractAssignedObjectBlock(source, path[1])
+
+    if (path[3]) {
+      block = extractObjectPropertyBlock(block, path[2])
+      return extractNumericPropertyResolved(block, path[3], source)
+    }
+
+    return extractNumericPropertyResolved(block, path[2], source)
+  }
+
+  const division = text.match(/^(.+?)\s*\/\s*(.+)$/)
+  if (division) {
+    return resolveNumericExpression(division[1], source) / resolveNumericExpression(division[2], source)
+  }
+
+  throw new Error(`unsupported numeric expression ${text}`)
 }
 
 function extractAssignedObjectBlock(source, name) {
@@ -944,6 +2000,86 @@ function extractAssignedObjectBlock(source, name) {
 
   const openBraceIndex = source.indexOf('{', match.index)
   return extractBalancedBlock(source, openBraceIndex, '{', '}')
+}
+
+function extractAssignedNumber(source, name) {
+  const match = source.match(new RegExp(`${escapeRegExp(name)}\\s*=\\s*(-?[0-9]+(?:\\.[0-9]+)?)`, 'm'))
+  assert(match, `source must assign number ${name}`)
+  return Number(match[1])
+}
+
+function extractAssignedString(source, name) {
+  const match = source.match(new RegExp(`${escapeRegExp(name)}\\s*=\\s*['"]([^'"]*)['"]`, 'm'))
+  assert(match, `source must assign string ${name}`)
+  return match[1]
+}
+
+function assertSameNumericProperties(actualBlock, expectedBlock, properties, label) {
+  for (const property of properties) {
+    assert(
+      extractNumericProperty(actualBlock, property) === extractNumericProperty(expectedBlock, property),
+      `${label}.${property} must match legacy /template`
+    )
+  }
+}
+
+function assertSameStringProperty(actualBlock, expectedBlock, property, label) {
+  assert(
+    extractStringProperty(actualBlock, property) === extractStringProperty(expectedBlock, property),
+    `${label}.${property} must match legacy /template`
+  )
+}
+
+function assertSameOptionalStringProperty(actualBlock, expectedBlock, property, label) {
+  const actualHasProperty = hasValueProperty(actualBlock, property)
+  const expectedHasProperty = hasValueProperty(expectedBlock, property)
+  assert(actualHasProperty === expectedHasProperty, `${label}.${property} presence must match legacy /template`)
+
+  if (!expectedHasProperty) {
+    return
+  }
+
+  assertSameStringProperty(actualBlock, expectedBlock, property, label)
+}
+
+function assertSameOptionalBooleanProperty(actualBlock, expectedBlock, property, label) {
+  const actualHasProperty = hasValueProperty(actualBlock, property)
+  const expectedHasProperty = hasValueProperty(expectedBlock, property)
+  assert(actualHasProperty === expectedHasProperty, `${label}.${property} presence must match legacy /template`)
+
+  if (!expectedHasProperty) {
+    return
+  }
+
+  assert(
+    extractBooleanProperty(actualBlock, property, false) === extractBooleanProperty(expectedBlock, property, false),
+    `${label}.${property} must match legacy /template`
+  )
+}
+
+function assertSameOptionalNumericPropertyResolved(actualBlock, expectedBlock, property, source, label) {
+  const actualHasProperty = hasValueProperty(actualBlock, property)
+  const expectedHasProperty = hasValueProperty(expectedBlock, property)
+  assert(actualHasProperty === expectedHasProperty, `${label}.${property} presence must match legacy /template`)
+
+  if (!expectedHasProperty) {
+    return
+  }
+
+  assert(
+    extractNumericPropertyResolved(actualBlock, property, source) === extractNumericPropertyResolved(expectedBlock, property, source),
+    `${label}.${property} must match legacy /template`
+  )
+}
+
+function assertSameNumericPropertiesResolved(actualBlock, expectedBlock, properties, label, source) {
+  for (const property of properties) {
+    assert(
+      extractNumericPropertyResolved(actualBlock, property, source) ===
+        extractNumericPropertyResolved(expectedBlock, property, source),
+      `${label}.${property} must match legacy /template`
+    )
+  }
 }
 
 function extractLegacyRenderAssets(block) {
@@ -960,6 +2096,14 @@ function extractLegacyRenderAssets(block) {
     assert(asset, `unsupported legacy template asset loader ${match[1]}`)
     return asset
   })
+}
+
+function withV2ClearDyeAsset(renderMode, assets) {
+  if (!['eorzea', 'ec', 'risingstones'].includes(renderMode)) {
+    return assets
+  }
+
+  return [...assets, 'clear-dye-icon']
 }
 
 function extractLegacyPreviewPath(block) {
@@ -1050,11 +2194,27 @@ function resolveLegacyLocaleOrder(block) {
   throw new Error(`unsupported legacy localeOrder reference ${reference[1]}`)
 }
 
+function normalizeTemplateLocaleOrder(locales) {
+  const preferred = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']
+  return preferred.filter((locale) => locales.includes(locale))
+}
+
 function assertSameArray(actual, expected, message) {
   assert(
     actual.length === expected.length && actual.every((value, index) => value === expected[index]),
     `${message}; expected ${expected.join(',')}, got ${actual.join(',')}`
   )
+}
+
+function assertSameNumericArray(actual, expected, message) {
+  assert(
+    actual.length === expected.length && actual.every((value, index) => value === expected[index]),
+    `${message}; expected ${expected.join(',')}, got ${actual.join(',')}`
+  )
+}
+
+function normalizeFontLiteral(value) {
+  return String(value).replace(/["']/g, '').replace(/\s+/g, ' ').trim()
 }
 
 function escapeRegExp(value) {

@@ -162,7 +162,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     sourceHeight: 3635,
     renderMode: 'horizontal',
     defaultLocale: 'zh',
-    localeOrder: ['zh', 'tc', 'en', 'ja', 'ko', 'fr', 'de'],
+    localeOrder: ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko'],
     controls: { title: true, ecSubtitle: false, dyeFrame: false },
     equipmentFormat: {
       source: 'default',
@@ -258,7 +258,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     sourceHeight: 3840,
     renderMode: 'risingstones',
     defaultLocale: 'zh',
-    localeOrder: ['zh', 'tc', 'en', 'ja', 'ko', 'fr', 'de'],
+    localeOrder: ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko'],
     controls: { title: true, ecSubtitle: true, dyeFrame: false, storySwatches: false },
     equipmentFormat: {
       source: 'default',
@@ -308,7 +308,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     sourceHeight: 3840,
     renderMode: 'ec',
     defaultLocale: 'en',
-    localeOrder: ['en', 'zh', 'tc', 'ja', 'ko', 'fr', 'de'],
+    localeOrder: ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko'],
     controls: { title: true, ecSubtitle: true, dyeFrame: false },
     equipmentFormat: {
       source: 'ec',
@@ -350,7 +350,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     sourceHeight: 3000,
     renderMode: 'silence-fashion',
     defaultLocale: 'zh',
-    localeOrder: ['zh', 'tc', 'ko', 'ja', 'en'],
+    localeOrder: ['ja', 'en', 'zh', 'tc', 'ko'],
     languageOptions: [
       { id: 'zh', label: 'chs', locales: ['zh'] },
       { id: 'tc', label: 'tc', locales: ['tc'] },

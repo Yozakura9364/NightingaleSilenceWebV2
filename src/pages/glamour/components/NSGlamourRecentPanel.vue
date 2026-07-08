@@ -1,7 +1,7 @@
 <template>
   <section class="nsglamour-recent ns-panel" :class="`nsglamour-recent--${variant}`">
     <header v-if="showSave" class="nsglamour-panel-header">
-      <h2>{{ t(textKeys.nsglamourRecentPanel) }}</h2>
+      <h2 class="ns-heading-bloom">{{ t(textKeys.nsglamourRecentPanel) }}</h2>
       <AppButton size="compact" :disabled="disabled" @click="saveConfig">
         {{ t(textKeys.nsglamourSaveConfig) }}
       </AppButton>
@@ -112,8 +112,8 @@ function formatDeleteLabel(item: GlamourRecentSnapshot): string {
   width: min(320px, calc(100vw - 48px));
   padding: 10px;
   border: 2px solid var(--ns-pixel-border-soft);
-  background: #fff;
-  box-shadow: 0 10px 24px rgba(20, 28, 45, 0.12);
+  background: var(--ns-pixel-window-bg);
+  box-shadow: var(--ns-pixel-window-shadow);
 }
 
 .nsglamour-recent--popover .nsglamour-panel-header h2 {

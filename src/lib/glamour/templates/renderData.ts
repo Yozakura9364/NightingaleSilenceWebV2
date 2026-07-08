@@ -6,6 +6,7 @@ import {
   type GlamourTemplateImageSlot
 } from '@/lib/glamour/templates/definitions'
 import {
+  getGlamourTemplateSubtitleParts,
   getGlamourTemplateSubtitleText,
   type GlamourTemplateSettings
 } from '@/lib/glamour/templates/settings'
@@ -21,6 +22,7 @@ export interface GlamourTemplateRenderText {
   title: string
   characterName: string
   subtitle: string
+  subtitleParts: { full?: string; left?: string; symbol?: string; right?: string } | null
   bottomText: string
 }
 
@@ -143,6 +145,7 @@ export function createGlamourTemplateRenderData(
       title: settings.topText,
       characterName: settings.characterName,
       subtitle: getGlamourTemplateSubtitleText(settings),
+      subtitleParts: getGlamourTemplateSubtitleParts(settings),
       bottomText: settings.bottomText
     },
     style: {
