@@ -32,6 +32,7 @@ export interface ArmoireHelperProbe {
   helperVersion: string
   gameProcessFound: boolean
   selectedPid?: number | null
+  snapshotContentHash?: string | null
   character: {
     located: boolean
     loaded: boolean
@@ -42,11 +43,36 @@ export interface ArmoireHelperProbe {
   }
   dresserLocated: boolean
   dresserLoaded: boolean
+  cabinet?: ArmoireHelperCabinetProbe | null
   inventoryLocated: boolean
   retainerManagerLocated: boolean
   inventoryContainerTableLocated: boolean
   retainers: ArmoireHelperRetainerProbe[]
   retainerCaches: ArmoireHelperRetainerCacheProbe[]
+  containers?: ArmoireHelperContainerProbe[]
+}
+
+export interface ArmoireHelperCabinetProbe {
+  located: boolean
+  loaded: boolean
+  state?: number | null
+  byteCount?: number | null
+  unlockedBitCount: number
+  catalogLocated: boolean
+  mappedItemCount: number
+  status: string
+}
+
+export interface ArmoireHelperContainerProbe {
+  key: string
+  container: string
+  containerName?: string | null
+  inventoryType?: number | null
+  located: boolean
+  loaded: boolean
+  size?: number | null
+  itemCount: number
+  status: string
 }
 
 export interface ArmoireHelperRetainerProbe {

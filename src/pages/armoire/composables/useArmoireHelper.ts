@@ -20,6 +20,10 @@ export type ArmoireHelperStatus =
 type StatusTone = 'info' | 'success' | 'warning' | 'danger' | 'loading'
 type ArmoireHelperApiModule = typeof import('@/pages/armoire/services/nsarmoireHelperApi')
 
+interface ProbeSignaturePayload {
+  probeRefreshSignature?: string
+}
+
 const NSARMOIRE_HELPER_DISPLAY_URL = 'http://127.0.0.1:8015'
 const PROBE_VISIBLE_INTERVAL_MS = 2000
 const PROBE_HIDDEN_INTERVAL_MS = 10000
@@ -79,6 +83,7 @@ export function useArmoireHelper(
   let autoRefreshTimer = 0
   let probeBusy = false
   let autoRefreshBusy = false
+  let lastProbeRefreshSignature: string | null = null
   const handleVisibilityChange = () => {
     if (health.value && probeTimer !== 0) {
       stopProbePolling()
@@ -119,6 +124,7 @@ export function useArmoireHelper(
       status.value = 'idle'
       health.value = null
       probe.value = null
+      lastProbeRefreshSignature = null
       processes.value = []
       processPickerOpen.value = false
       processError.value = null
@@ -182,6 +188,7 @@ export function useArmoireHelper(
     }
 
     status.value = 'ready'
+    lastProbeRefreshSignature = null
     startProbePolling()
     return true
   }
@@ -259,6 +266,7 @@ export function useArmoireHelper(
       const helperApi = await loadHelperApi()
       health.value = await helperApi.selectArmoireHelperProcess(pid)
       probe.value = null
+      lastProbeRefreshSignature = null
       processPickerOpen.value = false
       await loadFromHelper(false)
     } catch (error) {
@@ -282,6 +290,7 @@ export function useArmoireHelper(
       const helperApi = await loadHelperApi()
       health.value = await helperApi.clearArmoireHelperRetainerCache()
       probe.value = null
+      lastProbeRefreshSignature = null
       await refreshSnapshotSilently({ ignoreBusy: true })
       startProbePolling()
     } catch (error) {
@@ -401,9 +410,17 @@ export function useArmoireHelper(
     try {
       const helperApi = await loadHelperApi()
       const nextProbe = await helperApi.fetchArmoireHelperProbe()
+      const nextProbeRefreshSignature = getProbeRefreshSignature(nextProbe)
+      const shouldRefresh =
+        lastProbeRefreshSignature !== null && nextProbeRefreshSignature !== lastProbeRefreshSignature
 
       probe.value = nextProbe
-      scheduleAutoRefresh()
+
+      if (shouldRefresh) {
+        scheduleAutoRefresh(nextProbeRefreshSignature)
+      } else if (lastProbeRefreshSignature === null) {
+        lastProbeRefreshSignature = nextProbeRefreshSignature
+      }
     } catch (error) {
       await mapHelperError(error)
     } finally {
@@ -412,16 +429,72 @@ export function useArmoireHelper(
     }
   }
 
-  function scheduleAutoRefresh() {
+  function getProbeRefreshSignature(nextProbe: ArmoireHelperProbe): string {
+    return JSON.stringify({
+      helperVersion: nextProbe.helperVersion,
+      selectedPid: nextProbe.selectedPid ?? null,
+      gameProcessFound: nextProbe.gameProcessFound,
+      snapshotContentHash: nextProbe.snapshotContentHash ?? null,
+      character: {
+        located: nextProbe.character.located,
+        loaded: nextProbe.character.loaded,
+        name: nextProbe.character.name ?? null,
+        worldId: nextProbe.character.worldId ?? null,
+        worldName: nextProbe.character.worldName ?? null,
+        status: nextProbe.character.status
+      },
+      containers: {
+        dresserLocated: nextProbe.dresserLocated,
+        dresserLoaded: nextProbe.dresserLoaded,
+        inventoryLocated: nextProbe.inventoryLocated,
+        retainerManagerLocated: nextProbe.retainerManagerLocated,
+        inventoryContainerTableLocated: nextProbe.inventoryContainerTableLocated,
+        cabinet: nextProbe.cabinet
+          ? {
+              located: nextProbe.cabinet.located,
+              loaded: nextProbe.cabinet.loaded,
+              unlockedBitCount: nextProbe.cabinet.unlockedBitCount,
+              mappedItemCount: nextProbe.cabinet.mappedItemCount,
+              status: nextProbe.cabinet.status
+            }
+          : null,
+        inventoryContainers: (nextProbe.containers ?? []).map((container) => ({
+          key: container.key,
+          inventoryType: container.inventoryType ?? null,
+          loaded: container.loaded,
+          itemCount: container.itemCount,
+          status: container.status
+        }))
+      },
+      retainers: nextProbe.retainers.map((retainer) => ({
+        slot: retainer.slot,
+        retainerId: retainer.retainerId,
+        name: retainer.name,
+        itemCount: retainer.itemCount,
+        marketItemCount: retainer.marketItemCount,
+        available: retainer.available,
+        isActive: retainer.isActive,
+        inventoryCached: retainer.inventoryCached,
+        cachedItemCount: retainer.cachedItemCount
+      })),
+      retainerCaches: nextProbe.retainerCaches.map((cache) => ({
+        retainerId: cache.retainerId,
+        retainerName: cache.retainerName,
+        itemCount: cache.itemCount
+      }))
+    })
+  }
+
+  function scheduleAutoRefresh(probeRefreshSignature?: string) {
     if (typeof window === 'undefined') {
-      void refreshSnapshotSilently()
+      void refreshSnapshotSilently({ probeRefreshSignature })
       return
     }
 
     cancelAutoRefresh()
     autoRefreshTimer = window.setTimeout(() => {
       autoRefreshTimer = 0
-      void refreshSnapshotSilently()
+      void refreshSnapshotSilently({ probeRefreshSignature })
     }, AUTO_REFRESH_AFTER_PROBE_MS)
   }
 
@@ -433,7 +506,7 @@ export function useArmoireHelper(
     autoRefreshTimer = 0
   }
 
-  async function refreshSnapshotSilently(options: { ignoreBusy?: boolean } = {}) {
+  async function refreshSnapshotSilently(options: { ignoreBusy?: boolean } & ProbeSignaturePayload = {}) {
     if (!health.value || autoRefreshBusy || (busy.value && options.ignoreBusy !== true)) {
       return
     }
@@ -448,6 +521,9 @@ export function useArmoireHelper(
       if (imported) {
         status.value = 'ready'
         detail.value = null
+        if (options.probeRefreshSignature !== undefined) {
+          lastProbeRefreshSignature = options.probeRefreshSignature
+        }
       }
     } catch (error) {
       await mapHelperError(error)
