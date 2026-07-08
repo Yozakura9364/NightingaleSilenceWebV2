@@ -35,6 +35,10 @@
     --ns-color-warning: #f1a748;
     --ns-color-danger: #d64f72;
     --ns-color-success: #39a887;
+    --ns-glamour-workspace-bg: #fff9fd;
+    --ns-glamour-template-preview-bg: #fff9fd;
+    --ns-glamour-template-canvas-bg: #ffffff;
+    --ns-glamour-template-canvas-border: rgba(42, 33, 56, 0.16);
 
     --ns-font-sans: 'Inter', 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
     --ns-font-decorative:
@@ -62,6 +66,8 @@
     --ns-focus-ring: 0 0 0 3px rgba(99, 217, 220, 0.42);
     --ns-control-inset-shadow: 2px 2px 0 rgba(42, 33, 56, 0.12) inset;
     --ns-control-primary-text-shadow: 0 1px 0 rgba(35, 20, 42, 0.2);
+    --ns-heading-bloom-color: var(--ns-color-text);
+    --ns-heading-bloom-shadow: none;
     /* Keep select carets and disclosure carets on the same right-side control column. */
     --ns-control-caret-center-offset: 17px;
     --ns-control-caret-box-size: 16px;
@@ -94,6 +100,7 @@
     --ns-pixel-border-cyan: rgba(99, 217, 220, 0.5);
     --ns-pixel-divider: rgba(42, 33, 56, 0.28);
     --ns-pixel-surface: rgba(255, 255, 255, 0.82);
+    --ns-pixel-icon-filter: none;
     --ns-pixel-window-bg: rgba(255, 255, 255, 0.98);
     --ns-pixel-window-bar-bg: linear-gradient(90deg, #ffe9f6, #e1fbff);
     --ns-pixel-hover-surface: #ffe8f6;
@@ -188,12 +195,22 @@
     --ns-color-warning: #f2c86b;
     --ns-color-danger: #f47ca1;
     --ns-color-success: #7bd8bc;
+    --ns-glamour-workspace-bg: #101426;
+    --ns-glamour-template-preview-bg: #0d1120;
+    --ns-glamour-template-canvas-bg: #111426;
+    --ns-glamour-template-canvas-border: rgba(245, 224, 246, 0.22);
 
     --ns-shadow-soft: 6px 6px 0 rgba(0, 0, 0, 0.28);
     --ns-shadow-panel: 4px 4px 0 rgba(0, 0, 0, 0.24);
     --ns-focus-ring: 0 0 0 3px rgba(127, 217, 227, 0.32);
     --ns-control-inset-shadow: 2px 2px 0 rgba(0, 0, 0, 0.26) inset;
     --ns-control-primary-text-shadow: 0 1px 0 rgba(0, 0, 0, 0.34);
+    --ns-heading-bloom-color: var(--ns-color-text);
+    --ns-heading-bloom-shadow:
+      1px 1px 0 color-mix(in srgb, var(--ns-color-cyan) 56%, transparent),
+      -1px 0 0 color-mix(in srgb, var(--ns-color-accent) 42%, transparent),
+      0 0 8px color-mix(in srgb, var(--ns-color-cyan) 28%, transparent),
+      0 0 14px color-mix(in srgb, var(--ns-color-accent) 22%, transparent);
     --ns-select-caret-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f7f1fb' viewBox='0 0 24 24'%3E%3Cpath d='M5 8h14v4h-2v2h-2v2h-2v2h-2v-2H9v-2H7v-2H5V8Z'/%3E%3C/svg%3E");
     --ns-scroll-track: rgba(25, 28, 47, 0.96);
     --ns-scroll-thumb: rgba(189, 179, 202, 0.74);
@@ -210,6 +227,9 @@
     --ns-pixel-border-cyan: rgba(127, 217, 227, 0.5);
     --ns-pixel-divider: rgba(180, 164, 194, 0.26);
     --ns-pixel-surface: rgba(30, 34, 57, 0.88);
+    --ns-pixel-icon-filter:
+      invert(1)
+      drop-shadow(0 0 6px color-mix(in srgb, var(--ns-color-cyan) 24%, transparent));
     --ns-pixel-window-bg: rgba(24, 28, 48, 0.98);
     --ns-pixel-window-bar-bg: linear-gradient(90deg, #332441, #1f3c48);
     --ns-pixel-hover-surface: #33233f;
