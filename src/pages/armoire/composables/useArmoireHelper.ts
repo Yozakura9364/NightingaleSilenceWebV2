@@ -6,6 +6,7 @@ import type {
   ArmoireHelperProbe,
   ArmoireHelperProcess
 } from '@/pages/armoire/services/nsarmoireHelperApi'
+import { NSARMOIRE_BUTLER_PROTOCOL_URL } from '@/pages/armoire/services/nsarmoireHelperApi'
 
 export type ArmoireHelperStatus =
   | 'idle'
@@ -23,6 +24,7 @@ const NSARMOIRE_HELPER_DISPLAY_URL = 'http://127.0.0.1:8015'
 const PROBE_VISIBLE_INTERVAL_MS = 2000
 const PROBE_HIDDEN_INTERVAL_MS = 10000
 const AUTO_REFRESH_AFTER_RETAINER_CACHE_MS = 1400
+const BUTLER_LAUNCH_RETRY_DELAYS_MS = [700, 1200, 1800, 2500]
 let helperApiPromise: Promise<ArmoireHelperApiModule> | null = null
 
 function loadHelperApi(): Promise<ArmoireHelperApiModule> {
@@ -97,7 +99,7 @@ export function useArmoireHelper(
   const cachedRetainers = computed(() => probe.value?.retainerCaches ?? [])
 
   async function connectHelper() {
-    await loadFromHelper(false)
+    await loadFromHelper(false, { launchIfUnavailable: true })
   }
 
   async function refreshHelper() {
@@ -129,32 +131,30 @@ export function useArmoireHelper(
     }
   }
 
-  async function loadFromHelper(refresh: boolean) {
+  async function loadFromHelper(
+    refresh: boolean,
+    options: { launchIfUnavailable?: boolean } = {}
+  ) {
     busy.value = true
     status.value = 'connecting'
     detail.value = null
 
     try {
-      const helperApi = await loadHelperApi()
-      health.value = await helperApi.fetchArmoireHelperHealth()
-      if (await mapHealthStatus(health.value)) {
+      const loaded = await tryLoadFromHelper(refresh)
+      if (loaded) {
         return
       }
-
-      const snapshot = refresh
-        ? await helperApi.refreshArmoireHelperSnapshot()
-        : await helperApi.fetchArmoireHelperSnapshot()
-      const imported = loadSnapshotPayload(snapshot, null)
-
-      if (!imported) {
-        status.value = 'error'
-        detail.value = 'invalid helper snapshot'
-        return
-      }
-
-      status.value = 'ready'
-      startProbePolling()
     } catch (error) {
+      if (options.launchIfUnavailable === true && isHelperUnavailableError(error)) {
+        const launched = launchButlerProtocol()
+        if (launched) {
+          const loadedAfterLaunch = await retryLoadFromHelper(refresh)
+          if (loadedAfterLaunch) {
+            return
+          }
+        }
+      }
+
       await mapHelperError(error)
       if (health.value && String(status.value) === 'dresserNotLoaded') {
         startProbePolling()
@@ -162,6 +162,75 @@ export function useArmoireHelper(
     } finally {
       busy.value = false
     }
+  }
+
+  async function tryLoadFromHelper(refresh: boolean): Promise<boolean> {
+    const helperApi = await loadHelperApi()
+    health.value = await helperApi.fetchArmoireHelperHealth()
+    if (await mapHealthStatus(health.value)) {
+      return true
+    }
+
+    const snapshot = refresh
+      ? await helperApi.refreshArmoireHelperSnapshot()
+      : await helperApi.fetchArmoireHelperSnapshot()
+    const imported = loadSnapshotPayload(snapshot, null)
+
+    if (!imported) {
+      status.value = 'error'
+      detail.value = 'invalid helper snapshot'
+      return true
+    }
+
+    status.value = 'ready'
+    startProbePolling()
+    return true
+  }
+
+  async function retryLoadFromHelper(refresh: boolean): Promise<boolean> {
+    for (const delayMs of BUTLER_LAUNCH_RETRY_DELAYS_MS) {
+      await wait(delayMs)
+
+      try {
+        return await tryLoadFromHelper(refresh)
+      } catch (error) {
+        if (!isHelperUnavailableError(error)) {
+          await mapHelperError(error)
+          return true
+        }
+      }
+    }
+
+    return false
+  }
+
+  function launchButlerProtocol(): boolean {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return false
+    }
+
+    const launcher = document.createElement('a')
+    launcher.href = NSARMOIRE_BUTLER_PROTOCOL_URL
+    launcher.rel = 'noreferrer'
+    launcher.style.display = 'none'
+    document.body.appendChild(launcher)
+    launcher.click()
+    window.setTimeout(() => launcher.remove(), 1000)
+
+    detail.value = 'waiting_for_nsarmoire_butler'
+    return true
+  }
+
+  function isHelperUnavailableError(error: unknown): boolean {
+    if (!(error instanceof Error)) {
+      return false
+    }
+
+    return /failed to fetch|networkerror|load failed|fetch/i.test(error.message)
+  }
+
+  function wait(delayMs: number): Promise<void> {
+    return new Promise((resolve) => window.setTimeout(resolve, delayMs))
   }
 
   async function loadProcesses() {

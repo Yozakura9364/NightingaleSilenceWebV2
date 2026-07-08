@@ -9,7 +9,7 @@
 | 目标路由 | `#/ffxiv/armoire` |
 | 页面入口 | `src/pages/armoire/NSArmoirePage.vue` |
 | 当前输入 | 手动导入 JSON；本地 helper snapshot |
-| 当前本地 helper | `tools/nsarmoire-helper` |
+| 当前本地 helper | 独立项目 `H:\NightingaleSilenceWeb\NSArmoireButler`；V2 内 `tools/nsarmoire-helper` 仅作为历史内置副本/开发参考 |
 | 当前静态 catalog | `public/data/armoire-catalog.json` |
 | helper 开发代理 | `/api/armoire` -> `http://127.0.0.1:8015` |
 | helper 生产直连 | `http://127.0.0.1:8015` |
@@ -282,18 +282,18 @@ source: 'asvel-compatible'
 container: 'glamourDresser'
 ```
 
-## 本地 helper v0.4.5
+## 本地 helper v0.5.0
 
-第一版 helper 位于：
+正式 helper 已拆为独立项目：
 
 ```text
-tools/nsarmoire-helper
+H:\NightingaleSilenceWeb\NSArmoireButler
 ```
 
 运行命令：
 
 ```powershell
-dotnet run --project .\tools\nsarmoire-helper\NsArmoire.Helper.csproj
+dotnet run --project H:\NightingaleSilenceWeb\NSArmoireButler\NSArmoireButler.csproj
 ```
 
 默认监听：
@@ -305,10 +305,18 @@ http://127.0.0.1:8015
 正式下载入口：
 
 ```text
-https://github.com/Yozakura9364/NightingaleSilenceWebV2/releases/latest
+https://github.com/Yozakura9364/NSArmoireButler/releases/latest
 ```
 
-公开页面只跳转到 GitHub Releases 最新页，不直链 `.exe` 或 `.zip`。每个 helper Release 需要写明 helper 版本、支持游戏版本、SHA256、使用步骤、只监听 `127.0.0.1`、不上传用户仓库数据、杀软/SmartScreen 可能提示未知发布者，以及对应源码路径。
+公开页面只跳转到 `NSArmoireButler` GitHub Releases 最新页，不直链 `.exe` 或 `.zip`。每个 helper Release 需要写明 helper 版本、支持游戏版本、SHA256、使用步骤、只监听 `127.0.0.1`、不上传用户仓库数据、杀软/SmartScreen 可能提示未知发布者，以及对应源码路径。
+
+当前独立 helper 默认启动后打开：
+
+```text
+https://nightingalesilence.com/#/ffxiv/armoire?connect=1
+```
+
+网页看到 `connect=1` 后会自动连接 `http://127.0.0.1:8015`。如果用户在网页中点击连接而 helper 未运行，网页会尝试唤起 `nsarmoire-butler://start`，然后自动重试连接；浏览器仍会按系统策略显示打开本地应用的确认弹窗。Release 包内的 `register-protocol.ps1` 用于注册该协议。
 
 当前接口：
 
@@ -369,7 +377,7 @@ http://localhost:5173/#/ffxiv/armoire
 开发端口变化或正式分发时，可以用启动参数覆盖：
 
 ```powershell
-dotnet run --project .\tools\nsarmoire-helper\NsArmoire.Helper.csproj -- --web-url "http://localhost:5173/#/ffxiv/armoire"
+dotnet run --project H:\NightingaleSilenceWeb\NSArmoireButler\NSArmoireButler.csproj -- --web-url "http://localhost:5173/#/ffxiv/armoire?connect=1"
 ```
 
 `/open-v2` 不接受请求传入的任意 URL，只打开启动时配置的 `http` 或 `https` 地址，避免本地接口被用作任意打开网页的跳板。

@@ -190,11 +190,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
+import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { textKeys } from '@/config/site'
 import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
 import { mergeArmoireCatalogs } from '@/lib/armoire/catalog'
 import type { ArmoireStoreCatalog, ArmoireStoreItemDisplayIndex } from '@/lib/armoire/types'
+import { NSARMOIRE_BUTLER_RELEASE_URL } from '@/pages/armoire/services/nsarmoireHelperApi'
 import type { ArmoireCatalogStatus } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
 import { useArmoireCabinetCatalog } from '@/pages/armoire/composables/useArmoireCabinetCatalog'
@@ -232,7 +234,7 @@ const EMPTY_WORKSPACE_STORE_ITEM_DISPLAY_INDEX: ArmoireStoreItemDisplayIndex = {
 const DATA_BASE_URL = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data`
 const STORE_CATALOG_URL = `${DATA_BASE_URL}/armoire-store-catalog.json`
 const STORE_ITEM_DISPLAY_INDEX_URL = `${DATA_BASE_URL}/armoire-store-item-display-index.json`
-const HELPER_RELEASE_URL = 'https://github.com/Yozakura9364/NightingaleSilenceWebV2/releases/latest'
+const HELPER_RELEASE_URL = NSARMOIRE_BUTLER_RELEASE_URL
 
 const AppTabs = defineAsyncComponent(() => import('@/components/AppTabs.vue'))
 const NSArmoireCabinetStatsPanel = defineAsyncComponent(
@@ -257,6 +259,7 @@ const NSArmoireStorePanel = defineAsyncComponent(
   () => import('@/pages/armoire/components/NSArmoireStorePanel.vue')
 )
 
+const route = useRoute()
 const { t } = useLocale()
 const activeSection = ref<ArmoireWorkspaceSection>('cleanup')
 const activeDetailTab = ref<ArmoireCollectionDetailTab>('store')
@@ -845,6 +848,12 @@ watch(
 onBeforeUnmount(() => {
   cancelCollectionLoadFrame()
   cancelCleanupIdenticalModelCatalogLoad()
+})
+
+onMounted(() => {
+  if (route.query.connect === '1') {
+    void connectHelper()
+  }
 })
 </script>
 
