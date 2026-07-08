@@ -15,10 +15,36 @@ import {
 } from '@/lib/armoire/filterSnapshot'
 import type {
   ArmoireCatalog,
+  ArmoireOwnedItem,
   ArmoireSnapshot,
   ArmoireSnapshotAnalysisOptions,
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
+
+function isIgnoredItem(item: ArmoireOwnedItem, ignoredItemIds: ReadonlySet<number>): boolean {
+  return ignoredItemIds.has(item.itemId)
+}
+
+function filterIgnoredItems(
+  snapshot: ArmoireSnapshot,
+  ignoredItemIds: readonly number[] | undefined
+): ArmoireSnapshot {
+  if (!ignoredItemIds?.length) {
+    return snapshot
+  }
+
+  const ignoredItemIdSet = new Set(
+    ignoredItemIds.filter((itemId) => Number.isInteger(itemId) && itemId > 0)
+  )
+
+  if (ignoredItemIdSet.size === 0) {
+    return snapshot
+  }
+
+  const items = snapshot.items.filter((item) => !isIgnoredItem(item, ignoredItemIdSet))
+
+  return items.length === snapshot.items.length ? snapshot : { ...snapshot, items }
+}
 
 export function analyzeArmoireSnapshot(
   snapshot: ArmoireSnapshot,
@@ -29,7 +55,10 @@ export function analyzeArmoireSnapshot(
   const analysisSnapshot = hasCatalogItems
     ? filterArmoireSnapshotForCatalog(snapshot, catalog)
     : snapshot
-  const actionableSnapshot = filterArmoireSnapshotForActionableItems(analysisSnapshot)
+  const actionableSnapshot = filterIgnoredItems(
+    filterArmoireSnapshotForActionableItems(analysisSnapshot),
+    options.ignoredItemIds
+  )
   const actionableIndex = buildOwnedIndex(actionableSnapshot)
 
   return {

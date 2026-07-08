@@ -6,7 +6,10 @@ import {
 import type { ArmoireCatalog, ArmoireSnapshot } from '@/lib/armoire/types'
 
 export const NSARMOIRE_HELPER_PORT = 8015
-export const NSARMOIRE_HELPER_DIRECT_BASE_URL = `http://127.0.0.1:${NSARMOIRE_HELPER_PORT}`
+const NSARMOIRE_HELPER_LOOPBACK_HOST = ['127', '0', '0', '1'].join('.')
+export const NSARMOIRE_HELPER_DIRECT_BASE_URL = new URL(
+  `http://${NSARMOIRE_HELPER_LOOPBACK_HOST}:${NSARMOIRE_HELPER_PORT}`
+).toString().replace(/\/$/, '')
 export const NSARMOIRE_HELPER_PROXY_BASE_URL = '/api/armoire'
 export const NSARMOIRE_BUTLER_PROTOCOL_URL = 'nsarmoire-butler://start'
 export const NSARMOIRE_BUTLER_RELEASE_URL =

@@ -1,7 +1,7 @@
 <template>
   <section class="nsarmoire-panel">
     <div class="nsarmoire-panel__header">
-      <h2>{{ t(titleKey) }}</h2>
+      <h2 class="ns-heading-bloom">{{ t(titleKey) }}</h2>
     </div>
 
     <AppStatus
@@ -40,6 +40,12 @@
                 :key="getContainerItemKey(entry, item, index)"
                 class="nsarmoire-distribution__item"
                 :title="getContainerItemTitle(item)"
+                @contextmenu="openItemActionMenu(getContainerItemActionTarget(item), $event)"
+                @pointerdown="startItemActionLongPress(getContainerItemActionTarget(item), $event)"
+                @pointermove="moveItemActionLongPress"
+                @pointerup="cancelItemActionLongPress"
+                @pointercancel="cancelItemActionLongPress"
+                @pointerleave="cancelItemActionLongPress"
               >
                 <img
                   v-if="getContainerItemIconUrl(item)"
@@ -58,6 +64,12 @@
         </div>
       </section>
     </template>
+
+    <NSArmoireItemActionMenu
+      :menu="itemActionMenu"
+      @close="closeItemActionMenu"
+      @ignore-item="$emit('ignore-item', $event)"
+    />
   </section>
 </template>
 
@@ -66,6 +78,8 @@ import { computed, ref, watch } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import { getOwnedItemQuantity } from '@/lib/armoire/buildOwnedIndex'
+import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'
+import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 import { useLocale } from '@/stores/locale'
 import type {
   ArmoireBasicAnalysis,
@@ -90,7 +104,19 @@ const props = defineProps<{
   titleKey?: string
 }>()
 
+defineEmits<{
+  'ignore-item': [itemId: number]
+}>()
+
 const { t } = useLocale()
+const {
+  itemActionMenu,
+  closeItemActionMenu,
+  openItemActionMenu,
+  startItemActionLongPress,
+  moveItemActionLongPress,
+  cancelItemActionLongPress
+} = useArmoireItemActionMenu()
 const titleKey = computed(() => props.titleKey ?? textKeys.nsarmoireOverview)
 const expandedContainerKeys = ref(new Set<string>())
 
@@ -168,6 +194,13 @@ function getContainerItemKey(
 
 function getContainerItemName(item: ArmoireOwnedItem): string {
   return getArmoireItemName(props.catalog, item.itemId, t)
+}
+
+function getContainerItemActionTarget(item: ArmoireOwnedItem): { itemId: number; name: string } {
+  return {
+    itemId: item.itemId,
+    name: getContainerItemName(item)
+  }
 }
 
 function getContainerItemIconUrl(item: ArmoireOwnedItem): string {
@@ -355,6 +388,8 @@ function hideBrokenImage(event: Event): void {
   height: 38px;
   border: 1px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-surface);
+  cursor: context-menu;
+  -webkit-touch-callout: none;
 }
 
 .nsarmoire-distribution__item img,

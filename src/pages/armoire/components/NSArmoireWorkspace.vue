@@ -38,16 +38,19 @@
               aria-labelledby="nsarmoire-cleanup-heading"
             >
               <div class="nsarmoire-workspace__section-header">
-                <h2 id="nsarmoire-cleanup-heading">
+                <h2 id="nsarmoire-cleanup-heading" class="ns-heading-bloom">
                   {{ t(textKeys.nsarmoireSectionCleanup) }}
                 </h2>
               </div>
 
               <NSArmoireInsightPanel
-                :analysis="analysis"
+                :analysis="cleanupAnalysis"
                 :catalog="catalog"
                 :snapshot="snapshot"
-                :has-pending-catalog-checks="hasPendingCatalogChecks"
+                :has-pending-catalog-checks="cleanupHasPendingCatalogChecks"
+                :ignored-item-views="ignoredItemViews"
+                @ignore-item="ignoreCleanupItem"
+                @unignore-item="unignoreCleanupItem"
                 @load-identical-model-catalog="loadIdenticalModelCatalogForCleanup"
               />
             </section>
@@ -61,7 +64,7 @@
               <div
                 class="nsarmoire-workspace__section-header nsarmoire-workspace__section-header--tabs"
               >
-                <h2 id="nsarmoire-collection-heading">
+                <h2 id="nsarmoire-collection-heading" class="ns-heading-bloom">
                   {{ t(textKeys.nsarmoireSectionCollection) }}
                 </h2>
 
@@ -85,17 +88,20 @@
                   :status="storeCatalogStatus"
                   :store-catalog="storeCatalog"
                   :store-item-display-index="storeItemDisplayIndex"
+                  @ignore-item="ignoreCleanupItem"
                   @reload="reloadStoreCatalog"
                 />
                 <NSArmoireCabinetStatsPanel
                   v-else-if="activeDetailTab === 'cabinet'"
                   :analysis="cabinetAnalysis"
                   :catalog="cabinetCatalog"
+                  @ignore-item="ignoreCleanupItem"
                 />
                 <NSArmoireGlamourSetStatsPanel
                   v-else-if="activeDetailTab === 'sets'"
                   :analysis="analysis"
                   :catalog="catalog"
+                  @ignore-item="ignoreCleanupItem"
                 />
                 <NSArmoireOverview
                   v-else
@@ -103,6 +109,7 @@
                   :catalog="catalog"
                   :snapshot="snapshot"
                   :title-key="textKeys.nsarmoireCollectionCatalog"
+                  @ignore-item="ignoreCleanupItem"
                 />
               </div>
             </section>
@@ -124,9 +131,13 @@
               :catalog-error="catalogError"
               :selected-dye-value-categories="selectedDyeValueCategories"
               :selected-valuable-dye-ids="selectedValuableDyeIds"
+              :ignored-item-views="ignoredItemViews"
+              :ignored-item-storage-error="ignoredItemStorageError"
               @import-file="importSnapshotFile"
               @toggle-dye-value-category="toggleDyeValueCategory"
               @toggle-valuable-dye-id="toggleValuableDyeId"
+              @unignore-item="unignoreCleanupItem"
+              @clear-ignored-items="clearIgnoredItems"
               @switch-profile="switchCharacterProfile"
               @delete-profile="deleteCharacterProfile"
               @clear-current-profile="clearCurrentProfileData"
@@ -184,11 +195,14 @@ import { useArmoireDyePreferences } from '@/pages/armoire/composables/useArmoire
 import { useArmoireGlamourSetCatalog } from '@/pages/armoire/composables/useArmoireGlamourSetCatalog'
 import { useArmoireGlamourSetChunks } from '@/pages/armoire/composables/useArmoireGlamourSetChunks'
 import { useArmoireHelper } from '@/pages/armoire/composables/useArmoireHelper'
+import { useArmoireIgnoredItems } from '@/pages/armoire/composables/useArmoireIgnoredItems'
 import { useArmoireIdenticalModelCatalog } from '@/pages/armoire/composables/useArmoireIdenticalModelCatalog'
 import { useArmoireItemDisplayChunks } from '@/pages/armoire/composables/useArmoireItemDisplayChunks'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
 import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
 import NSArmoireSectionRail from '@/pages/armoire/components/NSArmoireSectionRail.vue'
+import { getArmoireItemIconUrl, getArmoireItemName } from '@/pages/armoire/utils/itemDisplay'
+import type { ArmoireReadableItemView } from '@/pages/armoire/utils/insightDisplay'
 import { useLocale } from '@/stores/locale'
 
 type ArmoireWorkspaceSection = 'cleanup' | 'collection' | 'characters'
@@ -376,15 +390,45 @@ const {
   toggleDyeValueCategory,
   toggleValuableDyeId
 } = useArmoireDyePreferences()
+const {
+  ignoredItemIds,
+  ignoredItemStorageError,
+  ignoreItem: ignoreCleanupItem,
+  unignoreItem: unignoreCleanupItem,
+  clearIgnoredItems
+} = useArmoireIgnoredItems(activeProfileKey)
 const shouldFilterSnapshotToItemDisplayCatalog = computed(
   () => itemDisplayChunkStatus.value === 'ready'
 )
-const { analysis, hasPendingCatalogChecks } = useArmoireAnalysis(
+const { analysis } = useArmoireAnalysis(
   snapshot,
   catalog,
   selectedDyeValueCategories,
   selectedValuableDyeIds,
   shouldFilterSnapshotToItemDisplayCatalog
+)
+const { analysis: cleanupAnalysis, hasPendingCatalogChecks: cleanupHasPendingCatalogChecks } =
+  useArmoireAnalysis(
+    snapshot,
+    catalog,
+    selectedDyeValueCategories,
+    selectedValuableDyeIds,
+    shouldFilterSnapshotToItemDisplayCatalog,
+    ignoredItemIds
+  )
+const ignoredItemViews = computed<ArmoireReadableItemView[]>(() =>
+  ignoredItemIds.value.map((itemId) => {
+    const name = getArmoireItemName(catalog.value, itemId, t)
+
+    return {
+      key: `ignored-${itemId}`,
+      itemId,
+      name,
+      wikiItemName: name,
+      context: t(textKeys.nsarmoireIgnoredItemContext),
+      iconUrl: getArmoireItemIconUrl(catalog.value, itemId)
+    }
+  })
 )
 const cabinetAnalysis = computed(() =>
   snapshot.value
@@ -826,12 +870,11 @@ onMounted(() => {
 .nsarmoire-workspace {
   --ns-font-decorative: var(--ns-font-sans);
   --ns-font-mono: var(--ns-font-sans);
-  --ns-ffxiv-workspace-bg: #fff8fc;
 
   display: flex;
   flex: 1;
   min-height: 0;
-  background: var(--ns-ffxiv-workspace-bg);
+  background: var(--ns-color-bg);
   font-family: var(--ns-font-sans);
   overflow: auto;
 }
@@ -840,7 +883,7 @@ onMounted(() => {
   display: grid;
   width: 100%;
   min-width: 0;
-  background: var(--ns-ffxiv-workspace-bg);
+  background: var(--ns-color-bg);
 }
 
 .nsarmoire-workspace__shell {
@@ -973,7 +1016,7 @@ onMounted(() => {
   color: var(--ns-color-text);
   font-size: 13px;
   font-weight: 850;
-  box-shadow: 5px 5px 0 var(--ns-pixel-shadow);
+  box-shadow: var(--ns-pixel-window-shadow);
 }
 
 .nsarmoire-workspace__loading-pixels {

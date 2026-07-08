@@ -32,6 +32,7 @@ const VALID_STORE_TAGS = new Set([
   'fanFestivalCostume',
   'crossoverCostume',
   'moonfireFaire',
+  'huntingMoon',
   'hatchingTide',
   'theRising',
   'starlightCelebration',

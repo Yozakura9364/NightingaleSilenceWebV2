@@ -159,6 +159,7 @@ function createProfileFromSnapshot(snapshot: ArmoireSnapshot): ArmoireCharacterP
     cachedAt: new Date().toISOString(),
     entryCount: snapshot.items.length,
     containers,
+    ignoredItemIds: [],
     ...retainerSummary
   }
 }
@@ -174,12 +175,134 @@ function createRecordFromSnapshot(snapshot: ArmoireSnapshot): ArmoireStoredSnaps
   }
 }
 
+function getRetainerContainerOwnerName(containerName: string | undefined): string | undefined {
+  const name = containerName?.trim()
+
+  if (!name) {
+    return undefined
+  }
+
+  return (
+    name.match(/^(.+?)\s+(?:背包|市场)(?:\s+\d+)?$/)?.[1]?.trim() ||
+    name.match(/^(.+?)\s+(?:Bag|Market)(?:\s+\d+)?$/i)?.[1]?.trim() ||
+    undefined
+  )
+}
+
+function getRetainerMergeKey(item: ArmoireSnapshot['items'][number]): string {
+  return (
+    item.retainerId?.trim() ||
+    item.retainerName?.trim() ||
+    getRetainerContainerOwnerName(item.containerName) ||
+    item.containerName?.trim() ||
+    `slot:${item.inventoryType ?? ''}:${item.slotIndex ?? ''}`
+  )
+}
+
+function cloneSnapshot(snapshot: ArmoireSnapshot): ArmoireSnapshot {
+  return normalizeArmoireSnapshot(JSON.parse(JSON.stringify(toRaw(snapshot))) as unknown)
+}
+
+function getSnapshotItemInstanceKey(item: ArmoireSnapshot['items'][number]): string {
+  return [
+    item.container,
+    item.retainerId?.trim() ?? '',
+    item.retainerName?.trim() ?? '',
+    getRetainerContainerOwnerName(item.containerName) ?? item.containerName?.trim() ?? '',
+    item.inventoryType ?? '',
+    item.slotIndex ?? '',
+    item.itemId,
+    item.hq === true ? 1 : 0,
+    item.quantity ?? 1,
+    item.dyes?.join('/') ?? '',
+    item.spiritbond ?? '',
+    item.cabinetId ?? ''
+  ].join('|')
+}
+
+function dedupeSnapshotItems(snapshot: ArmoireSnapshot): ArmoireSnapshot {
+  const seenKeys = new Set<string>()
+  const items: ArmoireSnapshot['items'] = []
+
+  for (const item of snapshot.items) {
+    const key = getSnapshotItemInstanceKey(item)
+
+    if (seenKeys.has(key)) {
+      continue
+    }
+
+    seenKeys.add(key)
+    items.push(item)
+  }
+
+  return items.length === snapshot.items.length ? snapshot : { ...snapshot, items }
+}
+
+function mergeSnapshotWithStoredProfile(
+  nextSnapshot: ArmoireSnapshot,
+  storedSnapshot: ArmoireSnapshot | null
+): ArmoireSnapshot {
+  if (!storedSnapshot) {
+    return cloneSnapshot(dedupeSnapshotItems(nextSnapshot))
+  }
+
+  const nextProfileKey = getArmoireCharacterProfileKey(nextSnapshot)
+  const storedProfileKey = getArmoireCharacterProfileKey(storedSnapshot)
+
+  if (!nextProfileKey || nextProfileKey !== storedProfileKey) {
+    return cloneSnapshot(dedupeSnapshotItems(nextSnapshot))
+  }
+
+  const mergedRetainerItemsByKey = new Map<string, ArmoireSnapshot['items']>()
+  const nextRetainerKeys = new Set<string>()
+
+  for (const item of storedSnapshot.items) {
+    if (item.container !== 'retainer') {
+      continue
+    }
+
+    const key = getRetainerMergeKey(item)
+    const items = mergedRetainerItemsByKey.get(key) ?? []
+    items.push(item)
+    mergedRetainerItemsByKey.set(key, items)
+  }
+
+  for (const item of nextSnapshot.items) {
+    if (item.container !== 'retainer') {
+      continue
+    }
+
+    const key = getRetainerMergeKey(item)
+    if (!nextRetainerKeys.has(key)) {
+      nextRetainerKeys.add(key)
+      mergedRetainerItemsByKey.set(key, [])
+    }
+
+    mergedRetainerItemsByKey.get(key)?.push(item)
+  }
+
+  const mergedItems = [
+    ...nextSnapshot.items.filter((item) => item.container !== 'retainer'),
+    ...Array.from(mergedRetainerItemsByKey.values()).flat()
+  ]
+
+  return cloneSnapshot(dedupeSnapshotItems({
+    ...nextSnapshot,
+    items: mergedItems
+  }))
+}
+
+function areSnapshotsEquivalent(left: ArmoireSnapshot, right: ArmoireSnapshot): boolean {
+  return JSON.stringify(toRaw(left)) === JSON.stringify(toRaw(right))
+}
+
 export function useArmoireCharacterProfiles(snapshot: Ref<ArmoireSnapshot | null>) {
   const profiles = ref<ArmoireCharacterProfile[]>([])
   const storageStatus = ref<ArmoireCharacterProfileStorageStatus>('idle')
   const storageError = ref<string | null>(null)
   const switchingProfileKey = ref<string | null>(null)
   const deletingProfileKey = ref<string | null>(null)
+  let applyingMergedSnapshot = false
 
   async function refreshProfiles(): Promise<void> {
     storageStatus.value = 'loading'
@@ -227,9 +350,16 @@ export function useArmoireCharacterProfiles(snapshot: Ref<ArmoireSnapshot | null
   }
 
   async function cacheSnapshot(nextSnapshot: ArmoireSnapshot): Promise<void> {
-    const record = createRecordFromSnapshot(nextSnapshot)
-
     try {
+      const profileKey = getArmoireCharacterProfileKey(nextSnapshot)
+      const storedRecord = profileKey ? await getArmoireSnapshotRecord(profileKey) : null
+      const mergedSnapshot = mergeSnapshotWithStoredProfile(
+        nextSnapshot,
+        storedRecord?.snapshot ?? null
+      )
+      const record = createRecordFromSnapshot(mergedSnapshot)
+      record.ignoredItemIds = storedRecord?.ignoredItemIds ?? []
+
       await putArmoireSnapshotRecord(record)
       saveActiveProfileKey(record.key)
       profiles.value = [
@@ -238,6 +368,11 @@ export function useArmoireCharacterProfiles(snapshot: Ref<ArmoireSnapshot | null
       ].sort(sortProfiles)
       storageStatus.value = 'ready'
       storageError.value = null
+
+      if (!areSnapshotsEquivalent(nextSnapshot, mergedSnapshot)) {
+        applyingMergedSnapshot = true
+        snapshot.value = mergedSnapshot
+      }
     } catch (error) {
       storageStatus.value = 'error'
       storageError.value = error instanceof Error ? error.message : String(error)
@@ -290,6 +425,11 @@ export function useArmoireCharacterProfiles(snapshot: Ref<ArmoireSnapshot | null
 
   watch(snapshot, (nextSnapshot) => {
     if (!nextSnapshot) {
+      return
+    }
+
+    if (applyingMergedSnapshot) {
+      applyingMergedSnapshot = false
       return
     }
 

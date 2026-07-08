@@ -11,12 +11,12 @@
           item.visibleRelatedItems.length ? 'nsarmoire-readable-list__item--related' : undefined
         ]"
         :title="getItemTitle(item)"
-        @contextmenu="openItemWikiByContextMenu(getWikiItemName(item), $event)"
-        @pointerdown="startItemWikiLongPress(getWikiItemName(item), $event)"
-        @pointermove="moveItemWikiLongPress"
-        @pointerup="cancelItemWikiLongPress"
-        @pointercancel="cancelItemWikiLongPress"
-        @pointerleave="cancelItemWikiLongPress"
+        @contextmenu="openItemActionMenu(item, $event)"
+        @pointerdown="startItemActionLongPress(item, $event)"
+        @pointermove="moveItemActionLongPress"
+        @pointerup="cancelItemActionLongPress"
+        @pointercancel="cancelItemActionLongPress"
+        @pointerleave="cancelItemActionLongPress"
       >
         <span class="nsarmoire-readable-list__icon" aria-hidden="true">
           <img
@@ -67,12 +67,12 @@
             :key="relatedItem.key"
             :class="relatedItem.status ? `nsarmoire-readable-list__related-item--${relatedItem.status}` : undefined"
             :title="getRelatedItemTitle(relatedItem)"
-            @contextmenu.stop="openItemWikiByContextMenu(getWikiItemName(relatedItem), $event)"
-            @pointerdown.stop="startItemWikiLongPress(getWikiItemName(relatedItem), $event)"
-            @pointermove.stop="moveItemWikiLongPress"
-            @pointerup.stop="cancelItemWikiLongPress"
-            @pointercancel.stop="cancelItemWikiLongPress"
-            @pointerleave.stop="cancelItemWikiLongPress"
+            @contextmenu.stop="openItemActionMenu(relatedItem, $event)"
+            @pointerdown.stop="startItemActionLongPress(relatedItem, $event)"
+            @pointermove.stop="moveItemActionLongPress"
+            @pointerup.stop="cancelItemActionLongPress"
+            @pointercancel.stop="cancelItemActionLongPress"
+            @pointerleave.stop="cancelItemActionLongPress"
           >
             <span class="nsarmoire-readable-list__related-icon">
               <img
@@ -101,16 +101,26 @@
         </ul>
       </li>
     </ul>
+
+    <NSArmoireItemActionMenu
+      :menu="itemActionMenu"
+      :can-ignore-items="canIgnoreItems"
+      :can-unignore-items="canUnignoreItems"
+      @close="closeItemActionMenu"
+      @ignore-item="$emit('ignore-item', $event)"
+      @unignore-item="$emit('unignore-item', $event)"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'
 import type {
   ArmoireReadableItemRelatedView,
   ArmoireReadableItemView
 } from '@/pages/armoire/utils/insightDisplay'
-import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
+import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 
 const RELATED_ITEM_PREVIEW_LIMIT = 8
 type WindowWithIdleCallback = Window & {
@@ -118,25 +128,38 @@ type WindowWithIdleCallback = Window & {
   cancelIdleCallback?: Window['cancelIdleCallback']
 }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   items: ArmoireReadableItemView[]
   limit?: number
   expanded?: boolean
-}>()
+  canIgnoreItems?: boolean
+  canUnignoreItems?: boolean
+}>(), {
+  canIgnoreItems: true,
+  canUnignoreItems: false
+})
 
-const {
-  cancelItemWikiLongPress,
-  moveItemWikiLongPress,
-  openItemWikiByContextMenu,
-  startItemWikiLongPress
-} = useArmoireItemWikiNavigation()
+defineEmits<{
+  'ignore-item': [itemId: number]
+  'unignore-item': [itemId: number]
+}>()
 
 const renderedVisibleCount = ref(0)
 let animationFrameHandle: number | null = null
 let idleCallbackHandle: number | null = null
 let timeoutHandle: number | null = null
+const {
+  itemActionMenu,
+  closeItemActionMenu,
+  openItemActionMenu,
+  startItemActionLongPress,
+  moveItemActionLongPress,
+  cancelItemActionLongPress
+} = useArmoireItemActionMenu()
 
 const collapsedVisibleLimit = computed(() => props.limit ?? props.items.length)
+const canIgnoreItems = computed(() => props.canIgnoreItems !== false)
+const canUnignoreItems = computed(() => props.canUnignoreItems === true)
 
 const visibleItems = computed(() => {
   return props.items
@@ -217,7 +240,10 @@ function cancelScheduledVisibleCount(): void {
   }
 }
 
-onBeforeUnmount(cancelScheduledVisibleCount)
+onBeforeUnmount(() => {
+  cancelScheduledVisibleCount()
+  cancelItemActionLongPress()
+})
 
 function getItemTitle(item: ArmoireReadableItemView): string {
   return [
@@ -242,12 +268,6 @@ function getItemTitle(item: ArmoireReadableItemView): string {
 
 function getRelatedItemTitle(item: ArmoireReadableItemRelatedView): string {
   return [item.name, item.statusLabel].filter(Boolean).join('\n')
-}
-
-function getWikiItemName(
-  item: Pick<ArmoireReadableItemView | ArmoireReadableItemRelatedView, 'name' | 'wikiItemName'>
-): string {
-  return item.wikiItemName ?? item.name
 }
 
 function hideBrokenIcon(event: Event): void {
@@ -422,9 +442,7 @@ function hideBrokenIcon(event: Event): void {
   height: 13px;
   flex: 0 0 13px;
   border: 1px solid var(--ns-color-border-strong);
-  box-shadow:
-    inset 0 0 0 1px rgb(255 255 255 / 0.32),
-    0 0 0 1px rgb(0 0 0 / 0.06);
+  box-shadow: var(--ns-control-inset-shadow);
 }
 
 .nsarmoire-readable-list__related {

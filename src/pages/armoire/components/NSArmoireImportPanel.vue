@@ -4,7 +4,7 @@
     :class="`nsarmoire-import-panel--${mode}`"
   >
     <div v-if="mode === 'hero'" class="nsarmoire-panel__header">
-      <h2>{{ cleanT(textKeys.nsarmoireImport) }}</h2>
+      <h2 class="ns-heading-bloom">{{ cleanT(textKeys.nsarmoireImport) }}</h2>
     </div>
 
     <div

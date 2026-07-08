@@ -34,6 +34,7 @@ interface InsightDisplaySource {
 
 export interface ArmoireReadableItemView {
   key: string
+  itemId: number
   name: string
   wikiItemName?: string
   context: string
@@ -58,6 +59,7 @@ export interface ArmoireReadableItemDyeLineView {
 
 export interface ArmoireReadableItemRelatedView {
   key: string
+  itemId: number
   name: string
   wikiItemName?: string
   iconUrl: string
@@ -235,6 +237,30 @@ export function createArmoireInsightDisplay(
       })
   }
 
+  function getValuableDyeDeferredDetails(
+    itemId: number,
+    valuableDyeItem?: ArmoireDyeRiskItem
+  ): ArmoireReadableItemDetailView[] | undefined {
+    const valuableDyeSlots = valuableDyeItem ? getValuableDyeSlotViews(valuableDyeItem) : []
+
+    if (valuableDyeSlots.length === 0) {
+      return undefined
+    }
+
+    return [
+      {
+        key: `valuable-dye-${itemId}`,
+        title: '',
+        lines: [],
+        dyeLine: {
+          label: t(textKeys.nsarmoireHintDyed),
+          slots: valuableDyeSlots,
+          suffix: t(textKeys.nsarmoireHintValuableDyeDeferredSuffix)
+        }
+      }
+    ]
+  }
+
   function formatItemLocations(itemId: number): string {
     const locations = getItemLocationsByItemId().get(itemId)
 
@@ -340,6 +366,7 @@ export function createArmoireInsightDisplay(
 
     return {
       key: `related-${itemId}`,
+      itemId,
       name,
       wikiItemName: name,
       iconUrl: getItemIconUrl(itemId)
@@ -388,15 +415,21 @@ export function createArmoireInsightDisplay(
     }
   }
 
-  function toTransferableItem(itemId: number): ArmoireReadableItemView {
+  function toTransferableItem(
+    itemId: number,
+    valuableDyeItem?: ArmoireDyeRiskItem
+  ): ArmoireReadableItemView {
     const name = getItemName(itemId)
 
     return {
       key: `cabinet-${itemId}`,
+      itemId,
       name,
       wikiItemName: name,
       context: formatItemContext(itemId),
-      iconUrl: getItemIconUrl(itemId)
+      iconUrl: getItemIconUrl(itemId),
+      tone: valuableDyeItem ? 'muted' : undefined,
+      details: getValuableDyeDeferredDetails(itemId, valuableDyeItem)
     }
   }
 
@@ -416,6 +449,7 @@ export function createArmoireInsightDisplay(
 
     return {
       key: `set-${set.setItemId}`,
+      itemId: set.setItemId,
       name: set.name,
       wikiItemName: set.name,
       context: formatSetContext(set),
@@ -431,31 +465,16 @@ export function createArmoireInsightDisplay(
     valuableDyeItem?: ArmoireDyeRiskItem
   ): ArmoireReadableItemView {
     const name = getItemName(itemId)
-    const valuableDyeSlots = valuableDyeItem ? getValuableDyeSlotViews(valuableDyeItem) : []
-    const details =
-      valuableDyeSlots.length > 0
-        ? [
-            {
-              key: `valuable-dye-${itemId}`,
-              title: '',
-              lines: [],
-              dyeLine: {
-                label: t(textKeys.nsarmoireHintDyed),
-                slots: valuableDyeSlots,
-                suffix: t(textKeys.nsarmoireHintValuableDyeDeferredSuffix)
-              }
-            }
-          ]
-        : undefined
 
     return {
       key: `set-bucket-piece-${itemId}`,
+      itemId,
       name,
       wikiItemName: name,
       context: formatItemContext(itemId),
       iconUrl: getItemIconUrl(itemId),
       tone: valuableDyeItem ? 'muted' : undefined,
-      details
+      details: getValuableDyeDeferredDetails(itemId, valuableDyeItem)
     }
   }
 
@@ -464,6 +483,7 @@ export function createArmoireInsightDisplay(
 
     return {
       key: `tradable-${item.itemId}-${item.container}-${item.containerName ?? ''}-${item.slotIndex ?? index}`,
+      itemId: item.itemId,
       name,
       wikiItemName: name,
       context: [
@@ -535,6 +555,7 @@ export function createArmoireInsightDisplay(
 
     return {
       key: `crafter-gatherer-replica-${entry.item.itemId}-${entry.item.container}-${entry.item.containerName ?? ''}-${entry.item.slotIndex ?? index}`,
+      itemId: entry.item.itemId,
       name,
       wikiItemName: name,
       context: getArmoireContainerLabel(entry.item, t),
@@ -559,6 +580,7 @@ export function createArmoireInsightDisplay(
   function toDuplicateItem(item: ArmoireDuplicateItemView): ArmoireReadableItemView {
     return {
       key: `duplicate-item-${item.itemId}`,
+      itemId: item.itemId,
       name: item.name,
       wikiItemName: item.name,
       context: formatDuplicateItemContext(item),
@@ -583,6 +605,7 @@ export function createArmoireInsightDisplay(
   function toDuplicateModelItem(group: ArmoireDuplicateGroupView): ArmoireReadableItemView {
     return {
       key: `duplicate-model-${group.key}`,
+      itemId: group.itemIds[0] ?? 0,
       name: group.names.join(' / '),
       wikiItemName: group.names[0],
       context: formatDuplicateGroupContext(group),
@@ -598,6 +621,7 @@ export function createArmoireInsightDisplay(
 
     return {
       key: `dye-${item.itemId}-${item.container}-${item.containerName ?? ''}-${index}`,
+      itemId: item.itemId,
       name,
       wikiItemName: name,
       context: formatDyeRiskContext({ ...item, dyeNames, resetReasonLabel }),

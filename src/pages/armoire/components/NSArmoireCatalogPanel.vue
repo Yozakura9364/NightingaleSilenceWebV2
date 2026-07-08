@@ -1,7 +1,7 @@
 <template>
   <section class="nsarmoire-panel">
     <div class="nsarmoire-panel__header">
-      <h2>{{ t(textKeys.nsarmoireCatalogGrid) }}</h2>
+      <h2 class="ns-heading-bloom">{{ t(textKeys.nsarmoireCatalogGrid) }}</h2>
     </div>
 
     <AppStatus
@@ -56,7 +56,10 @@
       />
 
       <template v-else>
-        <NSArmoireCatalogGrid :items="visibleCatalogItems" />
+        <NSArmoireCatalogGrid
+          :items="visibleCatalogItems"
+          @ignore-item="$emit('ignore-item', $event)"
+        />
 
         <div v-if="hasMoreCatalogItems" class="nsarmoire-catalog-panel__more">
           <AppButton :disabled="isCatalogBatchPending" @click="showMoreCatalogItems">
@@ -89,6 +92,10 @@ const props = defineProps<{
   analysis: ArmoireSnapshotAnalysis | null
   catalog: ArmoireCatalog
   snapshot: ArmoireSnapshot | null
+}>()
+
+defineEmits<{
+  'ignore-item': [itemId: number]
 }>()
 
 const { t } = useLocale()
