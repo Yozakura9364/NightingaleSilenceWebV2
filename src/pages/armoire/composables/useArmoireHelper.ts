@@ -23,7 +23,7 @@ type ArmoireHelperApiModule = typeof import('@/pages/armoire/services/nsarmoireH
 const NSARMOIRE_HELPER_DISPLAY_URL = 'http://127.0.0.1:8015'
 const PROBE_VISIBLE_INTERVAL_MS = 2000
 const PROBE_HIDDEN_INTERVAL_MS = 10000
-const AUTO_REFRESH_AFTER_RETAINER_CACHE_MS = 1400
+const AUTO_REFRESH_AFTER_PROBE_MS = 1400
 const BUTLER_LAUNCH_RETRY_DELAYS_MS = [700, 1200, 1800, 2500]
 let helperApiPromise: Promise<ArmoireHelperApiModule> | null = null
 
@@ -79,7 +79,6 @@ export function useArmoireHelper(
   let autoRefreshTimer = 0
   let probeBusy = false
   let autoRefreshBusy = false
-  let lastRetainerCacheSignature = ''
   const handleVisibilityChange = () => {
     if (health.value && probeTimer !== 0) {
       stopProbePolling()
@@ -260,7 +259,6 @@ export function useArmoireHelper(
       const helperApi = await loadHelperApi()
       health.value = await helperApi.selectArmoireHelperProcess(pid)
       probe.value = null
-      lastRetainerCacheSignature = ''
       processPickerOpen.value = false
       await loadFromHelper(false)
     } catch (error) {
@@ -284,7 +282,6 @@ export function useArmoireHelper(
       const helperApi = await loadHelperApi()
       health.value = await helperApi.clearArmoireHelperRetainerCache()
       probe.value = null
-      lastRetainerCacheSignature = ''
       await refreshSnapshotSilently({ ignoreBusy: true })
       startProbePolling()
     } catch (error) {
@@ -404,29 +401,15 @@ export function useArmoireHelper(
     try {
       const helperApi = await loadHelperApi()
       const nextProbe = await helperApi.fetchArmoireHelperProbe()
-      const nextSignature = buildRetainerCacheSignature(nextProbe)
-      const changed =
-        lastRetainerCacheSignature !== '' && nextSignature !== lastRetainerCacheSignature
 
       probe.value = nextProbe
-      lastRetainerCacheSignature = nextSignature
-
-      if (changed) {
-        scheduleAutoRefresh()
-      }
+      scheduleAutoRefresh()
     } catch (error) {
       await mapHelperError(error)
     } finally {
       probeBusy = false
       scheduleProbePolling()
     }
-  }
-
-  function buildRetainerCacheSignature(currentProbe: ArmoireHelperProbe): string {
-    return currentProbe.retainerCaches
-      .map((entry) => `${entry.retainerId}:${entry.itemCount}`)
-      .sort()
-      .join('|')
   }
 
   function scheduleAutoRefresh() {
@@ -439,7 +422,7 @@ export function useArmoireHelper(
     autoRefreshTimer = window.setTimeout(() => {
       autoRefreshTimer = 0
       void refreshSnapshotSilently()
-    }, AUTO_REFRESH_AFTER_RETAINER_CACHE_MS)
+    }, AUTO_REFRESH_AFTER_PROBE_MS)
   }
 
   function cancelAutoRefresh() {

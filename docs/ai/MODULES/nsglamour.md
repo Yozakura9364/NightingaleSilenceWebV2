@@ -23,7 +23,7 @@
 - 文案生成已接入旧 `/equipinfo` 可见的格式一、格式二、格式三、格式四和第一版自定义模板输入；V2 不显示旧项目 token 参考里涉及模型码、候选数量、原始 JSON 等内部字段。
 - `/template` 迁移已开始进入数据层：`src/lib/glamour/templates/` 已建立模板定义、旧设置键 `nsglamour.templateWorkspaceSettings` 的归一模型，以及 `GlamourDraft` 到模板装备行的适配层。该层只承接旧模板 ID、作者/语言/图片槽/装备格式和 template/mobile 装备顺序，不迁入模板图片、字体或精确 Canvas 渲染 UI。
 - `/template` 已建立 Vue 无关的渲染输入层：`createGlamourTemplateRenderData` 统一输出当前模板、编辑语言、输出语言顺序、主语言装备行、多语言装备行、标题/副标题/角色名、输出画布尺寸、图片槽和旧 Canvas 设置字段；后续 Canvas renderer 必须消费这一层，不要在 Vue 组件里重新拼 renderer 输入。
-- `/template` 已把 Canvas 绘制迁入 `src/lib/glamour/templates/renderer.ts`：Vue 组件只负责拿到 canvas context、图片状态和下载动作；当前已接入 Eorzea Magazine、horizontal、EC 风格、Risingstones 和 Silence Fashion 的 V2 renderer dispatcher，其他模板仍走轻量 fallback。后续旧模板背景、坐标、字体、图标和多语言绘制都应继续落在 renderer 层，不回填到 `NSGlamourTemplateWorkspace.vue`。
+- `/template` 已把 Canvas 绘制迁入 `src/lib/glamour/templates/renderer.ts`：Vue 组件只负责拿到 canvas context、图片状态和下载动作；当前已接入 Eorzea Magazine、horizontal、Double Pic、EC 风格、Risingstones 和 Silence Fashion 的 V2 renderer dispatcher，并复用旧项目图片 cover 的裁剪源矩形与多步高质量重采样逻辑。EC renderer 已按旧项目当前常量保留标题/副标题/版权/角标几何、标题 tracking、图标占位底色和装备名稀有度颜色；Risingstones renderer 已按旧项目保留装备行 `rowHeight` 压缩口径、扩展到头像右侧的装备名宽度和版权行常量。后续旧模板背景、坐标、字体、图标和多语言绘制都应继续落在 renderer 层，不回填到 `NSGlamourTemplateWorkspace.vue`。
 - `/template` 已建立 renderer 资源加载边界 `src/lib/glamour/templates/assets.ts`：资源 ID 来自 renderer profile，默认 URL 映射为空，不发起额外请求、不复制旧资源、不进入构建产物；后续确认资产公开/提交策略后，只在该层补按需 URL 映射和懒加载。
 - `/template` 已建立旧 renderer profile 的 V2 元数据层：`src/lib/glamour/templates/renderProfiles.ts` 对齐旧 `static/template-renderers.js` 的默认标题、旧标题、强制图标和按模板需要的资产标识。该层只声明后续 renderer 需要什么，不加载模板图片、不迁入字体、不接入 Cropper，也不代表 Canvas 导出已完成。
 - `/template` 已建立图片槽兼容 helper：`src/lib/glamour/templates/imageSlots.ts` 保留旧同标签页图片备份键 `nsglamour.templateImageSessionBackup.v2/v1`、旧 IndexedDB 图片库 `nsglamour-template-images-v2/images`，并保留石之家头像槽与 Silence Fashion 头像槽互相复用的旧别名规则。该层承接隐藏图片备份/恢复契约；额外的图片取用体验只允许走用户已确认的“最近图片”轻量弹层。
@@ -40,6 +40,7 @@
 - `/template` 已接入旧页面多语言模板的语言切换：无固定语言组合的多语言模板可通过语言按钮切换/选择排版语言；V2 不显示额外的上移、下移或删除语言按钮。V2 使用共享 `GlamourDraft.locale` 承接旧项目独立的当前编辑语言，`templateSettings.locales` 只表达模板输出语言顺序，避免点击语言时误改输出顺序；装备编辑行、染剂选择和装备搜索也必须跟随当前编辑语言。
 - `/template` 已接入旧页面已有的模板作者链接弹层：点击作者名展示模板定义里的作者社交链接，外点、Esc 或打开模板选择时关闭；当前用文本链接承接，不引入额外图标资产。
 - `/template` 已接入旧页面的导入来源自动回填：网页链接导入会保留 `source_title/source_name/author` 等来源元数据，模板页按旧规则把导入标题写入“标题文字”，并在支持的模板上把角色名/服务器写入“名字与服务器”或角色名字段；链接导入的标题会按旧项目写入所有模板设置，切换模板后仍保留该导入标题。只覆盖默认值、旧自动值或模板页本次链接导入的强制回填，不暴露来源元数据为额外 UI。template 页从“最近载入”恢复时对齐旧项目，按“手动编辑”草稿处理，不把历史记录的来源标题/作者再次当作网页导入回填。
+- `/template` 标题自动回填只允许来自模板页网页链接导入的 `template-link` 模式；本地 `.chara` 文件名、隐式本地配置、文字导入和手动编辑来源名不能自动写入“标题文字”。如果旧错误逻辑已经把本地文件名写成自动标题，后续非网页导入会把该自动标题恢复为当前模板默认标题，但不清除用户手动编辑过的其他标题。
 - `/template` 网页链接导入已对齐旧页面语言选择规则：提交时记录当前模板按全站 UI 语言推导的首选语言，接口返回后仅在 payload 支持该语言时采用，否则回退到 payload 默认语言；随后模板输出语言收敛到这次编辑语言。
 - `/template` 已接入旧页面装备编辑行的空槽搜索、搜索结果选择、删除当前装备和行内染剂选择：编辑区按 template/mobile 固定顺序渲染全部 14 个槽位，空槽显示旧文案“搜索装备名”，选择、删除或改染剂都写回共享 `GlamourDraft` 并同步预览，不显示候选数量、模型码或 `.chara` 导入提示。
 - `/template` 已把左侧临时 DOM 预览替换为旧页面同形态的 `canvas + 上传图片覆盖层 + 保存图片` 入口：画布尺寸、图片槽、上传区域和装备行都来自 `createGlamourTemplateRenderData`；当前只做轻量 canvas 绘制，图片输入支持文件上传/拖放以及旧项目已有的 `text/uri-list` / `text/plain` 图片 URL 拖入，不复制旧模板背景、字体或 Cropper。
@@ -70,7 +71,7 @@
 当前未接入：
 
 - 旧 localStorage 迁移提示。
-- `/template` 仍未完成全部旧 Canvas 精确渲染器和模板资源懒加载；当前 Eorzea Magazine / horizontal / EC / Risingstones / Silence Fashion 已有无额外模板资源请求的 Canvas renderer，Eorzea Magazine、horizontal 与 Silence Fashion 背景仍等待资产策略确认，EC / Risingstones 按需通过现有 `/api/glamour/icon/<id>` 读取装备图标，图标加载失败时回退 renderer 内部占位；其他模板仍走 fallback。
+- `/template` 仍未完成全部旧 Canvas 精确渲染器和模板资源懒加载；当前 Eorzea Magazine / horizontal / Double Pic / EC / Risingstones / Silence Fashion 已有无额外模板资源请求的 Canvas renderer，Eorzea Magazine、horizontal 与 Silence Fashion 背景仍等待资产策略确认，Double Pic 左图 mask 资源边界已接入但 URL 映射仍为空，EC / Risingstones 按需通过现有 `/api/glamour/icon/<id>` 读取装备图标，图标加载失败时回退 renderer 内部占位。
 - `/template` 模板图片、字体和第三方裁剪依赖尚未进入 V2 构建产物；后续必须先确认资产提交/公开策略和按需加载边界。当前 V2 裁剪层为原生轻量实现，不代表旧 Cropper.js 已进入构建产物。
 
 已确认图片暂存约束：
@@ -114,7 +115,7 @@ npm run check:nsglamour-contract
 NSGLAMOUR_CONTRACT_BASE_URL=http://127.0.0.1:5173/api/glamour npm run check:nsglamour-contract
 ```
 
-该脚本同时做一项本地模板数据层检查：确认 V2 模板定义覆盖旧 `/template` 的六个模板 ID，保留旧模板设置键，并固定模板装备顺序为：主手、副手、头部、身体、手臂、腿部、脚部、耳部、颈部、腕部、左指、右指、面部配饰、时尚配饰。此检查也静态保护当前 `canvas + 上传图片覆盖层 + 裁剪弹层 + 保存图片` 链路，以及 Eorzea Magazine / EC / Risingstones / Silence Fashion renderer dispatcher 边界；但不代表全部旧 Canvas 精确渲染器已迁移完成。
+该脚本同时做一项本地模板数据层检查：确认 V2 模板定义覆盖旧 `/template` 的六个模板 ID，保留旧模板设置键，并固定模板装备顺序为：主手、副手、头部、身体、手臂、腿部、脚部、耳部、颈部、腕部、左指、右指、面部配饰、时尚配饰。此检查也静态保护当前 `canvas + 上传图片覆盖层 + 裁剪弹层 + 保存图片` 链路，以及 Eorzea Magazine / Double Pic / EC / Risingstones / Silence Fashion renderer dispatcher 边界；但不代表全部旧 Canvas 精确渲染器已迁移完成。
 
 当前本机已有用户提供的私有本地配置 fixture，位于 ignored 的 `tests/fixtures/nsglamour/chara/`，只用于本机回归，不公开、不提交。
 

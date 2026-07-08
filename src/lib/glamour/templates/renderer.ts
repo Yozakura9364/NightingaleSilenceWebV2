@@ -25,33 +25,40 @@ const EC_TEMPLATE_SOURCE_SIZE = 3840
 const EC_TEMPLATE_COLORS = {
   background: '#ffffff',
   accent: '#2f343b',
-  line: '#2f343b',
   text: '#2f343b',
-  textDim: '#596069',
-  placeholder: '#d8d8d8',
+  textDim: '#b8b1ac',
+  line: '#303030',
+  placeholder: '#ffffff',
   row: '#f0f1f3',
   rowDeep: '#dfe2e6'
 }
-const EC_TEMPLATE_TITLE = { x: 1990, y: 247, width: 1680, height: 137, maxSize: 122, minSize: 54, tracking: 40 }
-const EC_TEMPLATE_SUBTITLE = { x: 2079, y: 420, width: 1490, height: 70, maxSize: 50, minSize: 28 }
+const EC_ITEM_RARITY_COLORS: Record<number, string> = {
+  1: '#e8e8e8',
+  2: '#c4ffc8',
+  3: '#5c93ff',
+  4: '#b78aff',
+  7: '#e08abd'
+}
+const EC_TEMPLATE_TITLE = { x: 1010, y: 298, width: 1830, height: 185, maxSize: 178, minSize: 86, tracking: -20 }
+const EC_TEMPLATE_SUBTITLE = { x: 1413, y: 522, width: 1028, height: 77, maxSize: 66, minSize: 34 }
 const EC_TEMPLATE_EQUIPMENT_HEADER = {
-  label: { x: 2017, y: 622, width: 520, height: 60 },
-  line: { x: 2017, y: 704, width: 1625, height: 7 },
-  labelSize: 52,
+  label: { x: 2022, y: 696, width: 320, height: 50 },
+  line: { x: 2264, y: 714, width: 1364, height: 9 },
+  labelSize: 44,
   labelLineGap: 34
 }
 const EC_TEMPLATE_COPYRIGHT = {
-  x: 2004,
-  y: 3628,
-  width: 1640,
-  height: 108,
-  titleSize: 27,
-  textSize: 22,
-  lineY: [28, 70]
+  x: 1110,
+  y: 3584,
+  width: 1606,
+  height: 93,
+  titleSize: 40,
+  textSize: 36,
+  lineY: [23, 68]
 }
 const EC_TEMPLATE_CORNER_MARKS = [
-  { x: 176, y: 126, size: 74 },
-  { x: 3590, y: 3618, size: 74 }
+  { x: 99, y: 45, size: 104 },
+  { x: 3639, y: 3692, size: 104 }
 ]
 const EORZEA_TEMPLATE = {
   sourceSize: 3840,
@@ -112,6 +119,35 @@ const EORZEA_TEMPLATE = {
     }
   }
 }
+const DOUBLE_PIC_TEMPLATE = {
+  sourceWidth: 2968,
+  sourceHeight: 3958,
+  background: '#fefefe',
+  frameBlack: '#000000',
+  frameWhite: '#f8f8f8',
+  fontWeight: 900,
+  fontFamily: '"Source Han Serif CN", "Noto Serif CJK SC", "Microsoft YaHei", serif',
+  equipment: {
+    x: 1469,
+    y: 3115,
+    width: 1098,
+    height: 676,
+    maxFontSize: 62,
+    lineHeightRatio: 1.54,
+    underlineOffsetRatio: 1.13,
+    underlineWidth: 4,
+    outerGlowColor: '#000000',
+    outerGlowOpacity: 0.62,
+    outerGlowSpread: 0.19,
+    outerGlowSize: 24
+  },
+  copyright: {
+    text: '©SQUARE ENIX',
+    rect: { x: 1090, y: 3868, width: 758, height: 72 },
+    maxFontSize: 48,
+    minFontSize: 36
+  }
+}
 const EC_TEMPLATE_LAYOUTS = {
   normal: {
     maxRows: 6,
@@ -126,8 +162,10 @@ const EC_TEMPLATE_LAYOUTS = {
     iconRadius: 16,
     nameX: 2288,
     nameWidth: 1320,
+    nameHeight: 68,
     nameSize: 64,
     nameMinSize: 48,
+    nameWeight: 700,
     dyeYOffset: 127,
     dyeHeight: 88,
     dyeRadius: 38,
@@ -135,6 +173,7 @@ const EC_TEMPLATE_LAYOUTS = {
     dyeDotSize: 39,
     dyeDotXOffset: 36,
     dyeTextXOffset: 95,
+    dyeTextYOffset: 21,
     dyeGap: 34,
     dyes: [
       { x: 2288, minWidth: 256 },
@@ -154,8 +193,10 @@ const EC_TEMPLATE_LAYOUTS = {
     iconRadius: 14,
     nameX: 2255,
     nameWidth: 1360,
+    nameHeight: 60,
     nameSize: 56,
     nameMinSize: 42,
+    nameWeight: 700,
     dyeYOffset: 112,
     dyeHeight: 77,
     dyeRadius: 33,
@@ -163,6 +204,7 @@ const EC_TEMPLATE_LAYOUTS = {
     dyeDotSize: 34,
     dyeDotXOffset: 32,
     dyeTextXOffset: 84,
+    dyeTextYOffset: 18,
     dyeGap: 34,
     dyes: [
       { x: 2255, minWidth: 256 },
@@ -182,8 +224,10 @@ const EC_TEMPLATE_LAYOUTS = {
     iconRadius: 13,
     nameX: 2219,
     nameWidth: 1390,
+    nameHeight: 56,
     nameSize: 49,
     nameMinSize: 36,
+    nameWeight: 700,
     dyeYOffset: 96,
     dyeHeight: 67,
     dyeRadius: 29,
@@ -191,6 +235,7 @@ const EC_TEMPLATE_LAYOUTS = {
     dyeDotSize: 30,
     dyeDotXOffset: 28,
     dyeTextXOffset: 72,
+    dyeTextYOffset: 16,
     dyeGap: 34,
     dyes: [
       { x: 2219, minWidth: 256 },
@@ -218,6 +263,7 @@ const RISINGSTONES_TEMPLATE = {
     rowBottom: 3535,
     rowX: 2113,
     rowWidth: 1568,
+    rowHeight: 247,
     iconX: 2132,
     iconYOffset: 23,
     iconSize: 200,
@@ -353,6 +399,8 @@ type HorizontalEquipmentRow = {
   dyeText: string
 }
 
+const glamourTemplateLuminanceMaskCache = new Map<string, HTMLCanvasElement>()
+
 function templateUnit(renderData: GlamourTemplateRenderData, value: number): number {
   return (value / EC_TEMPLATE_SOURCE_SIZE) * renderData.canvas.width
 }
@@ -383,6 +431,23 @@ function horizontalRect(renderData: GlamourTemplateRenderData, rect: { x: number
   }
 }
 
+function doublePicUnit(renderData: GlamourTemplateRenderData, value: number): number {
+  return (value / DOUBLE_PIC_TEMPLATE.sourceWidth) * renderData.canvas.width
+}
+
+function doublePicUnitY(renderData: GlamourTemplateRenderData, value: number): number {
+  return (value / DOUBLE_PIC_TEMPLATE.sourceHeight) * renderData.canvas.height
+}
+
+function doublePicRect(renderData: GlamourTemplateRenderData, rect: { x: number; y: number; width: number; height: number }) {
+  return {
+    x: doublePicUnit(renderData, rect.x),
+    y: doublePicUnitY(renderData, rect.y),
+    width: doublePicUnit(renderData, rect.width),
+    height: doublePicUnitY(renderData, rect.height)
+  }
+}
+
 function makeRoundedRectPath(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) {
   const r = Math.max(0, Math.min(radius, width / 2, height / 2))
   ctx.beginPath()
@@ -401,6 +466,24 @@ function makeRoundedRectPath(ctx: CanvasRenderingContext2D, x: number, y: number
 function fillRoundedRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) {
   makeRoundedRectPath(ctx, x, y, width, height, radius)
   ctx.fill()
+}
+
+function colorWithAlpha(color: string, alpha: number): string {
+  const normalizedAlpha = Math.max(0, Math.min(1, Number.isFinite(alpha) ? alpha : 1))
+  const hex = String(color || '').trim().match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i)
+
+  if (!hex) {
+    return color || `rgba(0, 0, 0, ${normalizedAlpha})`
+  }
+
+  const value = hex[1].length === 3
+    ? hex[1].split('').map((char) => `${char}${char}`).join('')
+    : hex[1]
+  const red = Number.parseInt(value.slice(0, 2), 16)
+  const green = Number.parseInt(value.slice(2, 4), 16)
+  const blue = Number.parseInt(value.slice(4, 6), 16)
+
+  return `rgba(${red}, ${green}, ${blue}, ${normalizedAlpha})`
 }
 
 function normalizeHexColor(value: unknown, fallback: string): string {
@@ -511,11 +594,11 @@ function fitCanvasFont(
   return size
 }
 
-function drawCenteredFittedText(
+function drawEcCenteredFittedText(
   ctx: CanvasRenderingContext2D,
   renderData: GlamourTemplateRenderData,
   text: string,
-  area: { x: number; y: number; width: number; height: number; maxSize: number; minSize: number },
+  area: { x: number; y: number; width: number; height: number; maxSize: number; minSize: number; tracking?: number },
   options: { color: string; weight?: number; family?: string } = { color: EC_TEMPLATE_COLORS.text }
 ) {
   const box = templateRect(renderData, area)
@@ -525,17 +608,37 @@ function drawCenteredFittedText(
     return
   }
 
-  fitCanvasFont(ctx, value, {
-    maxWidth: box.width,
-    maxSize: templateUnit(renderData, area.maxSize),
-    minSize: templateUnit(renderData, area.minSize),
-    weight: options.weight,
-    family: options.family
-  })
+  const maxSize = templateUnit(renderData, area.maxSize)
+  const minSize = templateUnit(renderData, area.minSize)
+  const tracking = Number(area.tracking || 0)
+  const weight = options.weight || 400
+  const family = options.family || '"Source Sans 3", "Microsoft YaHei", sans-serif'
+  let size = maxSize
+  let trackingSize = 0
+
+  while (size >= minSize) {
+    ctx.font = `${weight} ${size}px ${family}`
+    trackingSize = size * (tracking / 1000)
+
+    if (measureTextWithTracking(ctx, value, trackingSize) <= box.width) {
+      break
+    }
+
+    size -= 1
+  }
+
+  const measuredWidth = measureTextWithTracking(ctx, value, trackingSize)
   ctx.fillStyle = options.color
-  ctx.textAlign = 'center'
+  ctx.textAlign = 'left'
   ctx.textBaseline = 'middle'
-  ctx.fillText(value, box.x + box.width / 2, box.y + box.height / 2, box.width)
+  drawTextWithTracking(
+    ctx,
+    value,
+    box.x + Math.max(0, (box.width - measuredWidth) / 2),
+    box.y + box.height / 2,
+    trackingSize,
+    { maxWidth: box.width }
+  )
 }
 
 function drawEcCornerMark(
@@ -612,12 +715,12 @@ function drawEcMainImage(
 }
 
 function drawEcHeader(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData) {
-  drawCenteredFittedText(ctx, renderData, renderData.text.title || renderData.profile.defaultTopText, EC_TEMPLATE_TITLE, {
+  drawEcCenteredFittedText(ctx, renderData, renderData.text.title || renderData.profile.defaultTopText, EC_TEMPLATE_TITLE, {
     color: EC_TEMPLATE_COLORS.accent,
     weight: 400,
     family: '"Josefin Sans", "Microsoft YaHei", sans-serif'
   })
-  drawCenteredFittedText(ctx, renderData, renderData.text.subtitle, EC_TEMPLATE_SUBTITLE, {
+  drawEcCenteredFittedText(ctx, renderData, renderData.text.subtitle, EC_TEMPLATE_SUBTITLE, {
     color: EC_TEMPLATE_COLORS.text,
     weight: 400,
     family: '"Source Sans 3", "Microsoft YaHei", sans-serif'
@@ -653,14 +756,22 @@ function drawEcIcon(
   ctx.save()
   makeRoundedRectPath(ctx, iconX, iconY, iconSize, iconSize, iconRadius)
   ctx.clip()
-  ctx.fillStyle = '#343434'
+  ctx.fillStyle = '#1f1f1f'
   ctx.fillRect(iconX, iconY, iconSize, iconSize)
 
   if (image) {
     drawGlamourTemplateImageCover(ctx, image, iconX, iconY, iconSize, iconSize)
+  } else {
+    ctx.fillStyle = '#343434'
+    ctx.fillRect(iconX, iconY, iconSize, iconSize)
   }
 
   ctx.restore()
+}
+
+function getEcItemNameColor(row: GlamourTemplateRow): string {
+  const rarity = Number(row.item.rarity || 1)
+  return EC_ITEM_RARITY_COLORS[rarity] || EC_ITEM_RARITY_COLORS[1]
 }
 
 function drawEcFittedItemName(
@@ -676,7 +787,7 @@ function drawEcFittedItemName(
     maxWidth,
     maxSize: templateUnit(renderData, layout.nameSize),
     minSize: templateUnit(renderData, layout.nameMinSize),
-    weight: 700,
+    weight: layout.nameWeight,
     family: '"Source Sans 3", "Microsoft YaHei", sans-serif'
   })
   ctx.textAlign = 'left'
@@ -753,7 +864,7 @@ function drawEcEquipment(ctx: CanvasRenderingContext2D, options: GlamourTemplate
     const rowCenterY = rowY + layout.rowHeight / 2
     const dyeCenterY = rowY + layout.dyeYOffset + layout.dyeHeight / 2
     const nameCenterY = templateUnit(renderData, dyes.length ? rowCenterY * 2 - dyeCenterY : rowCenterY)
-    ctx.fillStyle = EC_TEMPLATE_COLORS.text
+    ctx.fillStyle = getEcItemNameColor(row)
     drawEcFittedItemName(ctx, renderData, row.itemName, nameX, nameCenterY, nameWidth, layout)
 
     let dyeRight = 0
@@ -1073,15 +1184,22 @@ function getRisingstonesEquipmentScale(rowCount: number, layout: RisingstonesEqu
     return 1
   }
 
-  const naturalBottom = layout.rowStartY + (rowCount - 1) * layout.rowStep + layout.iconYOffset + layout.iconSize
+  const naturalBottom = layout.rowStartY + (rowCount - 1) * layout.rowStep + layout.rowHeight
 
   if (naturalBottom <= layout.rowBottom) {
     return 1
   }
 
   const availableHeight = Math.max(1, layout.rowBottom - layout.rowStartY)
-  const naturalHeight = (rowCount - 1) * layout.rowStep + layout.iconYOffset + layout.iconSize
+  const naturalHeight = (rowCount - 1) * layout.rowStep + layout.rowHeight
   return Math.max(0.42, Math.min(1, availableHeight / naturalHeight))
+}
+
+function getRisingstonesNameWidth(renderData: GlamourTemplateRenderData, layout: RisingstonesEquipmentLayout): number {
+  const avatarRight = RISINGSTONES_TEMPLATE.avatarRegion.x + RISINGSTONES_TEMPLATE.avatarRegion.width
+  const defaultRight = layout.nameX + layout.nameWidth
+  const nameRight = Math.max(defaultRight, avatarRight)
+  return getRisingstonesScale(renderData, Math.max(0, nameRight - layout.nameX))
 }
 
 function drawRisingstonesImage(
@@ -1323,7 +1441,7 @@ function drawRisingstonesEquipment(ctx: CanvasRenderingContext2D, options: Glamo
       ? rowY + layout.nameYOffset * scale + (layout.nameHeight * scale) / 2
       : iconCenterY
     const nameX = getRisingstonesScale(renderData, layout.nameX)
-    const nameWidth = getRisingstonesScale(renderData, layout.nameWidth)
+    const nameWidth = getRisingstonesNameWidth(renderData, layout)
 
     drawRisingstonesIcon(ctx, renderData, rowY, layout, scale, resolveIcon?.(row.item.icon)?.image || null)
     ctx.fillStyle = RISINGSTONES_TEMPLATE.textColor
@@ -1359,19 +1477,18 @@ function drawRisingstonesEquipment(ctx: CanvasRenderingContext2D, options: Glamo
 
 function drawRisingstonesCopyright(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData) {
   const box = getRisingstonesRect(renderData, RISINGSTONES_TEMPLATE.copyright)
-  const currentYear = new Date().getFullYear()
-  const lines = [
-    RISINGSTONES_TEMPLATE.copyright.lines[0],
-    `© 2010-${currentYear} SQUARE ENIX CO., LTD. All Rights Reserved.`
-  ]
+  const lines = RISINGSTONES_TEMPLATE.copyright.lines
 
   ctx.fillStyle = '#000000'
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = `700 ${getRisingstonesScale(renderData, 34)}px "Noto Sans SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif`
-  ctx.fillText(lines[0], box.x + box.width / 2, box.y + getRisingstonesScale(renderData, 30), box.width)
-  ctx.font = `700 ${getRisingstonesScale(renderData, 32)}px "Noto Sans SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif`
-  ctx.fillText(lines[1], box.x + box.width / 2, box.y + getRisingstonesScale(renderData, 76), box.width)
+  ctx.fillText(lines[0] || '', box.x + box.width / 2, box.y + getRisingstonesScale(renderData, 30), box.width)
+
+  if (lines[1]) {
+    ctx.font = `700 ${getRisingstonesScale(renderData, 32)}px "Noto Sans SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif`
+    ctx.fillText(lines[1], box.x + box.width / 2, box.y + getRisingstonesScale(renderData, 76), box.width)
+  }
 }
 
 function getSilenceFashionScale(renderData: GlamourTemplateRenderData, value: number): number {
@@ -1898,6 +2015,276 @@ function drawHorizontalImageSlots(ctx: CanvasRenderingContext2D, options: Glamou
   }
 }
 
+function getDoublePicFont(size: number): string {
+  return `${DOUBLE_PIC_TEMPLATE.fontWeight} ${size}px ${DOUBLE_PIC_TEMPLATE.fontFamily}`
+}
+
+function getDoublePicEquipmentLines(renderData: GlamourTemplateRenderData): string[] {
+  return renderData.rows
+    .map((row) => {
+      const itemName = String(row.itemName || '').trim()
+
+      if (!itemName) {
+        return ''
+      }
+
+      const dyeText = String(row.dyeText || '').trim()
+      return dyeText ? `${itemName} ${dyeText}` : itemName
+    })
+    .filter(Boolean)
+}
+
+function drawDoublePicEquipmentTextShape(
+  ctx: CanvasRenderingContext2D,
+  lines: string[],
+  layout: {
+    font: string
+    centerX: number
+    startY: number
+    lineHeight: number
+    underlineOffset: number
+    underlineWidth: number
+  },
+  color: string
+) {
+  ctx.save()
+  ctx.font = layout.font
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'top'
+  ctx.lineCap = 'round'
+  ctx.lineWidth = layout.underlineWidth
+  ctx.fillStyle = color
+  ctx.strokeStyle = color
+
+  lines.forEach((line, index) => {
+    const text = String(line || '')
+    const lineY = layout.startY + index * layout.lineHeight
+    const measuredWidth = ctx.measureText(text).width
+    const underlineY = lineY + layout.underlineOffset
+
+    ctx.fillText(text, layout.centerX, lineY)
+    ctx.beginPath()
+    ctx.moveTo(layout.centerX - measuredWidth / 2, underlineY)
+    ctx.lineTo(layout.centerX + measuredWidth / 2, underlineY)
+    ctx.stroke()
+  })
+
+  ctx.restore()
+}
+
+function createDoublePicSpreadMaskCanvas(maskCanvas: HTMLCanvasElement, spreadRadius: number): HTMLCanvasElement {
+  if (spreadRadius <= 0) {
+    return maskCanvas
+  }
+
+  const spreadCanvas = document.createElement('canvas')
+  spreadCanvas.width = maskCanvas.width
+  spreadCanvas.height = maskCanvas.height
+  const spreadCtx = spreadCanvas.getContext('2d')
+
+  if (!spreadCtx) {
+    return maskCanvas
+  }
+
+  const radius = Math.ceil(spreadRadius)
+  const radiusSquared = spreadRadius * spreadRadius
+
+  for (let offsetY = -radius; offsetY <= radius; offsetY += 1) {
+    for (let offsetX = -radius; offsetX <= radius; offsetX += 1) {
+      if (offsetX * offsetX + offsetY * offsetY <= radiusSquared) {
+        spreadCtx.drawImage(maskCanvas, offsetX, offsetY)
+      }
+    }
+  }
+
+  return spreadCanvas
+}
+
+function drawDoublePicMaskOuterGlow(
+  ctx: CanvasRenderingContext2D,
+  renderData: GlamourTemplateRenderData,
+  maskCanvas: HTMLCanvasElement,
+  x: number,
+  y: number
+) {
+  const area = DOUBLE_PIC_TEMPLATE.equipment
+  const glowSize = doublePicUnit(renderData, area.outerGlowSize)
+  const opacity = Number(area.outerGlowOpacity)
+
+  if (opacity <= 0 || glowSize <= 0) {
+    return
+  }
+
+  const spreadRadius = Math.max(0, glowSize * Number(area.outerGlowSpread || 0))
+  const spreadCanvas = createDoublePicSpreadMaskCanvas(maskCanvas, spreadRadius)
+  const shadowOffset = Math.ceil(renderData.canvas.width + spreadCanvas.width + glowSize * 4 + 16)
+
+  ctx.save()
+  ctx.shadowColor = colorWithAlpha(area.outerGlowColor, opacity)
+  ctx.shadowBlur = glowSize
+  ctx.shadowOffsetX = shadowOffset
+  ctx.shadowOffsetY = 0
+  ctx.drawImage(spreadCanvas, x - shadowOffset, y)
+  ctx.restore()
+}
+
+function drawDoublePicEquipmentText(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData) {
+  const lines = getDoublePicEquipmentLines(renderData)
+
+  if (!lines.length) {
+    return
+  }
+
+  const area = DOUBLE_PIC_TEMPLATE.equipment
+  const centerX = doublePicUnit(renderData, area.x)
+  const bottomY = doublePicUnitY(renderData, area.y + area.height)
+  const maxSize = doublePicUnit(renderData, area.maxFontSize)
+  const lineHeight = Math.round(maxSize * area.lineHeightRatio)
+  const underlineWidth = Math.max(1, doublePicUnit(renderData, area.underlineWidth))
+  const underlineOffset = Math.round(maxSize * area.underlineOffsetRatio)
+  const maxHeight = doublePicUnitY(renderData, area.height)
+  const maxLines = Math.max(1, Math.floor((maxHeight - underlineOffset - underlineWidth) / lineHeight) + 1)
+  const visibleLines = lines.slice(0, maxLines)
+  const textBlockHeight = lineHeight * Math.max(0, visibleLines.length - 1) + underlineOffset + underlineWidth
+  const layout = {
+    font: getDoublePicFont(maxSize),
+    centerX,
+    startY: bottomY - textBlockHeight,
+    lineHeight,
+    underlineOffset,
+    underlineWidth
+  }
+
+  ctx.save()
+  ctx.font = layout.font
+  const maxTextWidth = visibleLines.reduce((maxWidth, line) => Math.max(maxWidth, ctx.measureText(line).width), 1)
+  const glowSize = doublePicUnit(renderData, area.outerGlowSize)
+  const spreadRadius = Math.max(0, glowSize * Number(area.outerGlowSpread || 0))
+  const padding = Math.ceil(glowSize * 2.5 + spreadRadius * 3 + underlineWidth * 2)
+  const maskCanvas = document.createElement('canvas')
+  maskCanvas.width = Math.max(1, Math.ceil(maxTextWidth + padding * 2))
+  maskCanvas.height = Math.max(1, Math.ceil(textBlockHeight + padding * 2))
+  const maskCtx = maskCanvas.getContext('2d')
+
+  if (maskCtx) {
+    drawDoublePicEquipmentTextShape(
+      maskCtx,
+      visibleLines,
+      {
+        ...layout,
+        centerX: maskCanvas.width / 2,
+        startY: padding
+      },
+      '#000000'
+    )
+    drawDoublePicMaskOuterGlow(ctx, renderData, maskCanvas, centerX - maskCanvas.width / 2, layout.startY - padding)
+  }
+
+  drawDoublePicEquipmentTextShape(ctx, visibleLines, layout, '#ffffff')
+  ctx.restore()
+}
+
+function drawDoublePicCenteredTextShape(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  box: { x: number; y: number; width: number; height: number },
+  font: string,
+  color: string
+) {
+  ctx.save()
+  ctx.font = font
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillStyle = color
+  ctx.fillText(text, box.x + box.width / 2, box.y + box.height / 2, box.width)
+  ctx.restore()
+}
+
+function drawDoublePicCopyright(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData) {
+  if (!getDoublePicEquipmentLines(renderData).length) {
+    return
+  }
+
+  const box = doublePicRect(renderData, DOUBLE_PIC_TEMPLATE.copyright.rect)
+  const maxSize = doublePicUnit(renderData, DOUBLE_PIC_TEMPLATE.copyright.maxFontSize)
+  const minSize = doublePicUnit(renderData, DOUBLE_PIC_TEMPLATE.copyright.minFontSize)
+  const text = DOUBLE_PIC_TEMPLATE.copyright.text
+  let fontSize = maxSize
+
+  while (fontSize > minSize) {
+    ctx.font = getDoublePicFont(fontSize)
+
+    if (ctx.measureText(text).width <= box.width) {
+      break
+    }
+
+    fontSize -= 1
+  }
+
+  const font = getDoublePicFont(Math.max(fontSize, minSize))
+  const area = DOUBLE_PIC_TEMPLATE.equipment
+  const glowSize = doublePicUnit(renderData, area.outerGlowSize)
+  const spreadRadius = Math.max(0, glowSize * Number(area.outerGlowSpread || 0))
+  const padding = Math.ceil(glowSize * 2.5 + spreadRadius * 3)
+  const maskCanvas = document.createElement('canvas')
+  maskCanvas.width = Math.max(1, Math.ceil(box.width + padding * 2))
+  maskCanvas.height = Math.max(1, Math.ceil(box.height + padding * 2))
+  const maskCtx = maskCanvas.getContext('2d')
+
+  if (maskCtx) {
+    drawDoublePicCenteredTextShape(
+      maskCtx,
+      text,
+      { x: padding, y: padding, width: box.width, height: box.height },
+      font,
+      '#000000'
+    )
+    drawDoublePicMaskOuterGlow(ctx, renderData, maskCanvas, box.x - padding, box.y - padding)
+  }
+
+  ctx.save()
+  drawDoublePicCenteredTextShape(ctx, text, box, font, '#ffffff')
+  ctx.restore()
+}
+
+function renderDoublePicTemplateCanvas(ctx: CanvasRenderingContext2D, options: GlamourTemplateCanvasRenderContext) {
+  const { renderData, resolveImage, assets } = options
+  const leftSlot = renderData.canvas.imageSlots.find((slot) => slot.id === 'story-left')
+  const rightSlot = renderData.canvas.imageSlots.find((slot) => slot.id === 'story-right')
+  const leftMask = assets?.['double-pic-left-mask']?.image
+
+  ctx.clearRect(0, 0, renderData.canvas.width, renderData.canvas.height)
+  ctx.fillStyle = DOUBLE_PIC_TEMPLATE.background
+  ctx.fillRect(0, 0, renderData.canvas.width, renderData.canvas.height)
+
+  for (const slot of [rightSlot, leftSlot]) {
+    if (!slot) {
+      continue
+    }
+
+    const image = resolveImage(slot.id)
+
+    if (image) {
+      if (slot.id === 'story-left' && leftMask) {
+        drawGlamourTemplateMaskedImageCover(
+          ctx,
+          image.image,
+          leftMask,
+          slot.region.x,
+          slot.region.y,
+          slot.region.width,
+          slot.region.height
+        )
+      } else {
+        drawGlamourTemplateImageCover(ctx, image.image, slot.region.x, slot.region.y, slot.region.width, slot.region.height)
+      }
+    }
+  }
+
+  drawDoublePicEquipmentText(ctx, renderData)
+  drawDoublePicCopyright(ctx, renderData)
+}
+
 function drawHorizontalTitle(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData, titleY: number) {
   const titleBox = horizontalRect(renderData, {
     ...HORIZONTAL_TEMPLATE.title,
@@ -2078,18 +2465,152 @@ export function drawGlamourTemplateImageCover(
   width: number,
   height: number
 ) {
-  const scale = Math.max(width / image.naturalWidth, height / image.naturalHeight)
-  const drawWidth = image.naturalWidth * scale
-  const drawHeight = image.naturalHeight * scale
-  const drawX = x + (width - drawWidth) / 2
-  const drawY = y + (height - drawHeight) / 2
+  const imageWidth = image.naturalWidth || image.width
+  const imageHeight = image.naturalHeight || image.height
+
+  if (imageWidth <= 0 || imageHeight <= 0 || width <= 0 || height <= 0) {
+    return
+  }
+
+  const scale = Math.max(width / imageWidth, height / imageHeight)
+  const sourceWidth = width / scale
+  const sourceHeight = height / scale
+  const sourceX = Math.max(0, (imageWidth - sourceWidth) / 2)
+  const sourceY = Math.max(0, (imageHeight - sourceHeight) / 2)
 
   ctx.save()
   ctx.beginPath()
   ctx.rect(x, y, width, height)
   ctx.clip()
-  ctx.drawImage(image, drawX, drawY, drawWidth, drawHeight)
+  drawGlamourTemplateImageResampled(ctx, image, sourceX, sourceY, sourceWidth, sourceHeight, x, y, width, height)
   ctx.restore()
+}
+
+function drawGlamourTemplateImageResampled(
+  ctx: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  sx: number,
+  sy: number,
+  sw: number,
+  sh: number,
+  dx: number,
+  dy: number,
+  dw: number,
+  dh: number
+) {
+  if (sw <= 0 || sh <= 0 || dw <= 0 || dh <= 0) {
+    return
+  }
+
+  let source: CanvasImageSource = image
+  let sourceWidth = sw
+  let sourceHeight = sh
+  let sourceX = sx
+  let sourceY = sy
+
+  while (sourceWidth / dw > 2 || sourceHeight / dh > 2) {
+    const nextWidth = Math.max(dw, Math.round(sourceWidth / 2))
+    const nextHeight = Math.max(dh, Math.round(sourceHeight / 2))
+    const canvas = document.createElement('canvas')
+    canvas.width = Math.max(1, Math.round(nextWidth))
+    canvas.height = Math.max(1, Math.round(nextHeight))
+    const nextCtx = canvas.getContext('2d')
+
+    if (!nextCtx) {
+      break
+    }
+
+    nextCtx.imageSmoothingEnabled = true
+    nextCtx.imageSmoothingQuality = 'high'
+    nextCtx.drawImage(source, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height)
+    source = canvas
+    sourceWidth = canvas.width
+    sourceHeight = canvas.height
+    sourceX = 0
+    sourceY = 0
+  }
+
+  ctx.imageSmoothingEnabled = true
+  ctx.imageSmoothingQuality = 'high'
+  ctx.drawImage(source, sourceX, sourceY, sourceWidth, sourceHeight, dx, dy, dw, dh)
+}
+
+function createGlamourTemplateLuminanceMaskCanvas(
+  maskImage: HTMLImageElement,
+  width: number,
+  height: number
+): HTMLCanvasElement | null {
+  const outputWidth = Math.max(1, Math.ceil(width))
+  const outputHeight = Math.max(1, Math.ceil(height))
+  const cacheKey = [maskImage.currentSrc || maskImage.src || '', outputWidth, outputHeight].join('|')
+  const cached = glamourTemplateLuminanceMaskCache.get(cacheKey)
+
+  if (cached) {
+    return cached
+  }
+
+  const output = document.createElement('canvas')
+  output.width = outputWidth
+  output.height = outputHeight
+  const outputCtx = output.getContext('2d', { willReadFrequently: true })
+
+  if (!outputCtx) {
+    return null
+  }
+
+  try {
+    outputCtx.drawImage(maskImage, 0, 0, outputWidth, outputHeight)
+    const imageData = outputCtx.getImageData(0, 0, outputWidth, outputHeight)
+    const pixels = imageData.data
+
+    for (let index = 0; index < pixels.length; index += 4) {
+      const alphaFromLightness = Math.round((pixels[index] + pixels[index + 1] + pixels[index + 2]) / 3)
+      pixels[index] = 255
+      pixels[index + 1] = 255
+      pixels[index + 2] = 255
+      pixels[index + 3] = Math.round((pixels[index + 3] * alphaFromLightness) / 255)
+    }
+
+    outputCtx.putImageData(imageData, 0, 0)
+  } catch {
+    return null
+  }
+
+  glamourTemplateLuminanceMaskCache.set(cacheKey, output)
+  return output
+}
+
+export function drawGlamourTemplateMaskedImageCover(
+  ctx: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  maskImage: HTMLImageElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+) {
+  const offscreen = document.createElement('canvas')
+  offscreen.width = Math.max(1, Math.round(width))
+  offscreen.height = Math.max(1, Math.round(height))
+  const offscreenCtx = offscreen.getContext('2d')
+
+  if (!offscreenCtx) {
+    drawGlamourTemplateImageCover(ctx, image, x, y, width, height)
+    return
+  }
+
+  drawGlamourTemplateImageCover(offscreenCtx, image, 0, 0, offscreen.width, offscreen.height)
+  const luminanceMask = createGlamourTemplateLuminanceMaskCanvas(maskImage, offscreen.width, offscreen.height)
+
+  if (!luminanceMask) {
+    ctx.drawImage(offscreen, x, y, width, height)
+    return
+  }
+
+  offscreenCtx.globalCompositeOperation = 'destination-in'
+  offscreenCtx.drawImage(luminanceMask, 0, 0)
+  offscreenCtx.globalCompositeOperation = 'source-over'
+  ctx.drawImage(offscreen, x, y, width, height)
 }
 
 export function renderGlamourTemplateCanvas(
@@ -2103,6 +2624,11 @@ export function renderGlamourTemplateCanvas(
 
   if (options.renderData.template.renderMode === 'horizontal') {
     renderHorizontalTemplateCanvas(ctx, options)
+    return
+  }
+
+  if (options.renderData.template.renderMode === 'double-pic') {
+    renderDoublePicTemplateCanvas(ctx, options)
     return
   }
 

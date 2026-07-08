@@ -32,7 +32,7 @@
 - 2026-07-06 生产预览性能 trace 继续确认：空进 `#/ffxiv/armoire` 不请求 `/data/armoire-catalog.json`，无主线程 long task；后置面板、商城 catalog 校验器和 helper API 已改为按需 chunk，空页不再加载 `itemDisplay-*`、`storeCatalog-*` 或 `nsarmoireHelperApi-*`。当前首屏最大剩余资源是全站中文像素字体 `fusion-pixel-12px-proportional-zh_hans.otf.woff2`，约 713 KB transfer。
 - 2026-07-06 商城统计卡片已扩展为逐散件展示：每件散件显示已拥有/未拥有；已拥有散件列出 snapshot 中的容器位置和染色，超过 3 条副本时折叠剩余数量。地区商城入口按 `regionalStoreUrls` 拆成简中服、繁中服、GLOBAL 和 한국 按钮；该统计仍只表示当前角色 snapshot 中是否出现散件，不等同商城账号购买记录。
 - 2026-07-06 本地 helper 已将背包/兵装库/鞍囊/雇员物品实例的 `spiritbond` 透出到 snapshot。该字段用于验证可交易装备的实例绑定状态，不能由静态 `Item.csv` 交易字段替代；第一轮验证样本为两件 `经典眼镜`：HQ 已绑定、NQ 未绑定。实际 snapshot 中两条 `itemId=9298` 分别输出 `spiritbond: 1` 和 `spiritbond: 0`。当前分析口径无视 HQ/NQ，只使用绑定关系：`spiritbond === 0` 视为已知未绑定，`spiritbond > 0` 视为已绑定，缺失 `spiritbond` 时不进入未绑定可交易清单。
-- 2026-07-08 helper 前端接入已支持多进程选择、雇员缓存探针轮询、雇员缓存变化后自动刷新 snapshot、手动清空雇员缓存。页面可通过 `/processes` 和 `/process/select` 切换读取目标进程；连接 helper 后可见页面每 2 秒、隐藏页面每 10 秒轮询 `/probe`，发现雇员缓存变化后延迟约 1.4 秒自动刷新。
+- 2026-07-08 helper 前端接入已支持多进程选择、雇员缓存探针轮询、连接后静默刷新 snapshot、手动清空雇员缓存。页面可通过 `/processes` 和 `/process/select` 切换读取目标进程；连接 helper 后可见页面每 2 秒、隐藏页面每 10 秒轮询 `/probe`，每次探针成功后延迟约 1.4 秒自动调用 `/snapshot/refresh`，让背包、雇员缓存和其他已加载容器持续更新。
 - 2026-07-08 衣柜分析新增行动项过滤：`inventoryType=12002` 或雇员容器名以 `市场` 结尾的雇员市场上架物品会从商城拥有状态、可交易物品、重复物品、同模型和生产采集复制品等行动建议中排除，避免把已挂市场的物品当成可整理背包库存。
 - 2026-07-08 `衣柜统计` 已替换原查漏补缺图鉴位置，按容器/背包折叠展示当前 snapshot 物品图标；展开时才渲染对应容器图标。单件物品卡片和商城散件支持右键打开灰机 wiki，移动端用长按。
 - 2026-07-08 商城面板改为“分组图标总览 + 选中详情”结构：先按来源/标签分组，再在组内按 Global 商品编号倒序；未拥有图标灰化。详情卡展示本地化套装名、各地区价格、右上角地区短链、暂无链接状态、填充色块标签和散件位置/染色。商城数据校正页改为每次加载 10 条并支持继续滚动加载，同时可编辑 `regionalPriceLabels`。
@@ -732,7 +732,7 @@ tools/nsarmoire-helper/*（历史内置副本/开发参考）
 8. 收藏柜读取参考 `Seventhxiv/Collections` 的 `UIState.Cabinet` 口径：helper 读取 `UnlockedItems` bitset，并用 catalog `cabinetEntries` 映射到 itemId。
 9. helper 提供 `/catalog`，返回当前用于收藏柜映射的 `nsarmoire.catalog.v1` JSON；前端优先加载站点静态 catalog，静态加载失败时会尝试用 helper catalog 兜底。
 10. `/health` 返回 catalog 定位状态和收藏柜映射条目数，用于不打开 `/probe` 时快速判断 helper 静态目录是否就绪。
-11. 前端连接 helper 后会轮询 `/probe` 观察雇员缓存变化；页面可见时约 2 秒一次，隐藏时约 10 秒一次。检测到缓存签名变化后，自动调用 `/snapshot/refresh` 刷新当前 snapshot。
+11. 前端连接 helper 后会轮询 `/probe`；页面可见时约 2 秒一次，隐藏时约 10 秒一次。每次探针成功后自动调用 `/snapshot/refresh` 刷新当前 snapshot，不再只在雇员缓存签名变化时刷新。
 12. `/retainer-cache/clear` 清空当前 helper 进程内的雇员库存缓存；前端删除缓存后保留当前页面数据，直到用户刷新或重新读取。
 
 仍待完成：

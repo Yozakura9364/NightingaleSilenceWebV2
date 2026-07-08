@@ -132,9 +132,17 @@ const itemsByContainerKey = computed(() => {
 })
 
 watch(
-  () => props.snapshot,
+  () => props.analysis?.distribution.map((entry) => entry.key).join('\u0000') ?? '',
   () => {
-    expandedContainerKeys.value = new Set()
+    if (!props.analysis) {
+      expandedContainerKeys.value = new Set()
+      return
+    }
+
+    const availableKeys = new Set(props.analysis.distribution.map((entry) => entry.key))
+    expandedContainerKeys.value = new Set(
+      [...expandedContainerKeys.value].filter((key) => availableKeys.has(key))
+    )
   }
 )
 

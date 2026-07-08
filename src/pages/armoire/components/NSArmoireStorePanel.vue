@@ -353,6 +353,12 @@ const {
 } = useArmoireItemWikiNavigation()
 const STORE_PIECE_ENTRY_LIMIT = 3
 const STORE_LINK_REGION_ORDER: ArmoireStoreLinkRegion[] = ['cn', 'tw', 'global', 'kr']
+const STORE_PRICE_REGION_LABELS: Record<ArmoireStoreLinkRegion, string> = {
+  cn: '简中服',
+  tw: '繁中服',
+  global: 'Global Server',
+  kr: '한국'
+}
 const SEASONAL_STORE_TAGS: ArmoireStoreTag[] = [
   'moonfireFaire',
   'hatchingTide',
@@ -591,14 +597,7 @@ function getStatusLabel(status: ArmoireStoreOutfitStatus): string {
 }
 
 function getPriceRegionLabel(region: ArmoireStoreLinkRegion): string {
-  const labelKeys: Record<ArmoireStoreLinkRegion, string> = {
-    cn: textKeys.nsarmoireStoreRegionCn,
-    global: textKeys.nsarmoireStoreRegionGlobal,
-    tw: textKeys.nsarmoireStoreRegionTw,
-    kr: textKeys.nsarmoireStoreRegionKr
-  }
-
-  return t(labelKeys[region])
+  return STORE_PRICE_REGION_LABELS[region]
 }
 
 function getOwnedProgressLabel(state: ArmoireStoreOutfitState): string {
