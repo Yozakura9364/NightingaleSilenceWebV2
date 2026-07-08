@@ -617,7 +617,6 @@ export const textKeys = {
   nsglamourTemplateAuthor: 'nsglamour.template.author',
   nsglamourTemplateChange: 'nsglamour.template.change',
   nsglamourTemplateSelectorTitle: 'nsglamour.template.selector.title',
-  nsglamourTemplateSelectorHint: 'nsglamour.template.selector.hint',
   nsglamourTemplateSelectorClose: 'nsglamour.template.selector.close',
   nsglamourTemplateSelectorFilter: 'nsglamour.template.selector.filter',
   nsglamourTemplateSelectorList: 'nsglamour.template.selector.list',

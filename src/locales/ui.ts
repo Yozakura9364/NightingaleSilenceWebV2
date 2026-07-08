@@ -3075,12 +3075,6 @@ export const uiMessages: UiMessageMap = {
     ja: 'テンプレート選択',
     ko: '템플릿 선택'
   }),
-  'nsglamour.template.selector.hint': msg({
-    zh: '按可生成语言筛选模板。',
-    en: 'Filter templates by available output language.',
-    ja: '生成可能な言語でテンプレートを絞り込みます。',
-    ko: '생성 가능한 언어로 템플릿을 필터링합니다.'
-  }),
   'nsglamour.template.selector.close': msg({
     zh: '关闭',
     en: 'Close',
