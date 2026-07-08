@@ -1,7 +1,7 @@
 <template>
   <section class="nsglamour-copy ns-panel">
     <header class="nsglamour-panel-header">
-      <h2>{{ t(textKeys.nsglamourCopyPanel) }}</h2>
+      <h2 class="ns-heading-bloom">{{ t(textKeys.nsglamourCopyPanel) }}</h2>
       <AppButton size="compact" :disabled="disabled || !copyText" @click="copyOutput">
         {{ t(textKeys.nsglamourCopyAction) }}
       </AppButton>

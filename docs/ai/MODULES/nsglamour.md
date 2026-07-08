@@ -24,7 +24,17 @@
 - `/template` 迁移已开始进入数据层：`src/lib/glamour/templates/` 已建立模板定义、旧设置键 `nsglamour.templateWorkspaceSettings` 的归一模型，以及 `GlamourDraft` 到模板装备行的适配层。该层只承接旧模板 ID、作者/语言/图片槽/装备格式和 template/mobile 装备顺序，不迁入模板图片、字体或精确 Canvas 渲染 UI。
 - `/template` 已建立 Vue 无关的渲染输入层：`createGlamourTemplateRenderData` 统一输出当前模板、编辑语言、输出语言顺序、主语言装备行、多语言装备行、标题/副标题/角色名、输出画布尺寸、图片槽和旧 Canvas 设置字段；后续 Canvas renderer 必须消费这一层，不要在 Vue 组件里重新拼 renderer 输入。
 - `/template` 已把 Canvas 绘制迁入 `src/lib/glamour/templates/renderer.ts`：Vue 组件只负责拿到 canvas context、图片状态和下载动作；当前已接入 Eorzea Magazine、horizontal、Double Pic、EC 风格、Risingstones 和 Silence Fashion 的 V2 renderer dispatcher，并复用旧项目图片 cover 的裁剪源矩形与多步高质量重采样逻辑。EC renderer 已按旧项目当前常量保留标题/副标题/版权/角标几何、标题 tracking、图标占位底色和装备名稀有度颜色；Risingstones renderer 已按旧项目保留装备行 `rowHeight` 压缩口径、扩展到头像右侧的装备名宽度和版权行常量。后续旧模板背景、坐标、字体、图标和多语言绘制都应继续落在 renderer 层，不回填到 `NSGlamourTemplateWorkspace.vue`。
-- `/template` 已建立 renderer 资源加载边界 `src/lib/glamour/templates/assets.ts`：资源 ID 来自 renderer profile，默认 URL 映射为空，不发起额外请求、不复制旧资源、不进入构建产物；后续确认资产公开/提交策略后，只在该层补按需 URL 映射和懒加载。
+- `/template` 的 Risingstones Canvas renderer 已对齐旧项目装备名基线处理：复用 `drawEcFittedItemName` 的 `inkCenter` 分支，按 `actualBoundingBoxAscent/Descent` 计算字形实际高度居中，避免中文装备名在图标旁产生竖向偏差。
+- `/template` 的 Risingstones Canvas renderer 装备名必须沿用旧项目 `nameWeight: 400` 和 Noto/HarmonyOS/Source Han Sans 字体链，不要套 EC 模板的粗体装备名规则。
+- `/template` 的 Risingstones Canvas renderer 必须保留旧项目底部两行版权：`ff14risingstones - 石之家 X 光之收藏家` 和动态年份的 `SQUARE ENIX` 版权行；不要只保留第一行。
+- `/template` 的 Canvas 装备图标加载只服务实际绘制图标的 EC / Risingstones renderer；Double Pic、Eorzea Magazine、horizontal 等不在 Canvas 绘制装备图标的模板不应预加载 `/api/glamour/icon/*`。右侧装备编辑器的可见装备图标属于旧界面内容，仍按行内 `<img>` 自然加载。
+- `/template` 的 EC Canvas renderer 已保留旧项目 Glasses / 面部配饰特殊信息：后端 payload 的 `ec_variant_label` / `ec_variant_kind` 只透传到模板数据层，并在 EC 导出图的 Glasses 行按旧项目绘制灰色信息 chip；该字段不进入装备编辑器额外 UI。
+- `/template` 的 EC Canvas renderer 已对齐旧项目“名字与服务器”副标题绘制：`GlamourTemplateRenderData` 保留拆分后的 `subtitleParts`，EC 导出时 `left / symbol / right` 三段分别测量，符号段使用 `NS Cambria` / Cambria 字体；无法拆分时才回退整行居中。
+- `/template` 的 EC Canvas renderer 必须沿用旧项目深色 EC 配色：背景 `#202020`、行底 `#282828`、染剂底 `#242424`、强调红 `#fb4b4e`、正文 `#c7c1bd`；该配色属于模板画布契约，不跟随 V2 工作台主题变成白底灰系。
+- `/template` 的 Eorzea Magazine Canvas renderer 染剂标签后缀必须按旧项目 `formatFigmaDyeLabel` 规则处理：英文不追加后缀，繁中把简体 `染剂` 后缀替换为 `染劑`，其他中文路径按 `染剂` 补齐；不要因为输入已有简体后缀就在繁中画布原样显示。
+- `/template` 的 Eorzea Magazine、Horizontal、Double Pic、EC、Risingstones 和 Silence Fashion 关键 Canvas 常量已纳入 `npm run check:nsglamour-contract`：包括源尺寸、标题/装备文字区、染剂坐标、图片区、头像区、颜色、字体/字重、版权框和旧项目保持关闭的隐藏 meta / 描边开关；后续视觉微调前必须先确认旧项目或 PSD 依据，不能随手改这些坐标。
+- `/template` 的 Canvas 绘制前必须沿用旧项目字体预加载边界：按模板 ID 和输出语言对 `document.fonts.load(...)` 做一次无 UI 的等待，加载文本来自标题、角色/服务器、装备名和染剂名；不为此新增字体资产或公开未确认资源。
+- `/template` 已建立 renderer 资源加载边界 `src/lib/glamour/templates/assets.ts`：资源 ID 来自 renderer profile，已按用户确认接入旧项目运行时底图/遮罩资源，只包含 Eorzea Magazine、horizontal、Double Pic 左图 mask 和 Silence Fashion 背景；资源位于 `public/data/glamour/templates/`，通过 renderer profile 按需懒加载，不把预览图、PSD/SVG 原稿、用户图片或旧模板目录整包带入构建产物。
 - `/template` 已建立旧 renderer profile 的 V2 元数据层：`src/lib/glamour/templates/renderProfiles.ts` 对齐旧 `static/template-renderers.js` 的默认标题、旧标题、强制图标和按模板需要的资产标识。该层只声明后续 renderer 需要什么，不加载模板图片、不迁入字体、不接入 Cropper，也不代表 Canvas 导出已完成。
 - `/template` 已建立图片槽兼容 helper：`src/lib/glamour/templates/imageSlots.ts` 保留旧同标签页图片备份键 `nsglamour.templateImageSessionBackup.v2/v1`、旧 IndexedDB 图片库 `nsglamour-template-images-v2/images`，并保留石之家头像槽与 Silence Fashion 头像槽互相复用的旧别名规则。该层承接隐藏图片备份/恢复契约；额外的图片取用体验只允许走用户已确认的“最近图片”轻量弹层。
 - V2 已接入旧项目 `/template` ↔ `/equipinfo` 的页面衔接：`#/ffxiv/glamour/template` 与 `#/ffxiv/glamour/equipinfo` 共用同一份 `GlamourDraft`，并使用左右侧翻页按钮互相跳转。
@@ -32,18 +42,29 @@
 - V2 的 equipinfo 和 template 网页链接导入输入按旧项目处理裸域名：提交时自动补 `https://`，不使用浏览器原生 `type=url` 阻断提交；域名和路径合法性仍交给现有导入接口返回错误。
 - `/template` 已接入旧页面已有的“最近载入”入口：使用 clock 图标打开同一套 `nsglamour.recentLoadouts` 列表，支持恢复、删除单条和清空；template 页不显示 equipinfo 里的保存配置按钮。
 - V2 读取 `nsglamour.recentLoadouts` 时按旧项目宽松缓存结构兼容：只要条目包含 `parsed.resolved_equipment` 就保留，缺失旧 `id` 时补稳定的 legacy id；保存新记录仍沿用当前 equipinfo/template 共享结构。
-- `/template` 已把模板切换从临时 select 改回旧页面的“更换模板”弹窗：支持“全部”和语言筛选、点击/键盘选择、Esc/背景/关闭按钮关闭；当前未接入旧模板预览图片资产，只用模板名、作者、尺寸和支持语言承接可选择信息。
-- `/template` 的模板选择卡片保留旧页面的浏览器提示信息：作者/模板摘要与“支持语言”摘要必须来自模板定义和本地化 key，不要改成新增说明文案。
+- `/template` 已把模板切换从临时 select 改回旧页面的“更换模板”弹窗：支持“全部”和语言筛选、点击/键盘选择、Esc/背景/关闭按钮关闭；模板选择卡片已接入旧 `/template-preview/<path>` 对应的六张 `.webp` 预览图，V2 路径为 `public/data/glamour/template-preview/`，不复制旧 `templates/` 原稿目录或未引用的大图。
+- `/template` 的模板选择卡片按旧页面显示预览图、作者和支持语言；作者/模板摘要与“支持语言”摘要保留在浏览器提示信息里，内容必须来自模板定义和本地化 key，不要改成新增说明文案。
+- `/template` 的模板选择弹窗不显示旧页面没有的额外说明文字；可见内容只保留标题、关闭按钮、语言筛选和模板卡片。
 - `/template` 的模板选择弹窗打开时按旧页面行为把焦点落到当前模板卡片；装备数据区的“清空配装”按钮按旧页面常驻可点击，只在导入忙碌时禁用。
 - `/template` 切换模板时已对齐旧项目的语言重置规则：按当前全站 UI 语言优先选择目标模板支持的排版语言，不支持时回到该模板第一语言/默认语言；用户手动点击语言按钮后仍保存到当前模板设置。
 - `/template` 初始化和全站 UI 语言变化时已对齐旧项目的模板语言同步规则：当前模板支持 UI 对应语言时自动切到该模板语言，否则回到该模板第一语言/默认语言；有效的手动模板语言选择不会被默认语言额外补齐。
-- `/template` 已接入旧页面多语言模板的语言切换：无固定语言组合的多语言模板可通过语言按钮切换/选择排版语言；V2 不显示额外的上移、下移或删除语言按钮。V2 使用共享 `GlamourDraft.locale` 承接旧项目独立的当前编辑语言，`templateSettings.locales` 只表达模板输出语言顺序，避免点击语言时误改输出顺序；装备编辑行、染剂选择和装备搜索也必须跟随当前编辑语言。
+- `/template` 已接入旧页面多语言模板的语言切换：无固定语言组合的多语言模板可通过语言按钮切换/选择排版语言；V2 不显示额外的上移、下移或删除语言按钮。语言按钮、模板筛选和模板卡片支持语言标签的显示顺序固定为 `ja → en → fr → de → chs → tc → ko` 的支持子集，组合项如 `en+ja` 跟随首个语言位置后按原定义稳定排序。V2 使用共享 `GlamourDraft.locale` 承接旧项目独立的当前编辑语言，`templateSettings.locales` 只表达模板输出语言顺序，避免点击语言时误改输出顺序；装备编辑行、染剂选择和装备搜索也必须跟随当前编辑语言。
+- `GlamourDraft.locales` 的默认和导入归一顺序固定为 `ja → en → fr → de → zh → tc → ko`，其中 `zh` 在 template 按钮上显示为 `chs`；equipinfo 语言下拉和 template 编辑语言都必须沿用这个顺序。
 - `/template` 已接入旧页面已有的模板作者链接弹层：点击作者名展示模板定义里的作者社交链接，外点、Esc 或打开模板选择时关闭；当前用文本链接承接，不引入额外图标资产。
 - `/template` 已接入旧页面的导入来源自动回填：网页链接导入会保留 `source_title/source_name/author` 等来源元数据，模板页按旧规则把导入标题写入“标题文字”，并在支持的模板上把角色名/服务器写入“名字与服务器”或角色名字段；链接导入的标题会按旧项目写入所有模板设置，切换模板后仍保留该导入标题。只覆盖默认值、旧自动值或模板页本次链接导入的强制回填，不暴露来源元数据为额外 UI。template 页从“最近载入”恢复时对齐旧项目，按“手动编辑”草稿处理，不把历史记录的来源标题/作者再次当作网页导入回填。
 - `/template` 标题自动回填只允许来自模板页网页链接导入的 `template-link` 模式；本地 `.chara` 文件名、隐式本地配置、文字导入和手动编辑来源名不能自动写入“标题文字”。如果旧错误逻辑已经把本地文件名写成自动标题，后续非网页导入会把该自动标题恢复为当前模板默认标题，但不清除用户手动编辑过的其他标题。
 - `/template` 网页链接导入已对齐旧页面语言选择规则：提交时记录当前模板按全站 UI 语言推导的首选语言，接口返回后仅在 payload 支持该语言时采用，否则回退到 payload 默认语言；随后模板输出语言收敛到这次编辑语言。
 - `/template` 已接入旧页面装备编辑行的空槽搜索、搜索结果选择、删除当前装备和行内染剂选择：编辑区按 template/mobile 固定顺序渲染全部 14 个槽位，空槽显示旧文案“搜索装备名”，选择、删除或改染剂都写回共享 `GlamourDraft` 并同步预览，不显示候选数量、模型码或 `.chara` 导入提示。
-- `/template` 已把左侧临时 DOM 预览替换为旧页面同形态的 `canvas + 上传图片覆盖层 + 保存图片` 入口：画布尺寸、图片槽、上传区域和装备行都来自 `createGlamourTemplateRenderData`；当前只做轻量 canvas 绘制，图片输入支持文件上传/拖放以及旧项目已有的 `text/uri-list` / `text/plain` 图片 URL 拖入，不复制旧模板背景、字体或 Cropper。
+- `/template` 已把左侧临时 DOM 预览替换为旧页面同形态的 `canvas + 上传图片覆盖层 + 保存图片` 入口：画布尺寸、图片槽、上传区域和装备行都来自 `createGlamourTemplateRenderData`；当前已按运行时资源边界接入确认过的模板背景/遮罩，图片输入支持文件上传/拖放以及旧项目已有的 `text/uri-list` / `text/plain` 图片 URL 拖入，不复制旧字体或 Cropper。
+- `/template` 的模板图片槽区域、上传区域和头像 drop 区域已纳入 `npm run check:nsglamour-contract`，包括 Eorzea Magazine、Horizontal、Double Pic、EC、Risingstones 和 Silence Fashion 的 `region / uploadRegion / dropRegion`；后续图片适配、撑满画布或裁剪交互调整必须保持这些旧项目坐标不漂移。
+- `/template` 的图片拖放槽位命中必须沿用旧页面规则：优先按 `dropRegion / uploadRegion / region` 命中，从后往前处理重叠区域；拖到画布空白但仍在画布内时，回退到最近的图片槽，而不是丢弃这次拖放。
+- `/template` 必须保留旧页面的文档级图片拖放保护：组件挂载期间在 `window / document / documentElement` capture 阶段拦截图片拖放，画布内交给图片槽处理，画布外只阻止浏览器默认打开文件或图片 URL；该保护不新增可见 UI。
+- `/template` 必须保留旧页面的页面恢复重绘保护：标签页重新显示、浏览器 pageshow 或窗口重新获得焦点时，用 `requestAnimationFrame` 去抖后重新测量预览区并重绘 Canvas，避免浏览器恢复后画布空白或尺寸错位；该保护不新增可见 UI。
+- `/template` 必须保留旧页面的全局弹层收口边界：收到 `nsglamour:header-popover-open` 时关闭模板页自己的最近载入、作者链接、图片上传菜单和染剂选择器，避免多个浮层叠加；该保护不新增可见 UI。
+- `/template` 跨模板继承图片时必须沿用旧项目做法：优先使用上一模板图片的原始 `sourceUrl`，重新按目标模板图片槽尺寸 cover 生成新图片；不要直接复用上一模板已经裁过的 `imageUrl`，否则不同长宽比模板会产生二次裁切。
+- `/template` 的模板装备格式和染剂格式已纳入 `npm run check:nsglamour-contract`：包括每个模板的 `equipmentFormat.source`、最大行数、装备名换行/缩放规则、染剂模式、染剂槽数量、附件染剂排除、空染色显示、后缀剥离和分隔符；后续不要在 Vue 组件里临时覆盖这些旧规则。
+- `/template` 装备行适配必须按旧项目顺序处理：先按模板当前语言组合过滤有可显示装备名的行，再应用 `maxRows`，最后才为具体输出语言生成 `itemName` / `dyeText`；不要在生成完整多语言行之后再截断。
+- `/template` 装备行适配层的染剂名必须保留旧 `getTemplateDyeText` 的后缀行为，不在 rows 层统一剥离“染剂/染劑”；EC / Risingstones 这类 chip 画布标签需要短名时由 renderer 局部处理。
 - `/template` 已接入旧页面图片裁剪确认层的轻量 V2 实现：上传或拖入图片后先打开裁剪弹层，提供旧项目已有的取消、缩放、重置、使用裁剪操作；确认后按当前图片槽输出裁剪后的 PNG data URL，并沿用同标签页备份和 IndexedDB 图片库。该实现不引入旧 Cropper.js vendor，不新增图片管理 UI。
 - `/template` 已接入旧同标签页图片备份、IndexedDB 持久化和切换模板图片边界：上传图片会写入 `nsglamour-template-images-v2/images` 与 `nsglamour.templateImageSessionBackup.v2`，刷新后先按当前模板 ID 从 IndexedDB 恢复，再读同标签页备份；切换模板时先保存当前模板运行时图片状态，再恢复目标模板已有图片，最后只向目标模板空的兼容槽继承上一模板图片，已有图片不被覆盖。石之家头像槽与 Silence Fashion 头像槽按旧别名互相复用。该能力不新增可见 UI，也不把用户图片写入项目文件或构建产物。
 - `/template` 已接入用户确认的“最近图片”轻量弹层：点击上传区域后可选择上传图片或最近图片；最近图片只存最近 5 张上传原图 `Blob` 和缩略图到同一个浏览器 IndexedDB 的 `recentImages` store，每条只显示缩略图、文件名和时间，可清空，不显示路径、不写入项目文件、不进入构建产物。
@@ -54,7 +75,7 @@
 - V2 已兼容旧 `nsglamour.templateWorkspaceSettings` 的早期平铺字段结构：没有新 `templates` 分组时，把旧标题、角色名、副标题、语言和模板局部设置迁入当前模板；已有新结构时不反向覆盖。
 - V2 已兼容旧 `/template` 的副标题设置归一规则：新版本设置里如果只有 `ecSubtitleText` 而没有拆分后的名字、符号和服务器字段，会按旧项目规则拆回三个字段；version<3 的旧副标题仍按已确认规则清空，避免污染新版自动回填。
 - V2 已对齐旧 `nsglamour.templateWorkspaceSettings` 的 version<3 副标题迁移规则：EC / 石之家 / Silence Fashion 等暴露“名字与服务器”的模板会清空旧副标题拆分字段，避免老结构污染新版自动回填。
-- V2 已在模板设置数据层保留旧 Canvas 专用字段，包括 `bottomText`、`aspect`、`padding`、`nameSize`、`dyeSize`、`showIcons`、`textColor`、`panelColor` 和 `storySwatchColors`；当前不新增可见控件，只为后续 Canvas 渲染迁移避免丢旧设置。
+- V2 已在模板设置数据层保留旧 Canvas 专用字段，包括 `bottomText`、`aspect`、`padding`、`nameSize`、`dyeSize`、`showIcons`、`textColor`、`panelColor` 和 `storySwatchColors`；默认 `textColor` / `panelColor` 必须跟旧 `DEFAULT_TEMPLATE_SETTINGS` 一致。当前不新增可见控件，只为后续 Canvas 渲染迁移避免丢旧设置。
 - V2 已修正最近记录的来源 URL 兼容：保存最近记录时 `sourceUrl` 对齐旧 `/equipinfo` 的 `parsed.source_url`，不再误用显示标题。
 - V2 装备归一入口已读取旧 `nsglamour.ignoreEmperor` 键，保持旧 `/template` 应用草稿时过滤皇帝套的隐藏行为；没有该键时不改变装备显示。
 
@@ -64,14 +85,19 @@
 - 新增任何用户可见字段、按钮、状态、文案或编辑能力前，必须先确认旧项目对应工作流确实已有等价展示，或得到用户明确要求。
 - 本地角色配置导入是隐式能力，不在用户界面展示专门按钮、格式名或明显提示文案。
 - 候选数量、模型码等解析辅助信息只保留在内部数据层，不进入正式用户界面；除非用户明确要求开启调试/编辑功能。
+- `npm run check:nsglamour-contract` 已静态保护 NSGlamour 可见 UI 文案：不得出现模型码、候选数量、`X个候选`、`未导入`、`.chara` 文件提示或 `model code` 等内部/调试文案；空装备搜索文案必须保持“搜索装备名”，简体中文语言标签必须保持“简体中文”。
 - 装备栏顺序是用户亲自定过的旧 `/equipinfo` 视觉契约，不能用通用槽位数组自动排版替代。桌面端左列固定为：主手、头部、身体、手臂、腿部、脚部、面部配饰；右列固定为：副手、耳部、颈部、腕部、左指、右指、时尚配饰。手机端单列和后续 `/template` 装备顺序固定为：主手、副手、头部、身体、手臂、腿部、脚部、耳部、颈部、腕部、左指、右指、面部配饰、时尚配饰。
 - “无染色”属于装备/染剂数据文案，必须跟随装备草稿语言和导入 payload 的 `no_dye_labels`，不能跟随全站 UI 语言；`/equipinfo` 和后续 `/template` 都应复用同一装备层 helper。
 - `/template` 装备编辑器只显示旧页面已有的装备名、空槽搜索、删除当前装备、染剂按钮和不可染色文本；`row.dyeText` / `hasDyeLine` 等 renderer 专用染色摘要只允许进入预览/Canvas 数据层，不能作为额外说明行显示在编辑器里。
+- equipinfo 和 template 工具页除全站标题栏/顶栏外，工作区背景必须保持纯白；不要回退到全站粉蓝渐变或 `#fff8fc`。
+- 装备栏中已选装备如果没有染色控件或不可染色文本，只居中显示已选装备名和图标；空槽才显示“搜索装备名”，不能用搜索框替代已选装备行。
+- equipinfo 装备候选/搜索结果的图标和字号必须与已选装备行保持一致，避免回退成旧的窄小候选行。
+- equipinfo 和 template 编辑区的“无染色”图标使用 `public/data/glamour/templates/com_icon_clear.svg`，必须占用与普通染色色块相同的 10px × 10px 盒子；根目录 `com_icon_clear.svg` 只是用户放置的本地来源文件，必须保持忽略，不提交。
 
 当前未接入：
 
 - 旧 localStorage 迁移提示。
-- `/template` 仍未完成全部旧 Canvas 精确渲染器和模板资源懒加载；当前 Eorzea Magazine / horizontal / Double Pic / EC / Risingstones / Silence Fashion 已有无额外模板资源请求的 Canvas renderer，Eorzea Magazine、horizontal 与 Silence Fashion 背景仍等待资产策略确认，Double Pic 左图 mask 资源边界已接入但 URL 映射仍为空，EC / Risingstones 按需通过现有 `/api/glamour/icon/<id>` 读取装备图标，图标加载失败时回退 renderer 内部占位。
+- `/template` 仍未完成全部旧 Canvas 精确渲染器；当前 Eorzea Magazine / horizontal / Double Pic / EC / Risingstones / Silence Fashion 已有 Canvas renderer，Eorzea Magazine、horizontal、Double Pic 左图 mask 与 Silence Fashion 背景已按运行时资源接入并按需懒加载，EC / Risingstones 按需通过现有 `/api/glamour/icon/<id>` 读取装备图标，图标加载失败时回退 renderer 内部占位。
 - `/template` 模板图片、字体和第三方裁剪依赖尚未进入 V2 构建产物；后续必须先确认资产提交/公开策略和按需加载边界。当前 V2 裁剪层为原生轻量实现，不代表旧 Cropper.js 已进入构建产物。
 
 已确认图片暂存约束：
@@ -112,7 +138,7 @@ npm run check:nsglamour-contract
 默认直连旧服务 `http://127.0.0.1:8765/api`。如需验证 V2 代理，启动 Vite 后设置：
 
 ```bash
-NSGLAMOUR_CONTRACT_BASE_URL=http://127.0.0.1:5173/api/glamour npm run check:nsglamour-contract
+NSGLAMOUR_CONTRACT_BASE_URL=http://127.0.0.1:5175/api/glamour npm run check:nsglamour-contract
 ```
 
 该脚本同时做一项本地模板数据层检查：确认 V2 模板定义覆盖旧 `/template` 的六个模板 ID，保留旧模板设置键，并固定模板装备顺序为：主手、副手、头部、身体、手臂、腿部、脚部、耳部、颈部、腕部、左指、右指、面部配饰、时尚配饰。此检查也静态保护当前 `canvas + 上传图片覆盖层 + 裁剪弹层 + 保存图片` 链路，以及 Eorzea Magazine / Double Pic / EC / Risingstones / Silence Fashion renderer dispatcher 边界；但不代表全部旧 Canvas 精确渲染器已迁移完成。
@@ -182,7 +208,7 @@ NSGLAMOUR_CONTRACT_BASE_URL=http://127.0.0.1:5173/api/glamour npm run check:nsgl
 | 旧入口                         | 迁移注意                                             |
 | ------------------------------ | ---------------------------------------------------- |
 | `/font/<path>`                 | 字体体积和授权要单独确认                             |
-| `/template-preview/<path>`     | 模板预览资源后续可考虑迁入 V2 静态资源或后端资源服务 |
+| `/template-preview/<path>`     | 旧页面实际引用的六张 `.webp` 预览已迁入 `public/data/glamour/template-preview/`，不做开放代理 |
 | `data/item_model_mapping.json` | 装备、染剂、图标、模型码核心映射，不手写临时替代     |
 | `data/ui-localization.json`    | UI 文案来源之一，未来应进入 V2 本地化规划            |
 

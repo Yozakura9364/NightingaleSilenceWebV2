@@ -12,7 +12,13 @@ export type GlamourTemplateLoadedAssetMap = Partial<
   Record<GlamourTemplateRenderAsset, GlamourTemplateLoadedAsset>
 >
 
-export const GLAMOUR_TEMPLATE_RENDER_ASSET_URLS: GlamourTemplateRenderAssetUrlMap = {}
+export const GLAMOUR_TEMPLATE_RENDER_ASSET_URLS: GlamourTemplateRenderAssetUrlMap = {
+  'figma-background': '/data/glamour/templates/eorzea-magazine.png',
+  'horizontal-background': '/data/glamour/templates/eorzea-horizontal-magazine-bg.png',
+  'double-pic-left-mask': '/data/glamour/templates/double-pic-left-mask.png',
+  'silence-fashion-background': '/data/glamour/templates/silence-fashion-background.png',
+  'clear-dye-icon': '/data/glamour/templates/com_icon_clear.svg'
+}
 
 export function resolveGlamourTemplateRenderAssetUrl(
   asset: GlamourTemplateRenderAsset,

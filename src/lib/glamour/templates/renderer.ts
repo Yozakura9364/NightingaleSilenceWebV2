@@ -22,15 +22,17 @@ export interface GlamourTemplateCanvasRenderContext {
 }
 
 const EC_TEMPLATE_SOURCE_SIZE = 3840
+const TEMPLATE_COPYRIGHT_BASE_END_YEAR = 2026
+const TEMPLATE_COPYRIGHT_END_YEAR = Math.max(TEMPLATE_COPYRIGHT_BASE_END_YEAR, new Date().getFullYear())
 const EC_TEMPLATE_COLORS = {
-  background: '#ffffff',
-  accent: '#2f343b',
-  text: '#2f343b',
+  background: '#202020',
+  accent: '#fb4b4e',
+  text: '#c7c1bd',
   textDim: '#b8b1ac',
   line: '#303030',
   placeholder: '#ffffff',
-  row: '#f0f1f3',
-  rowDeep: '#dfe2e6'
+  row: '#282828',
+  rowDeep: '#242424'
 }
 const EC_ITEM_RARITY_COLORS: Record<number, string> = {
   1: '#e8e8e8',
@@ -60,6 +62,7 @@ const EC_TEMPLATE_CORNER_MARKS = [
   { x: 99, y: 45, size: 104 },
   { x: 3639, y: 3692, size: 104 }
 ]
+const CLEAR_DYE_ICON_ASSET = 'clear-dye-icon'
 const EORZEA_TEMPLATE = {
   sourceSize: 3840,
   maskFill: '#ffffff',
@@ -250,12 +253,21 @@ const RISINGSTONES_TEMPLATE = {
   borderColor: '#555555',
   imageRegion: { x: 148, y: 243, width: 1915, height: 3402 },
   imageRadius: 44,
+  imageStrokeWidth: 0,
   imagePlaceholder: '#a3a3a3',
   avatarRegion: { x: 3280, y: 323, width: 389, height: 390 },
+  avatarRadius: 0,
+  avatarStrokeWidth: 0,
   title: { x: 2129, y: 333, width: 1010, height: 144, maxSize: 150, minSize: 72 },
   author: { x: 2145, y: 552, width: 451, height: 61, maxSize: 60, minSize: 34 },
   source: { x: 2145, y: 641, width: 1060, height: 57, maxSize: 60, minSize: 32 },
   sourceText: '最终幻想14 - FINAL FANTASY XIV',
+  showMeta: false,
+  meta: [
+    { x: 2164, y: 1739, width: 336, height: 57, key: 'race' },
+    { x: 2681, y: 1739, width: 179, height: 57, key: 'job' },
+    { x: 3038, y: 1745, width: 198, height: 47, key: 'id' }
+  ],
   equipment: {
     maxRows: 10,
     rowStartY: 831,
@@ -264,6 +276,7 @@ const RISINGSTONES_TEMPLATE = {
     rowX: 2113,
     rowWidth: 1568,
     rowHeight: 247,
+    rowRadius: 40,
     iconX: 2132,
     iconYOffset: 23,
     iconSize: 200,
@@ -274,9 +287,12 @@ const RISINGSTONES_TEMPLATE = {
     nameHeight: 75,
     nameSize: 72,
     nameMinSize: 40,
+    nameWeight: 400,
+    fontFamily: '"Noto Sans SC Variable", "HarmonyOS Sans SC", "Source Han Sans CN", "Microsoft YaHei", sans-serif',
     dyeYOffset: 135,
     dyeHeight: 72,
     dyeFontSize: 52,
+    dyeMinFontSize: 28,
     dyeDotSize: 51,
     dyeDotRadius: 10,
     dyeDotStrokeWidth: 1,
@@ -284,6 +300,7 @@ const RISINGSTONES_TEMPLATE = {
     dyeTextXOffset: 77,
     dyeTextYOffset: 145,
     dyeTextHeight: 52,
+    dyeTextWidth: 133,
     dyeTextRightPadding: 12,
     dyeGap: 30,
     dyes: [
@@ -292,6 +309,7 @@ const RISINGSTONES_TEMPLATE = {
     ]
   },
   textColor: '#2d2d2d',
+  textDim: '#2d2d2d',
   accent: '#c3a769',
   dyeText: '#2d2d2d',
   copyright: {
@@ -299,7 +317,10 @@ const RISINGSTONES_TEMPLATE = {
     y: 3535,
     width: 1215,
     height: 110,
-    lines: ['ff14risingstones - 石之家 X 光之收藏家']
+    lines: [
+      'ff14risingstones - 石之家 X 光之收藏家',
+      `© 2010-${TEMPLATE_COPYRIGHT_END_YEAR} SQUARE ENIX CO., LTD. All Rights Reserved.`
+    ]
   }
 }
 const SILENCE_FASHION_TEMPLATE = {
@@ -393,6 +414,7 @@ const HORIZONTAL_TEMPLATE = {
 type EcTemplateLayout = typeof EC_TEMPLATE_LAYOUTS.normal
 type EorzeaTemplateLayout = typeof EORZEA_TEMPLATE.layouts.roomy
 type RisingstonesEquipmentLayout = typeof RISINGSTONES_TEMPLATE.equipment
+type EcFittedItemNameLayout = EcTemplateLayout & { inkCenter?: boolean; fontFamily?: string }
 type HorizontalEquipmentRow = {
   itemName: string
   hasDyeLine: boolean
@@ -694,6 +716,14 @@ function drawEcFrame(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateR
   drawEcCornerMark(ctx, renderData, EC_TEMPLATE_CORNER_MARKS[1], true)
 }
 
+function normalizeEcSubtitlePart(value: unknown): string {
+  return String(value || '').trim().replace(/\s+/gu, ' ').slice(0, 80)
+}
+
+function normalizeEcSubtitleSymbol(value: unknown): string {
+  return String(value || '♦').trim().slice(0, 4) || '♦'
+}
+
 function drawEcMainImage(
   ctx: CanvasRenderingContext2D,
   renderData: GlamourTemplateRenderData,
@@ -720,11 +750,7 @@ function drawEcHeader(ctx: CanvasRenderingContext2D, renderData: GlamourTemplate
     weight: 400,
     family: '"Josefin Sans", "Microsoft YaHei", sans-serif'
   })
-  drawEcCenteredFittedText(ctx, renderData, renderData.text.subtitle, EC_TEMPLATE_SUBTITLE, {
-    color: EC_TEMPLATE_COLORS.text,
-    weight: 400,
-    family: '"Source Sans 3", "Microsoft YaHei", sans-serif'
-  })
+  drawEcSubtitle(ctx, renderData)
 
   const labelBox = templateRect(renderData, EC_TEMPLATE_EQUIPMENT_HEADER.label)
   ctx.fillStyle = EC_TEMPLATE_COLORS.accent
@@ -739,6 +765,62 @@ function drawEcHeader(ctx: CanvasRenderingContext2D, renderData: GlamourTemplate
   const dynamicLineWidth = Math.max(0, lineBox.x + lineBox.width - dynamicLineX)
   ctx.fillStyle = EC_TEMPLATE_COLORS.line
   fillRoundedRect(ctx, dynamicLineX, lineBox.y, dynamicLineWidth, Math.max(1, lineBox.height), lineBox.height / 2)
+}
+
+function drawEcSubtitle(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData) {
+  const parts = renderData.text.subtitleParts
+  const left = normalizeEcSubtitlePart(parts?.left)
+  const symbol = normalizeEcSubtitleSymbol(parts?.symbol)
+  const right = normalizeEcSubtitlePart(parts?.right)
+  const shouldDrawSplit = Boolean(left && symbol && right && !parts?.full)
+
+  if (!shouldDrawSplit) {
+    drawEcCenteredFittedText(ctx, renderData, renderData.text.subtitle, EC_TEMPLATE_SUBTITLE, {
+      color: EC_TEMPLATE_COLORS.text,
+      weight: 400,
+      family: '"Source Sans 3", "Microsoft YaHei", sans-serif'
+    })
+    return
+  }
+
+  const box = templateRect(renderData, EC_TEMPLATE_SUBTITLE)
+  const maxSize = templateUnit(renderData, EC_TEMPLATE_SUBTITLE.maxSize)
+  const minSize = templateUnit(renderData, EC_TEMPLATE_SUBTITLE.minSize)
+  let size = maxSize
+  let measuredLeft = 0
+  let measuredSymbol = 0
+  let measuredRight = 0
+  let gap = 0
+  let totalWidth = 0
+
+  do {
+    ctx.font = `400 ${size}px "Source Sans 3", "Microsoft YaHei", sans-serif`
+    measuredLeft = ctx.measureText(left).width
+    measuredRight = ctx.measureText(right).width
+    ctx.font = `400 ${size}px "NS Cambria", Cambria, serif`
+    measuredSymbol = ctx.measureText(symbol).width
+    gap = Math.round(size * 0.32)
+    totalWidth = measuredLeft + measuredSymbol + measuredRight + gap * 2
+    size -= 1
+  } while (size >= minSize && totalWidth > box.width)
+
+  const drawSize = size + 1
+  const centerY = box.y + box.height / 2
+  let cursorX = box.x + Math.max(0, (box.width - totalWidth) / 2)
+
+  ctx.fillStyle = EC_TEMPLATE_COLORS.text
+  ctx.textAlign = 'left'
+  ctx.textBaseline = 'middle'
+  ctx.font = `400 ${drawSize}px "Source Sans 3", "Microsoft YaHei", sans-serif`
+  ctx.fillText(left, cursorX, centerY)
+  cursorX += measuredLeft + gap
+
+  ctx.font = `400 ${drawSize}px "NS Cambria", Cambria, serif`
+  ctx.fillText(symbol, cursorX, centerY)
+  cursorX += measuredSymbol + gap
+
+  ctx.font = `400 ${drawSize}px "Source Sans 3", "Microsoft YaHei", sans-serif`
+  ctx.fillText(right, cursorX, centerY)
 }
 
 function drawEcIcon(
@@ -774,6 +856,15 @@ function getEcItemNameColor(row: GlamourTemplateRow): string {
   return EC_ITEM_RARITY_COLORS[rarity] || EC_ITEM_RARITY_COLORS[1]
 }
 
+function getEcVariantLabel(row: GlamourTemplateRow): string {
+  return String(row.item.ecVariantLabel || '').trim()
+}
+
+function makeEcVariantDye(row: GlamourTemplateRow) {
+  const label = getEcVariantLabel(row)
+  return label ? { name: label, hex: '#a6adb4', isEmpty: false } : null
+}
+
 function drawEcFittedItemName(
   ctx: CanvasRenderingContext2D,
   renderData: GlamourTemplateRenderData,
@@ -781,29 +872,36 @@ function drawEcFittedItemName(
   x: number,
   centerY: number,
   maxWidth: number,
-  layout: EcTemplateLayout
+  layout: EcFittedItemNameLayout
 ) {
   fitCanvasFont(ctx, text, {
     maxWidth,
     maxSize: templateUnit(renderData, layout.nameSize),
     minSize: templateUnit(renderData, layout.nameMinSize),
-    weight: layout.nameWeight,
-    family: '"Source Sans 3", "Microsoft YaHei", sans-serif'
+    weight: layout.nameWeight || 700,
+    family: layout.fontFamily || '"Source Sans 3", "Microsoft YaHei", sans-serif'
   })
   ctx.textAlign = 'left'
+  if (layout.inkCenter) {
+    ctx.textBaseline = 'alphabetic'
+    ctx.fillText(text, x, getTextInkCenterBaseline(ctx, text, centerY), maxWidth)
+    return
+  }
+
   ctx.textBaseline = 'middle'
   ctx.fillText(text, x, centerY, maxWidth)
 }
 
 function drawEcDyeChip(
   ctx: CanvasRenderingContext2D,
-  renderData: GlamourTemplateRenderData,
+  options: GlamourTemplateCanvasRenderContext,
   rowY: number,
   dye: { name: string; hex?: string; isEmpty: boolean },
   dyeIndex: number,
   layout: EcTemplateLayout,
   previousRight = 0
 ) {
+  const { renderData, assets } = options
   const spec = layout.dyes[dyeIndex]
 
   if (!spec) {
@@ -829,10 +927,14 @@ function drawEcDyeChip(
   const width = Math.max(minWidth, ctx.measureText(label).width + leftPadding + rightPadding)
   ctx.fillStyle = EC_TEMPLATE_COLORS.rowDeep
   fillRoundedRect(ctx, x, y, width, height, templateUnit(renderData, layout.dyeRadius))
-  ctx.fillStyle = dye.isEmpty ? '#596069' : normalizeHexColor(dye.hex, '#89b8dc')
-  ctx.beginPath()
-  ctx.arc(dotX + dotSize / 2, dotY + dotSize / 2, dotSize / 2, 0, Math.PI * 2)
-  ctx.fill()
+  if (dye.isEmpty && drawClearDyeIcon(ctx, assets, dotX, dotY, dotSize, dotSize)) {
+    // The clear icon occupies the same box as the color dot.
+  } else {
+    ctx.fillStyle = dye.isEmpty ? '#596069' : normalizeHexColor(dye.hex, '#89b8dc')
+    ctx.beginPath()
+    ctx.arc(dotX + dotSize / 2, dotY + dotSize / 2, dotSize / 2, 0, Math.PI * 2)
+    ctx.fill()
+  }
   ctx.fillStyle = EC_TEMPLATE_COLORS.textDim
   ctx.textAlign = 'left'
   ctx.textBaseline = 'middle'
@@ -858,7 +960,8 @@ function drawEcEquipment(ctx: CanvasRenderingContext2D, options: GlamourTemplate
     fillRoundedRect(ctx, rowBox.x, rowBox.y, rowBox.width, rowBox.height, templateUnit(renderData, layout.rowRadius))
     drawEcIcon(ctx, renderData, layout, rowY, resolveIcon?.(row.item.icon)?.image || null)
 
-    const dyes = row.dyes || []
+    const ecVariant = row.slot === 'Glasses' ? makeEcVariantDye(row) : null
+    const dyes = ecVariant ? [ecVariant] : row.dyes || []
     const nameX = templateUnit(renderData, layout.nameX)
     const nameWidth = templateUnit(renderData, layout.nameWidth)
     const rowCenterY = rowY + layout.rowHeight / 2
@@ -869,7 +972,7 @@ function drawEcEquipment(ctx: CanvasRenderingContext2D, options: GlamourTemplate
 
     let dyeRight = 0
     dyes.slice(0, 2).forEach((dye, dyeIndex) => {
-      dyeRight = drawEcDyeChip(ctx, renderData, rowY, dye, dyeIndex, layout, dyeRight)
+      dyeRight = drawEcDyeChip(ctx, options, rowY, dye, dyeIndex, layout, dyeRight)
     })
   })
 }
@@ -979,11 +1082,8 @@ function normalizeEorzeaDyeLabel(name: string, isEmpty: boolean, locale: string)
     return text
   }
 
-  if (/染剂$/u.test(text) || /染劑$/u.test(text)) {
-    return text
-  }
-
-  return locale === 'tc' ? `${text}染劑` : `${text}染剂`
+  const suffix = locale === 'tc' ? '染劑' : '染剂'
+  return /染剂$/u.test(text) || /染劑$/u.test(text) ? text.replace(/染剂$/u, suffix) : `${text}${suffix}`
 }
 
 function drawEorzeaDyeFrame(
@@ -1071,6 +1171,24 @@ function drawEorzeaColorPill(
     x + width / 2,
     y + height / 2
   )
+}
+
+function drawClearDyeIcon(
+  ctx: CanvasRenderingContext2D,
+  assets: GlamourTemplateLoadedAssetMap | undefined,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+): boolean {
+  const image = assets?.[CLEAR_DYE_ICON_ASSET]?.image
+
+  if (!image || width <= 0 || height <= 0) {
+    return false
+  }
+
+  ctx.drawImage(image, x, y, width, height)
+  return true
 }
 
 function drawEorzeaDye(
@@ -1227,9 +1345,10 @@ function drawRisingstonesImage(
 
 function drawRisingstonesAvatar(
   ctx: CanvasRenderingContext2D,
-  renderData: GlamourTemplateRenderData,
+  options: GlamourTemplateCanvasRenderContext,
   resolveImage: GlamourTemplateImageResolver
 ) {
+  const { renderData } = options
   const box = getRisingstonesRect(renderData, RISINGSTONES_TEMPLATE.avatarRegion)
   const image = resolveImage(GLAMOUR_TEMPLATE_RISINGSTONES_AVATAR_SLOT_ID)
 
@@ -1307,9 +1426,9 @@ function drawRisingstonesFittedText(
 
 function drawRisingstonesHeader(
   ctx: CanvasRenderingContext2D,
-  renderData: GlamourTemplateRenderData,
-  resolveImage: GlamourTemplateImageResolver
+  options: GlamourTemplateCanvasRenderContext
 ) {
+  const { renderData } = options
   const authorRightBleed = Math.max(
     0,
     RISINGSTONES_TEMPLATE.source.x +
@@ -1317,7 +1436,6 @@ function drawRisingstonesHeader(
       (RISINGSTONES_TEMPLATE.author.x + RISINGSTONES_TEMPLATE.author.width)
   )
 
-  drawRisingstonesAvatar(ctx, renderData, resolveImage)
   drawRisingstonesFittedText(
     ctx,
     renderData,
@@ -1386,13 +1504,14 @@ function measureRisingstonesDyeChip(
 
 function drawRisingstonesDyeChip(
   ctx: CanvasRenderingContext2D,
-  renderData: GlamourTemplateRenderData,
+  options: GlamourTemplateCanvasRenderContext,
   rowY: number,
   dye: { name: string; hex?: string; isEmpty: boolean },
   x: number,
   maxWidth: number,
   scale: number
 ) {
+  const { renderData, assets } = options
   const layout = RISINGSTONES_TEMPLATE.equipment
   const label = normalizeDyeLabel(dye.name)
   const measured = measureRisingstonesDyeChip(ctx, renderData, label, scale)
@@ -1406,12 +1525,16 @@ function drawRisingstonesDyeChip(
   const textHeight = getRisingstonesScale(renderData, layout.dyeTextHeight * scale)
   const radius = getRisingstonesScale(renderData, layout.dyeDotRadius * scale)
 
-  ctx.fillStyle = dye.isEmpty ? '#d4d4d4' : normalizeHexColor(dye.hex, '#98cce0')
-  fillRoundedRect(ctx, dotX, dotY, dotSize, dotSize, radius)
-  ctx.strokeStyle = RISINGSTONES_TEMPLATE.borderColor
-  ctx.lineWidth = Math.max(1, getRisingstonesScale(renderData, layout.dyeDotStrokeWidth * scale))
-  makeRoundedRectPath(ctx, dotX, dotY, dotSize, dotSize, radius)
-  ctx.stroke()
+  if (dye.isEmpty && drawClearDyeIcon(ctx, assets, dotX, dotY, dotSize, dotSize)) {
+    // The clear icon occupies the same box as the color swatch.
+  } else {
+    ctx.fillStyle = dye.isEmpty ? '#d4d4d4' : normalizeHexColor(dye.hex, '#98cce0')
+    fillRoundedRect(ctx, dotX, dotY, dotSize, dotSize, radius)
+    ctx.strokeStyle = RISINGSTONES_TEMPLATE.borderColor
+    ctx.lineWidth = Math.max(1, getRisingstonesScale(renderData, layout.dyeDotStrokeWidth * scale))
+    makeRoundedRectPath(ctx, dotX, dotY, dotSize, dotSize, radius)
+    ctx.stroke()
+  }
 
   ctx.fillStyle = RISINGSTONES_TEMPLATE.dyeText
   ctx.textAlign = 'left'
@@ -1455,7 +1578,10 @@ function drawRisingstonesEquipment(ctx: CanvasRenderingContext2D, options: Glamo
       {
         ...EC_TEMPLATE_LAYOUTS.normal,
         nameSize: layout.nameSize * scale,
-        nameMinSize: layout.nameMinSize * scale
+        nameMinSize: layout.nameMinSize * scale,
+        nameWeight: layout.nameWeight,
+        fontFamily: layout.fontFamily,
+        inkCenter: true
       }
     )
 
@@ -1470,7 +1596,7 @@ function drawRisingstonesEquipment(ctx: CanvasRenderingContext2D, options: Glamo
         return
       }
 
-      dyeX += drawRisingstonesDyeChip(ctx, renderData, rowY, dye, dyeX, maxWidth, scale) + dyeGap
+      dyeX += drawRisingstonesDyeChip(ctx, options, rowY, dye, dyeX, maxWidth, scale) + dyeGap
     })
   })
 }
@@ -2438,7 +2564,8 @@ function renderRisingstonesTemplateCanvas(ctx: CanvasRenderingContext2D, options
   }
 
   drawRisingstonesImage(ctx, renderData, resolveImage)
-  drawRisingstonesHeader(ctx, renderData, resolveImage)
+  drawRisingstonesAvatar(ctx, options, resolveImage)
+  drawRisingstonesHeader(ctx, options)
   drawRisingstonesEquipment(ctx, options)
   drawRisingstonesCopyright(ctx, renderData)
 }

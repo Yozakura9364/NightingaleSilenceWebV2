@@ -6,6 +6,7 @@ export type GlamourTemplateRenderAsset =
   | 'double-pic-left-mask'
   | 'story-left-mask'
   | 'silence-fashion-background'
+  | 'clear-dye-icon'
 
 export interface GlamourTemplateRenderProfile {
   renderMode: GlamourTemplateRenderMode | 'default'
@@ -27,7 +28,7 @@ export const GLAMOUR_TEMPLATE_RENDER_PROFILES: Record<GlamourTemplateRenderMode,
     renderMode: 'eorzea',
     defaultTopText: '幻化存档',
     forceIcons: false,
-    assets: ['figma-background']
+    assets: ['figma-background', 'clear-dye-icon']
   },
   horizontal: {
     renderMode: 'horizontal',
@@ -41,7 +42,7 @@ export const GLAMOUR_TEMPLATE_RENDER_PROFILES: Record<GlamourTemplateRenderMode,
     defaultTopText: 'EORZEA COLLECTION',
     legacyTopText: 'Nightingale - No Title',
     forceIcons: true,
-    assets: []
+    assets: ['clear-dye-icon']
   },
   'double-pic': {
     renderMode: 'double-pic',
@@ -53,7 +54,7 @@ export const GLAMOUR_TEMPLATE_RENDER_PROFILES: Record<GlamourTemplateRenderMode,
     renderMode: 'risingstones',
     defaultTopText: '幻化存档',
     forceIcons: true,
-    assets: []
+    assets: ['clear-dye-icon']
   },
   'silence-fashion': {
     renderMode: 'silence-fashion',

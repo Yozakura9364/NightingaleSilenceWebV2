@@ -33,6 +33,7 @@ Thumbs.db
 
 # local-only icon experiments and draft exports
 /icon-drafts/
+/com_icon_clear.svg
 
 # local AI / IDE settings
 .claude/settings.local.json

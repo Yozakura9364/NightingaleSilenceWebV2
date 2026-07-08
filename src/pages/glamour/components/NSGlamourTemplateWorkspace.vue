@@ -1,6 +1,6 @@
 <template>
   <section class="nsglamour-template" :aria-label="t(textKeys.nsglamourTemplatePage)">
-    <div class="nsglamour-template__preview">
+    <div ref="previewEl" class="nsglamour-template__preview">
       <div
         ref="canvasShellEl"
         class="nsglamour-template__canvas-shell"
@@ -126,21 +126,23 @@
               </a>
             </div>
           </div>
-          <button
-            ref="templateSelectorOpenButton"
-            type="button"
-            class="nsglamour-template__secondary ns-compact-action"
-            @click="openTemplateSelector"
-          >
-            {{ t(textKeys.nsglamourTemplateChange) }}
-          </button>
-          <button
-            type="button"
-            class="nsglamour-template__secondary ns-compact-action"
-            @click="downloadTemplateCanvas"
-          >
-            {{ t(textKeys.nsglamourTemplateSaveImage) }}
-          </button>
+          <div class="nsglamour-template__meta-actions">
+            <button
+              ref="templateSelectorOpenButton"
+              type="button"
+              class="nsglamour-template__secondary ns-compact-action"
+              @click="openTemplateSelector"
+            >
+              {{ t(textKeys.nsglamourTemplateChange) }}
+            </button>
+            <button
+              type="button"
+              class="nsglamour-template__secondary ns-compact-action"
+              @click="downloadTemplateCanvas"
+            >
+              {{ t(textKeys.nsglamourTemplateSaveImage) }}
+            </button>
+          </div>
         </div>
 
         <label v-if="template.controls.title" class="nsglamour-template__field">
@@ -437,10 +439,9 @@
       <section class="nsglamour-template-selector__dialog">
         <div class="nsglamour-template-selector__head">
           <div>
-            <h2 :id="templateSelectorTitleId">
+            <h2 :id="templateSelectorTitleId" class="ns-heading-bloom">
               {{ t(textKeys.nsglamourTemplateSelectorTitle) }}
             </h2>
-            <p>{{ t(textKeys.nsglamourTemplateSelectorHint) }}</p>
           </div>
           <button
             type="button"
@@ -489,11 +490,9 @@
             @keydown.space.prevent="selectTemplate(option.id)"
           >
             <div class="nsglamour-template-selector__preview" aria-hidden="true">
-              <strong>{{ option.shortName }}</strong>
-              <small>{{ option.sourceWidth }} × {{ option.sourceHeight }}</small>
+              <img :src="getTemplatePreviewUrl(option)" alt="" loading="lazy" />
             </div>
             <div class="nsglamour-template-selector__body">
-              <strong>{{ option.name }}</strong>
               <span class="nsglamour-template-selector__author">
                 {{ t(textKeys.nsglamourTemplateAuthor) }}
                 <a
@@ -532,7 +531,9 @@
       <section class="nsglamour-template-crop__dialog">
         <div class="nsglamour-template-crop__head">
           <div>
-            <h2 :id="cropDialogTitleId">{{ t(textKeys.nsglamourTemplateCropTitle) }}</h2>
+            <h2 :id="cropDialogTitleId" class="ns-heading-bloom">
+              {{ t(textKeys.nsglamourTemplateCropTitle) }}
+            </h2>
             <p>{{ t(textKeys.nsglamourTemplateCropHint) }}</p>
           </div>
           <button
@@ -546,6 +547,7 @@
 
         <div
           class="nsglamour-template-crop__stage"
+          :style="cropCanvasDisplayStyle"
           @pointerdown="startCropDrag"
           @pointermove="moveCropDrag"
           @pointerup="endCropDrag"
@@ -559,42 +561,44 @@
           ></canvas>
         </div>
 
-        <div class="nsglamour-template-crop__zoom">
-          <label for="nsglamour-template-crop-zoom-range">
-            {{ t(textKeys.nsglamourTemplateCropZoom) }}
-          </label>
-          <input
-            id="nsglamour-template-crop-zoom-range"
-            type="range"
-            min="10"
-            max="500"
-            step="1"
-            :value="cropZoomPercent"
-            @input="setCropZoomFromInput"
-          />
-          <input
-            type="number"
-            min="10"
-            max="500"
-            step="1"
-            :aria-label="t(textKeys.nsglamourTemplateCropZoomPercent)"
-            :value="cropZoomPercent"
-            @input="setCropZoomFromInput"
-          />
-          <span>%</span>
-        </div>
+        <div class="nsglamour-template-crop__footer">
+          <div class="nsglamour-template-crop__zoom">
+            <label for="nsglamour-template-crop-zoom-range">
+              {{ t(textKeys.nsglamourTemplateCropZoom) }}
+            </label>
+            <input
+              id="nsglamour-template-crop-zoom-range"
+              type="range"
+              min="10"
+              max="500"
+              step="1"
+              :value="cropZoomPercent"
+              @input="setCropZoomFromInput"
+            />
+            <input
+              type="number"
+              min="10"
+              max="500"
+              step="1"
+              :aria-label="t(textKeys.nsglamourTemplateCropZoomPercent)"
+              :value="cropZoomPercent"
+              @input="setCropZoomFromInput"
+            />
+            <span>%</span>
+          </div>
 
-        <div class="nsglamour-template-crop__actions">
-          <button
-            type="button"
-            class="nsglamour-template__secondary ns-compact-action"
-            @click="resetImageCrop"
-          >
-            {{ t(textKeys.nsglamourTemplateCropReset) }}
-          </button>
-          <button type="button" class="nsglamour-template__primary" @click="applyImageCrop">
-            {{ t(textKeys.nsglamourTemplateCropApply) }}
-          </button>
+          <div class="nsglamour-template-crop__actions">
+            <button
+              type="button"
+              class="nsglamour-template__secondary ns-compact-action"
+              @click="resetImageCrop"
+            >
+              {{ t(textKeys.nsglamourTemplateCropReset) }}
+            </button>
+            <button type="button" class="nsglamour-template__primary" @click="applyImageCrop">
+              {{ t(textKeys.nsglamourTemplateCropApply) }}
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -610,7 +614,9 @@
     >
       <form class="nsglamour-template-import__dialog" @submit.prevent="submitImport">
         <div class="nsglamour-template-import__head">
-          <h2 :id="importDialogTitleId">{{ t(textKeys.nsglamourTemplateImportTitle) }}</h2>
+          <h2 :id="importDialogTitleId" class="ns-heading-bloom">
+            {{ t(textKeys.nsglamourTemplateImportTitle) }}
+          </h2>
           <button
             type="button"
             class="nsglamour-template__secondary ns-compact-action"
@@ -700,21 +706,25 @@ import {
   getGlamourTemplateEquivalentImageSlotIds,
   getGlamourTemplateDefinition,
   isGlamourTemplatePersistentImageUrl,
+  loadGlamourTemplateRenderAssets,
   loadGlamourTemplateImageStoreRecords,
   loadGlamourTemplateRecentImages,
   drawGlamourTemplateImageCover,
   renderGlamourTemplateCanvas,
   saveGlamourTemplateRecentImage,
   saveGlamourTemplateImageStoreSlot,
+  type GlamourTemplateLoadedAssetMap,
   type GlamourTemplateDefinition,
   type GlamourTemplateId,
   type GlamourTemplateImageSlot,
+  type GlamourTemplateRenderData,
   type GlamourTemplateRecentImageRecord,
   writeGlamourTemplateImageSessionSlot
 } from '@/lib/glamour/templates'
 import { useGlamourTemplateWorkspace } from '@/pages/glamour/composables/useGlamourTemplateWorkspace'
 import NSGlamourRecentPanel from '@/pages/glamour/components/NSGlamourRecentPanel.vue'
 import { useLocale } from '@/stores/locale'
+import { useTheme } from '@/stores/theme'
 
 const props = defineProps<{
   draft: GlamourDraft
@@ -747,6 +757,7 @@ const emit = defineEmits<{
 }>()
 
 const { t, current } = useLocale()
+const { current: themeMode } = useTheme()
 const draftRef = computed(() => props.draft)
 const {
   templateId,
@@ -784,7 +795,69 @@ const templateImportPreferredLocale = computed(() => {
   return template.value.defaultLocale
 })
 const templateSelectorAllFilter = 'all'
-const templateSelectorLocaleOrder: GlamourLocale[] = ['zh', 'ja', 'en', 'ko', 'tc', 'fr', 'de']
+const templateLanguageDisplayOrder: GlamourLocale[] = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']
+const templateLanguageDisplayRank = new Map(
+  templateLanguageDisplayOrder.map((locale, index) => [locale, index])
+)
+
+function getTemplateLanguageRank(locales: GlamourLocale[]): number {
+  return templateLanguageDisplayRank.get(locales[0]) ?? Number.MAX_SAFE_INTEGER
+}
+
+function sortTemplateLanguageOptions<T extends { locales: GlamourLocale[] }>(options: T[]): T[] {
+  return options
+    .map((option, index) => ({ option, index }))
+    .sort((left, right) => getTemplateLanguageRank(left.option.locales) - getTemplateLanguageRank(right.option.locales) || left.index - right.index)
+    .map((entry) => entry.option)
+}
+
+function sortTemplateLocales(locales: GlamourLocale[]): GlamourLocale[] {
+  return [...locales].sort(
+    (left, right) =>
+      (templateLanguageDisplayRank.get(left) ?? Number.MAX_SAFE_INTEGER) -
+      (templateLanguageDisplayRank.get(right) ?? Number.MAX_SAFE_INTEGER)
+  )
+}
+
+const templateFontLoadFallbackText = '幻化工房最终幻想14装备染色角色服务器NameServer日本語한국어123'
+const templateCanvasFonts: Partial<Record<GlamourTemplateId, string[]>> = {
+  eorzea: [
+    "500 130px 'Source Han Serif CN'",
+    "500 74px 'Source Han Serif CN'",
+    "500 32px 'Source Han Sans CN'",
+    "400 24px 'Source Han Sans CN'"
+  ],
+  horizontal: [
+    "900 100px 'HarmonyOS Sans SC'",
+    "300 95px 'Source Sans 3'"
+  ],
+  ec: [
+    "400 178px 'Josefin Sans'",
+    "700 41px 'Source Sans 3'",
+    "400 76px 'Source Sans 3'",
+    "400 76px 'NS Cambria'"
+  ],
+  story: ["900 62px 'Source Han Serif CN'"],
+  risingstones: [
+    "700 150px 'Noto Sans SC Variable'",
+    "400 38px 'Noto Sans SC Variable'"
+  ],
+  'silence-fashion': [
+    "400 70px 'Source Han Serif CN'",
+    "500 70px 'Source Han Serif CN'",
+    "600 40px 'Source Han Serif CN'"
+  ]
+}
+const silenceFashionKoCanvasFonts = [
+  "400 60px 'Source Han Serif KR Local'",
+  "600 50px 'Source Han Serif KR Local'",
+  "400 60px 'Noto Serif CJK KR'",
+  "600 50px 'Noto Serif CJK KR'",
+  '400 60px Batang',
+  '600 50px Batang'
+]
+const loadedTemplateFontKeys = new Set<string>()
+const loadingTemplateFontPromises = new Map<string, Promise<void>>()
 
 const templateOptions = computed(() =>
   GLAMOUR_TEMPLATE_SELECT_ORDER.map((id) => getGlamourTemplateDefinition(id))
@@ -795,7 +868,7 @@ const templateSelectorFilters = computed(() => {
     option.localeOrder.forEach((locale) => locales.add(locale))
   })
 
-  const ordered = templateSelectorLocaleOrder.filter((locale) => locales.has(locale))
+  const ordered = templateLanguageDisplayOrder.filter((locale) => locales.has(locale))
   const extra = Array.from(locales).filter((locale) => !ordered.includes(locale))
   return [templateSelectorAllFilter, ...ordered, ...extra]
 })
@@ -824,19 +897,7 @@ const languageOptions = computed(() => {
   }))
 })
 const orderedLanguageOptions = computed(() => {
-  if (hasTemplateLanguageOptions.value || isSingleTemplateLanguageMode.value) {
-    return languageOptions.value
-  }
-
-  const selected = selectedLocales.value
-  const optionsByLocale = new Map(languageOptions.value.map((option) => [option.locales[0], option]))
-  return [
-    ...selected.flatMap((locale) => {
-      const option = optionsByLocale.get(locale)
-      return option ? [option] : []
-    }),
-    ...languageOptions.value.filter((option) => !selected.includes(option.locales[0]))
-  ]
+  return sortTemplateLanguageOptions(languageOptions.value)
 })
 const editorLocale = computed(() => activeLocale.value || props.draft.locale)
 const editorRows = computed<TemplateEditorRow[]>(() => {
@@ -903,6 +964,7 @@ const templateSelectorOpenButton = ref<HTMLButtonElement | null>(null)
 const templateSelectorListEl = ref<HTMLElement | null>(null)
 const templateSelectorOpen = ref(false)
 const templateSelectorFilter = ref<string>(templateSelectorAllFilter)
+const previewEl = ref<HTMLElement | null>(null)
 const canvasShellEl = ref<HTMLElement | null>(null)
 const templateCanvasEl = ref<HTMLCanvasElement | null>(null)
 const imageInputEl = ref<HTMLInputElement | null>(null)
@@ -917,6 +979,7 @@ const templateImages = reactive<Record<string, TemplateCanvasImage>>({})
 const templateImagesById: Record<string, Record<string, TemplateCanvasImage>> = {}
 const templateIconImages = new Map<string, HTMLImageElement | null>()
 const loadingTemplateIconKeys = new Set<string>()
+const templateRenderAssets = ref<GlamourTemplateLoadedAssetMap>({})
 const recentTemplateImages = ref<GlamourTemplateRecentImageRecord[]>([])
 const cropDialogOpen = ref(false)
 const cropZoomPercent = ref(100)
@@ -969,6 +1032,8 @@ interface TemplateCanvasImage {
   image: HTMLImageElement
   imageUrl: string
   name: string
+  sourceUrl: string
+  sourceName: string
   backupOnly: boolean
 }
 
@@ -982,25 +1047,82 @@ interface TemplateImageCropRequest {
 }
 
 let templateImageSyncTaskId = 0
+let templateRenderAssetTaskId = 0
+let templateCanvasDrawTaskId = 0
+let previewResizeObserver: ResizeObserver | null = null
+let canvasResumeRenderFrame = 0
 
-const canvasShellStyle = computed(() => ({
-  aspectRatio: `${templateRenderData.value.canvas.width} / ${templateRenderData.value.canvas.height}`
-}))
+const previewSize = reactive({ width: 0, height: 0 })
+const cropViewportSize = reactive({ width: 0, height: 0 })
+const canvasShellStyle = computed(() => {
+  const canvas = templateRenderData.value.canvas
+  const aspectRatio = canvas.width / canvas.height
+  const style: Record<string, string> = {
+    aspectRatio: `${canvas.width} / ${canvas.height}`
+  }
+
+  if (previewSize.width > 0 && previewSize.height > 0) {
+    const width = Math.min(previewSize.width, previewSize.height * aspectRatio)
+    const height = width / aspectRatio
+
+    style.width = `${Math.max(1, Math.floor(width))}px`
+    style.height = `${Math.max(1, Math.floor(height))}px`
+  }
+
+  return style
+})
+const cropCanvasDisplayStyle = computed(() => {
+  const request = pendingCrop.value
+  const aspectRatio = request ? getCropAspectRatio(request) : 1
+  const viewportWidth = cropViewportSize.width || window.innerWidth || 980
+  const viewportHeight = cropViewportSize.height || window.innerHeight || 760
+  const availableWidth = Math.max(180, Math.min(980, viewportWidth - 40) - 32)
+  const maxHeight = Math.max(180, Math.min(viewportHeight * 0.62, 620))
+  const width = Math.min(availableWidth, maxHeight * aspectRatio)
+  const height = width / aspectRatio
+
+  return {
+    aspectRatio: String(aspectRatio),
+    width: `${Math.max(1, Math.floor(width))}px`,
+    height: `${Math.max(1, Math.floor(height))}px`
+  }
+})
 const canvasUploadLayers = computed(() => templateRenderData.value.canvas.imageSlots)
 const imageUploadMenuSlot = computed(() =>
   canvasUploadLayers.value.find((slot) => slot.id === imageUploadMenuSlotId.value) || null
 )
 
 watch(
-  () => [templateRenderData.value, imageStateVersion.value, iconStateVersion.value],
+  () => [
+    templateRenderData.value,
+    imageStateVersion.value,
+    iconStateVersion.value,
+    templateRenderAssets.value,
+    themeMode.value
+  ],
   () => {
-    void nextTick(drawTemplateCanvas)
+    void nextTick(() => {
+      void drawTemplateCanvas()
+    })
   },
   { deep: true, immediate: true }
 )
 
 watch(
-  () => [templateRenderData.value.rows.map((row) => String(row.item.icon || '')).join('|'), props.apiBase],
+  () => templateRenderData.value.requiredAssets.join('|'),
+  () => {
+    void loadTemplateRenderAssets()
+  },
+  { immediate: true }
+)
+
+watch(
+  () => [
+    templateRenderData.value.template.renderMode,
+    String(templateRenderData.value.style.showIcons),
+    templateRenderData.value.rows.map((row) => String(row.item.icon || '')).join('|'),
+    props.apiBase
+  ],
   () => {
     preloadTemplateIcons()
   },
@@ -1077,7 +1199,16 @@ function getTemplateIconKey(iconId: unknown): string {
   return Number.isFinite(numericId) && numericId > 0 ? String(Math.trunc(numericId)) : ''
 }
 
+function shouldPreloadTemplateCanvasIcons(): boolean {
+  const renderMode = templateRenderData.value.template.renderMode
+  return templateRenderData.value.style.showIcons && (renderMode === 'ec' || renderMode === 'risingstones')
+}
+
 function preloadTemplateIcons() {
+  if (!shouldPreloadTemplateCanvasIcons()) {
+    return
+  }
+
   const iconIds = Array.from(
     new Set(templateRenderData.value.rows.map((row) => getTemplateIconKey(row.item.icon)).filter(Boolean))
   )
@@ -1329,6 +1460,8 @@ async function setTemplateImageData(
     image: imageData.image,
     imageUrl: imageData.imageUrl,
     name: imageData.imageName,
+    sourceUrl: imageData.sourceUrl,
+    sourceName: imageData.sourceName,
     backupOnly: false
   }
   writeGlamourTemplateImageSessionSlot(templateId.value, slotId, {
@@ -1500,6 +1633,14 @@ function getCropOutputSize(request: TemplateImageCropRequest) {
     width: Math.max(1, Math.round(rect?.width || 1)),
     height: Math.max(1, Math.round(rect?.height || 1))
   }
+}
+
+function getCropAspectRatio(request: TemplateImageCropRequest): number {
+  const slot = getCropSlot(request.slotId)
+  const size = getCropOutputSize(request)
+  const aspectRatio = Number(slot?.aspectRatio) > 0 ? Number(slot?.aspectRatio) : size.width / size.height
+
+  return clampNumber(aspectRatio, 0.1, 10, size.width / size.height)
 }
 
 function getCropBaseScale(request: TemplateImageCropRequest): number {
@@ -1841,6 +1982,8 @@ async function restoreCurrentTemplateImagesFromStore(
       image,
       imageUrl,
       name: record.imageName || record.sourceName || '',
+      sourceUrl: record.sourceUrl || imageUrl,
+      sourceName: record.sourceName || record.imageName || '',
       backupOnly: false
     }
     changed = true
@@ -1876,12 +2019,55 @@ async function restoreCurrentTemplateImagesFromSession(
       image,
       imageUrl: record.imageUrl,
       name: record.imageName || record.sourceName || '',
+      sourceUrl: record.sourceUrl || record.imageUrl,
+      sourceName: record.sourceName || record.imageName || '',
       backupOnly: true
     }
     changed = true
   }
 
   return changed
+}
+
+async function makeTemplateImageForSlotFromSource(
+  slotId: string,
+  sourceImage: TemplateCanvasImage
+): Promise<TemplateCanvasImage | null> {
+  const sourceUrl = sourceImage.sourceUrl || sourceImage.imageUrl
+  const source = await loadImageFromDataUrl(sourceUrl)
+  const rect = getCropSlot(slotId)?.region
+
+  if (!source || !rect) {
+    return null
+  }
+
+  const output = document.createElement('canvas')
+  output.width = Math.max(1, Math.round(rect.width))
+  output.height = Math.max(1, Math.round(rect.height))
+  const ctx = output.getContext('2d')
+
+  if (!ctx) {
+    return null
+  }
+
+  ctx.imageSmoothingEnabled = true
+  ctx.imageSmoothingQuality = 'high'
+  drawGlamourTemplateImageCover(ctx, source, 0, 0, output.width, output.height)
+  const imageUrl = output.toDataURL('image/png')
+  const image = await loadImageFromDataUrl(imageUrl)
+
+  if (!image) {
+    return null
+  }
+
+  return {
+    image,
+    imageUrl,
+    name: sourceImage.name || sourceImage.sourceName,
+    sourceUrl,
+    sourceName: sourceImage.sourceName || sourceImage.name,
+    backupOnly: false
+  }
 }
 
 async function carryTemplateImagesIntoCurrentTemplate(
@@ -1904,18 +2090,13 @@ async function carryTemplateImagesIntoCurrentTemplate(
       continue
     }
 
-    const image = await loadImageFromDataUrl(sourceImage.imageUrl)
+    const nextImage = await makeTemplateImageForSlotFromSource(slot.id, sourceImage)
 
-    if (!image || templateId.value !== carryingTemplateId || taskId !== templateImageSyncTaskId) {
+    if (!nextImage || templateId.value !== carryingTemplateId || taskId !== templateImageSyncTaskId) {
       return false
     }
 
-    templateImages[slot.id] = {
-      image,
-      imageUrl: sourceImage.imageUrl,
-      name: sourceImage.name,
-      backupOnly: sourceImage.backupOnly
-    }
+    templateImages[slot.id] = nextImage
     changed = true
   }
 
@@ -2025,23 +2206,139 @@ function getImageSlotIdFromPoint(clientX: number, clientY: number): string {
   const shell = canvasShellEl.value
 
   if (!shell) {
-    return ''
+    return activeImageSlotId.value
   }
 
   const shellRect = shell.getBoundingClientRect()
   const canvas = templateRenderData.value.canvas
   const x = ((clientX - shellRect.left) / shellRect.width) * canvas.width
   const y = ((clientY - shellRect.top) / shellRect.height) * canvas.height
+  const slots = canvasUploadLayers.value
+  let nearestSlotId = activeImageSlotId.value || slots[0]?.id || ''
+  let nearestDistance = Number.POSITIVE_INFINITY
 
-  return (
-    canvasUploadLayers.value.find((slot) => {
-      const rect = slot.dropRegion || slot.uploadRegion || slot.region
-      return x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height
-    })?.id || ''
-  )
+  for (let index = slots.length - 1; index >= 0; index -= 1) {
+    const slot = slots[index]
+    const rect = slot.dropRegion || slot.uploadRegion || slot.region
+
+    if (x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height) {
+      return slot.id
+    }
+
+    const dx = x < rect.x ? rect.x - x : x > rect.x + rect.width ? x - (rect.x + rect.width) : 0
+    const dy = y < rect.y ? rect.y - y : y > rect.y + rect.height ? y - (rect.y + rect.height) : 0
+    const distance = dx * dx + dy * dy
+
+    if (distance < nearestDistance) {
+      nearestDistance = distance
+      nearestSlotId = slot.id
+    }
+  }
+
+  return nearestSlotId
 }
 
-function drawTemplateCanvas() {
+function getTemplateCanvasFonts(renderData: GlamourTemplateRenderData): string[] {
+  const fonts = [...(templateCanvasFonts[renderData.templateId] || [])]
+
+  if (renderData.templateId === 'silence-fashion' && renderData.locales.includes('ko')) {
+    fonts.push(...silenceFashionKoCanvasFonts)
+  }
+
+  return Array.from(new Set(fonts))
+}
+
+function buildTemplateCanvasFontLoadText(renderData: GlamourTemplateRenderData): string {
+  const parts = [
+    templateFontLoadFallbackText,
+    renderData.text.title,
+    renderData.text.characterName,
+    renderData.text.subtitle,
+    renderData.text.bottomText
+  ]
+
+  for (const localized of renderData.localizedRows) {
+    for (const row of localized.rows) {
+      parts.push(row.itemName, row.dyeText)
+      row.dyes.forEach((dye) => parts.push(dye.name))
+    }
+  }
+
+  const chars: string[] = []
+  const seen = new Set<string>()
+
+  for (const char of parts.filter(Boolean).join('')) {
+    if (/\s/.test(char) || seen.has(char)) {
+      continue
+    }
+
+    seen.add(char)
+    chars.push(char)
+
+    if (chars.length >= 1600) {
+      break
+    }
+  }
+
+  return chars.length ? chars.join('') : templateFontLoadFallbackText
+}
+
+function getTemplateCanvasFontsCacheKey(renderData: GlamourTemplateRenderData): string {
+  const fonts = getTemplateCanvasFonts(renderData)
+  return `${renderData.templateId}::${renderData.locales.join(',')}::${fonts.join('||')}::${buildTemplateCanvasFontLoadText(renderData)}`
+}
+
+async function ensureTemplateCanvasFonts(renderData: GlamourTemplateRenderData) {
+  const fontSet = document.fonts
+
+  if (!fontSet) {
+    return
+  }
+
+  const fonts = getTemplateCanvasFonts(renderData)
+  const cacheKey = getTemplateCanvasFontsCacheKey(renderData)
+
+  if (!fonts.length || loadedTemplateFontKeys.has(cacheKey)) {
+    loadedTemplateFontKeys.add(cacheKey)
+    return
+  }
+
+  const fontLoadText = buildTemplateCanvasFontLoadText(renderData)
+  let promise = loadingTemplateFontPromises.get(cacheKey)
+
+  if (!promise) {
+    promise = Promise.all(fonts.map((font) => fontSet.load(font, fontLoadText).catch(() => [])))
+      .then(() => {
+        loadedTemplateFontKeys.add(cacheKey)
+      })
+      .finally(() => {
+        loadingTemplateFontPromises.delete(cacheKey)
+      })
+    loadingTemplateFontPromises.set(cacheKey, promise)
+  }
+
+  await promise
+}
+
+async function loadTemplateRenderAssets() {
+  const taskId = ++templateRenderAssetTaskId
+  const assets = templateRenderData.value.requiredAssets
+
+  if (!assets.length) {
+    templateRenderAssets.value = {}
+    return
+  }
+
+  const loadedAssets = await loadGlamourTemplateRenderAssets(assets)
+
+  if (taskId !== templateRenderAssetTaskId) {
+    return
+  }
+
+  templateRenderAssets.value = loadedAssets
+}
+
+async function drawTemplateCanvas() {
   const canvas = templateCanvasEl.value
 
   if (!canvas) {
@@ -2049,6 +2346,14 @@ function drawTemplateCanvas() {
   }
 
   const renderData = templateRenderData.value
+  const taskId = ++templateCanvasDrawTaskId
+
+  await ensureTemplateCanvasFonts(renderData)
+
+  if (taskId !== templateCanvasDrawTaskId || renderData !== templateRenderData.value) {
+    return
+  }
+
   const ctx = canvas.getContext('2d')
 
   if (!ctx) {
@@ -2062,13 +2367,13 @@ function drawTemplateCanvas() {
   renderGlamourTemplateCanvas(ctx, {
     renderData,
     resolveImage: getTemplateImage,
-    resolveIcon: getTemplateIcon
+    resolveIcon: getTemplateIcon,
+    assets: templateRenderAssets.value
   })
 }
 
-function downloadTemplateCanvas() {
-  drawTemplateCanvas()
-
+async function downloadTemplateCanvas() {
+  await drawTemplateCanvas()
   const canvas = templateCanvasEl.value
 
   if (!canvas) {
@@ -2409,10 +2714,10 @@ function getTemplateSelectorFilterLabel(filter: string): string {
 
 function getTemplateLanguageLabels(option: GlamourTemplateDefinition): string[] {
   if (option.languageOptions?.length) {
-    return option.languageOptions.map((item) => item.label)
+    return sortTemplateLanguageOptions(option.languageOptions).map((item) => item.label)
   }
 
-  return option.localeOrder.map((locale) => localeLabels[locale] || locale)
+  return sortTemplateLocales(option.localeOrder).map((locale) => localeLabels[locale] || locale)
 }
 
 function getTemplateLanguageSummary(option: GlamourTemplateDefinition): string {
@@ -2424,6 +2729,11 @@ function getTemplateSelectorCardTitle(option: GlamourTemplateDefinition): string
     template: `${option.author} ${option.summary || ''}`.trim(),
     languages: getTemplateLanguageSummary(option)
   })
+}
+
+function getTemplatePreviewUrl(option: GlamourTemplateDefinition): string {
+  const legacyPath = String(option.legacyPreviewPath || '').replace(/^\/template-preview\/?/, '')
+  return `/data/glamour/template-preview/${legacyPath || '1-Eorzea Magazine/1-Preview.webp'}`
 }
 
 function getAuthorPlatformLabel(platform: string): string {
@@ -2531,6 +2841,13 @@ function closeRecent() {
   recentOpen.value = false
 }
 
+function closeFloatingTemplatePanels() {
+  closeImageUploadMenu()
+  closeRecent()
+  closeAuthorLinks()
+  activeDyePicker.value = null
+}
+
 function restoreRecent(item: GlamourRecentSnapshot) {
   emit('restore-recent', item)
   closeRecent()
@@ -2584,15 +2901,142 @@ function handleDocumentKeydown(event: KeyboardEvent) {
   }
 }
 
+function isEventInsideTemplateCanvasShell(event: DragEvent): boolean {
+  const shell = canvasShellEl.value
+  const target = event.target as Node | null
+
+  return Boolean(shell && target && shell.contains(target))
+}
+
+function handleTemplateDocumentDragEvent(event: DragEvent) {
+  const insideShell = isEventInsideTemplateCanvasShell(event)
+  const isDragEvent = ['dragenter', 'dragover', 'dragleave', 'drop'].includes(event.type)
+
+  if (!hasDraggedImage(event) && !(insideShell && isDragEvent)) {
+    return
+  }
+
+  event.preventDefault()
+  event.stopPropagation()
+
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'copy'
+  }
+
+  if (insideShell && (event.type === 'dragenter' || event.type === 'dragover')) {
+    handleCanvasDrag(event)
+    return
+  }
+
+  if (event.type === 'drop') {
+    if (insideShell) {
+      handleCanvasDrop(event)
+    } else {
+      activeDropSlotId.value = ''
+    }
+    return
+  }
+
+  if (event.type === 'dragleave') {
+    if (!insideShell) {
+      activeDropSlotId.value = ''
+      return
+    }
+
+    handleCanvasDragLeave(event)
+  }
+}
+
+function getTemplateDocumentDragTargets(): EventTarget[] {
+  return [window, document, document.documentElement].filter(Boolean)
+}
+
+function updatePreviewSize() {
+  const preview = previewEl.value
+
+  if (!preview) {
+    previewSize.width = 0
+    previewSize.height = 0
+    return
+  }
+
+  const rect = preview.getBoundingClientRect()
+  const style = window.getComputedStyle(preview)
+  const horizontalPadding = Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight)
+  const verticalPadding = Number.parseFloat(style.paddingTop) + Number.parseFloat(style.paddingBottom)
+
+  previewSize.width = Math.max(0, rect.width - horizontalPadding)
+  previewSize.height = Math.max(0, rect.height - verticalPadding)
+}
+
+function updateCropViewportSize() {
+  cropViewportSize.width = window.innerWidth
+  cropViewportSize.height = window.innerHeight
+}
+
+function redrawTemplateCanvasAfterPageResume() {
+  if (document.hidden) {
+    return
+  }
+
+  if (canvasResumeRenderFrame) {
+    window.cancelAnimationFrame(canvasResumeRenderFrame)
+  }
+
+  canvasResumeRenderFrame = window.requestAnimationFrame(() => {
+    canvasResumeRenderFrame = 0
+    updatePreviewSize()
+    void drawTemplateCanvas()
+  })
+}
+
+function observePreviewSize() {
+  updatePreviewSize()
+
+  if (!previewEl.value || typeof ResizeObserver === 'undefined') {
+    return
+  }
+
+  previewResizeObserver = new ResizeObserver(updatePreviewSize)
+  previewResizeObserver.observe(previewEl.value)
+}
+
 onMounted(() => {
   document.addEventListener('click', handleDocumentClick)
   document.addEventListener('keydown', handleDocumentKeydown)
+  getTemplateDocumentDragTargets().forEach((target) => {
+    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
+      target.addEventListener(eventName, handleTemplateDocumentDragEvent as EventListener, { capture: true })
+    })
+  })
+  window.addEventListener('resize', updateCropViewportSize)
+  document.addEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)
+  window.addEventListener('pageshow', redrawTemplateCanvasAfterPageResume)
+  window.addEventListener('focus', redrawTemplateCanvasAfterPageResume)
+  window.addEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)
+  updateCropViewportSize()
+  observePreviewSize()
   void refreshRecentTemplateImages()
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleDocumentClick)
   document.removeEventListener('keydown', handleDocumentKeydown)
+  getTemplateDocumentDragTargets().forEach((target) => {
+    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
+      target.removeEventListener(eventName, handleTemplateDocumentDragEvent as EventListener, { capture: true })
+    })
+  })
+  window.removeEventListener('resize', updateCropViewportSize)
+  document.removeEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)
+  window.removeEventListener('pageshow', redrawTemplateCanvasAfterPageResume)
+  window.removeEventListener('focus', redrawTemplateCanvasAfterPageResume)
+  window.removeEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)
+  if (canvasResumeRenderFrame) {
+    window.cancelAnimationFrame(canvasResumeRenderFrame)
+    canvasResumeRenderFrame = 0
+  }
+  previewResizeObserver?.disconnect()
   clearTemplateImages()
 })
 </script>
@@ -2618,18 +3062,20 @@ onBeforeUnmount(() => {
 .nsglamour-template__preview {
   display: grid;
   place-items: center;
-  padding: 14px;
+  padding: 16px;
+  border: 0;
+  background: #fff;
   overflow: hidden;
 }
 
 .nsglamour-template__canvas-shell {
   position: relative;
-  width: min(100%, 760px);
+  width: 100%;
   max-height: 100%;
   overflow: hidden;
-  border: 1px solid var(--ns-color-border);
+  border: 1px solid rgba(42, 33, 56, 0.16);
   background: #fff;
-  box-shadow: 0 14px 32px rgba(20, 28, 45, 0.08);
+  box-shadow: none;
 }
 
 .nsglamour-template__canvas {
@@ -2781,7 +3227,7 @@ onBeforeUnmount(() => {
   width: 44px;
   height: 44px;
   border: 1px solid var(--ns-color-border);
-  background: #fff;
+  background: var(--ns-color-surface-solid);
   object-fit: cover;
 }
 
@@ -2815,79 +3261,169 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   padding: 20px;
-  background: rgba(15, 23, 42, 0.56);
+  background:
+    linear-gradient(rgba(42, 33, 56, 0.52), rgba(42, 33, 56, 0.52)),
+    rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(1px);
 }
 
 .nsglamour-template-crop__dialog {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
-  gap: 12px;
-  width: min(980px, 100%);
-  max-height: min(92vh, 760px);
-  padding: 14px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 8px;
-  background: var(--ns-color-surface);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: fit-content;
+  min-width: min(520px, calc(100vw - 40px));
+  max-width: calc(100vw - 40px);
+  max-height: min(92vh, 820px);
+  overflow: hidden;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
+  background: var(--ns-pixel-window-bg);
+  box-shadow: 8px 8px 0 rgba(42, 33, 56, 0.38);
 }
 
-.nsglamour-template-crop__head,
-.nsglamour-template-crop__actions {
+.nsglamour-template-crop__head {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  min-width: 0;
+  min-height: 50px;
+  padding: 9px 12px;
+  border-bottom: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-window-bar-bg);
 }
 
 .nsglamour-template-crop__head h2 {
-  margin: 0 0 4px;
+  margin: 0;
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-decorative);
   font-size: 18px;
+  font-weight: 950;
+  line-height: 1.15;
 }
 
 .nsglamour-template-crop__head p {
-  margin: 0;
+  margin: 3px 0 0;
   color: var(--ns-color-text-muted);
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .nsglamour-template-crop__stage {
   display: grid;
+  align-self: center;
+  justify-self: center;
+  max-width: calc(100vw - 64px);
+  max-height: calc(92vh - 178px);
   min-height: 0;
+  margin: 12px;
   overflow: hidden;
   place-items: center;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 8px;
-  background: #191919;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
+  background:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.08) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.08) 75%),
+    #17131f;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+  background-size: 16px 16px;
+  box-shadow: 4px 4px 0 rgba(42, 33, 56, 0.24);
   cursor: move;
   touch-action: none;
 }
 
 .nsglamour-template-crop__canvas {
   display: block;
-  max-width: 100%;
-  max-height: min(62vh, 620px);
+  width: 100%;
+  height: 100%;
   background: #191919;
+}
+
+.nsglamour-template-crop__footer {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px 12px;
+  border-top: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
 }
 
 .nsglamour-template-crop__zoom {
   display: grid;
-  grid-template-columns: auto minmax(140px, 1fr) 76px auto;
+  grid-template-columns: auto minmax(150px, 1fr) 70px auto;
   align-items: center;
-  gap: 10px;
-  font-size: 13px;
+  gap: 8px;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.nsglamour-template-crop__zoom label {
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-decorative);
+  font-weight: 950;
 }
 
 .nsglamour-template-crop__zoom input[type='range'] {
   width: 100%;
+  accent-color: var(--ns-color-accent);
+  cursor: pointer;
 }
 
 .nsglamour-template-crop__zoom input[type='number'] {
-  width: 76px;
-  padding: 6px 8px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 6px;
+  width: 70px;
+  min-height: 34px;
+  padding: 5px 8px;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
+  font: inherit;
+  font-weight: 850;
+  text-align: right;
+  box-shadow: inset 2px 2px 0 rgba(42, 33, 56, 0.08);
+}
+
+.nsglamour-template-crop__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.nsglamour-template-crop__head .ns-compact-action,
+.nsglamour-template-crop__actions .ns-compact-action,
+.nsglamour-template-crop__actions .nsglamour-template__primary {
+  min-height: 34px;
+  border-width: 2px;
+  border-radius: 0;
+  font-family: var(--ns-font-decorative);
+  font-size: 13px;
+  font-weight: 950;
+  box-shadow: var(--ns-pixel-button-shadow);
+}
+
+.nsglamour-template-crop__actions .nsglamour-template__primary {
+  padding-inline: 16px;
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-color-accent);
+  color: var(--ns-color-on-accent);
+}
+
+.nsglamour-template-crop__actions .nsglamour-template__primary:hover,
+.nsglamour-template-crop__actions .nsglamour-template__primary:focus-visible {
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-pixel-pink-surface);
+  color: var(--ns-color-accent-strong);
+  outline: none;
 }
 
 .nsglamour-template__config {
@@ -2910,10 +3446,19 @@ onBeforeUnmount(() => {
 .nsglamour-template__author {
   position: relative;
   display: inline-flex;
+  flex: 1 1 auto;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0;
   min-width: 0;
+}
+
+.nsglamour-template__meta-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-left: auto;
 }
 
 .nsglamour-template__author > span {
@@ -2993,19 +3538,33 @@ onBeforeUnmount(() => {
 .nsglamour-template__recent {
   position: static;
   display: inline-flex;
+  align-self: center;
 }
 
 .nsglamour-template__recent-button {
-  width: 34px;
-  min-width: 34px;
-  height: 34px;
-  min-height: 34px;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  min-height: 30px;
+  padding: 0;
+  border: 2px solid var(--ns-pixel-border-soft);
+  background: var(--ns-pixel-surface);
+  box-shadow: var(--ns-pixel-soft-shadow);
+}
+
+.nsglamour-template__recent-button:hover,
+.nsglamour-template__recent-button:focus-visible {
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-pixel-hover-surface);
+  color: var(--ns-color-accent-strong);
+  outline: none;
 }
 
 .nsglamour-template__recent-button img {
   display: block;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
+  filter: var(--ns-pixel-icon-filter);
 }
 
 .nsglamour-template__recent-panel {
@@ -3021,6 +3580,7 @@ onBeforeUnmount(() => {
   gap: 6px;
   min-width: 0;
   color: var(--ns-color-text-muted);
+  font-family: var(--ns-font-sans);
   font-size: 12px;
   font-weight: 700;
 }
@@ -3035,8 +3595,9 @@ onBeforeUnmount(() => {
   border-radius: 4px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: inherit;
+  font-family: var(--ns-font-sans);
   font-size: 13px;
+  font-weight: 400;
 }
 
 .nsglamour-template__select {
@@ -3064,46 +3625,99 @@ onBeforeUnmount(() => {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  align-items: center;
+}
+
+.nsglamour-template__language-controls {
+  flex-wrap: nowrap;
+  gap: 6px;
 }
 
 .nsglamour-template__segmented button,
-.nsglamour-template__language-controls button,
+.nsglamour-template__language-controls button {
+  min-height: 36px;
+  padding: 5px 12px;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
+  background: var(--ns-pixel-surface);
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-decorative);
+  font-size: 13px;
+  font-weight: 950;
+  line-height: 1;
+  box-shadow: var(--ns-pixel-button-shadow);
+  cursor: pointer;
+  transition: none;
+}
+
+.nsglamour-template__segmented button {
+  min-width: 104px;
+}
+
+.nsglamour-template__language-controls button {
+  min-width: 42px;
+  padding-inline: 8px;
+  text-transform: lowercase;
+}
+
 .nsglamour-template__primary {
   min-height: 30px;
   padding: 4px 10px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 800;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
+  background: var(--ns-color-accent);
+  color: var(--ns-color-on-accent);
+  font-family: var(--ns-font-decorative);
+  font-size: 13px;
+  font-weight: 950;
+  box-shadow: var(--ns-pixel-button-shadow);
   cursor: pointer;
 }
 
-.nsglamour-template__primary {
-  border-color: var(--ns-color-accent);
-  background: var(--ns-color-accent);
-  color: var(--ns-color-accent-contrast, #fff);
-}
-
 .nsglamour-template__segmented button:hover,
-.nsglamour-template__segmented button:focus,
-.nsglamour-template__segmented button.active,
-.nsglamour-template__language-controls button.current,
+.nsglamour-template__segmented button:focus-visible,
 .nsglamour-template__language-controls button:hover,
-.nsglamour-template__language-controls button:focus,
-.nsglamour-template__language-controls button.active,
-.nsglamour-template__primary:hover,
-.nsglamour-template__primary:focus {
-  border-color: var(--ns-color-accent);
-  color: var(--ns-color-accent);
+.nsglamour-template__language-controls button:focus-visible {
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-pixel-hover-surface);
+  color: var(--ns-color-accent-strong);
+  box-shadow: var(--ns-pixel-button-shadow-hover);
   outline: none;
+  transform: translate(-1px, -1px);
+}
+
+.nsglamour-template__segmented button.active,
+.nsglamour-template__language-controls button.active,
+.nsglamour-template__language-controls button.current {
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-pixel-pink-surface);
+  color: var(--ns-color-accent-strong);
+  box-shadow: var(--ns-pixel-button-shadow);
+}
+
+.nsglamour-template__language-controls button.current {
+  background: var(--ns-pixel-cyan-surface);
+}
+
+.nsglamour-template__segmented button:active,
+.nsglamour-template__language-controls button:active {
+  box-shadow: var(--ns-pixel-soft-shadow);
+  transform: translate(2px, 2px);
 }
 
 .nsglamour-template__primary:hover,
-.nsglamour-template__primary:focus {
-  background: transparent;
+.nsglamour-template__primary:focus-visible {
+  border-color: var(--ns-pixel-border);
+  background: var(--ns-pixel-hover-surface);
+  color: var(--ns-color-accent-strong);
+  box-shadow: var(--ns-pixel-button-shadow-hover);
+  outline: none;
+  transform: translate(-1px, -1px);
+}
+
+.nsglamour-template__primary:active {
+  box-shadow: var(--ns-pixel-soft-shadow);
+  transform: translate(2px, 2px);
 }
 
 .nsglamour-template__primary:disabled {
@@ -3226,6 +3840,11 @@ onBeforeUnmount(() => {
 
 .nsglamour-template__dye-chip:not(.empty-dye)::before {
   background: var(--nsglamour-dye-color, #000);
+}
+
+.nsglamour-template__dye-chip.empty-dye::before {
+  border: 0;
+  background: url('/data/glamour/templates/com_icon_clear.svg') center / 10px 10px no-repeat;
 }
 
 .nsglamour-template__dye-chip:hover,
@@ -3417,7 +4036,7 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   padding: 18px;
-  background: rgba(17, 24, 39, 0.32);
+  background: color-mix(in srgb, var(--ns-color-bg) 72%, transparent);
 }
 
 .nsglamour-template-selector__dialog {
@@ -3440,20 +4059,13 @@ onBeforeUnmount(() => {
   gap: 12px;
 }
 
-.nsglamour-template-selector__head h2,
-.nsglamour-template-selector__head p {
+.nsglamour-template-selector__head h2 {
   margin: 0;
 }
 
 .nsglamour-template-selector__head h2 {
   font-size: 16px;
   font-weight: 800;
-}
-
-.nsglamour-template-selector__head p {
-  margin-top: 4px;
-  color: var(--ns-color-text-muted);
-  font-size: 12px;
 }
 
 .nsglamour-template-selector__filters,
@@ -3512,18 +4124,15 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-template-selector__preview {
-  display: grid;
-  align-content: center;
-  gap: 4px;
+  display: block;
   min-width: 0;
   min-height: 82px;
-  padding: 8px;
+  height: 82px;
+  overflow: hidden;
   border: 1px solid var(--ns-color-border);
-  background: #fff;
+  background: var(--ns-glamour-template-canvas-bg);
 }
 
-.nsglamour-template-selector__preview strong,
-.nsglamour-template-selector__preview small,
 .nsglamour-template-selector__body strong,
 .nsglamour-template-selector__body span,
 .nsglamour-template-selector__author a {
@@ -3533,12 +4142,13 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
-.nsglamour-template-selector__preview strong {
-  font-size: 13px;
-  font-weight: 800;
+.nsglamour-template-selector__preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
-.nsglamour-template-selector__preview small,
 .nsglamour-template-selector__body span {
   color: var(--ns-color-text-muted);
   font-size: 11px;
@@ -3606,10 +4216,10 @@ onBeforeUnmount(() => {
   gap: 12px;
   width: min(460px, 100%);
   padding: 16px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface-solid);
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-window-bg);
   color: var(--ns-color-text);
-  box-shadow: 0 16px 34px rgba(20, 28, 45, 0.18);
+  box-shadow: var(--ns-pixel-window-shadow);
 }
 
 .nsglamour-template-import__head,
@@ -3638,6 +4248,7 @@ onBeforeUnmount(() => {
 
 .nsglamour-template-import__actions {
   justify-content: flex-end;
+  padding-top: 4px;
 }
 
 @media (max-width: 1080px) {
@@ -3653,7 +4264,7 @@ onBeforeUnmount(() => {
 
 @media (max-width: 640px) {
   .nsglamour-template__preview {
-    padding: 0;
+    padding: 8px;
   }
 
   .nsglamour-template__canvas-upload-layer span {
@@ -3676,8 +4287,55 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
   }
 
+  .nsglamour-template__meta-actions {
+    margin-left: 0;
+  }
+
   .nsglamour-template-selector__card {
     grid-template-columns: 94px minmax(0, 1fr);
+  }
+
+  .nsglamour-template-crop {
+    padding: 12px;
+  }
+
+  .nsglamour-template-crop__head,
+  .nsglamour-template-crop__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .nsglamour-template-crop__dialog {
+    min-width: 0;
+    width: min(100%, calc(100vw - 24px));
+    max-width: calc(100vw - 24px);
+  }
+
+  .nsglamour-template-crop__stage {
+    max-width: calc(100vw - 48px);
+    margin: 10px;
+  }
+
+  .nsglamour-template-crop__footer {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .nsglamour-template-crop__zoom {
+    grid-template-columns: 1fr 76px auto;
+  }
+
+  .nsglamour-template-crop__zoom label {
+    grid-column: 1 / -1;
+  }
+
+  .nsglamour-template-crop__actions {
+    flex-direction: row;
+  }
+
+  .nsglamour-template-crop__actions .nsglamour-template__primary,
+  .nsglamour-template-crop__actions .ns-compact-action {
+    flex: 1 1 0;
   }
 
 }

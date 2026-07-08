@@ -2,7 +2,7 @@
   <section class="nsglamour-equipment">
     <header class="nsglamour-equipment__header">
       <div>
-        <h2>{{ t(textKeys.nsglamourEquipmentPanel) }}</h2>
+        <h2 class="ns-heading-bloom">{{ t(textKeys.nsglamourEquipmentPanel) }}</h2>
         <p v-if="sourceDisplayName" class="nsglamour-equipment__source">
           <strong>{{ sourceDisplayName }}</strong>
           <span v-if="sourceMetaText">{{ sourceMetaText }}</span>
@@ -47,7 +47,8 @@
           class="nsglamour-slot"
           :class="{
             'nsglamour-slot--empty': !entry.itemName,
-            'nsglamour-slot--with-icon': Boolean(entry.iconUrl)
+            'nsglamour-slot--with-icon': Boolean(entry.iconUrl),
+            'nsglamour-slot--selected-no-dye': Boolean(entry.itemName) && !entry.dyeEntries.length && !entry.dyeStatusText
           }"
         >
           <div v-if="entry.iconUrl" class="nsglamour-slot__icon" aria-hidden="true">
@@ -179,7 +180,7 @@
               {{ entry.dyeStatusText }}
             </div>
 
-            <div v-else class="nsglamour-slot__search">
+            <div v-else-if="!entry.itemName" class="nsglamour-slot__search">
               <input
                 type="search"
                 class="nsglamour-slot__search-input"
@@ -230,7 +231,8 @@
         class="nsglamour-slot"
         :class="{
           'nsglamour-slot--empty': !entry.itemName,
-          'nsglamour-slot--with-icon': Boolean(entry.iconUrl)
+          'nsglamour-slot--with-icon': Boolean(entry.iconUrl),
+          'nsglamour-slot--selected-no-dye': Boolean(entry.itemName) && !entry.dyeEntries.length && !entry.dyeStatusText
         }"
       >
         <div v-if="entry.iconUrl" class="nsglamour-slot__icon" aria-hidden="true">
@@ -362,7 +364,7 @@
             {{ entry.dyeStatusText }}
           </div>
 
-          <div v-else class="nsglamour-slot__search">
+          <div v-else-if="!entry.itemName" class="nsglamour-slot__search">
             <input
               type="search"
               class="nsglamour-slot__search-input"
@@ -869,6 +871,7 @@ function emitLocale(event: Event) {
 <style scoped>
 .nsglamour-equipment {
   display: grid;
+  align-content: start;
   min-height: 0;
   gap: 12px;
   padding: 14px;
@@ -1012,6 +1015,10 @@ function emitLocale(event: Event) {
   color: var(--ns-color-text-muted, #777);
 }
 
+.nsglamour-slot--selected-no-dye .nsglamour-slot__body {
+  align-self: center;
+}
+
 .nsglamour-slot__icon {
   align-self: center;
   width: 42px;
@@ -1138,7 +1145,7 @@ function emitLocale(event: Event) {
   z-index: 6;
   display: grid;
   gap: 0;
-  width: min(300px, calc(100vw - 42px));
+  width: min(420px, calc(100vw - 42px));
   max-height: 260px;
   min-width: 0;
   padding: 5px;
@@ -1150,13 +1157,13 @@ function emitLocale(event: Event) {
 
 .nsglamour-slot__candidate-option {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
+  grid-template-columns: 42px minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  min-height: 36px;
+  min-height: 52px;
   min-width: 0;
-  padding: 4px 6px;
+  padding: 5px 8px;
   border: 0;
   border-bottom: 1px solid transparent;
   border-radius: 0;
@@ -1177,19 +1184,19 @@ function emitLocale(event: Event) {
 
 .nsglamour-slot__candidate-option img {
   display: block;
-  width: 28px;
-  height: 28px;
+  width: 42px;
+  height: 42px;
   border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 4px;
+  border-radius: 6px;
   object-fit: cover;
 }
 
 .nsglamour-slot__candidate-option span {
   min-width: 0;
   overflow: hidden;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1236,7 +1243,7 @@ function emitLocale(event: Event) {
 
 .nsglamour-slot__dye-chip.empty-dye {
   background:
-    radial-gradient(circle at 11px center, transparent 0 4px, var(--ns-color-text-muted, #777) 4px 5px, transparent 6px),
+    url('/data/glamour/templates/com_icon_clear.svg') 6px center / 10px 10px no-repeat,
     transparent;
   color: var(--ns-color-text-muted, #777);
 }
@@ -1425,19 +1432,19 @@ function emitLocale(event: Event) {
 
 .nsglamour-slot__search-result {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
+  grid-template-columns: 42px minmax(0, 1fr);
   align-items: center;
-  gap: 7px;
+  gap: 10px;
   min-width: 0;
-  min-height: 34px;
-  padding: 4px 6px;
+  min-height: 52px;
+  padding: 5px 8px;
   border: 0;
   border-bottom: 1px solid var(--ns-color-border, #e4e4e4);
   border-radius: 0;
   background: transparent;
   color: inherit;
   font: inherit;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left;
   cursor: pointer;
 }
@@ -1450,10 +1457,10 @@ function emitLocale(event: Event) {
 
 .nsglamour-slot__search-result img {
   display: block;
-  width: 28px;
-  height: 28px;
+  width: 42px;
+  height: 42px;
   border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 4px;
+  border-radius: 6px;
   object-fit: cover;
 }
 
