@@ -14,25 +14,12 @@
         />
 
         <div class="nsarmoire-workspace__content">
-          <a
-            class="nsarmoire-workspace__helper-download"
-            :href="HELPER_RELEASE_URL"
-            target="_blank"
-            rel="noopener noreferrer"
-            :aria-label="t(textKeys.nsarmoireDownloadHelper)"
-            :title="t(textKeys.nsarmoireDownloadHelper)"
-          >
-            <span>{{ t(textKeys.nsarmoireDownloadHelperShort) }}</span>
-            <span class="nsarmoire-workspace__helper-download-icon" aria-hidden="true"></span>
-          </a>
-
           <NSArmoireImportPanel
             class="nsarmoire-workspace__import"
             :mode="snapshot || activeSection === 'characters' ? 'compact' : 'hero'"
             :snapshot="snapshot"
             :error-key="errorKey"
             :error-detail="errorDetail"
-            :imported-file-name="importedFileName"
             :helper-status-tone="helperTone"
             :helper-status-title-key="helperTitleKey"
             :helper-status-message-key="helperMessageKey"
@@ -41,17 +28,6 @@
             :helper-health="helperHealth"
             :helper-probe="helperProbe"
             :helper-busy="helperBusy"
-            :helper-can-refresh="helperCanRefresh"
-            :helper-can-shutdown="helperCanShutdown"
-            :helper-can-select-process="helperCanSelectProcess"
-            :helper-can-clear-retainer-cache="helperCanClearRetainerCache"
-            @import-file="importSnapshotFile"
-            @load-example="loadExampleSnapshot"
-            @connect-helper="connectHelper"
-            @select-helper-process="openHelperProcessPicker"
-            @refresh-helper="refreshHelper"
-            @clear-retainer-cache="clearHelperRetainerCache"
-            @shutdown-helper="shutdownHelper"
           />
 
           <div v-if="snapshot || activeSection === 'characters'" class="nsarmoire-workspace__main">
@@ -148,6 +124,7 @@
               :catalog-error="catalogError"
               :selected-dye-value-categories="selectedDyeValueCategories"
               :selected-valuable-dye-ids="selectedValuableDyeIds"
+              @import-file="importSnapshotFile"
               @toggle-dye-value-category="toggleDyeValueCategory"
               @toggle-valuable-dye-id="toggleValuableDyeId"
               @switch-profile="switchCharacterProfile"
@@ -192,12 +169,10 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import githubIcon from '@/assets/icons/pixelarticons/github.svg'
 import { textKeys } from '@/config/site'
 import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
 import { mergeArmoireCatalogs } from '@/lib/armoire/catalog'
 import type { ArmoireStoreCatalog, ArmoireStoreItemDisplayIndex } from '@/lib/armoire/types'
-import { NSARMOIRE_BUTLER_RELEASE_URL } from '@/pages/armoire/services/nsarmoireHelperApi'
 import type { ArmoireCatalogStatus } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
 import { useArmoireCabinetCatalog } from '@/pages/armoire/composables/useArmoireCabinetCatalog'
@@ -235,8 +210,6 @@ const EMPTY_WORKSPACE_STORE_ITEM_DISPLAY_INDEX: ArmoireStoreItemDisplayIndex = {
 const DATA_BASE_URL = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data`
 const STORE_CATALOG_URL = `${DATA_BASE_URL}/armoire-store-catalog.json`
 const STORE_ITEM_DISPLAY_INDEX_URL = `${DATA_BASE_URL}/armoire-store-item-display-index.json`
-const HELPER_RELEASE_URL = NSARMOIRE_BUTLER_RELEASE_URL
-const HELPER_DOWNLOAD_ICON_MASK = `url("${githubIcon}")`
 
 const AppTabs = defineAsyncComponent(() => import('@/components/AppTabs.vue'))
 const NSArmoireCabinetStatsPanel = defineAsyncComponent(
@@ -312,12 +285,10 @@ const {
   snapshot,
   errorKey,
   errorDetail,
-  importedFileName,
   importSnapshotPayload,
   importSnapshotFile,
   replaceSnapshotFromCache,
   forgetStoredSnapshot,
-  loadExampleSnapshot,
   clearSnapshot
 } = useArmoireSnapshot()
 const {
@@ -433,19 +404,11 @@ const {
   titleKey: helperTitleKey,
   messageKey: helperMessageKey,
   tone: helperTone,
-  canRefresh: helperCanRefresh,
-  canShutdown: helperCanShutdown,
-  canSelectProcess: helperCanSelectProcess,
-  canClearRetainerCache: helperCanClearRetainerCache,
   connectHelper,
-  refreshHelper,
-  clearRetainerCache: clearHelperRetainerCache,
-  shutdownHelper,
   processes: helperProcesses,
   processPickerOpen: helperProcessPickerOpen,
   processBusy: helperProcessBusy,
   processError: helperProcessError,
-  openProcessPicker: openHelperProcessPicker,
   loadProcesses: loadHelperProcesses,
   selectProcess: selectHelperProcess,
   closeProcessPicker: closeHelperProcessPicker
@@ -863,12 +826,12 @@ onMounted(() => {
 .nsarmoire-workspace {
   --ns-font-decorative: var(--ns-font-sans);
   --ns-font-mono: var(--ns-font-sans);
+  --ns-ffxiv-workspace-bg: #fff8fc;
 
   display: flex;
   flex: 1;
   min-height: 0;
-  background: var(--ns-color-bg-soft);
-  background: #ffffff;
+  background: var(--ns-ffxiv-workspace-bg);
   font-family: var(--ns-font-sans);
   overflow: auto;
 }
@@ -877,12 +840,12 @@ onMounted(() => {
   display: grid;
   width: 100%;
   min-width: 0;
-  background: #ffffff;
+  background: var(--ns-ffxiv-workspace-bg);
 }
 
 .nsarmoire-workspace__shell {
   --nsarmoire-import-compact-max: 820px;
-  --nsarmoire-import-hero-max: 760px;
+  --nsarmoire-import-hero-max: 680px;
 
   display: grid;
   grid-template-columns: 48px minmax(0, 1fr);
@@ -902,44 +865,6 @@ onMounted(() => {
   padding: 20px;
 }
 
-.nsarmoire-workspace__helper-download {
-  position: fixed;
-  top: 72px;
-  right: 22px;
-  z-index: 20;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  min-width: 76px;
-  min-height: 34px;
-  padding: 6px 10px;
-  border: 2px solid var(--ns-pixel-border);
-  background: #ffffff;
-  color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1;
-  text-decoration: none;
-  box-shadow: none;
-}
-
-.nsarmoire-workspace__helper-download:hover,
-.nsarmoire-workspace__helper-download:focus-visible {
-  outline: none;
-  box-shadow: 2px 2px 0 rgba(68, 58, 76, 0.18);
-}
-
-.nsarmoire-workspace__helper-download-icon {
-  display: block;
-  width: 18px;
-  height: 18px;
-  background: currentColor;
-  mask: v-bind('HELPER_DOWNLOAD_ICON_MASK') center / contain no-repeat;
-  -webkit-mask: v-bind('HELPER_DOWNLOAD_ICON_MASK') center / contain no-repeat;
-}
-
 .nsarmoire-workspace__body--empty .nsarmoire-workspace__content {
   grid-template-rows: 1fr;
   align-items: center;
@@ -953,8 +878,8 @@ onMounted(() => {
 }
 
 .nsarmoire-workspace__import.nsarmoire-import-panel--compact {
-  justify-self: start;
-  width: min(var(--nsarmoire-import-compact-max), 100%);
+  justify-self: stretch;
+  width: 100%;
 }
 
 .nsarmoire-workspace__body--empty .nsarmoire-workspace__import {
@@ -1044,7 +969,7 @@ onMounted(() => {
   max-width: min(360px, 100%);
   padding: 14px 18px;
   border: 2px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-color-surface);
   color: var(--ns-color-text);
   font-size: 13px;
   font-weight: 850;
@@ -1109,7 +1034,7 @@ onMounted(() => {
 .nsarmoire-workspace__content :deep(.nsarmoire-validation-case),
 .nsarmoire-workspace__content :deep(.nsarmoire-validation-case__row),
 .nsarmoire-workspace__content :deep(.nsarmoire-catalog-status__summary) {
-  background: #ffffff;
+  background: var(--ns-color-surface);
 }
 
 .nsarmoire-workspace__content :deep(.nsarmoire-panel),
@@ -1148,14 +1073,6 @@ onMounted(() => {
 
   .nsarmoire-workspace__content {
     padding: 8px;
-  }
-
-  .nsarmoire-workspace__helper-download {
-    position: static;
-    justify-self: end;
-    min-width: 72px;
-    min-height: 32px;
-    font-size: 12px;
   }
 
   .nsarmoire-workspace__body--empty .nsarmoire-workspace__content {

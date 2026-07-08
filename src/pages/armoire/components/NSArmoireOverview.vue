@@ -354,7 +354,7 @@ function hideBrokenImage(event: Event): void {
   width: 38px;
   height: 38px;
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface);
 }
 
 .nsarmoire-distribution__item img,
@@ -377,7 +377,7 @@ function hideBrokenImage(event: Event): void {
   min-width: 15px;
   padding: 0 2px;
   border: 1px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-color-surface);
   color: var(--ns-color-text);
   font-family: var(--ns-font-mono);
   font-size: 10px;

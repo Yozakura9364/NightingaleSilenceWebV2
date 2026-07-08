@@ -239,10 +239,10 @@ function hideBrokenImage(event: Event): void {
 <style scoped>
 .nsarmoire-set-panel {
   display: grid;
-  gap: 14px;
-  padding: 16px;
+  gap: 12px;
+  padding: 14px;
   border: 2px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-pixel-surface);
 }
 
 .nsarmoire-set-panel__header {
@@ -267,12 +267,13 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-set-panel__summary {
   margin: 0;
   color: var(--ns-color-text-muted);
+  font-size: 13px;
   line-height: 1.7;
 }
 
 .nsarmoire-set-panel__list {
   display: grid;
-  gap: 8px;
+  gap: 7px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -280,11 +281,11 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-set-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   min-width: 0;
-  padding: 10px;
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  padding: 9px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-surface);
 }
 
 .nsarmoire-set-card--incomplete {
@@ -315,8 +316,8 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-set-card__piece-status {
   flex: 0 0 auto;
   padding: 2px 6px;
-  border: 1px solid var(--ns-pixel-border-soft);
-  background: var(--ns-color-surface);
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-bg-soft);
   color: var(--ns-color-text-muted);
   font-size: 12px;
   font-weight: 800;
@@ -350,7 +351,7 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-set-card__pieces ul {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 6px;
   margin: 0;
   padding: 0;
@@ -359,27 +360,27 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-set-card__pieces li {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) auto;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   min-width: 0;
-  padding: 5px;
-  border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  padding: 5px 6px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-bg-soft);
   cursor: context-menu;
   -webkit-touch-callout: none;
 }
 
 .nsarmoire-set-card__pieces img,
 .nsarmoire-set-card__piece-icon {
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--ns-pixel-border-soft);
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--ns-color-border);
   object-fit: cover;
 }
 
 .nsarmoire-set-card__piece-icon {
-  background: var(--ns-color-surface);
+  background: var(--ns-pixel-surface);
 }
 
 .nsarmoire-set-card__piece-name {

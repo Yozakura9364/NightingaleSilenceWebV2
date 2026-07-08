@@ -489,10 +489,10 @@ export const uiMessages: UiMessageMap = {
   }),
 
   'nsarmoire.panel.import': msg({
-    zh: draft('导入'),
-    en: 'Import',
-    ja: 'インポート',
-    ko: '가져오기'
+    zh: '读取衣柜数据',
+    en: 'Read wardrobe data',
+    ja: '衣装データを読み込み',
+    ko: '의상장 데이터 읽기'
   }),
   'nsarmoire.panel.overview': msg({
     zh: draft('概览'),
@@ -1734,10 +1734,10 @@ export const uiMessages: UiMessageMap = {
     ko: '예시 불러오기'
   }),
   'nsarmoire.action.importSnapshot': msg({
-    zh: '导入',
-    en: 'Import',
-    ja: 'インポート',
-    ko: '가져오기'
+    zh: '导入已有数据',
+    en: 'Import existing data',
+    ja: '既存データをインポート',
+    ko: '기존 데이터 가져오기'
   }),
   'nsarmoire.action.clearSnapshot': msg({
     zh: '清空',
@@ -2210,7 +2210,7 @@ export const uiMessages: UiMessageMap = {
     ko: 'snapshot을 가져왔습니다'
   }),
   'nsarmoire.status.snapshotEmpty': msg({
-    zh: draft('等待 snapshot'),
+    zh: '等待数据中……',
     en: 'Waiting for snapshot',
     ja: 'snapshot待機中',
     ko: 'snapshot 대기 중'
@@ -2350,7 +2350,7 @@ export const uiMessages: UiMessageMap = {
     ko: '염색 항목 없음'
   }),
   'nsarmoire.status.helperIdle': msg({
-    zh: draft('本地助手未连接'),
+    zh: '衣柜管家未连接',
     en: 'Local helper not connected',
     ja: 'ローカルヘルパー未接続',
     ko: '로컬 헬퍼 연결 안 됨'
@@ -2692,6 +2692,42 @@ export const uiMessages: UiMessageMap = {
     en: '{items}, and {count} total',
     ja: '{items} など合計 {count} 項目',
     ko: '{items} 등 총 {count}개'
+  }),
+  'nsarmoire.field.readStatus.read': msg({
+    zh: '已读取',
+    en: 'Read',
+    ja: '読み取り済み',
+    ko: '읽음'
+  }),
+  'nsarmoire.field.readStatus.unread': msg({
+    zh: '未读取',
+    en: 'Unread',
+    ja: '未読み取り',
+    ko: '읽지 않음'
+  }),
+  'nsarmoire.field.detectedRetainers': msg({
+    zh: '检测到 {count} 个雇员',
+    en: '{count} retainers detected',
+    ja: 'リテイナー {count} 人を検出',
+    ko: '고용인 {count}명 감지'
+  }),
+  'nsarmoire.field.retainerIndex': msg({
+    zh: '雇员 {index}',
+    en: 'Retainer {index}',
+    ja: 'リテイナー {index}',
+    ko: '고용인 {index}'
+  }),
+  'nsarmoire.field.basicStorageProgress': msg({
+    zh: '基础收纳',
+    en: 'Core storage',
+    ja: '基本収納',
+    ko: '기본 보관'
+  }),
+  'nsarmoire.field.retainerProgress': msg({
+    zh: '雇员',
+    en: 'Retainers',
+    ja: 'リテイナー',
+    ko: '고용인'
   }),
   'nsarmoire.field.helperEndpoint': msg({
     zh: draft('本地助手地址'),

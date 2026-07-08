@@ -269,8 +269,8 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(252px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fill, minmax(244px, 1fr));
+  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -278,13 +278,13 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__item {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-columns: 40px minmax(0, 1fr);
   align-items: start;
-  gap: 10px;
+  gap: 9px;
   min-width: 0;
-  padding: 9px 10px;
+  padding: 7px 8px;
   border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface);
+  background: var(--ns-color-bg-soft);
   contain: layout paint style;
   content-visibility: auto;
   contain-intrinsic-size: auto 76px;
@@ -305,18 +305,18 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__item--related {
   grid-column: 1 / -1;
-  grid-template-columns: 48px minmax(170px, 280px) minmax(0, 1fr);
-  gap: 10px 14px;
+  grid-template-columns: 42px minmax(170px, 260px) minmax(0, 1fr);
+  gap: 8px 12px;
   min-height: 0;
-  padding: 10px 12px;
+  padding: 8px 10px;
   contain-intrinsic-size: auto 92px;
 }
 
 .nsarmoire-readable-list__icon {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-pixel-surface);
   image-rendering: auto;
@@ -324,8 +324,8 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__icon img {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
 }
 
@@ -335,7 +335,7 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__body {
   display: grid;
-  gap: 5px;
+  gap: 4px;
   min-width: 0;
 }
 
@@ -364,7 +364,7 @@ function hideBrokenIcon(event: Event): void {
 
 .nsarmoire-readable-list__details {
   display: grid;
-  gap: 6px;
+  gap: 5px;
   margin: 2px 0 0;
   color: var(--ns-color-text-muted);
   font-family: var(--ns-font-sans);
@@ -432,7 +432,7 @@ function hideBrokenIcon(event: Event): void {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -442,13 +442,13 @@ function hideBrokenIcon(event: Event): void {
   display: grid;
   grid-template-columns: 40px minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
-  width: clamp(170px, 19vw, 240px);
-  min-height: 52px;
+  gap: 7px;
+  width: clamp(164px, 18vw, 228px);
+  min-height: 48px;
   min-width: 0;
-  padding: 5px 7px;
-  border: 1px solid var(--ns-pixel-border-soft);
-  background: var(--ns-color-bg-soft);
+  padding: 4px 6px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface);
   contain: layout paint style;
   cursor: context-menu;
   -webkit-touch-callout: none;
@@ -461,16 +461,16 @@ function hideBrokenIcon(event: Event): void {
 .nsarmoire-readable-list__related-icon {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-pixel-surface);
 }
 
 .nsarmoire-readable-list__related-icon img {
   display: block;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
@@ -519,14 +519,14 @@ function hideBrokenIcon(event: Event): void {
   align-content: center;
   justify-content: center;
   width: auto;
-  min-height: 52px;
+  min-height: 48px;
 }
 
 .nsarmoire-readable-list__related-more-count {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-pixel-surface);
   font-family: var(--ns-font-decorative);

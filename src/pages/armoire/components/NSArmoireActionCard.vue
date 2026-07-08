@@ -47,11 +47,11 @@ defineEmits<{
 <style scoped>
 .nsarmoire-action-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
   min-width: 0;
-  padding: 12px;
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: var(--ns-color-bg-soft);
+  padding: 10px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-surface);
 }
 
 .nsarmoire-action-card--primary {
@@ -61,7 +61,7 @@ defineEmits<{
 .nsarmoire-action-card__header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 12px;
   min-width: 0;
   flex-wrap: wrap;
@@ -75,10 +75,10 @@ defineEmits<{
   align-self: stretch;
   width: auto;
   max-width: none;
-  margin: -12px -12px 0;
-  padding: 8px 12px;
-  border-bottom: 2px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  margin: -10px -10px 0;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-surface);
   box-shadow: none;
 }
 
@@ -86,7 +86,7 @@ defineEmits<{
   display: inline-flex;
   min-width: 0;
   align-items: baseline;
-  gap: 7px;
+  gap: 8px;
 }
 
 .nsarmoire-action-card h3 {
@@ -95,14 +95,16 @@ defineEmits<{
   font-size: 14px;
   font-weight: 950;
   line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .nsarmoire-action-card__header strong {
   flex: 0 0 auto;
-  font-family: var(--ns-font-sans);
-  font-size: 12px;
-  font-weight: 850;
+  color: var(--ns-color-text);
+  font-size: 18px;
+  font-weight: 900;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .nsarmoire-action-card__summary {
@@ -113,9 +115,9 @@ defineEmits<{
 
 .nsarmoire-action-card__toggle {
   min-height: 28px;
-  padding: 4px 10px;
+  padding: 3px 9px;
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-bg-soft);
   color: var(--ns-color-text);
   font-family: var(--ns-font-sans);
   font-size: 12px;
@@ -127,6 +129,6 @@ defineEmits<{
 .nsarmoire-action-card__toggle:hover,
 .nsarmoire-action-card__toggle:focus-visible {
   border-color: var(--ns-pixel-border);
-  background: var(--ns-pixel-hover-surface);
+  background: var(--ns-color-surface);
 }
 </style>

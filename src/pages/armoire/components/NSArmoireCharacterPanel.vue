@@ -99,7 +99,21 @@
     <section class="nsarmoire-character-panel__block">
       <div class="nsarmoire-character-panel__block-heading">
         <h3>{{ cleanT(textKeys.nsarmoireCharacterLocalProfileTitle) }}</h3>
-        <span class="nsarmoire-character-panel__profile-count">{{ localProfileCountLabel }}</span>
+        <div class="nsarmoire-character-panel__heading-actions">
+          <label
+            class="ns-button ns-button--secondary ns-button--compact nsarmoire-character-panel__import-button"
+          >
+            <span>{{ cleanT(textKeys.nsarmoireImportSnapshot) }}</span>
+            <input
+              ref="fileInput"
+              type="file"
+              accept="application/json,.json"
+              :aria-label="cleanT(textKeys.nsarmoireSnapshotInput)"
+              @change="handleFileChange"
+            />
+          </label>
+          <span class="nsarmoire-character-panel__profile-count">{{ localProfileCountLabel }}</span>
+        </div>
       </div>
       <p class="nsarmoire-character-panel__hint">
         {{ cleanT(textKeys.nsarmoireCharacterLocalProfileMessage) }}
@@ -215,7 +229,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
@@ -256,7 +270,8 @@ const props = defineProps<{
   selectedValuableDyeIds: readonly number[]
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
+  'import-file': [file: File]
   'reload-catalog': []
   'toggle-dye-value-category': [category: ArmoireDyeValueCategory]
   'toggle-valuable-dye-id': [dyeId: number]
@@ -266,6 +281,7 @@ defineEmits<{
 }>()
 
 const { current, t } = useLocale()
+const fileInput = ref<HTMLInputElement | null>(null)
 
 const sourceLabelKeys: Record<ArmoireSnapshotSource, string> = {
   'manual-import': textKeys.nsarmoireSourceManualImport,
@@ -478,6 +494,20 @@ function getProfileTitle(profile: ArmoireCharacterProfile): string {
   const suffix = profile.key.startsWith('unidentified:') ? `#${profile.key.split(':')[1]}` : ''
   return [baseTitle, suffix].filter(Boolean).join(' ')
 }
+
+function handleFileChange(event: Event) {
+  const input = event.target
+
+  if (!(input instanceof HTMLInputElement) || !input.files?.[0]) {
+    return
+  }
+
+  emit('import-file', input.files[0])
+
+  if (fileInput.value) {
+    fileInput.value.value = ''
+  }
+}
 </script>
 
 <style scoped>
@@ -529,6 +559,33 @@ function getProfileTitle(profile: ArmoireCharacterProfile): string {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px;
+}
+
+.nsarmoire-character-panel__heading-actions {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.nsarmoire-character-panel__import-button {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.nsarmoire-character-panel__import-button:focus-within {
+  box-shadow: var(--ns-pixel-button-shadow-hover), var(--ns-focus-ring);
+}
+
+.nsarmoire-character-panel__import-button input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .nsarmoire-character-panel__profile-count {
@@ -609,7 +666,7 @@ function getProfileTitle(profile: ArmoireCharacterProfile): string {
   gap: 10px;
   padding: 10px;
   border: 2px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface);
 }
 
 .nsarmoire-character-panel__profile--active {
@@ -680,7 +737,7 @@ function getProfileTitle(profile: ArmoireCharacterProfile): string {
   min-height: 24px;
   padding: 3px 7px;
   border: 1px solid var(--ns-color-border);
-  background: #ffffff;
+  background: var(--ns-color-surface);
   font-size: 12px;
   font-weight: 800;
   cursor: pointer;

@@ -26,22 +26,17 @@
     </AppStatus>
 
     <template v-else>
-      <p class="nsarmoire-store-panel__summary">{{ t(textKeys.nsarmoireStoreSummary) }}</p>
-
       <div class="nsarmoire-store-panel__controls">
-        <AppField
-          :label="t(textKeys.nsarmoireStoreSearchLabel)"
-          for-id="nsarmoire-store-search"
-          density="compact"
-        >
+        <div class="nsarmoire-store-panel__search">
           <input
             id="nsarmoire-store-search"
             v-model="searchQuery"
             type="search"
             autocomplete="off"
+            :aria-label="t(textKeys.nsarmoireStoreSearchLabel)"
             :placeholder="t(textKeys.nsarmoireStoreSearchPlaceholder)"
           />
-        </AppField>
+        </div>
 
         <AppField
           :label="t(textKeys.nsarmoireStoreFilterLabel)"
@@ -131,7 +126,7 @@
 
             <div class="nsarmoire-store-card__prices">
               <span
-                v-for="price in getPriceViews(selectedStoreState.outfit)"
+                v-for="price in selectedPriceViews"
                 :key="price.region"
                 class="nsarmoire-store-card__price"
               >
@@ -139,19 +134,16 @@
                 <span class="nsarmoire-store-card__price-value">{{ price.priceLabel }}</span>
               </span>
               <span
-                v-if="getPriceViews(selectedStoreState.outfit).length === 0"
+                v-if="selectedPriceViews.length === 0"
                 class="nsarmoire-store-card__price nsarmoire-store-card__price--empty"
               >
                 {{ t(textKeys.nsarmoireStoreNoPrice) }}
               </span>
             </div>
 
-            <ul
-              v-if="getTagViews(selectedStoreState.outfit).length > 0"
-              class="nsarmoire-store-card__tags"
-            >
+            <ul v-if="selectedTagViews.length > 0" class="nsarmoire-store-card__tags">
               <li
-                v-for="tag in getTagViews(selectedStoreState.outfit)"
+                v-for="tag in selectedTagViews"
                 :key="tag.key"
                 :class="tag.className"
               >
@@ -162,13 +154,13 @@
 
           <div class="nsarmoire-store-card__links" :aria-label="t(textKeys.nsarmoireStoreOpenLink)">
             <span
-              v-if="getStoreLinkViews(selectedStoreState.outfit).length === 0"
+              v-if="selectedLinkViews.length === 0"
               class="nsarmoire-store-card__link nsarmoire-store-card__link--empty"
             >
               {{ t(textKeys.nsarmoireStoreNoLink) }}
             </span>
             <a
-              v-for="link in getStoreLinkViews(selectedStoreState.outfit)"
+              v-for="link in selectedLinkViews"
               :key="link.region"
               class="nsarmoire-store-card__link"
               :href="link.url"
@@ -185,9 +177,9 @@
               {{ t(textKeys.nsarmoireStoreItemsLabel) }}
             </span>
 
-            <ul v-if="getPieceViews(selectedStoreState).length > 0">
+            <ul v-if="selectedPieceViews.length > 0">
               <li
-                v-for="piece in getPieceViews(selectedStoreState)"
+                v-for="piece in selectedPieceViews"
                 :key="piece.key"
                 class="nsarmoire-store-card__piece"
                 :class="{ 'nsarmoire-store-card__piece--owned': piece.owned }"
@@ -442,8 +434,7 @@ const statusOptions = computed<Array<{ value: StoreStatusFilter; label: string }
   { value: 'all', label: t(textKeys.nsarmoireStoreFilterAll) },
   { value: 'complete', label: t(textKeys.nsarmoireStoreStatusComplete) },
   { value: 'partial', label: t(textKeys.nsarmoireStoreStatusPartial) },
-  { value: 'missing', label: t(textKeys.nsarmoireStoreStatusMissing) },
-  { value: 'needsMapping', label: t(textKeys.nsarmoireStoreStatusNeedsMapping) }
+  { value: 'missing', label: t(textKeys.nsarmoireStoreStatusMissing) }
 ])
 
 const filteredOutfits = computed(() => {
@@ -476,6 +467,18 @@ const selectedStoreState = computed(
     visibleOutfits.value.find((state) => state.outfit.id === selectedOutfitId.value) ??
     visibleOutfits.value[0] ??
     null
+)
+const selectedPriceViews = computed(() =>
+  selectedStoreState.value ? getPriceViews(selectedStoreState.value.outfit) : []
+)
+const selectedTagViews = computed(() =>
+  selectedStoreState.value ? getTagViews(selectedStoreState.value.outfit) : []
+)
+const selectedLinkViews = computed(() =>
+  selectedStoreState.value ? getStoreLinkViews(selectedStoreState.value.outfit) : []
+)
+const selectedPieceViews = computed(() =>
+  selectedStoreState.value ? getPieceViews(selectedStoreState.value) : []
 )
 const groupedOutfits = computed<StoreGroupView[]>(() => {
   const groups = new Map<StoreGroupId, StoreGroupView>()
@@ -997,7 +1000,7 @@ function hideBrokenImage(event: Event): void {
   gap: 14px;
   padding: 16px;
   border: 2px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-pixel-surface);
 }
 
 .nsarmoire-store-panel__header {
@@ -1016,17 +1019,38 @@ function hideBrokenImage(event: Event): void {
   letter-spacing: 0;
 }
 
-.nsarmoire-store-panel__summary {
-  margin: 0;
-  color: var(--ns-color-text-muted);
-  line-height: 1.7;
-}
-
 .nsarmoire-store-panel__controls {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(160px, 220px);
+  align-items: end;
   gap: 10px;
   min-width: 0;
+}
+
+.nsarmoire-store-panel__search {
+  align-self: end;
+  min-width: 0;
+}
+
+.nsarmoire-store-panel__search input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
+  background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
+  color: var(--ns-pixel-ink, var(--ns-color-text));
+  font: inherit;
+  font-family: var(--ns-font-sans);
+  font-size: 13px;
+  box-shadow: var(--ns-control-inset-shadow);
+}
+
+.nsarmoire-store-panel__search input:focus {
+  outline: 0;
+  border-color: var(--ns-pixel-border-cyan);
+  box-shadow: var(--ns-control-inset-shadow), var(--ns-focus-ring);
 }
 
 .nsarmoire-store-overview {
@@ -1039,31 +1063,32 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-group {
   display: grid;
-  grid-template-columns: minmax(118px, 160px) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(158px, 220px) minmax(0, 1fr);
   align-items: center;
   gap: 10px;
   min-width: 0;
   padding: 7px 8px;
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface);
 }
 
 .nsarmoire-store-group__header {
-  display: contents;
+  display: inline-flex;
+  grid-column: 1;
+  min-width: 0;
+  align-items: baseline;
+  gap: 8px;
 }
 
 .nsarmoire-store-group__header h3 {
-  grid-column: 1;
   min-width: 0;
-  color: var(--ns-color-accent);
+  color: var(--ns-color-text);
   overflow-wrap: anywhere;
 }
 
 .nsarmoire-store-group__header span {
-  grid-column: 3;
-  justify-self: end;
-  color: var(--ns-color-accent);
-  font-family: var(--ns-font-decorative);
+  flex: 0 0 auto;
+  color: var(--ns-color-text);
   font-size: 18px;
   font-weight: 900;
   white-space: nowrap;
@@ -1086,7 +1111,7 @@ function hideBrokenImage(event: Event): void {
   height: 46px;
   padding: 3px;
   border: 2px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface);
   cursor: pointer;
 }
 
@@ -1129,7 +1154,7 @@ function hideBrokenImage(event: Event): void {
   bottom: -2px;
   width: 12px;
   height: 12px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--ns-color-surface);
   content: '';
 }
 
@@ -1143,37 +1168,37 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-card {
   display: grid;
-  grid-template-columns: 74px minmax(220px, 1fr) auto;
+  grid-template-columns: 64px minmax(0, 1fr) max-content;
   align-items: start;
-  gap: 12px;
+  gap: 10px 12px;
   min-width: 0;
   scroll-margin-top: 12px;
-  padding: 12px;
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  padding: 10px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-surface);
 }
 
 .nsarmoire-store-card__cover {
   display: grid;
   place-items: center;
-  width: 74px;
-  height: 74px;
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: var(--ns-color-surface);
+  width: 64px;
+  height: 64px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-bg-soft);
 }
 
 .nsarmoire-store-card__cover img,
 .nsarmoire-store-card__cover span {
   display: block;
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   image-rendering: auto;
   object-fit: cover;
 }
 
 .nsarmoire-store-card__cover span {
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-bg-soft);
 }
 
 .nsarmoire-store-card--complete {
@@ -1192,7 +1217,7 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card__items {
   display: grid;
   min-width: 0;
-  gap: 7px;
+  gap: 6px;
 }
 
 .nsarmoire-store-card__title-row {
@@ -1206,6 +1231,7 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card h3 {
   min-width: 0;
   overflow: hidden;
+  font-size: 15px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1216,8 +1242,8 @@ function hideBrokenImage(event: Event): void {
   align-items: center;
   gap: 6px;
   padding: 2px 6px;
-  border: 1px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface);
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-bg-soft);
   color: var(--ns-color-text);
   font-size: 12px;
   font-weight: 800;
@@ -1233,7 +1259,7 @@ function hideBrokenImage(event: Event): void {
   display: flex;
   min-width: 0;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 4px;
 }
 
 .nsarmoire-store-card__price {
@@ -1244,16 +1270,16 @@ function hideBrokenImage(event: Event): void {
   max-width: 100%;
   min-height: 22px;
   padding: 2px 6px;
-  border: 1px solid var(--ns-pixel-border-soft);
-  background: var(--ns-color-surface);
-  color: var(--ns-color-text-muted);
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-bg-soft);
+  color: var(--ns-color-text);
   font-size: 12px;
   line-height: 1.25;
 }
 
 .nsarmoire-store-card__price-region {
   flex: 0 0 auto;
-  color: var(--ns-color-accent);
+  color: var(--ns-color-text);
   font-weight: 900;
   white-space: nowrap;
 }
@@ -1261,6 +1287,7 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card__price-value {
   min-width: 0;
   overflow-wrap: anywhere;
+  color: var(--ns-color-text-muted);
   font-weight: 750;
 }
 
@@ -1280,7 +1307,7 @@ function hideBrokenImage(event: Event): void {
 }
 
 .nsarmoire-store-card__tag {
-  padding: 3px 6px;
+  padding: 2px 6px;
   border: 1px solid transparent;
   background: var(--ns-color-accent);
   color: #ffffff;
@@ -1327,7 +1354,7 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-card__items {
   grid-column: 1 / -1;
-  padding-top: 4px;
+  padding-top: 8px;
   border-top: 1px solid var(--ns-pixel-border-soft);
 }
 
@@ -1340,7 +1367,7 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-card__items > ul {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 6px;
   margin: 0;
   padding: 0;
@@ -1353,8 +1380,8 @@ function hideBrokenImage(event: Event): void {
   min-width: 0;
   gap: 5px;
   padding: 5px 8px 5px 5px;
-  border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-bg-soft);
   color: var(--ns-color-text-muted);
   font-size: 12px;
   cursor: context-menu;
@@ -1363,6 +1390,7 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-card__piece--owned {
   border-color: var(--ns-status-success-border);
+  background: color-mix(in srgb, var(--ns-status-success-bg) 42%, var(--ns-color-surface));
   color: var(--ns-color-text);
 }
 
@@ -1433,23 +1461,25 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-card__links {
   display: flex;
-  min-width: min(320px, 100%);
+  min-width: 0;
+  max-width: 260px;
   align-items: flex-start;
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 6px;
+  justify-self: end;
 }
 
 .nsarmoire-store-card__link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 28px;
-  padding: 0 8px;
-  border: 2px solid var(--ns-pixel-border);
-  background: #ffffff;
+  min-height: 24px;
+  padding: 0 7px;
+  border: 1px solid var(--ns-pixel-border-soft);
+  background: var(--ns-color-bg-soft);
   color: var(--ns-color-text);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
   text-decoration: none;
 }

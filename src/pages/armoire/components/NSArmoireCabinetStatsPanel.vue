@@ -264,10 +264,10 @@ function hideBrokenImage(event: Event): void {
 <style scoped>
 .nsarmoire-collection-panel {
   display: grid;
-  gap: 14px;
-  padding: 16px;
+  gap: 12px;
+  padding: 14px;
   border: 2px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-pixel-surface);
 }
 
 .nsarmoire-collection-panel__header {
@@ -296,23 +296,24 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-collection-panel__summary {
   margin: 0;
   color: var(--ns-color-text-muted);
+  font-size: 13px;
   line-height: 1.7;
 }
 
 .nsarmoire-collection-panel__groups {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .nsarmoire-collection-panel__group {
   display: grid;
-  gap: 8px;
+  gap: 7px;
   min-width: 0;
 }
 
 .nsarmoire-collection-panel__list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 6px;
   margin: 0;
   padding: 0;
@@ -321,27 +322,27 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-collection-panel__list li {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) auto;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   min-width: 0;
-  padding: 6px;
-  border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  padding: 5px 6px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-bg-soft);
   cursor: context-menu;
   -webkit-touch-callout: none;
 }
 
 .nsarmoire-collection-panel__list img,
 .nsarmoire-collection-panel__icon-fallback {
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--ns-pixel-border-soft);
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--ns-color-border);
   object-fit: cover;
 }
 
 .nsarmoire-collection-panel__icon-fallback {
-  background: var(--ns-color-surface);
+  background: var(--ns-pixel-surface);
 }
 
 .nsarmoire-collection-panel__name {
@@ -353,8 +354,9 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-collection-panel__badge {
   padding: 2px 6px;
-  border: 1px solid var(--ns-status-success-border);
-  background: var(--ns-status-success-bg);
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface);
+  color: var(--ns-color-text-muted);
   font-size: 12px;
   font-weight: 800;
   white-space: nowrap;
