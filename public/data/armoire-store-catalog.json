@@ -541,6 +541,182 @@
       ]
     },
     {
+      "id": "global-196",
+      "region": "global",
+      "name": "ダークエッグイヤリング",
+      "localizedNames": {
+        "zh-CN": "暗黑蛋耳坠",
+        "ja": "ダークエッグイヤリング",
+        "en": "Midnight Egg Earrings",
+        "ko": "밤하늘빛 달걀 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/196",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/196"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "196",
+      "skuId": "MOG-00196",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "暗黑蛋耳坠"
+      ],
+      "itemIds": [
+        10068
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 10068,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "196",
+      "globalProductName": "ダークエッグイヤリング",
+      "globalItemNames": [
+        "ダークエッグイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/0dc7012db7e"
+      ]
+    },
+    {
+      "id": "global-76",
+      "region": "global",
+      "name": "ダークエッグリング",
+      "localizedNames": {
+        "zh-CN": "暗黑蛋戒指",
+        "ja": "ダークエッグリング",
+        "en": "Midnight Egg Ring",
+        "ko": "밤하늘빛 달걀 반지"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/76",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/76"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "76",
+      "skuId": "MOG-00076",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "暗黑蛋戒指"
+      ],
+      "itemIds": [
+        4405
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4405,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "76",
+      "globalProductName": "ダークエッグリング",
+      "globalItemNames": [
+        "ダークエッグリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/10538656740"
+      ]
+    },
+    {
+      "id": "global-71",
+      "region": "global",
+      "name": "ダークエッグキャップ",
+      "localizedNames": {
+        "zh-CN": "暗黑蛋壳帽",
+        "ja": "ダークエッグキャップ",
+        "en": "Midnight Egg Cap",
+        "ko": "밤하늘빛 알껍질 모자"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/71",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/71"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "71",
+      "skuId": "MOG-00071",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "暗黑蛋壳帽"
+      ],
+      "itemIds": [
+        2809
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2809,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "71",
+      "globalProductName": "ダークエッグキャップ",
+      "globalItemNames": [
+        "ダークエッグキャップ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/9a6c5494867"
+      ]
+    },
+    {
+      "id": "global-904",
+      "region": "global",
+      "name": "シャドウ・イポスセスフィラ",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/904",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/904",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0093_260113112828",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "904",
+      "skuId": "MOG-00904",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "暗影的约定之锤"
+      ],
+      "itemIds": [
+        39624
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "シャドウ・イポスセスフィラ",
+        "en": "Shadow Hyposkhesphyra",
+        "ko": "가이아 무기 시리즈",
+        "zh-CN": "暗影的约定之锤"
+      },
+      "globalProductId": "904",
+      "globalProductName": "シャドウ・イポスセスフィラ",
+      "globalItemNames": [
+        "シャドウ・イポスセスフィラ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/09359c903ad"
+      ],
+      "coverItemId": 39624,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
       "id": "cn-1971110760431140864",
       "region": "cn",
       "name": "奥薇莉亚装备套装",
@@ -596,6 +772,92 @@
       ]
     },
     {
+      "id": "global-285",
+      "region": "global",
+      "name": "プラチナ・パラムールイヤリング",
+      "localizedNames": {
+        "zh-CN": "白金情人耳坠",
+        "ja": "プラチナ・パラムールイヤリング",
+        "en": "Platinum Paramour's Earrings",
+        "ko": "연인의 백금 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/285",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/285"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "285",
+      "skuId": "MOG-00285",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "白金情人耳坠"
+      ],
+      "itemIds": [
+        13299
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 13299,
+      "corrected": true,
+      "tags": [
+        "valentioneDay"
+      ],
+      "globalProductId": "285",
+      "globalProductName": "プラチナ・パラムールイヤリング",
+      "globalItemNames": [
+        "プラチナ・パラムールイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/0e4173d6ab4"
+      ]
+    },
+    {
+      "id": "global-62",
+      "region": "global",
+      "name": "プラチナ・パラムールペンダント",
+      "localizedNames": {
+        "zh-CN": "白金情人坠饰",
+        "ja": "プラチナ・パラムールペンダント",
+        "en": "Platinum Paramour's Pendant",
+        "ko": "연인의 백금 펜던트"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/62",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/62"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "62",
+      "skuId": "MOG-00062",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "白金情人坠饰"
+      ],
+      "itemIds": [
+        4302
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4302,
+      "corrected": true,
+      "tags": [
+        "valentioneDay"
+      ],
+      "globalProductId": "62",
+      "globalProductName": "プラチナ・パラムールペンダント",
+      "globalItemNames": [
+        "プラチナ・パラムールペンダント"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d73589931d7"
+      ]
+    },
+    {
       "id": "cn-52",
       "region": "cn",
       "name": "白南瓜头",
@@ -642,6 +904,178 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/8acdc9b90fb"
+      ]
+    },
+    {
+      "id": "global-148",
+      "region": "global",
+      "name": "白漆塗未形兜",
+      "localizedNames": {
+        "zh-CN": "白漆吉羊武士盔",
+        "ja": "白漆塗未形兜",
+        "en": "White Hitsuji Kabuto",
+        "ko": "백칠 양 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/148",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/148"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "148",
+      "skuId": "MOG-00148",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "白漆吉羊武士盔"
+      ],
+      "itemIds": [
+        9271
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 9271,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "148",
+      "globalProductName": "白漆塗未形兜",
+      "globalItemNames": [
+        "白漆塗未形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/7cf86608db5"
+      ]
+    },
+    {
+      "id": "global-649",
+      "region": "global",
+      "name": "白漆塗モーグリ面",
+      "localizedNames": {
+        "zh-CN": "白漆莫古力面具",
+        "ja": "白漆塗モーグリ面",
+        "en": "White Painted Moogle Mask",
+        "ko": "하얀 모그리 가면"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/649",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/649"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "649",
+      "skuId": "MOG-00649",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "白漆莫古力面具"
+      ],
+      "itemIds": [
+        27944
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27944,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "globalProductId": "649",
+      "globalProductName": "白漆塗モーグリ面",
+      "globalItemNames": [
+        "白漆塗モーグリ面"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/9cfbb808919"
+      ]
+    },
+    {
+      "id": "global-496",
+      "region": "global",
+      "name": "白漆塗戌形兜",
+      "localizedNames": {
+        "zh-CN": "白漆忠犬武士盔",
+        "ja": "白漆塗戌形兜",
+        "en": "White Inu Kabuto",
+        "ko": "검둥이의 흰 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/496",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/496"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "496",
+      "skuId": "MOG-00496",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "白漆忠犬武士盔"
+      ],
+      "itemIds": [
+        20678
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 20678,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "496",
+      "globalProductName": "白漆塗戌形兜",
+      "globalItemNames": [
+        "白漆塗戌形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d6a747f94d1"
+      ]
+    },
+    {
+      "id": "global-588",
+      "region": "global",
+      "name": "レプリカ・ホワイトレイヴン",
+      "localizedNames": {
+        "zh-CN": "白鸦（复制品）",
+        "ja": "レプリカ・ホワイトレイヴン",
+        "en": "Replica White Ravens",
+        "ko": "모조 백은의 흉조"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/588",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/588"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "588",
+      "skuId": "MOG-00588",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "白鸦（复制品）"
+      ],
+      "itemIds": [
+        27956
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27956,
+      "corrected": true,
+      "tags": [
+        "theRising"
+      ],
+      "globalProductId": "588",
+      "globalProductName": "レプリカ・ホワイトレイヴン",
+      "globalItemNames": [
+        "レプリカ・ホワイトレイヴン"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/691897f1b40"
       ]
     },
     {
@@ -697,6 +1131,49 @@
       ]
     },
     {
+      "id": "global-20",
+      "region": "global",
+      "name": "午形兜",
+      "localizedNames": {
+        "zh-CN": "奔马武士盔",
+        "ja": "午形兜",
+        "en": "Uma Kabuto",
+        "ko": "말 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/20",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/20"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "20",
+      "skuId": "MOG-00020",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "奔马武士盔"
+      ],
+      "itemIds": [
+        6964
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 6964,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "20",
+      "globalProductName": "午形兜",
+      "globalItemNames": [
+        "午形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/95a6ec4b636"
+      ]
+    },
+    {
       "id": "cn-66",
       "region": "cn",
       "name": "碧绿君子浴衣套装",
@@ -746,6 +1223,53 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/7c711477627"
+      ]
+    },
+    {
+      "id": "global-902",
+      "region": "global",
+      "name": "オブスキュア・イポスセスフィラ",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/902",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/902",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0091_260113113326",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "902",
+      "skuId": "MOG-00902",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "蔽日的约定之锤"
+      ],
+      "itemIds": [
+        39621
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "オブスキュア・イポスセスフィラ",
+        "en": "Obscure Hyposkhesphyra",
+        "ko": "가이아 무기 시리즈",
+        "zh-CN": "蔽日的约定之锤"
+      },
+      "globalProductId": "902",
+      "globalProductName": "オブスキュア・イポスセスフィラ",
+      "globalItemNames": [
+        "オブスキュア・イポスセスフィラ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f3c4fd6de04"
+      ],
+      "coverItemId": 39621,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
       ]
     },
     {
@@ -1731,6 +2255,106 @@
       ]
     },
     {
+      "id": "cn-promo-eternal-innocence-gown-attire",
+      "region": "cn",
+      "name": "纯情典礼纱裙套装",
+      "localizedNames": {
+        "zh-CN": "纯情典礼纱裙套装",
+        "ja": "イノセントドレス・アタイア",
+        "en": "Eternal Innocence Attire (Gown)",
+        "ko": "순수의 예복 드레스 의복"
+      },
+      "storeUrl": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
+      "regionalStoreUrls": {
+        "cn": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/4",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0004_250529184932",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/36"
+      },
+      "sourceUrl": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
+      "productId": "promo-eternal-innocence-gown-attire",
+      "skuId": "0c51662c172d0a2f356c",
+      "priceLabel": "0点券",
+      "regionalPriceLabels": {
+        "cn": "0点券",
+        "global": "0 crysta",
+        "tw": "0水晶",
+        "kr": "0 크리스탈"
+      },
+      "itemNames": [
+        "纯情同心头纱",
+        "纯情典礼纱裙",
+        "纯情花边长袜",
+        "纯情高跟礼鞋"
+      ],
+      "itemIds": [
+        8681,
+        8684,
+        8687,
+        8690
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 45142,
+      "corrected": true,
+      "tags": [
+        "fanFestivalCostume"
+      ],
+      "notes": "永结同心标准方案奖励。",
+      "globalProductId": "4",
+      "globalProductName": "純真の誓いの腕輪(スタンダードプラン)"
+    },
+    {
+      "id": "cn-promo-eternal-innocence-tailcoat-attire",
+      "region": "cn",
+      "name": "纯情燕尾礼服套装",
+      "localizedNames": {
+        "zh-CN": "纯情燕尾礼服套装",
+        "ja": "イノセントテイルコート・アタイア",
+        "en": "Eternal Innocence Attire (Tailcoat)",
+        "ko": "순수의 연미복 의복"
+      },
+      "storeUrl": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
+      "regionalStoreUrls": {
+        "cn": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/4",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0004_250529184932",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/36"
+      },
+      "sourceUrl": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
+      "productId": "promo-eternal-innocence-tailcoat-attire",
+      "skuId": "0c51662c172d0a2f356c",
+      "priceLabel": "0点券",
+      "regionalPriceLabels": {
+        "cn": "0点券",
+        "global": "0 crysta",
+        "tw": "0水晶",
+        "kr": "0 크리스탈"
+      },
+      "itemNames": [
+        "纯情燕尾礼服",
+        "纯情永结手套",
+        "纯情典礼长裤",
+        "纯情端庄礼鞋"
+      ],
+      "itemIds": [
+        8669,
+        8672,
+        8675,
+        8678
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 45139,
+      "corrected": true,
+      "tags": [
+        "fanFestivalCostume"
+      ],
+      "notes": "永结同心标准方案奖励。",
+      "globalProductId": "4",
+      "globalProductName": "純真の誓いの腕輪(スタンダードプラン)"
+    },
+    {
       "id": "cn-154",
       "region": "cn",
       "name": "翠绿男式夏装",
@@ -2011,60 +2635,6 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/46d2018be64",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e5b29c361af",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/925e372ab39"
-      ]
-    },
-    {
-      "id": "global-294",
-      "region": "global",
-      "name": "殿方水干衣装セット",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/294",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/294",
-        "cn": "https://qu.sdo.com/product-detail/2a45ba60f84fefb2278e",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0174_260121151325",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/1189"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "294",
-      "skuId": "MOG-00294",
-      "priceLabel": "550 crysta",
-      "regionalPriceLabels": {
-        "global": "550 crysta",
-        "tw": "150水晶",
-        "kr": "6,000 크리스탈"
-      },
-      "itemNames": [
-        "君子水干",
-        "君子木屐"
-      ],
-      "itemIds": [
-        13300,
-        13724
-      ],
-      "mappingSource": "global-store",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "殿方水干衣装セット",
-        "en": "Lord's Suikan Set",
-        "zh-CN": "君子套",
-        "ko": "공자 의상 세트"
-      },
-      "globalProductId": "294",
-      "globalProductName": "殿方水干衣装セット",
-      "globalItemNames": [
-        "殿方水干",
-        "殿方下駄"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/65bdb6476dd",
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d8e942d0f6d"
-      ],
-      "coverItemId": 13300,
-      "tags": [
-        "littleLadiesDay"
-      ],
-      "detailTags": [
-        "maleOnly"
       ]
     },
     {
@@ -3267,6 +3837,52 @@
       }
     },
     {
+      "id": "global-129",
+      "region": "global",
+      "name": "駒下駄",
+      "localizedNames": {
+        "zh-CN": "二齿木屐",
+        "ja": "駒下駄",
+        "en": "Lord's Clogs",
+        "ko": "남성용 나무신"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/129",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/129"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "129",
+      "skuId": "MOG-00129",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "二齿木屐"
+      ],
+      "itemIds": [
+        3748
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 3748,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "maleOnly"
+      ],
+      "globalProductId": "129",
+      "globalProductName": "駒下駄",
+      "globalItemNames": [
+        "駒下駄"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e92d6ed0534"
+      ]
+    },
+    {
       "id": "cn-373",
       "region": "cn",
       "name": "飞燕套装",
@@ -3328,6 +3944,98 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/304dd51ec38",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/bc83d0594ca",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/4d5a9d23e65"
+      ]
+    },
+    {
+      "id": "global-124",
+      "region": "global",
+      "name": "白練殿方股引",
+      "localizedNames": {
+        "zh-CN": "粉白君子束裤",
+        "ja": "白練殿方股引",
+        "en": "White Lord's Drawers",
+        "ko": "남성용 하얀색 잠방이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/124",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/124"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "124",
+      "skuId": "MOG-00124",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "粉白君子束裤"
+      ],
+      "itemIds": [
+        3281
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 3281,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "maleOnly"
+      ],
+      "globalProductId": "124",
+      "globalProductName": "白練殿方股引",
+      "globalItemNames": [
+        "白練殿方股引"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/00ceff9d426"
+      ]
+    },
+    {
+      "id": "global-127",
+      "region": "global",
+      "name": "白練姫君股引",
+      "localizedNames": {
+        "zh-CN": "粉白淑女束裤",
+        "ja": "白練姫君股引",
+        "en": "White Lady's Knickers",
+        "ko": "여성용 하얀색 잠방이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/127",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/127"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "127",
+      "skuId": "MOG-00127",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "粉白淑女束裤"
+      ],
+      "itemIds": [
+        3284
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 3284,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "femaleOnly"
+      ],
+      "globalProductId": "127",
+      "globalProductName": "白練姫君股引",
+      "globalItemNames": [
+        "白練姫君股引"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/09438cb12da"
       ]
     },
     {
@@ -3435,6 +4143,49 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/a1dad7ffe06"
+      ]
+    },
+    {
+      "id": "global-914",
+      "region": "global",
+      "name": "プリンセスミニクラウン",
+      "localizedNames": {
+        "zh-CN": "公主迷你王冠",
+        "ja": "プリンセスミニクラウン",
+        "en": "Little Lady's Crown",
+        "ko": "작은 공주 왕관"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/914",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/914"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "914",
+      "skuId": "MOG-00914",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "公主迷你王冠"
+      ],
+      "itemIds": [
+        35857
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 35857,
+      "corrected": true,
+      "tags": [
+        "littleLadiesDay"
+      ],
+      "globalProductId": "914",
+      "globalProductName": "プリンセスミニクラウン",
+      "globalItemNames": [
+        "プリンセスミニクラウン"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/a1faabfbdf3"
       ]
     },
     {
@@ -3638,12 +4389,14 @@
         "tw": "540水晶"
       },
       "itemNames": [
+        "管家单眼镜",
         "管家燕尾服",
         "管家手套",
         "管家长裤",
         "管家礼鞋"
       ],
       "itemIds": [
+        14977,
         14978,
         14979,
         14980,
@@ -3853,6 +4606,307 @@
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f2cfa99f1b7",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b9014f53cbe"
+      ]
+    },
+    {
+      "id": "global-23",
+      "region": "global",
+      "name": "黒漆塗午形兜",
+      "localizedNames": {
+        "zh-CN": "黑漆奔马武士盔",
+        "ja": "黒漆塗午形兜",
+        "en": "Black Uma Kabuto",
+        "ko": "흑칠 말 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/23",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/23"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "23",
+      "skuId": "MOG-00023",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "黑漆奔马武士盔"
+      ],
+      "itemIds": [
+        6967
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 6967,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "23",
+      "globalProductName": "黒漆塗午形兜",
+      "globalItemNames": [
+        "黒漆塗午形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b07df38a5f4"
+      ]
+    },
+    {
+      "id": "global-146",
+      "region": "global",
+      "name": "黒漆塗未形兜",
+      "localizedNames": {
+        "zh-CN": "黑漆吉羊武士盔",
+        "ja": "黒漆塗未形兜",
+        "en": "Black Hitsuji Kabuto",
+        "ko": "흑칠 양 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/146",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/146"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "146",
+      "skuId": "MOG-00146",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "黑漆吉羊武士盔"
+      ],
+      "itemIds": [
+        9269
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 9269,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "146",
+      "globalProductName": "黒漆塗未形兜",
+      "globalItemNames": [
+        "黒漆塗未形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/1e2b5ea5c2c"
+      ]
+    },
+    {
+      "id": "global-650",
+      "region": "global",
+      "name": "黒漆塗モーグリ面",
+      "localizedNames": {
+        "zh-CN": "黑漆莫古力面具",
+        "ja": "黒漆塗モーグリ面",
+        "en": "Black Painted Moogle Mask",
+        "ko": "검은 모그리 가면"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/650",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/650"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "650",
+      "skuId": "MOG-00650",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "黑漆莫古力面具"
+      ],
+      "itemIds": [
+        27945
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27945,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "globalProductId": "650",
+      "globalProductName": "黒漆塗モーグリ面",
+      "globalItemNames": [
+        "黒漆塗モーグリ面"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e373ca87a61"
+      ]
+    },
+    {
+      "id": "global-18",
+      "region": "global",
+      "name": "黒漆塗龍形兜",
+      "localizedNames": {
+        "zh-CN": "黑漆天龙武士盔",
+        "ja": "黒漆塗龍形兜",
+        "en": "Black Dragon Kabuto",
+        "ko": "흑칠 용 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/18",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/18"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "18",
+      "skuId": "MOG-00018",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "黑漆天龙武士盔"
+      ],
+      "itemIds": [
+        2648
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2648,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "18",
+      "globalProductName": "黒漆塗龍形兜",
+      "globalItemNames": [
+        "黒漆塗龍形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/6bb1e38536f"
+      ]
+    },
+    {
+      "id": "global-398",
+      "region": "global",
+      "name": "黒漆塗酉形兜",
+      "localizedNames": {
+        "zh-CN": "黑漆雄鸡武士盔",
+        "ja": "黒漆塗酉形兜",
+        "en": "Black Tori Kabuto",
+        "ko": "흑칠 닭 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/398",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/398"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "398",
+      "skuId": "MOG-00398",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "黑漆雄鸡武士盔"
+      ],
+      "itemIds": [
+        16615
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 16615,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "398",
+      "globalProductName": "黒漆塗酉形兜",
+      "globalItemNames": [
+        "黒漆塗酉形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e8f66465f71"
+      ]
+    },
+    {
+      "id": "global-497",
+      "region": "global",
+      "name": "黒漆塗戌形兜",
+      "localizedNames": {
+        "zh-CN": "黑漆忠犬武士盔",
+        "ja": "黒漆塗戌形兜",
+        "en": "Black Inu Kabuto",
+        "ko": "누렁이의 검은 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/497",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/497"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "497",
+      "skuId": "MOG-00497",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "黑漆忠犬武士盔"
+      ],
+      "itemIds": [
+        20679
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 20679,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "497",
+      "globalProductName": "黒漆塗戌形兜",
+      "globalItemNames": [
+        "黒漆塗戌形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/9bbd0f6fab6"
+      ]
+    },
+    {
+      "id": "global-853",
+      "region": "global",
+      "name": "黒漆塗丑形兜",
+      "localizedNames": {
+        "zh-CN": "黑漆壮牛武士盔",
+        "ja": "黒漆塗丑形兜",
+        "en": "Black Ushi Kabuto",
+        "ko": "흑칠 소 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/853",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/853"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "853",
+      "skuId": "MOG-00853",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "黑漆壮牛武士盔"
+      ],
+      "itemIds": [
+        28557
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 28557,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "853",
+      "globalProductName": "黒漆塗丑形兜",
+      "globalItemNames": [
+        "黒漆塗丑形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/cfa626a457b"
       ]
     },
     {
@@ -4099,6 +5153,45 @@
       ]
     },
     {
+      "id": "global-652",
+      "region": "global",
+      "name": "紅蓮祭白染法被",
+      "localizedNames": {
+        "zh-CN": "红莲节白染法被",
+        "ja": "紅蓮祭白染法被",
+        "en": "White Moonfire Happi",
+        "ko": "하얀 불꽃축제 겉옷"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/652",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/652"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "652",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "红莲节白染法被"
+      ],
+      "itemIds": [
+        27947
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27947,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "globalProductId": "652",
+      "globalProductName": "紅蓮祭白染法被",
+      "globalItemNames": [
+        "紅蓮祭白染法被"
+      ]
+    },
+    {
       "id": "cn-605",
       "region": "cn",
       "name": "红莲节缠头带",
@@ -4143,6 +5236,84 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b72cd27efbd"
+      ]
+    },
+    {
+      "id": "global-654",
+      "region": "global",
+      "name": "紅蓮祭黒染法被",
+      "localizedNames": {
+        "zh-CN": "红莲节黑染法被",
+        "ja": "紅蓮祭黒染法被",
+        "en": "Black Moonfire Happi",
+        "ko": "검은 불꽃축제 겉옷"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/654",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/654"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "654",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "红莲节黑染法被"
+      ],
+      "itemIds": [
+        27949
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27949,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "globalProductId": "654",
+      "globalProductName": "紅蓮祭黒染法被",
+      "globalItemNames": [
+        "紅蓮祭黒染法被"
+      ]
+    },
+    {
+      "id": "global-653",
+      "region": "global",
+      "name": "紅蓮祭紅染法被",
+      "localizedNames": {
+        "zh-CN": "红莲节红染法被",
+        "ja": "紅蓮祭紅染法被",
+        "en": "Red Moonfire Happi",
+        "ko": "붉은 불꽃축제 겉옷"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/653",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/653"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "653",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "红莲节红染法被"
+      ],
+      "itemIds": [
+        27948
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27948,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "globalProductId": "653",
+      "globalProductName": "紅蓮祭紅染法被",
+      "globalItemNames": [
+        "紅蓮祭紅染法被"
       ]
     },
     {
@@ -4198,6 +5369,45 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/05b54d0747d",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/2ba1e61030f",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/80472b66666"
+      ]
+    },
+    {
+      "id": "global-655",
+      "region": "global",
+      "name": "紅蓮祭足袋",
+      "localizedNames": {
+        "zh-CN": "红莲节足袋",
+        "ja": "紅蓮祭足袋",
+        "en": "Moonfire Tabi",
+        "ko": "불꽃축제 버선"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/655",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/655"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "655",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "红莲节足袋"
+      ],
+      "itemIds": [
+        27950
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27950,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "globalProductId": "655",
+      "globalProductName": "紅蓮祭足袋",
+      "globalItemNames": [
+        "紅蓮祭足袋"
       ]
     },
     {
@@ -4294,6 +5504,53 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/6a8246308c5"
+      ]
+    },
+    {
+      "id": "global-905",
+      "region": "global",
+      "name": "スターク・イポスセスフィラ",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/905",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/905",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0094_260113112535",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "905",
+      "skuId": "MOG-00905",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "荒芜的约定之锤"
+      ],
+      "itemIds": [
+        39623
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "スターク・イポスセスフィラ",
+        "en": "Stark Hyposkhesphyra",
+        "ko": "가이아 무기 시리즈",
+        "zh-CN": "荒芜的约定之锤"
+      },
+      "globalProductId": "905",
+      "globalProductName": "スターク・イポスセスフィラ",
+      "globalItemNames": [
+        "スターク・イポスセスフィラ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b2e89bdcc13"
+      ],
+      "coverItemId": 39623,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
       ]
     },
     {
@@ -4449,6 +5706,53 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/7925e12cd34"
+      ]
+    },
+    {
+      "id": "global-908",
+      "region": "global",
+      "name": "エクリプティク・イポスセスフィラ",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/908",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/908",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0097_260113111413",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "908",
+      "skuId": "MOG-00908",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "黄道的约定之锤"
+      ],
+      "itemIds": [
+        39626
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "エクリプティク・イポスセスフィラ",
+        "en": "Ecliptic Hyposkhesphyra",
+        "ko": "가이아 무기 시리즈",
+        "zh-CN": "黄道的约定之锤"
+      },
+      "globalProductId": "908",
+      "globalProductName": "エクリプティク・イポスセスフィラ",
+      "globalItemNames": [
+        "エクリプティク・イポスセスフィラ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/0239b063113"
+      ],
+      "coverItemId": 39626,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
       ]
     },
     {
@@ -4609,60 +5913,6 @@
       ]
     },
     {
-      "id": "global-295",
-      "region": "global",
-      "name": "姫君水干衣装セット",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/295",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/295",
-        "cn": "https://qu.sdo.com/product-detail/abeaca33dc7d34b6c34d",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0175_260121152230",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/1190"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "295",
-      "skuId": "MOG-00295",
-      "priceLabel": "550 crysta",
-      "regionalPriceLabels": {
-        "global": "550 crysta",
-        "tw": "150水晶",
-        "kr": "6,000 크리스탈"
-      },
-      "itemNames": [
-        "淑女水干",
-        "淑女木屐"
-      ],
-      "itemIds": [
-        13639,
-        13725
-      ],
-      "mappingSource": "global-store",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "姫君水干衣装セット",
-        "en": "Lady's Suikan Set",
-        "zh-CN": "淑女套",
-        "ko": "가인 의상 세트"
-      },
-      "globalProductId": "295",
-      "globalProductName": "姫君水干衣装セット",
-      "globalItemNames": [
-        "姫君水干",
-        "姫君下駄"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e8f2dedcff8",
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/68c5b5257c2"
-      ],
-      "coverItemId": 13639,
-      "tags": [
-        "littleLadiesDay"
-      ],
-      "detailTags": [
-        "femaleOnly"
-      ]
-    },
-    {
       "id": "cn-583",
       "region": "cn",
       "name": "基迦巨剑",
@@ -4707,6 +5957,149 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/ba09199996d"
+      ]
+    },
+    {
+      "id": "cn-promo-eternal-passion-gown-attire",
+      "region": "cn",
+      "name": "激情典礼纱裙套装",
+      "localizedNames": {
+        "zh-CN": "激情典礼纱裙套装",
+        "ja": "パッションドレス・アタイア",
+        "en": "Eternal Passion Attire (Gown)",
+        "ko": "정열의 예복 드레스 의복"
+      },
+      "storeUrl": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
+      "regionalStoreUrls": {
+        "cn": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/5",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0005_250529185122",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/37"
+      },
+      "sourceUrl": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
+      "productId": "promo-eternal-passion-gown-attire",
+      "skuId": "cf7342df4897de1397cb",
+      "priceLabel": "8800点券",
+      "regionalPriceLabels": {
+        "cn": "8800点券",
+        "global": "1100 crysta",
+        "tw": "300水晶",
+        "kr": "12,000 크리스탈"
+      },
+      "itemNames": [
+        "激情同心头纱",
+        "激情典礼纱裙",
+        "激情花边长袜",
+        "激情高跟礼鞋"
+      ],
+      "itemIds": [
+        8682,
+        8685,
+        8688,
+        8691
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 45143,
+      "corrected": true,
+      "tags": [
+        "fanFestivalCostume"
+      ],
+      "notes": "永结同心黄金方案奖励。",
+      "globalProductId": "5",
+      "globalProductName": "情熱の誓いの腕輪(ゴールドプラン)"
+    },
+    {
+      "id": "cn-promo-eternal-passion-tailcoat-attire",
+      "region": "cn",
+      "name": "激情燕尾礼服套装",
+      "localizedNames": {
+        "zh-CN": "激情燕尾礼服套装",
+        "ja": "パッションテイルコート・アタイア",
+        "en": "Eternal Passion Attire (Tailcoat)",
+        "ko": "정열의 연미복 의복"
+      },
+      "storeUrl": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
+      "regionalStoreUrls": {
+        "cn": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/5",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0005_250529185122",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/37"
+      },
+      "sourceUrl": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
+      "productId": "promo-eternal-passion-tailcoat-attire",
+      "skuId": "cf7342df4897de1397cb",
+      "priceLabel": "8800点券",
+      "regionalPriceLabels": {
+        "cn": "8800点券",
+        "global": "1100 crysta",
+        "tw": "300水晶",
+        "kr": "12,000 크리스탈"
+      },
+      "itemNames": [
+        "激情燕尾礼服",
+        "激情永结手套",
+        "激情典礼长裤",
+        "激情端庄礼鞋"
+      ],
+      "itemIds": [
+        8670,
+        8673,
+        8676,
+        8679
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 45140,
+      "corrected": true,
+      "tags": [
+        "fanFestivalCostume"
+      ],
+      "notes": "永结同心黄金方案奖励。",
+      "globalProductId": "5",
+      "globalProductName": "情熱の誓いの腕輪(ゴールドプラン)"
+    },
+    {
+      "id": "global-145",
+      "region": "global",
+      "name": "未形兜",
+      "localizedNames": {
+        "zh-CN": "吉羊武士盔",
+        "ja": "未形兜",
+        "en": "Hitsuji Kabuto",
+        "ko": "양 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/145",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/145"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "145",
+      "skuId": "MOG-00145",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "吉羊武士盔"
+      ],
+      "itemIds": [
+        9268
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 9268,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "145",
+      "globalProductName": "未形兜",
+      "globalItemNames": [
+        "未形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/eaf3e4a27a6"
       ]
     },
     {
@@ -4815,7 +6208,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 2632,
+      "coverItemId": 14864,
       "corrected": true,
       "tags": [
         "npcCostume"
@@ -4894,6 +6287,46 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/aa67039b4cf",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b391ce10ee4",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f6e3f0e978e"
+      ]
+    },
+    {
+      "id": "global-143",
+      "region": "global",
+      "name": "フォルスムスタッシュ",
+      "localizedNames": {
+        "zh-CN": "假胡子",
+        "ja": "フォルスムスタッシュ",
+        "en": "False Mustache",
+        "ko": "가짜 콧수염"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/143",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/143"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "143",
+      "skuId": "MOG-00143",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "假胡子"
+      ],
+      "itemIds": [
+        9290
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 9290,
+      "corrected": true,
+      "globalProductId": "143",
+      "globalProductName": "フォルスムスタッシュ",
+      "globalItemNames": [
+        "フォルスムスタッシュ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f117d126a68"
       ]
     },
     {
@@ -5066,6 +6499,227 @@
       ]
     },
     {
+      "id": "global-22",
+      "region": "global",
+      "name": "金箔押午形兜",
+      "localizedNames": {
+        "zh-CN": "金箔奔马武士盔",
+        "ja": "金箔押午形兜",
+        "en": "Golden Uma Kabuto",
+        "ko": "금박 말 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/22",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/22"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "22",
+      "skuId": "MOG-00022",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "金箔奔马武士盔"
+      ],
+      "itemIds": [
+        6966
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 6966,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "22",
+      "globalProductName": "金箔押午形兜",
+      "globalItemNames": [
+        "金箔押午形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/dc50e7808a9"
+      ]
+    },
+    {
+      "id": "global-17",
+      "region": "global",
+      "name": "金箔押龍形兜",
+      "localizedNames": {
+        "zh-CN": "金箔天龙武士盔",
+        "ja": "金箔押龍形兜",
+        "en": "Golden Dragon Kabuto",
+        "ko": "금박 용 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/17",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/17"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "17",
+      "skuId": "MOG-00017",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "金箔天龙武士盔"
+      ],
+      "itemIds": [
+        2647
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2647,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "17",
+      "globalProductName": "金箔押龍形兜",
+      "globalItemNames": [
+        "金箔押龍形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/be92bba0641"
+      ]
+    },
+    {
+      "id": "global-125",
+      "region": "global",
+      "name": "山吹殿方股引",
+      "localizedNames": {
+        "zh-CN": "金黄君子束裤",
+        "ja": "山吹殿方股引",
+        "en": "Gold Lord's Drawers",
+        "ko": "남성용 황금색 잠방이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/125",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/125"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "125",
+      "skuId": "MOG-00125",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "金黄君子束裤"
+      ],
+      "itemIds": [
+        3282
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 3282,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "maleOnly"
+      ],
+      "globalProductId": "125",
+      "globalProductName": "山吹殿方股引",
+      "globalItemNames": [
+        "山吹殿方股引"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/5bdd879ebea"
+      ]
+    },
+    {
+      "id": "global-128",
+      "region": "global",
+      "name": "山吹姫君股引",
+      "localizedNames": {
+        "zh-CN": "金黄淑女束裤",
+        "ja": "山吹姫君股引",
+        "en": "Gold Lady's Knickers",
+        "ko": "여성용 황금색 잠방이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/128",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/128"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "128",
+      "skuId": "MOG-00128",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "金黄淑女束裤"
+      ],
+      "itemIds": [
+        3285
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 3285,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "femaleOnly"
+      ],
+      "globalProductId": "128",
+      "globalProductName": "山吹姫君股引",
+      "globalItemNames": [
+        "山吹姫君股引"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e5e6d0b4d16"
+      ]
+    },
+    {
+      "id": "global-896",
+      "region": "global",
+      "name": "金漆塗寅形兜",
+      "localizedNames": {
+        "zh-CN": "金漆猛虎武士盔",
+        "ja": "金漆塗寅形兜",
+        "en": "Golden Tora Kabuto",
+        "ko": "금칠 호랑이 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/896",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/896"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "896",
+      "skuId": "MOG-00896",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "金漆猛虎武士盔"
+      ],
+      "itemIds": [
+        32804
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 32804,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "896",
+      "globalProductName": "金漆塗寅形兜",
+      "globalItemNames": [
+        "金漆塗寅形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/6957a2432d0"
+      ]
+    },
+    {
       "id": "cn-156",
       "region": "cn",
       "name": "金阳男式夏装",
@@ -5174,6 +6828,49 @@
       ]
     },
     {
+      "id": "global-621",
+      "region": "global",
+      "name": "亥形兜",
+      "localizedNames": {
+        "zh-CN": "金猪武士盔",
+        "ja": "亥形兜",
+        "en": "Inoshishi Kabuto",
+        "ko": "돼지 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/621",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/621"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "621",
+      "skuId": "MOG-00621",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "金猪武士盔"
+      ],
+      "itemIds": [
+        22457
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 22457,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "621",
+      "globalProductName": "亥形兜",
+      "globalItemNames": [
+        "亥形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/3bc3d4ed5e9"
+      ]
+    },
+    {
       "id": "cn-1681541410206691328",
       "region": "cn",
       "name": "就学套装（裤装版）",
@@ -5214,7 +6911,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 39295,
+      "coverItemId": 39296,
       "corrected": true,
       "tags": [
         "bonusCostume"
@@ -5289,6 +6986,60 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/1c81de9cf90",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/875ab23e382",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/3d9d6325449"
+      ]
+    },
+    {
+      "id": "global-294",
+      "region": "global",
+      "name": "殿方水干衣装セット",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/294",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/294",
+        "cn": "https://qu.sdo.com/product-detail/2a45ba60f84fefb2278e",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0174_260121151325",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1189"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "294",
+      "skuId": "MOG-00294",
+      "priceLabel": "550 crysta",
+      "regionalPriceLabels": {
+        "global": "550 crysta",
+        "tw": "150水晶",
+        "kr": "6,000 크리스탈"
+      },
+      "itemNames": [
+        "君子水干",
+        "君子木屐"
+      ],
+      "itemIds": [
+        13300,
+        13724
+      ],
+      "mappingSource": "global-store",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "殿方水干衣装セット",
+        "en": "Lord's Suikan Set",
+        "zh-CN": "君子套",
+        "ko": "공자 의상 세트"
+      },
+      "globalProductId": "294",
+      "globalProductName": "殿方水干衣装セット",
+      "globalItemNames": [
+        "殿方水干",
+        "殿方下駄"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/65bdb6476dd",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d8e942d0f6d"
+      ],
+      "coverItemId": 13300,
+      "tags": [
+        "littleLadiesDay"
+      ],
+      "detailTags": [
+        "maleOnly"
       ]
     },
     {
@@ -5503,7 +7254,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 6971,
+      "coverItemId": 6973,
       "corrected": true,
       "tags": [
         "valentioneDay"
@@ -5568,7 +7319,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 6971,
+      "coverItemId": 6972,
       "corrected": true,
       "tags": [
         "valentioneDay"
@@ -5653,6 +7404,53 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/66c34640e49",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/08c2749ea5d",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f5d0b6ee72c"
+      ]
+    },
+    {
+      "id": "global-907",
+      "region": "global",
+      "name": "アンブラル・イポスセスフィラ",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/907",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/907",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0096_260113111758",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "907",
+      "skuId": "MOG-00907",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "灵极的约定之锤"
+      ],
+      "itemIds": [
+        39625
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "アンブラル・イポスセスフィラ",
+        "en": "Umbral Hyposkhesphyra",
+        "ko": "가이아 무기 시리즈",
+        "zh-CN": "灵极的约定之锤"
+      },
+      "globalProductId": "907",
+      "globalProductName": "アンブラル・イポスセスフィラ",
+      "globalItemNames": [
+        "アンブラル・イポスセスフィラ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/86d292645f9"
+      ],
+      "coverItemId": 39625,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
       ]
     },
     {
@@ -5838,6 +7636,92 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/9eeee7abcbf",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/728fd57d593",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/4b8b7181774"
+      ]
+    },
+    {
+      "id": "global-77",
+      "region": "global",
+      "name": "チョコボリング",
+      "localizedNames": {
+        "zh-CN": "陆行鸟蛋戒指",
+        "ja": "チョコボリング",
+        "en": "Chocobo Egg Ring",
+        "ko": "초코보 반지"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/77",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/77"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "77",
+      "skuId": "MOG-00077",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "陆行鸟蛋戒指"
+      ],
+      "itemIds": [
+        4408
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4408,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "77",
+      "globalProductName": "チョコボリング",
+      "globalItemNames": [
+        "チョコボリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/15f78dd6055"
+      ]
+    },
+    {
+      "id": "global-72",
+      "region": "global",
+      "name": "チョコボエッグキャップ",
+      "localizedNames": {
+        "zh-CN": "陆行鸟蛋壳帽",
+        "ja": "チョコボエッグキャップ",
+        "en": "Chocobo Egg Cap",
+        "ko": "초코보 알껍질 모자"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/72",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/72"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "72",
+      "skuId": "MOG-00072",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "陆行鸟蛋壳帽"
+      ],
+      "itemIds": [
+        2671
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2671,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "72",
+      "globalProductName": "チョコボエッグキャップ",
+      "globalItemNames": [
+        "チョコボエッグキャップ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/598ea6b9e45"
       ]
     },
     {
@@ -6051,6 +7935,49 @@
       ]
     },
     {
+      "id": "global-587",
+      "region": "global",
+      "name": "レプリカ・マンダヴィルイヤリング",
+      "localizedNames": {
+        "zh-CN": "曼德维尔耳环（复制品）",
+        "ja": "レプリカ・マンダヴィルイヤリング",
+        "en": "Replica Manderville Earrings",
+        "ko": "모조 맨더빌 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/587",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/587"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "587",
+      "skuId": "MOG-00587",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "曼德维尔耳环（复制品）"
+      ],
+      "itemIds": [
+        27984
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27984,
+      "corrected": true,
+      "tags": [
+        "replicaCostume"
+      ],
+      "globalProductId": "587",
+      "globalProductName": "レプリカ・マンダヴィルイヤリング",
+      "globalItemNames": [
+        "レプリカ・マンダヴィルイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/95d5f7e01e3"
+      ]
+    },
+    {
       "id": "cn-1608309545170022400",
       "region": "cn",
       "name": "猫小胖套装",
@@ -6156,7 +8083,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 28558,
+      "coverItemId": 28559,
       "corrected": true,
       "tags": [
         "valentioneDay"
@@ -6221,7 +8148,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 28573,
+      "coverItemId": 28574,
       "corrected": true,
       "tags": [
         "valentioneDay"
@@ -6242,6 +8169,58 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d88d6b7700a",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/4d1b33fb291"
       ]
+    },
+    {
+      "id": "global-1056",
+      "region": "global",
+      "name": "オプションアイテムお得パック（サービスアカウント）",
+      "localizedNames": {
+        "zh-CN": "梅茵菲娜耳坠",
+        "ja": "オプションアイテムお得パック（サービスアカウント）",
+        "en": "Optional Item Bonus Pack (Service Account)",
+        "ko": "메느피나 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1056",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1056"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "1056",
+      "skuId": "MOG-01056",
+      "priceLabel": "1100 crysta",
+      "regionalPriceLabels": {
+        "global": "1100 crysta"
+      },
+      "itemNames": [
+        "梅茵菲娜耳坠"
+      ],
+      "itemIds": [
+        33648
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 33648,
+      "corrected": true,
+      "tags": [
+        "bonusCostume"
+      ],
+      "globalProductId": "1056",
+      "globalProductName": "オプションアイテムお得パック（サービスアカウント）",
+      "globalItemNames": [
+        "メネフィナイヤリング",
+        "幻想薬",
+        "転送網利用券",
+        "演技教本:声援フロント:白",
+        "紅小月番傘"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/89ba1e35bc1",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/7cfe0c414b6",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/93a8dbddecf",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/5191253375f",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/11378c060e1"
+      ],
+      "notes": "服务账号单位优惠包；NSArmoire 只映射其中的梅茵菲娜耳坠。"
     },
     {
       "id": "cn-1777990241789091840",
@@ -6485,6 +8464,178 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/4b2ed63f599",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/53c2bc7500e",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/35936f7ccda"
+      ]
+    },
+    {
+      "id": "global-195",
+      "region": "global",
+      "name": "カモエッグイヤリング",
+      "localizedNames": {
+        "zh-CN": "迷彩蛋耳坠",
+        "ja": "カモエッグイヤリング",
+        "en": "Vibrant Egg Earrings",
+        "ko": "알록달록 달걀 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/195",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/195"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "195",
+      "skuId": "MOG-00195",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "迷彩蛋耳坠"
+      ],
+      "itemIds": [
+        10070
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 10070,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "195",
+      "globalProductName": "カモエッグイヤリング",
+      "globalItemNames": [
+        "カモエッグイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/8a18b0b99b8"
+      ]
+    },
+    {
+      "id": "global-74",
+      "region": "global",
+      "name": "カモエッグリング",
+      "localizedNames": {
+        "zh-CN": "迷彩蛋戒指",
+        "ja": "カモエッグリング",
+        "en": "Vibrant Egg Ring",
+        "ko": "알록달록 달걀 반지"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/74",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/74"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "74",
+      "skuId": "MOG-00074",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "迷彩蛋戒指"
+      ],
+      "itemIds": [
+        4407
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4407,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "74",
+      "globalProductName": "カモエッグリング",
+      "globalItemNames": [
+        "カモエッグリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b34298f9670"
+      ]
+    },
+    {
+      "id": "global-69",
+      "region": "global",
+      "name": "カモエッグキャップ",
+      "localizedNames": {
+        "zh-CN": "迷彩蛋壳帽",
+        "ja": "カモエッグキャップ",
+        "en": "Vibrant Egg Cap",
+        "ko": "알록달록 알껍질 모자"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/69",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/69"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "69",
+      "skuId": "MOG-00069",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "迷彩蛋壳帽"
+      ],
+      "itemIds": [
+        2707
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2707,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "69",
+      "globalProductName": "カモエッグキャップ",
+      "globalItemNames": [
+        "カモエッグキャップ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/dfa6b6f196a"
+      ]
+    },
+    {
+      "id": "global-81",
+      "region": "global",
+      "name": "ムーンレット",
+      "localizedNames": {
+        "zh-CN": "明月耳环",
+        "ja": "ムーンレット",
+        "en": "Moonlet",
+        "ko": "달귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/81",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/81"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "81",
+      "skuId": "MOG-00081",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "明月耳环"
+      ],
+      "itemIds": [
+        4199
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4199,
+      "corrected": true,
+      "tags": [
+        "huntingMoon"
+      ],
+      "globalProductId": "81",
+      "globalProductName": "ムーンレット",
+      "globalItemNames": [
+        "ムーンレット"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/37a0c403741"
       ]
     },
     {
@@ -6875,304 +9026,50 @@
       ]
     },
     {
-      "id": "cn-promo-eternal-devotion-tailcoat-attire",
-      "region": "cn",
-      "name": "钟情燕尾礼服套装",
+      "id": "global-123",
+      "region": "global",
+      "name": "墨染殿方股引",
       "localizedNames": {
-        "zh-CN": "钟情燕尾礼服套装",
-        "ja": "エターナルテイルコート・アタイア",
-        "en": "Eternal Devotion Attire (Tailcoat)",
-        "ko": "영원의 연미복 의복"
+        "zh-CN": "墨黑君子束裤",
+        "ja": "墨染殿方股引",
+        "en": "Black Lord's Drawers",
+        "ko": "남성용 검은색 잠방이"
       },
-      "storeUrl": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/123",
       "regionalStoreUrls": {
-        "cn": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/6",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0006_250530152342",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/38"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/123"
       },
-      "sourceUrl": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
-      "productId": "promo-eternal-devotion-tailcoat-attire",
-      "skuId": "74457e67ccc15a9e41c8",
-      "priceLabel": "16800点券",
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "123",
+      "skuId": "MOG-00123",
+      "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "cn": "16800点券",
-        "global": "2200 crysta",
-        "tw": "600水晶",
-        "kr": "24,000 크리스탈"
+        "global": "330 crysta"
       },
       "itemNames": [
-        "钟情燕尾礼服",
-        "钟情永结手套",
-        "钟情典礼长裤",
-        "钟情端庄礼鞋"
+        "墨黑君子束裤"
       ],
       "itemIds": [
-        8671,
-        8674,
-        8677,
-        8680
+        3280
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 45141,
+      "coverItemId": 3280,
       "corrected": true,
       "tags": [
-        "fanFestivalCostume"
+        "moonfireFaire"
       ],
-      "notes": "永结同心白金方案奖励。",
-      "globalProductId": "6",
-      "globalProductName": "久遠の誓いの腕輪(プラチナプラン)"
-    },
-    {
-      "id": "cn-promo-eternal-devotion-gown-attire",
-      "region": "cn",
-      "name": "钟情典礼纱裙套装",
-      "localizedNames": {
-        "zh-CN": "钟情典礼纱裙套装",
-        "ja": "エターナルドレス・アタイア",
-        "en": "Eternal Devotion Attire (Gown)",
-        "ko": "영원의 예복 드레스 의복"
-      },
-      "storeUrl": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
-      "regionalStoreUrls": {
-        "cn": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/6",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0006_250530152342",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/38"
-      },
-      "sourceUrl": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
-      "productId": "promo-eternal-devotion-gown-attire",
-      "skuId": "74457e67ccc15a9e41c8",
-      "priceLabel": "16800点券",
-      "regionalPriceLabels": {
-        "cn": "16800点券",
-        "global": "2200 crysta",
-        "tw": "600水晶",
-        "kr": "24,000 크리스탈"
-      },
-      "itemNames": [
-        "钟情同心头纱",
-        "钟情典礼纱裙",
-        "钟情花边长袜",
-        "钟情高跟礼鞋"
+      "detailTags": [
+        "maleOnly"
       ],
-      "itemIds": [
-        8683,
-        8686,
-        8689,
-        8692
+      "globalProductId": "123",
+      "globalProductName": "墨染殿方股引",
+      "globalItemNames": [
+        "墨染殿方股引"
       ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "coverItemId": 45144,
-      "corrected": true,
-      "tags": [
-        "fanFestivalCostume"
-      ],
-      "notes": "永结同心白金方案奖励。",
-      "globalProductId": "6",
-      "globalProductName": "久遠の誓いの腕輪(プラチナプラン)"
-    },
-    {
-      "id": "cn-promo-eternal-passion-tailcoat-attire",
-      "region": "cn",
-      "name": "激情燕尾礼服套装",
-      "localizedNames": {
-        "zh-CN": "激情燕尾礼服套装",
-        "ja": "パッションテイルコート・アタイア",
-        "en": "Eternal Passion Attire (Tailcoat)",
-        "ko": "정열의 연미복 의복"
-      },
-      "storeUrl": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
-      "regionalStoreUrls": {
-        "cn": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/5",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0005_250529185122",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/37"
-      },
-      "sourceUrl": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
-      "productId": "promo-eternal-passion-tailcoat-attire",
-      "skuId": "cf7342df4897de1397cb",
-      "priceLabel": "8800点券",
-      "regionalPriceLabels": {
-        "cn": "8800点券",
-        "global": "1100 crysta",
-        "tw": "300水晶",
-        "kr": "12,000 크리스탈"
-      },
-      "itemNames": [
-        "激情燕尾礼服",
-        "激情永结手套",
-        "激情典礼长裤",
-        "激情端庄礼鞋"
-      ],
-      "itemIds": [
-        8670,
-        8673,
-        8676,
-        8679
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "coverItemId": 45140,
-      "corrected": true,
-      "tags": [
-        "fanFestivalCostume"
-      ],
-      "notes": "永结同心黄金方案奖励。",
-      "globalProductId": "5",
-      "globalProductName": "情熱の誓いの腕輪(ゴールドプラン)"
-    },
-    {
-      "id": "cn-promo-eternal-passion-gown-attire",
-      "region": "cn",
-      "name": "激情典礼纱裙套装",
-      "localizedNames": {
-        "zh-CN": "激情典礼纱裙套装",
-        "ja": "パッションドレス・アタイア",
-        "en": "Eternal Passion Attire (Gown)",
-        "ko": "정열의 예복 드레스 의복"
-      },
-      "storeUrl": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
-      "regionalStoreUrls": {
-        "cn": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/5",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0005_250529185122",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/37"
-      },
-      "sourceUrl": "https://qu.sdo.com/product-detail/cf7342df4897de1397cb",
-      "productId": "promo-eternal-passion-gown-attire",
-      "skuId": "cf7342df4897de1397cb",
-      "priceLabel": "8800点券",
-      "regionalPriceLabels": {
-        "cn": "8800点券",
-        "global": "1100 crysta",
-        "tw": "300水晶",
-        "kr": "12,000 크리스탈"
-      },
-      "itemNames": [
-        "激情同心头纱",
-        "激情典礼纱裙",
-        "激情花边长袜",
-        "激情高跟礼鞋"
-      ],
-      "itemIds": [
-        8682,
-        8685,
-        8688,
-        8691
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "coverItemId": 45143,
-      "corrected": true,
-      "tags": [
-        "fanFestivalCostume"
-      ],
-      "notes": "永结同心黄金方案奖励。",
-      "globalProductId": "5",
-      "globalProductName": "情熱の誓いの腕輪(ゴールドプラン)"
-    },
-    {
-      "id": "cn-promo-eternal-innocence-tailcoat-attire",
-      "region": "cn",
-      "name": "纯情燕尾礼服套装",
-      "localizedNames": {
-        "zh-CN": "纯情燕尾礼服套装",
-        "ja": "イノセントテイルコート・アタイア",
-        "en": "Eternal Innocence Attire (Tailcoat)",
-        "ko": "순수의 연미복 의복"
-      },
-      "storeUrl": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
-      "regionalStoreUrls": {
-        "cn": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/4",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0004_250529184932",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/36"
-      },
-      "sourceUrl": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
-      "productId": "promo-eternal-innocence-tailcoat-attire",
-      "skuId": "0c51662c172d0a2f356c",
-      "priceLabel": "0点券",
-      "regionalPriceLabels": {
-        "cn": "0点券",
-        "global": "0 crysta",
-        "tw": "0水晶",
-        "kr": "0 크리스탈"
-      },
-      "itemNames": [
-        "纯情燕尾礼服",
-        "纯情永结手套",
-        "纯情典礼长裤",
-        "纯情端庄礼鞋"
-      ],
-      "itemIds": [
-        8669,
-        8672,
-        8675,
-        8678
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "coverItemId": 45139,
-      "corrected": true,
-      "tags": [
-        "fanFestivalCostume"
-      ],
-      "notes": "永结同心标准方案奖励。",
-      "globalProductId": "4",
-      "globalProductName": "純真の誓いの腕輪(スタンダードプラン)"
-    },
-    {
-      "id": "cn-promo-eternal-innocence-gown-attire",
-      "region": "cn",
-      "name": "纯情典礼纱裙套装",
-      "localizedNames": {
-        "zh-CN": "纯情典礼纱裙套装",
-        "ja": "イノセントドレス・アタイア",
-        "en": "Eternal Innocence Attire (Gown)",
-        "ko": "순수의 예복 드레스 의복"
-      },
-      "storeUrl": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
-      "regionalStoreUrls": {
-        "cn": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/4",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0004_250529184932",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/36"
-      },
-      "sourceUrl": "https://qu.sdo.com/product-detail/0c51662c172d0a2f356c",
-      "productId": "promo-eternal-innocence-gown-attire",
-      "skuId": "0c51662c172d0a2f356c",
-      "priceLabel": "0点券",
-      "regionalPriceLabels": {
-        "cn": "0点券",
-        "global": "0 crysta",
-        "tw": "0水晶",
-        "kr": "0 크리스탈"
-      },
-      "itemNames": [
-        "纯情同心头纱",
-        "纯情典礼纱裙",
-        "纯情花边长袜",
-        "纯情高跟礼鞋"
-      ],
-      "itemIds": [
-        8681,
-        8684,
-        8687,
-        8690
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "coverItemId": 45142,
-      "corrected": true,
-      "tags": [
-        "fanFestivalCostume"
-      ],
-      "notes": "永结同心标准方案奖励。",
-      "globalProductId": "4",
-      "globalProductName": "純真の誓いの腕輪(スタンダードプラン)"
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e15100041d8"
+      ]
     },
     {
       "id": "cn-67",
@@ -7224,6 +9121,52 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/eb4c69568bb"
+      ]
+    },
+    {
+      "id": "global-126",
+      "region": "global",
+      "name": "墨染姫君股引",
+      "localizedNames": {
+        "zh-CN": "墨黑淑女束裤",
+        "ja": "墨染姫君股引",
+        "en": "Black Lady's Knickers",
+        "ko": "여성용 검은색 잠방이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/126",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/126"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "126",
+      "skuId": "MOG-00126",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "墨黑淑女束裤"
+      ],
+      "itemIds": [
+        3283
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 3283,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "femaleOnly"
+      ],
+      "globalProductId": "126",
+      "globalProductName": "墨染姫君股引",
+      "globalItemNames": [
+        "墨染姫君股引"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/be098353bc4"
       ]
     },
     {
@@ -7469,6 +9412,49 @@
       ]
     },
     {
+      "id": "global-133",
+      "region": "global",
+      "name": "パンプキンイヤリング",
+      "localizedNames": {
+        "zh-CN": "南瓜耳坠",
+        "ja": "パンプキンイヤリング",
+        "en": "Pumpkin Earrings",
+        "ko": "호박 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/133",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/133"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "133",
+      "skuId": "MOG-00133",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "南瓜耳坠"
+      ],
+      "itemIds": [
+        8715
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 8715,
+      "corrected": true,
+      "tags": [
+        "allSaintsWake"
+      ],
+      "globalProductId": "133",
+      "globalProductName": "パンプキンイヤリング",
+      "globalItemNames": [
+        "パンプキンイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e942ef67bb9"
+      ]
+    },
+    {
       "id": "cn-50",
       "region": "cn",
       "name": "南瓜头",
@@ -7563,6 +9549,102 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/2676857bf13"
+      ]
+    },
+    {
+      "id": "global-219",
+      "region": "global",
+      "name": "サザンシーベスト",
+      "localizedNames": {
+        "zh-CN": "南海男式坎肩",
+        "ja": "サザンシーベスト",
+        "en": "Southern Seas Vest",
+        "ko": "남해의 조끼"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/219",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/219"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "219",
+      "skuId": "MOG-00219",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "南海男式坎肩",
+        "南海男式坎肩组合"
+      ],
+      "itemIds": [
+        10316,
+        45159
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 10316,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "maleOnly"
+      ],
+      "globalProductId": "219",
+      "globalProductName": "サザンシーベスト",
+      "globalItemNames": [
+        "サザンシーベスト"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/4e9c7ab3f5a"
+      ]
+    },
+    {
+      "id": "global-220",
+      "region": "global",
+      "name": "ストライプ・サザンシーベスト",
+      "localizedNames": {
+        "zh-CN": "南海男式条纹坎肩",
+        "ja": "ストライプ・サザンシーベスト",
+        "en": "Striped Southern Seas Vest",
+        "ko": "남해의 줄무늬 조끼"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/220",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/220"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "220",
+      "skuId": "MOG-00220",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "南海男式条纹坎肩",
+        "南海男式条纹坎肩组合"
+      ],
+      "itemIds": [
+        10320,
+        45161
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 10320,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "maleOnly"
+      ],
+      "globalProductId": "220",
+      "globalProductName": "ストライプ・サザンシーベスト",
+      "globalItemNames": [
+        "ストライプ・サザンシーベスト"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e99dc5cbbdd"
       ]
     },
     {
@@ -8270,56 +10352,6 @@
       ]
     },
     {
-      "id": "cn-2029848962696134657",
-      "region": "cn",
-      "name": "缇姨塔可饼新式文化衫组合",
-      "localizedNames": {
-        "zh-CN": "缇姨塔可饼新式文化衫组合",
-        "ja": "チーちゃん・ネオチュニック3点セット",
-        "en": "Aunt Tii's Neotunic Set",
-        "ko": "티 아줌마네 네오 튜닉 세트"
-      },
-      "storeUrl": "https://qu.sdo.com/product-detail/2029848962742272000",
-      "regionalStoreUrls": {
-        "cn": "https://qu.sdo.com/product-detail/2029848962742272000",
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1141",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/4518"
-      },
-      "sourceUrl": "https://qu.sdo.com/tools-shop?merchantId=1",
-      "productId": "2029848962696134657",
-      "skuId": "2029848962742272000",
-      "priceLabel": "6800点券",
-      "regionalPriceLabels": {
-        "cn": "6800点券",
-        "global": "990 crysta",
-        "kr": "12,600 크리스탈"
-      },
-      "itemNames": [
-        "缇姨塔可饼新式文化衫",
-        "大码缇姨塔可饼新式文化衫",
-        "紧身缇姨塔可饼新式文化衫"
-      ],
-      "itemIds": [
-        50451,
-        50452,
-        50453
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "coverItemId": 50451,
-      "corrected": true,
-      "tags": [
-        "bonusCostume"
-      ],
-      "globalProductId": "1141",
-      "globalProductName": "チーちゃん・ネオチュニック3点セット",
-      "globalItemNames": [
-        "チーちゃん・ネオチュニック",
-        "チーちゃん・ネオチュニック:オーバーサイズ",
-        "チーちゃん・ネオチュニック:タイトサイズ"
-      ]
-    },
-    {
       "id": "cn-347",
       "region": "cn",
       "name": "破损的绅士套装",
@@ -8385,6 +10417,333 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/be3ef41500d",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/3c99daaa9dd",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/64928da5a18"
+      ]
+    },
+    {
+      "id": "global-370",
+      "region": "global",
+      "name": "ブラックボゾム・ソウルリーパー",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/370",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/370",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0030_250611000067",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "370",
+      "skuId": "MOG-00370",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "漆黑的精魂巨镰"
+      ],
+      "itemIds": [
+        20630
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "ブラックボゾム・ソウルリーパー",
+        "en": "Blackbosom Soul Reaper",
+        "ko": "에다 무기 시리즈",
+        "zh-CN": "漆黑的精魂巨镰"
+      },
+      "globalProductId": "370",
+      "globalProductName": "ブラックボゾム・ソウルリーパー",
+      "globalItemNames": [
+        "ブラックボゾム・ソウルリーパー"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/356cbe962dd"
+      ],
+      "coverItemId": 20630,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
+      "id": "global-369",
+      "region": "global",
+      "name": "ブラックボゾム・フェイトリーパー",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/369",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/369",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0029_250611000066",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "369",
+      "skuId": "MOG-00369",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "漆黑的命运巨镰"
+      ],
+      "itemIds": [
+        20629
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "ブラックボゾム・フェイトリーパー",
+        "en": "Blackbosom Fate Reaper",
+        "ko": "에다 무기 시리즈",
+        "zh-CN": "漆黑的命运巨镰"
+      },
+      "globalProductId": "369",
+      "globalProductName": "ブラックボゾム・フェイトリーパー",
+      "globalItemNames": [
+        "ブラックボゾム・フェイトリーパー"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/fad58067cff"
+      ],
+      "coverItemId": 20629,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
+      "id": "global-368",
+      "region": "global",
+      "name": "ブラックボゾム・グリムリーパー",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/368",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/368",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0028_250611000065",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "368",
+      "skuId": "MOG-00368",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "漆黑的死亡巨镰"
+      ],
+      "itemIds": [
+        20628
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "ブラックボゾム・グリムリーパー",
+        "en": "Blackbosom Grim Reaper",
+        "ko": "에다 무기 시리즈",
+        "zh-CN": "漆黑的死亡巨镰"
+      },
+      "globalProductId": "368",
+      "globalProductName": "ブラックボゾム・グリムリーパー",
+      "globalItemNames": [
+        "ブラックボゾム・グリムリーパー"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/6660bf6a177"
+      ],
+      "coverItemId": 20628,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
+      "id": "global-372",
+      "region": "global",
+      "name": "ブラックボゾム・ブラッドリーパー",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/372",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/372",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0032_250611000069",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "372",
+      "skuId": "MOG-00372",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "漆黑的鲜血巨镰"
+      ],
+      "itemIds": [
+        20632
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "ブラックボゾム・ブラッドリーパー",
+        "en": "Blackbosom Blood Reaper",
+        "ko": "에다 무기 시리즈",
+        "zh-CN": "漆黑的鲜血巨镰"
+      },
+      "globalProductId": "372",
+      "globalProductName": "ブラックボゾム・ブラッドリーパー",
+      "globalItemNames": [
+        "ブラックボゾム・ブラッドリーパー"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/03ab4d1fb4a"
+      ],
+      "coverItemId": 20632,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
+      "id": "global-371",
+      "region": "global",
+      "name": "ブラックボゾム・ハートリーパー",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/371",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/371",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0031_250611000068",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "371",
+      "skuId": "MOG-00371",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "漆黑的心灵巨镰"
+      ],
+      "itemIds": [
+        20631
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "ブラックボゾム・ハートリーパー",
+        "en": "Blackbosom Heart Reaper",
+        "ko": "에다 무기 시리즈",
+        "zh-CN": "漆黑的心灵巨镰"
+      },
+      "globalProductId": "371",
+      "globalProductName": "ブラックボゾム・ハートリーパー",
+      "globalItemNames": [
+        "ブラックボゾム・ハートリーパー"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/2923b9dfb1a"
+      ],
+      "coverItemId": 20631,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
+      "id": "global-827",
+      "region": "global",
+      "name": "ブラックボゾム・ヴォイドリーパー",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/827",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/827",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "827",
+      "skuId": "MOG-00827",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈"
+      },
+      "itemNames": [
+        "漆黑的虚无巨镰"
+      ],
+      "itemIds": [
+        36335
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "ブラックボゾム・ヴォイドリーパー",
+        "en": "Blackbosom Void Reaper",
+        "ko": "에다 무기 시리즈",
+        "zh-CN": "漆黑的虚无巨镰"
+      },
+      "globalProductId": "827",
+      "globalProductName": "ブラックボゾム・ヴォイドリーパー",
+      "globalItemNames": [
+        "ブラックボゾム・ヴォイドリーパー"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/bb23ae8cb0a"
+      ],
+      "coverItemId": 36335,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
+      "id": "global-903",
+      "region": "global",
+      "name": "ブラック・イポスセスフィラ",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/903",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/903",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0092_260113113032",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "903",
+      "skuId": "MOG-00903",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "漆黑的约定之锤"
+      ],
+      "itemIds": [
+        39622
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "ブラック・イポスセスフィラ",
+        "en": "Black Hyposkhesphyra",
+        "ko": "가이아 무기 시리즈",
+        "zh-CN": "漆黑的约定之锤"
+      },
+      "globalProductId": "903",
+      "globalProductName": "ブラック・イポスセスフィラ",
+      "globalItemNames": [
+        "ブラック・イポスセスフィラ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/2257d7762f8"
+      ],
+      "coverItemId": 39622,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
       ]
     },
     {
@@ -8536,6 +10895,352 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/bfbe574bcda"
+      ]
+    },
+    {
+      "id": "global-690",
+      "region": "global",
+      "name": "青漆塗子形兜",
+      "localizedNames": {
+        "zh-CN": "青漆福鼠武士盔",
+        "ja": "青漆塗子形兜",
+        "en": "Cobalt Nezumi Kabuto",
+        "ko": "청칠 쥐 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/690",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/690"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "690",
+      "skuId": "MOG-00690",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "青漆福鼠武士盔"
+      ],
+      "itemIds": [
+        24237
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 24237,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "690",
+      "globalProductName": "青漆塗子形兜",
+      "globalItemNames": [
+        "青漆塗子形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/a24d6d7a99d"
+      ]
+    },
+    {
+      "id": "global-286",
+      "region": "global",
+      "name": "パラムールイヤリング",
+      "localizedNames": {
+        "zh-CN": "情人耳坠",
+        "ja": "パラムールイヤリング",
+        "en": "Paramour's Earrings",
+        "ko": "연인의 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/286",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/286"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "286",
+      "skuId": "MOG-00286",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "情人耳坠"
+      ],
+      "itemIds": [
+        13568
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 13568,
+      "corrected": true,
+      "tags": [
+        "valentioneDay"
+      ],
+      "globalProductId": "286",
+      "globalProductName": "パラムールイヤリング",
+      "globalItemNames": [
+        "パラムールイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/43f663bbf50"
+      ]
+    },
+    {
+      "id": "global-61",
+      "region": "global",
+      "name": "パラムールペンダント",
+      "localizedNames": {
+        "zh-CN": "情人坠饰",
+        "ja": "パラムールペンダント",
+        "en": "Paramour's Pendant",
+        "ko": "연인의 펜던트"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/61",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/61"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "61",
+      "skuId": "MOG-00061",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "情人坠饰"
+      ],
+      "itemIds": [
+        4301
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4301,
+      "corrected": true,
+      "tags": [
+        "valentioneDay"
+      ],
+      "globalProductId": "61",
+      "globalProductName": "パラムールペンダント",
+      "globalItemNames": [
+        "パラムールペンダント"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f8943d74325"
+      ]
+    },
+    {
+      "id": "global-187",
+      "region": "global",
+      "name": "ブレードランス",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/187",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/187",
+        "cn": "https://qu.sdo.com/product-detail/6fc0d2887db1cf88ca3c",
+        "kr": "https://www.ff14.co.kr/shop/Home/Detail/264"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "187",
+      "skuId": "MOG-00187",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈"
+      },
+      "itemNames": [
+        "刃状长矛"
+      ],
+      "itemIds": [
+        6036
+      ],
+      "mappingSource": "global-store",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "ブレードランス",
+        "en": "Bladed Lance",
+        "ko": "라이트닝 무기 시리즈",
+        "zh-CN": "刃状长矛"
+      },
+      "globalProductId": "187",
+      "globalProductName": "ブレードランス",
+      "globalItemNames": [
+        "ブレードランス"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f745eea2b30"
+      ],
+      "coverItemId": 6036,
+      "tags": [
+        "crossoverCostume"
+      ]
+    },
+    {
+      "id": "global-672",
+      "region": "global",
+      "name": "シャーレアンプロディジースーツ",
+      "localizedNames": {
+        "zh-CN": "萨雷安神童装",
+        "ja": "シャーレアンプロディジースーツ",
+        "en": "Sharlayan Prodigy's Suit",
+        "ko": "르베유르 남매 정장"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/672",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/672"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "672",
+      "skuId": "MOG-00672",
+      "priceLabel": "1980 crysta",
+      "regionalPriceLabels": {
+        "global": "1980 crysta"
+      },
+      "itemNames": [
+        "萨雷安神童装"
+      ],
+      "itemIds": [
+        31418
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 31418,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ],
+      "globalProductId": "672",
+      "globalProductName": "シャーレアンプロディジースーツ",
+      "globalItemNames": [
+        "シャーレアンプロディジースーツ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/69cc95cc349"
+      ]
+    },
+    {
+      "id": "global-194",
+      "region": "global",
+      "name": "トリコエッグイヤリング",
+      "localizedNames": {
+        "zh-CN": "三色蛋耳坠",
+        "ja": "トリコエッグイヤリング",
+        "en": "Brilliant Egg Earrings",
+        "ko": "형형색색 달걀 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/194",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/194"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "194",
+      "skuId": "MOG-00194",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "三色蛋耳坠"
+      ],
+      "itemIds": [
+        10069
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 10069,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "194",
+      "globalProductName": "トリコエッグイヤリング",
+      "globalItemNames": [
+        "トリコエッグイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/00da30022a5"
+      ]
+    },
+    {
+      "id": "global-75",
+      "region": "global",
+      "name": "トリコエッグリング",
+      "localizedNames": {
+        "zh-CN": "三色蛋戒指",
+        "ja": "トリコエッグリング",
+        "en": "Brilliant Egg Ring",
+        "ko": "형형색색 달걀 반지"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/75",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/75"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "75",
+      "skuId": "MOG-00075",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "三色蛋戒指"
+      ],
+      "itemIds": [
+        4406
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4406,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "75",
+      "globalProductName": "トリコエッグリング",
+      "globalItemNames": [
+        "トリコエッグリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f6c645d6566"
+      ]
+    },
+    {
+      "id": "global-70",
+      "region": "global",
+      "name": "トリコエッグキャップ",
+      "localizedNames": {
+        "zh-CN": "三色蛋壳帽",
+        "ja": "トリコエッグキャップ",
+        "en": "Brilliant Egg Cap",
+        "ko": "형형색색 알껍질 모자"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/70",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/70"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "70",
+      "skuId": "MOG-00070",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "三色蛋壳帽"
+      ],
+      "itemIds": [
+        2751
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2751,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "70",
+      "globalProductName": "トリコエッグキャップ",
+      "globalItemNames": [
+        "トリコエッグキャップ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/ce6163233d7"
       ]
     },
     {
@@ -8791,6 +11496,49 @@
       ]
     },
     {
+      "id": "global-255",
+      "region": "global",
+      "name": "スターライト・セイントビアド",
+      "localizedNames": {
+        "zh-CN": "圣人胡须",
+        "ja": "スターライト・セイントビアド",
+        "en": "Saint's Beard",
+        "ko": "별빛 성자 수염"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/255",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/255"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "255",
+      "skuId": "MOG-00255",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "圣人胡须"
+      ],
+      "itemIds": [
+        13293
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 13293,
+      "corrected": true,
+      "tags": [
+        "starlightCelebration"
+      ],
+      "globalProductId": "255",
+      "globalProductName": "スターライト・セイントビアド",
+      "globalItemNames": [
+        "スターライト・セイントビアド"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/0f2249c40c1"
+      ]
+    },
+    {
       "id": "cn-255",
       "region": "cn",
       "name": "圣人帽",
@@ -8949,6 +11697,60 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/10d31297b52",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/ea31f6fe7ad",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/5cb22774649"
+      ]
+    },
+    {
+      "id": "global-295",
+      "region": "global",
+      "name": "姫君水干衣装セット",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/295",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/295",
+        "cn": "https://qu.sdo.com/product-detail/abeaca33dc7d34b6c34d",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0175_260121152230",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1190"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "295",
+      "skuId": "MOG-00295",
+      "priceLabel": "550 crysta",
+      "regionalPriceLabels": {
+        "global": "550 crysta",
+        "tw": "150水晶",
+        "kr": "6,000 크리스탈"
+      },
+      "itemNames": [
+        "淑女水干",
+        "淑女木屐"
+      ],
+      "itemIds": [
+        13639,
+        13725
+      ],
+      "mappingSource": "global-store",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "姫君水干衣装セット",
+        "en": "Lady's Suikan Set",
+        "zh-CN": "淑女套",
+        "ko": "가인 의상 세트"
+      },
+      "globalProductId": "295",
+      "globalProductName": "姫君水干衣装セット",
+      "globalItemNames": [
+        "姫君水干",
+        "姫君下駄"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e8f2dedcff8",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/68c5b5257c2"
+      ],
+      "coverItemId": 13639,
+      "tags": [
+        "littleLadiesDay"
+      ],
+      "detailTags": [
+        "femaleOnly"
       ]
     },
     {
@@ -9169,6 +11971,185 @@
       ]
     },
     {
+      "id": "global-78",
+      "region": "global",
+      "name": "ピーチブロッサムイヤリング",
+      "localizedNames": {
+        "zh-CN": "桃香",
+        "ja": "ピーチブロッサムイヤリング",
+        "en": "Peach Blossoms",
+        "ko": "벚꽃 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/78",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/78"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "78",
+      "skuId": "MOG-00078",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "桃香"
+      ],
+      "itemIds": [
+        4200
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4200,
+      "corrected": true,
+      "tags": [
+        "littleLadiesDay"
+      ],
+      "globalProductId": "78",
+      "globalProductName": "ピーチブロッサムイヤリング",
+      "globalItemNames": [
+        "ピーチブロッサムイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/229fe3fe180"
+      ]
+    },
+    {
+      "id": "global-192",
+      "region": "global",
+      "name": "ピーチブロッサムチョーカー",
+      "localizedNames": {
+        "zh-CN": "桃香项环",
+        "ja": "ピーチブロッサムチョーカー",
+        "en": "Peach Blossom Choker",
+        "ko": "벚꽃 목장식"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/192",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/192"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "192",
+      "skuId": "MOG-00192",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "桃香项环"
+      ],
+      "itemIds": [
+        10066
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 10066,
+      "corrected": true,
+      "tags": [
+        "littleLadiesDay"
+      ],
+      "globalProductId": "192",
+      "globalProductName": "ピーチブロッサムチョーカー",
+      "globalItemNames": [
+        "ピーチブロッサムチョーカー"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/dd7fd5fc0a3"
+      ]
+    },
+    {
+      "id": "cn-2029848962696134657",
+      "region": "cn",
+      "name": "缇姨塔可饼新式文化衫组合",
+      "localizedNames": {
+        "zh-CN": "缇姨塔可饼新式文化衫组合",
+        "ja": "チーちゃん・ネオチュニック3点セット",
+        "en": "Aunt Tii's Neotunic Set",
+        "ko": "티 아줌마네 네오 튜닉 세트"
+      },
+      "storeUrl": "https://qu.sdo.com/product-detail/2029848962742272000",
+      "regionalStoreUrls": {
+        "cn": "https://qu.sdo.com/product-detail/2029848962742272000",
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1141",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/4518"
+      },
+      "sourceUrl": "https://qu.sdo.com/tools-shop?merchantId=1",
+      "productId": "2029848962696134657",
+      "skuId": "2029848962742272000",
+      "priceLabel": "6800点券",
+      "regionalPriceLabels": {
+        "cn": "6800点券",
+        "global": "990 crysta",
+        "kr": "12,600 크리스탈"
+      },
+      "itemNames": [
+        "缇姨塔可饼新式文化衫",
+        "大码缇姨塔可饼新式文化衫",
+        "紧身缇姨塔可饼新式文化衫"
+      ],
+      "itemIds": [
+        50451,
+        50452,
+        50453
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 50451,
+      "corrected": true,
+      "tags": [
+        "bonusCostume"
+      ],
+      "globalProductId": "1141",
+      "globalProductName": "チーちゃん・ネオチュニック3点セット",
+      "globalItemNames": [
+        "チーちゃん・ネオチュニック",
+        "チーちゃん・ネオチュニック:オーバーサイズ",
+        "チーちゃん・ネオチュニック:タイトサイズ"
+      ]
+    },
+    {
+      "id": "global-15",
+      "region": "global",
+      "name": "龍形兜",
+      "localizedNames": {
+        "zh-CN": "天龙武士盔",
+        "ja": "龍形兜",
+        "en": "Dragon Kabuto",
+        "ko": "용 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/15",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/15"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "15",
+      "skuId": "MOG-00015",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "天龙武士盔"
+      ],
+      "itemIds": [
+        2645
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2645,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "15",
+      "globalProductName": "龍形兜",
+      "globalItemNames": [
+        "龍形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/95210e0b8d0"
+      ]
+    },
+    {
       "id": "cn-182",
       "region": "cn",
       "name": "天使套装",
@@ -9339,6 +12320,178 @@
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/5e754ffb435",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/9a7922e9eec"
+      ]
+    },
+    {
+      "id": "global-13",
+      "region": "global",
+      "name": "鉄地黒漆塗兎形兜",
+      "localizedNames": {
+        "zh-CN": "铁质黑漆玉兔武士盔",
+        "ja": "鉄地黒漆塗兎形兜",
+        "en": "Black Tetsuji Usagi Kabuto",
+        "ko": "철제 흑칠 토끼 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/13",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/13"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "13",
+      "skuId": "MOG-00013",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "铁质黑漆玉兔武士盔"
+      ],
+      "itemIds": [
+        8128
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 8128,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "13",
+      "globalProductName": "鉄地黒漆塗兎形兜",
+      "globalItemNames": [
+        "鉄地黒漆塗兎形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/2da8ca916c0"
+      ]
+    },
+    {
+      "id": "global-14",
+      "region": "global",
+      "name": "鉄地銀箔押兎形兜",
+      "localizedNames": {
+        "zh-CN": "铁质银箔玉兔武士盔",
+        "ja": "鉄地銀箔押兎形兜",
+        "en": "Silver Tetsuji Usagi Kabuto",
+        "ko": "철제 은박 토끼 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/14",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/14"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "14",
+      "skuId": "MOG-00014",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "铁质银箔玉兔武士盔"
+      ],
+      "itemIds": [
+        8164
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 8164,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "14",
+      "globalProductName": "鉄地銀箔押兎形兜",
+      "globalItemNames": [
+        "鉄地銀箔押兎形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/a7225b6ebad"
+      ]
+    },
+    {
+      "id": "global-12",
+      "region": "global",
+      "name": "鉄地兎形兜",
+      "localizedNames": {
+        "zh-CN": "铁质玉兔武士盔",
+        "ja": "鉄地兎形兜",
+        "en": "Tetsuji Usagi Kabuto",
+        "ko": "철제 토끼 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/12",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/12"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "12",
+      "skuId": "MOG-00012",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "铁质玉兔武士盔"
+      ],
+      "itemIds": [
+        8124
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 8124,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "12",
+      "globalProductName": "鉄地兎形兜",
+      "globalItemNames": [
+        "鉄地兎形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/14ff93c3e2c"
+      ]
+    },
+    {
+      "id": "global-651",
+      "region": "global",
+      "name": "漆塗ナマズオ面",
+      "localizedNames": {
+        "zh-CN": "涂漆鲶鱼精面具",
+        "ja": "漆塗ナマズオ面",
+        "en": "Painted Namazu Mask",
+        "ko": "옻칠 나마즈오 가면"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/651",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/651"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "651",
+      "skuId": "MOG-00651",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "涂漆鲶鱼精面具"
+      ],
+      "itemIds": [
+        27946
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 27946,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "globalProductId": "651",
+      "globalProductName": "漆塗ナマズオ面",
+      "globalItemNames": [
+        "漆塗ナマズオ面"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/dae269ebd3c"
       ]
     },
     {
@@ -9861,6 +13014,92 @@
       ]
     },
     {
+      "id": "global-272",
+      "region": "global",
+      "name": "見猿形兜",
+      "localizedNames": {
+        "zh-CN": "勿视武士盔",
+        "ja": "見猿形兜",
+        "en": "See No Helm",
+        "ko": "눈가림 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/272",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/272"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "272",
+      "skuId": "MOG-00272",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "勿视武士盔"
+      ],
+      "itemIds": [
+        13295
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 13295,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "272",
+      "globalProductName": "見猿形兜",
+      "globalItemNames": [
+        "見猿形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/cbd1709fd43"
+      ]
+    },
+    {
+      "id": "global-274",
+      "region": "global",
+      "name": "聞猿形兜",
+      "localizedNames": {
+        "zh-CN": "勿听武士盔",
+        "ja": "聞猿形兜",
+        "en": "Hear No Helm",
+        "ko": "귀닫음 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/274",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/274"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "274",
+      "skuId": "MOG-00274",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "勿听武士盔"
+      ],
+      "itemIds": [
+        13297
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 13297,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "274",
+      "globalProductName": "聞猿形兜",
+      "globalItemNames": [
+        "聞猿形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/443606ea1f4"
+      ]
+    },
+    {
       "id": "cn-1491350265397989376",
       "region": "cn",
       "name": "勿忘草恋人套（裤装版）",
@@ -9903,7 +13142,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 28563,
+      "coverItemId": 28564,
       "corrected": true,
       "tags": [
         "valentioneDay"
@@ -9968,7 +13207,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 28578,
+      "coverItemId": 28579,
       "corrected": true,
       "tags": [
         "valentioneDay"
@@ -9988,6 +13227,92 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/3621e2e79c1",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/164d5097d89",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/dceda510948"
+      ]
+    },
+    {
+      "id": "global-273",
+      "region": "global",
+      "name": "言猿形兜",
+      "localizedNames": {
+        "zh-CN": "勿言武士盔",
+        "ja": "言猿形兜",
+        "en": "Speak No Helm",
+        "ko": "입막음 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/273",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/273"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "273",
+      "skuId": "MOG-00273",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "勿言武士盔"
+      ],
+      "itemIds": [
+        13296
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 13296,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "273",
+      "globalProductName": "言猿形兜",
+      "globalItemNames": [
+        "言猿形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/345c3fff175"
+      ]
+    },
+    {
+      "id": "global-376",
+      "region": "global",
+      "name": "ヴァンパイアベスト",
+      "localizedNames": {
+        "zh-CN": "吸血鬼坎肩",
+        "ja": "ヴァンパイアベスト",
+        "en": "Vampire's Vest",
+        "ko": "흡혈귀 조끼"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/376",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/376"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "376",
+      "skuId": "MOG-00376",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "吸血鬼坎肩"
+      ],
+      "itemIds": [
+        16613
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 16613,
+      "corrected": true,
+      "tags": [
+        "allSaintsWake"
+      ],
+      "globalProductId": "376",
+      "globalProductName": "ヴァンパイアベスト",
+      "globalItemNames": [
+        "ヴァンパイアベスト"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/a4b54603cf6"
       ]
     },
     {
@@ -10218,7 +13543,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 28568,
+      "coverItemId": 28569,
       "corrected": true,
       "tags": [
         "valentioneDay"
@@ -10283,7 +13608,7 @@
       ],
       "mappingSource": "manual",
       "needsMapping": false,
-      "coverItemId": 28583,
+      "coverItemId": 28584,
       "corrected": true,
       "tags": [
         "valentioneDay"
@@ -10745,6 +14070,52 @@
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/1c8bca349b5",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/000ecd9aa1f"
+      ]
+    },
+    {
+      "id": "global-269",
+      "region": "global",
+      "name": "星芒祭つけ髭セット",
+      "localizedNames": {
+        "zh-CN": "星芒祭胡子套装",
+        "ja": "星芒祭つけ髭セット",
+        "en": "Saint's Cap and Beard Set"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/269",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/269"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "269",
+      "skuId": "MOG-00269",
+      "priceLabel": "550 crysta",
+      "regionalPriceLabels": {
+        "global": "550 crysta"
+      },
+      "itemNames": [
+        "圣人胡须",
+        "圣人帽"
+      ],
+      "itemIds": [
+        13293,
+        13294
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 13293,
+      "corrected": true,
+      "tags": [
+        "starlightCelebration"
+      ],
+      "globalProductId": "269",
+      "globalProductName": "星芒祭つけ髭セット",
+      "globalItemNames": [
+        "スターライト・セイントビアド",
+        "スターライト・セイントキャップ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/0f2249c40c1",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/9b16e4ef5f8"
       ]
     },
     {
@@ -11918,6 +15289,92 @@
       ]
     },
     {
+      "id": "global-19",
+      "region": "global",
+      "name": "銀箔押巳形兜",
+      "localizedNames": {
+        "zh-CN": "银箔灵蛇武士盔",
+        "ja": "銀箔押巳形兜",
+        "en": "Silver Snake Kabuto",
+        "ko": "은박 뱀 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/19",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/19"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "19",
+      "skuId": "MOG-00019",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "银箔灵蛇武士盔"
+      ],
+      "itemIds": [
+        6106
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 6106,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "19",
+      "globalProductName": "銀箔押巳形兜",
+      "globalItemNames": [
+        "銀箔押巳形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/7306228777c"
+      ]
+    },
+    {
+      "id": "global-897",
+      "region": "global",
+      "name": "銀漆塗寅形兜",
+      "localizedNames": {
+        "zh-CN": "银漆猛虎武士盔",
+        "ja": "銀漆塗寅形兜",
+        "en": "Silver Tora Kabuto",
+        "ko": "은칠 호랑이 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/897",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/897"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "897",
+      "skuId": "MOG-00897",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "银漆猛虎武士盔"
+      ],
+      "itemIds": [
+        32805
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 32805,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "897",
+      "globalProductName": "銀漆塗寅形兜",
+      "globalItemNames": [
+        "銀漆塗寅形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/60e3f2fa719"
+      ]
+    },
+    {
       "id": "cn-157",
       "region": "cn",
       "name": "银月男式夏装",
@@ -12026,6 +15483,49 @@
       ]
     },
     {
+      "id": "global-63",
+      "region": "global",
+      "name": "バンド・オブ・エターナルパッション",
+      "localizedNames": {
+        "zh-CN": "永恋之羁绊",
+        "ja": "バンド・オブ・エターナルパッション",
+        "en": "Band of Eternal Passion",
+        "ko": "영원한 정열의 펜던트"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/63",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/63"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "63",
+      "skuId": "MOG-00063",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "永恋之羁绊"
+      ],
+      "itemIds": [
+        4303
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4303,
+      "corrected": true,
+      "tags": [
+        "valentioneDay"
+      ],
+      "globalProductId": "63",
+      "globalProductName": "バンド・オブ・エターナルパッション",
+      "globalItemNames": [
+        "バンド・オブ・エターナルパッション"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f34b9ba5e0e"
+      ]
+    },
+    {
       "id": "cn-546",
       "region": "cn",
       "name": "永夏套装",
@@ -12084,6 +15584,53 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b1c9a7763e9",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/42d25434fdf",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/bcee5eb6533"
+      ]
+    },
+    {
+      "id": "global-906",
+      "region": "global",
+      "name": "スティジアン・イポスセスフィラ",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/906",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/906",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0095_260113112255",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "906",
+      "skuId": "MOG-00906",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta",
+        "kr": "6,000 크리스탈",
+        "tw": "90水晶"
+      },
+      "itemNames": [
+        "幽暗的约定之锤"
+      ],
+      "itemIds": [
+        39627
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "localizedNames": {
+        "ja": "スティジアン・イポスセスフィラ",
+        "en": "Stygian Hyposkhesphyra",
+        "ko": "가이아 무기 시리즈",
+        "zh-CN": "幽暗的约定之锤"
+      },
+      "globalProductId": "906",
+      "globalProductName": "スティジアン・イポスセスフィラ",
+      "globalItemNames": [
+        "スティジアン・イポスセスフィラ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/cac6eb5158b"
+      ],
+      "coverItemId": 39627,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
       ]
     },
     {
@@ -12343,6 +15890,46 @@
       ]
     },
     {
+      "id": "global-185",
+      "region": "global",
+      "name": "ヴェガナックル",
+      "localizedNames": {
+        "zh-CN": "织女星指虎",
+        "ja": "ヴェガナックル",
+        "en": "Vega Knuckles",
+        "ko": "베가 너클"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/185",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/185"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "185",
+      "skuId": "MOG-00185",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "织女星指虎"
+      ],
+      "itemIds": [
+        6035
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 6035,
+      "corrected": true,
+      "globalProductId": "185",
+      "globalProductName": "ヴェガナックル",
+      "globalItemNames": [
+        "ヴェガナックル"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/be9934fc797"
+      ]
+    },
+    {
       "id": "cn-613",
       "region": "cn",
       "name": "志士套装",
@@ -12402,6 +15989,665 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/041f3e05ac9",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/42558949347",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/48e7b8aaa14"
+      ]
+    },
+    {
+      "id": "global-193",
+      "region": "global",
+      "name": "エッグイヤリング",
+      "localizedNames": {
+        "zh-CN": "质朴蛋耳坠",
+        "ja": "エッグイヤリング",
+        "en": "Egg Earrings",
+        "ko": "달걀 귀걸이"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/193",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/193"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "193",
+      "skuId": "MOG-00193",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "质朴蛋耳坠"
+      ],
+      "itemIds": [
+        10067
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 10067,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "193",
+      "globalProductName": "エッグイヤリング",
+      "globalItemNames": [
+        "エッグイヤリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d4ce6948cc2"
+      ]
+    },
+    {
+      "id": "global-73",
+      "region": "global",
+      "name": "エッグリング",
+      "localizedNames": {
+        "zh-CN": "质朴蛋戒指",
+        "ja": "エッグリング",
+        "en": "Pristine Egg Ring",
+        "ko": "달걀 반지"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/73",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/73"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "73",
+      "skuId": "MOG-00073",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "质朴蛋戒指"
+      ],
+      "itemIds": [
+        4404
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 4404,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "73",
+      "globalProductName": "エッグリング",
+      "globalItemNames": [
+        "エッグリング"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d475f1c4b01"
+      ]
+    },
+    {
+      "id": "global-68",
+      "region": "global",
+      "name": "エッグキャップ",
+      "localizedNames": {
+        "zh-CN": "质朴蛋壳帽",
+        "ja": "エッグキャップ",
+        "en": "Pristine Egg Cap",
+        "ko": "알껍질 모자"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/68",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/68"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "68",
+      "skuId": "MOG-00068",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "质朴蛋壳帽"
+      ],
+      "itemIds": [
+        2659
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2659,
+      "corrected": true,
+      "tags": [
+        "hatchingTide"
+      ],
+      "globalProductId": "68",
+      "globalProductName": "エッグキャップ",
+      "globalItemNames": [
+        "エッグキャップ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/9cb8a42718a"
+      ]
+    },
+    {
+      "id": "cn-promo-eternal-devotion-gown-attire",
+      "region": "cn",
+      "name": "钟情典礼纱裙套装",
+      "localizedNames": {
+        "zh-CN": "钟情典礼纱裙套装",
+        "ja": "エターナルドレス・アタイア",
+        "en": "Eternal Devotion Attire (Gown)",
+        "ko": "영원의 예복 드레스 의복"
+      },
+      "storeUrl": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
+      "regionalStoreUrls": {
+        "cn": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/6",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0006_250530152342",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/38"
+      },
+      "sourceUrl": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
+      "productId": "promo-eternal-devotion-gown-attire",
+      "skuId": "74457e67ccc15a9e41c8",
+      "priceLabel": "16800点券",
+      "regionalPriceLabels": {
+        "cn": "16800点券",
+        "global": "2200 crysta",
+        "tw": "600水晶",
+        "kr": "24,000 크리스탈"
+      },
+      "itemNames": [
+        "钟情同心头纱",
+        "钟情典礼纱裙",
+        "钟情花边长袜",
+        "钟情高跟礼鞋"
+      ],
+      "itemIds": [
+        8683,
+        8686,
+        8689,
+        8692
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 45144,
+      "corrected": true,
+      "tags": [
+        "fanFestivalCostume"
+      ],
+      "notes": "永结同心白金方案奖励。",
+      "globalProductId": "6",
+      "globalProductName": "久遠の誓いの腕輪(プラチナプラン)"
+    },
+    {
+      "id": "cn-promo-eternal-devotion-tailcoat-attire",
+      "region": "cn",
+      "name": "钟情燕尾礼服套装",
+      "localizedNames": {
+        "zh-CN": "钟情燕尾礼服套装",
+        "ja": "エターナルテイルコート・アタイア",
+        "en": "Eternal Devotion Attire (Tailcoat)",
+        "ko": "영원의 연미복 의복"
+      },
+      "storeUrl": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
+      "regionalStoreUrls": {
+        "cn": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/6",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=C0006_250530152342",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/38"
+      },
+      "sourceUrl": "https://qu.sdo.com/product-detail/74457e67ccc15a9e41c8",
+      "productId": "promo-eternal-devotion-tailcoat-attire",
+      "skuId": "74457e67ccc15a9e41c8",
+      "priceLabel": "16800点券",
+      "regionalPriceLabels": {
+        "cn": "16800点券",
+        "global": "2200 crysta",
+        "tw": "600水晶",
+        "kr": "24,000 크리스탈"
+      },
+      "itemNames": [
+        "钟情燕尾礼服",
+        "钟情永结手套",
+        "钟情典礼长裤",
+        "钟情端庄礼鞋"
+      ],
+      "itemIds": [
+        8671,
+        8674,
+        8677,
+        8680
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 45141,
+      "corrected": true,
+      "tags": [
+        "fanFestivalCostume"
+      ],
+      "notes": "永结同心白金方案奖励。",
+      "globalProductId": "6",
+      "globalProductName": "久遠の誓いの腕輪(プラチナプラン)"
+    },
+    {
+      "id": "global-130",
+      "region": "global",
+      "name": "舟形下駄",
+      "localizedNames": {
+        "zh-CN": "舟形木屐",
+        "ja": "舟形下駄",
+        "en": "Lady's Clogs",
+        "ko": "여성용 나무신"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/130",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/130"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "130",
+      "skuId": "MOG-00130",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "舟形木屐"
+      ],
+      "itemIds": [
+        3749
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 3749,
+      "corrected": true,
+      "tags": [
+        "moonfireFaire"
+      ],
+      "detailTags": [
+        "femaleOnly"
+      ],
+      "globalProductId": "130",
+      "globalProductName": "舟形下駄",
+      "globalItemNames": [
+        "舟形下駄"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/e827243a6ca"
+      ]
+    },
+    {
+      "id": "global-21",
+      "region": "global",
+      "name": "朱漆塗午形兜",
+      "localizedNames": {
+        "zh-CN": "朱漆奔马武士盔",
+        "ja": "朱漆塗午形兜",
+        "en": "Crimson Uma Kabuto",
+        "ko": "주칠 말 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/21",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/21"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "21",
+      "skuId": "MOG-00021",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "朱漆奔马武士盔"
+      ],
+      "itemIds": [
+        6965
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 6965,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "21",
+      "globalProductName": "朱漆塗午形兜",
+      "globalItemNames": [
+        "朱漆塗午形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d84832223c3"
+      ]
+    },
+    {
+      "id": "global-689",
+      "region": "global",
+      "name": "朱漆塗子形兜",
+      "localizedNames": {
+        "zh-CN": "朱漆福鼠武士盔",
+        "ja": "朱漆塗子形兜",
+        "en": "Crimson Nezumi Kabuto",
+        "ko": "주칠 쥐 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/689",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/689"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "689",
+      "skuId": "MOG-00689",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "朱漆福鼠武士盔"
+      ],
+      "itemIds": [
+        24236
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 24236,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "689",
+      "globalProductName": "朱漆塗子形兜",
+      "globalItemNames": [
+        "朱漆塗子形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/1db3d7d0c10"
+      ]
+    },
+    {
+      "id": "global-147",
+      "region": "global",
+      "name": "朱漆塗未形兜",
+      "localizedNames": {
+        "zh-CN": "朱漆吉羊武士盔",
+        "ja": "朱漆塗未形兜",
+        "en": "Crimson Hitsuji Kabuto",
+        "ko": "주칠 양 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/147",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/147"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "147",
+      "skuId": "MOG-00147",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "朱漆吉羊武士盔"
+      ],
+      "itemIds": [
+        9270
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 9270,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "147",
+      "globalProductName": "朱漆塗未形兜",
+      "globalItemNames": [
+        "朱漆塗未形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/d1ac7c7987b"
+      ]
+    },
+    {
+      "id": "global-622",
+      "region": "global",
+      "name": "朱漆塗亥形兜",
+      "localizedNames": {
+        "zh-CN": "朱漆金猪武士盔",
+        "ja": "朱漆塗亥形兜",
+        "en": "Crimson Inoshishi Kabuto",
+        "ko": "주칠 돼지 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/622",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/622"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "622",
+      "skuId": "MOG-00622",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "朱漆金猪武士盔"
+      ],
+      "itemIds": [
+        22458
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 22458,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "622",
+      "globalProductName": "朱漆塗亥形兜",
+      "globalItemNames": [
+        "朱漆塗亥形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/3fcfb7f847b"
+      ]
+    },
+    {
+      "id": "global-16",
+      "region": "global",
+      "name": "朱漆塗龍形兜",
+      "localizedNames": {
+        "zh-CN": "朱漆天龙武士盔",
+        "ja": "朱漆塗龍形兜",
+        "en": "Crimson Dragon Kabuto",
+        "ko": "주칠 용 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/16",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/16"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "16",
+      "skuId": "MOG-00016",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "朱漆天龙武士盔"
+      ],
+      "itemIds": [
+        2646
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 2646,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "16",
+      "globalProductName": "朱漆塗龍形兜",
+      "globalItemNames": [
+        "朱漆塗龍形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/1cbec672885"
+      ]
+    },
+    {
+      "id": "global-397",
+      "region": "global",
+      "name": "朱漆塗酉形兜",
+      "localizedNames": {
+        "zh-CN": "朱漆雄鸡武士盔",
+        "ja": "朱漆塗酉形兜",
+        "en": "Red Tori Kabuto",
+        "ko": "주칠 닭 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/397",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/397"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "397",
+      "skuId": "MOG-00397",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "朱漆雄鸡武士盔"
+      ],
+      "itemIds": [
+        16614
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 16614,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "397",
+      "globalProductName": "朱漆塗酉形兜",
+      "globalItemNames": [
+        "朱漆塗酉形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/edd7ae22bcf"
+      ]
+    },
+    {
+      "id": "global-852",
+      "region": "global",
+      "name": "朱漆塗丑形兜",
+      "localizedNames": {
+        "zh-CN": "朱漆壮牛武士盔",
+        "ja": "朱漆塗丑形兜",
+        "en": "Crimson Ushi Kabuto",
+        "ko": "주칠 소 투구"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/852",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/852"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "852",
+      "skuId": "MOG-00852",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "朱漆壮牛武士盔"
+      ],
+      "itemIds": [
+        28556
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 28556,
+      "corrected": true,
+      "tags": [
+        "heavensturn"
+      ],
+      "globalProductId": "852",
+      "globalProductName": "朱漆塗丑形兜",
+      "globalItemNames": [
+        "朱漆塗丑形兜"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/593ea61a6b8"
+      ]
+    },
+    {
+      "id": "global-188",
+      "region": "global",
+      "name": "スターシーカー",
+      "localizedNames": {
+        "zh-CN": "逐星者",
+        "ja": "スターシーカー",
+        "en": "Starseeker",
+        "ko": "스타 시커"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/188",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/188"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "188",
+      "skuId": "MOG-00188",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "逐星者"
+      ],
+      "itemIds": [
+        6037
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 6037,
+      "corrected": true,
+      "globalProductId": "188",
+      "globalProductName": "スターシーカー",
+      "globalItemNames": [
+        "スターシーカー"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/4aa0079414c"
+      ]
+    },
+    {
+      "id": "global-761",
+      "region": "global",
+      "name": "セネシャル・モノクル",
+      "localizedNames": {
+        "zh-CN": "总管单眼镜",
+        "ja": "セネシャル・モノクル",
+        "en": "Seneschal's Monocle",
+        "ko": "집사왕 단안경"
+      },
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/761",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/761"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "761",
+      "skuId": "MOG-00761",
+      "priceLabel": "330 crysta",
+      "regionalPriceLabels": {
+        "global": "330 crysta"
+      },
+      "itemNames": [
+        "总管单眼镜"
+      ],
+      "itemIds": [
+        30042
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 30042,
+      "corrected": true,
+      "tags": [
+        "littleLadiesDay"
+      ],
+      "globalProductId": "761",
+      "globalProductName": "セネシャル・モノクル",
+      "globalItemNames": [
+        "セネシャル・モノクル"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/a40d2ff72f2"
       ]
     },
     {
@@ -12525,282 +16771,6 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/8e9ca0a739d",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/04533e97da1",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/ec855ee0101"
-      ]
-    },
-    {
-      "id": "global-907",
-      "region": "global",
-      "name": "アンブラル・イポスセスフィラ",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/907",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/907",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0096_260113111758",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "907",
-      "skuId": "MOG-00907",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "灵极的约定之锤"
-      ],
-      "itemIds": [
-        39625
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "アンブラル・イポスセスフィラ",
-        "en": "Umbral Hyposkhesphyra",
-        "ko": "가이아 무기 시리즈"
-      },
-      "globalProductId": "907",
-      "globalProductName": "アンブラル・イポスセスフィラ",
-      "globalItemNames": [
-        "アンブラル・イポスセスフィラ"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/86d292645f9"
-      ],
-      "coverItemId": 39625,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-908",
-      "region": "global",
-      "name": "エクリプティク・イポスセスフィラ",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/908",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/908",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0097_260113111413",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "908",
-      "skuId": "MOG-00908",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "黄道的约定之锤"
-      ],
-      "itemIds": [
-        39626
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "エクリプティク・イポスセスフィラ",
-        "en": "Ecliptic Hyposkhesphyra",
-        "ko": "가이아 무기 시리즈"
-      },
-      "globalProductId": "908",
-      "globalProductName": "エクリプティク・イポスセスフィラ",
-      "globalItemNames": [
-        "エクリプティク・イポスセスフィラ"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/0239b063113"
-      ],
-      "coverItemId": 39626,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-902",
-      "region": "global",
-      "name": "オブスキュア・イポスセスフィラ",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/902",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/902",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0091_260113113326",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "902",
-      "skuId": "MOG-00902",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "蔽日的约定之锤"
-      ],
-      "itemIds": [
-        39621
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "オブスキュア・イポスセスフィラ",
-        "en": "Obscure Hyposkhesphyra",
-        "ko": "가이아 무기 시리즈"
-      },
-      "globalProductId": "902",
-      "globalProductName": "オブスキュア・イポスセスフィラ",
-      "globalItemNames": [
-        "オブスキュア・イポスセスフィラ"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f3c4fd6de04"
-      ],
-      "coverItemId": 39621,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-904",
-      "region": "global",
-      "name": "シャドウ・イポスセスフィラ",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/904",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/904",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0093_260113112828",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "904",
-      "skuId": "MOG-00904",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "暗影的约定之锤"
-      ],
-      "itemIds": [
-        39624
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "シャドウ・イポスセスフィラ",
-        "en": "Shadow Hyposkhesphyra",
-        "ko": "가이아 무기 시리즈"
-      },
-      "globalProductId": "904",
-      "globalProductName": "シャドウ・イポスセスフィラ",
-      "globalItemNames": [
-        "シャドウ・イポスセスフィラ"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/09359c903ad"
-      ],
-      "coverItemId": 39624,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-905",
-      "region": "global",
-      "name": "スターク・イポスセスフィラ",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/905",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/905",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0094_260113112535",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "905",
-      "skuId": "MOG-00905",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "荒芜的约定之锤"
-      ],
-      "itemIds": [
-        39623
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "スターク・イポスセスフィラ",
-        "en": "Stark Hyposkhesphyra",
-        "ko": "가이아 무기 시리즈"
-      },
-      "globalProductId": "905",
-      "globalProductName": "スターク・イポスセスフィラ",
-      "globalItemNames": [
-        "スターク・イポスセスフィラ"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b2e89bdcc13"
-      ],
-      "coverItemId": 39623,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-906",
-      "region": "global",
-      "name": "スティジアン・イポスセスフィラ",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/906",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/906",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0095_260113112255",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "906",
-      "skuId": "MOG-00906",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "幽暗的约定之锤"
-      ],
-      "itemIds": [
-        39627
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "スティジアン・イポスセスフィラ",
-        "en": "Stygian Hyposkhesphyra",
-        "ko": "가이아 무기 시리즈"
-      },
-      "globalProductId": "906",
-      "globalProductName": "スティジアン・イポスセスフィラ",
-      "globalItemNames": [
-        "スティジアン・イポスセスフィラ"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/cac6eb5158b"
-      ],
-      "coverItemId": 39627,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
       ]
     },
     {
@@ -12949,371 +16919,6 @@
       "coverItemId": 43471,
       "tags": [
         "allSaintsWake"
-      ]
-    },
-    {
-      "id": "global-903",
-      "region": "global",
-      "name": "ブラック・イポスセスフィラ",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/903",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/903",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0092_260113113032",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "903",
-      "skuId": "MOG-00903",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "漆黑的约定之锤"
-      ],
-      "itemIds": [
-        39622
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "ブラック・イポスセスフィラ",
-        "en": "Black Hyposkhesphyra",
-        "ko": "가이아 무기 시리즈"
-      },
-      "globalProductId": "903",
-      "globalProductName": "ブラック・イポスセスフィラ",
-      "globalItemNames": [
-        "ブラック・イポスセスフィラ"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/2257d7762f8"
-      ],
-      "coverItemId": 39622,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-827",
-      "region": "global",
-      "name": "ブラックボゾム・ヴォイドリーパー",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/827",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/827",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "827",
-      "skuId": "MOG-00827",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈"
-      },
-      "itemNames": [
-        "漆黑的虚无巨镰"
-      ],
-      "itemIds": [
-        36335
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "ブラックボゾム・ヴォイドリーパー",
-        "en": "Blackbosom Void Reaper",
-        "ko": "에다 무기 시리즈"
-      },
-      "globalProductId": "827",
-      "globalProductName": "ブラックボゾム・ヴォイドリーパー",
-      "globalItemNames": [
-        "ブラックボゾム・ヴォイドリーパー"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/bb23ae8cb0a"
-      ],
-      "coverItemId": 36335,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-368",
-      "region": "global",
-      "name": "ブラックボゾム・グリムリーパー",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/368",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/368",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0028_250611000065",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "368",
-      "skuId": "MOG-00368",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "漆黑的死亡巨镰"
-      ],
-      "itemIds": [
-        20628
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "ブラックボゾム・グリムリーパー",
-        "en": "Blackbosom Grim Reaper",
-        "ko": "에다 무기 시리즈"
-      },
-      "globalProductId": "368",
-      "globalProductName": "ブラックボゾム・グリムリーパー",
-      "globalItemNames": [
-        "ブラックボゾム・グリムリーパー"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/6660bf6a177"
-      ],
-      "coverItemId": 20628,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-370",
-      "region": "global",
-      "name": "ブラックボゾム・ソウルリーパー",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/370",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/370",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0030_250611000067",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "370",
-      "skuId": "MOG-00370",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "漆黑的精魂巨镰"
-      ],
-      "itemIds": [
-        20630
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "ブラックボゾム・ソウルリーパー",
-        "en": "Blackbosom Soul Reaper",
-        "ko": "에다 무기 시리즈"
-      },
-      "globalProductId": "370",
-      "globalProductName": "ブラックボゾム・ソウルリーパー",
-      "globalItemNames": [
-        "ブラックボゾム・ソウルリーパー"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/356cbe962dd"
-      ],
-      "coverItemId": 20630,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-371",
-      "region": "global",
-      "name": "ブラックボゾム・ハートリーパー",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/371",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/371",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0031_250611000068",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "371",
-      "skuId": "MOG-00371",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "漆黑的心灵巨镰"
-      ],
-      "itemIds": [
-        20631
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "ブラックボゾム・ハートリーパー",
-        "en": "Blackbosom Heart Reaper",
-        "ko": "에다 무기 시리즈"
-      },
-      "globalProductId": "371",
-      "globalProductName": "ブラックボゾム・ハートリーパー",
-      "globalItemNames": [
-        "ブラックボゾム・ハートリーパー"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/2923b9dfb1a"
-      ],
-      "coverItemId": 20631,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-369",
-      "region": "global",
-      "name": "ブラックボゾム・フェイトリーパー",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/369",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/369",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0029_250611000066",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "369",
-      "skuId": "MOG-00369",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "漆黑的命运巨镰"
-      ],
-      "itemIds": [
-        20629
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "ブラックボゾム・フェイトリーパー",
-        "en": "Blackbosom Fate Reaper",
-        "ko": "에다 무기 시리즈"
-      },
-      "globalProductId": "369",
-      "globalProductName": "ブラックボゾム・フェイトリーパー",
-      "globalItemNames": [
-        "ブラックボゾム・フェイトリーパー"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/fad58067cff"
-      ],
-      "coverItemId": 20629,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-372",
-      "region": "global",
-      "name": "ブラックボゾム・ブラッドリーパー",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/372",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/372",
-        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0032_250611000069",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "372",
-      "skuId": "MOG-00372",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈",
-        "tw": "90水晶"
-      },
-      "itemNames": [
-        "漆黑的鲜血巨镰"
-      ],
-      "itemIds": [
-        20632
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "ブラックボゾム・ブラッドリーパー",
-        "en": "Blackbosom Blood Reaper",
-        "ko": "에다 무기 시리즈"
-      },
-      "globalProductId": "372",
-      "globalProductName": "ブラックボゾム・ブラッドリーパー",
-      "globalItemNames": [
-        "ブラックボゾム・ブラッドリーパー"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/03ab4d1fb4a"
-      ],
-      "coverItemId": 20632,
-      "corrected": true,
-      "tags": [
-        "npcCostume"
-      ]
-    },
-    {
-      "id": "global-187",
-      "region": "global",
-      "name": "ブレードランス",
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/187",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/187",
-        "cn": "https://qu.sdo.com/product-detail/6fc0d2887db1cf88ca3c",
-        "kr": "https://www.ff14.co.kr/shop/Home/Detail/264"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "187",
-      "skuId": "MOG-00187",
-      "priceLabel": "330 crysta",
-      "regionalPriceLabels": {
-        "global": "330 crysta",
-        "kr": "6,000 크리스탈"
-      },
-      "itemNames": [
-        "刃状长矛"
-      ],
-      "itemIds": [
-        6036
-      ],
-      "mappingSource": "global-store",
-      "needsMapping": false,
-      "localizedNames": {
-        "ja": "ブレードランス",
-        "en": "Bladed Lance",
-        "ko": "라이트닝 무기 시리즈",
-        "zh-CN": "刃状长矛"
-      },
-      "globalProductId": "187",
-      "globalProductName": "ブレードランス",
-      "globalItemNames": [
-        "ブレードランス"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f745eea2b30"
-      ],
-      "coverItemId": 6036,
-      "tags": [
-        "crossoverCostume"
       ]
     }
   ]

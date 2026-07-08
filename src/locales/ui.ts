@@ -875,6 +875,12 @@ export const uiMessages: UiMessageMap = {
     ja: '紅蓮祭',
     ko: '불꽃축제'
   }),
+  'nsarmoire.store.tag.huntingMoon': msg({
+    zh: '狩猎之月',
+    en: 'Hunt for the Moon',
+    ja: '狩りの月',
+    ko: '사냥의 달'
+  }),
   'nsarmoire.store.tag.hatchingTide': msg({
     zh: '彩蛋狩猎',
     en: 'Hatching-tide',
@@ -1475,6 +1481,12 @@ export const uiMessages: UiMessageMap = {
     ja: '染色を先に確認',
     ko: '염색 먼저 확인'
   }),
+  'nsarmoire.recommendation.ignoredItems': msg({
+    zh: '已忽略装备',
+    en: 'Ignored gear',
+    ja: '除外中の装備',
+    ko: '무시한 장비'
+  }),
   'nsarmoire.summary.inventory': msg({
     zh: '当前检测到了{entries}件外观物品，分布在{containers}个物品收纳系统里。',
     en: '{entries} glamour items were detected across {containers} storage systems.',
@@ -1709,6 +1721,18 @@ export const uiMessages: UiMessageMap = {
     ja: '{item}: {locations}',
     ko: '{item}: {locations}'
   }),
+  'nsarmoire.ignoredItems.empty': msg({
+    zh: '当前角色还没有忽略任何装备。',
+    en: 'No gear is ignored for the current character.',
+    ja: '現在のキャラクターで除外中の装備はありません。',
+    ko: '현재 캐릭터에서 무시한 장비가 없습니다.'
+  }),
+  'nsarmoire.ignoredItems.context': msg({
+    zh: '不参与清理建议',
+    en: 'Excluded from cleanup suggestions',
+    ja: '整理提案から除外',
+    ko: '정리 제안에서 제외됨'
+  }),
   'nsarmoire.action.expandList': msg({
     zh: '展开',
     en: 'Expand',
@@ -1774,6 +1798,30 @@ export const uiMessages: UiMessageMap = {
     en: 'Clear retainer cache',
     ja: 'リテイナーキャッシュをクリア',
     ko: '고용인 캐시 지우기'
+  }),
+  'nsarmoire.action.openHuijiWiki': msg({
+    zh: '跳转灰机wiki',
+    en: 'Open Huiji Wiki',
+    ja: 'Huiji Wikiを開く',
+    ko: 'Huiji Wiki 열기'
+  }),
+  'nsarmoire.action.ignoreCleanupItem': msg({
+    zh: '忽略该装备的清理建议',
+    en: 'Ignore cleanup suggestions for this gear',
+    ja: 'この装備を整理提案から除外',
+    ko: '이 장비의 정리 제안 무시'
+  }),
+  'nsarmoire.action.unignoreCleanupItem': msg({
+    zh: '取消忽略',
+    en: 'Stop ignoring',
+    ja: '除外解除',
+    ko: '무시 해제'
+  }),
+  'nsarmoire.action.clearIgnoredItems': msg({
+    zh: '清空忽略',
+    en: 'Clear ignored gear',
+    ja: '除外リストをクリア',
+    ko: '무시 목록 비우기'
   }),
   'nsarmoire.action.shutdownHelper': msg({
     zh: '关闭管家',

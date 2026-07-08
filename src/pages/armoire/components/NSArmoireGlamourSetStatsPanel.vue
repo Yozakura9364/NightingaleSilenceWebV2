@@ -1,7 +1,7 @@
 <template>
   <section class="nsarmoire-set-panel">
     <div class="nsarmoire-set-panel__header">
-      <h2>{{ t(textKeys.nsarmoireCollectionGlamourSetStats) }}</h2>
+      <h2 class="ns-heading-bloom">{{ t(textKeys.nsarmoireCollectionGlamourSetStats) }}</h2>
     </div>
 
     <AppStatus v-if="!analysis" compact tone="info" :message="t(textKeys.nsarmoireSnapshotEmpty)" />
@@ -43,12 +43,12 @@
                   v-for="piece in set.pieces"
                   :key="piece.key"
                   :class="{ 'nsarmoire-set-card__piece--stored': piece.stored }"
-                  @contextmenu="openItemWikiByContextMenu(piece.name, $event)"
-                  @pointerdown="startItemWikiLongPress(piece.name, $event)"
-                  @pointermove="moveItemWikiLongPress"
-                  @pointerup="cancelItemWikiLongPress"
-                  @pointercancel="cancelItemWikiLongPress"
-                  @pointerleave="cancelItemWikiLongPress"
+                  @contextmenu="openItemActionMenu(piece, $event)"
+                  @pointerdown="startItemActionLongPress(piece, $event)"
+                  @pointermove="moveItemActionLongPress"
+                  @pointerup="cancelItemActionLongPress"
+                  @pointercancel="cancelItemActionLongPress"
+                  @pointerleave="cancelItemActionLongPress"
                 >
                   <img
                     v-if="piece.iconUrl"
@@ -75,6 +75,12 @@
         </div>
       </template>
     </template>
+
+    <NSArmoireItemActionMenu
+      :menu="itemActionMenu"
+      @close="closeItemActionMenu"
+      @ignore-item="$emit('ignore-item', $event)"
+    />
   </section>
 </template>
 
@@ -88,12 +94,13 @@ import type {
   ArmoireGlamourSetState,
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
+import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'
 import {
   formatArmoireText,
   getArmoireItemIconUrl,
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
-import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
+import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 import { useLocale } from '@/stores/locale'
 
 type SetStatus = 'complete' | 'incomplete' | 'notStored'
@@ -121,13 +128,19 @@ const props = defineProps<{
   catalog: ArmoireCatalog
 }>()
 
+defineEmits<{
+  'ignore-item': [itemId: number]
+}>()
+
 const { t } = useLocale()
 const {
-  cancelItemWikiLongPress,
-  moveItemWikiLongPress,
-  openItemWikiByContextMenu,
-  startItemWikiLongPress
-} = useArmoireItemWikiNavigation()
+  itemActionMenu,
+  closeItemActionMenu,
+  openItemActionMenu,
+  startItemActionLongPress,
+  moveItemActionLongPress,
+  cancelItemActionLongPress
+} = useArmoireItemActionMenu()
 const SET_BATCH_SIZE = 10
 const visibleSetCount = ref(SET_BATCH_SIZE)
 

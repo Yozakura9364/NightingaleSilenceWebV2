@@ -26,6 +26,7 @@
           :items="transferableItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('cabinet')"
+          @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
 
@@ -47,6 +48,7 @@
           :items="setBucketLoosePieceItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('setPieces')"
+          @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
 
@@ -68,6 +70,7 @@
           :items="tradableItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('tradableItems')"
+          @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
 
@@ -89,6 +92,7 @@
           :items="crafterGathererReplicaItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('crafterGathererReplicas')"
+          @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
 
@@ -103,6 +107,7 @@
           :items="duplicateItemItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('duplicateItems')"
+          @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
 
@@ -124,9 +129,33 @@
           :items="duplicateModelItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('duplicateModels')"
+          @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
 
+      <NSArmoireActionCard
+        :title="t(textKeys.nsarmoireRecommendationIgnoredItems)"
+        :count="ignoredItemViews.length"
+        :toggle-label="getToggleLabel('ignoredItems', ignoredItemViews.length)"
+        :sticky-header="isListExpanded('ignoredItems')"
+        @toggle="toggleList('ignoredItems')"
+      >
+        <AppStatus
+          v-if="ignoredItemViews.length === 0"
+          compact
+          tone="info"
+          :message="t(textKeys.nsarmoireIgnoredItemsEmpty)"
+        />
+        <NSArmoireReadableItemList
+          v-else
+          :items="ignoredItemViews"
+          :limit="listPreviewLimit"
+          :expanded="isListExpanded('ignoredItems')"
+          :can-ignore-items="false"
+          can-unignore-items
+          @unignore-item="$emit('unignore-item', $event)"
+        />
+      </NSArmoireActionCard>
     </div>
   </section>
 </template>
@@ -140,6 +169,7 @@ import type {
   ArmoireSnapshot,
   ArmoireSnapshotAnalysis
 } from '@/lib/armoire/types'
+import type { ArmoireReadableItemView } from '@/pages/armoire/utils/insightDisplay'
 import NSArmoireActionCard from '@/pages/armoire/components/NSArmoireActionCard.vue'
 import NSArmoireReadableItemList from '@/pages/armoire/components/NSArmoireReadableItemList.vue'
 import { useArmoireInsightViewModels } from '@/pages/armoire/composables/useArmoireInsightViewModels'
@@ -151,10 +181,13 @@ const props = defineProps<{
   catalog: ArmoireCatalog
   snapshot: ArmoireSnapshot | null
   hasPendingCatalogChecks?: boolean
+  ignoredItemViews: ArmoireReadableItemView[]
 }>()
 
 const emit = defineEmits<{
   loadIdenticalModelCatalog: []
+  'ignore-item': [itemId: number]
+  'unignore-item': [itemId: number]
 }>()
 
 const { t } = useLocale()
@@ -167,6 +200,7 @@ type ExpandableListKey =
   | 'crafterGathererReplicas'
   | 'duplicateItems'
   | 'duplicateModels'
+  | 'ignoredItems'
 
 const expandedLists = ref<Partial<Record<ExpandableListKey, boolean>>>({})
 
@@ -177,7 +211,8 @@ function isExpandableListKey(key: string): key is ExpandableListKey {
     key === 'tradableItems' ||
     key === 'crafterGathererReplicas' ||
     key === 'duplicateItems' ||
-    key === 'duplicateModels'
+    key === 'duplicateModels' ||
+    key === 'ignoredItems'
   )
 }
 

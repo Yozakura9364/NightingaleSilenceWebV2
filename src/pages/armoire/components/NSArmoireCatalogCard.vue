@@ -1,12 +1,12 @@
 <template>
   <article
     class="nsarmoire-catalog-card"
-    @contextmenu="openItemWikiByContextMenu(item.name, $event)"
-    @pointerdown="startItemWikiLongPress(item.name, $event)"
-    @pointermove="moveItemWikiLongPress"
-    @pointerup="cancelItemWikiLongPress"
-    @pointercancel="cancelItemWikiLongPress"
-    @pointerleave="cancelItemWikiLongPress"
+    @contextmenu="openItemActionMenu(item, $event)"
+    @pointerdown="startItemActionLongPress(item, $event)"
+    @pointermove="moveItemActionLongPress"
+    @pointerup="cancelItemActionLongPress"
+    @pointercancel="cancelItemActionLongPress"
+    @pointerleave="cancelItemActionLongPress"
   >
     <div class="nsarmoire-catalog-card__icon" aria-hidden="true">
       <img
@@ -43,24 +43,37 @@
       </ul>
     </div>
   </article>
+
+  <NSArmoireItemActionMenu
+    :menu="itemActionMenu"
+    @close="closeItemActionMenu"
+    @ignore-item="$emit('ignore-item', $event)"
+  />
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import type { ArmoireCatalogCardView } from '@/pages/armoire/composables/useArmoireCatalogGrid'
-import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
+import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'
+import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 
 const props = defineProps<{
   item: ArmoireCatalogCardView
 }>()
 
+defineEmits<{
+  'ignore-item': [itemId: number]
+}>()
+
 const imageFailed = ref(false)
 const {
-  cancelItemWikiLongPress,
-  moveItemWikiLongPress,
-  openItemWikiByContextMenu,
-  startItemWikiLongPress
-} = useArmoireItemWikiNavigation()
+  itemActionMenu,
+  closeItemActionMenu,
+  openItemActionMenu,
+  startItemActionLongPress,
+  moveItemActionLongPress,
+  cancelItemActionLongPress
+} = useArmoireItemActionMenu()
 
 watch(
   () => props.item.iconUrl,

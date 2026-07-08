@@ -22,14 +22,16 @@ export function useArmoireAnalysis(
   catalog: Ref<ArmoireCatalog>,
   valuableDyeCategories?: Ref<readonly ArmoireDyeValueCategory[]>,
   valuableDyeIds?: Ref<readonly number[]>,
-  filterToCatalogItems?: Ref<boolean>
+  filterToCatalogItems?: Ref<boolean>,
+  ignoredItemIds?: Ref<readonly number[]>
 ) {
   const analysis = computed(() =>
     snapshot.value
       ? analyzeArmoireSnapshot(snapshot.value, catalog.value, {
           valuableDyeCategories: valuableDyeCategories?.value,
           valuableDyeIds: valuableDyeIds?.value,
-          filterToCatalogItems: filterToCatalogItems?.value
+          filterToCatalogItems: filterToCatalogItems?.value,
+          ignoredItemIds: ignoredItemIds?.value
         })
       : null
   )

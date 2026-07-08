@@ -83,7 +83,7 @@ function selectSection(sectionId: string, event: MouseEvent): void {
   min-height: calc(100vh - 58px);
   padding: 14px 4px;
   border-right: 2px solid var(--ns-pixel-border-soft);
-  background: #fff0fb;
+  background: var(--ns-color-bg-soft);
 }
 
 .nsarmoire-section-rail__list {
@@ -103,7 +103,7 @@ function selectSection(sectionId: string, event: MouseEvent): void {
   gap: 5px;
   padding: 5px;
   border: 2px solid var(--ns-pixel-border-soft);
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text-muted);
   font-family: var(--nsarmoire-section-rail-font);
   font-size: 12px;
@@ -182,13 +182,13 @@ function selectSection(sectionId: string, event: MouseEvent): void {
 
 .nsarmoire-section-rail__item:hover .nsarmoire-section-rail__icon,
 .nsarmoire-section-rail__item:focus-visible .nsarmoire-section-rail__icon {
-  filter: drop-shadow(2px 2px 0 rgba(42, 33, 56, 0.14));
+  filter: drop-shadow(var(--ns-pixel-soft-shadow));
   transform: none;
 }
 
 .nsarmoire-section-rail__item--active .nsarmoire-section-rail__icon {
   color: var(--ns-color-accent-strong);
-  filter: drop-shadow(2px 2px 0 rgba(42, 33, 56, 0.12));
+  filter: drop-shadow(var(--ns-pixel-soft-shadow));
 }
 
 .nsarmoire-section-rail__label {
@@ -218,7 +218,7 @@ function selectSection(sectionId: string, event: MouseEvent): void {
 
   .nsarmoire-section-rail:hover {
     width: 116px;
-    box-shadow: 4px 0 0 rgba(42, 33, 56, 0.08);
+    box-shadow: var(--ns-pixel-soft-shadow);
   }
 
   .nsarmoire-section-rail__item {

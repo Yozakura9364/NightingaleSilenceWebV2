@@ -1,7 +1,7 @@
 <template>
   <section class="nsarmoire-panel nsarmoire-character-panel">
     <div class="nsarmoire-panel__header">
-      <h2>{{ cleanT(textKeys.nsarmoireCharacterProfile) }}</h2>
+      <h2 class="ns-heading-bloom">{{ cleanT(textKeys.nsarmoireCharacterProfile) }}</h2>
     </div>
 
     <AppStatus
@@ -44,6 +44,52 @@
             <span>{{ cleanT(option.labelKey) }}</span>
           </label>
         </fieldset>
+      </section>
+
+      <section class="nsarmoire-character-panel__block">
+        <div class="nsarmoire-character-panel__block-heading">
+          <h3>{{ cleanT(textKeys.nsarmoireRecommendationIgnoredItems) }}</h3>
+          <AppButton
+            v-if="ignoredItemViews.length"
+            size="compact"
+            variant="secondary"
+            @click="$emit('clear-ignored-items')"
+          >
+            {{ cleanT(textKeys.nsarmoireActionClearIgnoredItems) }}
+          </AppButton>
+        </div>
+
+        <AppStatus
+          v-if="ignoredItemStorageError"
+          tone="warning"
+          compact
+          :message="ignoredItemStorageError"
+        />
+        <p v-if="!ignoredItemViews.length" class="nsarmoire-character-panel__hint">
+          {{ cleanT(textKeys.nsarmoireIgnoredItemsEmpty) }}
+        </p>
+        <ul v-else class="nsarmoire-character-panel__ignored-list">
+          <li v-for="item in ignoredItemViews" :key="item.key">
+            <span class="nsarmoire-character-panel__ignored-icon" aria-hidden="true">
+              <img
+                v-if="item.iconUrl"
+                :src="item.iconUrl"
+                alt=""
+                loading="lazy"
+                decoding="async"
+                referrerpolicy="no-referrer"
+              />
+            </span>
+            <span class="nsarmoire-character-panel__ignored-name">{{ item.name }}</span>
+            <AppButton
+              size="compact"
+              variant="secondary"
+              @click="$emit('unignore-item', item.itemId)"
+            >
+              {{ cleanT(textKeys.nsarmoireActionUnignoreCleanupItem) }}
+            </AppButton>
+          </li>
+        </ul>
       </section>
 
       <section class="nsarmoire-character-panel__block">
@@ -249,6 +295,7 @@ import {
 } from '@/pages/armoire/composables/useArmoireCharacterProfiles'
 import type { ArmoireCatalogStatus } from '@/pages/armoire/composables/useArmoireCatalog'
 import type { ArmoireHelperHealth } from '@/pages/armoire/services/nsarmoireHelperApi'
+import type { ArmoireReadableItemView } from '@/pages/armoire/utils/insightDisplay'
 import { formatArmoireText } from '@/pages/armoire/utils/itemDisplay'
 import { useLocale } from '@/stores/locale'
 
@@ -268,6 +315,8 @@ const props = defineProps<{
   catalogError: string | null
   selectedDyeValueCategories: readonly ArmoireDyeValueCategory[]
   selectedValuableDyeIds: readonly number[]
+  ignoredItemViews: ArmoireReadableItemView[]
+  ignoredItemStorageError: string | null
 }>()
 
 const emit = defineEmits<{
@@ -275,6 +324,8 @@ const emit = defineEmits<{
   'reload-catalog': []
   'toggle-dye-value-category': [category: ArmoireDyeValueCategory]
   'toggle-valuable-dye-id': [dyeId: number]
+  'unignore-item': [itemId: number]
+  'clear-ignored-items': []
   'switch-profile': [profileKey: string]
   'delete-profile': [profileKey: string]
   'clear-current-profile': []
@@ -711,6 +762,52 @@ function handleFileChange(event: Event) {
   gap: 6px;
 }
 
+.nsarmoire-character-panel__ignored-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nsarmoire-character-panel__ignored-list li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 6px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface);
+}
+
+.nsarmoire-character-panel__ignored-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-pixel-surface);
+}
+
+.nsarmoire-character-panel__ignored-icon img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.nsarmoire-character-panel__ignored-name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ns-color-text);
+  font-size: 13px;
+  font-weight: 850;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .nsarmoire-character-panel__dye-fieldset {
   display: flex;
   flex-wrap: wrap;
@@ -755,9 +852,7 @@ function handleFileChange(event: Event) {
   height: 13px;
   flex: 0 0 13px;
   border: 1px solid var(--ns-color-border-strong);
-  box-shadow:
-    inset 0 0 0 1px rgb(255 255 255 / 0.32),
-    0 0 0 1px rgb(0 0 0 / 0.06);
+  box-shadow: var(--ns-control-inset-shadow);
 }
 
 @media (max-width: 720px) {

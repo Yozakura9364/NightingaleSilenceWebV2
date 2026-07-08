@@ -1,7 +1,7 @@
 <template>
   <section class="nsarmoire-store-panel">
     <div class="nsarmoire-store-panel__header">
-      <h2>{{ t(textKeys.nsarmoireStoreOutfits) }}</h2>
+      <h2 class="ns-heading-bloom">{{ t(textKeys.nsarmoireStoreOutfits) }}</h2>
     </div>
 
     <AppStatus
@@ -183,12 +183,12 @@
                 :key="piece.key"
                 class="nsarmoire-store-card__piece"
                 :class="{ 'nsarmoire-store-card__piece--owned': piece.owned }"
-                @contextmenu="openItemWikiByContextMenu(piece.name, $event)"
-                @pointerdown="startItemWikiLongPress(piece.name, $event)"
-                @pointermove="moveItemWikiLongPress"
-                @pointerup="cancelItemWikiLongPress"
-                @pointercancel="cancelItemWikiLongPress"
-                @pointerleave="cancelItemWikiLongPress"
+                @contextmenu="openItemActionMenu(piece, $event)"
+                @pointerdown="startItemActionLongPress(piece, $event)"
+                @pointermove="moveItemActionLongPress"
+                @pointerup="cancelItemActionLongPress"
+                @pointercancel="cancelItemActionLongPress"
+                @pointerleave="cancelItemActionLongPress"
               >
                 <div class="nsarmoire-store-card__piece-summary">
                   <img v-if="piece.iconUrl" :src="piece.iconUrl" :alt="piece.name" loading="lazy" />
@@ -223,6 +223,12 @@
         </article>
       </template>
     </template>
+
+    <NSArmoireItemActionMenu
+      :menu="itemActionMenu"
+      @close="closeItemActionMenu"
+      @ignore-item="$emit('ignore-item', $event)"
+    />
   </section>
 </template>
 
@@ -251,6 +257,7 @@ import type {
   ArmoireStoreTag
 } from '@/lib/armoire/types'
 import type { ArmoireStoreCatalogStatus } from '@/pages/armoire/composables/useArmoireStoreCatalog'
+import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'
 import {
   canShowArmoireBindState,
   formatArmoireDyeNames,
@@ -260,7 +267,7 @@ import {
   getArmoireItemName,
   getLocalizedArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
-import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
+import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 import { useLocale } from '@/stores/locale'
 
 type StoreStatusFilter = ArmoireStoreOutfitStatus | 'all'
@@ -283,6 +290,7 @@ interface StorePieceEntryView {
 
 interface StorePieceView {
   key: string
+  itemId?: number
   name: string
   iconUrl: string
   owned: boolean
@@ -334,15 +342,18 @@ const props = defineProps<{
 
 defineEmits<{
   reload: []
+  'ignore-item': [itemId: number]
 }>()
 
 const { current, t } = useLocale()
 const {
-  cancelItemWikiLongPress,
-  moveItemWikiLongPress,
-  openItemWikiByContextMenu,
-  startItemWikiLongPress
-} = useArmoireItemWikiNavigation()
+  itemActionMenu,
+  closeItemActionMenu,
+  openItemActionMenu,
+  startItemActionLongPress,
+  moveItemActionLongPress,
+  cancelItemActionLongPress
+} = useArmoireItemActionMenu()
 const STORE_PIECE_ENTRY_LIMIT = 3
 const STORE_LINK_REGION_ORDER: ArmoireStoreLinkRegion[] = ['cn', 'tw', 'global', 'kr']
 const STORE_PRICE_REGION_LABELS: Record<ArmoireStoreLinkRegion, string> = {
@@ -353,6 +364,7 @@ const STORE_PRICE_REGION_LABELS: Record<ArmoireStoreLinkRegion, string> = {
 }
 const SEASONAL_STORE_TAGS: ArmoireStoreTag[] = [
   'moonfireFaire',
+  'huntingMoon',
   'hatchingTide',
   'theRising',
   'starlightCelebration',
@@ -666,6 +678,7 @@ function getTagLabelKey(tag: ArmoireStoreTag): string {
     fanFestivalCostume: textKeys.nsarmoireStoreTagFanFestivalCostume,
     crossoverCostume: textKeys.nsarmoireStoreTagCrossoverCostume,
     moonfireFaire: textKeys.nsarmoireStoreTagMoonfireFaire,
+    huntingMoon: textKeys.nsarmoireStoreTagHuntingMoon,
     hatchingTide: textKeys.nsarmoireStoreTagHatchingTide,
     theRising: textKeys.nsarmoireStoreTagTheRising,
     starlightCelebration: textKeys.nsarmoireStoreTagStarlightCelebration,
@@ -872,6 +885,7 @@ function createPieceView(
 
   return {
     key,
+    itemId,
     name,
     iconUrl: itemId ? getStoreItemIconUrl(itemId) : '',
     owned,
@@ -1310,7 +1324,7 @@ function hideBrokenImage(event: Event): void {
   padding: 2px 6px;
   border: 1px solid transparent;
   background: var(--ns-color-accent);
-  color: #ffffff;
+  color: var(--ns-color-on-accent);
   font-size: 11px;
   font-weight: 900;
   line-height: 1.2;
@@ -1462,10 +1476,10 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-card__links {
   display: flex;
   min-width: 0;
-  max-width: 260px;
+  max-width: min(100%, 460px);
   align-items: flex-start;
   justify-content: flex-end;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 6px;
   justify-self: end;
 }
@@ -1482,6 +1496,7 @@ function hideBrokenImage(event: Event): void {
   font-size: 11px;
   font-weight: 800;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .nsarmoire-store-card__link:hover {
@@ -1519,6 +1534,10 @@ function hideBrokenImage(event: Event): void {
   .nsarmoire-store-card__links {
     grid-column: auto;
     justify-self: start;
+  }
+
+  .nsarmoire-store-card__links {
+    flex-wrap: wrap;
   }
 
   .nsarmoire-store-group__icons {

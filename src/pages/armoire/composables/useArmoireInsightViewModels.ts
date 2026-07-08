@@ -107,13 +107,46 @@ export function useArmoireInsightViewModels(
     () => storageSpaceItemLocationsByItemId.value
   )
 
+  const valuableClearDyeItemsByItemId = computed(() => {
+    const items = new Map<number, NonNullable<ArmoireSnapshotAnalysis['dyeRisk']['items'][number]>>()
+
+    for (const item of source.analysis?.dyeRisk.items ?? []) {
+      if (item.hasValuableDye && item.clearsDyeOnStorage && !items.has(item.itemId)) {
+        items.set(item.itemId, item)
+      }
+    }
+
+    return items
+  })
+
+  function sortByValuableClearDyeRisk(itemIds: readonly number[]): number[] {
+    return itemIds.slice().sort((left, right) => {
+      const leftHasValuableDye = valuableClearDyeItemsByItemId.value.has(left)
+      const rightHasValuableDye = valuableClearDyeItemsByItemId.value.has(right)
+
+      if (Number(leftHasValuableDye) !== Number(rightHasValuableDye)) {
+        return Number(leftHasValuableDye) - Number(rightHasValuableDye)
+      }
+
+      return left - right
+    })
+  }
+
+  const sortedTransferableItemIds = computed(() => {
+    if (!source.analysis || source.analysis.cabinetProgress.status !== 'ready') {
+      return []
+    }
+
+    return sortByValuableClearDyeRisk(source.analysis.cabinetProgress.transferableItemIds)
+  })
+
   const transferableItems = computed(() => {
     if (!source.analysis || source.analysis.cabinetProgress.status !== 'ready') {
       return []
     }
 
-    return limitItems('cabinet', source.analysis.cabinetProgress.transferableItemIds).map(
-      display.toTransferableItem
+    return limitItems('cabinet', sortedTransferableItemIds.value).map((itemId) =>
+      display.toTransferableItem(itemId, valuableClearDyeItemsByItemId.value.get(itemId))
     )
   })
 
@@ -131,18 +164,6 @@ export function useArmoireInsightViewModels(
 
   const incompleteSetItems = computed(() => incompleteSets.value.map(display.toIncompleteSetItem))
 
-  const valuableDyeItemsByItemId = computed(() => {
-    const items = new Map<number, NonNullable<ArmoireSnapshotAnalysis['dyeRisk']['items'][number]>>()
-
-    for (const item of source.analysis?.dyeRisk.items ?? []) {
-      if (item.hasValuableDye && !items.has(item.itemId)) {
-        items.set(item.itemId, item)
-      }
-    }
-
-    return items
-  })
-
   const setBucketLoosePieceItems = computed(() => {
     if (
       !source.analysis ||
@@ -152,21 +173,12 @@ export function useArmoireInsightViewModels(
       return []
     }
 
-    const itemIds = source.analysis.glamourSetProgress.bucketStorableLoosePieceItemIds
-      .slice()
-      .sort((left, right) => {
-        const leftHasValuableDye = valuableDyeItemsByItemId.value.has(left)
-        const rightHasValuableDye = valuableDyeItemsByItemId.value.has(right)
-
-        if (Number(leftHasValuableDye) !== Number(rightHasValuableDye)) {
-          return Number(leftHasValuableDye) - Number(rightHasValuableDye)
-        }
-
-        return left - right
-      })
+    const itemIds = sortByValuableClearDyeRisk(
+      source.analysis.glamourSetProgress.bucketStorableLoosePieceItemIds
+    )
 
     return limitItems('setPieces', itemIds).map((itemId) =>
-      display.toSetBucketLoosePieceItem(itemId, valuableDyeItemsByItemId.value.get(itemId))
+      display.toSetBucketLoosePieceItem(itemId, valuableClearDyeItemsByItemId.value.get(itemId))
     )
   })
 
@@ -317,7 +329,7 @@ export function useArmoireInsightViewModels(
 
     return display.formatText(textKeys.nsarmoireHintCabinetSummary, {
       count,
-      items: display.formatItemPreview(source.analysis.cabinetProgress.transferableItemIds)
+      items: display.formatItemPreview(sortedTransferableItemIds.value)
     })
   })
 

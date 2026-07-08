@@ -3,7 +3,7 @@
     <main class="nsarmoire-store-review">
       <header class="nsarmoire-store-review__header">
         <div>
-          <h1>{{ t(textKeys.nsarmoireStoreReviewTitle) }}</h1>
+          <h1 class="ns-heading-bloom">{{ t(textKeys.nsarmoireStoreReviewTitle) }}</h1>
           <p>{{ t(textKeys.nsarmoireStoreReviewSummary) }}</p>
         </div>
 
@@ -1579,7 +1579,7 @@ function hideBrokenImage(event: Event): void {
   min-height: 0;
   overflow: auto;
   padding: 16px;
-  background: #ffffff;
+  background: var(--ns-color-bg);
   font-family: var(--ns-font-sans);
 }
 
@@ -1590,7 +1590,7 @@ function hideBrokenImage(event: Event): void {
   gap: 16px;
   padding: 14px;
   border: 2px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
 }
 
 .nsarmoire-store-review__header h1,
@@ -1633,7 +1633,7 @@ function hideBrokenImage(event: Event): void {
   gap: 10px;
   padding: 12px;
   border: 2px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
 }
 
 .nsarmoire-store-review__list {
@@ -1655,7 +1655,7 @@ function hideBrokenImage(event: Event): void {
   min-width: 0;
   padding: 10px;
   border: 2px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
 }
 
 .nsarmoire-store-review__row--edited {
@@ -1702,7 +1702,7 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-review__cover span,
 .nsarmoire-store-review__item-fallback {
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-pixel-surface);
 }
 
 .nsarmoire-store-review__outfit-main,
@@ -1791,7 +1791,7 @@ function hideBrokenImage(event: Event): void {
   max-width: 130px;
   min-height: 26px;
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-size: 12px;
 }
@@ -1814,7 +1814,7 @@ function hideBrokenImage(event: Event): void {
   gap: 5px;
   padding: 3px 6px 3px 3px;
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-size: 12px;
 }
@@ -1897,7 +1897,7 @@ function hideBrokenImage(event: Event): void {
   margin-left: -1px;
   padding: 3px 6px;
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
   font-size: 11px;
@@ -1909,7 +1909,7 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-store-review__candidate-pieces:not(:disabled):hover {
   border-color: var(--ns-pixel-border);
   transform: translate(-1px, -1px);
-  box-shadow: 2px 2px 0 var(--ns-pixel-shadow);
+  box-shadow: var(--ns-pixel-soft-shadow);
 }
 
 .nsarmoire-store-review__candidate:disabled,
@@ -1943,7 +1943,7 @@ function hideBrokenImage(event: Event): void {
   min-height: 24px;
   padding: 0 6px;
   border: 1px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
   font-size: 11px;
@@ -1973,7 +1973,7 @@ function hideBrokenImage(event: Event): void {
   height: 28px;
   padding: 0 8px;
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
   font-size: 12px;
@@ -2001,7 +2001,7 @@ function hideBrokenImage(event: Event): void {
   height: 30px;
   padding: 0 8px;
   border: 1px solid var(--ns-pixel-border-soft);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
   font-size: 12px;
@@ -2014,7 +2014,7 @@ function hideBrokenImage(event: Event): void {
   min-height: 30px;
   padding: 0 8px;
   border: 1px solid var(--ns-pixel-border);
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-size: 12px;
   font-weight: 850;
@@ -2050,7 +2050,7 @@ function hideBrokenImage(event: Event): void {
   justify-self: start;
   min-height: 26px;
   margin-top: 2px;
-  background: #ffffff;
+  background: var(--ns-color-surface-solid);
 }
 
 .nsarmoire-store-review__state-action--danger {

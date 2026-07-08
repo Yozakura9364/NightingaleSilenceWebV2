@@ -22,6 +22,7 @@ export interface ArmoireStoredSnapshotProfile {
   containers: readonly ArmoireContainerKind[]
   retainerNames: readonly string[]
   retainerCount: number
+  ignoredItemIds: readonly number[]
 }
 
 export interface ArmoireStoredSnapshotRecord extends ArmoireStoredSnapshotProfile {
@@ -43,6 +44,18 @@ function normalizeString(value: unknown, maxLength: number): string | undefined 
 
 function isContainerKind(value: unknown): value is ArmoireContainerKind {
   return ARMOIRE_CONTAINER_KINDS.includes(value as ArmoireContainerKind)
+}
+
+function normalizeItemIds(value: unknown): number[] {
+  if (!Array.isArray(value)) {
+    return []
+  }
+
+  return Array.from(
+    new Set(
+      value.filter((itemId): itemId is number => Number.isInteger(itemId) && itemId > 0)
+    )
+  ).sort((left, right) => left - right)
 }
 
 function normalizeStoredProfile(value: unknown): ArmoireStoredSnapshotProfile | null {
@@ -84,7 +97,8 @@ function normalizeStoredProfile(value: unknown): ArmoireStoredSnapshotProfile | 
       Number.isInteger(value.retainerCount) &&
       value.retainerCount >= 0
         ? value.retainerCount
-        : 0
+        : 0,
+    ignoredItemIds: normalizeItemIds(value.ignoredItemIds)
   }
 }
 
@@ -163,6 +177,22 @@ async function withSnapshotStore<T>(
 
 export async function putArmoireSnapshotRecord(record: ArmoireStoredSnapshotRecord): Promise<void> {
   await withSnapshotStore('readwrite', (store) => store.put(record))
+}
+
+export async function updateArmoireSnapshotIgnoredItemIds(
+  key: string,
+  itemIds: readonly number[]
+): Promise<void> {
+  const record = await getArmoireSnapshotRecord(key)
+
+  if (!record) {
+    throw new Error('Armoire profile is not cached')
+  }
+
+  await putArmoireSnapshotRecord({
+    ...record,
+    ignoredItemIds: normalizeItemIds(itemIds)
+  })
 }
 
 export async function getArmoireSnapshotRecord(

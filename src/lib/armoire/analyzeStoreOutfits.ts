@@ -1,5 +1,9 @@
-import { buildOwnedIndex, getOwnedItems, hasOwnedItem } from '@/lib/armoire/buildOwnedIndex'
+import { buildOwnedIndex } from '@/lib/armoire/buildOwnedIndex'
 import { filterArmoireSnapshotForActionableItems } from '@/lib/armoire/filterSnapshot'
+import {
+  getStoreEquivalentOwnedItems,
+  hasStoreEquivalentOwnedItem
+} from '@/lib/armoire/storeItemEquivalents'
 import type {
   ArmoireSnapshot,
   ArmoireStoreCatalog,
@@ -39,12 +43,12 @@ export function analyzeArmoireStoreOutfits(
   const index = buildOwnedIndex(filterArmoireSnapshotForActionableItems(snapshot))
   const outfits: ArmoireStoreOutfitState[] = storeCatalog.outfits.map((outfit) => {
     const itemIds = getUniqueItemIds(outfit.itemIds)
-    const ownedItemIds = itemIds.filter((itemId) => hasOwnedItem(index, itemId))
-    const missingItemIds = itemIds.filter((itemId) => !hasOwnedItem(index, itemId))
-    const ownedItemsByItemId: Record<number, ReturnType<typeof getOwnedItems>> = {}
+    const ownedItemIds = itemIds.filter((itemId) => hasStoreEquivalentOwnedItem(index, itemId))
+    const missingItemIds = itemIds.filter((itemId) => !hasStoreEquivalentOwnedItem(index, itemId))
+    const ownedItemsByItemId: Record<number, ReturnType<typeof getStoreEquivalentOwnedItems>> = {}
 
     for (const itemId of itemIds) {
-      ownedItemsByItemId[itemId] = getOwnedItems(index, itemId)
+      ownedItemsByItemId[itemId] = getStoreEquivalentOwnedItems(index, itemId)
     }
 
     return {

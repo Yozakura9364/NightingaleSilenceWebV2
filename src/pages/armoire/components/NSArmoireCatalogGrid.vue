@@ -1,6 +1,11 @@
 <template>
   <div class="nsarmoire-catalog-grid">
-    <NSArmoireCatalogCard v-for="item in items" :key="item.key" :item="item" />
+    <NSArmoireCatalogCard
+      v-for="item in items"
+      :key="item.key"
+      :item="item"
+      @ignore-item="$emit('ignore-item', $event)"
+    />
   </div>
 </template>
 
@@ -10,6 +15,10 @@ import NSArmoireCatalogCard from '@/pages/armoire/components/NSArmoireCatalogCar
 
 defineProps<{
   items: ArmoireCatalogCardView[]
+}>()
+
+defineEmits<{
+  'ignore-item': [itemId: number]
 }>()
 </script>
 

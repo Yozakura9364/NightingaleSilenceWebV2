@@ -6,7 +6,10 @@ import type {
   ArmoireHelperProbe,
   ArmoireHelperProcess
 } from '@/pages/armoire/services/nsarmoireHelperApi'
-import { NSARMOIRE_BUTLER_PROTOCOL_URL } from '@/pages/armoire/services/nsarmoireHelperApi'
+import {
+  getArmoireHelperDisplayUrl,
+  NSARMOIRE_BUTLER_PROTOCOL_URL
+} from '@/pages/armoire/services/nsarmoireHelperApi'
 
 export type ArmoireHelperStatus =
   | 'idle'
@@ -24,7 +27,6 @@ interface ProbeSignaturePayload {
   probeRefreshSignature?: string
 }
 
-const NSARMOIRE_HELPER_DISPLAY_URL = 'http://127.0.0.1:8015'
 const PROBE_VISIBLE_INTERVAL_MS = 2000
 const PROBE_HIDDEN_INTERVAL_MS = 10000
 const AUTO_REFRESH_AFTER_PROBE_MS = 1400
@@ -78,7 +80,7 @@ export function useArmoireHelper(
   const processPickerOpen = ref(false)
   const processBusy = ref(false)
   const processError = ref<string | null>(null)
-  const endpoint = NSARMOIRE_HELPER_DISPLAY_URL
+  const endpoint = getArmoireHelperDisplayUrl()
   let probeTimer = 0
   let autoRefreshTimer = 0
   let probeBusy = false

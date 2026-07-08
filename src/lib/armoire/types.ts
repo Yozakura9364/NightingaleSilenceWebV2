@@ -63,6 +63,7 @@ export const ARMOIRE_STORE_TAGS = [
   'fanFestivalCostume',
   'crossoverCostume',
   'moonfireFaire',
+  'huntingMoon',
   'hatchingTide',
   'theRising',
   'starlightCelebration',
@@ -448,6 +449,7 @@ export interface ArmoireDyeRiskOptions {
 
 export interface ArmoireSnapshotAnalysisOptions extends ArmoireDyeRiskOptions {
   filterToCatalogItems?: boolean
+  ignoredItemIds?: readonly number[]
 }
 
 export interface ArmoireDyeRiskItem {

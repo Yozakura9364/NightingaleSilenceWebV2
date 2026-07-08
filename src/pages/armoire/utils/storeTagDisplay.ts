@@ -9,6 +9,7 @@ export const ARMOIRE_STORE_TAG_LABEL_KEYS: Record<ArmoireStoreTag, string> = {
   fanFestivalCostume: textKeys.nsarmoireStoreTagFanFestivalCostume,
   crossoverCostume: textKeys.nsarmoireStoreTagCrossoverCostume,
   moonfireFaire: textKeys.nsarmoireStoreTagMoonfireFaire,
+  huntingMoon: textKeys.nsarmoireStoreTagHuntingMoon,
   hatchingTide: textKeys.nsarmoireStoreTagHatchingTide,
   theRising: textKeys.nsarmoireStoreTagTheRising,
   starlightCelebration: textKeys.nsarmoireStoreTagStarlightCelebration,

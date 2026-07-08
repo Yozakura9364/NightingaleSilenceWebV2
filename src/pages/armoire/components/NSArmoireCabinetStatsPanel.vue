@@ -1,7 +1,7 @@
 <template>
   <section class="nsarmoire-collection-panel">
     <div class="nsarmoire-collection-panel__header">
-      <h2>{{ t(textKeys.nsarmoireCollectionCabinetStats) }}</h2>
+      <h2 class="ns-heading-bloom">{{ t(textKeys.nsarmoireCollectionCabinetStats) }}</h2>
     </div>
 
     <AppStatus v-if="!analysis" compact tone="info" :message="t(textKeys.nsarmoireSnapshotEmpty)" />
@@ -24,12 +24,12 @@
             <li
               v-for="item in visibleTransferableItems"
               :key="item.key"
-              @contextmenu="openItemWikiByContextMenu(item.name, $event)"
-              @pointerdown="startItemWikiLongPress(item.name, $event)"
-              @pointermove="moveItemWikiLongPress"
-              @pointerup="cancelItemWikiLongPress"
-              @pointercancel="cancelItemWikiLongPress"
-              @pointerleave="cancelItemWikiLongPress"
+              @contextmenu="openItemActionMenu(item, $event)"
+              @pointerdown="startItemActionLongPress(item, $event)"
+              @pointermove="moveItemActionLongPress"
+              @pointerup="cancelItemActionLongPress"
+              @pointercancel="cancelItemActionLongPress"
+              @pointerleave="cancelItemActionLongPress"
             >
               <img
                 v-if="item.iconUrl"
@@ -64,12 +64,12 @@
             <li
               v-for="item in visibleMissingItems"
               :key="item.key"
-              @contextmenu="openItemWikiByContextMenu(item.name, $event)"
-              @pointerdown="startItemWikiLongPress(item.name, $event)"
-              @pointermove="moveItemWikiLongPress"
-              @pointerup="cancelItemWikiLongPress"
-              @pointercancel="cancelItemWikiLongPress"
-              @pointerleave="cancelItemWikiLongPress"
+              @contextmenu="openItemActionMenu(item, $event)"
+              @pointerdown="startItemActionLongPress(item, $event)"
+              @pointermove="moveItemActionLongPress"
+              @pointerup="cancelItemActionLongPress"
+              @pointercancel="cancelItemActionLongPress"
+              @pointerleave="cancelItemActionLongPress"
             >
               <img
                 v-if="item.iconUrl"
@@ -115,6 +115,12 @@
         </section>
       </div>
     </template>
+
+    <NSArmoireItemActionMenu
+      :menu="itemActionMenu"
+      @close="closeItemActionMenu"
+      @ignore-item="$emit('ignore-item', $event)"
+    />
   </section>
 </template>
 
@@ -124,12 +130,13 @@ import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
 import type { ArmoireCatalog, ArmoireSnapshotAnalysis } from '@/lib/armoire/types'
+import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'
 import {
   formatArmoireText,
   getArmoireItemIconUrl,
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
-import { useArmoireItemWikiNavigation } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
+import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 import { useLocale } from '@/stores/locale'
 
 interface CabinetItemView {
@@ -146,13 +153,19 @@ const props = defineProps<{
   catalog: ArmoireCatalog
 }>()
 
+defineEmits<{
+  'ignore-item': [itemId: number]
+}>()
+
 const { t } = useLocale()
 const {
-  cancelItemWikiLongPress,
-  moveItemWikiLongPress,
-  openItemWikiByContextMenu,
-  startItemWikiLongPress
-} = useArmoireItemWikiNavigation()
+  itemActionMenu,
+  closeItemActionMenu,
+  openItemActionMenu,
+  startItemActionLongPress,
+  moveItemActionLongPress,
+  cancelItemActionLongPress
+} = useArmoireItemActionMenu()
 const CABINET_BATCH_SIZE = 24
 const visibleTransferableCount = ref(CABINET_BATCH_SIZE)
 const visibleMissingCount = ref(CABINET_BATCH_SIZE)
