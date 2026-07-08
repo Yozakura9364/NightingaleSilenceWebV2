@@ -108,6 +108,10 @@ export function getGlamourTemplateSubtitleText(settings: GlamourTemplateSettings
 }
 
 function getImportedTitleText(source: GlamourDraftSource): string {
+  if (source.importMode !== 'template-link') {
+    return ''
+  }
+
   const title = normalizeSubtitleText(source.title || source.name).slice(0, 80)
 
   if (!title || /^https?:\/\//i.test(title)) {
@@ -119,6 +123,32 @@ function getImportedTitleText(source: GlamourDraftSource): string {
   }
 
   return title
+}
+
+function clearNonLinkImportedTitle(
+  settings: GlamourTemplateSettings,
+  template: GlamourTemplateDefinition,
+  source: GlamourDraftSource
+): GlamourTemplateSettings {
+  if (source.importMode === 'template-link') {
+    return settings
+  }
+
+  const currentText = String(settings.topText || '').trim()
+  const autoText = String(settings.importedTitleAutoText || '').trim()
+
+  if (!autoText || currentText !== autoText) {
+    return settings
+  }
+
+  return normalizeGlamourTemplateSettings(
+    {
+      ...settings,
+      topText: getDefaultTopText(template),
+      importedTitleAutoText: ''
+    },
+    template.id
+  )
 }
 
 function shouldApplyImportedTitle(
@@ -305,15 +335,16 @@ export function applyGlamourTemplateImportedTitle(
   options: { force?: boolean } = {}
 ): GlamourTemplateSettings {
   const force = options.force === true
+  const titleSettings = clearNonLinkImportedTitle(settings, template, draft.source)
   const importedTitle = getImportedTitleText(draft.source)
 
-  if (!importedTitle || !shouldApplyImportedTitle(settings, template, force)) {
-    return settings
+  if (!importedTitle || !shouldApplyImportedTitle(titleSettings, template, force)) {
+    return titleSettings
   }
 
   return normalizeGlamourTemplateSettings(
     {
-      ...settings,
+      ...titleSettings,
       topText: importedTitle,
       importedTitleAutoText: importedTitle
     },

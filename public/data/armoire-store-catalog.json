@@ -8282,7 +8282,8 @@
       "storeUrl": "https://qu.sdo.com/product-detail/2029848962742272000",
       "regionalStoreUrls": {
         "cn": "https://qu.sdo.com/product-detail/2029848962742272000",
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1141"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1141",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/4518"
       },
       "sourceUrl": "https://qu.sdo.com/tools-shop?merchantId=1",
       "productId": "2029848962696134657",
@@ -8290,7 +8291,8 @@
       "priceLabel": "6800点券",
       "regionalPriceLabels": {
         "cn": "6800点券",
-        "global": "990 crysta"
+        "global": "990 crysta",
+        "kr": "12,600 크리스탈"
       },
       "itemNames": [
         "缇姨塔可饼新式文化衫",

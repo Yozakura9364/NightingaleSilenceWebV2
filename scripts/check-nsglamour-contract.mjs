@@ -380,14 +380,32 @@ async function checkLocalTemplateDataLayer() {
       renderer.includes('drawHorizontalTitleLine') &&
       renderer.includes('drawHorizontalEquipmentText') &&
       renderer.includes("assets?.['horizontal-background']?.image") &&
+      renderer.includes("options.renderData.template.renderMode === 'double-pic'") &&
+      renderer.includes('renderDoublePicTemplateCanvas') &&
+      renderer.includes('DOUBLE_PIC_TEMPLATE') &&
+      renderer.includes('drawDoublePicEquipmentText') &&
+      renderer.includes('drawDoublePicCopyright') &&
+      renderer.includes('createDoublePicSpreadMaskCanvas') &&
+      renderer.includes('drawDoublePicMaskOuterGlow') &&
+      renderer.includes("assets?.['double-pic-left-mask']?.image") &&
+      renderer.includes('drawGlamourTemplateMaskedImageCover') &&
+      renderer.includes('createGlamourTemplateLuminanceMaskCanvas') &&
+      renderer.includes('alphaFromLightness') &&
       renderer.includes("options.renderData.template.renderMode === 'risingstones'") &&
       renderer.includes('renderRisingstonesTemplateCanvas') &&
       renderer.includes('RISINGSTONES_TEMPLATE') &&
       renderer.includes('drawRisingstonesEquipment') &&
+      renderer.includes('rowHeight: 247') &&
+      renderer.includes('getRisingstonesNameWidth') &&
+      renderer.includes('RISINGSTONES_TEMPLATE.copyright.lines') &&
       renderer.includes("options.renderData.template.renderMode === 'ec'") &&
       renderer.includes('renderEcTemplateCanvas') &&
       renderer.includes('EC_TEMPLATE_LAYOUTS') &&
       renderer.includes('drawEcEquipment') &&
+      renderer.includes('EC_ITEM_RARITY_COLORS') &&
+      renderer.includes('drawEcCenteredFittedText') &&
+      renderer.includes('trackingSize = size * (tracking / 1000)') &&
+      renderer.includes('getEcItemNameColor') &&
       renderer.includes("options.renderData.template.renderMode === 'silence-fashion'") &&
       renderer.includes('renderSilenceFashionTemplateCanvas') &&
       renderer.includes('SILENCE_FASHION_TEMPLATE') &&
@@ -399,6 +417,9 @@ async function checkLocalTemplateDataLayer() {
       renderer.includes('renderData.localizedRows') &&
       renderer.includes("assets?.['silence-fashion-background']?.image") &&
       renderer.includes('drawGlamourTemplateImageCover') &&
+      renderer.includes('drawGlamourTemplateImageResampled') &&
+      renderer.includes("imageSmoothingQuality = 'high'") &&
+      renderer.includes('sourceWidth / dw > 2 || sourceHeight / dh > 2') &&
       renderer.includes('GlamourTemplateImageResolver') &&
       renderer.includes('GlamourTemplateIconResolver') &&
       renderer.includes('GlamourTemplateCanvasRenderContext') &&
@@ -437,8 +458,16 @@ async function checkLocalTemplateDataLayer() {
   assert(
     templateComposable.includes('applyImportedTitleToAllTemplates') &&
       templateComposable.includes('GLAMOUR_TEMPLATE_SELECT_ORDER') &&
-      settings.includes('applyGlamourTemplateImportedTitle'),
+    settings.includes('applyGlamourTemplateImportedTitle'),
     'template link imports must preserve legacy all-template imported-title fill'
+  )
+  assert(
+    settings.includes("source.importMode !== 'template-link'") &&
+      settings.includes('function getImportedTitleText') &&
+      settings.includes('function clearNonLinkImportedTitle') &&
+      settings.includes("topText: getDefaultTopText(template)") &&
+      settings.includes("importedTitleAutoText: ''"),
+    'template title auto-fill must stay limited to template-page link imports and must clear stale .chara filename auto-titles'
   )
   assert(
     templateComposable.includes('getDefaultTemplateLocalesForUiLanguage') &&

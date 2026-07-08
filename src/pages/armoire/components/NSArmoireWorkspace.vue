@@ -23,7 +23,7 @@
             :title="t(textKeys.nsarmoireDownloadHelper)"
           >
             <span>{{ t(textKeys.nsarmoireDownloadHelperShort) }}</span>
-            <span aria-hidden="true">↗</span>
+            <span class="nsarmoire-workspace__helper-download-icon" aria-hidden="true"></span>
           </a>
 
           <NSArmoireImportPanel
@@ -192,6 +192,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import githubIcon from '@/assets/icons/pixelarticons/github.svg'
 import { textKeys } from '@/config/site'
 import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
 import { mergeArmoireCatalogs } from '@/lib/armoire/catalog'
@@ -235,6 +236,7 @@ const DATA_BASE_URL = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data`
 const STORE_CATALOG_URL = `${DATA_BASE_URL}/armoire-store-catalog.json`
 const STORE_ITEM_DISPLAY_INDEX_URL = `${DATA_BASE_URL}/armoire-store-item-display-index.json`
 const HELPER_RELEASE_URL = NSARMOIRE_BUTLER_RELEASE_URL
+const HELPER_DOWNLOAD_ICON_MASK = `url("${githubIcon}")`
 
 const AppTabs = defineAsyncComponent(() => import('@/components/AppTabs.vue'))
 const NSArmoireCabinetStatsPanel = defineAsyncComponent(
@@ -927,6 +929,15 @@ onMounted(() => {
 .nsarmoire-workspace__helper-download:focus-visible {
   outline: none;
   box-shadow: 2px 2px 0 rgba(68, 58, 76, 0.18);
+}
+
+.nsarmoire-workspace__helper-download-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: currentColor;
+  mask: v-bind('HELPER_DOWNLOAD_ICON_MASK') center / contain no-repeat;
+  -webkit-mask: v-bind('HELPER_DOWNLOAD_ICON_MASK') center / contain no-repeat;
 }
 
 .nsarmoire-workspace__body--empty .nsarmoire-workspace__content {
