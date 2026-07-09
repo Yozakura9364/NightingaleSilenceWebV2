@@ -21,16 +21,15 @@
     <article v-if="showForms && selectedForm" class="silence-form-outfit__form-card">
       <p class="ns-eyebrow">{{ selectedForm.subtitle ?? t(textKeys.silenceCharacterForms) }}</p>
       <h3>{{ selectedForm.label }}</h3>
-      <p>{{ selectedForm.summary }}</p>
+      <p v-if="selectedForm.summary">{{ selectedForm.summary }}</p>
       <ul v-if="selectedForm.points.length" class="silence-form-outfit__point-list">
         <li v-for="point in selectedForm.points" :key="point">{{ point }}</li>
       </ul>
     </article>
 
-    <div v-if="showOutfits" class="silence-form-outfit__outfit-shell">
+    <div v-if="showOutfits && visibleOutfits.length" class="silence-form-outfit__outfit-shell">
       <div class="silence-form-outfit__preview" aria-hidden="true">
-        <span>{{ selectedOutfit?.label ?? t(textKeys.placeholder) }}</span>
-        <small>{{ t(textKeys.placeholder) }}</small>
+        <span v-if="selectedOutfit">{{ selectedOutfit.label }}</span>
       </div>
 
       <div class="silence-form-outfit__outfit-detail">
@@ -53,7 +52,7 @@
 
         <article v-if="selectedOutfit" class="silence-form-outfit__outfit-card">
           <h3>{{ selectedOutfit.label }}</h3>
-          <p>{{ selectedOutfit.description }}</p>
+          <p v-if="selectedOutfit.description">{{ selectedOutfit.description }}</p>
           <ul
             v-if="selectedOutfit.equipment.length"
             class="silence-form-outfit__equipment-list"
@@ -62,9 +61,7 @@
           </ul>
         </article>
 
-        <p v-else class="silence-form-outfit__empty">
-          {{ t(textKeys.placeholder) }}
-        </p>
+        <p v-else class="silence-form-outfit__empty"></p>
       </div>
     </div>
   </div>
@@ -101,7 +98,7 @@ const route = useRoute()
 const { t } = useLocale()
 const selectedOutfitId = ref('')
 
-const visibleForms = computed(() => props.forms.filter((form) => form.visibility !== 'private'))
+const visibleForms = computed(() => props.forms.filter((form) => form.visibility === 'public'))
 const hasMultipleForms = computed(() => visibleForms.value.length > 1)
 const defaultFormId = computed(() => visibleForms.value[0]?.id ?? '')
 const selectedForm = computed(
@@ -115,7 +112,7 @@ const visibleOutfits = computed(() => {
 
   return props.outfits.filter(
     (outfit) =>
-      outfit.visibility !== 'private' && (!formId || outfit.formIds.includes(formId))
+      outfit.visibility === 'public' && (!formId || outfit.formIds.includes(formId))
   )
 })
 const hasMultipleOutfits = computed(() => visibleOutfits.value.length > 1)

@@ -59,7 +59,7 @@
         <div class="silence-viioko__layout silence-viioko__layout--thirds silence-viioko__detail-strip">
           <article v-for="block in visibleAppearance" :key="block.id">
             <h3>{{ block.title }}</h3>
-            <p>{{ block.points[0] ?? placeholderText }}</p>
+            <p>{{ block.points[0] ?? emptyText }}</p>
           </article>
         </div>
       </div>
@@ -179,11 +179,11 @@
         <div class="silence-viioko__layout silence-viioko__layout--one-two silence-viioko__detail-strip">
           <article>
             <h3>{{ combatTitle }}</h3>
-            <p>{{ combatPreview[0] ?? placeholderText }}</p>
+            <p>{{ combatPreview[0] ?? emptyText }}</p>
           </article>
           <article>
             <h3>{{ visibleStoryCards[0]?.title ?? storyTitle }}</h3>
-            <p>{{ visibleStoryCards[0]?.preview ?? combatPreview[1] ?? placeholderText }}</p>
+            <p>{{ visibleStoryCards[0]?.preview ?? combatPreview[1] ?? emptyText }}</p>
           </article>
         </div>
       </div>
@@ -398,7 +398,7 @@ const {
   outfitTitle,
   overviewText,
   overviewTitle,
-  placeholderText,
+  emptyText,
   primaryOutfit,
   profileKicker,
   prototypeStyle,

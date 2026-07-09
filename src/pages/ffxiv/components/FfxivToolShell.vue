@@ -26,7 +26,7 @@
 
         <div class="ffxiv-tool-layout">
           <section class="ns-panel ffxiv-tool-panel">
-            <h2>{{ t(textKeys.placeholder) }}</h2>
+            <h2 class="ns-heading-bloom">{{ t(textKeys.placeholder) }}</h2>
             <ToolApiStatus v-if="boundary" :boundary="boundary" />
             <dl class="ffxiv-tool-meta">
               <div>
@@ -37,7 +37,7 @@
           </section>
 
           <section class="ns-panel ffxiv-tool-panel ffxiv-tool-workspace">
-            <h2>{{ t(textKeys.placeholder) }}</h2>
+            <h2 class="ns-heading-bloom">{{ t(textKeys.placeholder) }}</h2>
             <slot>
               <div class="ffxiv-tool-placeholder" aria-hidden="true">
                 <span />

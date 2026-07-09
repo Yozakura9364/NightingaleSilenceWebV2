@@ -80,7 +80,7 @@
           type="button"
           @click="emit('sectionRequest', item.targetId)"
         >
-          {{ item.label ?? t(item.labelKey ?? textKeys.placeholder) }}
+          {{ item.label ?? (item.labelKey ? t(item.labelKey) : '') }}
         </button>
       </nav>
     </article>

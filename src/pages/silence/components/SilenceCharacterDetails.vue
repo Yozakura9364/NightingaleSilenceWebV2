@@ -115,7 +115,7 @@
           </div>
 
           <ul class="silence-character-point-list silence-character-point-list--wide">
-            <li v-for="point in character.content.combat" :key="point">{{ point }}</li>
+            <li v-for="point in visibleCombat" :key="point">{{ point }}</li>
           </ul>
         </section>
 
@@ -264,11 +264,14 @@ const { t } = useLocale()
 const visibleFacts = computed(
   () =>
     props.character.content?.facts.filter(
-      (fact) => fact.visibility !== 'private' && !isEmptyProfileValue(fact.value)
+      (fact) => fact.visibility === 'public' && !isEmptyProfileValue(fact.value)
     ) ?? []
 )
 const visibleStory = computed(
-  () => props.character.content?.story.filter((story) => story.visibility !== 'private') ?? []
+  () => props.character.content?.story.filter((story) => story.visibility === 'public') ?? []
+)
+const visibleCombat = computed(
+  () => props.character.content?.combat.filter((point) => point.trim() !== '') ?? []
 )
 
 function isEmptyProfileValue(value: string) {

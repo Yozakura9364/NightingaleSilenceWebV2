@@ -13,7 +13,7 @@ const salvanceForms: SilenceCharacterForm[] = [
     id: 'sorence',
     label: '索伦斯',
     subtitle: '痛楚 / 异化状态',
-    summary: '占位用，待编辑',
+    summary: '',
     points: [],
     color: '#8f8a9b',
     visibility: 'draft'

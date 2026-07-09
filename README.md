@@ -20,7 +20,7 @@
 |------|------|------|
 | `#/` | 首页 | 占位视觉首页已接入 |
 | `#/ffxiv` | FFXIV 分类导航页 | 工具入口骨架已接入 |
-| `#/ffxiv/glamour` | 幻化工房 / NSGlamour | 迁移占位页已接入 |
+| `#/ffxiv/glamour` | 幻化工房 / NSGlamour | `template` 与 `equipinfo` 主工作流已接入，仍依赖旧 Flask 后端 |
 | `#/ffxiv/plate` | 铭牌工房 / NSPlate | 核心工作台已接入 |
 | `#/ffxiv/armoire` | 衣柜管家 / NSArmoire | 本地 helper、snapshot 导入和三分区工作台已接入 |
 | `#/ffxiv/armoire/store-review` | NSArmoire 商城数据校正 | 隐藏校正页已接入 |
@@ -55,6 +55,12 @@ npm run dev
 npm run build
 ```
 
+发布前检查：
+
+```bash
+npm run check:release
+```
+
 预览构建产物：
 
 ```bash
@@ -84,6 +90,7 @@ npm run preview
 - `docs/ai/CODE_STRUCTURE_RULES.md`：防止复杂业务再次写成大坨代码的结构规则。
 - `docs/ai/MIGRATION_PLAN.md`：旧项目迁移顺序和后端重写边界。
 - `docs/ai/MODULE_MAP.md`：页面和模块状态。
+- `docs/ai/DEPLOYMENT_CHECKLIST.md`：上线前构建、反代、缓存和烟测清单。
 - `docs/ai/REVIEW_GUIDE.md`：给评估者看的检查重点。
 - `docs/ai/MODULES/nsglamour.md`：NSGlamour 迁移计划。
 - `docs/ai/MODULES/nsplate.md`：NSPlate 迁移计划。

@@ -2,7 +2,7 @@
   <section class="nsplate-panel">
     <header v-if="title || meta || $slots.header" class="nsplate-panel__header">
       <slot name="header">
-        <h4 v-if="title">{{ title }}</h4>
+        <h4 v-if="title" class="ns-heading-bloom">{{ title }}</h4>
         <small v-if="meta">{{ meta }}</small>
       </slot>
     </header>
@@ -41,7 +41,6 @@ defineProps<{
 
 .nsplate-panel__header h4 {
   margin: 0;
-  color: var(--ns-color-text);
   font-size: 13px;
   font-weight: 900;
 }

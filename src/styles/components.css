@@ -77,27 +77,25 @@
   }
 
   .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-track {
+    border: 2px solid var(--ns-pixel-border);
     background: var(--ns-scroll-track);
-    box-shadow: inset 0 0 0 2px var(--ns-scroll-border);
   }
 
   .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-thumb {
-    min-height: 28px;
-    border: 3px solid transparent;
+    min-height: 30px;
+    border: 2px solid var(--ns-pixel-border);
     border-radius: 0;
     background: var(--ns-scroll-thumb);
-    background-clip: padding-box;
+    box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.28);
   }
 
   .ns-scroll-area--compact:not(.ns-scroll-area--plain)::-webkit-scrollbar-thumb {
-    min-height: 22px;
-    border-inline-width: 3px;
-    border-block-width: 2px;
+    min-height: 24px;
+    border-width: 2px;
   }
 
   .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-thumb:hover {
     background: var(--ns-scroll-thumb-hover);
-    background-clip: padding-box;
   }
 
   .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-corner {
@@ -105,29 +103,9 @@
   }
 
   .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-button:single-button {
-    width: var(--ns-scrollbar-size);
-    height: var(--ns-scrollbar-size);
-    background-color: var(--ns-scroll-track);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: var(--ns-scrollbar-arrow-size) var(--ns-scrollbar-arrow-size);
-    box-shadow: inset 0 0 0 2px var(--ns-scroll-border);
-  }
-
-  .ns-scroll-area--compact:not(.ns-scroll-area--plain)::-webkit-scrollbar-button:single-button {
-    width: var(--ns-scrollbar-compact-size);
-    height: var(--ns-scrollbar-compact-size);
-    background-size:
-      calc(var(--ns-scrollbar-compact-size) - 4px)
-      calc(var(--ns-scrollbar-compact-size) - 4px);
-  }
-
-  .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-button:single-button:vertical:decrement {
-    background-image: var(--ns-scroll-arrow-up);
-  }
-
-  .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-button:single-button:vertical:increment {
-    background-image: var(--ns-scroll-arrow-down);
+    display: none;
+    width: 0;
+    height: 0;
   }
 
   .ns-button:hover {

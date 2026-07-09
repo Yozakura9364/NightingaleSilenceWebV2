@@ -27,7 +27,6 @@
 
     <section v-else class="silence-character-missing" :aria-labelledby="missingTitleId">
       <h1 :id="missingTitleId" class="ns-title">{{ t(textKeys.silenceCharacterMissing) }}</h1>
-      <p class="ns-lead">{{ t(textKeys.placeholder) }}</p>
       <SilenceTurnHint
         :label="t(textKeys.silenceCharacterNavigation)"
         :left-to="siteRoutes.silence"

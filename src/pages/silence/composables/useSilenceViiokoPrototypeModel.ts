@@ -15,7 +15,7 @@ interface UseSilenceViiokoPrototypeModelOptions {
 export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototypeModelOptions) {
   const character = options.character
   const content = computed(() => character.value.content)
-  const placeholderText = computed(() => options.t(textKeys.placeholder))
+  const emptyText = computed(() => '')
   const titleId = computed(() => `${character.value.id}-viioko-prototype-title`)
   const secondTitleId = computed(() => `${character.value.id}-viioko-prototype-followup-title`)
   const titleLinePrimary = computed(() => content.value?.names.en ?? character.value.name)
@@ -43,21 +43,21 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
   const storyTitle = computed(
     () => content.value?.sections.story ?? options.t(textKeys.silenceCharacterNotes)
   )
-  const overviewText = computed(() => content.value?.overview[0] ?? options.t(textKeys.placeholder))
+  const overviewText = computed(() => content.value?.overview[0] ?? '')
   const railTitle = computed(() => content.value?.names.titleEn ?? character.value.name)
   const visibleFacts = computed<SilenceCharacterTextFact[]>(() =>
     (content.value?.facts ?? [])
-      .filter((fact) => fact.visibility !== 'private' && fact.value !== '∅')
+      .filter((fact) => fact.visibility === 'public' && fact.value !== '∅')
       .slice(0, 6)
   )
   const visibleAppearance = computed(() => (content.value?.appearance ?? []).slice(0, 3))
   const visibleOutfits = computed<SilenceCharacterOutfit[]>(() =>
     (content.value?.outfits ?? [])
-      .filter((outfit) => outfit.visibility !== 'private')
+      .filter((outfit) => outfit.visibility === 'public')
       .slice(0, 4)
   )
   const visibleForms = computed<SilenceCharacterForm[]>(() =>
-    character.value.forms.filter((form) => form.visibility !== 'private').slice(0, 3)
+    character.value.forms.filter((form) => form.visibility === 'public').slice(0, 3)
   )
   const visibleFormFacts = computed(() =>
     visibleForms.value.map((form) => ({
@@ -71,12 +71,12 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
   const combatPreview = computed(() => combatPoints.value.slice(1, 4))
   const visibleStoryCards = computed(() =>
     (content.value?.story ?? [])
-      .filter((story) => story.visibility !== 'private')
+      .filter((story) => story.visibility === 'public')
       .slice(0, 2)
       .map((story) => ({
         id: story.id,
         title: story.title,
-        preview: story.body.find(isUsableStoryPreview) ?? placeholderText.value
+        preview: story.body.find(isUsableStoryPreview) ?? ''
       }))
   )
   const primaryOutfit = computed(() => visibleOutfits.value[0])
@@ -108,7 +108,7 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
     const appearanceBlocks = visibleAppearance.value.map((block) => ({
       id: block.id,
       title: block.title,
-      body: block.points[0] ?? placeholderText.value
+      body: block.points[0] ?? ''
     }))
     const outfitBlocks = visibleOutfits.value.map((outfit) => ({
       id: outfit.id,
@@ -132,19 +132,19 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
     }))
     const baseBlocks = appearanceBlocks.length
       ? appearanceBlocks
-      : [{ id: 'placeholder', title: basicTitle.value, body: placeholderText.value }]
+      : []
     const baseOutfits = outfitBlocks.length
       ? outfitBlocks
-      : [{ id: 'placeholder', title: outfitTitle.value, body: placeholderText.value }]
+      : []
     const baseForms = formBlocks.length
       ? formBlocks
-      : [{ id: 'placeholder', title: formTitle.value, body: placeholderText.value }]
+      : []
     const baseStory = storyBlocks.length
       ? storyBlocks
-      : [{ id: 'placeholder', title: storyTitle.value, body: placeholderText.value }]
+      : []
     const baseCombat = combatBlocks.length
       ? combatBlocks
-      : [{ id: 'placeholder', title: combatTitle.value, body: placeholderText.value }]
+      : []
 
     return [
       {
@@ -222,7 +222,7 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
         copy: combatLead.value,
         leadAside: {
           title: baseStory[0]?.title ?? storyTitle.value,
-          body: baseStory[0]?.body ?? placeholderText.value
+          body: baseStory[0]?.body ?? ''
         },
         boardTitle: storyTitle.value,
         boardClass: 'silence-viioko__sample-board--dossier',
@@ -246,7 +246,7 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
     outfitTitle,
     overviewText,
     overviewTitle,
-    placeholderText,
+    emptyText,
     primaryOutfit,
     profileKicker,
     prototypeStyle,
