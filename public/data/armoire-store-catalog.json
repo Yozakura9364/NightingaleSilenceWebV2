@@ -1,6 +1,6 @@
 {
   "schemaVersion": "nsarmoire.storeCatalog.v1",
-  "generatedAt": "2026-07-07T14:48:22.801Z",
+  "generatedAt": "2026-07-09T16:45:33.499Z",
   "sources": [
     {
       "region": "cn",
@@ -552,14 +552,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/196",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/196"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/196",
+        "cn": "https://qu.sdo.com/product-detail/8c8849a0912ebdc1826b",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0199_260303142214",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1226"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "196",
       "skuId": "MOG-00196",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "暗黑蛋耳坠"
@@ -595,14 +601,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/76",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/76"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/76",
+        "cn": "https://qu.sdo.com/product-detail/ad13579227f69119b50c",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0194_260303134047",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/441"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "76",
       "skuId": "MOG-00076",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "暗黑蛋戒指"
@@ -638,14 +650,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/71",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/71"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/71",
+        "cn": "https://qu.sdo.com/product-detail/d3d7578c113001fb867f",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0189_260303113847",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/435"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "71",
       "skuId": "MOG-00071",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "暗黑蛋壳帽"
@@ -677,7 +695,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/904",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0093_260113112828",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655",
+        "cn": "https://qu.sdo.com/product-detail/1655433344595947520"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "904",
@@ -686,7 +705,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "暗影的约定之锤"
@@ -783,14 +803,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/285",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/285"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/285",
+        "cn": "https://qu.sdo.com/product-detail/b70d940fae5530e52f7f",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0130_260114112207",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1173"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "285",
       "skuId": "MOG-00285",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "白金情人耳坠"
@@ -826,14 +852,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/62",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/62"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/62",
+        "cn": "https://qu.sdo.com/product-detail/fe9cb27b95c1051d7a2a",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0115_260114101619",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/386"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "62",
       "skuId": "MOG-00062",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "白金情人坠饰"
@@ -918,14 +950,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/148",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/148"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/148",
+        "cn": "https://qu.sdo.com/product-detail/18964ff12d08f9e43737",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0122_260120114410",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1023"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "148",
       "skuId": "MOG-00148",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "白漆吉羊武士盔"
@@ -961,14 +999,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/649",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/649"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/649",
+        "cn": "https://qu.sdo.com/product-detail/f1ef921a04157de98e59",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3019"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "649",
       "skuId": "MOG-00649",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "白漆莫古力面具"
@@ -1004,14 +1046,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/496",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/496"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/496",
+        "cn": "https://qu.sdo.com/product-detail/b6140fb8293e64b8c84d",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0142_260120153741",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1722"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "496",
       "skuId": "MOG-00496",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "白漆忠犬武士盔"
@@ -1047,14 +1095,19 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/588",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/588"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/588",
+        "cn": "https://qu.sdo.com/product-detail/c78d8e0a895d9c876a9e",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3048"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "588",
       "skuId": "MOG-00588",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "白鸦（复制品）"
@@ -1142,14 +1195,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/20",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/20"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/20",
+        "cn": "https://qu.sdo.com/product-detail/35009c25fae31c17cf86",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0110_260120105246",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1018"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "20",
       "skuId": "MOG-00020",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "奔马武士盔"
@@ -1233,7 +1292,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/902",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0091_260113113326",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655",
+        "cn": "https://qu.sdo.com/product-detail/1655431855949377536"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "902",
@@ -1242,7 +1302,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "蔽日的约定之锤"
@@ -1680,6 +1741,7 @@
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/307",
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/307",
+        "cn": "https://qu.sdo.com/product-detail/548d8c2b9716b03feca8",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0051_260112151414",
         "kr": "https://www.ff14.co.kr/shop/home/detail/898"
       },
@@ -1689,6 +1751,7 @@
       "priceLabel": "275 crysta",
       "regionalPriceLabels": {
         "global": "275 crysta",
+        "cn": "4500 点券",
         "kr": "6,000 크리스탈",
         "tw": "150水晶"
       },
@@ -1705,6 +1768,7 @@
       "mappingSource": "manual",
       "needsMapping": false,
       "localizedNames": {
+        "zh-CN": "苍穹骑士圣斧系列",
         "ja": "蒼天騎士団武器：両手斧セット",
         "en": "Armoury of the Heavens' Ward: Marauder's Arms",
         "ko": "창천기사단 무기 시리즈"
@@ -1734,6 +1798,7 @@
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/309",
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/309",
+        "cn": "https://qu.sdo.com/product-detail/674bbe0580f278c39978",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0053_260112152608",
         "kr": "https://www.ff14.co.kr/shop/home/detail/898"
       },
@@ -1743,6 +1808,7 @@
       "priceLabel": "220 crysta",
       "regionalPriceLabels": {
         "global": "220 crysta",
+        "cn": "3500 点券",
         "kr": "6,000 크리스탈",
         "tw": "120水晶"
       },
@@ -1757,6 +1823,7 @@
       "mappingSource": "manual",
       "needsMapping": false,
       "localizedNames": {
+        "zh-CN": "苍穹骑士圣杖系列",
         "ja": "蒼天騎士団武器：両手幻具セット",
         "en": "Armoury of the Heavens' Ward: Conjurer's Arms",
         "ko": "창천기사단 무기 시리즈"
@@ -1784,6 +1851,7 @@
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/310",
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/310",
+        "cn": "https://qu.sdo.com/product-detail/de22218d43d152fe3031",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0054_260112153004",
         "kr": "https://www.ff14.co.kr/shop/home/detail/898"
       },
@@ -1793,6 +1861,7 @@
       "priceLabel": "165 crysta",
       "regionalPriceLabels": {
         "global": "165 crysta",
+        "cn": "2800 点券",
         "kr": "6,000 크리스탈",
         "tw": "90水晶"
       },
@@ -1805,6 +1874,7 @@
       "mappingSource": "manual",
       "needsMapping": false,
       "localizedNames": {
+        "zh-CN": "碎心",
         "ja": "蒼天騎士団武器：両手剣",
         "en": "Armoury of the Heavens' Ward: Dark Knight's Arm",
         "ko": "창천기사단 무기 시리즈"
@@ -1830,7 +1900,9 @@
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/306",
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/306",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/898"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/898",
+        "cn": "https://qu.sdo.com/product-detail/231052c9eb578d6aab7a",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0050_260112151127"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "306",
@@ -1838,7 +1910,8 @@
       "priceLabel": "275 crysta",
       "regionalPriceLabels": {
         "global": "275 crysta",
-        "kr": "6,000 크리스탈"
+        "kr": "6,000 크리스탈",
+        "cn": "4500 点券"
       },
       "itemNames": [
         "寒冬",
@@ -1853,6 +1926,7 @@
       "mappingSource": "manual",
       "needsMapping": false,
       "localizedNames": {
+        "zh-CN": "苍穹骑士圣枪系列",
         "ja": "蒼天騎士団武器：両手槍セット",
         "en": "Armoury of the Heavens' Ward: Lancer's Arms",
         "ko": "창천기사단 무기 시리즈"
@@ -1882,6 +1956,7 @@
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/311",
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/311",
+        "cn": "https://qu.sdo.com/product-detail/43ca7d7b7f69f1fc3568",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0055_260112153331",
         "kr": "https://www.ff14.co.kr/shop/home/detail/898"
       },
@@ -1891,6 +1966,7 @@
       "priceLabel": "165 crysta",
       "regionalPriceLabels": {
         "global": "165 crysta",
+        "cn": "2800 点券",
         "kr": "6,000 크리스탈",
         "tw": "90水晶"
       },
@@ -1903,6 +1979,7 @@
       "mappingSource": "manual",
       "needsMapping": false,
       "localizedNames": {
+        "zh-CN": "绝孀",
         "ja": "蒼天騎士団武器：両手呪具",
         "en": "Armoury of the Heavens' Ward: Thaumaturge's Arm",
         "ko": "창천기사단 무기 시리즈"
@@ -1928,6 +2005,7 @@
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/308",
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/308",
+        "cn": "https://qu.sdo.com/product-detail/fda20bb74710bdb5849f",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0052_260112151901",
         "kr": "https://www.ff14.co.kr/shop/home/detail/898"
       },
@@ -1937,6 +2015,7 @@
       "priceLabel": "220 crysta",
       "regionalPriceLabels": {
         "global": "220 crysta",
+        "cn": "3500 点券",
         "kr": "6,000 크리스탈",
         "tw": "150水晶"
       },
@@ -1953,6 +2032,7 @@
       "mappingSource": "manual",
       "needsMapping": false,
       "localizedNames": {
+        "zh-CN": "苍穹骑士圣剑系列",
         "ja": "蒼天騎士団武器：片手剣セット",
         "en": "Armoury of the Heavens' Ward: Gladiator's Arms",
         "ko": "창천기사단 무기 시리즈"
@@ -2722,11 +2802,11 @@
         "tw": "540水晶"
       },
       "itemNames": [
-        "东方贵人舄履",
-        "东方贵人玄端",
         "东方贵人爵弁",
+        "东方贵人玄端",
         "东方贵人腕饰",
-        "东方贵人帷裳"
+        "东方贵人帷裳",
+        "东方贵人舄履"
       ],
       "itemIds": [
         15482,
@@ -2793,6 +2873,7 @@
         "ko": "동방 낭자 의상 세트"
       },
       "regionalPriceLabels": {
+        "cn": "活动获取",
         "kr": "25,300 크리스탈"
       }
     },
@@ -3003,10 +3084,10 @@
         "global": "1980 crysta"
       },
       "itemNames": [
-        "东方旅行艺人长裤",
-        "东方旅行艺人皮鞋",
+        "东方旅行艺人面具",
         "东方旅行艺人复衫",
-        "东方旅行艺人面具"
+        "东方旅行艺人长裤",
+        "东方旅行艺人皮鞋"
       ],
       "itemIds": [
         40452,
@@ -3246,9 +3327,9 @@
         "global": "1980 crysta"
       },
       "itemNames": [
-        "东方女生皮靴",
+        "东方女生发带",
         "东方女生袴",
-        "东方女生发带"
+        "东方女生皮靴"
       ],
       "itemIds": [
         24602,
@@ -3431,6 +3512,7 @@
         "ko": "동방 도령 의상 세트"
       },
       "regionalPriceLabels": {
+        "cn": "活动获取",
         "kr": "25,300 크리스탈"
       }
     },
@@ -3804,7 +3886,8 @@
         "zh-CN": "恩城预言师套装",
         "en": "En Fortune-teller's Attire",
         "ja": "エンフォーチュンテラー・アタイア",
-        "fr": "Tenue de voyante d'En"
+        "fr": "Tenue de voyante d'En",
+        "ko": "엔 점술가 의상 세트"
       },
       "storeUrl": "urn:nsarmoire:store:discontinued",
       "sourceUrl": "urn:nsarmoire:store:discontinued",
@@ -3848,14 +3931,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/129",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/129"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/129",
+        "cn": "https://qu.sdo.com/product-detail/e91a25f11e736438b1b8",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/614"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "129",
       "skuId": "MOG-00129",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "3000 点券",
+        "kr": "7,200 크리스탈"
       },
       "itemNames": [
         "二齿木屐"
@@ -3958,14 +4045,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/124",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/124"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/124",
+        "cn": "https://qu.sdo.com/product-detail/27c85ae78611f6715b45",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/614"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "124",
       "skuId": "MOG-00124",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "3000 点券",
+        "kr": "7,200 크리스탈"
       },
       "itemNames": [
         "粉白君子束裤"
@@ -4004,14 +4095,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/127",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/127"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/127",
+        "cn": "https://qu.sdo.com/product-detail/bc56ef846b226a70d664",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/622"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "127",
       "skuId": "MOG-00127",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "3000 点券",
+        "kr": "7,200 크리스탈"
       },
       "itemNames": [
         "粉白淑女束裤"
@@ -4066,8 +4161,8 @@
         "tw": "540水晶"
       },
       "itemNames": [
-        "风雅袴",
-        "风雅长羽织"
+        "风雅长羽织",
+        "风雅袴"
       ],
       "itemIds": [
         15480,
@@ -4157,14 +4252,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/914",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/914"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/914",
+        "cn": "https://qu.sdo.com/product-detail/1760603642285727744",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0183_260123114439",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3881"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "914",
       "skuId": "MOG-00914",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "公主迷你王冠"
@@ -4620,14 +4721,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/23",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/23"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/23",
+        "cn": "https://qu.sdo.com/product-detail/1750469314360868864",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0113_260120111651",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1018"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "23",
       "skuId": "MOG-00023",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "黑漆奔马武士盔"
@@ -4663,14 +4770,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/146",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/146"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/146",
+        "cn": "https://qu.sdo.com/product-detail/8b955141f64dfcc31f6e",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0120_260120113415",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1023"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "146",
       "skuId": "MOG-00146",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "黑漆吉羊武士盔"
@@ -4706,14 +4819,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/650",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/650"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/650",
+        "cn": "https://qu.sdo.com/product-detail/fe3c55bbdb88e344f4ab",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3019"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "650",
       "skuId": "MOG-00650",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "黑漆莫古力面具"
@@ -4749,14 +4866,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/18",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/18"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/18",
+        "cn": "https://qu.sdo.com/product-detail/642b2b65ae2e4e8b3349",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0108_260120102539",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1012"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "18",
       "skuId": "MOG-00018",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2500 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "黑漆天龙武士盔"
@@ -4792,14 +4915,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/398",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/398"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/398",
+        "cn": "https://qu.sdo.com/product-detail/bd2ed916f394ae58ca64",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0139_260120145342",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1775"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "398",
       "skuId": "MOG-00398",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "黑漆雄鸡武士盔"
@@ -4835,14 +4964,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/497",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/497"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/497",
+        "cn": "https://qu.sdo.com/product-detail/9130b77d7dd89e8d92b4",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0143_260120154246",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1722"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "497",
       "skuId": "MOG-00497",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "黑漆忠犬武士盔"
@@ -4878,14 +5013,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/853",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/853"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/853",
+        "cn": "https://qu.sdo.com/product-detail/1481222170414301184",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0165_260120173553",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3196"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "853",
       "skuId": "MOG-00853",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "黑漆壮牛武士盔"
@@ -5073,7 +5214,8 @@
       "regionalStoreUrls": {
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0017_250611000122",
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/644",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/2423"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/2423",
+        "cn": "https://qu.sdo.com/product-detail/e035448b0b425f9eff8c"
       },
       "sourceUrl": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0017_250611000122",
       "productId": "F0017_250611000122",
@@ -5094,10 +5236,14 @@
       "regionalPriceLabels": {
         "tw": "180水晶",
         "global": "660 crysta",
-        "kr": "6,000 크리스탈"
+        "kr": "6,000 크리스탈",
+        "cn": "4500 点券"
       },
       "localizedNames": {
-        "ko": "카벙클 루비 실내화"
+        "ko": "카벙클 루비 실내화",
+        "zh-CN": "红宝石兽拖鞋",
+        "ja": "カーバンクル・ルビーシューズ",
+        "en": "Ruby Carbuncle Slippers"
       }
     },
     {
@@ -5164,13 +5310,17 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/652",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/652"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/652",
+        "cn": "https://qu.sdo.com/product-detail/44e396466909d56ec9f3",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3010"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "652",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "红莲节白染法被"
@@ -5250,13 +5400,17 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/654",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/654"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/654",
+        "cn": "https://qu.sdo.com/product-detail/90806f5195ebd7d44ac9",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3010"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "654",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "红莲节黑染法被"
@@ -5289,13 +5443,17 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/653",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/653"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/653",
+        "cn": "https://qu.sdo.com/product-detail/10634a4ce7ee9b656653",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3010"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "653",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "红莲节红染法被"
@@ -5383,13 +5541,17 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/655",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/655"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/655",
+        "cn": "https://qu.sdo.com/product-detail/978928e51954e0b8bd93",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3026"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "655",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "红莲节足袋"
@@ -5514,7 +5676,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/905",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0094_260113112535",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655",
+        "cn": "https://qu.sdo.com/product-detail/1655432967871950848"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "905",
@@ -5523,7 +5686,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "荒芜的约定之锤"
@@ -5716,7 +5880,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/908",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0097_260113111413",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655",
+        "cn": "https://qu.sdo.com/product-detail/1655434132982493184"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "908",
@@ -5725,7 +5890,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "黄道的约定之锤"
@@ -6071,14 +6237,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/145",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/145"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/145",
+        "cn": "https://qu.sdo.com/product-detail/26570a7f5dd86b13096e",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0119_260120113014",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1023"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "145",
       "skuId": "MOG-00145",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "吉羊武士盔"
@@ -6146,7 +6318,8 @@
       "coverItemId": 47727,
       "corrected": true,
       "tags": [
-        "crossoverCostume"
+        "crossoverCostume",
+        "bonusCostume"
       ],
       "globalProductId": "1109",
       "globalProductName": "ガフガリオン・コスチュームセット",
@@ -6301,14 +6474,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/143",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/143"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/143",
+        "cn": "https://qu.sdo.com/product-detail/efa1cce747755374e357",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0063_251120102629",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/356"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "143",
       "skuId": "MOG-00143",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "假胡子"
@@ -6327,6 +6506,9 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/f117d126a68"
+      ],
+      "tags": [
+        "starlightCelebration"
       ]
     },
     {
@@ -6406,8 +6588,8 @@
         "tw": "150水晶"
       },
       "itemNames": [
-        "降神猛士笼手",
         "降神猛士胴丸",
+        "降神猛士笼手",
         "降神猛士佩楯",
         "降神猛士护胫"
       ],
@@ -6510,14 +6692,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/22",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/22"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/22",
+        "cn": "https://qu.sdo.com/product-detail/4918aa444633301d0297",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0112_260120111340",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1018"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "22",
       "skuId": "MOG-00022",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "金箔奔马武士盔"
@@ -6553,14 +6741,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/17",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/17"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/17",
+        "cn": "https://qu.sdo.com/product-detail/9255ffa218f234b03189",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0107_260120102122",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1012"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "17",
       "skuId": "MOG-00017",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "金箔天龙武士盔"
@@ -6596,14 +6790,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/125",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/125"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/125",
+        "cn": "https://qu.sdo.com/product-detail/8d73e0cab0dacc85c35d",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/614"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "125",
       "skuId": "MOG-00125",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "3000 点券",
+        "kr": "7,200 크리스탈"
       },
       "itemNames": [
         "金黄君子束裤"
@@ -6642,14 +6840,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/128",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/128"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/128",
+        "cn": "https://qu.sdo.com/product-detail/f56dfbd844748a73dae3",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/622"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "128",
       "skuId": "MOG-00128",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "3000 点券",
+        "kr": "7,200 크리스탈"
       },
       "itemNames": [
         "金黄淑女束裤"
@@ -6688,14 +6890,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/896",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/896"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/896",
+        "cn": "https://qu.sdo.com/product-detail/1612340685115666432",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0167_260120182920",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3583"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "896",
       "skuId": "MOG-00896",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "金漆猛虎武士盔"
@@ -6839,14 +7047,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/621",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/621"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/621",
+        "cn": "https://qu.sdo.com/product-detail/d7f297e9ce033eaf90d3",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0149_260120161842",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/2331"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "621",
       "skuId": "MOG-00621",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "金猪武士盔"
@@ -7005,6 +7219,7 @@
       "priceLabel": "550 crysta",
       "regionalPriceLabels": {
         "global": "550 crysta",
+        "cn": "3800点券",
         "tw": "150水晶",
         "kr": "6,000 크리스탈"
       },
@@ -7040,7 +7255,8 @@
       ],
       "detailTags": [
         "maleOnly"
-      ]
+      ],
+      "corrected": true
     },
     {
       "id": "cn-513",
@@ -7196,7 +7412,8 @@
       "coverItemId": 47725,
       "corrected": true,
       "tags": [
-        "crossoverCostume"
+        "crossoverCostume",
+        "bonusCostume"
       ],
       "globalProductId": "1107",
       "globalProductName": "ラムザ・コスチュームセット",
@@ -7414,7 +7631,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/907",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0096_260113111758",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655",
+        "cn": "https://qu.sdo.com/product-detail/1655433786042249216"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "907",
@@ -7423,7 +7641,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "灵极的约定之锤"
@@ -7650,14 +7869,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/77",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/77"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/77",
+        "cn": "https://qu.sdo.com/product-detail/6f74b76fe2d321d2e9cd",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0195_260303134256",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/441"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "77",
       "skuId": "MOG-00077",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "陆行鸟蛋戒指"
@@ -7693,14 +7918,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/72",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/72"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/72",
+        "cn": "https://qu.sdo.com/product-detail/d4b4a7b7133abbf04bc9",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0190_260303114051",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/435"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "72",
       "skuId": "MOG-00072",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "陆行鸟蛋壳帽"
@@ -7919,7 +8150,8 @@
       "coverItemId": 44688,
       "corrected": true,
       "tags": [
-        "crossoverCostume"
+        "crossoverCostume",
+        "bonusCostume"
       ],
       "globalProductId": "1059",
       "globalProductName": "マシュリー・コスチュームセット",
@@ -7946,14 +8178,19 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/587",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/587"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/587",
+        "cn": "https://qu.sdo.com/product-detail/757bb1acf3b079e7183f",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3046"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "587",
       "skuId": "MOG-00587",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "曼德维尔耳环（复制品）"
@@ -7966,7 +8203,7 @@
       "coverItemId": 27984,
       "corrected": true,
       "tags": [
-        "replicaCostume"
+        "theRising"
       ],
       "globalProductId": "587",
       "globalProductName": "レプリカ・マンダヴィルイヤリング",
@@ -8182,14 +8419,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1056",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1056"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1056",
+        "cn": "https://qu.sdo.com/product-detail/2008066946300559360",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/4220"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "1056",
       "skuId": "MOG-01056",
       "priceLabel": "1100 crysta",
       "regionalPriceLabels": {
-        "global": "1100 crysta"
+        "global": "1100 crysta",
+        "cn": "7000 点券",
+        "kr": "9900 크리스탈"
       },
       "itemNames": [
         "梅茵菲娜耳坠"
@@ -8202,7 +8443,7 @@
       "coverItemId": 33648,
       "corrected": true,
       "tags": [
-        "bonusCostume"
+        "collectorEditionBonus"
       ],
       "globalProductId": "1056",
       "globalProductName": "オプションアイテムお得パック（サービスアカウント）",
@@ -8449,7 +8690,8 @@
       "coverItemId": 44684,
       "corrected": true,
       "tags": [
-        "crossoverCostume"
+        "crossoverCostume",
+        "bonusCostume"
       ],
       "globalProductId": "1058",
       "globalProductName": "モント・コスチュームセット",
@@ -8478,14 +8720,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/195",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/195"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/195",
+        "cn": "https://qu.sdo.com/product-detail/dcff3c9d4060e0e36354",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0198_260303135539",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1226"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "195",
       "skuId": "MOG-00195",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "迷彩蛋耳坠"
@@ -8521,14 +8769,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/74",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/74"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/74",
+        "cn": "https://qu.sdo.com/product-detail/ba32af2703bbe1e684f3",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0192_260303133418",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/441"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "74",
       "skuId": "MOG-00074",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "迷彩蛋戒指"
@@ -8564,14 +8818,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/69",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/69"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/69",
+        "cn": "https://qu.sdo.com/product-detail/a51d4de1a3b20f3bd056",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0187_260303111231",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/435"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "69",
       "skuId": "MOG-00069",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "迷彩蛋壳帽"
@@ -8607,14 +8867,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/81",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/81"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/81",
+        "cn": "https://qu.sdo.com/product-detail/ae66571ee6bef86019db",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0007_250606134136",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/132"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "81",
       "skuId": "MOG-00081",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "明月耳环"
@@ -8969,7 +9235,8 @@
       "localizedNames": {
         "zh-CN": "莫古莫古套装",
         "ja": "モグモグアタイア",
-        "en": "Moogle Attire"
+        "en": "Moogle Attire",
+        "ko": "모그모그 의복"
       },
       "storeUrl": "https://qu.sdo.com/product-detail/76573ffc33704e2024c2",
       "regionalStoreUrls": {
@@ -8985,7 +9252,8 @@
       "regionalPriceLabels": {
         "cn": "9800点券",
         "global": "1320 crysta",
-        "tw": "360水晶"
+        "tw": "360水晶",
+        "kr": "活动获取"
       },
       "itemNames": [
         "莫古莫古头套",
@@ -9037,14 +9305,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/123",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/123"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/123",
+        "cn": "https://qu.sdo.com/product-detail/e91a25f11e736438b1b8",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/614"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "123",
       "skuId": "MOG-00123",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "3000 点券",
+        "kr": "7,200 크리스탈"
       },
       "itemNames": [
         "墨黑君子束裤"
@@ -9135,14 +9407,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/126",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/126"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/126",
+        "cn": "https://qu.sdo.com/product-detail/cf8d50d55fcebdd93b96",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/622"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "126",
       "skuId": "MOG-00126",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "3000 点券",
+        "kr": "7,200 크리스탈"
       },
       "itemNames": [
         "墨黑淑女束裤"
@@ -9423,14 +9699,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/133",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/133"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/133",
+        "cn": "https://qu.sdo.com/product-detail/5b04beca8aa0991ecd55",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0009_250611000032",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/137"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "133",
       "skuId": "MOG-00133",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "南瓜耳坠"
@@ -9563,14 +9845,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/219",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/219"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/219",
+        "cn": "https://qu.sdo.com/product-detail/d901604ab342e2d1c35f",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1331"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "219",
       "skuId": "MOG-00219",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "南海男式坎肩",
@@ -9611,14 +9897,18 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/220",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/220"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/220",
+        "cn": "https://qu.sdo.com/product-detail/850ad866095f6fe3fbb9",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1332"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "220",
       "skuId": "MOG-00220",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "南海男式条纹坎肩",
@@ -9870,11 +10160,11 @@
         "global": "1980 crysta"
       },
       "itemNames": [
+        "女仆发带",
         "女仆围裙装",
-        "女仆蓬松裤",
-        "女仆礼鞋",
         "女仆腕带",
-        "女仆发带"
+        "女仆蓬松裤",
+        "女仆礼鞋"
       ],
       "itemIds": [
         14972,
@@ -10336,7 +10626,8 @@
       "coverItemId": 50721,
       "corrected": true,
       "tags": [
-        "crossoverCostume"
+        "crossoverCostume",
+        "bonusCostume"
       ],
       "globalProductId": "1131",
       "globalProductName": "ハンブル・コスチュームセット",
@@ -10427,7 +10718,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/370",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0030_250611000067",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952",
+        "cn": "https://qu.sdo.com/product-detail/fb67ed5d1a2f225d6d14"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "370",
@@ -10436,7 +10728,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "漆黑的精魂巨镰"
@@ -10474,7 +10767,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/369",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0029_250611000066",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952",
+        "cn": "https://qu.sdo.com/product-detail/bde7f87c64bcd2218445"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "369",
@@ -10483,7 +10777,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "漆黑的命运巨镰"
@@ -10521,7 +10816,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/368",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0028_250611000065",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952",
+        "cn": "https://qu.sdo.com/product-detail/bbc3e50c4d45b8e65cd1"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "368",
@@ -10530,7 +10826,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "漆黑的死亡巨镰"
@@ -10568,7 +10865,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/372",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0032_250611000069",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952",
+        "cn": "https://qu.sdo.com/product-detail/e3318806879cbab89d8a"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "372",
@@ -10577,7 +10875,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "漆黑的鲜血巨镰"
@@ -10615,7 +10914,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/371",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0031_250611000068",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952",
+        "cn": "https://qu.sdo.com/product-detail/8397084604baa1989d5b"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "371",
@@ -10624,7 +10924,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "漆黑的心灵巨镰"
@@ -10661,7 +10962,8 @@
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/827",
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/827",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/952"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/952",
+        "cn": "https://qu.sdo.com/product-detail/1499217054693781504"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "827",
@@ -10669,7 +10971,8 @@
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
         "global": "330 crysta",
-        "kr": "6,000 크리스탈"
+        "kr": "6,000 크리스탈",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "漆黑的虚无巨镰"
@@ -10707,7 +11010,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/903",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0092_260113113032",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655",
+        "cn": "https://qu.sdo.com/product-detail/1655432579399708672"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "903",
@@ -10716,7 +11020,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "漆黑的约定之锤"
@@ -10909,14 +11214,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/690",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/690"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/690",
+        "cn": "https://qu.sdo.com/product-detail/638f61eabe419ed4725a",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/2948",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0155_260120165638"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "690",
       "skuId": "MOG-00690",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "青漆福鼠武士盔"
@@ -10952,14 +11263,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/286",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/286"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/286",
+        "cn": "https://qu.sdo.com/product-detail/b20353a373ccb5a330d0",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0131_260114112433",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1173"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "286",
       "skuId": "MOG-00286",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "情人耳坠"
@@ -10995,14 +11312,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/61",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/61"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/61",
+        "cn": "https://qu.sdo.com/product-detail/915e0ccb39bc74ab1f3a",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0114_260114101143",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/386"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "61",
       "skuId": "MOG-00061",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "情人坠饰"
@@ -11029,7 +11352,7 @@
     {
       "id": "global-187",
       "region": "global",
-      "name": "ブレードランス",
+      "name": "刃状长矛",
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/187",
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/187",
@@ -11042,6 +11365,7 @@
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
         "global": "330 crysta",
+        "cn": "2500点券",
         "kr": "6,000 크리스탈"
       },
       "itemNames": [
@@ -11055,7 +11379,7 @@
       "localizedNames": {
         "ja": "ブレードランス",
         "en": "Bladed Lance",
-        "ko": "라이트닝 무기 시리즈",
+        "ko": "블레이드 랜스",
         "zh-CN": "刃状长矛"
       },
       "globalProductId": "187",
@@ -11069,7 +11393,8 @@
       "coverItemId": 6036,
       "tags": [
         "crossoverCostume"
-      ]
+      ],
+      "corrected": true
     },
     {
       "id": "global-672",
@@ -11083,14 +11408,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/672",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/672"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/672",
+        "cn": "https://qu.sdo.com/product-detail/54f859b7ef62ac2aaf95",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0036_250611000126",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/2987"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "672",
       "skuId": "MOG-00672",
       "priceLabel": "1980 crysta",
       "regionalPriceLabels": {
-        "global": "1980 crysta"
+        "global": "1980 crysta",
+        "cn": "12800 点券",
+        "tw": "540 水晶",
+        "kr": "25,300 크리스탈"
       },
       "itemNames": [
         "萨雷安神童装"
@@ -11126,14 +11457,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/194",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/194"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/194",
+        "cn": "https://qu.sdo.com/product-detail/537cfc2061a4d1cb8ddc",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0197_260303134951",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1226"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "194",
       "skuId": "MOG-00194",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "三色蛋耳坠"
@@ -11169,14 +11506,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/75",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/75"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/75",
+        "cn": "https://qu.sdo.com/product-detail/790c6236edcc12f5dd0c",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0193_260303133807",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/441"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "75",
       "skuId": "MOG-00075",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "三色蛋戒指"
@@ -11212,14 +11555,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/70",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/70"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/70",
+        "cn": "https://qu.sdo.com/product-detail/5548bfcff421cd460c84",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0188_260303113038",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/435"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "70",
       "skuId": "MOG-00070",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "三色蛋壳帽"
@@ -11400,12 +11749,12 @@
         "tw": "540水晶"
       },
       "itemNames": [
-        "上仙斗衣",
-        "上仙长裤",
-        "上仙缠足",
+        "如意金箍棒",
         "上仙紧箍",
+        "上仙斗衣",
         "上仙数珠",
-        "如意金箍棒"
+        "上仙长裤",
+        "上仙缠足"
       ],
       "itemIds": [
         14983,
@@ -11507,14 +11856,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/255",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/255"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/255",
+        "cn": "https://qu.sdo.com/product-detail/02aa0df20fd3c03f5931",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0065_251120105259",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/989"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "255",
       "skuId": "MOG-00255",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "6,000 크리스탈"
       },
       "itemNames": [
         "圣人胡须"
@@ -11546,7 +11901,7 @@
         "zh-CN": "圣人帽",
         "ja": "スターライト・セイントキャップ",
         "en": "Saint's Cap",
-        "ko": "별빛축제 수염 시리즈"
+        "ko": "별빛 성자 모자"
       },
       "storeUrl": "https://qu.sdo.com/product-detail/aad919eeca62c4a50318",
       "regionalStoreUrls": {
@@ -11716,6 +12071,7 @@
       "priceLabel": "550 crysta",
       "regionalPriceLabels": {
         "global": "550 crysta",
+        "cn": "3800点券",
         "tw": "150水晶",
         "kr": "6,000 크리스탈"
       },
@@ -11751,7 +12107,8 @@
       ],
       "detailTags": [
         "femaleOnly"
-      ]
+      ],
+      "corrected": true
     },
     {
       "id": "cn-1945401878719438848",
@@ -11982,14 +12339,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/78",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/78"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/78",
+        "cn": "https://qu.sdo.com/product-detail/b48d4ecd6941609074d9",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0172_260121135436",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/62"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "78",
       "skuId": "MOG-00078",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "桃香"
@@ -12025,14 +12388,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/192",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/192"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/192",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0173_260121142455",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/471",
+        "cn": "https://qu.sdo.com/product-detail/116411b68451c30326ee"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "192",
       "skuId": "MOG-00192",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "桃香项环"
@@ -12118,14 +12487,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/15",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/15"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/15",
+        "cn": "https://qu.sdo.com/product-detail/c857458b58e4dcf230f8",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0105_260120100056",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1012"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "15",
       "skuId": "MOG-00015",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "天龙武士盔"
@@ -12334,14 +12709,19 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/13",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/13"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/13",
+        "cn": "https://qu.sdo.com/product-detail/be6652d588cb2ed78260",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1008"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "13",
       "skuId": "MOG-00013",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "铁质黑漆玉兔武士盔"
@@ -12377,14 +12757,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/14",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/14"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/14",
+        "cn": "https://qu.sdo.com/product-detail/3688b0bd8e1c14403ef3",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0104_260119175832",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1008"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "14",
       "skuId": "MOG-00014",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "铁质银箔玉兔武士盔"
@@ -12420,14 +12806,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/12",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/12"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/12",
+        "cn": "https://qu.sdo.com/product-detail/62b4c13f2f5ebf19a9e8",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0102_260119173646",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1008"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "12",
       "skuId": "MOG-00012",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "铁质玉兔武士盔"
@@ -12463,14 +12855,19 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/651",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/651"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/651",
+        "cn": "https://qu.sdo.com/product-detail/296567f1a2f5c8b88d5a",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3024"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "651",
       "skuId": "MOG-00651",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "涂漆鲶鱼精面具"
@@ -12714,7 +13111,8 @@
         "zh-CN": "威布拉公主套装",
         "en": "Vibran Princess's Attire",
         "ja": "ビブラプリンセス・アタイア",
-        "fr": "Tenue de princesse de Vibra"
+        "fr": "Tenue de princesse de Vibra",
+        "ko": "비브라 왕녀 의상 세트"
       },
       "storeUrl": "urn:nsarmoire:store:discontinued",
       "sourceUrl": "urn:nsarmoire:store:discontinued",
@@ -12813,7 +13211,8 @@
       "localizedNames": {
         "zh-CN": "维度漫游者套装",
         "en": "Realm-roamer's Attire",
-        "ja": "レルムローマー・アタイア"
+        "ja": "レルムローマー・アタイア",
+        "ko": "차원 방랑자 의상 세트"
       },
       "storeUrl": "urn:nsarmoire:store:discontinued",
       "sourceUrl": "urn:nsarmoire:store:discontinued",
@@ -13025,14 +13424,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/272",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/272"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/272",
+        "cn": "https://qu.sdo.com/product-detail/78481a0cff64183b90d9",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0127_260120133936",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1028"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "272",
       "skuId": "MOG-00272",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "勿视武士盔"
@@ -13068,14 +13473,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/274",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/274"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/274",
+        "cn": "https://qu.sdo.com/product-detail/b8d0c33a2c188513703d",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0129_260120135521",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1028"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "274",
       "skuId": "MOG-00274",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "勿听武士盔"
@@ -13241,14 +13652,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/273",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/273"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/273",
+        "cn": "https://qu.sdo.com/product-detail/264761ad99181feb9184",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0128_260120134604",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1028"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "273",
       "skuId": "MOG-00273",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "勿言武士盔"
@@ -13284,14 +13701,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/376",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/376"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/376",
+        "cn": "https://qu.sdo.com/product-detail/52a5f4d9df029953f2c0",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0012_250611000073",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1646"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "376",
       "skuId": "MOG-00376",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "吸血鬼坎肩"
@@ -13341,8 +13764,8 @@
         "global": "880 crysta"
       },
       "itemNames": [
-        "首席机械师套装",
-        "首席机械师护目镜"
+        "首席机械师护目镜",
+        "首席机械师套装"
       ],
       "itemIds": [
         14861,
@@ -14070,52 +14493,6 @@
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/1c8bca349b5",
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/000ecd9aa1f"
-      ]
-    },
-    {
-      "id": "global-269",
-      "region": "global",
-      "name": "星芒祭つけ髭セット",
-      "localizedNames": {
-        "zh-CN": "星芒祭胡子套装",
-        "ja": "星芒祭つけ髭セット",
-        "en": "Saint's Cap and Beard Set"
-      },
-      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/269",
-      "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/269"
-      },
-      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
-      "productId": "269",
-      "skuId": "MOG-00269",
-      "priceLabel": "550 crysta",
-      "regionalPriceLabels": {
-        "global": "550 crysta"
-      },
-      "itemNames": [
-        "圣人胡须",
-        "圣人帽"
-      ],
-      "itemIds": [
-        13293,
-        13294
-      ],
-      "mappingSource": "manual",
-      "needsMapping": false,
-      "coverItemId": 13293,
-      "corrected": true,
-      "tags": [
-        "starlightCelebration"
-      ],
-      "globalProductId": "269",
-      "globalProductName": "星芒祭つけ髭セット",
-      "globalItemNames": [
-        "スターライト・セイントビアド",
-        "スターライト・セイントキャップ"
-      ],
-      "globalItemUris": [
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/0f2249c40c1",
-        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/9b16e4ef5f8"
       ]
     },
     {
@@ -15099,8 +15476,8 @@
         "tw": "150水晶"
       },
       "itemNames": [
-        "驯鹿装",
-        "驯鹿角"
+        "驯鹿角",
+        "驯鹿装"
       ],
       "itemIds": [
         2643,
@@ -15300,14 +15677,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/19",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/19"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/19",
+        "cn": "https://qu.sdo.com/product-detail/28525d6cb75908d3895a",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0109_260120103956",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1017"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "19",
       "skuId": "MOG-00019",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "银箔灵蛇武士盔"
@@ -15343,14 +15726,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/897",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/897"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/897",
+        "cn": "https://qu.sdo.com/product-detail/1612342697081352192",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0168_260120183116",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3583"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "897",
       "skuId": "MOG-00897",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "银漆猛虎武士盔"
@@ -15494,14 +15883,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/63",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/63"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/63",
+        "cn": "https://qu.sdo.com/product-detail/c7c2112a00a708337a9a",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0116_260114102114",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/386"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "63",
       "skuId": "MOG-00063",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "永恋之羁绊"
@@ -15594,7 +15989,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/906",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0095_260113112255",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/3655"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3655",
+        "cn": "https://qu.sdo.com/product-detail/1655434557370560512"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "906",
@@ -15603,7 +15999,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "幽暗的约定之锤"
@@ -15807,7 +16204,8 @@
       "coverItemId": 50722,
       "corrected": true,
       "tags": [
-        "crossoverCostume"
+        "crossoverCostume",
+        "bonusCostume"
       ],
       "globalProductId": "1134",
       "globalProductName": "バトルフィールドローズ・コスチュームセット",
@@ -15901,14 +16299,19 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/185",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/185"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/185",
+        "cn": "https://qu.sdo.com/product-detail/b16f0eb55cef8807e6b3",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/264"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "185",
       "skuId": "MOG-00185",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "6,000 크리스탈"
       },
       "itemNames": [
         "织女星指虎"
@@ -15927,6 +16330,9 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/be9934fc797"
+      ],
+      "tags": [
+        "crossoverCostume"
       ]
     },
     {
@@ -16003,14 +16409,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/193",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/193"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/193",
+        "cn": "https://qu.sdo.com/product-detail/ca01e29542dae2c838e1",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0196_260303134643",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1226"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "193",
       "skuId": "MOG-00193",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "质朴蛋耳坠"
@@ -16046,14 +16458,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/73",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/73"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/73",
+        "cn": "https://qu.sdo.com/product-detail/c1359f5071b8548294d6",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0191_260303133126",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/441"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "73",
       "skuId": "MOG-00073",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "质朴蛋戒指"
@@ -16089,14 +16507,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/68",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/68"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/68",
+        "cn": "https://qu.sdo.com/product-detail/b0ba676e512871ed29b6",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0186_260303110855",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/435"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "68",
       "skuId": "MOG-00068",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "质朴蛋壳帽"
@@ -16232,14 +16656,19 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/130",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/130"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/130",
+        "cn": "https://qu.sdo.com/product-detail/cf8d50d55fcebdd93b96",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/622"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "130",
       "skuId": "MOG-00130",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "3000 点券",
+        "tw": "90 水晶",
+        "kr": "7,200 크리스탈"
       },
       "itemNames": [
         "舟形木屐"
@@ -16278,14 +16707,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/21",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/21"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/21",
+        "cn": "https://qu.sdo.com/product-detail/21b9f5290d66d9da8e4e",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0111_260120110801",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1018"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "21",
       "skuId": "MOG-00021",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "朱漆奔马武士盔"
@@ -16321,14 +16756,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/689",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/689"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/689",
+        "cn": "https://qu.sdo.com/product-detail/4ef116548888d4aaa8bd",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/2948",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0154_260120165015"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "689",
       "skuId": "MOG-00689",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "朱漆福鼠武士盔"
@@ -16364,14 +16805,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/147",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/147"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/147",
+        "cn": "https://qu.sdo.com/product-detail/63936853ff5e928150d1",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0121_260120113656",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1023"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "147",
       "skuId": "MOG-00147",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "朱漆吉羊武士盔"
@@ -16407,14 +16854,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/622",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/622"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/622",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0150_260120162335",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/2331",
+        "cn": "https://qu.sdo.com/product-detail/023bb5ad0ce5cbed811f"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "622",
       "skuId": "MOG-00622",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "朱漆金猪武士盔"
@@ -16450,14 +16903,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/16",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/16"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/16",
+        "cn": "https://qu.sdo.com/product-detail/f2d387e5e3e346e05564",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0106_260120101515",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1012"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "16",
       "skuId": "MOG-00016",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "朱漆天龙武士盔"
@@ -16493,14 +16952,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/397",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/397"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/397",
+        "cn": "https://qu.sdo.com/product-detail/5b8258987628f7443180",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0138_260120145023",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/1775"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "397",
       "skuId": "MOG-00397",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "朱漆雄鸡武士盔"
@@ -16536,14 +17001,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/852",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/852"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/852",
+        "cn": "https://qu.sdo.com/product-detail/1481221545853075456",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0164_260120173249",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3196"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "852",
       "skuId": "MOG-00852",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "朱漆壮牛武士盔"
@@ -16579,14 +17050,19 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/188",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/188"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/188",
+        "cn": "https://qu.sdo.com/product-detail/6020a0a33c460edb0534",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/264"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "188",
       "skuId": "MOG-00188",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "6,000 크리스탈"
       },
       "itemNames": [
         "逐星者"
@@ -16605,6 +17081,9 @@
       ],
       "globalItemUris": [
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/4aa0079414c"
+      ],
+      "tags": [
+        "crossoverCostume"
       ]
     },
     {
@@ -16619,14 +17098,20 @@
       },
       "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/761",
       "regionalStoreUrls": {
-        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/761"
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/761",
+        "cn": "https://qu.sdo.com/product-detail/1491363312476835840",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0182_260123094421",
+        "kr": "https://www.ff14.co.kr/shop/home/detail/3248"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "761",
       "skuId": "MOG-00761",
       "priceLabel": "330 crysta",
       "regionalPriceLabels": {
-        "global": "330 crysta"
+        "global": "330 crysta",
+        "cn": "2000 点券",
+        "tw": "90 水晶",
+        "kr": "3,600 크리스탈"
       },
       "itemNames": [
         "总管单眼镜"
@@ -16781,7 +17266,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1075",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0276_260416145325",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/4218"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/4218",
+        "cn": "https://qu.sdo.com/product-detail/1909860335640293376"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "1075",
@@ -16790,7 +17276,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "零风死镰"
@@ -16803,7 +17290,8 @@
       "localizedNames": {
         "ja": "ゼロオーダー・デスサイズ",
         "en": "Zero's Order Death Scythe",
-        "ko": "제로 죽음의 낫"
+        "ko": "제로 죽음의 낫",
+        "zh-CN": "零风死镰"
       },
       "globalProductId": "1075",
       "globalProductName": "ゼロオーダー・デスサイズ",
@@ -16827,7 +17315,8 @@
       "regionalStoreUrls": {
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/631",
         "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0087_260113141036",
-        "kr": "https://www.ff14.co.kr/shop/home/detail/2899"
+        "kr": "https://www.ff14.co.kr/shop/home/detail/2899",
+        "cn": "https://qu.sdo.com/product-detail/69be7e4c5ed32e4acd1a"
       },
       "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
       "productId": "631",
@@ -16836,7 +17325,8 @@
       "regionalPriceLabels": {
         "global": "330 crysta",
         "kr": "6,000 크리스탈",
-        "tw": "90水晶"
+        "tw": "90水晶",
+        "cn": "2500 点券"
       },
       "itemNames": [
         "逐夜者"
@@ -16849,7 +17339,8 @@
       "localizedNames": {
         "ja": "ナイトシーカー",
         "en": "Nightseeker",
-        "ko": "밤의 탐구자"
+        "ko": "밤의 탐구자",
+        "zh-CN": "逐夜者"
       },
       "globalProductId": "631",
       "globalProductName": "ナイトシーカー",
@@ -16860,6 +17351,138 @@
         "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/b46ce9926e3"
       ],
       "coverItemId": 30066,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
+      "id": "unlisted-52433",
+      "region": "global",
+      "name": "涂鸦新式文化衫组合（未上架）",
+      "localizedNames": {
+        "zh-CN": "涂鸦新式文化衫组合（未上架）",
+        "ja": "グラフィティ・ネオチュニック3点セット（未発売）",
+        "en": "Graffiti Neotunic Set (Unlisted)",
+        "ko": "그래피티 네오 튜닉 세트 (미출시)"
+      },
+      "storeUrl": "unlisted",
+      "sourceUrl": "unlisted",
+      "productId": "unlisted-52433",
+      "itemNames": [
+        "涂鸦新式文化衫",
+        "大码涂鸦新式文化衫",
+        "紧身涂鸦新式文化衫"
+      ],
+      "itemIds": [
+        52433,
+        52434,
+        52435
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 52433,
+      "corrected": true,
+      "tags": [
+        "bonusCostume"
+      ]
+    },
+    {
+      "id": "unlisted-52598",
+      "region": "global",
+      "name": "另类套装（未上架）",
+      "localizedNames": {
+        "zh-CN": "另类套装（未上架）",
+        "ja": "アルタナティヴ・ラッフルドレス・アタイア（未発売）",
+        "en": "Alternative Dress Attire (Unlisted)",
+        "ko": "얼터너티브 러플 드레스 의상 (미출시)"
+      },
+      "storeUrl": "unlisted",
+      "sourceUrl": "unlisted",
+      "productId": "unlisted-52598",
+      "itemNames": [
+        "另类皮革缎带",
+        "另类褶边连衣裙",
+        "另类甲片",
+        "另类蓬松裤",
+        "另类皮靴"
+      ],
+      "itemIds": [
+        52413,
+        52414,
+        52415,
+        52416,
+        52417
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 52598,
+      "corrected": true,
+      "tags": [
+        "bonusCostume"
+      ]
+    },
+    {
+      "id": "unlisted-52597",
+      "region": "global",
+      "name": "夜樱套装（未上架）",
+      "localizedNames": {
+        "zh-CN": "夜樱套装（未上架）",
+        "ja": "夜桜装束（未発売）",
+        "en": "Yozakura's Attire (Unlisted)",
+        "ko": "밤벚꽃 의상 (미출시)"
+      },
+      "storeUrl": "unlisted",
+      "sourceUrl": "unlisted",
+      "productId": "unlisted-52597",
+      "itemNames": [
+        "夜樱上衣",
+        "夜樱手套",
+        "夜樱软裤",
+        "夜樱草履"
+      ],
+      "itemIds": [
+        52409,
+        52410,
+        52411,
+        52412
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 52597,
+      "corrected": true,
+      "tags": [
+        "npcCostume"
+      ]
+    },
+    {
+      "id": "unlisted-52660",
+      "region": "global",
+      "name": "零点套装（未上架）",
+      "localizedNames": {
+        "zh-CN": "零点套装（未上架）",
+        "ja": "ゼロルミナリー・アタイア（未発売）",
+        "en": "Zero's Luminary Attire (Unlisted)",
+        "ko": "제로 광명 의상 (미출시)"
+      },
+      "storeUrl": "unlisted",
+      "sourceUrl": "unlisted",
+      "productId": "unlisted-52660",
+      "itemNames": [
+        "零点铠甲",
+        "零点手铠",
+        "零点打底裤",
+        "零点锁甲靴"
+      ],
+      "itemIds": [
+        52656,
+        52657,
+        52658,
+        52659
+      ],
+      "mappingSource": "manual",
+      "needsMapping": false,
+      "coverItemId": 52660,
       "corrected": true,
       "tags": [
         "npcCostume"
@@ -16897,8 +17520,10 @@
       "mappingSource": "global-store",
       "needsMapping": false,
       "localizedNames": {
+        "zh-CN": "夜魔套装",
         "ja": "ナイトデビル・コスチュームセット",
-        "en": "Night of Devilry Attire"
+        "en": "Night of Devilry Attire",
+        "ko": "밤의 악마 의상 세트"
       },
       "globalProductId": "1111",
       "globalProductName": "ナイトデビル・コスチュームセット",
@@ -16919,7 +17544,8 @@
       "coverItemId": 43471,
       "tags": [
         "allSaintsWake"
-      ]
+      ],
+      "corrected": true
     }
   ]
 }

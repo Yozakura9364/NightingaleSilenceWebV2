@@ -111,7 +111,7 @@
               <img
                 v-if="getCoverIconUrl(outfit)"
                 :src="getCoverIconUrl(outfit)"
-                :alt="outfit.name"
+                :alt="getStoreReviewOutfitName(outfit)"
                 loading="lazy"
                 @error="hideBrokenImage"
               />
@@ -122,7 +122,7 @@
               <span class="nsarmoire-store-review__column-label">
                 {{ t(textKeys.nsarmoireStoreReviewOutfitColumn) }}
               </span>
-              <h2>{{ outfit.name }}</h2>
+              <h2>{{ getStoreReviewOutfitName(outfit) }}</h2>
               <div class="nsarmoire-store-review__meta">
                 <span v-if="outfit.priceLabel">{{ outfit.priceLabel }}</span>
                 <span v-if="outfit.productId">{{ outfit.productId }}</span>
@@ -524,7 +524,7 @@ const CANDIDATE_LIMIT = 12
 const STORE_TAG_SET = new Set<ArmoireStoreTag>(ARMOIRE_STORE_TAGS)
 const STORE_DETAIL_TAG_SET = new Set<ArmoireStoreDetailTag>(ARMOIRE_STORE_DETAIL_TAGS)
 const tool = getRequiredFfxivTool('armoire')
-const { t } = useLocale()
+const { t, current } = useLocale()
 const { catalog, status: catalogStatus, loadCatalog } = useArmoireCatalog()
 const {
   storeCatalog,
@@ -879,7 +879,7 @@ function areSameStringArrays(left: readonly string[], right: readonly string[]):
 }
 
 function getBaseLink(outfit: ArmoireStoreOutfit, region: ArmoireStoreLinkRegion): string {
-  return outfit.regionalStoreUrls?.[region] ?? (region === 'cn' ? outfit.storeUrl : '')
+  return outfit.regionalStoreUrls?.[region] ?? (region === outfit.region ? outfit.storeUrl : '')
 }
 
 function getLinkValue(outfit: ArmoireStoreOutfit, region: ArmoireStoreLinkRegion): string {
@@ -1095,7 +1095,9 @@ function matchesTagFilter(outfit: ArmoireStoreOutfit): boolean {
 
 function buildSearchText(outfit: ArmoireStoreOutfit): string {
   return [
+    getStoreReviewOutfitName(outfit),
     outfit.name,
+    ...Object.values(outfit.localizedNames ?? {}),
     outfit.productId ?? '',
     outfit.skuId ?? '',
     outfit.priceLabel ?? '',
@@ -1257,6 +1259,15 @@ function getCoverIconUrl(outfit: ArmoireStoreOutfit): string {
   return coverItemId ? getArmoireItemIconUrl(catalog.value, coverItemId) : ''
 }
 
+function getStoreReviewOutfitName(outfit: ArmoireStoreOutfit): string {
+  return (
+    outfit.localizedNames?.[current.value] ??
+    outfit.localizedNames?.['zh-CN'] ??
+    outfit.localizedNames?.en ??
+    outfit.name
+  )
+}
+
 function getPieceViews(outfit: ArmoireStoreOutfit): StoreReviewPieceView[] {
   const mergedItemIds = getMergedItemIds(outfit)
   const draftItemIds = new Set(getDraftItemIds(outfit))
@@ -1321,6 +1332,7 @@ function getCandidatePieceItemIds(pieceItemIds: number[] | undefined): number[] 
 
 function buildCandidateSearchKeys(outfit: ArmoireStoreOutfit): string[] {
   return [
+    getStoreReviewOutfitName(outfit),
     outfit.name,
     outfit.globalProductName,
     ...outfit.itemNames,
@@ -1463,7 +1475,7 @@ function buildPatch(): StoreReviewPatch {
       if (draft.excluded) {
         return {
           id,
-          name: outfit.name,
+          name: getStoreReviewOutfitName(outfit),
           productId: outfit.productId,
           skuId: outfit.skuId,
           excluded: true
@@ -1483,7 +1495,7 @@ function buildPatch(): StoreReviewPatch {
 
       return {
         id,
-        name: outfit.name,
+        name: getStoreReviewOutfitName(outfit),
         productId: outfit.productId,
         skuId: outfit.skuId,
         ...(draft.regionalStoreUrls ? { regionalStoreUrls: draft.regionalStoreUrls } : {}),
