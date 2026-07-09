@@ -130,7 +130,7 @@ const salvanceProfile: SilenceCharacterProfileContent = {
       id: 'sorence-default',
       formIds: ['sorence'],
       label: '索伦斯',
-      description: '占位用，待编辑',
+      description: '',
       equipment: [],
       visibility: 'draft'
     }

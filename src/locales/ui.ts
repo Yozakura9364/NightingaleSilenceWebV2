@@ -169,6 +169,27 @@ export const uiMessages: UiMessageMap = {
   'site.nav.silenceCommand': same('SILENCE'),
   'site.nav.home': msg({ zh: '回到主页', en: 'Home', ja: 'ホームへ', ko: '홈으로' }),
 
+  'home.desktop': msg({
+    zh: '桌面主页',
+    en: 'Desktop home',
+    ja: 'デスクトップホーム',
+    ko: '데스크톱 홈'
+  }),
+  'home.desktop.dream': msg({ zh: '入梦', en: 'Dream', ja: '入夢', ko: '입몽' }),
+  'home.desktop.angel': msg({ zh: '不语', en: 'Buyu', ja: '不語', ko: '불어' }),
+  'home.desktop.glitch': msg({ zh: '幽灵', en: 'Ghost', ja: '幽霊', ko: '유령' }),
+  'home.desktop.networkNeighbor': msg({
+    zh: '网上邻居',
+    en: 'Network',
+    ja: 'ネットワーク',
+    ko: '네트워크'
+  }),
+  'home.desktop.command': same('NIGHTINGALE.EXE'),
+  'home.desktop.links': msg({ zh: '站外链接', en: 'Links', ja: '外部リンク', ko: '외부 링크' }),
+  'home.desktop.memo': msg({ zh: '备忘录', en: 'Memo', ja: 'メモ', ko: '메모' }),
+  'home.desktop.ready': msg({ zh: '运行中', en: 'Running', ja: '実行中', ko: '실행 중' }),
+  'home.desktop.clock': msg({ zh: '白昼 / 夜色', en: 'Day / Night', ja: '昼 / 夜', ko: '낮 / 밤' }),
+
   'home.social.title': msg({
     zh: '站外链接',
     en: 'Links',
@@ -310,6 +331,13 @@ export const uiMessages: UiMessageMap = {
     ko: 'FFXIV 공방'
   }),
   'ffxiv.workshop.short': msg({ zh: '狒狒14', en: 'FFXIV', ja: 'FFXIV', ko: 'FFXIV' }),
+  'ffxiv.workshop.kicker': msg({
+    zh: 'FFXIV 工具',
+    en: 'FFXIV tools',
+    ja: 'FFXIVツール',
+    ko: 'FFXIV 도구'
+  }),
+  'ffxiv.tool.badge': msg({ zh: '工具', en: 'Tool', ja: 'ツール', ko: '도구' }),
   'ffxiv.tool.glamour.title': same('幻化工房'),
   'ffxiv.tool.plate.title': same('铭牌工房'),
   'ffxiv.tool.armoire.title': same('衣柜管家'),
@@ -996,10 +1024,10 @@ export const uiMessages: UiMessageMap = {
     ko: '대만 서버'
   }),
   'nsarmoire.store.region.kr': msg({
-    zh: '한국',
-    en: '한국',
-    ja: '한국',
-    ko: '한국'
+    zh: '한국 서버',
+    en: '한국 서버',
+    ja: '한국 서버',
+    ko: '한국 서버'
   }),
   'nsarmoire.store.link.cn': msg({
     zh: 'Simplified Chinese',
@@ -1020,10 +1048,10 @@ export const uiMessages: UiMessageMap = {
     ko: 'Traditional Chinese'
   }),
   'nsarmoire.store.link.kr': msg({
-    zh: '한국',
-    en: '한국',
-    ja: '한국',
-    ko: '한국'
+    zh: '한국 서버',
+    en: '한국 서버',
+    ja: '한국 서버',
+    ko: '한국 서버'
   }),
   'nsarmoire.store.openLink': msg({
     zh: '打开商城',
@@ -1206,10 +1234,10 @@ export const uiMessages: UiMessageMap = {
     ko: '대만 서버'
   }),
   'nsarmoire.storeReview.region.kr': msg({
-    zh: '한국',
-    en: '한국',
-    ja: '한국',
-    ko: '한국'
+    zh: '한국 서버',
+    en: '한국 서버',
+    ja: '한국 서버',
+    ko: '한국 서버'
   }),
   'nsarmoire.storeReview.link.placeholder': msg({
     zh: '粘贴商城链接',
@@ -4747,6 +4775,42 @@ export const uiMessages: UiMessageMap = {
     en: 'Sky tint: def...',
     ja: '空色：防...',
     ko: '하늘색: 방...'
+  }),
+  'styleLab.desktop.start': msg({
+    zh: '开始',
+    en: 'Start',
+    ja: 'スタート',
+    ko: '시작'
+  }),
+  'styleLab.desktop.day': msg({
+    zh: '第2天',
+    en: 'Day 2',
+    ja: '2日目',
+    ko: '2일차'
+  }),
+  'styleLab.desktop.silenceArchive': msg({
+    zh: '入梦',
+    en: 'Silence Archive',
+    ja: 'Silenceアーカイブ',
+    ko: 'Silence 아카이브'
+  }),
+  'styleLab.desktop.angel': msg({
+    zh: '不语',
+    en: 'Angel',
+    ja: '不語',
+    ko: '불어'
+  }),
+  'styleLab.desktop.glitch': msg({
+    zh: '幽灵',
+    en: 'Glitch',
+    ja: '幽霊',
+    ko: '유령'
+  }),
+  'styleLab.desktop.network': msg({
+    zh: '网上邻居',
+    en: 'Network',
+    ja: 'ネットワーク',
+    ko: '네트워크'
   }),
   'styleLab.skinName': same('pixel-soft-lite')
 }

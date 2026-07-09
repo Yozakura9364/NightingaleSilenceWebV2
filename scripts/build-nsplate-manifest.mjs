@@ -336,7 +336,6 @@ function createManifestMeta({ args, presets, files, fileStats }) {
   return {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
-    sourceApiBase: args.sourceApiBase,
     imgBase: files?._meta?.imgBase ?? null,
     previewImgBase: files?._meta?.previewImgBase ?? null,
     includeUnreleased: args.includeUnreleased,

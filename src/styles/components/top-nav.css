@@ -222,6 +222,7 @@
   image-rendering: pixelated;
   mask: var(--app-top-nav-icon-url) center / 18px 18px no-repeat;
   -webkit-mask: var(--app-top-nav-icon-url) center / 18px 18px no-repeat;
+  filter: var(--ns-top-nav-menu-icon-filter);
   transform-origin: center;
 }
 
@@ -434,12 +435,12 @@
 @keyframes app-top-nav-menu-icon-step {
   0%,
   100% {
-    filter: none;
+    filter: var(--ns-top-nav-menu-icon-filter);
     transform: translate(0, 0);
   }
 
   50% {
-    filter: drop-shadow(2px 2px 0 rgba(42, 33, 56, 0.18));
+    filter: var(--ns-top-nav-menu-icon-step-filter);
     transform: translate(-1px, -2px);
   }
 }

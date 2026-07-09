@@ -482,6 +482,7 @@
 [data-style-preview='pixel-soft'] .ns-pixel-badge {
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   min-height: 26px;
   padding: 0 10px;
   border: 2px solid var(--ns-pixel-border);
@@ -491,6 +492,14 @@
   font-size: 12px;
   font-weight: 900;
   box-shadow: 2px 2px 0 rgba(42, 33, 56, 0.18);
+}
+
+[data-style-preview='pixel-soft'] .ns-pixel-badge__icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  color: currentColor;
+  image-rendering: pixelated;
 }
 
 [data-style-preview='pixel-soft'] .ns-pixel-badge--pink {
@@ -536,7 +545,18 @@
 }
 
 [data-style-preview='pixel-soft'] .ns-pixel-card__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 22px;
+}
+
+[data-style-preview='pixel-soft'] .ns-pixel-card__title-icon {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  color: currentColor;
+  image-rendering: pixelated;
 }
 
 [data-style-preview='pixel-soft'] .ns-pixel-section-title {

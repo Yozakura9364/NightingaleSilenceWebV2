@@ -40,7 +40,7 @@
 
 - `presets.json`：结构与 `NSPlatePresetsResponse` 等价，包含 `banner`、`charcard`。
 - `files.json`：结构与 `NSPlateFilesResponse` 等价，包含 `portrait`、`nameplate`、`_meta.imgBase`；缩略图已同步后可写入 `_meta.previewImgBase` 和 `_meta.previewMaxEdge`。
-- `manifest-meta.json`：记录生成时间、源 API、COS base、预设数量、素材数量、未实装素材和占位素材过滤结果。
+- `manifest-meta.json`：记录生成时间、COS base、预设数量、素材数量、未实装素材和占位素材过滤结果；不写入本机源 API 地址。
 
 当前可用脚本：
 

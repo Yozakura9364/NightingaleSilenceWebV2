@@ -529,6 +529,202 @@
           </section>
 
           <section
+            class="ns-pixel-window ns-pixel-desktop-lab"
+            :aria-label="t(textKeys.home)"
+          >
+            <div class="ns-pixel-window__bar">
+              <span class="ns-pixel-window__title">
+                <span class="ns-pixel-window__icon" aria-hidden="true"></span>
+                {{ t(textKeys.home) }} / {{ t(textKeys.styleLabSkinName) }}
+              </span>
+              <span class="ns-pixel-window__controls" aria-hidden="true">
+                <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
+                <span class="ns-pixel-window__control ns-pixel-window__control--max"></span>
+                <span class="ns-pixel-window__control ns-pixel-window__control--close"></span>
+              </span>
+            </div>
+
+            <div class="ns-pixel-desktop-preview">
+              <div class="ns-pixel-desktop-preview__grid" aria-hidden="true"></div>
+
+              <nav class="ns-pixel-desktop-icons" :aria-label="t(textKeys.menuTitle)">
+                <a
+                  v-for="item in pixelDesktopIcons"
+                  :key="item.id"
+                  class="ns-pixel-desktop-icon"
+                  :href="item.href"
+                >
+                  <span
+                    class="ns-pixel-desktop-icon__image ns-pixel-icon"
+                    :style="pixelIconStyle(item.icon)"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="ns-pixel-desktop-icon__label">{{ t(item.labelKey) }}</span>
+                </a>
+              </nav>
+
+              <article
+                class="ns-pixel-desktop-window ns-pixel-desktop-window--main"
+                :aria-label="t(textKeys.siteEnName)"
+              >
+                <div class="ns-pixel-desktop-window__bar">
+                  <span
+                    class="ns-pixel-icon"
+                    :style="pixelIconStyle(pixelHomeIcon)"
+                    aria-hidden="true"
+                  ></span>
+                  <span>{{ t(textKeys.siteEnName) }}</span>
+                  <span class="ns-pixel-desktop-window__controls" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </div>
+                <div class="ns-pixel-desktop-window__body ns-pixel-desktop-window__body--main">
+                  <div class="ns-pixel-desktop-portrait" aria-hidden="true">
+                    <span></span>
+                  </div>
+                  <div class="ns-pixel-desktop-copy">
+                    <h2>{{ t(textKeys.siteZhName) }}</h2>
+                    <p>{{ t(textKeys.placeholder) }}</p>
+                    <div class="ns-pixel-desktop-copy__actions">
+                      <a class="ns-pixel-button ns-pixel-button--primary" href="#/ffxiv">
+                        {{ t(textKeys.ffxivWorkshop) }}
+                      </a>
+                      <a class="ns-pixel-button" href="#/silence">
+                        {{ t(textKeys.silence) }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <aside
+                class="ns-pixel-desktop-window ns-pixel-desktop-window--tools"
+                :aria-label="t(textKeys.ffxivWorkshop)"
+              >
+                <div class="ns-pixel-desktop-window__bar ns-pixel-desktop-window__bar--blue">
+                  <span
+                    class="ns-pixel-icon"
+                    :style="pixelIconStyle(pixelFolderIcon)"
+                    aria-hidden="true"
+                  ></span>
+                  <span>{{ t(textKeys.ffxivWorkshop) }}</span>
+                  <span class="ns-pixel-desktop-window__controls" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                  </span>
+                </div>
+                <div class="ns-pixel-desktop-window__body">
+                  <a
+                    v-for="item in pixelDesktopTools"
+                    :key="item.id"
+                    class="ns-pixel-desktop-tool"
+                    :href="item.href"
+                  >
+                    <span
+                      class="ns-pixel-icon"
+                      :style="pixelIconStyle(item.icon)"
+                      aria-hidden="true"
+                    ></span>
+                    <span>{{ t(item.labelKey) }}</span>
+                  </a>
+                </div>
+              </aside>
+
+              <aside
+                class="ns-pixel-desktop-window ns-pixel-desktop-window--status"
+                :aria-label="t(textKeys.status)"
+              >
+                <div class="ns-pixel-desktop-window__bar ns-pixel-desktop-window__bar--pink">
+                  <span
+                    class="ns-pixel-icon"
+                    :style="pixelIconStyle(pixelStarIcon)"
+                    aria-hidden="true"
+                  ></span>
+                  <span>{{ t(textKeys.status) }}</span>
+                  <span class="ns-pixel-desktop-window__controls" aria-hidden="true">
+                    <span></span>
+                  </span>
+                </div>
+                <div class="ns-pixel-desktop-window__body">
+                  <div class="ns-pixel-desktop-status-row">
+                    <span>{{ t(textKeys.styleLabReady) }}</span>
+                    <strong>{{ t(textKeys.statusOpen) }}</strong>
+                  </div>
+                  <div class="ns-pixel-desktop-meter" aria-hidden="true">
+                    <span style="--desktop-meter: 74%"></span>
+                  </div>
+                  <div class="ns-pixel-desktop-status-row">
+                    <span>{{ t(textKeys.styleLabWorkbenchMeters) }}</span>
+                    <strong>{{ t(textKeys.placeholder) }}</strong>
+                  </div>
+                </div>
+              </aside>
+
+              <aside
+                class="ns-pixel-desktop-window ns-pixel-desktop-window--note"
+                :aria-label="t(textKeys.styleLabNotebookCard)"
+              >
+                <div class="ns-pixel-desktop-window__bar">
+                  <span
+                    class="ns-pixel-icon"
+                    :style="pixelIconStyle(pixelImageIcon)"
+                    aria-hidden="true"
+                  ></span>
+                  <span>{{ t(textKeys.styleLabNotebookCard) }}</span>
+                  <span class="ns-pixel-desktop-window__controls" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </span>
+                </div>
+                <div class="ns-pixel-desktop-window__body">
+                  <div class="ns-pixel-desktop-note-row">
+                    <span>{{ t(textKeys.styleLabReady) }}</span>
+                    <strong>{{ t(textKeys.statusOpen) }}</strong>
+                  </div>
+                  <div class="ns-pixel-desktop-note-row">
+                    <span>{{ t(textKeys.styleLabNotebookCard) }}</span>
+                    <strong>{{ t(textKeys.placeholder) }}</strong>
+                  </div>
+                </div>
+              </aside>
+
+              <nav class="ns-pixel-desktop-taskbar" :aria-label="t(textKeys.menuTitle)">
+                <a class="ns-pixel-desktop-taskbar__start" href="#/">
+                  <span
+                    class="ns-pixel-icon"
+                    :style="pixelIconStyle(pixelHomeIcon)"
+                    aria-hidden="true"
+                  ></span>
+                  <span>{{ t(textKeys.styleLabDesktopStart) }}</span>
+                </a>
+                <span class="ns-pixel-desktop-taskbar__separator" aria-hidden="true"></span>
+
+                <div class="ns-pixel-desktop-taskbar__windows">
+                  <a
+                    v-for="item in pixelDesktopTaskbarItems"
+                    :key="item.id"
+                    class="ns-pixel-desktop-taskbar__window"
+                    :class="{ 'ns-pixel-desktop-taskbar__window--active': item.active }"
+                    :href="item.href"
+                  >
+                    <span class="ns-pixel-desktop-taskbar__dot" aria-hidden="true"></span>
+                    <span>{{ t(item.labelKey) }}</span>
+                  </a>
+                </div>
+
+                <span class="ns-pixel-desktop-taskbar__separator" aria-hidden="true"></span>
+                <span class="ns-pixel-desktop-taskbar__clock">
+                  <span class="ns-pixel-desktop-taskbar__sun" aria-hidden="true"></span>
+                  <span>{{ t(textKeys.styleLabDesktopDay) }}</span>
+                </span>
+              </nav>
+            </div>
+          </section>
+
+          <section
             class="ns-pixel-window ns-pixel-notebook-lab"
             :aria-label="t(textKeys.styleLabNotebookLab)"
           >
@@ -902,10 +1098,21 @@
             </article>
 
             <article class="ns-pixel-card">
-              <span class="ns-pixel-badge ns-pixel-badge--green">{{ t(textKeys.status) }}</span>
-              <h2 class="ns-pixel-card__title">{{ t(textKeys.styleLabStatusPanel) }}</h2>
+              <span class="ns-pixel-badge ns-pixel-badge--green">
+                <img class="ns-pixel-badge__icon" :src="pixelArchiveIcon" alt="" aria-hidden="true" />
+                {{ t(textKeys.styleLabToolBadge) }}
+              </span>
+              <h2 class="ns-pixel-card__title">
+                <img
+                  class="ns-pixel-card__title-icon"
+                  :src="pixelArchiveIcon"
+                  alt=""
+                  aria-hidden="true"
+                />
+                {{ t(textKeys.armoireTitle) }}
+              </h2>
               <p class="ns-pixel-card__text">{{ t(textKeys.placeholder) }}</p>
-              <button class="ns-pixel-button" type="button">{{ t(textKeys.details) }}</button>
+              <button class="ns-pixel-button" type="button">{{ t(textKeys.open) }}</button>
             </article>
           </section>
         </div>
@@ -1080,7 +1287,7 @@ const pixelIconMenuItems: PixelIconMenuItem[] = [
       },
       {
         id: 'armoire',
-        icon: pixelPlaceholderMenuIcon,
+        icon: pixelArchiveIcon,
         href: '#/ffxiv/armoire',
         labelKey: textKeys.armoireTitle
       }
@@ -1100,6 +1307,54 @@ const pixelIconMenuItems: PixelIconMenuItem[] = [
     commandKey: textKeys.aboutCommand,
     href: '#/about'
   }
+]
+const pixelDesktopIcons: Array<PixelIconAction & { href: string }> = [
+  {
+    id: 'silence-archive',
+    icon: pixelFolderIcon,
+    labelKey: textKeys.styleLabDesktopSilenceArchive,
+    href: '#/silence'
+  },
+  { id: 'angel', icon: pixelUserIcon, labelKey: textKeys.styleLabDesktopAngel, href: '#/silence/angel' },
+  {
+    id: 'glitch',
+    icon: pixelSparklesIcon,
+    labelKey: textKeys.styleLabDesktopGlitch,
+    href: '#/silence/glitch'
+  },
+  { id: 'network', icon: pixelStarIcon, labelKey: textKeys.styleLabDesktopNetwork, href: '#/about' }
+]
+const pixelDesktopTools: Array<PixelIconAction & { href: string }> = [
+  {
+    id: 'glamour',
+    icon: pixelSparklesIcon,
+    labelKey: textKeys.glamourTitle,
+    href: '#/ffxiv/glamour'
+  },
+  {
+    id: 'plate',
+    icon: pixelAvatarCircleIcon,
+    labelKey: textKeys.plateTitle,
+    href: '#/ffxiv/plate'
+  },
+  {
+    id: 'armoire',
+    icon: pixelArchiveIcon,
+    labelKey: textKeys.armoireTitle,
+    href: '#/ffxiv/armoire'
+  }
+]
+const pixelDesktopTaskbarItems: Array<PixelIconAction & { href: string; active?: boolean }> = [
+  {
+    id: 'status',
+    icon: pixelStarIcon,
+    labelKey: textKeys.status,
+    href: '#/style-lab',
+    active: true
+  },
+  { id: 'home-window', icon: pixelHomeIcon, labelKey: textKeys.siteEnName, href: '#/' },
+  { id: 'ffxiv-tools', icon: pixelFolderIcon, labelKey: textKeys.ffxivWorkshop, href: '#/ffxiv' },
+  { id: 'note', icon: pixelImageIcon, labelKey: textKeys.styleLabNotebookCard, href: '#/style-lab' }
 ]
 const metaNotebookRows: Array<{
   id: string
@@ -1576,6 +1831,35 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
   line-height: 1.5;
 }
 
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow {
+  background: var(--ns-pixel-cyber-menu-stage-bg);
+  box-shadow: var(--ns-pixel-cyber-panel-shadow);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow__rail {
+  background: var(--ns-pixel-cyber-chrome-bg);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow__content {
+  background:
+    linear-gradient(90deg, rgba(255, 95, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(94, 234, 255, 0.08) 1px, transparent 1px),
+    var(--ns-pixel-surface);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow__item,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow__toolbar,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow__card {
+  background: var(--ns-pixel-cyber-card-bg);
+  box-shadow: var(--ns-pixel-cyber-ui-shadow);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow__item:hover,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow__item:focus-visible,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-rail-reflow__item--active {
+  background: var(--ns-pixel-cyber-card-blue-bg);
+}
+
 .ns-pixel-menu-popup--animated-icons .ns-pixel-icon {
   transform-origin: center;
 }
@@ -1855,6 +2139,659 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
   gap: 8px;
 }
 
+.ns-pixel-desktop-lab {
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.ns-pixel-desktop-preview {
+  position: relative;
+  overflow: hidden;
+  min-height: 660px;
+  padding: 18px 18px 62px;
+  border-top: 2px solid var(--ns-pixel-border);
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255, 124, 194, 0.18), transparent 28%),
+    radial-gradient(circle at 84% 26%, rgba(94, 220, 235, 0.2), transparent 30%),
+    linear-gradient(135deg, rgba(255, 246, 252, 0.96), rgba(240, 253, 255, 0.98));
+}
+
+.ns-pixel-desktop-preview__grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 124, 194, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(94, 220, 235, 0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+  pointer-events: none;
+}
+
+.ns-pixel-desktop-icons {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  width: 88px;
+  gap: 10px;
+}
+
+.ns-pixel-desktop-icon {
+  display: grid;
+  min-width: 0;
+  justify-items: center;
+  gap: 5px;
+  padding: 7px 4px;
+  border: 2px solid transparent;
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 11px;
+  font-weight: 900;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+
+.ns-pixel-desktop-icon:hover,
+.ns-pixel-desktop-icon:focus-visible {
+  border-color: var(--ns-pixel-border);
+  background: rgba(255, 255, 255, 0.72);
+  outline: 0;
+}
+
+.ns-pixel-desktop-icon__image {
+  position: relative;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  padding: 8px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface-pink);
+  color: var(--ns-pixel-ink);
+  box-shadow: 3px 3px 0 var(--ns-pixel-shadow);
+  mask: none;
+  -webkit-mask: none;
+}
+
+.ns-pixel-desktop-icon__image::before {
+  display: block;
+  width: 22px;
+  height: 22px;
+  background: currentColor;
+  content: '';
+  mask: var(--ns-pixel-icon-url) center / 100% 100% no-repeat;
+  -webkit-mask: var(--ns-pixel-icon-url) center / 100% 100% no-repeat;
+}
+
+.ns-pixel-desktop-icon:nth-child(even) .ns-pixel-desktop-icon__image {
+  background: var(--ns-pixel-surface-blue);
+}
+
+.ns-pixel-desktop-icon__label {
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 78px;
+  min-height: 26px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.ns-pixel-desktop-window {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  min-width: 0;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+  box-shadow: 6px 6px 0 var(--ns-pixel-shadow);
+}
+
+.ns-pixel-desktop-window--main {
+  top: 86px;
+  right: 238px;
+  bottom: 40px;
+  left: 172px;
+  z-index: 4;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: visible;
+}
+
+.ns-pixel-desktop-window--tools {
+  top: 70px;
+  right: 28px;
+  z-index: 5;
+  width: 320px;
+}
+
+.ns-pixel-desktop-window--status {
+  top: 310px;
+  right: 54px;
+  z-index: 4;
+  width: 288px;
+}
+
+.ns-pixel-desktop-window--note {
+  display: none;
+}
+
+.ns-pixel-desktop-window__bar {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--ns-pixel-border);
+  background:
+    linear-gradient(90deg, rgba(255, 124, 194, 0.2), rgba(94, 220, 235, 0.2)),
+    var(--ns-pixel-surface);
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ns-pixel-desktop-window__bar--blue {
+  background: var(--ns-pixel-surface-blue);
+}
+
+.ns-pixel-desktop-window__bar--pink {
+  background: var(--ns-pixel-surface-pink);
+}
+
+.ns-pixel-desktop-window__bar > span:nth-child(2) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ns-pixel-desktop-window__controls {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.ns-pixel-desktop-window__controls span {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+}
+
+.ns-pixel-desktop-window__body {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+}
+
+.ns-pixel-desktop-window__body--main {
+  position: relative;
+  overflow: visible;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 124, 194, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(94, 220, 235, 0.08) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255, 246, 252, 0.94), rgba(240, 253, 255, 0.98));
+  background-size:
+    16px 16px,
+    16px 16px,
+    auto;
+}
+
+.ns-pixel-desktop-portrait {
+  position: absolute;
+  right: 18px;
+  bottom: -96px;
+  left: 18px;
+  z-index: 2;
+  overflow: visible;
+  min-height: calc(100% + 96px);
+  border: 0;
+  background:
+    radial-gradient(circle at 50% 74%, rgba(94, 220, 235, 0.18), transparent 34%),
+    radial-gradient(circle at 48% 44%, rgba(255, 124, 194, 0.14), transparent 30%);
+  pointer-events: none;
+}
+
+.ns-pixel-desktop-portrait::before,
+.ns-pixel-desktop-portrait::after,
+.ns-pixel-desktop-portrait span {
+  position: absolute;
+  content: '';
+}
+
+.ns-pixel-desktop-portrait::before {
+  top: auto;
+  bottom: -8px;
+  left: 50%;
+  width: min(82%, 640px);
+  height: min(134%, 720px);
+  background:
+    url('/local-assets/yoine-1.png') center bottom / contain no-repeat,
+    linear-gradient(180deg, transparent 0 28%, var(--ns-pixel-surface-pink) 28% 42%, var(--ns-pixel-surface-blue) 42% 100%);
+  filter:
+    drop-shadow(8px 8px 0 rgba(42, 33, 56, 0.18))
+    drop-shadow(-3px 0 0 rgba(255, 124, 194, 0.24))
+    drop-shadow(3px 0 0 rgba(94, 220, 235, 0.22));
+  transform: translateX(-50%);
+}
+
+.ns-pixel-desktop-portrait::after {
+  right: 8%;
+  bottom: 56px;
+  left: 8%;
+  height: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 124, 194, 0.72) 0 9px,
+    rgba(94, 220, 235, 0.72) 9px 18px,
+    transparent 18px 26px
+  );
+  opacity: 0.72;
+}
+
+.ns-pixel-desktop-portrait span {
+  right: 12%;
+  bottom: 38px;
+  left: 50%;
+  width: min(68%, 500px);
+  height: 1px;
+  background: var(--ns-pixel-border);
+  opacity: 0.38;
+  transform: translateX(-50%);
+}
+
+.ns-pixel-desktop-copy {
+  position: absolute;
+  top: 28px;
+  left: 30px;
+  z-index: 3;
+  display: grid;
+  min-width: 0;
+  max-width: min(360px, 48%);
+  gap: 10px;
+  padding: 14px;
+  border: 2px solid var(--ns-pixel-border);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 4px 4px 0 rgba(42, 33, 56, 0.14);
+  backdrop-filter: blur(1px);
+}
+
+.ns-pixel-desktop-copy h2 {
+  margin: 0;
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-font-display);
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1;
+  letter-spacing: 0;
+  text-shadow:
+    2px 2px 0 var(--ns-pixel-surface-blue),
+    4px 4px 0 rgba(255, 124, 194, 0.22);
+}
+
+.ns-pixel-desktop-copy p {
+  margin: 0;
+  color: var(--ns-pixel-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.ns-pixel-desktop-copy__actions {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ns-pixel-desktop-copy__actions .ns-pixel-button {
+  text-decoration: none;
+}
+
+.ns-pixel-desktop-tool {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 10px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 12px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 2px 2px 0 rgba(42, 33, 56, 0.14);
+}
+
+.ns-pixel-desktop-tool:hover,
+.ns-pixel-desktop-tool:focus-visible {
+  background: var(--ns-pixel-surface-pink);
+  outline: 0;
+  transform: translate(-1px, -1px);
+}
+
+.ns-pixel-desktop-status-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.ns-pixel-desktop-status-row strong {
+  color: var(--ns-pixel-pink);
+  font-size: 11px;
+}
+
+.ns-pixel-desktop-meter {
+  height: 16px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+}
+
+.ns-pixel-desktop-meter span {
+  display: block;
+  width: var(--desktop-meter);
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ns-pixel-surface-blue) 0 8px,
+    var(--ns-pixel-pink) 8px 12px
+  );
+}
+
+.ns-pixel-desktop-note-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 30px;
+  padding: 0 8px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.ns-pixel-desktop-note-row strong {
+  overflow: hidden;
+  color: var(--ns-pixel-muted);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ns-pixel-desktop-taskbar {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 8;
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 5px;
+  min-height: 40px;
+  padding: 4px 6px;
+  border-top: 2px solid var(--ns-pixel-border);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 231, 248, 0.92)),
+    var(--ns-pixel-surface-pink);
+}
+
+.ns-pixel-desktop-taskbar__start,
+.ns-pixel-desktop-taskbar__window,
+.ns-pixel-desktop-taskbar__clock {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 8px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+  color: var(--ns-pixel-ink);
+  font-family: var(--ns-pixel-font);
+  font-size: 11px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow:
+    inset -2px -2px 0 rgba(42, 33, 56, 0.12),
+    inset 2px 2px 0 rgba(255, 255, 255, 0.9);
+}
+
+.ns-pixel-desktop-taskbar__start {
+  flex: 0 0 auto;
+  min-width: 98px;
+  padding-inline: 9px 12px;
+  background: var(--ns-pixel-surface);
+}
+
+.ns-pixel-desktop-taskbar__start .ns-pixel-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--ns-pixel-pink);
+}
+
+.ns-pixel-desktop-taskbar__start:hover,
+.ns-pixel-desktop-taskbar__start:focus-visible,
+.ns-pixel-desktop-taskbar__window:hover,
+.ns-pixel-desktop-taskbar__window:focus-visible {
+  background: var(--ns-pixel-surface-blue);
+  outline: 0;
+}
+
+.ns-pixel-desktop-taskbar__separator {
+  flex: 0 0 auto;
+  width: 2px;
+  height: 28px;
+  border-left: 2px solid color-mix(in srgb, var(--ns-pixel-border) 55%, transparent);
+  border-right: 2px solid rgba(255, 255, 255, 0.84);
+}
+
+.ns-pixel-desktop-taskbar__windows {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: center;
+  gap: 4px;
+}
+
+.ns-pixel-desktop-taskbar__window {
+  flex: 1 1 0;
+  max-width: 210px;
+  justify-content: flex-start;
+}
+
+.ns-pixel-desktop-taskbar__window span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ns-pixel-desktop-taskbar__window--active {
+  background: var(--ns-pixel-surface-pink);
+  box-shadow:
+    inset 2px 2px 0 rgba(42, 33, 56, 0.18),
+    inset -2px -2px 0 rgba(255, 255, 255, 0.78);
+}
+
+.ns-pixel-desktop-taskbar__dot {
+  flex: 0 0 auto;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-pink);
+}
+
+.ns-pixel-desktop-taskbar__window:nth-child(even) .ns-pixel-desktop-taskbar__dot {
+  background: var(--ns-pixel-surface-blue);
+}
+
+.ns-pixel-desktop-taskbar__clock {
+  flex: 0 0 auto;
+  min-width: 112px;
+  justify-content: center;
+  background: var(--ns-pixel-surface-blue);
+}
+
+.ns-pixel-desktop-taskbar__sun {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--ns-pixel-border);
+  background: #ffd95f;
+  box-shadow:
+    0 -4px 0 -2px #ffd95f,
+    0 4px 0 -2px #ffd95f,
+    4px 0 0 -2px #ffd95f,
+    -4px 0 0 -2px #ffd95f;
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-preview {
+  background: var(--ns-pixel-cyber-menu-stage-bg);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-preview__grid {
+  background:
+    linear-gradient(90deg, rgba(255, 95, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(94, 234, 255, 0.08) 1px, transparent 1px);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-icon:hover,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-icon:focus-visible {
+  background: rgba(13, 16, 24, 0.78);
+  box-shadow: 3px 3px 0 rgba(5, 9, 18, 0.58);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-window {
+  background: var(--ns-pixel-surface);
+  box-shadow: var(--ns-pixel-cyber-panel-shadow);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-window__bar {
+  background: var(--ns-pixel-cyber-chrome-bg);
+  color: var(--ns-pixel-neon-white);
+  text-shadow: var(--ns-pixel-cyber-chrome-shadow);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-window__bar--blue {
+  background: var(--ns-pixel-cyber-card-blue-bg);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-window__bar--pink {
+  background: var(--ns-pixel-cyber-card-bg);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-window__controls span {
+  background: var(--ns-pixel-window-control-bg);
+  box-shadow: var(--ns-pixel-window-control-shadow);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-window__body--main {
+  background:
+    linear-gradient(90deg, rgba(255, 95, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(94, 234, 255, 0.08) 1px, transparent 1px),
+    var(--ns-pixel-cyber-recessed-bg);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-portrait {
+  background:
+    radial-gradient(circle at 50% 74%, rgba(94, 234, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 48% 44%, rgba(255, 95, 184, 0.14), transparent 30%);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-copy {
+  background:
+    linear-gradient(180deg, rgba(255, 95, 184, 0.08), rgba(13, 16, 24, 0) 58%),
+    rgba(13, 16, 24, 0.9);
+  box-shadow: var(--ns-pixel-cyber-ui-shadow);
+  backdrop-filter: none;
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-copy h2 {
+  color: var(--ns-pixel-neon-white);
+  text-shadow: var(--ns-pixel-cyber-title-shadow);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-copy p {
+  color: var(--ns-pixel-cyber-readable-text);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-tool,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-note-row {
+  background: var(--ns-pixel-cyber-card-bg);
+  box-shadow: var(--ns-pixel-cyber-ui-shadow);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-tool:hover,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-tool:focus-visible {
+  background: var(--ns-pixel-cyber-card-blue-bg);
+  box-shadow: var(--ns-pixel-cyber-hover-shadow);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-meter {
+  background: var(--ns-pixel-cyber-recessed-bg);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar {
+  background: var(--ns-pixel-cyber-chrome-bg);
+  box-shadow: 0 -2px 0 rgba(94, 234, 255, 0.1);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__start,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__window,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__clock {
+  background: var(--ns-pixel-surface);
+  box-shadow:
+    inset -2px -2px 0 rgba(5, 9, 18, 0.6),
+    inset 2px 2px 0 rgba(255, 246, 255, 0.08),
+    0 0 10px rgba(94, 234, 255, 0.08);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__start:hover,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__start:focus-visible,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__window:hover,
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__window:focus-visible {
+  background: var(--ns-pixel-cyber-card-blue-bg);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__window--active {
+  background: var(--ns-pixel-cyber-card-bg);
+  box-shadow:
+    inset 2px 2px 0 rgba(5, 9, 18, 0.68),
+    inset -2px -2px 0 rgba(255, 246, 255, 0.08),
+    0 0 12px rgba(255, 95, 184, 0.12);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__separator {
+  border-left-color: rgba(203, 194, 210, 0.36);
+  border-right-color: rgba(94, 234, 255, 0.16);
+}
+
+.style-lab-experiment[data-pixel-tone='cyber-night'] .ns-pixel-desktop-taskbar__sun {
+  background: var(--ns-pixel-neon-blue);
+  box-shadow:
+    0 -4px 0 -2px var(--ns-pixel-neon-blue),
+    0 4px 0 -2px var(--ns-pixel-neon-blue),
+    4px 0 0 -2px var(--ns-pixel-neon-blue),
+    -4px 0 0 -2px var(--ns-pixel-neon-blue),
+    0 0 12px rgba(94, 234, 255, 0.32);
+}
+
 .ns-pixel-notebook-lab {
   overflow: hidden;
   width: max-content;
@@ -1990,6 +2927,127 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
 
   .ns-pixel-icon-lab__text-button-row .ns-pixel-button {
     width: 100%;
+  }
+
+  .ns-pixel-desktop-preview {
+    display: grid;
+    min-height: 0;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .ns-pixel-desktop-icons {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: auto;
+    gap: 6px;
+  }
+
+  .ns-pixel-desktop-icon {
+    padding-inline: 2px;
+  }
+
+  .ns-pixel-desktop-icon__image {
+    width: 38px;
+    height: 38px;
+  }
+
+  .ns-pixel-desktop-window {
+    position: relative;
+    inset: auto;
+    width: 100%;
+  }
+
+  .ns-pixel-desktop-window--main,
+  .ns-pixel-desktop-window--tools,
+  .ns-pixel-desktop-window--status,
+  .ns-pixel-desktop-window--note {
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+  }
+
+  .ns-pixel-desktop-window__body--main {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 0;
+    gap: 10px;
+    padding: 12px;
+    overflow: hidden;
+  }
+
+  .ns-pixel-desktop-portrait {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    order: 2;
+    min-height: 230px;
+    overflow: hidden;
+    border: 2px solid var(--ns-pixel-border);
+  }
+
+  .ns-pixel-desktop-portrait::before {
+    bottom: -12px;
+    width: min(82%, 260px);
+    height: 250px;
+  }
+
+  .ns-pixel-desktop-portrait::after {
+    bottom: 34px;
+  }
+
+  .ns-pixel-desktop-portrait span {
+    bottom: 22px;
+  }
+
+  .ns-pixel-desktop-copy {
+    position: relative;
+    top: auto;
+    left: auto;
+    order: 1;
+    max-width: none;
+  }
+
+  .ns-pixel-desktop-copy h2 {
+    font-size: 42px;
+  }
+
+  .ns-pixel-desktop-taskbar {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(110px, 1fr) auto;
+    align-items: stretch;
+    gap: 6px;
+    margin: 0 -12px -12px;
+  }
+
+  .ns-pixel-desktop-taskbar__start {
+    min-width: 0;
+    justify-content: center;
+  }
+
+  .ns-pixel-desktop-taskbar__separator {
+    display: none;
+  }
+
+  .ns-pixel-desktop-taskbar__windows {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ns-pixel-desktop-taskbar__window {
+    max-width: none;
+    justify-content: center;
+  }
+
+  .ns-pixel-desktop-taskbar__clock {
+    min-width: 0;
+    justify-content: center;
   }
 }
 </style>

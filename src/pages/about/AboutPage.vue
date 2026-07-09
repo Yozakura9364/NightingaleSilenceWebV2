@@ -4,20 +4,20 @@
       <RouterLink class="about-back" :to="siteRoutes.home">← {{ t(textKeys.back) }}</RouterLink>
       <section class="ns-panel about-panel">
         <p class="ns-eyebrow">{{ t(textKeys.about) }}</p>
-        <h1 class="ns-title">{{ t(textKeys.placeholder) }}</h1>
-        <p class="ns-lead">
-          {{ t(textKeys.placeholder) }}
-        </p>
+        <h1 class="ns-title">{{ t(siteMeta.zhNameKey) }}</h1>
+        <p v-if="siteDescription" class="ns-lead">{{ siteDescription }}</p>
       </section>
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import { siteRoutes, textKeys } from '@/config/site'
+import { computed } from 'vue'
+import { siteMeta, siteRoutes, textKeys } from '@/config/site'
 import { useLocale } from '@/stores/locale'
 
 const { t } = useLocale()
+const siteDescription = computed(() => t(siteMeta.descriptionKey).trim())
 </script>
 
 <style scoped>

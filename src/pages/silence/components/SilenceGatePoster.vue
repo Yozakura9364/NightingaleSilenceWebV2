@@ -1,11 +1,7 @@
 <template>
   <div class="silence-gate">
     <section class="silence-gate__intro" aria-labelledby="silence-title">
-      <p class="ns-eyebrow">{{ t(textKeys.placeholder) }}</p>
       <h1 id="silence-title" class="silence-gate__title">{{ t(textKeys.silence) }}</h1>
-      <p class="ns-lead">
-        {{ t(textKeys.placeholder) }}
-      </p>
     </section>
 
     <div class="silence-poster" :aria-label="t(textKeys.silence)">

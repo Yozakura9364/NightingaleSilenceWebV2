@@ -360,7 +360,7 @@ const STORE_PRICE_REGION_LABELS: Record<ArmoireStoreLinkRegion, string> = {
   cn: '简中服',
   tw: '繁中服',
   global: 'Global Server',
-  kr: '한국'
+  kr: '한국 서버'
 }
 const SEASONAL_STORE_TAGS: ArmoireStoreTag[] = [
   'moonfireFaire',

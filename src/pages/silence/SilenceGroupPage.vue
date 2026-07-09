@@ -56,8 +56,7 @@ import {
 import {
   getSilenceCharacterRoute,
   getSilenceCharactersByGroup,
-  type SilenceCharacter,
-  type SilenceGroupId
+  type SilenceCharacter
 } from '@/data/silence/characters'
 import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilenceTurnNavigation'
 import SilenceGlitchDuoPanel from '@/pages/silence/components/SilenceGlitchDuoPanel.vue'
@@ -99,16 +98,7 @@ const visualItems = computed(() => {
     }))
   }
 
-  return Array.from({ length: getFallbackSlotCount(currentGroup.value.id) }, (_, index) => {
-    const slot = index + 1
-
-    return {
-      id: `placeholder-${slot}`,
-      name: t(textKeys.placeholder),
-      slot,
-      character: undefined
-    }
-  })
+  return []
 })
 
 function selectVisual(id: string) {
@@ -141,10 +131,6 @@ function openVisual(item: { character?: SilenceCharacter }) {
   if (item.character) {
     router.push(getSilenceCharacterRoute(item.character))
   }
-}
-
-function getFallbackSlotCount(groupId: SilenceGroupId) {
-  return groupId === 'angel' ? 6 : 2
 }
 
 function resetSelectedVisual() {

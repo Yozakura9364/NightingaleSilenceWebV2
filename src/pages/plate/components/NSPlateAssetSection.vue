@@ -13,7 +13,7 @@
           :style="statusIconStyle"
           aria-hidden="true"
         />
-        <span>{{ group.label }}</span>
+        <span class="nsplate-asset-section__label">{{ group.label }}</span>
       </span>
       <span class="nsplate-asset-section__right">
         <span
@@ -229,6 +229,12 @@ function normalizeSearchText(value: unknown) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nsplate-asset-section[data-open='true'] .nsplate-asset-section__label,
+.nsplate-asset-section[data-selected='true'] .nsplate-asset-section__label {
+  color: var(--ns-heading-bloom-color);
+  text-shadow: var(--ns-heading-bloom-shadow);
 }
 
 .nsplate-asset-section__selected {

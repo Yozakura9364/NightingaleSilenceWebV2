@@ -71,19 +71,22 @@ defineEmits<{
   min-width: 0;
   align-items: center;
   gap: 8px;
-  color: var(--ns-color-text);
+  color: var(--ns-pixel-window-title-color);
   font-size: 13px;
   font-weight: 950;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-shadow: var(--ns-pixel-window-title-shadow);
 }
 
 .app-pixel-window__icon {
   flex: 0 0 auto;
   width: 16px;
   height: 16px;
-  background: var(--ns-color-text);
+  border: var(--ns-pixel-window-icon-border);
+  background: var(--ns-pixel-window-icon-bg);
+  box-shadow: var(--ns-pixel-window-icon-shadow);
 }
 
 .app-pixel-window__close {
@@ -91,10 +94,11 @@ defineEmits<{
   flex: 0 0 auto;
   width: 28px;
   height: 28px;
-  border: 2px solid var(--ns-pixel-border);
+  border: 2px solid var(--ns-pixel-window-control-border);
   border-radius: 0;
-  background: var(--ns-pixel-surface);
-  color: var(--ns-color-text);
+  background: var(--ns-pixel-window-control-bg);
+  color: var(--ns-pixel-window-control-color);
+  box-shadow: var(--ns-pixel-window-control-shadow);
   cursor: pointer;
   transition:
     transform var(--ns-transition-fast),
@@ -105,7 +109,7 @@ defineEmits<{
 .app-pixel-window__close:hover {
   transform: translate(-1px, -1px);
   background: var(--ns-pixel-hover-surface);
-  box-shadow: var(--ns-pixel-soft-shadow);
+  box-shadow: var(--ns-pixel-window-control-shadow), var(--ns-pixel-soft-shadow);
 }
 
 .app-pixel-window__close:focus-visible {
@@ -126,6 +130,7 @@ defineEmits<{
   width: 15px;
   height: 2px;
   background: currentColor;
+  box-shadow: var(--ns-pixel-window-control-mark-shadow);
   content: '';
   transform-origin: center;
 }
