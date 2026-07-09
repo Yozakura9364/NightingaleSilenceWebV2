@@ -40,6 +40,7 @@ interface ArmoireOwnedItem {
   inventoryType?: number
   retainerId?: string
   retainerName?: string
+  retainerSlot?: number
   cabinetId?: number
 }
 
@@ -219,6 +220,8 @@ interface ArmoireStoreOutfit {
 - `localizedNames` 用于让商城套装名随界面语言切换；游戏物品名优先来自静态 Item 数据。
 - `regionalStoreUrls` 记录各地区入口；前端只外显短链域名，不外显 `cn/tw/global/kr` 字段名。
 - `regionalPriceLabels` 记录各地区价格文本；前端按固定地区标签展示，例如 `简中服`、`繁中服`、`Global Server`、`한국`。
+- 校正页读取地区链接时不再用 `storeUrl` 兜底 `regionalStoreUrls.cn`。简中服为空就表示缺简中链接；GLOBAL 商品的国际服链接不能被当成简中链接显示或导出。
+- 对片假名或日文为主的商品，必须同时维护 `localizedNames.zh-CN` 和对应地区的 `regionalStoreUrls` / `regionalPriceLabels`，避免商品名随界面语言切换时回落到日文默认名。
 - 国际服商城价格如果抓到日元网页金额，目录中按同数值 `crysta` 展示，例如 `550 円` 写成 `550 crysta`。
 - 前端“商城”面板只根据当前 snapshot 中是否存在这些 `itemIds` 显示“已检测到 / 缺部分 / 未检测到 / 待校正”，不等同于商城账号购买记录。
 - 真正的账号购买状态必须来自用户手动标记、导入清单，或后续明确授权的数据读取；不能默认抓取商城账号。
@@ -282,7 +285,9 @@ source: 'asvel-compatible'
 container: 'glamourDresser'
 ```
 
-## 本地 helper v0.5.1
+## 本地 helper v0.5.2
+
+v0.5.2 起，helper 会在雇员物品实例上输出 `retainerSlot`。该字段来自游戏雇员列表槽位，helper 内部为 0-based 数值；网页只用它排序，把衣柜统计按“雇员 1-10”的游戏顺序展示。旧 snapshot 或手动导入文件没有该字段时，网页会回退到雇员 ID、雇员名和容器名的稳定排序。
 
 正式 helper 已拆为独立项目：
 
@@ -343,7 +348,7 @@ https://nightingalesilence.com/#/ffxiv/armoire?connect=1
 - 雇员身份通过 `RetainerManager.Instance` 读取，最多 10 个槽位；当前已能取得雇员名、雇员 ID、职业、等级、仓库占用数、上架数和当前选中状态。
 - `InventoryManager` 中的 `10000-10006` 是当前加载雇员仓库的 7 个 25 格内存块，总计 175 格；游戏 UI 展示为 5 页，每页 35 格。helper snapshot 不直接外显内部块，而是按全局 slot 重排为 `雇员名 背包 1-5`。
 - 多雇员归档的正式交互口径不是一次性读完所有雇员；helper 会在用户打开或切换某个雇员且其 7 个内部块加载完成时，把该雇员库存写入本次 helper 进程的内存缓存。用户逐个打开雇员后，snapshot 会逐步累积多个雇员，这与游戏内检索系统需要访问过雇员后才有完整数据的体验一致。
-- 当前雇员缓存同时纳入雇员背包、雇员已装备和雇员市场；雇员 ID 以字符串形式写入 `retainerId`，避免 JavaScript 64 位整数精度问题。前端行动建议会过滤雇员市场上架物品：`inventoryType=12002` 或容器名以 `市场` 结尾的条目不进入商城拥有状态、可交易物品、重复物品、同模型和生产采集复制品回收建议。
+- 当前雇员缓存同时纳入雇员背包、雇员已装备和雇员市场；雇员 ID 以字符串形式写入 `retainerId`，避免 JavaScript 64 位整数精度问题。前端会保留这些原始数据用于衣柜统计和位置展示。行动建议会全局过滤雇员市场上架物品：`inventoryType=12002` 或容器名以 `市场` 结尾的条目，不进入商城拥有状态、可交易物品、重复物品、同模型和生产采集复制品回收建议。雇员已装备物品只在重复相关建议中排除：`inventoryType=11000` 或容器名以 `已装备` 结尾的条目，不参与重复物品和同模型多余判断，但仍可参与商城拥有状态、收藏柜、套装、可交易、复制品和染色风险等其他判断。
 - 前端连接 helper 后会轮询 `/probe`：页面可见时约 2 秒一次，隐藏时约 10 秒一次。首次探针只记录刷新签名；后续检测到角色、容器、雇员状态、雇员缓存或 `snapshotContentHash` 等探针签名变化后，会延迟约 1.4 秒调用 `/snapshot/refresh` 更新页面，减少“每打开一个雇员还要手动刷新一次”的操作，同时避免每 2 秒重建完整 snapshot。`snapshotContentHash` 只暴露稳定内容哈希，不外显物品明细，用于覆盖同容器等量交换、染色或绑定状态变化。
 - `/retainer-cache/clear` 只清空 helper 进程内缓存，不清空当前页面已经显示的 snapshot；页面数据会在下一次刷新或重新读取后更新。
 - `/probe` 是当前验证入口；它不外显物品 ID，只返回容器状态和数量。
@@ -407,6 +412,7 @@ helper 输出的 snapshot 形态：
       inventoryType?: number,
       retainerId?: string,
       retainerName?: string,
+      retainerSlot?: number,
       cabinetId?: number
     }
   ]
@@ -457,7 +463,7 @@ helper 输出的 snapshot 形态：
 
 - 基础统计：条目数、不同物品数、总数量、染色条目数、投影台条目数、收藏柜条目数。
 - 衣柜统计：按 `container + containerName` 聚合，并以折叠容器展示每个容器中的物品图标；展开后才渲染该容器物品。
-- 染色风险：基于 snapshot 的 `dyes` 字段识别已染色条目，并结合用户选择的贵重染剂类别判断是否进入高风险清单。默认贵重类别为 `extra1`、`extra2`、`storeSpecial`；用户可以选择任意子集，也可以全不选。`general`、`extra1`、`extra2` 是一对多颜色范围，`storeSpecial` 是商城特殊染剂一对一颜色范围。分类表随游戏版本和染剂系统调整需要复核。
+- 染色风险：基于 snapshot 的 `dyes` 字段识别已染色条目，并结合用户选择的贵重染剂判断是否进入高风险清单。用户可以选择 `general`、`extra1`、`extra2` 等类别，也可以选择 `storeSpecial` 范围内的具体染剂；默认只选择具体染剂 `无瑕白`、`煤玉黑`、`柔彩粉`，不默认把追加染剂1/2 整个类别视为贵重。用户可以全不选。`general`、`extra1`、`extra2` 是一对多颜色范围，`storeSpecial` 是商城特殊染剂一对一颜色范围。分类表随游戏版本和染剂系统调整需要复核。
 - 收藏柜、套装、同模型：已建立纯函数接口；同模型按 `主模型`、`副模型`、`ItemUICategory`、`EquipSlotCategory` 都完全一致分组，但没有正式 catalog 时返回 `missingCatalog`。
 - 可交易物品检查：只提示静态 catalog 判定可交易、且实例 `spiritbond === 0` 的外观物品；缺失 `spiritbond` 或已绑定的条目不提示。
 - 生产采集复制品：基于轻量复制品 catalog 命中当前 snapshot 中仍拥有的生产/采集复制品，每件按 `染剂兑换券 x4` 统计，并展示当前染剂返还。

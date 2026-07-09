@@ -2870,7 +2870,10 @@
       ],
       "notes": "运营活动时装。",
       "localizedNames": {
-        "ko": "동방 낭자 의상 세트"
+        "ko": "동방 낭자 의상 세트",
+        "zh-CN": "东方佳人套",
+        "ja": "東方佳人",
+        "en": "Far Eastern Courtier"
       },
       "regionalPriceLabels": {
         "cn": "活动获取",
@@ -3509,7 +3512,10 @@
       ],
       "notes": "运营活动时装。",
       "localizedNames": {
-        "ko": "동방 도령 의상 세트"
+        "ko": "동방 도령 의상 세트",
+        "zh-CN": "东方武人套",
+        "ja": "東方武人",
+        "en": "Far Eastern Dignitary"
       },
       "regionalPriceLabels": {
         "cn": "活动获取",
