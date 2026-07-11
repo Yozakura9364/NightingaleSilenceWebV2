@@ -74,6 +74,25 @@
                 :message="t(textKeys.placeholder)"
               />
             </div>
+
+            <div class="style-formal-sample__loading" :aria-label="t(textKeys.checking)">
+              <AppLoading
+                :title="t(textKeys.checking)"
+                :message="t(textKeys.placeholder)"
+                size="md"
+              />
+              <AppLoading compact :message="t(textKeys.placeholder)" />
+              <div class="style-formal-sample__loading-action">
+                <AppButton variant="primary" @click="showStyleLabLoadingPreview">
+                  {{ t(textKeys.styleLabLoadingPreviewAction) }}
+                </AppButton>
+                <AppStatus
+                  compact
+                  tone="info"
+                  :message="t(textKeys.styleLabLoadingPreviewMessage)"
+                />
+              </div>
+            </div>
           </div>
         </AppPixelWindow>
       </div>
@@ -1118,12 +1137,19 @@
         </div>
       </div>
     </section>
+
+    <AppLoading
+      v-if="isStyleLabLoadingPreviewVisible"
+      overlay
+      size="lg"
+      :aria-label="t(textKeys.styleLabLoadingPreview)"
+    />
   </main>
 </template>
 
 <script setup lang="ts">
 import '@/styles/experiments/pixel-soft.css'
-import { computed, ref, watch, type CSSProperties } from 'vue'
+import { computed, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
 import pixelChevronLeftIcon from '@/assets/icons/chevron-left.svg'
 import pixelChevronRightIcon from '@/assets/icons/chevron-right.svg'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
@@ -1142,6 +1168,7 @@ import pixelStarIcon from '@/assets/icons/pixelarticons/star.svg'
 import pixelUserIcon from '@/assets/icons/pixelarticons/user.svg'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
+import AppLoading from '@/components/AppLoading.vue'
 import AppNotebookList from '@/components/AppNotebookList.vue'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
 import AppStatus from '@/components/AppStatus.vue'
@@ -1182,7 +1209,7 @@ type PixelIconBarAction = PixelIconAction & {
 }
 
 const { t } = useLocale()
-const { current: themeMode, setThemeMode } = useTheme()
+const { current: themeMode } = useTheme()
 const fontMode = ref<FontMode>('decorative')
 const pixelTone = ref<PixelTone>(defaultPixelTone(themeMode.value))
 const styleLabCanvasSize = '1440 x 1920'
@@ -1455,14 +1482,18 @@ const commonTabs = computed(() =>
 )
 
 const formalTabs = commonTabs
-const effectivePixelTone = computed<PixelTone>(() =>
-  defaultPixelTone(themeMode.value, pixelTone.value)
-)
+const effectivePixelTone = computed<PixelTone>(() => pixelTone.value)
 const styleLabPopupSection = ref<'ffxiv' | 'silence'>('ffxiv')
 const styleLabIconMenuSection = ref<'ffxiv' | 'silence' | null>('ffxiv')
+const isStyleLabLoadingPreviewVisible = ref(false)
+let styleLabLoadingPreviewTimer = 0
 
 watch(themeMode, (mode) => {
   pixelTone.value = defaultPixelTone(mode, pixelTone.value)
+})
+
+onBeforeUnmount(() => {
+  clearStyleLabLoadingPreviewTimer()
 })
 
 function defaultPixelTone(mode: ThemeMode, preferredTone: PixelTone = 'classic'): PixelTone {
@@ -1475,7 +1506,24 @@ function defaultPixelTone(mode: ThemeMode, preferredTone: PixelTone = 'classic')
 
 function setPixelTone(tone: PixelTone) {
   pixelTone.value = tone
-  setThemeMode(tone === 'cyber-night' ? 'night' : 'day')
+}
+
+function clearStyleLabLoadingPreviewTimer() {
+  if (!styleLabLoadingPreviewTimer) {
+    return
+  }
+
+  window.clearTimeout(styleLabLoadingPreviewTimer)
+  styleLabLoadingPreviewTimer = 0
+}
+
+function showStyleLabLoadingPreview() {
+  isStyleLabLoadingPreviewVisible.value = true
+  clearStyleLabLoadingPreviewTimer()
+  styleLabLoadingPreviewTimer = window.setTimeout(() => {
+    isStyleLabLoadingPreviewVisible.value = false
+    styleLabLoadingPreviewTimer = 0
+  }, 3200)
 }
 
 function pixelIconStyle(icon: string): CSSProperties {
@@ -1531,10 +1579,19 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
 }
 
 .style-formal-sample__grid,
-.style-formal-sample__states {
+.style-formal-sample__states,
+.style-formal-sample__loading {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+}
+
+.style-formal-sample__loading-action {
+  display: grid;
+  grid-column: 1 / -1;
+  min-width: 0;
+  align-items: start;
+  gap: 10px;
 }
 
 .style-lab-experiment[data-pixel-tone='cyber-night'] :deep(.ns-pixel-stage) {
@@ -2811,7 +2868,8 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
   }
 
   .style-formal-sample__grid,
-  .style-formal-sample__states {
+  .style-formal-sample__states,
+  .style-formal-sample__loading {
     grid-template-columns: 1fr;
   }
 
