@@ -5,6 +5,7 @@ export type ThemeMode = 'day' | 'night'
 const THEME_KEY = 'ns-theme-mode'
 
 const current = ref<ThemeMode>(loadThemeMode())
+let isStorageSyncReady = false
 
 function isThemeMode(value: string | null): value is ThemeMode {
   return value === 'day' || value === 'night'
@@ -26,6 +27,23 @@ function applyThemeMode(mode: ThemeMode) {
 
 function initThemeMode() {
   applyThemeMode(current.value)
+  initStorageSync()
+}
+
+function initStorageSync() {
+  if (isStorageSyncReady) {
+    return
+  }
+
+  isStorageSyncReady = true
+  window.addEventListener('storage', (event) => {
+    if (event.key !== THEME_KEY || !isThemeMode(event.newValue)) {
+      return
+    }
+
+    current.value = event.newValue
+    applyThemeMode(event.newValue)
+  })
 }
 
 function setThemeMode(mode: ThemeMode) {
