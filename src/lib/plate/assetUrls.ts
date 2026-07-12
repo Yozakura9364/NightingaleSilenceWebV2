@@ -1,4 +1,4 @@
-export const NSPLATE_DEFAULT_IMAGE_BASE = '/img'
+export const NSPLATE_DEFAULT_IMAGE_BASE = 'https://img.nightingalesilence.com'
 
 export function normalizeNSPlateResourcePath(path: unknown) {
   return String(path ?? '')
