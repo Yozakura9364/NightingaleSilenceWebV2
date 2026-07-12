@@ -98,6 +98,24 @@ function normalizeOptionalInteger(value: unknown, path: string): number | undefi
   return normalizeInteger(value, path)
 }
 
+function normalizeOptionalPositiveInteger(value: unknown, path: string): number | undefined {
+  if (value === undefined) {
+    return undefined
+  }
+
+  const normalized = normalizeInteger(value, path)
+
+  if (normalized === 0) {
+    return undefined
+  }
+
+  if (normalized < 0) {
+    fail('invalidItem', path)
+  }
+
+  return normalized
+}
+
 function normalizeDyeId(value: unknown, path: string): number {
   const dyeId = normalizeInteger(value, path)
 
@@ -138,6 +156,7 @@ function normalizeOwnedItem(value: unknown, index: number): ArmoireOwnedItem {
     hq: typeof value.hq === 'boolean' ? value.hq : undefined,
     quantity: normalizeQuantity(value.quantity, `items[${index}].quantity`),
     dyes: normalizeDyes(value.dyes, `items[${index}].dyes`),
+    glamourId: normalizeOptionalPositiveInteger(value.glamourId, `items[${index}].glamourId`),
     spiritbond: normalizeOptionalInteger(value.spiritbond, `items[${index}].spiritbond`),
     container: normalizeContainer(value.container, `items[${index}].container`),
     containerName: normalizeText(value.containerName, 120),
@@ -145,6 +164,7 @@ function normalizeOwnedItem(value: unknown, index: number): ArmoireOwnedItem {
     inventoryType: normalizeOptionalInteger(value.inventoryType, `items[${index}].inventoryType`),
     retainerId: normalizeText(value.retainerId, 32),
     retainerName: normalizeText(value.retainerName, 80),
+    retainerSlot: normalizeOptionalInteger(value.retainerSlot, `items[${index}].retainerSlot`),
     cabinetId: normalizeOptionalInteger(value.cabinetId, `items[${index}].cabinetId`)
   }
 }

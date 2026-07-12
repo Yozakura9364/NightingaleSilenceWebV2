@@ -1,5 +1,6 @@
 import { getIdenticalModelGroups, hasIdenticalModelCatalog } from '@/lib/armoire/catalog'
 import { getOwnedItems } from '@/lib/armoire/buildOwnedIndex'
+import { isArmoireStoreEquivalentItem } from '@/lib/armoire/storeItemEquivalents'
 import type {
   ArmoireCatalog,
   ArmoireContainerKind,
@@ -40,6 +41,7 @@ export function analyzeIdenticalModels(
       const storageSpaceItemIds = ownedItemIds.filter((itemId) =>
         getOwnedItems(index, itemId).some(hasStorageSpaceCost)
       )
+      const storeRelatedItemIds = storageSpaceItemIds.filter(isArmoireStoreEquivalentItem)
       const ownedEntryCount = ownedItemIds.reduce(
         (count, itemId) => count + getOwnedItems(index, itemId).length,
         0
@@ -62,11 +64,17 @@ export function analyzeIdenticalModels(
         armoireItemIds,
         armoireEntryCount,
         storageSpaceItemIds,
-        storageSpaceEntryCount
+        storageSpaceEntryCount,
+        storeRelatedItemIds,
+        isStoreRelated: storeRelatedItemIds.length > 0
       }
     })
     .filter((group) => group.ownedItemIds.length > 1 && group.storageSpaceItemIds.length > 0)
     .sort((left, right) => {
+      if (Number(left.isStoreRelated) !== Number(right.isStoreRelated)) {
+        return Number(left.isStoreRelated) - Number(right.isStoreRelated)
+      }
+
       if (right.storageSpaceEntryCount !== left.storageSpaceEntryCount) {
         return right.storageSpaceEntryCount - left.storageSpaceEntryCount
       }

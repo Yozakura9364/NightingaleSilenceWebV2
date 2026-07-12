@@ -5,7 +5,21 @@ export function getOwnedItemQuantity(item: ArmoireOwnedItem): number {
 }
 
 export function isDyedOwnedItem(item: ArmoireOwnedItem): boolean {
-  return Boolean(item.dyes?.some((dyeId) => dyeId > 0))
+  return getEffectiveOwnedItemDyes(item).some((dyeId) => dyeId > 0)
+}
+
+export function hasProjectedGlamour(item: Pick<ArmoireOwnedItem, 'glamourId'>): boolean {
+  return typeof item.glamourId === 'number' && item.glamourId > 0
+}
+
+export function getEffectiveOwnedItemDyes(
+  item: Pick<ArmoireOwnedItem, 'dyes' | 'glamourId'>
+): [number, number] {
+  if (hasProjectedGlamour(item)) {
+    return [0, 0]
+  }
+
+  return item.dyes ?? [0, 0]
 }
 
 export function buildOwnedIndex(snapshot: ArmoireSnapshot): ArmoireOwnedIndex {

@@ -98,6 +98,7 @@ export interface ArmoireHelperRetainerProbe {
 export interface ArmoireHelperRetainerCacheProbe {
   retainerId: string
   retainerName: string
+  slot: number
   itemCount: number
   updatedAt: string
 }

@@ -215,6 +215,7 @@ function getSnapshotItemInstanceKey(item: ArmoireSnapshot['items'][number]): str
     item.hq === true ? 1 : 0,
     item.quantity ?? 1,
     item.dyes?.join('/') ?? '',
+    item.glamourId ?? '',
     item.spiritbond ?? '',
     item.cabinetId ?? ''
   ].join('|')

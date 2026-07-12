@@ -2,6 +2,7 @@ import { EMPTY_ARMOIRE_CATALOG } from '@/lib/armoire/catalog'
 import {
   createCatalogItemsFromCompactDisplayItems,
   isArmoireCompactDisplayItemArray,
+  isNonNegativeIntegerArray,
   isPositiveIntegerArray
 } from '@/lib/armoire/catalog'
 import {
@@ -31,6 +32,7 @@ function isGlamourSet(value: unknown): boolean {
     isRecord(value) &&
     isPositiveInteger(value.setItemId) &&
     (value.setName === undefined || typeof value.setName === 'string') &&
+    (value.pieceSlotItemIds === undefined || isNonNegativeIntegerArray(value.pieceSlotItemIds)) &&
     isPositiveIntegerArray(value.pieceItemIds)
   )
 }

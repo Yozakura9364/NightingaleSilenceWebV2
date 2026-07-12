@@ -1,11 +1,14 @@
 import { buildOwnedIndex } from '@/lib/armoire/buildOwnedIndex'
+import { analyzeGlamourSets } from '@/lib/armoire/analyzeGlamourSets'
 import { filterArmoireSnapshotForActionableItems } from '@/lib/armoire/filterSnapshot'
 import {
   getStoreEquivalentOwnedItems,
-  hasStoreEquivalentOwnedItem
+  getStoreEquivalentItemIdsForOwnership
 } from '@/lib/armoire/storeItemEquivalents'
 import type {
+  ArmoireCatalog,
   ArmoireSnapshot,
+  ArmoireOwnedIndex,
   ArmoireStoreCatalog,
   ArmoireStoreOutfit,
   ArmoireStoreOutfitAnalysis,
@@ -36,20 +39,49 @@ function getOutfitStatus(
   return 'missing'
 }
 
+function createStoredByBucketItemIds(
+  catalog: ArmoireCatalog,
+  index: ArmoireOwnedIndex
+): Set<number> {
+  return new Set(
+    analyzeGlamourSets(index, catalog).sets.flatMap((set) => set.storedByBucketPieceItemIds)
+  )
+}
+
+function getStoredByBucketEquivalentItemIds(
+  storedByBucketItemIds: ReadonlySet<number>,
+  itemId: number
+): number[] {
+  return getStoreEquivalentItemIdsForOwnership(itemId).filter((equivalentItemId) =>
+    storedByBucketItemIds.has(equivalentItemId)
+  )
+}
+
 export function analyzeArmoireStoreOutfits(
   snapshot: ArmoireSnapshot,
-  storeCatalog: ArmoireStoreCatalog
+  storeCatalog: ArmoireStoreCatalog,
+  catalog: ArmoireCatalog
 ): ArmoireStoreOutfitAnalysis {
   const index = buildOwnedIndex(filterArmoireSnapshotForActionableItems(snapshot))
+  const storedByBucketItemIds = createStoredByBucketItemIds(catalog, index)
   const outfits: ArmoireStoreOutfitState[] = storeCatalog.outfits.map((outfit) => {
     const itemIds = getUniqueItemIds(outfit.itemIds)
-    const ownedItemIds = itemIds.filter((itemId) => hasStoreEquivalentOwnedItem(index, itemId))
-    const missingItemIds = itemIds.filter((itemId) => !hasStoreEquivalentOwnedItem(index, itemId))
     const ownedItemsByItemId: Record<number, ReturnType<typeof getStoreEquivalentOwnedItems>> = {}
+    const storedByBucketItemIdsByItemId: Record<number, number[]> = {}
 
     for (const itemId of itemIds) {
       ownedItemsByItemId[itemId] = getStoreEquivalentOwnedItems(index, itemId)
+      storedByBucketItemIdsByItemId[itemId] = getStoredByBucketEquivalentItemIds(
+        storedByBucketItemIds,
+        itemId
+      )
     }
+
+    const ownedItemIds = itemIds.filter(
+      (itemId) =>
+        ownedItemsByItemId[itemId].length > 0 || storedByBucketItemIdsByItemId[itemId].length > 0
+    )
+    const missingItemIds = itemIds.filter((itemId) => !ownedItemIds.includes(itemId))
 
     return {
       outfit,
@@ -57,6 +89,7 @@ export function analyzeArmoireStoreOutfits(
       ownedItemIds,
       missingItemIds,
       ownedItemsByItemId,
+      storedByBucketItemIdsByItemId,
       mappedItemCount: itemIds.length,
       totalItemCount: Math.max(itemIds.length, outfit.itemNames.length)
     }

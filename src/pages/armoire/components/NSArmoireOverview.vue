@@ -77,6 +77,7 @@
 import { computed, ref, watch } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
+import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
 import { getOwnedItemQuantity } from '@/lib/armoire/buildOwnedIndex'
 import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'
 import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
@@ -220,7 +221,7 @@ function getContainerItemTitle(item: ArmoireOwnedItem): string {
       location: getArmoireContainerLabel(item, t)
     }),
     formatArmoireText(t, textKeys.nsarmoireStorePieceDye, {
-      dyes: formatArmoireDyeNames(props.catalog, item.dyes, t)
+      dyes: formatArmoireDyeNames(props.catalog, getEffectiveOwnedItemDyes(item), t)
     })
   ]
   const bindText = getContainerItemBindText(item)

@@ -13,17 +13,20 @@
       :message="t(textKeys.nsarmoireCollectionNeedsCatalog)"
     />
 
-    <template v-else>
-      <p class="nsarmoire-collection-panel__summary">{{ summary }}</p>
-
-      <div class="nsarmoire-collection-panel__groups">
-        <section class="nsarmoire-collection-panel__group">
-          <h3>{{ t(textKeys.nsarmoireCabinetTransferableTitle) }}</h3>
-
+    <div v-else class="nsarmoire-collection-panel__groups">
+      <NSArmoireActionCard
+        :title="t(textKeys.nsarmoireCabinetTransferableTitle)"
+        :count="transferableCount"
+        :toggle-label="getToggleLabel('transferable', transferableCount)"
+        :sticky-header="isGroupExpanded('transferable')"
+        @toggle="toggleGroup('transferable')"
+      >
+        <template v-if="isGroupExpanded('transferable')">
           <ul v-if="hasVisibleTransferableItems" class="nsarmoire-collection-panel__list">
             <li
               v-for="item in visibleTransferableItems"
               :key="item.key"
+              :class="{ 'nsarmoire-collection-panel__item--valuable-dye': item.hasValuableDye }"
               @contextmenu="openItemActionMenu(item, $event)"
               @pointerdown="startItemActionLongPress(item, $event)"
               @pointermove="moveItemActionLongPress"
@@ -43,8 +46,33 @@
                 class="nsarmoire-collection-panel__icon-fallback"
                 aria-hidden="true"
               ></span>
-              <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
-              <span class="nsarmoire-collection-panel__badge">
+              <span class="nsarmoire-collection-panel__body">
+                <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
+                <small v-if="item.locationLabel">{{ item.locationLabel }}</small>
+                <small
+                  v-if="item.dyeLine"
+                  class="nsarmoire-collection-panel__dyes"
+                >
+                  <span>{{ t(textKeys.nsarmoireHintDyed) }}</span>
+                  <span class="nsarmoire-collection-panel__dye-slots">
+                    <span
+                      v-for="dyeSlot in item.dyeLine.slots"
+                      :key="dyeSlot.key"
+                      class="nsarmoire-collection-panel__dye-slot"
+                    >
+                      <span
+                        v-if="dyeSlot.color"
+                        class="nsarmoire-collection-panel__dye-swatch"
+                        :style="{ backgroundColor: dyeSlot.color }"
+                        aria-hidden="true"
+                      />
+                      <span>{{ dyeSlot.name }}</span>
+                    </span>
+                  </span>
+                  <span v-if="item.dyeLine.suffix">{{ item.dyeLine.suffix }}</span>
+                </small>
+              </span>
+              <span class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--action">
                 {{ t(textKeys.nsarmoireCollectionStatusTransferable) }}
               </span>
             </li>
@@ -55,11 +83,17 @@
           <AppButton v-if="hasMoreTransferableItems" @click="showMoreTransferableItems">
             {{ transferableLoadMoreLabel }}
           </AppButton>
-        </section>
+        </template>
+      </NSArmoireActionCard>
 
-        <section class="nsarmoire-collection-panel__group">
-          <h3>{{ t(textKeys.nsarmoireCabinetMissingTitle) }}</h3>
-
+      <NSArmoireActionCard
+        :title="t(textKeys.nsarmoireCabinetMissingTitle)"
+        :count="missingCount"
+        :toggle-label="getToggleLabel('missing', missingCount)"
+        :sticky-header="isGroupExpanded('missing')"
+        @toggle="toggleGroup('missing')"
+      >
+        <template v-if="isGroupExpanded('missing')">
           <ul v-if="hasVisibleMissingItems" class="nsarmoire-collection-panel__list">
             <li
               v-for="item in visibleMissingItems"
@@ -112,9 +146,9 @@
           <AppButton v-if="hasMoreMissingItems" @click="showMoreMissingItems">
             {{ missingLoadMoreLabel }}
           </AppButton>
-        </section>
-      </div>
-    </template>
+        </template>
+      </NSArmoireActionCard>
+    </div>
 
     <NSArmoireItemActionMenu
       :menu="itemActionMenu"
@@ -129,13 +163,23 @@ import { computed, ref, watch } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
-import type { ArmoireCatalog, ArmoireSnapshotAnalysis } from '@/lib/armoire/types'
+import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
+import type {
+  ArmoireCatalog,
+  ArmoireDyeRiskItem,
+  ArmoireOwnedItem,
+  ArmoireSnapshotAnalysis
+} from '@/lib/armoire/types'
+import NSArmoireActionCard from '@/pages/armoire/components/NSArmoireActionCard.vue'
 import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'
 import {
   formatArmoireText,
+  getArmoireContainerLabel,
+  getArmoireDyeSlotViews,
   getArmoireItemIconUrl,
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
+import type { ArmoireDyeSlotView } from '@/pages/armoire/utils/itemDisplay'
 import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 import { useLocale } from '@/stores/locale'
 
@@ -146,6 +190,14 @@ interface CabinetItemView {
   iconUrl: string
   isOwned: boolean
   isDyed: boolean
+  locationLabel: string
+  dyeLine: CabinetItemDyeLine | null
+  hasValuableDye: boolean
+}
+
+interface CabinetItemDyeLine {
+  slots: ArmoireDyeSlotView[]
+  suffix: string
 }
 
 const props = defineProps<{
@@ -167,6 +219,8 @@ const {
   cancelItemActionLongPress
 } = useArmoireItemActionMenu()
 const CABINET_BATCH_SIZE = 24
+type CabinetGroupKey = 'transferable' | 'missing'
+const expandedGroups = ref<Partial<Record<CabinetGroupKey, boolean>>>({})
 const visibleTransferableCount = ref(CABINET_BATCH_SIZE)
 const visibleMissingCount = ref(CABINET_BATCH_SIZE)
 
@@ -174,24 +228,17 @@ const cabinetProgress = computed(() =>
   props.analysis?.cabinetProgress.status === 'ready' ? props.analysis.cabinetProgress : null
 )
 
-const summary = computed(() => {
-  const progress = cabinetProgress.value
-  if (!progress) {
-    return ''
-  }
-
-  return formatArmoireText(t, textKeys.nsarmoireCabinetStatsSummary, {
-    stored: progress.storedCount,
-    total: progress.storableCount,
-    transferable: progress.transferableItemIds.length,
-    missing: progress.missingCabinetItemIds.length
-  })
-})
+const transferableCount = computed(() => cabinetProgress.value?.transferableItemIds.length ?? 0)
+const missingCount = computed(() => cabinetProgress.value?.missingCabinetItemIds.length ?? 0)
 
 const transferableItems = computed(() =>
-  toItemViews(cabinetProgress.value?.transferableItemIds ?? [])
+  isGroupExpanded('transferable')
+    ? toItemViews(cabinetProgress.value?.transferableItemIds ?? [])
+    : []
 )
-const missingItems = computed(() => toItemViews(cabinetProgress.value?.missingCabinetItemIds ?? []))
+const missingItems = computed(() =>
+  isGroupExpanded('missing') ? toItemViews(cabinetProgress.value?.missingCabinetItemIds ?? []) : []
+)
 
 const visibleTransferableItems = computed(() =>
   transferableItems.value.slice(0, visibleTransferableCount.value)
@@ -231,24 +278,125 @@ const missingLoadMoreLabel = computed(() =>
 watch(
   () => [props.analysis, props.catalog.generatedAt] as const,
   () => {
+    expandedGroups.value = {}
     visibleTransferableCount.value = CABINET_BATCH_SIZE
     visibleMissingCount.value = CABINET_BATCH_SIZE
   }
 )
 
+function isGroupExpanded(key: CabinetGroupKey): boolean {
+  return expandedGroups.value[key] === true
+}
+
+function toggleGroup(key: CabinetGroupKey): void {
+  expandedGroups.value = {
+    ...expandedGroups.value,
+    [key]: !isGroupExpanded(key)
+  }
+}
+
+function getToggleLabel(key: CabinetGroupKey, itemCount: number): string {
+  if (itemCount <= 0) {
+    return ''
+  }
+
+  return isGroupExpanded(key) ? t(textKeys.nsarmoireCollapseList) : t(textKeys.nsarmoireExpandList)
+}
+
 function toItemViews(itemIds: number[]): CabinetItemView[] {
   const progress = cabinetProgress.value
   const ownedItemIds = new Set(progress?.ownedCabinetItemIds ?? [])
   const dyedOwnedItemIds = new Set(progress?.dyedOwnedCabinetItemIds ?? [])
+  const dyeRiskItemsByItemId = getDyeRiskItemsByItemId()
 
-  return itemIds.map((itemId) => ({
-    key: `cabinet-${itemId}`,
-    itemId,
-    name: getArmoireItemName(props.catalog, itemId, t),
-    iconUrl: getArmoireItemIconUrl(props.catalog, itemId),
-    isOwned: ownedItemIds.has(itemId),
-    isDyed: dyedOwnedItemIds.has(itemId)
-  }))
+  return itemIds
+    .map((itemId) => {
+      const entries = progress?.transferableEntriesByItemId[itemId] ?? []
+      const dyeRiskItems = dyeRiskItemsByItemId.get(itemId) ?? []
+      const hasValuableDye = dyeRiskItems.some((item) => item.hasValuableDye)
+
+      return {
+        key: `cabinet-${itemId}`,
+        itemId,
+        name: getArmoireItemName(props.catalog, itemId, t),
+        iconUrl: getArmoireItemIconUrl(props.catalog, itemId),
+        isOwned: ownedItemIds.has(itemId),
+        isDyed: dyedOwnedItemIds.has(itemId),
+        locationLabel: getItemLocationLabel(entries),
+        dyeLine: getItemDyeLine(itemId, entries, dyeRiskItems),
+        hasValuableDye
+      }
+    })
+    .sort(
+      (left, right) =>
+        Number(left.hasValuableDye) - Number(right.hasValuableDye) ||
+        left.name.localeCompare(right.name)
+    )
+}
+
+function getDyeRiskItemsByItemId(): Map<number, ArmoireDyeRiskItem[]> {
+  const items = new Map<number, ArmoireDyeRiskItem[]>()
+
+  for (const item of props.analysis?.dyeRisk.items ?? []) {
+    const entries = items.get(item.itemId)
+
+    if (entries) {
+      entries.push(item)
+    } else {
+      items.set(item.itemId, [item])
+    }
+  }
+
+  return items
+}
+
+function getItemLocationLabel(entries: readonly ArmoireOwnedItem[]): string {
+  const locations = Array.from(new Set(entries.map((entry) => getArmoireContainerLabel(entry, t))))
+
+  return locations.length > 0
+    ? formatArmoireText(t, textKeys.nsarmoireHintCurrentLocation, {
+        locations: locations.join(' / ')
+      })
+    : ''
+}
+
+function getItemDyeLine(
+  itemId: number,
+  entries: readonly ArmoireOwnedItem[],
+  dyeRiskItems: readonly ArmoireDyeRiskItem[]
+): CabinetItemDyeLine | null {
+  if (props.catalog.items[itemId]?.dyeSlotCount === 0) {
+    return null
+  }
+
+  const dyedEntry = entries.find((entry) =>
+    getEffectiveOwnedItemDyes(entry).some((dyeId) => dyeId > 0)
+  )
+
+  if (!dyedEntry) {
+    return null
+  }
+
+  const slots = getArmoireDyeSlotViews(
+    props.catalog,
+    getEffectiveOwnedItemDyes(dyedEntry),
+    props.catalog.items[itemId]?.dyeSlotCount,
+    t
+  ).filter((slot) => {
+    const keyParts = slot.key.split('-')
+    return keyParts[keyParts.length - 1] !== '0'
+  })
+
+  if (slots.length === 0) {
+    return null
+  }
+
+  return {
+    slots,
+    suffix: dyeRiskItems.some((item) => item.hasValuableDye)
+      ? t(textKeys.nsarmoireHintValuableDyeDeferredSuffix)
+      : ''
+  }
 }
 
 function showMoreTransferableItems(): void {
@@ -290,8 +438,7 @@ function hideBrokenImage(event: Event): void {
   gap: 12px;
 }
 
-.nsarmoire-collection-panel h2,
-.nsarmoire-collection-panel h3 {
+.nsarmoire-collection-panel h2 {
   margin: 0;
   font-family: var(--ns-font-sans);
   font-weight: 800;
@@ -302,32 +449,15 @@ function hideBrokenImage(event: Event): void {
   font-size: 16px;
 }
 
-.nsarmoire-collection-panel h3 {
-  font-size: 14px;
-}
-
-.nsarmoire-collection-panel__summary {
-  margin: 0;
-  color: var(--ns-color-text-muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-
 .nsarmoire-collection-panel__groups {
   display: grid;
   gap: 10px;
 }
 
-.nsarmoire-collection-panel__group {
-  display: grid;
-  gap: 7px;
-  min-width: 0;
-}
-
 .nsarmoire-collection-panel__list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 6px;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -335,44 +465,86 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-collection-panel__list li {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
+  grid-template-columns: 42px minmax(0, 1fr) minmax(82px, auto);
   align-items: center;
-  gap: 7px;
+  gap: 10px;
   min-width: 0;
-  padding: 5px 6px;
+  min-height: 58px;
+  padding: 8px 10px;
   border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-bg-soft);
+  background: var(--ns-color-surface-solid);
   cursor: context-menu;
   -webkit-touch-callout: none;
 }
 
+.nsarmoire-collection-panel__item--valuable-dye {
+  color: var(--ns-color-text-muted);
+  filter: grayscale(0.45);
+  opacity: 0.72;
+}
+
 .nsarmoire-collection-panel__list img,
 .nsarmoire-collection-panel__icon-fallback {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--ns-color-border);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .nsarmoire-collection-panel__icon-fallback {
   background: var(--ns-pixel-surface);
 }
 
-.nsarmoire-collection-panel__name {
+.nsarmoire-collection-panel__body {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.nsarmoire-collection-panel__name,
+.nsarmoire-collection-panel__body small {
   min-width: 0;
   overflow: hidden;
+}
+
+.nsarmoire-collection-panel__name {
+  text-overflow: ellipsis;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.nsarmoire-collection-panel__body small {
+  color: var(--ns-color-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .nsarmoire-collection-panel__badge {
-  padding: 2px 6px;
+  justify-self: end;
+  width: fit-content;
+  max-width: min(36vw, 160px);
+  min-width: 0;
+  overflow: hidden;
+  padding: 5px 10px;
   border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface);
+  background: var(--ns-color-bg-soft);
   color: var(--ns-color-text-muted);
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.25;
+  text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nsarmoire-collection-panel__badge--action {
+  border-color: var(--ns-color-border);
+  background: var(--ns-color-bg-soft);
+  color: var(--ns-color-text);
 }
 
 .nsarmoire-collection-panel__badge-list {
@@ -383,8 +555,9 @@ function hideBrokenImage(event: Event): void {
 }
 
 .nsarmoire-collection-panel__badge--owned {
-  border-color: var(--ns-status-success-border);
-  background: var(--ns-status-success-bg);
+  border-color: var(--ns-status-info-border);
+  background: var(--ns-status-info-bg);
+  color: var(--ns-status-info-text);
 }
 
 .nsarmoire-collection-panel__badge--warning {
@@ -394,9 +567,44 @@ function hideBrokenImage(event: Event): void {
 }
 
 .nsarmoire-collection-panel__badge--muted {
-  border-color: var(--ns-pixel-border-soft);
-  background: var(--ns-color-surface);
+  border-color: var(--ns-color-border);
+  background: var(--ns-color-bg-soft);
   color: var(--ns-color-text-muted);
+}
+
+.nsarmoire-collection-panel__dyes {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nsarmoire-collection-panel__dye-slots,
+.nsarmoire-collection-panel__dye-slot {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.nsarmoire-collection-panel__dye-slots {
+  gap: 3px 5px;
+}
+
+.nsarmoire-collection-panel__dye-slot {
+  gap: 3px;
+}
+
+.nsarmoire-collection-panel__dye-slot + .nsarmoire-collection-panel__dye-slot::before {
+  content: '/';
+  color: var(--ns-color-text-muted);
+}
+
+.nsarmoire-collection-panel__dye-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  border: 1px solid var(--ns-color-border-strong);
+  box-shadow: var(--ns-control-inset-shadow);
 }
 
 @media (max-width: 640px) {

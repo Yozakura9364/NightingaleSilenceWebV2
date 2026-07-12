@@ -9,6 +9,7 @@ import { analyzeIdenticalModels } from '@/lib/armoire/analyzeIdenticalModels'
 import { analyzeTradableItems } from '@/lib/armoire/analyzeTradableItems'
 import { buildOwnedIndex } from '@/lib/armoire/buildOwnedIndex'
 import {
+  filterArmoireSnapshotForDuplicateSuggestions,
   filterArmoireSnapshotForActionableItems,
   filterArmoireSnapshotForCatalog,
   hasArmoireCatalogItems
@@ -55,20 +56,27 @@ export function analyzeArmoireSnapshot(
   const analysisSnapshot = hasCatalogItems
     ? filterArmoireSnapshotForCatalog(snapshot, catalog)
     : snapshot
+  const featureSnapshot = filterArmoireSnapshotForActionableItems(analysisSnapshot)
   const actionableSnapshot = filterIgnoredItems(
-    filterArmoireSnapshotForActionableItems(analysisSnapshot),
+    featureSnapshot,
     options.ignoredItemIds
   )
   const actionableIndex = buildOwnedIndex(actionableSnapshot)
+  const glamourSetProgress = analyzeGlamourSets(actionableIndex, catalog, options)
+  const duplicateSuggestionSnapshot = filterArmoireSnapshotForDuplicateSuggestions(actionableSnapshot)
+  const duplicateSuggestionIndex =
+    duplicateSuggestionSnapshot === actionableSnapshot
+      ? actionableIndex
+      : buildOwnedIndex(duplicateSuggestionSnapshot)
 
   return {
-    basic: analyzeArmoireBasics(analysisSnapshot),
+    basic: analyzeArmoireBasics(featureSnapshot),
     cabinetProgress: analyzeCabinetProgress(actionableSnapshot, catalog, actionableIndex),
-    glamourSetProgress: analyzeGlamourSets(actionableIndex, catalog),
+    glamourSetProgress,
     dyeRisk: analyzeDyeRisk(actionableSnapshot, catalog, options),
     tradableItems: analyzeTradableItems(actionableIndex, catalog),
     crafterGathererReplicas: analyzeCrafterGathererReplicas(actionableIndex, catalog),
-    duplicateItems: analyzeDuplicateItems(actionableIndex),
-    identicalModels: analyzeIdenticalModels(actionableIndex, catalog)
+    duplicateItems: analyzeDuplicateItems(duplicateSuggestionIndex),
+    identicalModels: analyzeIdenticalModels(duplicateSuggestionIndex, catalog)
   }
 }

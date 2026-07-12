@@ -766,6 +766,12 @@ export const uiMessages: UiMessageMap = {
     ja: '移動可能',
     ko: '이동 가능'
   }),
+  'nsarmoire.collection.status.toStore': msg({
+    zh: '待收纳',
+    en: 'To store',
+    ja: '収納待ち',
+    ko: '수납 대기'
+  }),
   'nsarmoire.collection.status.owned': msg({
     zh: '已拥有',
     en: 'Owned',
@@ -837,6 +843,42 @@ export const uiMessages: UiMessageMap = {
     en: 'Set not stored',
     ja: 'セット未収納',
     ko: '세트 미수납'
+  }),
+  'nsarmoire.collection.glamourSet.filter.all': msg({
+    zh: '全部',
+    en: 'All',
+    ja: 'すべて',
+    ko: '전체'
+  }),
+  'nsarmoire.collection.glamourSet.status.completeStored': msg({
+    zh: '套装已完整收纳',
+    en: 'Fully stored',
+    ja: '完全収納済み',
+    ko: '완전 수납'
+  }),
+  'nsarmoire.collection.glamourSet.status.loosePiecesToStore': msg({
+    zh: '散件待收纳',
+    en: 'Pieces to store',
+    ja: '収納待ちパーツ',
+    ko: '수납 대기 부위'
+  }),
+  'nsarmoire.collection.glamourSet.status.missingPieces': msg({
+    zh: '散件未拥有',
+    en: 'Missing pieces',
+    ja: '未所持パーツ',
+    ko: '미보유 부위'
+  }),
+  'nsarmoire.collection.glamourSet.status.canCreateSet': msg({
+    zh: '套装待创建',
+    en: 'Set to create',
+    ja: 'セット作成待ち',
+    ko: '세트 생성 대기'
+  }),
+  'nsarmoire.collection.glamourSet.status.unowned': msg({
+    zh: '套装未拥有',
+    en: 'Set not owned',
+    ja: 'セット未所持',
+    ko: '세트 미보유'
   }),
   'nsarmoire.panel.storeOutfits': msg({
     zh: '商城统计',
@@ -1791,6 +1833,12 @@ export const uiMessages: UiMessageMap = {
     en: 'Dyes: {dyes}',
     ja: '染色: {dyes}',
     ko: '염색: {dyes}'
+  }),
+  'nsarmoire.hint.storeRelated': msg({
+    zh: '商城相关',
+    en: 'Store-related',
+    ja: 'ストア関連',
+    ko: '상점 관련'
   }),
   'nsarmoire.hint.currentLocation': msg({
     zh: '当前在：{locations}',
@@ -3083,6 +3131,12 @@ export const uiMessages: UiMessageMap = {
     en: 'Retainer',
     ja: 'リテイナー',
     ko: '고용인'
+  }),
+  'nsarmoire.container.retainerInventory': msg({
+    zh: '雇员背包',
+    en: 'Retainer inventory',
+    ja: 'リテイナー所持品',
+    ko: '고용인 가방'
   }),
   'nsarmoire.container.armoury': msg({
     zh: '兵装库',
@@ -4628,6 +4682,24 @@ export const uiMessages: UiMessageMap = {
     ja: '状態フィードバック基準',
     ko: '상태 피드백 기준'
   }),
+  'styleLab.loadingPreview': msg({
+    zh: '加载预览',
+    en: 'Loading preview',
+    ja: '読み込みプレビュー',
+    ko: '로딩 미리보기'
+  }),
+  'styleLab.loadingPreview.action': msg({
+    zh: '模拟全屏加载',
+    en: 'Preview full-screen loading',
+    ja: '全画面読み込みをプレビュー',
+    ko: '전체 화면 로딩 미리보기'
+  }),
+  'styleLab.loadingPreview.message': msg({
+    zh: '用于查看共同加载动画的真实覆盖效果。',
+    en: 'Shows the shared loading animation as a real overlay.',
+    ja: '共通読み込みアニメーションの実際のオーバーレイ表示です。',
+    ko: '공통 로딩 애니메이션의 실제 오버레이 표시입니다.'
+  }),
   'styleLab.toolCardSamples': msg({
     zh: '像素工具卡样本',
     en: 'Pixel tool card samples',
@@ -4682,24 +4754,6 @@ export const uiMessages: UiMessageMap = {
   'styleLab.language': msg({ zh: '语言', en: 'Language', ja: '言語', ko: '언어' }),
   'styleLab.ready': msg({ zh: '就绪', en: 'Ready', ja: '準備完了', ko: '준비됨' }),
   'styleLab.name': msg({ zh: '名称', en: 'Name', ja: '名前', ko: '이름' }),
-  'styleLab.loadingPreview': msg({
-    zh: '加载预览',
-    en: 'Loading preview',
-    ja: '読み込みプレビュー',
-    ko: '로딩 미리보기'
-  }),
-  'styleLab.loadingPreview.action': msg({
-    zh: '模拟全屏加载',
-    en: 'Preview full-screen loading',
-    ja: '全画面読み込みをプレビュー',
-    ko: '전체 화면 로딩 미리보기'
-  }),
-  'styleLab.loadingPreview.message': msg({
-    zh: '用于查看共同加载动画的真实覆盖效果。',
-    en: 'Shows the shared loading animation as a real overlay.',
-    ja: '共通読み込みアニメーションの実際のオーバーレイ表示です。',
-    ko: '공통 로딩 애니메이션의 실제 오버레이 표시입니다.'
-  }),
   'styleLab.module': msg({ zh: '模块', en: 'Module', ja: 'モジュール', ko: '모듈' }),
   'styleLab.toolBadge': msg({ zh: '工具', en: 'tool', ja: 'tool', ko: 'tool' }),
   'styleLab.statusPanel': msg({

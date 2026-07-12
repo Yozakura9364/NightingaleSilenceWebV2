@@ -1,5 +1,6 @@
 import { computed, type Ref } from 'vue'
 import { textKeys } from '@/config/site'
+import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
 import { isArmoireAppearanceItem } from '@/lib/armoire/filterSnapshot'
 import type {
   ArmoireCatalog,
@@ -147,9 +148,9 @@ function getGroupDyeLabel(
   items: ArmoireOwnedItem[],
   t: Translate
 ): string {
-  return getUniqueLabels(items.map((item) => formatArmoireDyeNames(catalog, item.dyes, t))).join(
-    ' / '
-  )
+  return getUniqueLabels(
+    items.map((item) => formatArmoireDyeNames(catalog, getEffectiveOwnedItemDyes(item), t))
+  ).join(' / ')
 }
 
 function normalizeSearchText(value: string): string {

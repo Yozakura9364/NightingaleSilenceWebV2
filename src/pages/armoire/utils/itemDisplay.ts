@@ -28,6 +28,25 @@ const containerLabelKeys: Record<ArmoireContainerKind, string> = {
   manual: textKeys.nsarmoireContainerManual
 }
 
+function getRetainerContainerLabel(containerName: string, t: Translate): string {
+  const retainerSeparator = ' - '
+  const separatorIndex = containerName.indexOf(retainerSeparator)
+  const retainerPagePattern = /^Retainer Page \d+$/u
+
+  if (separatorIndex > 0) {
+    const retainerName = containerName.slice(0, separatorIndex)
+    const retainerContainer = containerName.slice(separatorIndex + retainerSeparator.length)
+
+    if (retainerPagePattern.test(retainerContainer)) {
+      return `${retainerName} - ${t(textKeys.nsarmoireContainerRetainerInventory)}`
+    }
+  }
+
+  return retainerPagePattern.test(containerName)
+    ? t(textKeys.nsarmoireContainerRetainerInventory)
+    : containerName
+}
+
 export function formatArmoireText(
   t: Translate,
   key: string,
@@ -90,8 +109,12 @@ export function getArmoireContainerLabel(
   const containerName =
     item.containerName?.trim() ||
     (item.container === 'retainer' ? item.retainerName?.trim() : undefined)
+  const displayContainerName =
+    item.container === 'retainer' && containerName
+      ? getRetainerContainerLabel(containerName, t)
+      : containerName
 
-  return containerName && containerName !== baseLabel ? containerName : baseLabel
+  return displayContainerName && displayContainerName !== baseLabel ? displayContainerName : baseLabel
 }
 
 export function formatArmoireDyeNames(

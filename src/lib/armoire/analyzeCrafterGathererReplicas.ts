@@ -1,4 +1,4 @@
-import { getOwnedItemQuantity } from '@/lib/armoire/buildOwnedIndex'
+import { getEffectiveOwnedItemDyes, getOwnedItemQuantity } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireCatalog,
   ArmoireCrafterGathererReplicaAnalysis,
@@ -14,7 +14,7 @@ function hasCrafterGathererReplicaCatalog(catalog: ArmoireCatalog): boolean {
 }
 
 function getReturnedDyeIds(item: ArmoireOwnedItem): number[] {
-  return (item.dyes ?? [0, 0]).filter((dyeId) => dyeId > 0)
+  return getEffectiveOwnedItemDyes(item).filter((dyeId) => dyeId > 0)
 }
 
 function countReturnedDyes(items: ArmoireOwnedItem[]): ArmoireReplicaDyeReturn[] {
@@ -72,7 +72,7 @@ export function analyzeCrafterGathererReplicas(
     items: ownedReplicas.map((item) => ({
       item,
       voucherCount: getOwnedItemQuantity(item) * REPLICA_RECYCLE_VOUCHERS_PER_ITEM,
-      dyeIds: item.dyes ?? [0, 0],
+      dyeIds: getEffectiveOwnedItemDyes(item),
       returnedDyeIds: getReturnedDyeIds(item)
     }))
   }
