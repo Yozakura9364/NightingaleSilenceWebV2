@@ -3051,7 +3051,7 @@ onBeforeUnmount(() => {
   min-height: 0;
   margin: 0 auto;
   padding: 14px;
-  background: #fff;
+  background: transparent;
 }
 
 .nsglamour-template__preview,
@@ -3064,7 +3064,7 @@ onBeforeUnmount(() => {
   place-items: center;
   padding: 16px;
   border: 0;
-  background: #fff;
+  background: var(--ns-glamour-template-preview-bg);
   overflow: hidden;
 }
 

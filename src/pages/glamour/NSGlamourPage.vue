@@ -61,7 +61,7 @@ const turnIconStyle = computed(
 
 <style scoped>
 .nsglamour-page {
-  --ns-ffxiv-workspace-bg: #fff;
+  --ns-ffxiv-workspace-bg: var(--ns-glamour-workspace-bg);
 
   position: relative;
   box-sizing: border-box;

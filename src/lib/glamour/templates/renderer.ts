@@ -1702,11 +1702,18 @@ function wrapSilenceFashionText(ctx: CanvasRenderingContext2D, text: string, wid
       line = token
 
       if (ctx.measureText(line).width > width) {
-        lines.push(...splitSilenceFashionTokenByWidth(ctx, line, width))
-        line = ''
+        const splitLines = splitSilenceFashionTokenByWidth(ctx, line, width)
+        lines.push(...splitLines.slice(0, -1))
+        line = splitLines[splitLines.length - 1] || ''
       }
     } else {
       line = next
+
+      if (ctx.measureText(line).width > width) {
+        const splitLines = splitSilenceFashionTokenByWidth(ctx, line, width)
+        lines.push(...splitLines.slice(0, -1))
+        line = splitLines[splitLines.length - 1] || ''
+      }
     }
   }
 
