@@ -4,11 +4,12 @@
       {{ errorText }}
     </p>
 
-    <div v-if="isLoading" class="nsplate-workspace__loading" aria-hidden="true">
-      <span />
-      <span />
-      <span />
-    </div>
+    <AppLoading
+      v-if="isLoading"
+      class="nsplate-workspace__loading"
+      size="lg"
+      :aria-label="t(textKeys.checking)"
+    />
 
     <div v-else class="nsplate-main" :style="panelStyle">
       <NSPlateCanvasArea
@@ -98,6 +99,7 @@ import { useNSPlateDraftPersistence } from '@/pages/plate/composables/useNSPlate
 import { useNSPlatePanelResize } from '@/pages/plate/composables/useNSPlatePanelResize'
 import { useNSPlateSelectionNote } from '@/pages/plate/composables/useNSPlateSelectionNote'
 import { useNSPlateDataSource } from '@/pages/plate/services/nsplateDataSource'
+import AppLoading from '@/components/AppLoading.vue'
 import NSPlateAssetPanel from '@/pages/plate/components/NSPlateAssetPanel.vue'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 import NSPlateConfigPanel from '@/pages/plate/components/NSPlateConfigPanel.vue'
@@ -315,19 +317,8 @@ interface NSPlateCanvasAreaExpose {
 }
 
 .nsplate-workspace__loading {
-  display: grid;
   flex: 1;
-  align-content: center;
-  gap: 10px;
-  padding: 18px;
   background: var(--ns-color-bg-soft);
-}
-
-.nsplate-workspace__loading span {
-  display: block;
-  height: 38px;
-  border: 1px solid var(--ns-color-border);
-  background: linear-gradient(90deg, var(--ns-color-surface), rgba(99, 217, 220, 0.14));
 }
 
 .nsplate-workspace__file-input {
