@@ -248,7 +248,8 @@ function selectSection(sectionId: string, event: MouseEvent): void {
 @media (max-width: 980px) {
   .nsarmoire-section-rail {
     grid-template-rows: auto;
-    min-height: 0;
+    align-self: start;
+    min-height: 62px;
     padding: 8px;
     border: 2px solid var(--ns-pixel-border);
     background: var(--ns-pixel-surface);
@@ -256,6 +257,7 @@ function selectSection(sectionId: string, event: MouseEvent): void {
 
   .nsarmoire-section-rail__list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-content: start;
   }
 
   .nsarmoire-section-rail__item {

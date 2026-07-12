@@ -142,11 +142,7 @@
             </div>
 
             <ul v-if="selectedTagViews.length > 0" class="nsarmoire-store-card__tags">
-              <li
-                v-for="tag in selectedTagViews"
-                :key="tag.key"
-                :class="tag.className"
-              >
+              <li v-for="tag in selectedTagViews" :key="tag.key" :class="tag.className">
                 {{ tag.label }}
               </li>
             </ul>
@@ -206,7 +202,7 @@
                 <ul v-if="piece.entries.length > 0" class="nsarmoire-store-card__piece-details">
                   <li v-for="entry in piece.entries" :key="entry.key">
                     <span>{{ entry.locationText }}</span>
-                    <span>{{ entry.dyeText }}</span>
+                    <span v-if="entry.dyeText">{{ entry.dyeText }}</span>
                     <span v-if="entry.bindText">{{ entry.bindText }}</span>
                   </li>
                   <li v-if="piece.hiddenEntryCount > 0">
@@ -238,6 +234,7 @@ import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { textKeys } from '@/config/site'
+import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
 import { analyzeArmoireStoreOutfits } from '@/lib/armoire/analyzeStoreOutfits'
 import {
   getArmoireStoreItemDisplay,
@@ -284,7 +281,7 @@ type StoreGroupId =
 interface StorePieceEntryView {
   key: string
   locationText: string
-  dyeText: string
+  dyeText?: string
   bindText?: string
 }
 
@@ -440,7 +437,9 @@ const detailPanel = ref<HTMLElement | null>(null)
 const pendingDetailScrollFrames: number[] = []
 let detailScrollToken = 0
 
-const analysis = computed(() => analyzeArmoireStoreOutfits(props.snapshot, props.storeCatalog))
+const analysis = computed(() =>
+  analyzeArmoireStoreOutfits(props.snapshot, props.storeCatalog, props.armoireCatalog)
+)
 
 const statusOptions = computed<Array<{ value: StoreStatusFilter; label: string }>>(() => [
   { value: 'all', label: t(textKeys.nsarmoireStoreFilterAll) },
@@ -880,8 +879,15 @@ function createPieceView(
   itemId: number | undefined
 ): StorePieceView {
   const ownedItems = itemId ? getOwnedEntriesForItemId(state, itemId) : []
+  const storedByBucketItemIds = itemId ? getStoredByBucketItemIdsForItemId(state, itemId) : []
   const visibleEntries = ownedItems.slice(0, STORE_PIECE_ENTRY_LIMIT)
-  const owned = ownedItems.length > 0
+  const owned = ownedItems.length > 0 || storedByBucketItemIds.length > 0
+  const entries =
+    visibleEntries.length > 0
+      ? visibleEntries.map((item, index) => getPieceEntryView(key, item, index))
+      : storedByBucketItemIds.length > 0
+        ? [getStoredByBucketPieceEntryView(key)]
+        : []
 
   return {
     key,
@@ -890,7 +896,7 @@ function createPieceView(
     iconUrl: itemId ? getStoreItemIconUrl(itemId) : '',
     owned,
     statusLabel: getPieceStatusLabel(owned),
-    entries: visibleEntries.map((item, index) => getPieceEntryView(key, item, index)),
+    entries,
     hiddenEntryCount: Math.max(ownedItems.length - visibleEntries.length, 0)
   }
 }
@@ -900,6 +906,20 @@ function getOwnedEntriesForItemId(
   itemId: number
 ): ArmoireOwnedItem[] {
   return state.ownedItemsByItemId[itemId] ?? []
+}
+
+function getStoredByBucketItemIdsForItemId(
+  state: ArmoireStoreOutfitState,
+  itemId: number
+): number[] {
+  return state.storedByBucketItemIdsByItemId[itemId] ?? []
+}
+
+function getStoredByBucketPieceEntryView(key: string): StorePieceEntryView {
+  return {
+    key: `${key}-stored-by-bucket`,
+    locationText: t(textKeys.nsarmoireCollectionStatusStored)
+  }
 }
 
 function getPieceEntryView(
@@ -913,7 +933,7 @@ function getPieceEntryView(
       location: getArmoireContainerLabel(item, t)
     }),
     dyeText: formatArmoireText(t, textKeys.nsarmoireStorePieceDye, {
-      dyes: formatArmoireDyeNames(props.armoireCatalog, item.dyes, t)
+      dyes: formatArmoireDyeNames(props.armoireCatalog, getEffectiveOwnedItemDyes(item), t)
     }),
     bindText: getPieceBindText(item)
   }

@@ -1,4 +1,4 @@
-import { isDyedOwnedItem } from '@/lib/armoire/buildOwnedIndex'
+import { getEffectiveOwnedItemDyes, isDyedOwnedItem } from '@/lib/armoire/buildOwnedIndex'
 import { getArmoireDyeValueCategory } from '@/lib/armoire/dyeValue'
 import type {
   ArmoireCatalog,
@@ -22,7 +22,7 @@ interface DyeRiskContext {
 }
 
 function getDyedSlotCount(item: ArmoireOwnedItem): number {
-  return item.dyes?.filter((dyeId) => dyeId > 0).length ?? 0
+  return getEffectiveOwnedItemDyes(item).filter((dyeId) => dyeId > 0).length
 }
 
 function getRiskLevel(clearsDyeOnStorage: boolean, hasValuableDye: boolean): ArmoireRiskLevel {
@@ -114,7 +114,7 @@ function toDyeRiskItem(
   catalog: ArmoireCatalog,
   context: DyeRiskContext
 ): ArmoireDyeRiskItem {
-  const dyeIds = item.dyes ?? [0, 0]
+  const dyeIds = getEffectiveOwnedItemDyes(item)
   const dyedSlotCount = getDyedSlotCount(item)
   const resetReasons = getDyeResetReasons(item, catalog, context)
   const clearsDyeOnStorage = resetReasons.some((reason) => reason !== 'preservedStorage')

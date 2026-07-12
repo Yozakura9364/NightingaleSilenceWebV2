@@ -73,6 +73,17 @@ function uniqueSortedNumbers(values: number[]): number[] {
   return Array.from(new Set(values)).sort((left, right) => left - right)
 }
 
+function getPreferredPieceSlotItemIds(
+  current: ArmoireGlamourSet,
+  existing?: ArmoireGlamourSet
+): number[] | undefined {
+  if (current.pieceSlotItemIds && current.pieceSlotItemIds.length > 0) {
+    return current.pieceSlotItemIds
+  }
+
+  return existing?.pieceSlotItemIds
+}
+
 function mergeCatalogItems(catalogs: ArmoireCatalog[]): Record<number, ArmoireCatalogItem> {
   const items: Record<number, ArmoireCatalogItem> = {}
 
@@ -98,6 +109,7 @@ function mergeGlamourSetItems(catalogs: ArmoireCatalog[]): ArmoireGlamourSet[] {
       glamourSets.set(set.setItemId, {
         setItemId: set.setItemId,
         setName: set.setName ?? existingSet?.setName,
+        pieceSlotItemIds: getPreferredPieceSlotItemIds(set, existingSet),
         pieceItemIds: uniqueSortedNumbers([
           ...(existingSet?.pieceItemIds ?? []),
           ...set.pieceItemIds
@@ -245,6 +257,10 @@ function isPositiveInteger(value: unknown): value is number {
   return typeof value === 'number' && Number.isInteger(value) && value > 0
 }
 
+function isNonNegativeInteger(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 0
+}
+
 function isLocalizedNames(value: unknown): value is ArmoireLocalizedNames {
   if (value === undefined || value === null) {
     return true
@@ -280,6 +296,10 @@ export function isArmoireCompactDisplayItemArray(
 
 export function isPositiveIntegerArray(value: unknown): value is number[] {
   return Array.isArray(value) && value.every(isPositiveInteger)
+}
+
+export function isNonNegativeIntegerArray(value: unknown): value is number[] {
+  return Array.isArray(value) && value.every(isNonNegativeInteger)
 }
 
 export function createCatalogItemFromCompactDisplayItem(

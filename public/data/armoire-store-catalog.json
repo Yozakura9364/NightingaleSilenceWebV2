@@ -6098,6 +6098,7 @@
       "regionalStoreUrls": {
         "cn": "https://qu.sdo.com/product-detail/ad95d85c3f1eaeb63988",
         "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/625",
+        "tw": "https://www.ffxiv.com.tw/web/store/product_detail.aspx?id=F0151_260114142832",
         "kr": "https://www.ff14.co.kr/shop/home/detail/2962"
       },
       "sourceUrl": "https://qu.sdo.com/tools-shop?merchantId=1",

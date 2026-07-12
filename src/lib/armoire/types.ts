@@ -33,26 +33,7 @@ export const ARMOIRE_DYE_VALUE_CATEGORIES = ['general', 'extra1', 'extra2', 'sto
 export type ArmoireDyeValueCategory = (typeof ARMOIRE_DYE_VALUE_CATEGORIES)[number]
 
 export const ARMOIRE_STORE_SPECIAL_DYE_IDS = [
-  101,
-  102,
-  103,
-  104,
-  105,
-  106,
-  107,
-  108,
-  109,
-  110,
-  111,
-  112,
-  113,
-  114,
-  115,
-  116,
-  117,
-  118,
-  119,
-  120
+  101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120
 ] as const
 
 export const ARMOIRE_STORE_TAGS = [
@@ -80,17 +61,10 @@ export const ARMOIRE_STORE_DETAIL_TAGS = ['maleOnly', 'femaleOnly'] as const
 
 export type ArmoireStoreDetailTag = (typeof ARMOIRE_STORE_DETAIL_TAGS)[number]
 
-export const DEFAULT_ARMOIRE_VALUABLE_DYE_CATEGORIES: readonly ArmoireDyeValueCategory[] = [
-  'general',
-  'extra1',
-  'extra2'
-] as const
+export const DEFAULT_ARMOIRE_VALUABLE_DYE_CATEGORIES: readonly ArmoireDyeValueCategory[] =
+  [] as const
 
-export const DEFAULT_ARMOIRE_VALUABLE_STORE_DYE_IDS: readonly number[] = [
-  101,
-  102,
-  103
-] as const
+export const DEFAULT_ARMOIRE_VALUABLE_STORE_DYE_IDS: readonly number[] = [101, 102, 103] as const
 
 export type ArmoireSnapshotSource = 'manual-import' | 'local-helper' | 'asvel-compatible'
 
@@ -99,6 +73,7 @@ export interface ArmoireOwnedItem {
   hq?: boolean
   quantity?: number
   dyes?: [number, number]
+  glamourId?: number
   spiritbond?: number
   container: ArmoireContainerKind
   containerName?: string
@@ -106,6 +81,7 @@ export interface ArmoireOwnedItem {
   inventoryType?: number
   retainerId?: string
   retainerName?: string
+  retainerSlot?: number
   cabinetId?: number
 }
 
@@ -152,6 +128,7 @@ export interface ArmoireCatalogItem {
 export interface ArmoireGlamourSet {
   setItemId: number
   setName?: string
+  pieceSlotItemIds?: number[]
   pieceItemIds: number[]
 }
 
@@ -375,6 +352,7 @@ export interface ArmoireStoreOutfitState {
   ownedItemIds: number[]
   missingItemIds: number[]
   ownedItemsByItemId: Record<number, ArmoireOwnedItem[]>
+  storedByBucketItemIdsByItemId: Record<number, number[]>
   mappedItemCount: number
   totalItemCount: number
 }
@@ -393,6 +371,9 @@ export interface ArmoireContainerDistributionEntry {
   key: string
   container: ArmoireContainerKind
   containerName?: string
+  retainerId?: string
+  retainerName?: string
+  retainerSlot?: number
   entryCount: number
   totalQuantity: number
   dyedEntryCount: number
@@ -416,6 +397,7 @@ export interface ArmoireCabinetProgress {
   storedCount: number
   storableCount: number
   transferableItemIds: number[]
+  transferableEntriesByItemId: Record<number, ArmoireOwnedItem[]>
   ownedCabinetItemIds: number[]
   dyedOwnedCabinetItemIds: number[]
   missingCabinetItemIds: number[]
@@ -427,7 +409,29 @@ export interface ArmoireGlamourSetState {
   isStoredAsSet: boolean
   pieceItemIds: number[]
   storedPieceItemIds: number[]
+  loosePieceItemIds: number[]
+  storedByBucketPieceItemIds: number[]
+  loosePieceEntriesByItemId: Record<number, ArmoireGlamourSetPieceEntry[]>
+  pieceOwnershipByItemId: Record<number, ArmoireGlamourSetPieceOwnership>
   missingPieceItemIds: number[]
+}
+
+export type ArmoireGlamourSetPieceStatus = 'stored' | 'loose' | 'missing'
+
+export interface ArmoireGlamourSetPieceOwnership {
+  itemId: number
+  storedByBucket: boolean
+  looseEntries: ArmoireGlamourSetPieceEntry[]
+  status: ArmoireGlamourSetPieceStatus
+}
+
+export interface ArmoireGlamourSetPieceEntry {
+  itemId: number
+  container: ArmoireContainerKind
+  containerName?: string
+  dyeIds: [number, number]
+  valuableDyeIds: number[]
+  hasValuableDye: boolean
 }
 
 export interface ArmoireGlamourSetProgress {
@@ -436,6 +440,7 @@ export interface ArmoireGlamourSetProgress {
   availableSetCount: number
   incompleteStoredSetCount: number
   bucketStorableLoosePieceItemIds: number[]
+  storedByBucketPieceItemIds: number[]
   sets: ArmoireGlamourSetState[]
 }
 
@@ -512,6 +517,8 @@ export interface ArmoireIdenticalModelGroupState {
   armoireEntryCount: number
   storageSpaceItemIds: number[]
   storageSpaceEntryCount: number
+  storeRelatedItemIds: number[]
+  isStoreRelated: boolean
 }
 
 export interface ArmoireIdenticalModelAnalysis {
@@ -524,6 +531,7 @@ export interface ArmoireDuplicateItemGroupState {
   itemId: number
   ownedEntryCount: number
   totalQuantity: number
+  isStoreRelated: boolean
 }
 
 export interface ArmoireDuplicateItemAnalysis {

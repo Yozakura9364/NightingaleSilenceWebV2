@@ -94,7 +94,7 @@
                 <NSArmoireCabinetStatsPanel
                   v-else-if="activeDetailTab === 'cabinet'"
                   :analysis="cabinetAnalysis"
-                  :catalog="cabinetCatalog"
+                  :catalog="catalog"
                   @ignore-item="ignoreCleanupItem"
                 />
                 <NSArmoireGlamourSetStatsPanel
@@ -148,22 +148,14 @@
       </div>
     </div>
 
-    <div
+    <AppLoading
       v-if="isWorkspaceLoadingOverlayVisible"
       class="nsarmoire-workspace__loading-overlay"
-      role="status"
-      aria-live="polite"
-    >
-      <div class="nsarmoire-workspace__loading-card">
-        <span class="nsarmoire-workspace__loading-pixels" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-          <span />
-        </span>
-        <span>{{ t(workspaceLoadingMessageKey) }}</span>
-      </div>
-    </div>
+      overlay
+      compact
+      :message="t(workspaceLoadingMessageKey)"
+      :aria-label="t(workspaceLoadingMessageKey)"
+    />
 
     <NSArmoireProcessDialog
       v-if="helperProcessPickerOpen"
@@ -199,6 +191,7 @@ import { useArmoireIgnoredItems } from '@/pages/armoire/composables/useArmoireIg
 import { useArmoireIdenticalModelCatalog } from '@/pages/armoire/composables/useArmoireIdenticalModelCatalog'
 import { useArmoireItemDisplayChunks } from '@/pages/armoire/composables/useArmoireItemDisplayChunks'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
+import AppLoading from '@/components/AppLoading.vue'
 import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
 import NSArmoireSectionRail from '@/pages/armoire/components/NSArmoireSectionRail.vue'
 import { getArmoireItemIconUrl, getArmoireItemName } from '@/pages/armoire/utils/itemDisplay'
@@ -992,70 +985,6 @@ onMounted(() => {
   display: grid;
   width: 100%;
   min-width: 0;
-}
-
-.nsarmoire-workspace__loading-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgba(15, 12, 20, 0.52);
-}
-
-.nsarmoire-workspace__loading-card {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 54px;
-  max-width: min(360px, 100%);
-  padding: 14px 18px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface);
-  color: var(--ns-color-text);
-  font-size: 13px;
-  font-weight: 850;
-  box-shadow: var(--ns-pixel-window-shadow);
-}
-
-.nsarmoire-workspace__loading-pixels {
-  display: grid;
-  grid-template-columns: repeat(2, 8px);
-  grid-template-rows: repeat(2, 8px);
-  gap: 3px;
-}
-
-.nsarmoire-workspace__loading-pixels span {
-  display: block;
-  width: 8px;
-  height: 8px;
-  background: var(--ns-color-accent);
-  image-rendering: pixelated;
-  animation: nsarmoire-loading-pixel 0.8s steps(1, end) infinite;
-}
-
-.nsarmoire-workspace__loading-pixels span:nth-child(2) {
-  animation-delay: 0.1s;
-}
-
-.nsarmoire-workspace__loading-pixels span:nth-child(3) {
-  animation-delay: 0.2s;
-}
-
-.nsarmoire-workspace__loading-pixels span:nth-child(4) {
-  animation-delay: 0.3s;
-}
-
-@keyframes nsarmoire-loading-pixel {
-  0%,
-  100% {
-    opacity: 0.3;
-  }
-
-  50% {
-    opacity: 1;
-  }
 }
 
 .nsarmoire-workspace__content :deep(.nsarmoire-panel),

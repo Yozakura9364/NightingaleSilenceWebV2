@@ -26,10 +26,16 @@ const STORE_EQUIVALENT_ITEM_GROUPS: readonly ArmoireStoreEquivalentItemGroup[] =
 ] as const
 
 const STORE_EQUIVALENT_ITEMS_BY_ITEM_ID = new Map<number, ArmoireStoreEquivalentItemGroup>()
+const STORE_RELATED_ITEM_IDS = new Set<number>()
 
 for (const group of STORE_EQUIVALENT_ITEM_GROUPS) {
   for (const itemId of group.itemIds) {
     STORE_EQUIVALENT_ITEMS_BY_ITEM_ID.set(itemId, group)
+    STORE_RELATED_ITEM_IDS.add(itemId)
+  }
+
+  for (const itemId of group.completeItemIds ?? []) {
+    STORE_RELATED_ITEM_IDS.add(itemId)
   }
 }
 
@@ -41,15 +47,23 @@ function getStoreCompleteItemIds(itemId: number): readonly number[] {
   return STORE_EQUIVALENT_ITEMS_BY_ITEM_ID.get(itemId)?.completeItemIds ?? []
 }
 
+export function getStoreEquivalentItemIdsForOwnership(itemId: number): readonly number[] {
+  return [...getStoreEquivalentItemIds(itemId), ...getStoreCompleteItemIds(itemId)]
+}
+
 export function getStoreEquivalentOwnedItems(
   index: ArmoireOwnedIndex,
   itemId: number
 ): ArmoireOwnedItem[] {
-  return [...getStoreEquivalentItemIds(itemId), ...getStoreCompleteItemIds(itemId)].flatMap(
-    (equivalentItemId) => getOwnedItems(index, equivalentItemId)
+  return getStoreEquivalentItemIdsForOwnership(itemId).flatMap((equivalentItemId) =>
+    getOwnedItems(index, equivalentItemId)
   )
 }
 
 export function hasStoreEquivalentOwnedItem(index: ArmoireOwnedIndex, itemId: number): boolean {
   return getStoreEquivalentOwnedItems(index, itemId).length > 0
+}
+
+export function isArmoireStoreEquivalentItem(itemId: number): boolean {
+  return STORE_RELATED_ITEM_IDS.has(itemId)
 }

@@ -18,6 +18,7 @@ export function analyzeCabinetProgress(
       storedCount: snapshot.items.filter((item) => item.container === 'armoire').length,
       storableCount: 0,
       transferableItemIds: [],
+      transferableEntriesByItemId: {},
       ownedCabinetItemIds: [],
       dyedOwnedCabinetItemIds: [],
       missingCabinetItemIds: []
@@ -27,20 +28,45 @@ export function analyzeCabinetProgress(
   const cabinetItemIds = Array.from(new Set(catalog.cabinetItemIds)).sort(
     (left, right) => left - right
   )
-  const storedItemIds: number[] = []
+  const cabinetEntries = catalog.cabinetEntries ?? []
+  const cabinetEntryByItemId = new Map(cabinetEntries.map((entry) => [entry.itemId, entry]))
+  const storedCabinetIds = new Set(
+    snapshot.items
+      .filter((item) => item.container === 'armoire' && typeof item.cabinetId === 'number')
+      .map((item) => item.cabinetId as number)
+  )
+  const storedItemIds = new Set(
+    snapshot.items.filter((item) => item.container === 'armoire').map((item) => item.itemId)
+  )
   const ownedCabinetItemIds: number[] = []
   const dyedOwnedCabinetItemIds: number[] = []
   const transferableItemIds: number[] = []
+  const transferableEntriesByItemId: Record<number, typeof snapshot.items> = {}
   const missingCabinetItemIds: number[] = []
+
+  for (const entry of cabinetEntries) {
+    if (storedCabinetIds.has(entry.cabinetId) || storedItemIds.has(entry.itemId)) {
+      storedItemIds.add(entry.itemId)
+    } else {
+      missingCabinetItemIds.push(entry.itemId)
+    }
+  }
 
   for (const itemId of cabinetItemIds) {
     const ownedItems = getOwnedItems(index, itemId)
-    const isStoredInArmoire = ownedItems.some((item) => item.container === 'armoire')
+    const cabinetEntry = cabinetEntryByItemId.get(itemId)
+    const isStoredInArmoire =
+      storedItemIds.has(itemId) ||
+      (cabinetEntry
+        ? storedCabinetIds.has(cabinetEntry.cabinetId)
+        : ownedItems.some((item) => item.container === 'armoire'))
 
-    if (isStoredInArmoire) {
-      storedItemIds.push(itemId)
-    } else {
-      missingCabinetItemIds.push(itemId)
+    if (cabinetEntries.length === 0) {
+      if (isStoredInArmoire) {
+        storedItemIds.add(itemId)
+      } else {
+        missingCabinetItemIds.push(itemId)
+      }
     }
 
     if (ownedItems.length === 0 || isStoredInArmoire) {
@@ -50,13 +76,10 @@ export function analyzeCabinetProgress(
     ownedCabinetItemIds.push(itemId)
 
     let hasDyedItem = false
-    let hasUndyedItem = false
 
     for (const item of ownedItems) {
       if (isDyedOwnedItem(item)) {
         hasDyedItem = true
-      } else {
-        hasUndyedItem = true
       }
     }
 
@@ -64,16 +87,19 @@ export function analyzeCabinetProgress(
       dyedOwnedCabinetItemIds.push(itemId)
     }
 
-    if (hasUndyedItem) {
-      transferableItemIds.push(itemId)
-    }
+    transferableItemIds.push(itemId)
+    transferableEntriesByItemId[itemId] = ownedItems.filter((item) => item.container !== 'armoire')
   }
 
   return {
     status: 'ready',
-    storedCount: storedItemIds.length,
-    storableCount: cabinetItemIds.length,
+    storedCount:
+      storedCabinetIds.size > 0
+        ? Math.max(storedCabinetIds.size, storedItemIds.size)
+        : storedItemIds.size,
+    storableCount: cabinetEntries.length > 0 ? cabinetEntries.length : cabinetItemIds.length,
     transferableItemIds,
+    transferableEntriesByItemId,
     ownedCabinetItemIds,
     dyedOwnedCabinetItemIds,
     missingCabinetItemIds

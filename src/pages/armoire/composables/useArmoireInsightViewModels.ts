@@ -1,5 +1,6 @@
 import { computed } from 'vue'
 import { textKeys } from '@/config/site'
+import { isDyedOwnedItem } from '@/lib/armoire/buildOwnedIndex'
 import type { ArmoireCatalog, ArmoireSnapshot, ArmoireSnapshotAnalysis } from '@/lib/armoire/types'
 import {
   buildArmoireActionHints,
@@ -119,13 +120,41 @@ export function useArmoireInsightViewModels(
     return items
   })
 
-  function sortByValuableClearDyeRisk(itemIds: readonly number[]): number[] {
-    return itemIds.slice().sort((left, right) => {
-      const leftHasValuableDye = valuableClearDyeItemsByItemId.value.has(left)
-      const rightHasValuableDye = valuableClearDyeItemsByItemId.value.has(right)
+  const dyedItemsByItemId = computed(() => {
+    const itemIds = new Set<number>()
 
-      if (Number(leftHasValuableDye) !== Number(rightHasValuableDye)) {
-        return Number(leftHasValuableDye) - Number(rightHasValuableDye)
+    for (const item of source.snapshot?.items ?? []) {
+      if (isDyedOwnedItem(item)) {
+        itemIds.add(item.itemId)
+      }
+    }
+
+    return itemIds
+  })
+
+  function getCleanupPriority(itemId: number, isStoreRelated = false): number {
+    if (isStoreRelated) {
+      return 3
+    }
+
+    if (valuableClearDyeItemsByItemId.value.has(itemId)) {
+      return 2
+    }
+
+    if (dyedItemsByItemId.value.has(itemId)) {
+      return 1
+    }
+
+    return 0
+  }
+
+  function sortByCleanupPriority(itemIds: readonly number[]): number[] {
+    return itemIds.slice().sort((left, right) => {
+      const leftPriority = getCleanupPriority(left)
+      const rightPriority = getCleanupPriority(right)
+
+      if (leftPriority !== rightPriority) {
+        return leftPriority - rightPriority
       }
 
       return left - right
@@ -137,7 +166,7 @@ export function useArmoireInsightViewModels(
       return []
     }
 
-    return sortByValuableClearDyeRisk(source.analysis.cabinetProgress.transferableItemIds)
+    return sortByCleanupPriority(source.analysis.cabinetProgress.transferableItemIds)
   })
 
   const transferableItems = computed(() => {
@@ -173,7 +202,7 @@ export function useArmoireInsightViewModels(
       return []
     }
 
-    const itemIds = sortByValuableClearDyeRisk(
+    const itemIds = sortByCleanupPriority(
       source.analysis.glamourSetProgress.bucketStorableLoosePieceItemIds
     )
 
@@ -208,7 +237,26 @@ export function useArmoireInsightViewModels(
       return []
     }
 
-    return limitItems('duplicateItems', source.analysis.duplicateItems.groups).map((group) =>
+    const groups = source.analysis.duplicateItems.groups.slice().sort((left, right) => {
+      const leftPriority = getCleanupPriority(left.itemId, left.isStoreRelated)
+      const rightPriority = getCleanupPriority(right.itemId, right.isStoreRelated)
+
+      if (leftPriority !== rightPriority) {
+        return leftPriority - rightPriority
+      }
+
+      if (right.ownedEntryCount !== left.ownedEntryCount) {
+        return right.ownedEntryCount - left.ownedEntryCount
+      }
+
+      if (right.totalQuantity !== left.totalQuantity) {
+        return right.totalQuantity - left.totalQuantity
+      }
+
+      return left.itemId - right.itemId
+    })
+
+    return limitItems('duplicateItems', groups).map((group) =>
       display.toDuplicateItemView(group, ownedEntriesByItemId.value.get(group.itemId) ?? [])
     )
   })
@@ -220,9 +268,32 @@ export function useArmoireInsightViewModels(
       return []
     }
 
-    return limitItems('duplicateModels', source.analysis.identicalModels.groups).map(
-      display.toDuplicateGroupView
-    )
+    const groups = source.analysis.identicalModels.groups.slice().sort((left, right) => {
+      const leftItemId = left.storageSpaceItemIds[0] ?? 0
+      const rightItemId = right.storageSpaceItemIds[0] ?? 0
+      const leftPriority = Math.max(
+        ...left.storageSpaceItemIds.map((itemId) => getCleanupPriority(itemId, left.isStoreRelated))
+      )
+      const rightPriority = Math.max(
+        ...right.storageSpaceItemIds.map((itemId) => getCleanupPriority(itemId, right.isStoreRelated))
+      )
+
+      if (leftPriority !== rightPriority) {
+        return leftPriority - rightPriority
+      }
+
+      if (right.storageSpaceEntryCount !== left.storageSpaceEntryCount) {
+        return right.storageSpaceEntryCount - left.storageSpaceEntryCount
+      }
+
+      if (right.ownedEntryCount !== left.ownedEntryCount) {
+        return right.ownedEntryCount - left.ownedEntryCount
+      }
+
+      return leftItemId - rightItemId
+    })
+
+    return limitItems('duplicateModels', groups).map(display.toDuplicateGroupView)
   })
 
   const duplicateModelItems = computed(() =>

@@ -1,4 +1,5 @@
 import { textKeys } from '@/config/site'
+import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireCatalog,
   ArmoireCrafterGathererReplicaAnalysis,
@@ -88,6 +89,7 @@ export interface ArmoireDuplicateGroupView {
   itemIds: number[]
   armoireItemIds: number[]
   iconUrl: string
+  isStoreRelated: boolean
 }
 
 export interface ArmoireIncompleteSetView {
@@ -95,6 +97,7 @@ export interface ArmoireIncompleteSetView {
   name: string
   pieceItemIds: number[]
   storedPieceItemIds: number[]
+  storedByBucketPieceItemIds: number[]
   missingPieceItemIds: number[]
   iconUrl: string
 }
@@ -105,6 +108,7 @@ export interface ArmoireDuplicateItemView {
   ownedEntryCount: number
   iconUrl: string
   entries: ArmoireOwnedItem[]
+  isStoreRelated: boolean
 }
 
 export function buildArmoireActionHints(
@@ -303,14 +307,24 @@ export function createArmoireInsightDisplay(
   }
 
   function formatDuplicateItemContext(item: ArmoireDuplicateItemView): string {
-    return formatText(textKeys.nsarmoireHintOwnedEntries, { count: item.ownedEntryCount })
+    return [
+      formatText(textKeys.nsarmoireHintOwnedEntries, { count: item.ownedEntryCount }),
+      item.isStoreRelated ? t(textKeys.nsarmoireHintStoreRelated) : ''
+    ]
+      .filter(Boolean)
+      .join(' / ')
   }
 
   function toDuplicateItemDetail(
     item: ArmoireOwnedItem,
     index: number
   ): ArmoireReadableItemDetailView {
-    const dyeSlots = getArmoireDyeSlotViews(source.catalog, item.dyes, getItemDyeSlotCount(item.itemId), t)
+    const dyeSlots = getArmoireDyeSlotViews(
+      source.catalog,
+      getEffectiveOwnedItemDyes(item),
+      getItemDyeSlotCount(item.itemId),
+      t
+    )
     const dyeLine =
       dyeSlots.length > 0
         ? {
@@ -348,6 +362,15 @@ export function createArmoireInsightDisplay(
       .join('；')
 
     return itemLocations
+      ? [
+          itemLocations,
+          group.isStoreRelated ? t(textKeys.nsarmoireHintStoreRelated) : ''
+        ]
+          .filter(Boolean)
+          .join(' / ')
+      : group.isStoreRelated
+        ? t(textKeys.nsarmoireHintStoreRelated)
+        : ''
   }
 
   function formatDyeRiskContext(
@@ -396,10 +419,12 @@ export function createArmoireInsightDisplay(
 
   function toSetPieceRelatedItem(
     itemId: number,
-    storedPieceItemIds: Set<number>
+    storedPieceItemIds: Set<number>,
+    storedByBucketPieceItemIds: Set<number>
   ): ArmoireReadableItemRelatedView {
     const isStored = storedPieceItemIds.has(itemId)
-    const locations = getItemLocationsByItemId().get(itemId) ?? []
+    const isStoredByBucket = storedByBucketPieceItemIds.has(itemId)
+    const locations = isStoredByBucket ? [] : getItemLocationsByItemId().get(itemId) ?? []
     const statusLabel =
       isStored && locations.length > 0
         ? formatText(textKeys.nsarmoireStatusFoundOutsideSet, {
@@ -439,6 +464,7 @@ export function createArmoireInsightDisplay(
       name: set.setName ?? getItemName(set.setItemId),
       pieceItemIds: set.pieceItemIds,
       storedPieceItemIds: set.storedPieceItemIds,
+      storedByBucketPieceItemIds: set.storedByBucketPieceItemIds,
       missingPieceItemIds: set.missingPieceItemIds,
       iconUrl: getItemIconUrl(set.setItemId)
     }
@@ -446,6 +472,7 @@ export function createArmoireInsightDisplay(
 
   function toIncompleteSetItem(set: ArmoireIncompleteSetView): ArmoireReadableItemView {
     const storedPieceItemIds = new Set(set.storedPieceItemIds)
+    const storedByBucketPieceItemIds = new Set(set.storedByBucketPieceItemIds)
 
     return {
       key: `set-${set.setItemId}`,
@@ -455,7 +482,7 @@ export function createArmoireInsightDisplay(
       context: formatSetContext(set),
       iconUrl: set.iconUrl,
       relatedItems: set.pieceItemIds.map((itemId) =>
-        toSetPieceRelatedItem(itemId, storedPieceItemIds)
+        toSetPieceRelatedItem(itemId, storedPieceItemIds, storedByBucketPieceItemIds)
       )
     }
   }
@@ -573,7 +600,8 @@ export function createArmoireInsightDisplay(
       name: getItemName(group.itemId),
       ownedEntryCount: group.ownedEntryCount,
       iconUrl: getItemIconUrl(group.itemId),
-      entries
+      entries,
+      isStoreRelated: group.isStoreRelated
     }
   }
 
@@ -598,7 +626,8 @@ export function createArmoireInsightDisplay(
       names: group.storageSpaceItemIds.map(getItemName),
       itemIds: group.storageSpaceItemIds,
       armoireItemIds: group.armoireItemIds,
-      iconUrl: firstItemId ? getItemIconUrl(firstItemId) : ''
+      iconUrl: firstItemId ? getItemIconUrl(firstItemId) : '',
+      isStoreRelated: group.isStoreRelated
     }
   }
 

@@ -1,4 +1,5 @@
 import { getOwnedItemQuantity } from '@/lib/armoire/buildOwnedIndex'
+import { isArmoireStoreEquivalentItem } from '@/lib/armoire/storeItemEquivalents'
 import type {
   ArmoireDuplicateItemAnalysis,
   ArmoireDuplicateItemGroupState,
@@ -16,11 +17,16 @@ export function analyzeDuplicateItems(index: ArmoireOwnedIndex): ArmoireDuplicat
     groups.push({
       itemId,
       ownedEntryCount: entries.length,
-      totalQuantity: entries.reduce((total, item) => total + getOwnedItemQuantity(item), 0)
+      totalQuantity: entries.reduce((total, item) => total + getOwnedItemQuantity(item), 0),
+      isStoreRelated: isArmoireStoreEquivalentItem(itemId)
     })
   }
 
   groups.sort((left, right) => {
+    if (Number(left.isStoreRelated) !== Number(right.isStoreRelated)) {
+      return Number(left.isStoreRelated) - Number(right.isStoreRelated)
+    }
+
     if (right.ownedEntryCount !== left.ownedEntryCount) {
       return right.ownedEntryCount - left.ownedEntryCount
     }

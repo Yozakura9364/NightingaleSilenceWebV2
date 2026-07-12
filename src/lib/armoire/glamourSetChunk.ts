@@ -2,6 +2,7 @@ import { EMPTY_ARMOIRE_CATALOG } from '@/lib/armoire/catalog'
 import {
   createCatalogItemsFromCompactDisplayItems,
   isArmoireCompactDisplayItemArray,
+  isNonNegativeIntegerArray,
   isPositiveIntegerArray
 } from '@/lib/armoire/catalog'
 import { ARMOIRE_ITEM_ID_CHUNK_SIZE } from '@/lib/armoire/itemIdChunk'
@@ -35,6 +36,7 @@ function isGlamourSet(value: unknown): value is ArmoireGlamourSet {
     isRecord(value) &&
     isPositiveInteger(value.setItemId) &&
     (value.setName === undefined || typeof value.setName === 'string') &&
+    (value.pieceSlotItemIds === undefined || isNonNegativeIntegerArray(value.pieceSlotItemIds)) &&
     isPositiveIntegerArray(value.pieceItemIds)
   )
 }
@@ -52,6 +54,7 @@ function mergeGlamourSets(sets: readonly ArmoireGlamourSet[]): ArmoireGlamourSet
     mergedSets.set(set.setItemId, {
       setItemId: set.setItemId,
       setName: set.setName ?? existingSet?.setName,
+      pieceSlotItemIds: set.pieceSlotItemIds ?? existingSet?.pieceSlotItemIds,
       pieceItemIds: uniqueSortedNumbers([...(existingSet?.pieceItemIds ?? []), ...set.pieceItemIds])
     })
   }

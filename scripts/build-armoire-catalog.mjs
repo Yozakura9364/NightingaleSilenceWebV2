@@ -526,15 +526,14 @@ function buildGlamourSetRows(mirageRows) {
   return mirageRows
     .map((row) => {
       const setItemId = parseInteger(row['#'])
+      const pieceSlotItemIds = Array.from({ length: 9 }, (_, index) =>
+        parseInteger(row[`Item[${index}]`])
+      )
       const pieceItemIds = Array.from(
-        new Set(
-          Array.from({ length: 9 }, (_, index) => parseInteger(row[`Item[${index}]`])).filter(
-            (itemId) => itemId > 0
-          )
-        )
+        new Set(pieceSlotItemIds.filter((itemId) => itemId > 0))
       )
 
-      return { setItemId, pieceItemIds }
+      return { setItemId, pieceSlotItemIds, pieceItemIds }
     })
     .filter((set) => set.setItemId > 0 && set.pieceItemIds.length > 0)
     .sort((left, right) => left.setItemId - right.setItemId)
@@ -690,6 +689,7 @@ function buildGlamourSets(glamourSetRows, names) {
   return glamourSetRows.map((set) => ({
     setItemId: set.setItemId,
     setName: names.get(set.setItemId),
+    pieceSlotItemIds: set.pieceSlotItemIds,
     pieceItemIds: set.pieceItemIds
   }))
 }
