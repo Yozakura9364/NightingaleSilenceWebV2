@@ -188,7 +188,6 @@
                   :key="asset.id"
                   :asset="asset"
                   :active="isIconAssetSelected(entry.state, asset)"
-                  prefer-original
                   @select="selectIconMaterial(entry.state, $event)"
                 />
               </div>
@@ -251,13 +250,25 @@
                   {{ t(section.noneLabelKey) }}
                 </button>
 
-                <NSPlateAssetCard
-                  v-for="asset in getSpecialMaterialAssets(section.kind)"
-                  :key="asset.id"
-                  :asset="asset"
-                  :active="isSpecialAssetSelected(entry.state, section.kind, asset)"
+                <NSPlateProgressiveAssetCards
+                  v-if="section.kind === 'symbol'"
+                  :assets="getSpecialMaterialAssets(section.kind)"
+                  :is-active="
+                    (asset) =>
+                      entry.state.type === 'special' &&
+                      isSpecialAssetSelected(entry.state, section.kind, asset)
+                  "
                   @select="selectSpecialMaterial(entry.state.slotId, section.kind, $event)"
                 />
+                <template v-else>
+                  <NSPlateAssetCard
+                    v-for="asset in getSpecialMaterialAssets(section.kind)"
+                    :key="asset.id"
+                    :asset="asset"
+                    :active="isSpecialAssetSelected(entry.state, section.kind, asset)"
+                    @select="selectSpecialMaterial(entry.state.slotId, section.kind, $event)"
+                  />
+                </template>
               </div>
 
               <p
@@ -336,6 +347,7 @@ import { useLocale } from '@/stores/locale'
 import type { NSPlateAssetGroup } from '@/lib/plate/types'
 import NSPlateAssetCard from '@/pages/plate/components/NSPlateAssetCard.vue'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
+import NSPlateProgressiveAssetCards from '@/pages/plate/components/NSPlateProgressiveAssetCards.vue'
 
 const props = defineProps<{
   modelValue: NSPlateInfoDraft

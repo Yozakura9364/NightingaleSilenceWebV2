@@ -822,6 +822,8 @@ export const textKeys = {
   nsplatePortraitSideLeft: 'nsplate.portraitSide.left',
   nsplatePortraitSideRight: 'nsplate.portraitSide.right',
   nsplateCustomPortraitUpload: 'nsplate.customPortrait.upload',
+  nsplateCustomPortraitAdjust: 'nsplate.customPortrait.adjust',
+  nsplateCustomPortraitPopoutLayer: 'nsplate.customPortrait.popoutLayer',
   nsplateCustomPortraitClear: 'nsplate.customPortrait.clear',
   nsplateCustomPortraitClearConfirm: 'nsplate.customPortrait.clearConfirm',
   nsplateCustomPortraitInput: 'nsplate.customPortrait.input',

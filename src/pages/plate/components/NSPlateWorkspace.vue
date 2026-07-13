@@ -51,7 +51,11 @@
 
         <template v-if="activeTab !== 'info'">
           <NSPlatePortraitSideSwitch v-if="activeTab === 'portrait'" v-model="portraitSide" />
-          <NSPlatePortraitUpload v-if="activeTab === 'portrait'" v-model="customPortrait" />
+          <NSPlatePortraitUpload
+            v-if="activeTab === 'portrait'"
+            v-model="customPortrait"
+            :portrait-side="portraitSide"
+          />
           <NSPlatePresetPanel
             :selected-id="activeSelectedPresetId"
             :groups="activePresetGroups"

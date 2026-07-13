@@ -13,6 +13,7 @@
         :src="imageSource"
         :alt="props.asset.label"
         loading="lazy"
+        decoding="async"
         @load="updateImageRatio"
         @error="useFallbackImage"
       />
@@ -105,6 +106,8 @@ const cardStyle = computed(
   color: var(--ns-color-text);
   font: inherit;
   cursor: pointer;
+  content-visibility: auto;
+  contain-intrinsic-size: 92px 126px;
 }
 
 .nsplate-asset-card[data-scope='nameplate'] {

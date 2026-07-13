@@ -120,8 +120,21 @@ export const NSPLATE_LAYER_COORDS: Record<string, NSPlateLayerPosition> = {
   铭牌外框: { x: 320, y: 172 },
   铭牌顶部装饰: { x: 320, y: 172 },
   铭牌底部装饰: { x: 320, y: 956 },
-  铭牌装饰物: { x: 1700, y: 763 },
+  铭牌装饰物: { x: 1700, y: 760 },
   铭牌装饰物B: { x: 1764, y: 824, scale: 0.75 }
+}
+
+export const NSPLATE_LAYER_COORDS_BY_PORTRAIT_SIDE: Partial<
+  Record<string, Record<NSPlatePortraitSide, NSPlateLayerPosition>>
+> = {
+  铭牌装饰物: {
+    right: { x: 1700, y: 760 },
+    left: { x: 348, y: 760 }
+  },
+  铭牌装饰物B: {
+    right: { x: 1764, y: 824, scale: 0.75 },
+    left: { x: 412, y: 824, scale: 0.75 }
+  }
 }
 
 export const NSPLATE_PORTRAIT_EMBED: Record<NSPlatePortraitSide, NSPlateLayerPosition> = {
@@ -198,7 +211,12 @@ export function createNameplateRenderPlan(
     portraitOverlayLayers: createPortraitOverlayLayers(selectedByCategory),
     portraitEmbed: NSPLATE_PORTRAIT_EMBED[portraitSide],
     portraitFrameLayer: createPortraitFrameLayer(selectedByCategory, portraitSide),
-    overlayLayers: createFixedLayers(NAMEPLATE_OVERLAY_CATEGORIES, selectedByCategory),
+    overlayLayers: createFixedLayers(
+      NAMEPLATE_OVERLAY_CATEGORIES,
+      selectedByCategory,
+      'fixed',
+      portraitSide
+    ),
     infoGraphicLayers: createNSPlateInfoGraphicRenderLayers(
       infoDraft,
       portraitSide,
@@ -377,10 +395,11 @@ function createPortraitOverlayLayers(selectedByCategory: Map<string, NSPlateAsse
 function createFixedLayers(
   categories: readonly string[],
   selectedByCategory: Map<string, NSPlateAssetSummary>,
-  placement: NSPlateRenderImageLayer['placement'] = 'fixed'
+  placement: NSPlateRenderImageLayer['placement'] = 'fixed',
+  portraitSide?: NSPlatePortraitSide
 ) {
   return categories
-    .map((category) => createLayer(category, selectedByCategory, placement))
+    .map((category) => createLayer(category, selectedByCategory, placement, portraitSide))
     .filter((layer): layer is NSPlateRenderImageLayer => layer !== null)
 }
 
@@ -406,10 +425,14 @@ function createPortraitFrameLayer(
 function createLayer(
   category: string,
   selectedByCategory: Map<string, NSPlateAssetSummary>,
-  placement: NSPlateRenderImageLayer['placement']
+  placement: NSPlateRenderImageLayer['placement'],
+  portraitSide?: NSPlatePortraitSide
 ) {
   const asset = selectedByCategory.get(category)
-  const position = NSPLATE_LAYER_COORDS[category]
+  const position = portraitSide
+    ? NSPLATE_LAYER_COORDS_BY_PORTRAIT_SIDE[category]?.[portraitSide] ??
+      NSPLATE_LAYER_COORDS[category]
+    : NSPLATE_LAYER_COORDS[category]
 
   if (!asset || !position) {
     return null

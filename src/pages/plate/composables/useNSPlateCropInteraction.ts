@@ -9,15 +9,16 @@ import {
 import { NSPLATE_CANVAS_DIMENSIONS, NSPLATE_PORTRAIT_EMBED } from '@/lib/plate/render'
 import type {
   NSPlateCustomPortraitCropState,
-  NSPlateCustomPortraitMode
+  NSPlateCustomPortraitMode,
+  NSPlatePortraitSide
 } from '@/lib/plate/types'
 
 export function useNSPlateCropInteraction(
-  cropState: Readonly<Ref<NSPlateCustomPortraitCropState>>
+  cropState: Readonly<Ref<NSPlateCustomPortraitCropState>>,
+  portraitSide: Readonly<Ref<NSPlatePortraitSide>>
 ) {
   const cropLimits = getCustomPortraitCropLimits()
   const portraitHeight = NSPLATE_CANVAS_DIMENSIONS.portrait.height
-  const portraitOrigin = NSPLATE_PORTRAIT_EMBED.right
   const canvasRef = ref<HTMLCanvasElement | null>(null)
   const localCropState = ref<NSPlateCustomPortraitCropState | null>(null)
   let isDragging = false
@@ -51,6 +52,10 @@ export function useNSPlateCropInteraction(
     { immediate: true }
   )
 
+  watch(portraitSide, () => {
+    void nextTick(renderPreview)
+  })
+
   function renderPreview() {
     const canvas = canvasRef.value
     const currentCropState = localCropState.value
@@ -59,7 +64,7 @@ export function useNSPlateCropInteraction(
       return
     }
 
-    drawCustomPortraitCropPreview(canvas, currentCropState)
+    drawCustomPortraitCropPreview(canvas, currentCropState, portraitSide.value)
   }
 
   function onZoomInput(event: Event) {
@@ -69,9 +74,7 @@ export function useNSPlateCropInteraction(
       return
     }
 
-    currentCropState.scaleMultiplier = Number((event.target as HTMLInputElement).value)
-    clampCustomPortraitCropState(currentCropState)
-    renderPreview()
+    updateZoom(Number((event.target as HTMLInputElement).value))
   }
 
   function onSplitInput(event: Event) {
@@ -94,9 +97,10 @@ export function useNSPlateCropInteraction(
     }
 
     event.preventDefault()
-    currentCropState.scaleMultiplier += event.deltaY > 0 ? -0.06 : 0.06
-    clampCustomPortraitCropState(currentCropState)
-    renderPreview()
+    updateZoom(
+      currentCropState.scaleMultiplier + (event.deltaY > 0 ? -0.06 : 0.06),
+      getPortraitPointerPosition(event, canvasRef.value, currentCropState)
+    )
   }
 
   function onPointerDown(event: PointerEvent) {
@@ -172,7 +176,31 @@ export function useNSPlateCropInteraction(
     return currentCropState ? cloneCropState(currentCropState) : null
   }
 
-  function getPreviewPointerPosition(event: PointerEvent, canvas: HTMLCanvasElement) {
+  function updateZoom(nextZoom: number, pointer?: { x: number; y: number }) {
+    const currentCropState = localCropState.value
+
+    if (!currentCropState) {
+      return
+    }
+
+    const previousZoom = currentCropState.scaleMultiplier
+    const clampedZoom = Math.max(cropLimits.minZoom, Math.min(cropLimits.maxZoom, nextZoom))
+
+    if (pointer && previousZoom > 0 && clampedZoom !== previousZoom) {
+      const ratio = clampedZoom / previousZoom
+      const portrait = NSPLATE_CANVAS_DIMENSIONS.portrait
+      const centerX = portrait.width / 2 + currentCropState.offsetX
+      const centerY = portrait.height / 2 + currentCropState.offsetY
+      currentCropState.offsetX += (pointer.x - centerX) * (1 - ratio)
+      currentCropState.offsetY += (pointer.y - centerY) * (1 - ratio)
+    }
+
+    currentCropState.scaleMultiplier = clampedZoom
+    clampCustomPortraitCropState(currentCropState)
+    renderPreview()
+  }
+
+  function getPreviewPointerPosition(event: MouseEvent, canvas: HTMLCanvasElement) {
     const rect = canvas.getBoundingClientRect()
     const dimensions = previewDimensions.value
     return {
@@ -187,7 +215,27 @@ export function useNSPlateCropInteraction(
     currentCropState: NSPlateCustomPortraitCropState
   ) {
     const pointer = getPreviewPointerPosition(event, canvas)
-    return currentCropState.mode === 'popout' ? pointer.y - portraitOrigin.y : pointer.y
+    return currentCropState.mode === 'popout'
+      ? pointer.y - NSPLATE_PORTRAIT_EMBED[portraitSide.value].y
+      : pointer.y
+  }
+
+  function getPortraitPointerPosition(
+    event: MouseEvent,
+    canvas: HTMLCanvasElement | null,
+    currentCropState: NSPlateCustomPortraitCropState
+  ) {
+    if (!canvas) {
+      return undefined
+    }
+
+    const pointer = getPreviewPointerPosition(event, canvas)
+    if (currentCropState.mode !== 'popout') {
+      return pointer
+    }
+
+    const origin = NSPLATE_PORTRAIT_EMBED[portraitSide.value]
+    return { x: pointer.x - origin.x, y: pointer.y - origin.y }
   }
 
   return {

@@ -471,7 +471,7 @@ export function createNSPlateInfoGraphicRenderLayers(
       const itemIds = resolveInfoIconRenderItemIds(definition, state)
       const items = itemIds
         .map((itemId) =>
-          resolveInfoGraphicSourceByItemId(definition.sourceCat, itemId, assetGroups)
+          resolveInfoGraphicSourceByItemId(getInfoIconSourceCategories(definition), itemId, assetGroups)
         )
         .filter((item): item is NSPlateInfoGraphicSource => item !== null)
 
@@ -574,6 +574,7 @@ function createSharedProfileGraphicRenderDefinitions(): NSPlateInfoGraphicRender
       targetSize: 112
     }),
     iconLayer('icon-4', '军衔', '军衔图标', '083111', 597, 540, {
+      sourceCats: ['军衔图标', '装饰图标'],
       positionBySide: splitSide(597, 540, 1177, 540),
       sizeMode: 'fixed',
       targetSize: 81
@@ -763,8 +764,15 @@ function resolveInfoIconRenderItemIds(
   )
 }
 
+function getInfoIconSourceCategories(definition: NSPlateInfoIconRenderDefinition): string[] {
+  const sourceCats = definition.sourceCats?.length
+    ? definition.sourceCats
+    : [definition.sourceCat]
+  return Array.from(new Set(sourceCats.map((sourceCat) => sourceCat.trim()).filter(Boolean)))
+}
+
 function resolveInfoGraphicSourceByItemId(
-  sourceCat: string,
+  sourceCat: string | string[],
   itemId: string,
   assetGroups: NSPlateAssetGroup[]
 ): NSPlateInfoGraphicSource | null {
@@ -783,7 +791,7 @@ function resolveInfoGraphicSourceByItemId(
 }
 
 function findInfoGraphicAsset(
-  sourceCat: string,
+  sourceCat: string | string[],
   itemId: string,
   assetGroups: NSPlateAssetGroup[]
 ): NSPlateAssetSummary | null {
@@ -793,9 +801,14 @@ function findInfoGraphicAsset(
     return null
   }
 
-  const assets = assetGroups
-    .filter((group) => group.scope === 'nameplate' && group.category === sourceCat)
-    .flatMap((group) => group.assets)
+  const sourceCats = (Array.isArray(sourceCat) ? sourceCat : [sourceCat])
+    .map((cat) => cat.trim())
+    .filter(Boolean)
+  const assets = sourceCats.flatMap((category) =>
+    assetGroups
+      .filter((group) => group.scope === 'nameplate' && group.category === category)
+      .flatMap((group) => group.assets)
+  )
 
   for (const asset of assets) {
     if (String(asset.raw.id ?? '') === exactToken) {

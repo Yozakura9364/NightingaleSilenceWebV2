@@ -93,6 +93,7 @@ export interface NSPlateCustomPortraitCropState {
   sourceHeight: number
   baseScale: number
   mode: NSPlateCustomPortraitMode
+  popoutLayerAnchor?: NSPlateCustomPortraitPopoutLayerAnchor
   scaleMultiplier: number
   offsetX: number
   offsetY: number
