@@ -26,7 +26,11 @@ const TEMPLATE_SOURCE_FILES = [
   'src/pages/glamour/components/NSGlamourImportPanel.vue',
   'src/pages/glamour/components/NSGlamourWorkspace.vue',
   'src/pages/glamour/components/NSGlamourTemplateWorkspace.vue',
-  'src/locales/ui.ts'
+  'src/pages/glamour/composables/useGlamourTemplateCanvas.ts',
+  'src/pages/glamour/components/NSGlamourTemplateCropDialog.vue',
+  'src/pages/glamour/components/NSGlamourTemplateSelectorDialog.vue',
+  'src/pages/glamour/components/NSGlamourTemplateImportDialog.vue',
+  'src/locales/modules/glamour.ts'
 ]
 const LEGACY_TEMPLATE_DEFINITIONS_FILE = resolve('..', 'NSGlamour', 'static', 'template-definitions.js')
 const LEGACY_TEMPLATE_RENDERERS_FILE = resolve('..', 'NSGlamour', 'static', 'template-renderers.js')
@@ -311,6 +315,10 @@ async function checkLocalTemplateDataLayer() {
     importPanel,
     glamourWorkspace,
     templateWorkspace,
+    templateCanvas,
+    templateCropDialog,
+    templateSelectorDialog,
+    templateImportDialog,
     uiLocaleSource,
     legacyDefinitions,
     legacyRenderers,
@@ -343,13 +351,13 @@ async function checkLocalTemplateDataLayer() {
   await validateTemplatePublicAssets()
 
   assert(
-    glamourPage.includes('--ns-ffxiv-workspace-bg: #fff') &&
+    glamourPage.includes('--ns-ffxiv-workspace-bg: var(--ns-glamour-workspace-bg)') &&
       !glamourPage.includes('#fff8fc') &&
       glamourWorkspace.includes('background: #fff;') &&
       templateWorkspace.includes('background: #fff;') &&
       !glamourWorkspace.includes('#fff8fc') &&
       !templateWorkspace.includes('#fff8fc'),
-    'NSGlamour equipinfo/template workspace backgrounds must stay pure white outside the title bar'
+    'NSGlamour page shell must keep the shared theme background while equipinfo/template workspaces stay pure white'
   )
   assert(
     equipmentPanel.includes('nsglamour-slot--selected-no-dye') &&
@@ -525,27 +533,27 @@ async function checkLocalTemplateDataLayer() {
       renderer.includes('resolveIcon?.(row.item.icon)?.image') &&
       rows.includes('ecVariantLabel?: string') &&
       rows.includes('candidate.ec_variant_label') &&
-      templateWorkspace.includes('renderGlamourTemplateCanvas') &&
-      templateWorkspace.includes('templateCanvasFonts') &&
-      templateWorkspace.includes('ensureTemplateCanvasFonts') &&
-      templateWorkspace.includes('document.fonts') &&
-      templateWorkspace.includes('fontSet.load(font, fontLoadText)') &&
-      templateWorkspace.includes('templateFontLoadFallbackText') &&
-      templateWorkspace.includes('loadGlamourTemplateRenderAssets') &&
-      templateWorkspace.includes('templateRenderAssets') &&
-      templateWorkspace.includes('loadTemplateRenderAssets') &&
-      templateWorkspace.includes('templateRenderData.value.requiredAssets.join') &&
-      templateWorkspace.includes('assets: templateRenderAssets.value') &&
-      !templateWorkspace.includes('renderGlamourTemplateCanvasFallback') &&
+      templateCanvas.includes('renderGlamourTemplateCanvas') &&
+      templateCanvas.includes('canvasFonts') &&
+      templateCanvas.includes('ensureCanvasFonts') &&
+      templateCanvas.includes('document.fonts') &&
+      templateCanvas.includes('fontSet.load(font, loadText)') &&
+      templateCanvas.includes('fontLoadFallbackText') &&
+      templateCanvas.includes('loadGlamourTemplateRenderAssets') &&
+      templateCanvas.includes('renderAssets') &&
+      templateCanvas.includes('loadRenderAssets') &&
+      templateCanvas.includes("options.renderData.value.requiredAssets.join('|')") &&
+      templateCanvas.includes('assets: renderAssets.value') &&
+      !templateCanvas.includes('renderGlamourTemplateCanvasFallback') &&
       templateWorkspace.includes('drawGlamourTemplateImageCover') &&
-      templateWorkspace.includes('templateIconImages') &&
-      templateWorkspace.includes('preloadTemplateIcons') &&
-      templateWorkspace.includes('shouldPreloadTemplateCanvasIcons') &&
-      templateWorkspace.includes("renderMode === 'ec' || renderMode === 'risingstones'") &&
-      templateWorkspace.includes('resolveIcon: getTemplateIcon') &&
-      !templateWorkspace.includes('function drawTemplateCanvasFallback') &&
-      !templateWorkspace.includes('function drawImageCover'),
-    'template canvas drawing and icon consumption must keep the V2 renderer boundary instead of drawing inside the Vue workspace component'
+      templateCanvas.includes('iconImages') &&
+      templateCanvas.includes('preloadIcons') &&
+      templateCanvas.includes('shouldPreloadIcons') &&
+      templateCanvas.includes("renderMode === 'ec' || renderMode === 'risingstones'") &&
+      templateCanvas.includes('resolveIcon: getIcon') &&
+      !templateCanvas.includes('function drawTemplateCanvasFallback') &&
+      !templateCanvas.includes('function drawImageCover'),
+    'template canvas composable must keep the V2 renderer, font, asset, and icon-loading boundary outside the Vue workspace component'
   )
   assert(
     assets.includes('GLAMOUR_TEMPLATE_RENDER_ASSET_URLS') &&
@@ -617,8 +625,9 @@ async function checkLocalTemplateDataLayer() {
     templateWorkspace.includes('toggleTemplateLocale') &&
       templateWorkspace.includes("const templateLanguageDisplayOrder: GlamourLocale[] = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']") &&
       templateWorkspace.includes('sortTemplateLanguageOptions(languageOptions.value)') &&
-      templateWorkspace.includes('sortTemplateLanguageOptions(option.languageOptions)') &&
-      templateWorkspace.includes('sortTemplateLocales(option.localeOrder)') &&
+      templateSelectorDialog.includes("const languageOrder: GlamourLocale[] = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']") &&
+      templateSelectorDialog.includes('sortLanguageOptions(option.languageOptions)') &&
+      templateSelectorDialog.includes('[...option.localeOrder]') &&
       !templateWorkspace.includes('languageSettingRows') &&
       !templateWorkspace.includes('moveTemplateLocale') &&
       !templateWorkspace.includes('removeTemplateLocale') &&
@@ -626,7 +635,7 @@ async function checkLocalTemplateDataLayer() {
     'template workspace must keep fixed language display order without exposing extra language order controls'
   )
   assert(
-    !templateWorkspace.includes('nsglamourTemplateSelectorHint'),
+    !templateSelectorDialog.includes('nsglamourTemplateSelectorHint'),
     'template selector must not show extra V2-only hint text that is absent from legacy /template'
   )
   assert(
@@ -652,7 +661,7 @@ async function checkLocalTemplateDataLayer() {
       templateWorkspace.includes('useRecentTemplateImage') &&
       templateWorkspace.includes('record.thumbnailUrl') &&
       templateWorkspace.includes('record.imageName') &&
-      templateWorkspace.includes('renderGlamourTemplateCanvas') &&
+      templateCanvas.includes('renderGlamourTemplateCanvas') &&
       templateWorkspace.includes('restoreCurrentTemplateImages') &&
       templateWorkspace.includes('templateImagesById') &&
       templateWorkspace.includes('saveCurrentTemplateRuntimeImages') &&
@@ -668,17 +677,17 @@ async function checkLocalTemplateDataLayer() {
       templateWorkspace.includes('normalizeDraggedImageUrl') &&
       templateWorkspace.includes('getDroppedImageUrl') &&
       templateWorkspace.includes('setTemplateImageFromUrl') &&
-      templateWorkspace.includes('nsglamour-template-crop') &&
+      templateCropDialog.includes('nsglamour-template-crop') &&
       templateWorkspace.includes('openImageCropper') &&
       templateWorkspace.includes('applyImageCrop') &&
-      templateWorkspace.includes('resetImageCrop') &&
-      templateWorkspace.includes('renderCroppedImageDataUrl') &&
-      templateWorkspace.includes('cropCanvasDisplayStyle') &&
-      templateWorkspace.includes('getCropAspectRatio') &&
-      templateWorkspace.includes('slot?.aspectRatio') &&
-      templateWorkspace.includes('window.addEventListener(\'resize\', updateCropViewportSize)') &&
-      templateWorkspace.includes('width: 100%;\n  height: 100%;') &&
-      !templateWorkspace.includes('max-height: min(62vh, 620px);') &&
+      templateCropDialog.includes('resetCrop') &&
+      templateCropDialog.includes("output.toDataURL('image/png')") &&
+      templateCropDialog.includes('canvasDisplayStyle') &&
+      templateCropDialog.includes('getAspectRatio') &&
+      templateCropDialog.includes('props.slot.aspectRatio') &&
+      templateCropDialog.includes("window.addEventListener('resize', updateViewportSize)") &&
+      templateCropDialog.includes('width: 100%;\n  height: 100%;') &&
+      !templateCropDialog.includes('max-height: min(62vh, 620px);') &&
       templateWorkspace.includes('writeGlamourTemplateImageSessionSlot') &&
       templateWorkspace.includes('findGlamourTemplateImageSessionRecord') &&
       templateWorkspace.includes('let nearestSlotId = activeImageSlotId.value') &&
@@ -687,8 +696,9 @@ async function checkLocalTemplateDataLayer() {
       templateWorkspace.includes('handleTemplateDocumentDragEvent') &&
       templateWorkspace.includes('getTemplateDocumentDragTargets') &&
       templateWorkspace.includes("['dragenter', 'dragover', 'dragleave', 'drop']") &&
-      templateWorkspace.includes('target.addEventListener(eventName, handleTemplateDocumentDragEvent as EventListener, { capture: true })') &&
-      templateWorkspace.includes('target.removeEventListener(eventName, handleTemplateDocumentDragEvent as EventListener, { capture: true })') &&
+      templateWorkspace.includes('target.addEventListener(eventName') &&
+      templateWorkspace.includes('target.removeEventListener(eventName') &&
+      templateWorkspace.includes('capture: true') &&
       templateWorkspace.includes('previewResizeObserver') &&
       templateWorkspace.includes('updatePreviewSize') &&
       templateWorkspace.includes('previewSize.height * aspectRatio') &&
@@ -708,14 +718,14 @@ async function checkLocalTemplateDataLayer() {
     'template workspace must use the legacy canvas/upload/crop surface, runtime image cache, carry-forward switching, IndexedDB image store, resume redraw, header popover cleanup, and same-tab image backup instead of the temporary DOM preview rows'
   )
   assert(
-    templateWorkspace.includes('getTemplateSelectorCardTitle') &&
-      templateWorkspace.includes('getTemplateLanguageSummary') &&
-      templateWorkspace.includes('getTemplatePreviewUrl') &&
-      templateWorkspace.includes('/data/glamour/template-preview/') &&
-      templateWorkspace.includes('legacyPreviewPath') &&
-      templateWorkspace.includes('nsglamourTemplateSelectorCardTitle') &&
-      templateWorkspace.includes('loading="lazy"') &&
-      !templateWorkspace.includes('{{ option.sourceWidth }}'),
+    templateSelectorDialog.includes('getCardTitle') &&
+      templateSelectorDialog.includes("getLanguageLabels(option).join(' ')") &&
+      templateSelectorDialog.includes('getPreviewUrl') &&
+      templateSelectorDialog.includes('/data/glamour/template-preview/') &&
+      templateSelectorDialog.includes('legacyPreviewPath') &&
+      templateSelectorDialog.includes('nsglamourTemplateSelectorCardTitle') &&
+      templateSelectorDialog.includes('loading="lazy"') &&
+      !templateSelectorDialog.includes('{{ option.sourceWidth }}'),
     'template selector cards must preserve the legacy preview image and author/summary/supported-language title'
   )
   assert(
@@ -820,7 +830,7 @@ async function checkLocalTemplateDataLayer() {
       templateWorkspace.includes('normalizeGlamourLinkUrl(importUrl.value)') &&
       templateWorkspace.includes('isSupportedGlamourLinkUrl(url)') &&
       !importPanel.includes('type="url"') &&
-      !templateWorkspace.includes('type="url"'),
+      !templateImportDialog.includes('type="url"'),
     'glamour link inputs must preserve legacy auto-https normalization and supported-domain validation'
   )
 
@@ -1723,11 +1733,7 @@ function validateNsglamourVisibleText(uiLocaleSource) {
 function extractNsglamourLocaleBlock(uiLocaleSource) {
   const start = uiLocaleSource.indexOf("'nsglamour.")
   assert(start >= 0, 'ui locale source must include nsglamour keys')
-
-  const end = uiLocaleSource.indexOf("\n  'nsplate.", start)
-  assert(end > start, 'ui locale source must keep nsglamour keys before nsplate keys')
-
-  return uiLocaleSource.slice(start, end)
+  return uiLocaleSource.slice(start)
 }
 
 function countSubstring(source, substring) {
