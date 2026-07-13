@@ -30,6 +30,7 @@ import type {
   NSPlatePresetKind,
   NSPlatePresetSummary
 } from '@/lib/plate/types'
+import { normalizeNSPlateCustomPortraitPopoutLayerAnchor } from '@/lib/plate/types'
 
 export type NSPlateLegacyConfigImportErrorCode =
   'empty' | 'unsupported' | 'zip-manifest' | 'custom-portrait'
@@ -553,6 +554,7 @@ async function normalizeLegacyCustomPortrait(
 
   const dataUrl = normalizeString(value.dataUrl) || normalizeString(value.d)
   const fileName = normalizeString(value.fileName) || normalizeString(value.n) || 'custom.png'
+  const mode = value.mode === 'popout' || value.m === 'popout' ? 'popout' : 'standard'
   const scale = clampLegacyCustomPortraitScale(
     normalizeFiniteNumber(value.scale) ?? normalizeFiniteNumber(value.s) ?? 1
   )
@@ -562,16 +564,53 @@ async function normalizeLegacyCustomPortrait(
   }
 
   const image = await loadImage(dataUrl)
-  const portraitDataUrl = createLegacyCustomPortraitDataUrl(image, scale)
+  const portraitDataUrl =
+    mode === 'popout' ? dataUrl : createLegacyCustomPortraitDataUrl(image, scale)
+  const splitY =
+    normalizeFiniteNumber(value.splitY) ??
+    normalizeFiniteNumber(value.sy) ??
+    Math.round(NSPLATE_CANVAS_DIMENSIONS.portrait.height * 0.34)
+  const splitLeftY =
+    normalizeFiniteNumber(value.splitLeftY) ?? normalizeFiniteNumber(value.sly) ?? splitY
+  const splitRightY =
+    normalizeFiniteNumber(value.splitRightY) ?? normalizeFiniteNumber(value.sry) ?? splitY
+  const sourceDataUrl =
+    normalizeString(value.sourceDataUrl) || normalizeString(value.sd) || dataUrl
+  const sourceImage = mode === 'popout' ? await loadImage(sourceDataUrl) : image
 
   return {
-    id: `legacy:${fileName}:${dataUrl.length}:${Math.round(scale * 1000)}`,
-    mode: 'standard',
+    id: `legacy:${fileName}:${dataUrl.length}:${Math.round(scale * 1000)}:${Math.round(splitLeftY)}:${Math.round(splitRightY)}`,
+    mode,
     fileName,
     dataUrl: portraitDataUrl,
     width: NSPLATE_CANVAS_DIMENSIONS.portrait.width,
     height: NSPLATE_CANVAS_DIMENSIONS.portrait.height,
-    scale: 1
+    scale: 1,
+    ...(mode === 'popout'
+      ? {
+          popoutLayerAnchor: normalizeNSPlateCustomPortraitPopoutLayerAnchor(
+            value.popoutLayerAnchor ?? value.pa
+          ),
+          sourceDataUrl,
+          sourceWidth:
+            normalizeFiniteNumber(value.sourceWidth) ??
+            normalizeFiniteNumber(value.sw) ??
+            sourceImage.naturalWidth,
+          sourceHeight:
+            normalizeFiniteNumber(value.sourceHeight) ??
+            normalizeFiniteNumber(value.sh) ??
+            sourceImage.naturalHeight,
+          baseScale:
+            normalizeFiniteNumber(value.baseScale) ?? normalizeFiniteNumber(value.bs) ?? 1,
+          scaleMultiplier:
+            normalizeFiniteNumber(value.scaleMultiplier) ?? normalizeFiniteNumber(value.sm) ?? 1,
+          offsetX: normalizeFiniteNumber(value.offsetX) ?? normalizeFiniteNumber(value.ox) ?? 0,
+          offsetY: normalizeFiniteNumber(value.offsetY) ?? normalizeFiniteNumber(value.oy) ?? 0,
+          splitY: Math.round((splitLeftY + splitRightY) / 2),
+          splitLeftY,
+          splitRightY
+        }
+      : {})
   }
 }
 

@@ -82,6 +82,8 @@ export interface NSPlateCustomPortraitImage {
   offsetX?: number
   offsetY?: number
   splitY?: number
+  splitLeftY?: number
+  splitRightY?: number
 }
 
 export interface NSPlateCustomPortraitCropState {
@@ -98,6 +100,8 @@ export interface NSPlateCustomPortraitCropState {
   offsetX: number
   offsetY: number
   splitY: number
+  splitLeftY: number
+  splitRightY: number
 }
 
 export interface NSPlatePreset {

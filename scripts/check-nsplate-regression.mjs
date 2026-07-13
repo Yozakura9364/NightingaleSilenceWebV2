@@ -512,6 +512,8 @@ async function importDownloadedConfig(browser, url, configPath) {
     await page.waitForFunction((key) => localStorage.getItem(key)?.includes('"customPortrait"'), DRAFT_KEY)
     const stored = await readStoredDraft(page)
     assert(stored?.customPortrait?.mode === 'popout', 'V2 config roundtrip did not restore popout custom portrait')
+    assert(stored?.customPortrait?.splitLeftY === 300, 'V2 config roundtrip lost left split endpoint')
+    assert(stored?.customPortrait?.splitRightY === 420, 'V2 config roundtrip lost right split endpoint')
   } finally {
     await close()
   }
@@ -826,7 +828,9 @@ function createPopoutCustomPortrait(id, anchor) {
     scaleMultiplier: 1,
     offsetX: 0,
     offsetY: 0,
-    splitY: 360
+    splitY: 360,
+    splitLeftY: 300,
+    splitRightY: 420
   }
 }
 

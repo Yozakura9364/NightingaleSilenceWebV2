@@ -209,7 +209,9 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
     ...pickOptionalNumber(value, 'scaleMultiplier'),
     ...pickOptionalNumber(value, 'offsetX'),
     ...pickOptionalNumber(value, 'offsetY'),
-    ...pickOptionalNumber(value, 'splitY')
+    ...pickOptionalNumber(value, 'splitY'),
+    ...pickOptionalNumber(value, 'splitLeftY'),
+    ...pickOptionalNumber(value, 'splitRightY')
   }
 }
 

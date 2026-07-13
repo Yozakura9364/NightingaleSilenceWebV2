@@ -113,6 +113,8 @@ const renderSignature = computed(() =>
     props.customPortrait?.dataUrl ?? '',
     props.customPortrait?.sourceDataUrl ?? '',
     props.customPortrait?.splitY ?? '',
+    props.customPortrait?.splitLeftY ?? '',
+    props.customPortrait?.splitRightY ?? '',
     props.selectedAssets
       .map((asset) =>
         [asset.id, asset.category, asset.imageUrl ?? '', asset.previewUrl ?? ''].join(':')

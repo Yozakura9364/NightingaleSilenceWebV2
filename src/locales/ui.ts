@@ -4332,6 +4332,36 @@ export const uiMessages: UiMessageMap = {
     ja: '枠外の境界線',
     ko: '프레임 밖 경계선'
   }),
+  'nsplate.customPortrait.crop.angle': msg({
+    zh: '倾斜角度',
+    en: 'Tilt angle',
+    ja: '傾斜角度',
+    ko: '기울기 각도'
+  }),
+  'nsplate.customPortrait.crop.angleReset': msg({
+    zh: '重置',
+    en: 'Reset',
+    ja: 'リセット',
+    ko: '초기화'
+  }),
+  'nsplate.customPortrait.crop.hint.moveImage': msg({
+    zh: '拖拽画布：修改图片位置',
+    en: 'Drag canvas: reposition image',
+    ja: 'キャンバスをドラッグ：画像位置を調整',
+    ko: '캔버스 드래그: 이미지 위치 조정'
+  }),
+  'nsplate.customPortrait.crop.hint.adjustAngle': msg({
+    zh: '拖拽端点：改变分界线斜率',
+    en: 'Drag endpoints: change split-line angle',
+    ja: '端点をドラッグ：境界線の傾きを変更',
+    ko: '끝점 드래그: 경계선 기울기 변경'
+  }),
+  'nsplate.customPortrait.crop.hint.sliderOnly': msg({
+    zh: '分界线仅可使用滑杆控制',
+    en: 'Move the split line using the slider only',
+    ja: '境界線の位置はスライダーでのみ調整できます',
+    ko: '경계선 위치는 슬라이더로만 조정할 수 있습니다'
+  }),
   'nsplate.customPortrait.crop.cancel': msg({
     zh: '取消',
     en: 'Cancel',

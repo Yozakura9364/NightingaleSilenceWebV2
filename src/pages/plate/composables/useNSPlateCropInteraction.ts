@@ -4,6 +4,10 @@ import {
   drawCustomPortraitCropPreview,
   getCustomPortraitCropLimits,
   getCustomPortraitCropPreviewDimensions,
+  getCustomPortraitPopoutSplitAngle,
+  getCustomPortraitPopoutSplitLine,
+  moveCustomPortraitPopoutSplitLine,
+  setCustomPortraitPopoutSplitAngle,
   setCustomPortraitCropMode
 } from '@/lib/plate/customPortrait'
 import { NSPLATE_CANVAS_DIMENSIONS, NSPLATE_PORTRAIT_EMBED } from '@/lib/plate/render'
@@ -24,7 +28,7 @@ export function useNSPlateCropInteraction(
   let isDragging = false
   let lastPointerX = 0
   let lastPointerY = 0
-  let dragTarget: 'image' | 'split' = 'image'
+  let dragTarget: 'image' | 'splitLeft' | 'splitRight' = 'image'
 
   const zoomLabel = computed(() => {
     const zoom = localCropState.value?.scaleMultiplier ?? 1
@@ -34,6 +38,13 @@ export function useNSPlateCropInteraction(
   const splitLabel = computed(() => {
     const splitY = localCropState.value?.splitY ?? 0
     return `${Math.round((splitY / portraitHeight) * 100)}%`
+  })
+
+  const splitAngle = computed(() => {
+    const currentCropState = localCropState.value
+    return currentCropState
+      ? Math.round(getCustomPortraitPopoutSplitAngle(currentCropState) * 10) / 10
+      : 0
   })
 
   const previewDimensions = computed(() => {
@@ -84,8 +95,34 @@ export function useNSPlateCropInteraction(
       return
     }
 
-    currentCropState.splitY = Number((event.target as HTMLInputElement).value)
+    moveCustomPortraitPopoutSplitLine(
+      currentCropState,
+      Number((event.target as HTMLInputElement).value)
+    )
     clampCustomPortraitCropState(currentCropState)
+    renderPreview()
+  }
+
+  function onSplitAngleInput(event: Event) {
+    const currentCropState = localCropState.value
+    const value = (event.target as HTMLInputElement).valueAsNumber
+
+    if (!currentCropState || !Number.isFinite(value)) {
+      return
+    }
+
+    setCustomPortraitPopoutSplitAngle(currentCropState, value)
+    renderPreview()
+  }
+
+  function resetSplitAngle() {
+    const currentCropState = localCropState.value
+
+    if (!currentCropState) {
+      return
+    }
+
+    setCustomPortraitPopoutSplitAngle(currentCropState, 0)
     renderPreview()
   }
 
@@ -111,11 +148,8 @@ export function useNSPlateCropInteraction(
       return
     }
 
-    const splitPointerY = getSplitPointerY(event, canvas, currentCropState)
-    dragTarget =
-      currentCropState.mode === 'popout' && Math.abs(splitPointerY - currentCropState.splitY) <= 36
-        ? 'split'
-        : 'image'
+    const pointer = getPortraitPointerPosition(event, canvas, currentCropState)
+    dragTarget = getSplitDragTarget(currentCropState, pointer)
     isDragging = true
     lastPointerX = event.clientX
     lastPointerY = event.clientY
@@ -130,8 +164,22 @@ export function useNSPlateCropInteraction(
       return
     }
 
-    if (dragTarget === 'split') {
-      currentCropState.splitY = getSplitPointerY(event, canvas, currentCropState)
+    if (dragTarget !== 'image') {
+      const pointer = getPortraitPointerPosition(event, canvas, currentCropState)
+      if (!pointer) {
+        return
+      }
+
+      const splitLine = getCustomPortraitPopoutSplitLine(currentCropState)
+      const endpointDelta =
+        dragTarget === 'splitLeft'
+          ? 2 * (splitLine.centerY - pointer.y)
+          : 2 * (pointer.y - splitLine.centerY)
+      const angleDegrees =
+        (Math.atan2(endpointDelta, NSPLATE_CANVAS_DIMENSIONS.portrait.width) * 180) / Math.PI
+      setCustomPortraitPopoutSplitAngle(currentCropState, angleDegrees)
+      lastPointerX = event.clientX
+      lastPointerY = event.clientY
       clampCustomPortraitCropState(currentCropState)
       renderPreview()
       return
@@ -209,17 +257,6 @@ export function useNSPlateCropInteraction(
     }
   }
 
-  function getSplitPointerY(
-    event: PointerEvent,
-    canvas: HTMLCanvasElement,
-    currentCropState: NSPlateCustomPortraitCropState
-  ) {
-    const pointer = getPreviewPointerPosition(event, canvas)
-    return currentCropState.mode === 'popout'
-      ? pointer.y - NSPLATE_PORTRAIT_EMBED[portraitSide.value].y
-      : pointer.y
-  }
-
   function getPortraitPointerPosition(
     event: MouseEvent,
     canvas: HTMLCanvasElement | null,
@@ -246,14 +283,38 @@ export function useNSPlateCropInteraction(
     onPointerDown,
     onPointerMove,
     onPointerUp,
+    onSplitAngleInput,
     onSplitInput,
     onWheel,
     onZoomInput,
     previewDimensions,
+    resetSplitAngle,
     setCropMode,
+    splitAngle,
     splitLabel,
     zoomLabel
   }
+}
+
+function getSplitDragTarget(
+  cropState: NSPlateCustomPortraitCropState,
+  pointer: { x: number; y: number } | undefined
+): 'image' | 'splitLeft' | 'splitRight' {
+  if (cropState.mode !== 'popout' || !pointer) {
+    return 'image'
+  }
+
+  const portraitWidth = NSPLATE_CANVAS_DIMENSIONS.portrait.width
+  const splitLine = getCustomPortraitPopoutSplitLine(cropState)
+  const handleRadius = 30
+  if (Math.hypot(pointer.x, pointer.y - splitLine.leftY) <= handleRadius) {
+    return 'splitLeft'
+  }
+  if (Math.hypot(pointer.x - portraitWidth, pointer.y - splitLine.rightY) <= handleRadius) {
+    return 'splitRight'
+  }
+
+  return 'image'
 }
 
 function cloneCropState(cropState: NSPlateCustomPortraitCropState) {

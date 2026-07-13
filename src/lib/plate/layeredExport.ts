@@ -1,6 +1,7 @@
 import {
-  getCustomPortraitPopoutSplitBounds,
-  getCustomPortraitSourceDrawRect
+  getCustomPortraitSourceDrawRect,
+  traceCustomPortraitInFrameClipPath,
+  traceCustomPortraitPopoutClipPath
 } from '@/lib/plate/customPortrait'
 import { createNSPlateLayeredZipFilename } from '@/lib/plate/downloadFilenames'
 import { getNSPlateInfoBar48Bounds } from '@/lib/plate/infoLayerRenderDefinitions'
@@ -672,17 +673,13 @@ async function createCustomPortraitInFrameLayer(
     }
 
     const rect = getCustomPortraitSourceDrawRect(customPortrait)
-    const splitBounds = getCustomPortraitPopoutSplitBounds(customPortrait.splitY ?? 0)
 
     context.save()
     context.beginPath()
-    context.rect(
-      0,
-      splitBounds.inFrameY * exportScale,
-      canvas.width,
-      Math.max(0, (portrait.height - splitBounds.inFrameY) * exportScale)
-    )
+    context.scale(exportScale, exportScale)
+    traceCustomPortraitInFrameClipPath(context, customPortrait)
     context.clip()
+    context.setTransform(1, 0, 0, 1, 0, 0)
     context.drawImage(
       image,
       rect.x * exportScale,
@@ -729,7 +726,6 @@ async function createCustomPortraitPopoutLayer(
   }
 
   const rect = getCustomPortraitSourceDrawRect(customPortrait)
-  const splitBounds = getCustomPortraitPopoutSplitBounds(customPortrait.splitY ?? 0)
   const canvas = createLayerCanvas(
     Math.round(dimensions.width * exportScale),
     Math.round(dimensions.height * exportScale)
@@ -738,8 +734,16 @@ async function createCustomPortraitPopoutLayer(
 
   context.save()
   context.beginPath()
-  context.rect(0, 0, canvas.width, (portraitEmbed.y + splitBounds.popoutY) * exportScale)
+  context.scale(exportScale, exportScale)
+  traceCustomPortraitPopoutClipPath(
+    context,
+    customPortrait,
+    dimensions.width,
+    portraitEmbed.x,
+    portraitEmbed.y
+  )
   context.clip()
+  context.setTransform(1, 0, 0, 1, 0, 0)
   context.drawImage(
     image,
     (portraitEmbed.x + rect.x) * exportScale,

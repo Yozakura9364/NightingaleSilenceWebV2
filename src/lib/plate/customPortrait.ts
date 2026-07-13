@@ -14,6 +14,22 @@ export interface NSPlateCustomPortraitDrawRect {
   height: number
 }
 
+export interface NSPlateCustomPortraitSplitLine {
+  leftY: number
+  rightY: number
+  centerY: number
+  inFrameLeftY: number
+  inFrameRightY: number
+  popoutLeftY: number
+  popoutRightY: number
+}
+
+type NSPlateCustomPortraitSplitSource = {
+  splitY?: number
+  splitLeftY?: number
+  splitRightY?: number
+}
+
 const CUSTOM_PORTRAIT_MIN_ZOOM = 1
 const CUSTOM_PORTRAIT_MAX_ZOOM = 3
 const CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX = 2
@@ -38,6 +54,7 @@ export async function createCustomPortraitCropStateFromFile(
     throw new Error('image-size')
   }
 
+  const splitY = Math.round(height * 0.34)
   const cropState = {
     id: `${file.name}:${file.lastModified}:${file.size}`,
     fileName: file.name,
@@ -50,7 +67,9 @@ export async function createCustomPortraitCropStateFromFile(
     scaleMultiplier: 1,
     offsetX: 0,
     offsetY: 0,
-    splitY: Math.round(height * 0.34)
+    splitY,
+    splitLeftY: splitY,
+    splitRightY: splitY
   } satisfies NSPlateCustomPortraitCropState
 
   clampCustomPortraitCropState(cropState)
@@ -72,6 +91,12 @@ export async function createCustomPortraitCropStateFromImage(
     throw new Error('image-size')
   }
 
+  const defaultSplitY = Math.round(NSPLATE_CANVAS_DIMENSIONS.portrait.height * 0.34)
+  const splitLine = getCustomPortraitPopoutSplitLine({
+    splitY: customPortrait.mode === 'popout' ? customPortrait.splitY : defaultSplitY,
+    splitLeftY: customPortrait.mode === 'popout' ? customPortrait.splitLeftY : defaultSplitY,
+    splitRightY: customPortrait.mode === 'popout' ? customPortrait.splitRightY : defaultSplitY
+  })
   const cropState = {
     id: customPortrait.id,
     fileName: customPortrait.fileName,
@@ -86,10 +111,9 @@ export async function createCustomPortraitCropStateFromImage(
       customPortrait.mode === 'popout' ? (customPortrait.scaleMultiplier ?? 1) : 1,
     offsetX: customPortrait.mode === 'popout' ? (customPortrait.offsetX ?? 0) : 0,
     offsetY: customPortrait.mode === 'popout' ? (customPortrait.offsetY ?? 0) : 0,
-    splitY:
-      customPortrait.mode === 'popout'
-        ? (customPortrait.splitY ?? Math.round(NSPLATE_CANVAS_DIMENSIONS.portrait.height * 0.34))
-        : Math.round(NSPLATE_CANVAS_DIMENSIONS.portrait.height * 0.34)
+    splitY: splitLine.centerY,
+    splitLeftY: splitLine.leftY,
+    splitRightY: splitLine.rightY
   } satisfies NSPlateCustomPortraitCropState
 
   clampCustomPortraitCropState(cropState)
@@ -110,7 +134,8 @@ export async function createCustomPortraitImageFromCropState(
       cropState.scaleMultiplier.toFixed(3),
       Math.round(cropState.offsetX),
       Math.round(cropState.offsetY),
-      Math.round(cropState.splitY)
+      Math.round(cropState.splitLeftY),
+      Math.round(cropState.splitRightY)
     ].join(':'),
     mode: cropState.mode,
     fileName: cropState.fileName,
@@ -129,7 +154,9 @@ export async function createCustomPortraitImageFromCropState(
           scaleMultiplier: popoutSource ? 1 : cropState.scaleMultiplier,
           offsetX: popoutSource?.offsetX ?? cropState.offsetX,
           offsetY: popoutSource?.offsetY ?? cropState.offsetY,
-          splitY: cropState.splitY
+          splitY: cropState.splitY,
+          splitLeftY: cropState.splitLeftY,
+          splitRightY: cropState.splitRightY
         }
       : {})
   }
@@ -170,7 +197,10 @@ export function clampCustomPortraitCropState(cropState: NSPlateCustomPortraitCro
     CUSTOM_PORTRAIT_MIN_ZOOM,
     Math.min(CUSTOM_PORTRAIT_MAX_ZOOM, cropState.scaleMultiplier)
   )
-  cropState.splitY = Math.max(0, Math.min(height, cropState.splitY))
+  const splitLine = getCustomPortraitPopoutSplitLine(cropState)
+  cropState.splitLeftY = splitLine.leftY
+  cropState.splitRightY = splitLine.rightY
+  cropState.splitY = splitLine.centerY
 
   const rect = getCustomPortraitCropDrawRect(cropState)
 
@@ -227,15 +257,97 @@ export function getCustomPortraitSourceDrawRect(
   }
 }
 
-export function getCustomPortraitPopoutSplitBounds(splitY: number) {
+export function getCustomPortraitPopoutSplitLine(
+  source: NSPlateCustomPortraitSplitSource
+): NSPlateCustomPortraitSplitLine {
   const { height } = NSPLATE_CANVAS_DIMENSIONS.portrait
-  const normalizedSplitY = Math.max(0, Math.min(height, Math.round(splitY)))
+  const fallbackY = clampSplitY(source.splitY, height)
+  const leftY = clampSplitY(source.splitLeftY ?? fallbackY, height)
+  const rightY = clampSplitY(source.splitRightY ?? fallbackY, height)
 
   return {
-    splitY: normalizedSplitY,
-    inFrameY: Math.max(0, normalizedSplitY - CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX),
-    popoutY: Math.min(height, normalizedSplitY + CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX)
+    leftY,
+    rightY,
+    centerY: (leftY + rightY) / 2,
+    inFrameLeftY: leftY - CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX,
+    inFrameRightY: rightY - CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX,
+    popoutLeftY: leftY + CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX,
+    popoutRightY: rightY + CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX
   }
+}
+
+export function moveCustomPortraitPopoutSplitLine(
+  cropState: NSPlateCustomPortraitCropState,
+  nextCenterY: number
+) {
+  const { height } = NSPLATE_CANVAS_DIMENSIONS.portrait
+  const splitLine = getCustomPortraitPopoutSplitLine(cropState)
+  const requestedDelta = nextCenterY - splitLine.centerY
+  const minDelta = -Math.min(splitLine.leftY, splitLine.rightY)
+  const maxDelta = height - Math.max(splitLine.leftY, splitLine.rightY)
+  const delta = Math.max(minDelta, Math.min(maxDelta, requestedDelta))
+  cropState.splitLeftY = splitLine.leftY + delta
+  cropState.splitRightY = splitLine.rightY + delta
+  cropState.splitY = (cropState.splitLeftY + cropState.splitRightY) / 2
+}
+
+export function getCustomPortraitPopoutSplitAngle(source: NSPlateCustomPortraitSplitSource) {
+  const { width } = NSPLATE_CANVAS_DIMENSIONS.portrait
+  const splitLine = getCustomPortraitPopoutSplitLine(source)
+  return (Math.atan2(splitLine.rightY - splitLine.leftY, width) * 180) / Math.PI
+}
+
+export function setCustomPortraitPopoutSplitAngle(
+  cropState: NSPlateCustomPortraitCropState,
+  angleDegrees: number
+) {
+  const { width, height } = NSPLATE_CANVAS_DIMENSIONS.portrait
+  const splitLine = getCustomPortraitPopoutSplitLine(cropState)
+  const requestedDelta = Math.tan((angleDegrees * Math.PI) / 180) * width
+  const maxDelta = 2 * Math.min(splitLine.centerY, height - splitLine.centerY)
+  const delta = Math.max(-maxDelta, Math.min(maxDelta, requestedDelta))
+  cropState.splitLeftY = splitLine.centerY - delta / 2
+  cropState.splitRightY = splitLine.centerY + delta / 2
+  clampCustomPortraitCropState(cropState)
+}
+
+export function traceCustomPortraitInFrameClipPath(
+  context: CanvasRenderingContext2D,
+  source: NSPlateCustomPortraitSplitSource,
+  originX = 0,
+  originY = 0
+) {
+  const portrait = NSPLATE_CANVAS_DIMENSIONS.portrait
+  const splitLine = getCustomPortraitPopoutSplitLine(source)
+  context.moveTo(originX, originY + splitLine.inFrameLeftY)
+  context.lineTo(originX + portrait.width, originY + splitLine.inFrameRightY)
+  context.lineTo(originX + portrait.width, originY + portrait.height)
+  context.lineTo(originX, originY + portrait.height)
+  context.closePath()
+}
+
+export function traceCustomPortraitPopoutClipPath(
+  context: CanvasRenderingContext2D,
+  source: NSPlateCustomPortraitSplitSource,
+  canvasWidth: number,
+  portraitOriginX = 0,
+  portraitOriginY = 0
+) {
+  const portraitWidth = NSPLATE_CANVAS_DIMENSIONS.portrait.width
+  const splitLine = getCustomPortraitPopoutSplitLine(source)
+  const slope = (splitLine.popoutRightY - splitLine.popoutLeftY) / portraitWidth
+  const leftCanvasY = portraitOriginY + splitLine.popoutLeftY - portraitOriginX * slope
+  const rightCanvasY = leftCanvasY + canvasWidth * slope
+  context.moveTo(0, 0)
+  context.lineTo(canvasWidth, 0)
+  context.lineTo(canvasWidth, rightCanvasY)
+  context.lineTo(0, leftCanvasY)
+  context.closePath()
+}
+
+function clampSplitY(value: number | undefined, height: number) {
+  const normalized = Number.isFinite(value) ? Number(value) : 0
+  return Math.max(0, Math.min(height, normalized))
 }
 
 function createPortraitDataUrl(cropState: NSPlateCustomPortraitCropState) {
@@ -341,8 +453,7 @@ function drawCustomPortraitPopoutCropPreview(
   const portrait = NSPLATE_CANVAS_DIMENSIONS.portrait
   const portraitOrigin = NSPLATE_PORTRAIT_EMBED[portraitSide]
   const rect = getCustomPortraitCropDrawRect(cropState)
-  const splitY = Math.round(cropState.splitY)
-  const splitBounds = getCustomPortraitPopoutSplitBounds(splitY)
+  const splitLine = getCustomPortraitPopoutSplitLine(cropState)
   canvas.width = width
   canvas.height = height
 
@@ -357,12 +468,7 @@ function drawCustomPortraitPopoutCropPreview(
 
   context.save()
   context.beginPath()
-  context.rect(
-    portraitOrigin.x,
-    portraitOrigin.y + splitBounds.inFrameY,
-    portrait.width,
-    portrait.height - splitBounds.inFrameY
-  )
+  traceCustomPortraitInFrameClipPath(context, cropState, portraitOrigin.x, portraitOrigin.y)
   context.clip()
   context.drawImage(
     cropState.image,
@@ -375,7 +481,13 @@ function drawCustomPortraitPopoutCropPreview(
 
   context.save()
   context.beginPath()
-  context.rect(0, 0, width, portraitOrigin.y + splitBounds.popoutY)
+  traceCustomPortraitPopoutClipPath(
+    context,
+    cropState,
+    width,
+    portraitOrigin.x,
+    portraitOrigin.y
+  )
   context.clip()
   context.drawImage(
     cropState.image,
@@ -394,18 +506,34 @@ function drawCustomPortraitPopoutCropPreview(
   context.lineWidth = 5
   context.strokeStyle = 'rgba(214, 79, 114, 0.9)'
   context.beginPath()
-  context.moveTo(0, portraitOrigin.y + splitY)
-  context.lineTo(width, portraitOrigin.y + splitY)
+  const slope = (splitLine.rightY - splitLine.leftY) / portrait.width
+  const previewLeftY = portraitOrigin.y + splitLine.leftY - portraitOrigin.x * slope
+  const previewRightY = previewLeftY + width * slope
+  context.moveTo(0, previewLeftY)
+  context.lineTo(width, previewRightY)
   context.stroke()
 
   context.lineWidth = 2
   context.strokeStyle = 'rgba(255, 255, 255, 0.82)'
   context.beginPath()
-  context.moveTo(0, portraitOrigin.y + splitY - 7)
-  context.lineTo(width, portraitOrigin.y + splitY - 7)
-  context.moveTo(0, portraitOrigin.y + splitY + 7)
-  context.lineTo(width, portraitOrigin.y + splitY + 7)
+  context.moveTo(0, previewLeftY - 7)
+  context.lineTo(width, previewRightY - 7)
+  context.moveTo(0, previewLeftY + 7)
+  context.lineTo(width, previewRightY + 7)
   context.stroke()
+
+  context.fillStyle = 'rgba(255, 255, 255, 0.96)'
+  context.strokeStyle = 'rgba(214, 79, 114, 0.96)'
+  context.lineWidth = 4
+  for (const [x, y] of [
+    [portraitOrigin.x, portraitOrigin.y + splitLine.leftY],
+    [portraitOrigin.x + portrait.width, portraitOrigin.y + splitLine.rightY]
+  ]) {
+    context.beginPath()
+    context.arc(x, y, 14, 0, Math.PI * 2)
+    context.fill()
+    context.stroke()
+  }
   context.restore()
 }
 

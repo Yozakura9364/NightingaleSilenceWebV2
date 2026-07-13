@@ -8,8 +8,9 @@ import {
   type NSPlateRenderImageLayer
 } from '@/lib/plate/render'
 import {
-  getCustomPortraitPopoutSplitBounds,
-  getCustomPortraitSourceDrawRect
+  getCustomPortraitSourceDrawRect,
+  traceCustomPortraitInFrameClipPath,
+  traceCustomPortraitPopoutClipPath
 } from '@/lib/plate/customPortrait'
 import { drawNSPlateInfoGraphicLayers } from '@/lib/plate/infoLayerImageRenderer'
 import { drawNSPlateInfoTextLayers } from '@/lib/plate/infoLayerTextRenderer'
@@ -215,18 +216,12 @@ async function drawCustomPortraitInFrame(
   }
 
   if (customPortrait.mode === 'popout') {
-    const splitBounds = getCustomPortraitPopoutSplitBounds(customPortrait.splitY ?? 0)
     const rect = getCustomPortraitSourceDrawRect(customPortrait)
 
     context.save()
     setHighQualityImageSmoothing(context)
     context.beginPath()
-    context.rect(
-      0,
-      splitBounds.inFrameY,
-      context.canvas.width,
-      context.canvas.height - splitBounds.inFrameY
-    )
+    traceCustomPortraitInFrameClipPath(context, customPortrait)
     context.clip()
     context.drawImage(image, rect.x, rect.y, rect.width, rect.height)
     context.restore()
@@ -256,13 +251,18 @@ async function drawCustomPortraitPopout(
     return
   }
 
-  const splitBounds = getCustomPortraitPopoutSplitBounds(customPortrait.splitY ?? 0)
   const rect = getCustomPortraitSourceDrawRect(customPortrait)
 
   context.save()
   setHighQualityImageSmoothing(context)
   context.beginPath()
-  context.rect(0, 0, context.canvas.width, portraitEmbed.y + splitBounds.popoutY)
+  traceCustomPortraitPopoutClipPath(
+    context,
+    customPortrait,
+    context.canvas.width,
+    portraitEmbed.x,
+    portraitEmbed.y
+  )
   context.clip()
   context.drawImage(
     image,

@@ -41,6 +41,15 @@
             </button>
           </div>
 
+          <div
+            v-if="localCropState?.mode === 'popout'"
+            class="nsplate-crop-dialog__hints"
+          >
+            <span>{{ t(textKeys.nsplateCustomPortraitCropHintMoveImage) }}</span>
+            <span>{{ t(textKeys.nsplateCustomPortraitCropHintAdjustAngle) }}</span>
+            <span>{{ t(textKeys.nsplateCustomPortraitCropHintSliderOnly) }}</span>
+          </div>
+
           <label class="nsplate-crop-dialog__control">
             <span>{{ t(textKeys.nsplateCustomPortraitCropZoom) }}</span>
             <input
@@ -66,6 +75,30 @@
             />
             <output>{{ splitLabel }}</output>
           </label>
+
+          <div
+            v-if="localCropState?.mode === 'popout'"
+            class="nsplate-crop-dialog__angle-control"
+          >
+            <label>
+              <span>{{ t(textKeys.nsplateCustomPortraitCropAngle) }}</span>
+              <span class="nsplate-crop-dialog__angle-input">
+                <input
+                  type="number"
+                  min="-89"
+                  max="89"
+                  step="0.1"
+                  :value="splitAngle"
+                  :aria-label="t(textKeys.nsplateCustomPortraitCropAngle)"
+                  @input="onSplitAngleInput"
+                />
+                <span aria-hidden="true">°</span>
+              </span>
+            </label>
+            <button type="button" @click="resetSplitAngle">
+              {{ t(textKeys.nsplateCustomPortraitCropAngleReset) }}
+            </button>
+          </div>
 
           <div class="nsplate-crop-dialog__actions">
             <AppButton @click="emit('cancel')">
@@ -109,11 +142,14 @@ const {
   onPointerDown,
   onPointerMove,
   onPointerUp,
+  onSplitAngleInput,
   onSplitInput,
   onWheel,
   onZoomInput,
   previewDimensions,
+  resetSplitAngle,
   setCropMode,
+  splitAngle,
   splitLabel,
   zoomLabel
 } = useNSPlateCropInteraction(toRef(props, 'cropState'), toRef(props, 'portraitSide'))
@@ -221,6 +257,16 @@ function confirmCrop() {
   color: var(--ns-color-accent-strong);
 }
 
+.nsplate-crop-dialog__hints {
+  display: grid;
+  gap: 2px;
+  color: var(--ns-color-text-muted);
+  font-family: var(--ns-font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
 .nsplate-crop-dialog__control {
   display: grid;
   grid-template-columns: auto minmax(120px, 1fr) 52px;
@@ -240,6 +286,61 @@ function confirmCrop() {
 .nsplate-crop-dialog__control output {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.nsplate-crop-dialog__angle-control {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+  font-family: var(--ns-font-sans);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.nsplate-crop-dialog__angle-control label {
+  display: grid;
+  grid-template-columns: auto 96px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.nsplate-crop-dialog__angle-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 32px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface-solid);
+}
+
+.nsplate-crop-dialog__angle-input input {
+  width: 100%;
+  min-width: 0;
+  height: 30px;
+  padding: 0 4px 0 8px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ns-color-text);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+.nsplate-crop-dialog__angle-input > span {
+  padding-right: 8px;
+  color: var(--ns-color-text-muted);
+}
+
+.nsplate-crop-dialog__angle-control > button {
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  font: inherit;
+  cursor: pointer;
 }
 
 .nsplate-crop-dialog__actions {
@@ -268,6 +369,10 @@ function confirmCrop() {
   .nsplate-crop-dialog__actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .nsplate-crop-dialog__angle-control label {
+    grid-template-columns: 1fr 96px;
   }
 }
 </style>
