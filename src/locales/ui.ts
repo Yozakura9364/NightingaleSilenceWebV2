@@ -4194,6 +4194,78 @@ export const uiMessages: UiMessageMap = {
     ja: '画像を選択',
     ko: '이미지 선택'
   }),
+  'nsplate.customPortrait.adjust': msg({
+    zh: '调整图片',
+    en: 'Adjust image',
+    ja: '画像を調整',
+    ko: '이미지 조정'
+  }),
+  'nsplate.customPortrait.popoutLayer': msg({
+    zh: '出框层级',
+    en: 'Popout layer',
+    ja: 'はみ出しレイヤー',
+    ko: '프레임 밖 레이어'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveCustomPortrait': msg({
+    zh: '自定义图片上方',
+    en: 'Above custom image',
+    ja: 'カスタム画像の上',
+    ko: '사용자 이미지 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.belowNameplateFrame': msg({
+    zh: '铭牌外框下方',
+    en: 'Below nameplate frame',
+    ja: 'ネームプレート枠の下',
+    ko: '명패 프레임 아래'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveNameplateFrame': msg({
+    zh: '铭牌外框上方',
+    en: 'Above nameplate frame',
+    ja: 'ネームプレート枠の上',
+    ko: '명패 프레임 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.abovePortraitFrame': msg({
+    zh: '肖像外框上方',
+    en: 'Above portrait frame',
+    ja: 'ポートレート枠の上',
+    ko: '초상화 프레임 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveNameplateBottomDecoration': msg({
+    zh: '铭牌底部装饰上方',
+    en: 'Above bottom decoration',
+    ja: '下部装飾の上',
+    ko: '하단 장식 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveNameplateDecorations': msg({
+    zh: '铭牌装饰上方',
+    en: 'Above nameplate decorations',
+    ja: 'ネームプレート装飾の上',
+    ko: '명패 장식 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveNameplateOrnaments': msg({
+    zh: '铭牌装饰物上方',
+    en: 'Above nameplate ornaments',
+    ja: 'ネームプレート装飾物の上',
+    ko: '명패 장식물 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveInfoGraphics': msg({
+    zh: '信息图形上方',
+    en: 'Above info graphics',
+    ja: '情報グラフィックの上',
+    ko: '정보 그래픽 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.aboveInfoText': msg({
+    zh: '信息文字上方',
+    en: 'Above info text',
+    ja: '情報テキストの上',
+    ko: '정보 텍스트 위'
+  }),
+  'nsplate.customPortrait.popoutLayer.front': msg({
+    zh: '最前方',
+    en: 'Front',
+    ja: '最前面',
+    ko: '맨 앞'
+  }),
   'nsplate.customPortrait.clear': msg({
     zh: '移除图片',
     en: 'Remove image',

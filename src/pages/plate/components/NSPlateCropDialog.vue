@@ -86,12 +86,13 @@ import { toRef } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
 import { textKeys } from '@/config/site'
-import type { NSPlateCustomPortraitCropState } from '@/lib/plate/types'
+import type { NSPlateCustomPortraitCropState, NSPlatePortraitSide } from '@/lib/plate/types'
 import { useNSPlateCropInteraction } from '@/pages/plate/composables/useNSPlateCropInteraction'
 import { useLocale } from '@/stores/locale'
 
 const props = defineProps<{
   cropState: NSPlateCustomPortraitCropState
+  portraitSide: NSPlatePortraitSide
 }>()
 
 const emit = defineEmits<{
@@ -115,7 +116,7 @@ const {
   setCropMode,
   splitLabel,
   zoomLabel
-} = useNSPlateCropInteraction(toRef(props, 'cropState'))
+} = useNSPlateCropInteraction(toRef(props, 'cropState'), toRef(props, 'portraitSide'))
 
 function confirmCrop() {
   const cropState = cloneCurrentCropState()

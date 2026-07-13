@@ -75,6 +75,7 @@ interface NSPlateInfoGraphicRenderDefinitionBase {
 export interface NSPlateInfoIconRenderDefinition extends NSPlateInfoGraphicRenderDefinitionBase {
   type: 'icon'
   sourceCat: string
+  sourceCats?: string[]
   itemId: string
   itemIds: string[]
   sizeMode?: 'fixed'

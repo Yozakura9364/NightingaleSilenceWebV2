@@ -2,7 +2,8 @@ import { NSPLATE_CANVAS_DIMENSIONS, NSPLATE_PORTRAIT_EMBED } from '@/lib/plate/r
 import type {
   NSPlateCustomPortraitCropState,
   NSPlateCustomPortraitImage,
-  NSPlateCustomPortraitMode
+  NSPlateCustomPortraitMode,
+  NSPlatePortraitSide
 } from '@/lib/plate/types'
 import { NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR } from '@/lib/plate/types'
 
@@ -56,6 +57,45 @@ export async function createCustomPortraitCropStateFromFile(
   return cropState
 }
 
+export async function createCustomPortraitCropStateFromImage(
+  customPortrait: NSPlateCustomPortraitImage
+): Promise<NSPlateCustomPortraitCropState> {
+  const sourceDataUrl =
+    customPortrait.mode === 'popout'
+      ? customPortrait.sourceDataUrl || customPortrait.dataUrl
+      : customPortrait.dataUrl
+  const image = await loadImage(sourceDataUrl)
+  const sourceWidth = image.naturalWidth
+  const sourceHeight = image.naturalHeight
+
+  if (!sourceWidth || !sourceHeight) {
+    throw new Error('image-size')
+  }
+
+  const cropState = {
+    id: customPortrait.id,
+    fileName: customPortrait.fileName,
+    sourceDataUrl,
+    image,
+    sourceWidth,
+    sourceHeight,
+    baseScale: customPortrait.mode === 'popout' ? (customPortrait.baseScale ?? 1) : 1,
+    mode: customPortrait.mode,
+    popoutLayerAnchor: customPortrait.popoutLayerAnchor,
+    scaleMultiplier:
+      customPortrait.mode === 'popout' ? (customPortrait.scaleMultiplier ?? 1) : 1,
+    offsetX: customPortrait.mode === 'popout' ? (customPortrait.offsetX ?? 0) : 0,
+    offsetY: customPortrait.mode === 'popout' ? (customPortrait.offsetY ?? 0) : 0,
+    splitY:
+      customPortrait.mode === 'popout'
+        ? (customPortrait.splitY ?? Math.round(NSPLATE_CANVAS_DIMENSIONS.portrait.height * 0.34))
+        : Math.round(NSPLATE_CANVAS_DIMENSIONS.portrait.height * 0.34)
+  } satisfies NSPlateCustomPortraitCropState
+
+  clampCustomPortraitCropState(cropState)
+  return cropState
+}
+
 export async function createCustomPortraitImageFromCropState(
   cropState: NSPlateCustomPortraitCropState
 ): Promise<NSPlateCustomPortraitImage> {
@@ -80,7 +120,8 @@ export async function createCustomPortraitImageFromCropState(
     scale: 1,
     ...(cropState.mode === 'popout'
       ? {
-          popoutLayerAnchor: NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR,
+          popoutLayerAnchor:
+            cropState.popoutLayerAnchor ?? NSPLATE_CUSTOM_PORTRAIT_DEFAULT_POPOUT_LAYER_ANCHOR,
           sourceDataUrl: popoutSource?.dataUrl ?? cropState.sourceDataUrl,
           sourceWidth: popoutSource?.width ?? cropState.sourceWidth,
           sourceHeight: popoutSource?.height ?? cropState.sourceHeight,
@@ -96,10 +137,11 @@ export async function createCustomPortraitImageFromCropState(
 
 export function drawCustomPortraitCropPreview(
   canvas: HTMLCanvasElement,
-  cropState: NSPlateCustomPortraitCropState
+  cropState: NSPlateCustomPortraitCropState,
+  portraitSide: NSPlatePortraitSide = 'right'
 ) {
   if (cropState.mode === 'popout') {
-    drawCustomPortraitPopoutCropPreview(canvas, cropState)
+    drawCustomPortraitPopoutCropPreview(canvas, cropState, portraitSide)
     return
   }
 
@@ -292,11 +334,12 @@ function drawCustomPortraitCropToContext(
 
 function drawCustomPortraitPopoutCropPreview(
   canvas: HTMLCanvasElement,
-  cropState: NSPlateCustomPortraitCropState
+  cropState: NSPlateCustomPortraitCropState,
+  portraitSide: NSPlatePortraitSide
 ) {
   const { width, height } = NSPLATE_CANVAS_DIMENSIONS.nameplate
   const portrait = NSPLATE_CANVAS_DIMENSIONS.portrait
-  const portraitOrigin = NSPLATE_PORTRAIT_EMBED.right
+  const portraitOrigin = NSPLATE_PORTRAIT_EMBED[portraitSide]
   const rect = getCustomPortraitCropDrawRect(cropState)
   const splitY = Math.round(cropState.splitY)
   const splitBounds = getCustomPortraitPopoutSplitBounds(splitY)

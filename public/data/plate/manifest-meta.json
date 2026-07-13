@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-05T09:51:05.852Z",
+  "generatedAt": "2026-07-12T08:40:41.991Z",
   "imgBase": "https://img.nightingalesilence.com",
-  "previewImgBase": "https://img.nightingalesilence.com/plate-preview/256",
+  "previewImgBase": null,
   "includeUnreleased": true,
   "presets": {
     "banner": 421,
     "charcard": 143
   },
   "files": {
-    "totalSourceAssets": 4291,
-    "totalAssets": 4290,
-    "unreleasedAssetsIncluded": 249,
+    "totalSourceAssets": 4619,
+    "totalAssets": 4618,
+    "unreleasedAssetsIncluded": 255,
     "unreleasedAssetsRemoved": 0,
     "placeholderAssetsRemoved": 1,
     "byScope": {
@@ -48,9 +48,9 @@
       },
       "nameplate": {
         "categoryCount": 16,
-        "totalSourceAssets": 3110,
-        "totalAssets": 3109,
-        "unreleasedAssetsIncluded": 236,
+        "totalSourceAssets": 3438,
+        "totalAssets": 3437,
+        "unreleasedAssetsIncluded": 242,
         "unreleasedAssetsRemoved": 0,
         "placeholderAssetsRemoved": 1,
         "categories": {
@@ -111,22 +111,22 @@
             "placeholderAssetsRemoved": 0
           },
           "铭牌装饰物B": {
-            "totalSourceAssets": 51,
-            "totalAssets": 51,
-            "unreleasedAssetsIncluded": 0,
+            "totalSourceAssets": 323,
+            "totalAssets": 323,
+            "unreleasedAssetsIncluded": 6,
             "unreleasedAssetsRemoved": 0,
             "placeholderAssetsRemoved": 0
           },
           "职业图标": {
-            "totalSourceAssets": 149,
-            "totalAssets": 149,
+            "totalSourceAssets": 153,
+            "totalAssets": 153,
             "unreleasedAssetsIncluded": 0,
             "unreleasedAssetsRemoved": 0,
             "placeholderAssetsRemoved": 0
           },
           "装饰图标": {
-            "totalSourceAssets": 319,
-            "totalAssets": 318,
+            "totalSourceAssets": 371,
+            "totalAssets": 370,
             "unreleasedAssetsIncluded": 0,
             "unreleasedAssetsRemoved": 0,
             "placeholderAssetsRemoved": 1

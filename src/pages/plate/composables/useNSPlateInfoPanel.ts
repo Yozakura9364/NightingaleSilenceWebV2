@@ -239,17 +239,32 @@ export function useNSPlateInfoPanel(options: UseNSPlateInfoPanelOptions) {
     return isIconRenderDefinitionActivity(getIconRenderDefinition(state.slotId))
   }
 
-  function getIconMaterialAssets(state: NSPlateInfoIconLayerState) {
-    const definition = getIconRenderDefinition(state.slotId)
-
+  function getIconRenderDefinitionSourceCats(
+    definition: NSPlateInfoIconRenderDefinition | null
+  ) {
     if (!definition) {
       return []
     }
 
-    return (
-      options.assetGroups.value.find(
-        (group) => group.scope === 'nameplate' && group.category === definition.sourceCat
-      )?.assets ?? []
+    const sourceCats = definition.sourceCats?.length
+      ? definition.sourceCats
+      : [definition.sourceCat]
+
+    return Array.from(new Set(sourceCats.map((sourceCat) => sourceCat.trim()).filter(Boolean)))
+  }
+
+  function getIconMaterialAssets(state: NSPlateInfoIconLayerState) {
+    const definition = getIconRenderDefinition(state.slotId)
+    const sourceCats = getIconRenderDefinitionSourceCats(definition)
+
+    if (!definition || sourceCats.length === 0) {
+      return []
+    }
+
+    return sourceCats.flatMap((category) =>
+      options.assetGroups.value
+        .filter((group) => group.scope === 'nameplate' && group.category === category)
+        .flatMap((group) => group.assets)
     )
   }
 
