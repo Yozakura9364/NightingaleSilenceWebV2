@@ -172,7 +172,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
 import { mergeArmoireCatalogs } from '@/lib/armoire/catalog'
 import type { ArmoireStoreCatalog, ArmoireStoreItemDisplayIndex } from '@/lib/armoire/types'

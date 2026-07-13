@@ -431,7 +431,8 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { getRequiredFfxivTool, textKeys } from '@/config/site'
+import { getRequiredFfxivTool } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import {
   ARMOIRE_STORE_DETAIL_TAGS,
   ARMOIRE_STORE_TAGS,

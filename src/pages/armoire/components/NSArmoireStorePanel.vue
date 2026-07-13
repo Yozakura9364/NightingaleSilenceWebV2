@@ -233,7 +233,7 @@ import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
 import { analyzeArmoireStoreOutfits } from '@/lib/armoire/analyzeStoreOutfits'
 import {

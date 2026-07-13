@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import type { ArmoireItemActionMenuState } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 import { getArmoireHuijiWikiItemUrl } from '@/pages/armoire/composables/useArmoireItemWikiNavigation'
 import { useLocale } from '@/stores/locale'

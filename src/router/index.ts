@@ -1,13 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { watch } from 'vue'
-import {
-  formatDocumentTitle,
-  getCategory,
-  getFfxivTool,
-  siteMeta,
-  siteRoutes,
-  textKeys
-} from '@/config/site'
+import { formatDocumentTitle, getCategory, getFfxivTool, siteMeta, siteRoutes } from '@/config/site'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
+import { ensureUiMessageModules } from '@/locales/loadUiMessages'
+import type { UiMessageModuleName } from '@/locales/types'
 import { useLocale } from '@/stores/locale'
 
 const ffxivCategory = getCategory('ffxiv')
@@ -17,6 +13,16 @@ const plateTool = getFfxivTool('plate')
 const armoireTool = getFfxivTool('armoire')
 const { current: locale, messages, t } = useLocale()
 
+function loadLocalizedPage<T>(
+  moduleNames: readonly UiMessageModuleName[],
+  loadPage: () => Promise<T>
+) {
+  return async () => {
+    const [, page] = await Promise.all([ensureUiMessageModules(moduleNames), loadPage()])
+    return page
+  }
+}
+
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -24,7 +30,7 @@ const router = createRouter({
       path: siteRoutes.home,
       name: 'home',
       meta: { titleKey: siteMeta.zhNameKey },
-      component: () => import('@/pages/home/HomePage.vue')
+      component: loadLocalizedPage(['home'], () => import('@/pages/home/HomePage.vue'))
     },
     {
       path: siteRoutes.ffxiv,
@@ -42,31 +48,34 @@ const router = createRouter({
       path: siteRoutes.glamourTemplate,
       name: 'ffxiv-glamour-template',
       meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle },
-      component: () => import('@/pages/glamour/NSGlamourPage.vue')
+      component: loadLocalizedPage(['glamour'], () => import('@/pages/glamour/NSGlamourPage.vue'))
     },
     {
       path: siteRoutes.glamourEquipInfo,
       name: 'ffxiv-glamour-equipinfo',
       meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle },
-      component: () => import('@/pages/glamour/NSGlamourPage.vue')
+      component: loadLocalizedPage(['glamour'], () => import('@/pages/glamour/NSGlamourPage.vue'))
     },
     {
       path: siteRoutes.plate,
       name: 'ffxiv-plate',
       meta: { titleKey: plateTool?.titleKey ?? textKeys.plateTitle },
-      component: () => import('@/pages/plate/NSPlatePage.vue')
+      component: loadLocalizedPage(['plate'], () => import('@/pages/plate/NSPlatePage.vue'))
     },
     {
       path: siteRoutes.armoire,
       name: 'ffxiv-armoire',
       meta: { titleKey: armoireTool?.titleKey ?? textKeys.armoireTitle },
-      component: () => import('@/pages/armoire/NSArmoirePage.vue')
+      component: loadLocalizedPage(['armoire'], () => import('@/pages/armoire/NSArmoirePage.vue'))
     },
     {
       path: '/ffxiv/armoire/store-review',
       name: 'ffxiv-armoire-store-review',
-      meta: { titleKey: textKeys.nsarmoireStoreReviewTitle },
-      component: () => import('@/pages/armoire/NSArmoireStoreReviewPage.vue')
+      meta: { titleKey: 'nsarmoire.storeReview.title' },
+      component: loadLocalizedPage(
+        ['armoire'],
+        () => import('@/pages/armoire/NSArmoireStoreReviewPage.vue')
+      )
     },
     {
       path: '/ffxiv/term-review',
@@ -78,31 +87,46 @@ const router = createRouter({
       path: siteRoutes.silence,
       name: 'silence',
       meta: { titleKey: silenceCategory?.titleKey ?? textKeys.silence },
-      component: () => import('@/pages/silence/SilenceIndexPage.vue')
+      component: loadLocalizedPage(
+        ['silence'],
+        () => import('@/pages/silence/SilenceIndexPage.vue')
+      )
     },
     {
       path: siteRoutes.silenceAngel,
       name: 'silence-angel',
-      meta: { titleKey: textKeys.silenceAngel },
-      component: () => import('@/pages/silence/SilenceGroupPage.vue')
+      meta: { titleKey: 'silence.group.angel.title' },
+      component: loadLocalizedPage(
+        ['silence'],
+        () => import('@/pages/silence/SilenceGroupPage.vue')
+      )
     },
     {
       path: '/silence/angel/:characterId',
       name: 'silence-angel-character',
-      meta: { titleKey: textKeys.silenceAngel },
-      component: () => import('@/pages/silence/SilenceCharacterPage.vue')
+      meta: { titleKey: 'silence.group.angel.title' },
+      component: loadLocalizedPage(
+        ['silence'],
+        () => import('@/pages/silence/SilenceCharacterPage.vue')
+      )
     },
     {
       path: siteRoutes.silenceGlitch,
       name: 'silence-glitch',
-      meta: { titleKey: textKeys.silenceGlitch },
-      component: () => import('@/pages/silence/SilenceGroupPage.vue')
+      meta: { titleKey: 'silence.group.glitch.title' },
+      component: loadLocalizedPage(
+        ['silence'],
+        () => import('@/pages/silence/SilenceGroupPage.vue')
+      )
     },
     {
       path: '/silence/glitch/:characterId',
       name: 'silence-glitch-character',
-      meta: { titleKey: textKeys.silenceGlitch },
-      component: () => import('@/pages/silence/SilenceCharacterPage.vue')
+      meta: { titleKey: 'silence.group.glitch.title' },
+      component: loadLocalizedPage(
+        ['silence'],
+        () => import('@/pages/silence/SilenceCharacterPage.vue')
+      )
     },
     {
       path: siteRoutes.about,
@@ -114,7 +138,10 @@ const router = createRouter({
       path: '/style-lab',
       name: 'style-lab',
       meta: { title: 'Style Lab', hideTopNav: true },
-      component: () => import('@/pages/style-lab/StyleLabPage.vue')
+      component: loadLocalizedPage(
+        ['home', 'plate', 'glamour', 'armoire', 'silence', 'styleLab'],
+        () => import('@/pages/style-lab/StyleLabPage.vue')
+      )
     },
     {
       path: '/:pathMatch(.*)*',
@@ -133,7 +160,7 @@ function updateDocumentTitle(titleKeyOrText?: string) {
   document.title = formatDocumentTitle(title, t(siteMeta.zhNameKey), t(siteMeta.titleKey))
 }
 
-watch(locale, () => {
+watch([locale, messages], () => {
   updateDocumentTitle(
     router.currentRoute.value.meta.titleKey ?? router.currentRoute.value.meta.title
   )

@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import AppButton from '@/components/AppButton.vue'
-import { textKeys } from '@/config/site'
+import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import { formatGlamourText } from '@/lib/glamour/formatText'
 import {
   formatGlamourRecentTime,

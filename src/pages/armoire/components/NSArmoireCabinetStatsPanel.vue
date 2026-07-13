@@ -162,7 +162,7 @@
 import { computed, ref, watch } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
 import type {
   ArmoireCatalog,

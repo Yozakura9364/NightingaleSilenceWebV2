@@ -31,7 +31,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref } from 'vue'
-import { textKeys } from '@/config/site'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 
 interface AppTabItem {

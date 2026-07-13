@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { textKeys } from '@/config/site'
+import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import { useLocale } from '@/stores/locale'
 
 export interface SilenceRelationshipCard {

@@ -278,7 +278,7 @@
 import { computed, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import type {
   ArmoireDyeValueCategory,
   ArmoireCatalog,

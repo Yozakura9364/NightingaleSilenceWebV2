@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { renderNameplateToCanvas, type NSPlateImageCache } from '@/lib/plate/canvasRenderer'
 import type { NSPlateLayeredExportDataSource } from '@/lib/plate/dataSource'
 import { getNSPlateInfoGraphicAssetSignature } from '@/lib/plate/infoLayerRenderDefinitions'

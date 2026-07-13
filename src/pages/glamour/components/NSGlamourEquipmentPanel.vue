@@ -412,7 +412,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
-import { textKeys } from '@/config/site'
+import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import {
   buildGlamourIconUrl,
   getCandidateDyeCount,

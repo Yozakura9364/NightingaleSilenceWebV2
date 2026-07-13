@@ -76,7 +76,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
 import { getOwnedItemQuantity } from '@/lib/armoire/buildOwnedIndex'
 import NSArmoireItemActionMenu from '@/pages/armoire/components/NSArmoireItemActionMenu.vue'

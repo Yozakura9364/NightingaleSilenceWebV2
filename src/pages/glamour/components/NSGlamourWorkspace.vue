@@ -75,7 +75,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { ApiError } from '@/composables/useFetch'
-import { textKeys } from '@/config/site'
+import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import { normalizeGlamourLocale } from '@/lib/glamour/equipment'
 import { formatGlamourText } from '@/lib/glamour/formatText'
 import { isSupportedGlamourLinkUrl } from '@/lib/glamour/links'

@@ -118,7 +118,7 @@
 import { toRef } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import type { NSPlateCustomPortraitCropState, NSPlatePortraitSide } from '@/lib/plate/types'
 import { useNSPlateCropInteraction } from '@/pages/plate/composables/useNSPlateCropInteraction'
 import { useLocale } from '@/stores/locale'

@@ -42,7 +42,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { getPlateAssetSectionKey, type NSPlateAssetSelectionMap } from '@/lib/plate/draft'
 import { useLocale } from '@/stores/locale'
 import type { NSPlateAssetGroup, NSPlateAssetScope, NSPlateAssetSummary } from '@/lib/plate/types'

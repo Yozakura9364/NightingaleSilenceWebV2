@@ -21,7 +21,8 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import AppTopNavMenu from '@/components/AppTopNavMenu.vue'
 import AppTopNavSettings from '@/components/AppTopNavSettings.vue'
-import { siteMeta, siteRoutes, textKeys } from '@/config/site'
+import { siteMeta, siteRoutes } from '@/config/site'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 
 const route = useRoute()

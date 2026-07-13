@@ -54,7 +54,7 @@
 <script setup lang="ts">
 import { ref, type CSSProperties } from 'vue'
 import image2PlusIcon from '@/assets/icons/image-2-plus.svg'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import {
   createCustomPortraitCropStateFromFile,
   createCustomPortraitCropStateFromImage,

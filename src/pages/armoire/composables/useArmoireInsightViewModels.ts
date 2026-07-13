@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { isDyedOwnedItem } from '@/lib/armoire/buildOwnedIndex'
 import type { ArmoireCatalog, ArmoireSnapshot, ArmoireSnapshotAnalysis } from '@/lib/armoire/types'
 import {

@@ -48,7 +48,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { silenceGroups, textKeys } from '@/config/site'
+import { silenceGroups } from '@/config/site'
+import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
+import { silenceUiMessages } from '@/locales/modules/silence'
 import {
   silenceGlitchConceptNotes,
   silenceGlitchDuoMembers
@@ -62,7 +64,9 @@ import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilence
 import SilenceGlitchDuoPanel from '@/pages/silence/components/SilenceGlitchDuoPanel.vue'
 import SilenceGroupVisual from '@/pages/silence/components/SilenceGroupVisual.vue'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
-import { useLocale } from '@/stores/locale'
+import { loadMessages, useLocale } from '@/stores/locale'
+
+loadMessages(silenceUiMessages)
 
 const route = useRoute()
 const router = useRouter()

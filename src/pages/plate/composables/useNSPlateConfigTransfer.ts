@@ -1,5 +1,5 @@
 import { computed, ref, watch, type Ref } from 'vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import type { NSPlateAssetSelectionMap } from '@/lib/plate/draft'
 import {
   createNSPlateConfigFilename,

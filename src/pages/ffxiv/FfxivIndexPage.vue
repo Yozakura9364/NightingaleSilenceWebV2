@@ -35,7 +35,8 @@ import { computed } from 'vue'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
-import { ffxivTools, getCategory, siteRoutes, textKeys } from '@/config/site'
+import { ffxivTools, getCategory, siteRoutes } from '@/config/site'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 
 const ffxivCategory = getCategory('ffxiv') ?? {

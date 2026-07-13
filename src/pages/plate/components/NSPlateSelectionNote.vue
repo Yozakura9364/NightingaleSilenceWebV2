@@ -88,7 +88,7 @@
 import { computed, ref, type CSSProperties } from 'vue'
 import circleIcon from '@/assets/icons/circle.svg'
 import sparklesIcon from '@/assets/icons/sparkles.svg'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import type { NSPlateSelectionNoteItem } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'

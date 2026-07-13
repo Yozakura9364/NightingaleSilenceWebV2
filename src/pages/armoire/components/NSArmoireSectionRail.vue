@@ -32,7 +32,7 @@
 import archiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import broomIcon from '@/assets/icons/pixelarticons/broom.svg'
 import userIcon from '@/assets/icons/pixelarticons/user.svg'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { useLocale } from '@/stores/locale'
 
 interface NSArmoireSectionRailItem {

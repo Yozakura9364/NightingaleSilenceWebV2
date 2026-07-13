@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import AppTabs from '@/components/AppTabs.vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { useLocale } from '@/stores/locale'
 import type { NSPlatePanelTab } from '@/lib/plate/types'
 

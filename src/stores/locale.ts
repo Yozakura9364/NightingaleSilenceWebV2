@@ -1,7 +1,8 @@
 import { ref } from 'vue'
-import { uiMessages, type UiMessageMap } from '@/locales/ui'
+import { coreUiMessages } from '@/locales/modules/core'
+import type { Locale, UiMessageMap } from '@/locales/types'
 
-export type Locale = 'zh-CN' | 'en' | 'ja' | 'ko' | 'fr' | 'de'
+export type { Locale } from '@/locales/types'
 
 const LOCALE_KEY = 'ns-locale'
 const SUPPORTED_LOCALES: Locale[] = ['zh-CN', 'en', 'ja', 'ko', 'fr', 'de']
@@ -31,10 +32,14 @@ function setLocale(locale: Locale) {
   applyLocale(locale)
 }
 
-const messages = ref<UiMessageMap>({ ...uiMessages })
+const messages = ref<UiMessageMap>({ ...coreUiMessages })
+const registeredMessageMaps = new WeakSet<UiMessageMap>([coreUiMessages])
 
-function loadMessages(data: UiMessageMap) {
+export function loadMessages(data: UiMessageMap) {
+  if (registeredMessageMaps.has(data)) return
+
   messages.value = { ...messages.value, ...data }
+  registeredMessageMaps.add(data)
 }
 
 function t(key: string): string {

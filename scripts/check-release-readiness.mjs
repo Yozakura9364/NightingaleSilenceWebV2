@@ -16,6 +16,11 @@ const NSGLAMOUR_BUNDLE_BUDGETS = {
   publicAssetBytes: 5 * 1024 * 1024
 }
 
+const SHARED_BUNDLE_BUDGETS = {
+  jsRawBytes: 180 * 1024,
+  jsGzipBytes: 65 * 1024
+}
+
 const REQUIRED_DIST_PATHS = [
   'index.html',
   'assets',
@@ -38,14 +43,7 @@ const REQUIRED_GLAMOUR_ASSETS = [
   'templates/com_icon_clear.svg'
 ]
 
-const FORBIDDEN_GLAMOUR_EXTENSIONS = new Set([
-  '.ai',
-  '.fig',
-  '.psb',
-  '.psd',
-  '.sketch',
-  '.svg'
-])
+const FORBIDDEN_GLAMOUR_EXTENSIONS = new Set(['.ai', '.fig', '.psb', '.psd', '.sketch', '.svg'])
 
 const FORBIDDEN_GLAMOUR_PATH_PARTS = [
   'fixture',
@@ -103,10 +101,7 @@ const FORBIDDEN_DIST_TEXT_PATTERNS = [
   }
 ]
 
-const PLACEHOLDER_SOURCE_DIRS = [
-  'src/pages/silence',
-  'src/data/silence'
-]
+const PLACEHOLDER_SOURCE_DIRS = ['src/pages/silence', 'src/data/silence']
 
 const errors = []
 const warnings = []
@@ -271,8 +266,10 @@ function checkDistTextLeaks() {
 }
 
 function isNsglamourPublicRuntimePath(relativePath) {
-  return /^assets\/NSGlamourPage-.*\.(?:js|css)$/i.test(relativePath) ||
+  return (
+    /^assets\/NSGlamourPage-.*\.(?:js|css)$/i.test(relativePath) ||
     relativePath.startsWith('data/glamour/')
+  )
 }
 
 function checkNsglamourBundleBudget() {
@@ -297,12 +294,45 @@ function checkNsglamourBundleBudget() {
   }
 
   for (const file of jsFiles) {
-    checkFileBudget(file, 'NSGlamour JS chunk', NSGLAMOUR_BUNDLE_BUDGETS.jsRawBytes, NSGLAMOUR_BUNDLE_BUDGETS.jsGzipBytes)
+    checkFileBudget(
+      file,
+      'NSGlamour JS chunk',
+      NSGLAMOUR_BUNDLE_BUDGETS.jsRawBytes,
+      NSGLAMOUR_BUNDLE_BUDGETS.jsGzipBytes
+    )
   }
 
   for (const file of cssFiles) {
-    checkFileBudget(file, 'NSGlamour CSS chunk', NSGLAMOUR_BUNDLE_BUDGETS.cssRawBytes, NSGLAMOUR_BUNDLE_BUDGETS.cssGzipBytes)
+    checkFileBudget(
+      file,
+      'NSGlamour CSS chunk',
+      NSGLAMOUR_BUNDLE_BUDGETS.cssRawBytes,
+      NSGLAMOUR_BUNDLE_BUDGETS.cssGzipBytes
+    )
   }
+}
+
+function checkSharedBundleBudget() {
+  if (!existsSync(DIST_ASSET_DIR)) {
+    fail('dist/assets does not exist. Run npm run build before npm run check:release.')
+    return
+  }
+
+  const files = readdirSync(DIST_ASSET_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && /^index-.*\.js$/.test(entry.name))
+    .map((entry) => join(DIST_ASSET_DIR, entry.name))
+
+  if (files.length !== 1) {
+    fail(`Expected exactly one shared index JS chunk, found ${files.length}.`)
+    return
+  }
+
+  checkFileBudget(
+    files[0],
+    'Shared index JS chunk',
+    SHARED_BUNDLE_BUDGETS.jsRawBytes,
+    SHARED_BUNDLE_BUDGETS.jsGzipBytes
+  )
 }
 
 function checkFileBudget(file, label, rawBudget, gzipBudget) {
@@ -311,11 +341,15 @@ function checkFileBudget(file, label, rawBudget, gzipBudget) {
   const relativePath = toPosixPath(relative(DIST_DIR, file))
 
   if (bytes.length > rawBudget) {
-    fail(`${label} dist/${relativePath} is ${formatBytes(bytes.length)} raw; budget is ${formatBytes(rawBudget)}.`)
+    fail(
+      `${label} dist/${relativePath} is ${formatBytes(bytes.length)} raw; budget is ${formatBytes(rawBudget)}.`
+    )
   }
 
   if (gzipBytes > gzipBudget) {
-    fail(`${label} dist/${relativePath} is ${formatBytes(gzipBytes)} gzip; budget is ${formatBytes(gzipBudget)}.`)
+    fail(
+      `${label} dist/${relativePath} is ${formatBytes(gzipBytes)} gzip; budget is ${formatBytes(gzipBudget)}.`
+    )
   }
 }
 
@@ -344,8 +378,7 @@ function checkPublicPlaceholders() {
       }
 
       const text = readFileSync(file, 'utf8')
-      const placeholderHits =
-        (text.match(/textKeys\.placeholder|占位用，待编辑/gu) || []).length
+      const placeholderHits = (text.match(/textKeys\.placeholder|占位用，待编辑/gu) || []).length
 
       if (placeholderHits > 0) {
         fail(
@@ -361,6 +394,7 @@ checkGlamourAssets(PUBLIC_GLAMOUR_DIR, 'public/data/glamour')
 checkGlamourAssets(DIST_GLAMOUR_DIR, 'dist/data/glamour')
 checkDistForbiddenFiles()
 checkDistTextLeaks()
+checkSharedBundleBudget()
 checkNsglamourBundleBudget()
 checkPublicPlaceholders()
 

@@ -60,7 +60,7 @@
 import { computed, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import type { GlamourCopyFormat } from '@/lib/glamour/copyText'
 import { useLocale } from '@/stores/locale'
 

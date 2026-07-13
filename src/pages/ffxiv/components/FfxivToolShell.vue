@@ -53,7 +53,8 @@
 </template>
 
 <script setup lang="ts">
-import { siteRoutes, textKeys, type ToolEntry } from '@/config/site'
+import { siteRoutes, type ToolEntry } from '@/config/site'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import ToolApiStatus from '@/pages/ffxiv/components/ToolApiStatus.vue'

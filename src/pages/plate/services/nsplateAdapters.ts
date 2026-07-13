@@ -1,12 +1,12 @@
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { joinNSPlateResourceUrl, normalizeNSPlateResourcePath } from '@/lib/plate/assetUrls'
 import {
   NSPLATE_NAMEPLATE_CATEGORIES,
   NSPLATE_PORTRAIT_CATEGORIES,
   NSPLATE_PORTRAIT_FRAME_CATEGORY
 } from '@/lib/plate/draft'
-import { uiMessages } from '@/locales/ui'
-import type { Locale } from '@/stores/locale'
+import { plateUiMessages } from '@/locales/modules/plate'
+import type { Locale } from '@/locales/types'
 import type {
   NSPlateAsset,
   NSPlateAssetGroup,
@@ -194,7 +194,7 @@ function getLocaleCandidates(locale: string) {
 
 function pickUiMessage(key: string, locale: string) {
   const normalized = locale.trim() as Locale
-  return uiMessages[key]?.[normalized] ?? uiMessages[key]?.['zh-CN'] ?? key
+  return plateUiMessages[key]?.[normalized] ?? plateUiMessages[key]?.['zh-CN'] ?? key
 }
 
 function pickAssetCategoryLabel(category: string, locale: string) {

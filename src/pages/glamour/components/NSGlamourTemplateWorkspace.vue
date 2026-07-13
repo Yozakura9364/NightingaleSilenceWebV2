@@ -670,7 +670,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
 import recentIconUrl from '@/assets/icons/pixelarticons/clock.svg'
-import { textKeys } from '@/config/site'
+import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import {
   GLAMOUR_ACCESSORY_SLOTS,
   buildGlamourIconUrl,

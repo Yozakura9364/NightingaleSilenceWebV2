@@ -121,7 +121,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import type { NSPlateCanvasExportFormat } from '@/lib/plate/exportCanvas'
 import { useLocale } from '@/stores/locale'
 

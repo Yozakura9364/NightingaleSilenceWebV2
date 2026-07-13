@@ -113,7 +113,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { siteRoutes, textKeys } from '@/config/site'
+import { siteRoutes } from '@/config/site'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import {
   ffxivTermEntries,
   type FfxivTermEntry,

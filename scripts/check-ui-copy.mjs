@@ -4,9 +4,9 @@ import { fileURLToPath } from 'node:url'
 
 const rootDir = dirname(dirname(fileURLToPath(import.meta.url)))
 const srcDir = join(rootDir, 'src')
-const visibleTextPattern = /[\p{L}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u
+const visibleTextPattern =
+  /[\p{L}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u
 const staticAttributePattern = /\s(aria-label|title|placeholder|alt)="([^"]+)"/g
-const directTextPattern = />([^<]+)</g
 const staticDialogPattern = /\bwindow\.(alert|confirm)\(\s*(['"`])([\s\S]*?)\2\s*\)/g
 const deprecatedConfigPattern = /\b(placeholderCopy|siteLabels)\b/g
 const issues = []
@@ -18,7 +18,10 @@ for (const filePath of walk(srcDir)) {
     checkVueTemplate(filePath)
   }
 
-  if ((filePath.endsWith('.vue') || filePath.endsWith('.ts')) && relativePath !== 'src/config/site.ts') {
+  if (
+    (filePath.endsWith('.vue') || filePath.endsWith('.ts')) &&
+    relativePath !== 'src/config/site.ts'
+  ) {
     checkStaticDialogCopy(filePath)
     checkDeprecatedConfigUsage(filePath)
   }
@@ -62,18 +65,90 @@ function checkVueTemplate(filePath) {
 }
 
 function checkDirectText(filePath, source, template, templateOffset) {
-  for (const match of template.matchAll(directTextPattern)) {
-    const raw = match[1]
-    const value = raw
+  for (const textNode of findTemplateTextNodes(template)) {
+    const value = textNode.value
       .replace(/\{\{[\s\S]*?\}\}/g, '')
       .replace(/\s+/g, ' ')
       .trim()
 
-    if (!value || !visibleTextPattern.test(value)) {
+    if (value && visibleTextPattern.test(value)) {
+      addIssue(filePath, source, templateOffset + textNode.index, 'text', value)
+    }
+  }
+}
+
+function findTemplateTextNodes(template) {
+  const nodes = []
+  let textStart = 0
+  let inTag = false
+  let inComment = false
+  let inMustache = false
+  let quote = ''
+
+  for (let index = 0; index < template.length; index += 1) {
+    if (inComment) {
+      if (template.startsWith('-->', index)) {
+        inComment = false
+        inTag = false
+        index += 2
+        textStart = index + 1
+      }
       continue
     }
 
-    addIssue(filePath, source, templateOffset + (match.index ?? 0), 'text', value)
+    if (!inTag) {
+      if (inMustache) {
+        if (template.startsWith('}}', index)) {
+          inMustache = false
+          index += 1
+        }
+        continue
+      }
+
+      if (template.startsWith('{{', index)) {
+        inMustache = true
+        index += 1
+        continue
+      }
+
+      if (template[index] === '<') {
+        pushTemplateTextNode(nodes, template, textStart, index)
+        inTag = true
+        inComment = template.startsWith('<!--', index)
+      }
+      continue
+    }
+
+    if (quote) {
+      if (template[index] === quote && template[index - 1] !== '\\') {
+        quote = ''
+      }
+      continue
+    }
+
+    if (template[index] === '"' || template[index] === "'") {
+      quote = template[index]
+      continue
+    }
+
+    if (template[index] === '>') {
+      inTag = false
+      textStart = index + 1
+    }
+  }
+
+  if (!inTag && !inComment) {
+    pushTemplateTextNode(nodes, template, textStart, template.length)
+  }
+
+  return nodes
+}
+
+function pushTemplateTextNode(nodes, template, start, end) {
+  const value = template.slice(start, end)
+
+  if (value.trim()) {
+    nodes.push({ index: start, value })
   }
 }
 

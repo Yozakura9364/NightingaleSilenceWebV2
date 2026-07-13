@@ -1,5 +1,5 @@
 import { computed, onBeforeUnmount, ref, shallowRef } from 'vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import type { ArmoireSnapshot } from '@/lib/armoire/types'
 import type {
   ArmoireHelperHealth,

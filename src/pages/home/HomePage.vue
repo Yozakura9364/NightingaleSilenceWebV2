@@ -446,9 +446,13 @@ import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.sv
 import pixelFolderIcon from '@/assets/icons/pixelarticons/folder.svg'
 import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
-import { ffxivTools, siteMeta, siteRoutes, textKeys } from '@/config/site'
-import { useLocale } from '@/stores/locale'
+import { ffxivTools, siteMeta, siteRoutes } from '@/config/site'
+import { homeTextKeys as textKeys } from '@/locales/keys/home'
+import { homeUiMessages } from '@/locales/modules/home'
+import { loadMessages, useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'
+
+loadMessages(homeUiMessages)
 
 const { t } = useLocale()
 const { current: themeMode, setThemeMode } = useTheme()

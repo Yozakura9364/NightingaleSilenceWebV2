@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { textKeys } from '@/config/site'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import { ApiError, useFetch } from '@/composables/useFetch'

@@ -1,5 +1,5 @@
 import { computed, type Ref } from 'vue'
-import { textKeys } from '@/config/site'
+import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import type {
   SilenceCharacter,
   SilenceCharacterForm,

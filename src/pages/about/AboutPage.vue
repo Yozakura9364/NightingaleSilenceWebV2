@@ -13,7 +13,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { siteMeta, siteRoutes, textKeys } from '@/config/site'
+import { siteMeta, siteRoutes } from '@/config/site'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 
 const { t } = useLocale()

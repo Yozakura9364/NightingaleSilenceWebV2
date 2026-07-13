@@ -1,4 +1,4 @@
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { getArmoireIconUrl } from '@/lib/armoire/catalog'
 import type {
   ArmoireCatalog,

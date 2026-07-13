@@ -1,6 +1,6 @@
 import { computed, ref, type ComputedRef, type Ref } from 'vue'
 import { ApiError } from '@/composables/useFetch'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { exportPlateCanvasImage, type NSPlateCanvasExportOptions } from '@/lib/plate/exportCanvas'
 import {
   createLayeredZipBlobOnClient,

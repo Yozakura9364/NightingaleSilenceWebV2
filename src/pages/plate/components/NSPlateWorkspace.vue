@@ -91,7 +91,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { NSPLATE_NAMEPLATE_PRESET_CATEGORIES, NSPLATE_PORTRAIT_CATEGORIES } from '@/lib/plate/draft'
 import type { NSPlateCanvasExportFormat } from '@/lib/plate/exportCanvas'
 import { createNSPlateInfoDraft } from '@/lib/plate/infoLayers'

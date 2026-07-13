@@ -336,7 +336,7 @@
 
 <script setup lang="ts">
 import { toRef } from 'vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import {
   localizePlateInfoText,
   nsPlateInfoPresetDefinitions

@@ -1,4 +1,4 @@
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import type { ArmoireStoreDetailTag, ArmoireStoreTag } from '@/lib/armoire/types'
 
 export const ARMOIRE_STORE_TAG_LABEL_KEYS: Record<ArmoireStoreTag, string> = {

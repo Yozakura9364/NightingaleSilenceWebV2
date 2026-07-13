@@ -26,11 +26,15 @@ import { computed, type CSSProperties } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import chevronLeftIcon from '@/assets/icons/chevron-left.svg'
 import chevronRightIcon from '@/assets/icons/chevron-right.svg'
-import { getRequiredFfxivTool, siteRoutes, textKeys } from '@/config/site'
+import { getRequiredFfxivTool, siteRoutes } from '@/config/site'
+import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
+import { glamourUiMessages } from '@/locales/modules/glamour'
 import FfxivToolShell from '@/pages/ffxiv/components/FfxivToolShell.vue'
 import NSGlamourWorkspace from '@/pages/glamour/components/NSGlamourWorkspace.vue'
 import { getApiBoundary } from '@/services/apiBoundaries'
-import { useLocale } from '@/stores/locale'
+import { loadMessages, useLocale } from '@/stores/locale'
+
+loadMessages(glamourUiMessages)
 
 const tool = getRequiredFfxivTool('glamour')
 const boundary = getApiBoundary('glamour')

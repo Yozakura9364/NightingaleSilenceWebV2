@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { createExampleArmoireSnapshot } from '@/lib/armoire/exampleSnapshot'
 import {
   ArmoireSnapshotError,

@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import type { NSPlatePortraitSide } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
 import NSPlateChoiceButton from '@/pages/plate/components/NSPlateChoiceButton.vue'

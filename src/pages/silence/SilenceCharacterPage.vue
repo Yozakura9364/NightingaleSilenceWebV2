@@ -39,7 +39,9 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
-import { silenceGroups, siteRoutes, textKeys } from '@/config/site'
+import { silenceGroups, siteRoutes } from '@/config/site'
+import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
+import { silenceUiMessages } from '@/locales/modules/silence'
 import {
   getSilenceCharacter,
   getSilenceCharacterById,
@@ -50,7 +52,9 @@ import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilence
 import SilenceCharacterDetails from '@/pages/silence/components/SilenceCharacterDetails.vue'
 import SilenceCharacterStage from '@/pages/silence/components/SilenceCharacterStage.vue'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
-import { useLocale } from '@/stores/locale'
+import { loadMessages, useLocale } from '@/stores/locale'
+
+loadMessages(silenceUiMessages)
 
 const SilenceViiokoPrototype = import.meta.env.DEV
   ? defineAsyncComponent(() => import('@/pages/silence/components/SilenceViiokoPrototype.vue'))

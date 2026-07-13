@@ -94,7 +94,7 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { useLocale } from '@/stores/locale'
 import type { NSPlatePresetGroup, NSPlatePresetSummary } from '@/lib/plate/types'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'

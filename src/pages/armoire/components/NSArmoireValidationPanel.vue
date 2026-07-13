@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import type {
   ArmoireCatalog,
   ArmoireSnapshot,

@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { textKeys } from '@/config/site'
+import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import type { SilenceCharacterTextBlock } from '@/data/silence/characters'
 import { useLocale } from '@/stores/locale'
 

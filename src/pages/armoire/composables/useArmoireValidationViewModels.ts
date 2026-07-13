@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import type {
   ArmoireCatalog,
   ArmoireCatalogItem,

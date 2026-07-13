@@ -105,7 +105,7 @@
 import AppButton from '@/components/AppButton.vue'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import type { ArmoireHelperProcess } from '@/pages/armoire/services/nsarmoireHelperApi'
 import { useLocale } from '@/stores/locale'
 

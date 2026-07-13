@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
 import moreVerticalIcon from '@/assets/icons/more-vertical.svg'
-import { textKeys } from '@/config/site'
+import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { useLocale } from '@/stores/locale'
 
 const emit = defineEmits<{

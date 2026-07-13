@@ -123,7 +123,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { textKeys } from '@/config/site'
+import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { useLocale } from '@/stores/locale'
 import type { ArmoireContainerKind, ArmoireSnapshot } from '@/lib/armoire/types'
 import githubIcon from '@/assets/icons/pixelarticons/github.svg'

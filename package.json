@@ -25,7 +25,7 @@
     "check:release": "node scripts/check-release-readiness.mjs",
     "typecheck": "vue-tsc -b",
     "build": "vue-tsc -b && vite build",
-    "check:i18n": "node scripts/check-ui-copy.mjs",
+    "check:i18n": "node scripts/check-ui-copy.mjs && node scripts/check-ui-locales.mjs",
     "check": "npm run typecheck && npm run check:i18n && npm run check:armoire-store-catalog:quiet && vite build",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{ts,vue,css}\"",

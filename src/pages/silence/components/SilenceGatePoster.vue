@@ -55,7 +55,8 @@
 </template>
 
 <script setup lang="ts">
-import { silenceGroups, siteRoutes, textKeys } from '@/config/site'
+import { silenceGroups, siteRoutes } from '@/config/site'
+import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import { getSilenceCharactersByGroup } from '@/data/silence/characters'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { useLocale } from '@/stores/locale'

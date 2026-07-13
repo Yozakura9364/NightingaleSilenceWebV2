@@ -5,7 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import { silenceUiMessages } from '@/locales/modules/silence'
 import SilenceGatePoster from '@/pages/silence/components/SilenceGatePoster.vue'
+import { loadMessages } from '@/stores/locale'
+
+loadMessages(silenceUiMessages)
 </script>
 
 <style scoped>
