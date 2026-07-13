@@ -79,7 +79,7 @@
                 />
               </div>
 
-              <div v-if="!isCollectionLoading" class="nsarmoire-workspace__reference-body">
+              <div class="nsarmoire-workspace__reference-body">
                 <NSArmoireStorePanel
                   v-if="activeDetailTab === 'store'"
                   :armoire-catalog="catalog"
@@ -170,12 +170,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { analyzeArmoireSnapshot } from '@/lib/armoire/analyzeSnapshot'
 import { mergeArmoireCatalogs } from '@/lib/armoire/catalog'
-import type { ArmoireStoreCatalog, ArmoireStoreItemDisplayIndex } from '@/lib/armoire/types'
 import type { ArmoireCatalogStatus } from '@/pages/armoire/composables/useArmoireCatalog'
 import { useArmoireAnalysis } from '@/pages/armoire/composables/useArmoireAnalysis'
 import { useArmoireCabinetCatalog } from '@/pages/armoire/composables/useArmoireCabinetCatalog'
@@ -191,32 +190,19 @@ import { useArmoireIgnoredItems } from '@/pages/armoire/composables/useArmoireIg
 import { useArmoireIdenticalModelCatalog } from '@/pages/armoire/composables/useArmoireIdenticalModelCatalog'
 import { useArmoireItemDisplayChunks } from '@/pages/armoire/composables/useArmoireItemDisplayChunks'
 import { useArmoireSnapshot } from '@/pages/armoire/composables/useArmoireSnapshot'
+import { useArmoireStoreCatalog } from '@/pages/armoire/composables/useArmoireStoreCatalog'
+import { useArmoireStoreItemDisplayIndex } from '@/pages/armoire/composables/useArmoireStoreItemDisplayIndex'
+import {
+  useArmoireWorkspaceCatalogLoading,
+  type ArmoireCollectionDetailTab,
+  type ArmoireWorkspaceSection
+} from '@/pages/armoire/composables/useArmoireWorkspaceCatalogLoading'
 import AppLoading from '@/components/AppLoading.vue'
 import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
 import NSArmoireSectionRail from '@/pages/armoire/components/NSArmoireSectionRail.vue'
 import { getArmoireItemIconUrl, getArmoireItemName } from '@/pages/armoire/utils/itemDisplay'
 import type { ArmoireReadableItemView } from '@/pages/armoire/utils/insightDisplay'
 import { useLocale } from '@/stores/locale'
-
-type ArmoireWorkspaceSection = 'cleanup' | 'collection' | 'characters'
-type ArmoireCollectionDetailTab = 'store' | 'cabinet' | 'sets' | 'storage'
-type ArmoireStoreCatalogStatus = 'idle' | 'loading' | 'ready' | 'error'
-type ArmoireStoreItemDisplayIndexStatus = 'idle' | 'loading' | 'ready' | 'error'
-
-const EMPTY_WORKSPACE_STORE_CATALOG: ArmoireStoreCatalog = {
-  schemaVersion: 'nsarmoire.storeCatalog.v1',
-  generatedAt: '',
-  sources: [],
-  outfits: []
-}
-const EMPTY_WORKSPACE_STORE_ITEM_DISPLAY_INDEX: ArmoireStoreItemDisplayIndex = {
-  schemaVersion: 'nsarmoire.storeItemDisplayIndex.v1',
-  generatedAt: '',
-  items: {}
-}
-const DATA_BASE_URL = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data`
-const STORE_CATALOG_URL = `${DATA_BASE_URL}/armoire-store-catalog.json`
-const STORE_ITEM_DISPLAY_INDEX_URL = `${DATA_BASE_URL}/armoire-store-item-display-index.json`
 
 const AppTabs = defineAsyncComponent(() => import('@/components/AppTabs.vue'))
 const NSArmoireCabinetStatsPanel = defineAsyncComponent(
@@ -245,13 +231,7 @@ const route = useRoute()
 const { t } = useLocale()
 const activeSection = ref<ArmoireWorkspaceSection>('cleanup')
 const activeDetailTab = ref<ArmoireCollectionDetailTab>('store')
-const mountedCollectionSection = ref(false)
-const isCollectionLoading = ref(false)
 const profileActionStatusKey = ref<string | null>(null)
-let collectionLoadFrame = 0
-let collectionLoadTimer = 0
-let cleanupIdenticalModelCatalogTimer = 0
-const CLEANUP_IDENTICAL_MODEL_CATALOG_LOAD_DELAY_MS = 180
 const sectionItems = computed(() => [
   {
     id: 'cleanup',
@@ -357,13 +337,34 @@ const {
   error: crafterGathererReplicaCatalogError,
   loadCrafterGathererReplicaCatalog
 } = useArmoireCrafterGathererReplicaCatalog()
-const storeCatalog = shallowRef<ArmoireStoreCatalog>(EMPTY_WORKSPACE_STORE_CATALOG)
-const storeCatalogStatus = ref<ArmoireStoreCatalogStatus>('idle')
-const storeCatalogError = ref<string | null>(null)
-const storeItemDisplayIndex = shallowRef<ArmoireStoreItemDisplayIndex>(
-  EMPTY_WORKSPACE_STORE_ITEM_DISPLAY_INDEX
-)
-const storeItemDisplayIndexStatus = ref<ArmoireStoreItemDisplayIndexStatus>('idle')
+const {
+  storeCatalog,
+  status: storeCatalogStatus,
+  error: storeCatalogError,
+  loadStoreCatalog
+} = useArmoireStoreCatalog()
+const { storeItemDisplayIndex, loadStoreItemDisplayIndex } = useArmoireStoreItemDisplayIndex()
+const {
+  mountedCollectionSection,
+  loadIdenticalModelCatalogForCleanup,
+  reloadCatalog,
+  reloadStoreCatalog
+} = useArmoireWorkspaceCatalogLoading({
+  snapshot,
+  activeSection,
+  activeDetailTab,
+  identicalModelCatalogStatus,
+  loadItemDisplayChunksForItemIds,
+  loadCabinetItemChunksForItemIds,
+  loadGlamourSetChunksForItemIds,
+  loadCabinetCatalog,
+  loadGlamourSetCatalog,
+  loadIdenticalModelCatalog,
+  loadDyeCatalog,
+  loadCrafterGathererReplicaCatalog,
+  loadStoreCatalog,
+  loadStoreItemDisplayIndex
+})
 const catalog = computed(() =>
   mergeArmoireCatalogs(
     itemDisplayCatalog.value,
@@ -457,14 +458,8 @@ const shouldRenderCollectionSection = computed(
 const isRestoringProfile = computed(
   () => profileStorageStatus.value === 'loading' && !snapshot.value
 )
-const isWorkspaceLoadingOverlayVisible = computed(
-  () => isCollectionLoading.value || isRestoringProfile.value
-)
-const workspaceLoadingMessageKey = computed(() =>
-  isRestoringProfile.value
-    ? textKeys.nsarmoireCharacterLocalProfileLoading
-    : textKeys.nsarmoireCollectionLoading
-)
+const isWorkspaceLoadingOverlayVisible = computed(() => isRestoringProfile.value)
+const workspaceLoadingMessageKey = textKeys.nsarmoireCharacterLocalProfileLoading
 const catalogStatus = computed<ArmoireCatalogStatus>(() => {
   const statuses = [
     itemDisplayChunkStatus.value,
@@ -507,285 +502,6 @@ const catalogError = computed(
       .join(' / ') || null
 )
 
-function cancelCollectionLoadFrame(): void {
-  if (typeof window === 'undefined') {
-    collectionLoadFrame = 0
-    collectionLoadTimer = 0
-    return
-  }
-
-  if (collectionLoadFrame !== 0) {
-    window.cancelAnimationFrame(collectionLoadFrame)
-    collectionLoadFrame = 0
-  }
-
-  if (collectionLoadTimer !== 0) {
-    window.clearTimeout(collectionLoadTimer)
-    collectionLoadTimer = 0
-  }
-}
-
-function queueCollectionSectionMount(): void {
-  cancelCollectionLoadFrame()
-  mountedCollectionSection.value = true
-  isCollectionLoading.value = false
-
-  if (typeof window === 'undefined') {
-    return
-  }
-}
-
-function shouldLoadCabinetCatalogForCurrentView(): boolean {
-  return Boolean(
-    snapshot.value &&
-    activeSection.value === 'collection' &&
-    activeDetailTab.value === 'cabinet'
-  )
-}
-
-function shouldLoadCleanupItemChunksForCurrentView(): boolean {
-  return Boolean(snapshot.value && activeSection.value === 'cleanup')
-}
-
-function getSnapshotItemIds(): number[] {
-  return snapshot.value?.items.map((item) => item.itemId) ?? []
-}
-
-function loadSnapshotItemChunks(options: { force?: boolean } = {}): void {
-  const itemIds = getSnapshotItemIds()
-
-  if (itemIds.length === 0) {
-    return
-  }
-
-  void loadItemDisplayChunksForItemIds(itemIds, options)
-}
-
-function loadCleanupItemChunks(options: { force?: boolean } = {}): void {
-  const itemIds = getSnapshotItemIds()
-
-  if (itemIds.length === 0) {
-    return
-  }
-
-  void loadCabinetItemChunksForItemIds(itemIds, options)
-  void loadGlamourSetChunksForItemIds(itemIds, options)
-}
-
-function shouldLoadItemDisplayChunksForCurrentView(): boolean {
-  return Boolean(
-    snapshot.value &&
-    (activeSection.value === 'cleanup' ||
-      (activeSection.value === 'collection' && activeDetailTab.value === 'storage'))
-  )
-}
-
-function shouldLoadGlamourSetCatalogForCurrentView(): boolean {
-  return Boolean(
-    snapshot.value && activeSection.value === 'collection' && activeDetailTab.value === 'sets'
-  )
-}
-
-function shouldLoadIdenticalModelCatalogForCurrentView(): boolean {
-  return false
-}
-
-function shouldQueueIdenticalModelCatalogForCleanup(): boolean {
-  return Boolean(
-    snapshot.value &&
-    activeSection.value === 'cleanup' &&
-    identicalModelCatalogStatus.value === 'idle'
-  )
-}
-
-function cancelCleanupIdenticalModelCatalogLoad(): void {
-  if (typeof window === 'undefined') {
-    cleanupIdenticalModelCatalogTimer = 0
-    return
-  }
-
-  if (cleanupIdenticalModelCatalogTimer !== 0) {
-    window.clearTimeout(cleanupIdenticalModelCatalogTimer)
-    cleanupIdenticalModelCatalogTimer = 0
-  }
-}
-
-function queueIdenticalModelCatalogForCleanup(): void {
-  if (!shouldQueueIdenticalModelCatalogForCleanup()) {
-    cancelCleanupIdenticalModelCatalogLoad()
-    return
-  }
-
-  if (typeof window === 'undefined') {
-    void loadIdenticalModelCatalog()
-    return
-  }
-
-  if (cleanupIdenticalModelCatalogTimer !== 0) {
-    return
-  }
-
-  cleanupIdenticalModelCatalogTimer = window.setTimeout(() => {
-    cleanupIdenticalModelCatalogTimer = 0
-
-    if (shouldQueueIdenticalModelCatalogForCleanup()) {
-      void loadIdenticalModelCatalog()
-    }
-  }, CLEANUP_IDENTICAL_MODEL_CATALOG_LOAD_DELAY_MS)
-}
-
-function loadIdenticalModelCatalogForCleanup(): void {
-  if (!snapshot.value) {
-    return
-  }
-
-  void loadIdenticalModelCatalog()
-}
-
-function shouldLoadDyeCatalogForCurrentView(): boolean {
-  return Boolean(
-    snapshot.value &&
-    (activeSection.value === 'cleanup' ||
-      activeSection.value === 'characters' ||
-      (activeSection.value === 'collection' &&
-        ['store', 'storage'].includes(activeDetailTab.value)))
-  )
-}
-
-function shouldLoadCrafterGathererReplicaCatalogForCurrentView(): boolean {
-  return Boolean(
-    snapshot.value &&
-      (activeSection.value === 'cleanup' || activeSection.value === 'characters')
-  )
-}
-
-function shouldLoadStoreCatalogForCurrentView(): boolean {
-  return Boolean(
-    snapshot.value && activeSection.value === 'collection' && activeDetailTab.value === 'store'
-  )
-}
-
-async function loadStoreCatalog(options: { force?: boolean } = {}): Promise<void> {
-  if (
-    storeCatalogStatus.value === 'loading' ||
-    (storeCatalogStatus.value === 'ready' && options.force !== true)
-  ) {
-    return
-  }
-
-  storeCatalogStatus.value = 'loading'
-  storeCatalogError.value = null
-
-  try {
-    const { isArmoireStoreCatalog } = await import('@/lib/armoire/storeCatalog')
-    const response = await fetch(STORE_CATALOG_URL)
-
-    if (!response.ok) {
-      throw new Error(`${response.status} ${response.statusText}`)
-    }
-
-    const payload = (await response.json()) as unknown
-
-    if (!isArmoireStoreCatalog(payload)) {
-      throw new Error('invalid armoire store catalog')
-    }
-
-    storeCatalog.value = payload
-    storeCatalogStatus.value = 'ready'
-  } catch (catalogLoadError) {
-    storeCatalog.value = EMPTY_WORKSPACE_STORE_CATALOG
-    storeCatalogStatus.value = 'error'
-    storeCatalogError.value =
-      catalogLoadError instanceof Error ? catalogLoadError.message : String(catalogLoadError)
-  }
-}
-
-async function loadStoreItemDisplayIndex(options: { force?: boolean } = {}): Promise<void> {
-  if (
-    storeItemDisplayIndexStatus.value === 'loading' ||
-    (storeItemDisplayIndexStatus.value === 'ready' && options.force !== true)
-  ) {
-    return
-  }
-
-  storeItemDisplayIndexStatus.value = 'loading'
-
-  try {
-    const { isArmoireStoreItemDisplayIndex } = await import('@/lib/armoire/storeItemDisplayIndex')
-    const response = await fetch(STORE_ITEM_DISPLAY_INDEX_URL)
-
-    if (!response.ok) {
-      throw new Error(`${response.status} ${response.statusText}`)
-    }
-
-    const payload = (await response.json()) as unknown
-
-    if (!isArmoireStoreItemDisplayIndex(payload)) {
-      throw new Error('invalid armoire store item display index')
-    }
-
-    storeItemDisplayIndex.value = payload
-    storeItemDisplayIndexStatus.value = 'ready'
-  } catch (indexLoadError) {
-    void indexLoadError
-    storeItemDisplayIndex.value = EMPTY_WORKSPACE_STORE_ITEM_DISPLAY_INDEX
-    storeItemDisplayIndexStatus.value = 'error'
-  }
-}
-
-function loadCatalogsForCurrentView(): void {
-  if (shouldLoadCabinetCatalogForCurrentView()) {
-    void loadCabinetCatalog()
-  }
-
-  if (shouldLoadCleanupItemChunksForCurrentView()) {
-    loadCleanupItemChunks()
-  }
-
-  if (shouldLoadItemDisplayChunksForCurrentView()) {
-    loadSnapshotItemChunks()
-  }
-
-  if (shouldLoadGlamourSetCatalogForCurrentView()) {
-    void loadGlamourSetCatalog()
-  }
-
-  if (shouldLoadIdenticalModelCatalogForCurrentView()) {
-    cancelCleanupIdenticalModelCatalogLoad()
-    void loadIdenticalModelCatalog()
-  } else {
-    queueIdenticalModelCatalogForCleanup()
-  }
-
-  if (shouldLoadDyeCatalogForCurrentView()) {
-    void loadDyeCatalog()
-  }
-
-  if (shouldLoadCrafterGathererReplicaCatalogForCurrentView()) {
-    void loadCrafterGathererReplicaCatalog()
-  }
-
-  if (shouldLoadStoreCatalogForCurrentView()) {
-    void loadStoreCatalog()
-    void loadStoreItemDisplayIndex()
-  }
-}
-
-function reloadCatalog(): void {
-  loadSnapshotItemChunks({ force: true })
-  loadCleanupItemChunks({ force: true })
-  void loadCabinetCatalog({ force: true })
-  void loadGlamourSetCatalog({ force: true })
-  void loadIdenticalModelCatalog({ force: true })
-  void loadDyeCatalog({ force: true })
-  void loadCrafterGathererReplicaCatalog({ force: true })
-}
-
-function reloadStoreCatalog(): void {
-  void loadStoreCatalog({ force: true })
-  void loadStoreItemDisplayIndex({ force: true })
-}
-
 async function switchCharacterProfile(profileKey: string): Promise<void> {
   profileActionStatusKey.value = null
   const cachedSnapshot = await loadProfileSnapshot(profileKey)
@@ -823,34 +539,6 @@ function clearCurrentProfileData(): void {
   profileActionStatusKey.value = textKeys.nsarmoireCharacterLocalProfileClearCurrentSuccess
   activeSection.value = 'characters'
 }
-
-watch(
-  activeSection,
-  (section) => {
-    if (section === 'collection') {
-      queueCollectionSectionMount()
-      return
-    }
-
-    cancelCollectionLoadFrame()
-    isCollectionLoading.value = false
-    loadCatalogsForCurrentView()
-  },
-  { flush: 'pre' }
-)
-
-watch(
-  [snapshot, activeSection, activeDetailTab],
-  () => {
-    loadCatalogsForCurrentView()
-  },
-  { flush: 'post', immediate: true }
-)
-
-onBeforeUnmount(() => {
-  cancelCollectionLoadFrame()
-  cancelCleanupIdenticalModelCatalogLoad()
-})
 
 onMounted(() => {
   if (route.query.connect === '1') {

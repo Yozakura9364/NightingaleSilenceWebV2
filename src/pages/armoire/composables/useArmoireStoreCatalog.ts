@@ -1,16 +1,18 @@
 import { ref, shallowRef } from 'vue'
-import {
-  EMPTY_ARMOIRE_STORE_CATALOG,
-  isArmoireStoreCatalog
-} from '@/lib/armoire/storeCatalog'
-import type { ArmoireStoreCatalog } from '@/lib/armoire/types'
+import { ARMOIRE_STORE_CATALOG_SCHEMA_VERSION, type ArmoireStoreCatalog } from '@/lib/armoire/types'
 
 export type ArmoireStoreCatalogStatus = 'idle' | 'loading' | 'ready' | 'error'
 
 const storeCatalogUrl = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}data/armoire-store-catalog.json`
+const EMPTY_STORE_CATALOG: ArmoireStoreCatalog = {
+  schemaVersion: ARMOIRE_STORE_CATALOG_SCHEMA_VERSION,
+  generatedAt: '',
+  sources: [],
+  outfits: []
+}
 
 export function useArmoireStoreCatalog() {
-  const storeCatalog = shallowRef<ArmoireStoreCatalog>(EMPTY_ARMOIRE_STORE_CATALOG)
+  const storeCatalog = shallowRef<ArmoireStoreCatalog>(EMPTY_STORE_CATALOG)
   const status = ref<ArmoireStoreCatalogStatus>('idle')
   const error = ref<string | null>(null)
 
@@ -23,6 +25,7 @@ export function useArmoireStoreCatalog() {
     error.value = null
 
     try {
+      const { isArmoireStoreCatalog } = await import('@/lib/armoire/storeCatalog')
       const response = await fetch(storeCatalogUrl)
 
       if (!response.ok) {
@@ -38,7 +41,7 @@ export function useArmoireStoreCatalog() {
       storeCatalog.value = payload
       status.value = 'ready'
     } catch (catalogError) {
-      storeCatalog.value = EMPTY_ARMOIRE_STORE_CATALOG
+      storeCatalog.value = EMPTY_STORE_CATALOG
       status.value = 'error'
       error.value = catalogError instanceof Error ? catalogError.message : String(catalogError)
     }
