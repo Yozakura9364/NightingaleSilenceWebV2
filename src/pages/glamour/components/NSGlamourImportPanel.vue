@@ -5,7 +5,7 @@
       <div class="nsglamour-import__recent">
         <button
           type="button"
-          class="nsglamour-import__recent-button"
+          class="nsglamour-import__recent-button ns-icon-button"
           :title="t(textKeys.nsglamourRecentPanel)"
           :aria-label="t(textKeys.nsglamourRecentPanel)"
           aria-haspopup="dialog"
@@ -253,28 +253,10 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-import__recent-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 30px;
   min-width: 30px;
   height: 30px;
   min-height: 30px;
-  padding: 0;
-  border: 2px solid var(--ns-pixel-border-soft);
-  border-radius: 0;
-  background: var(--ns-pixel-surface);
-  color: var(--ns-color-text);
-  box-shadow: var(--ns-pixel-soft-shadow);
-  cursor: pointer;
-}
-
-.nsglamour-import__recent-button:hover,
-.nsglamour-import__recent-button:focus-visible {
-  border-color: var(--ns-pixel-border);
-  background: var(--ns-pixel-hover-surface);
-  color: var(--ns-color-accent-strong);
-  outline: none;
 }
 
 .nsglamour-import__recent-button img {

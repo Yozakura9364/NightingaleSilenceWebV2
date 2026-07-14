@@ -292,149 +292,17 @@
           </button>
         </div>
 
-        <div class="nsglamour-template__editor">
-          <article v-for="row in editorRows" :key="row.slot" class="nsglamour-template__row">
-            <h3>{{ row.slotName }}</h3>
-            <div
-              class="nsglamour-template__item"
-              :class="{ 'nsglamour-template__item--search': !row.itemName }"
-            >
-              <template v-if="row.itemName">
-                <img
-                  v-if="row.iconUrl"
-                  class="nsglamour-template__item-icon"
-                  :src="row.iconUrl"
-                  :alt="row.itemName"
-                  loading="lazy"
-                  referrerpolicy="no-referrer"
-                />
-                <div class="nsglamour-template__item-body">
-                  <strong>{{ row.itemName }}</strong>
-                  <div v-if="row.dyeEntries.length" class="nsglamour-template__dye-controls">
-                    <div
-                      v-for="(dye, dyeIndex) in row.dyeEntries"
-                      :key="`${row.slot}-${dyeIndex}`"
-                      class="nsglamour-template__dye-select"
-                    >
-                      <button
-                        type="button"
-                        class="nsglamour-template__dye-chip"
-                        :class="{ 'empty-dye': isNoDye(dye) }"
-                        :style="{ '--nsglamour-dye-color': getDyeColor(dye) }"
-                        :title="getDyeTitle(dyeIndex, row.dyeEntries.length)"
-                        :aria-label="getDyeTitle(dyeIndex, row.dyeEntries.length)"
-                        @click.stop="toggleDyePicker(row, dyeIndex)"
-                      >
-                        {{ getDyeEntryLabel(dye) }}
-                      </button>
-
-                      <div
-                        v-if="isDyePickerActive(row, dyeIndex)"
-                        class="nsglamour-template__dye-panel"
-                        @click.stop
-                      >
-                        <input
-                          type="search"
-                          class="nsglamour-template__dye-search"
-                          :value="getDyeSearchQuery(row.slot, dyeIndex)"
-                          :placeholder="t(textKeys.nsglamourEquipmentDyeSearchPlaceholder)"
-                          spellcheck="false"
-                          autocomplete="off"
-                          @input="updateDyeSearch(row.slot, dyeIndex, $event)"
-                        />
-                        <div class="nsglamour-template__dye-results">
-                          <div
-                            v-for="group in getDyeGroups(row.slot, dyeIndex)"
-                            :key="group.key"
-                            class="nsglamour-template__dye-group"
-                          >
-                            <div v-if="group.label" class="nsglamour-template__dye-group-title">
-                              {{ group.label }}
-                            </div>
-                            <button
-                              v-for="stain in group.items"
-                              :key="stain.id"
-                              type="button"
-                              class="nsglamour-template__dye-option"
-                              :style="{ '--nsglamour-dye-color': stain.hex || '#000000' }"
-                              @click="selectDye(row, dyeIndex, stain)"
-                            >
-                              <span
-                                class="nsglamour-template__dye-swatch"
-                                aria-hidden="true"
-                              ></span>
-                              <span>{{ getStainName(stain) }}</span>
-                            </button>
-                          </div>
-                          <div v-if="isDyeLoading()" class="nsglamour-template__dye-empty">
-                            {{ t(textKeys.nsglamourEquipmentDyeLoading) }}
-                          </div>
-                          <div v-else-if="isDyeFailed()" class="nsglamour-template__dye-empty">
-                            {{ t(textKeys.nsglamourEquipmentDyeLoadError) }}
-                          </div>
-                          <div
-                            v-else-if="shouldShowDyeEmpty(row.slot, dyeIndex)"
-                            class="nsglamour-template__dye-empty"
-                          >
-                            {{ t(textKeys.nsglamourEquipmentDyeSearchEmpty) }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <small v-else-if="row.dyeStatusText">{{ row.dyeStatusText }}</small>
-                </div>
-                <button
-                  type="button"
-                  class="nsglamour-template__delete"
-                  :title="t(textKeys.nsglamourEquipmentDelete)"
-                  :aria-label="t(textKeys.nsglamourEquipmentDelete)"
-                  @click="clearEditorEntry(row)"
-                >
-                  {{ t(textKeys.nsglamourEquipmentDeleteSymbol) }}
-                </button>
-              </template>
-
-              <div v-else class="nsglamour-template__search">
-                <input
-                  class="nsglamour-template__input"
-                  type="search"
-                  spellcheck="false"
-                  :placeholder="t(textKeys.nsglamourEquipmentSearchPlaceholder)"
-                  :value="getSearchQuery(row.slot)"
-                  @input="updateSearch(row, $event)"
-                />
-                <div
-                  v-if="shouldShowSearchPanel(row.slot)"
-                  class="nsglamour-template__search-results"
-                >
-                  <button
-                    v-for="candidate in getSearchResults(row.slot)"
-                    :key="getSearchResultKey(candidate)"
-                    type="button"
-                    class="nsglamour-template__search-result"
-                    @click="selectSearchResult(row, candidate)"
-                  >
-                    <img
-                      v-if="buildSearchIconUrl(candidate)"
-                      :src="buildSearchIconUrl(candidate)"
-                      :alt="getSearchCandidateName(candidate)"
-                      loading="lazy"
-                      referrerpolicy="no-referrer"
-                    />
-                    <span>{{ getSearchCandidateName(candidate) }}</span>
-                  </button>
-                  <div
-                    v-if="shouldShowSearchEmpty(row.slot)"
-                    class="nsglamour-template__search-empty"
-                  >
-                    {{ t(textKeys.nsglamourEquipmentSearchEmpty) }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
+        <NSGlamourTemplateEquipmentEditor
+          :rows="editorRows"
+          :draft="draft"
+          :api-base="apiBase"
+          :editor-locale="editorLocale"
+          :search-items="searchItems"
+          :load-stains="loadStains"
+          @replace-entry="forwardReplaceEntry"
+          @clear-entry="forwardClearEntry"
+          @set-entry-dye="forwardSetEntryDye"
+        />
       </section>
     </aside>
 
@@ -485,47 +353,26 @@ import {
   getCandidateDyeCount,
   getCandidateName,
   getDisplayDyeEntries,
-  getDyeEntryName,
   getSelectedCandidate,
   getSlotTitle,
-  groupGlamourStains,
-  isNoDyeEntry,
-  makeEmptyEquipmentEntry,
-  resolveLocalized,
-  stainMatchesQuery
+  makeEmptyEquipmentEntry
 } from '@/lib/glamour/equipment'
 import { isSupportedGlamourLinkUrl, normalizeGlamourLinkUrl } from '@/lib/glamour/links'
 import type {
   GlamourCandidate,
   GlamourDraft,
-  GlamourDyeEntry,
   GlamourLocale,
   GlamourRecentSnapshot,
-  GlamourStain,
-  GlamourStainGroup,
-  GlamourSlotKey
+  GlamourStain
 } from '@/lib/glamour/types'
-import {
-  GLAMOUR_TEMPLATE_RECENT_IMAGE_LIMIT,
-  GLAMOUR_TEMPLATE_SLOT_ORDER,
-  clearGlamourTemplateRecentImages as clearStoredGlamourTemplateRecentImages,
-  drawGlamourTemplateImageCover,
-  findGlamourTemplateImageSessionRecord,
-  getGlamourTemplateEquivalentImageSlotIds,
-  isGlamourTemplatePersistentImageUrl,
-  loadGlamourTemplateImageStoreRecords,
-  loadGlamourTemplateRecentImages,
-  saveGlamourTemplateRecentImage,
-  saveGlamourTemplateImageStoreSlot,
-  type GlamourTemplateId,
-  type GlamourTemplateImageSlot,
-  type GlamourTemplateRecentImageRecord,
-  writeGlamourTemplateImageSessionSlot
-} from '@/lib/glamour/templates'
+import { GLAMOUR_TEMPLATE_SLOT_ORDER, type GlamourTemplateId } from '@/lib/glamour/templates'
 import NSGlamourRecentPanel from '@/pages/glamour/components/NSGlamourRecentPanel.vue'
+import NSGlamourTemplateEquipmentEditor from '@/pages/glamour/components/NSGlamourTemplateEquipmentEditor.vue'
 import { useGlamourTemplateCanvas } from '@/pages/glamour/composables/useGlamourTemplateCanvas'
+import { useGlamourTemplateImageInteraction } from '@/pages/glamour/composables/useGlamourTemplateImageInteraction'
+import { useGlamourTemplateImageStore } from '@/pages/glamour/composables/useGlamourTemplateImageStore'
 import { useGlamourTemplateWorkspace } from '@/pages/glamour/composables/useGlamourTemplateWorkspace'
-import type { TemplateImageCropRequest } from '@/pages/glamour/types/templateWorkspace'
+import type { GlamourTemplateEditorRow } from '@/pages/glamour/types/templateWorkspace'
 import { useLocale } from '@/stores/locale'
 
 const NSGlamourTemplateCropDialog = defineAsyncComponent(
@@ -646,7 +493,7 @@ const orderedLanguageOptions = computed(() => {
   return sortTemplateLanguageOptions(languageOptions.value)
 })
 const editorLocale = computed(() => activeLocale.value || props.draft.locale)
-const editorRows = computed<TemplateEditorRow[]>(() => {
+const editorRows = computed<GlamourTemplateEditorRow[]>(() => {
   const entriesBySlot = new Map(props.draft.entries.map((entry) => [entry.slot, entry]))
 
   return GLAMOUR_TEMPLATE_SLOT_ORDER.map((slot) => {
@@ -677,6 +524,18 @@ const editorRows = computed<TemplateEditorRow[]>(() => {
     }
   })
 })
+
+function forwardReplaceEntry(slot: string, candidate: GlamourCandidate) {
+  emit('replace-entry', slot, candidate)
+}
+
+function forwardClearEntry(slot: string) {
+  emit('clear-entry', slot)
+}
+
+function forwardSetEntryDye(slot: string, dyeIndex: number, stain: GlamourStain) {
+  emit('set-entry-dye', slot, dyeIndex, stain)
+}
 
 watch(
   activeLocale,
@@ -710,27 +569,6 @@ const authorLinksOpen = ref(false)
 const templateSelectorOpenButton = ref<HTMLButtonElement | null>(null)
 const templateSelectorOpen = ref(false)
 const previewEl = ref<HTMLElement | null>(null)
-const canvasShellEl = ref<HTMLElement | null>(null)
-const imageInputEl = ref<HTMLInputElement | null>(null)
-const imageUploadMenuSlotId = ref('')
-const activeImageSlotId = ref('')
-const activeDropSlotId = ref('')
-const imageStateVersion = ref(0)
-const templateImages = reactive<Record<string, TemplateCanvasImage>>({})
-const templateImagesById: Record<string, Record<string, TemplateCanvasImage>> = {}
-const recentTemplateImages = ref<GlamourTemplateRecentImageRecord[]>([])
-const pendingCrop = ref<TemplateImageCropRequest | null>(null)
-const pendingCropQueue: TemplateImageCropRequest[] = []
-const searchQueries = reactive<Record<string, string>>({})
-const searchResults = reactive<Record<string, GlamourCandidate[]>>({})
-const searchTouched = reactive<Record<string, boolean>>({})
-const searchBusy = reactive<Record<string, boolean>>({})
-const searchTimers = new Map<string, number>()
-const activeDyePicker = ref<{ slot: string; index: number } | null>(null)
-const stainLists = reactive<Record<string, GlamourStain[]>>({})
-const stainLoading = reactive<Record<string, boolean>>({})
-const stainFailed = reactive<Record<string, boolean>>({})
-const dyeSearchQueries = reactive<Record<string, string>>({})
 const importStatusMessage = computed(() => {
   if (importLocalStatus.value) {
     return importLocalStatus.value
@@ -750,25 +588,6 @@ const importStatusTone = computed(() => {
   return props.statusTone
 })
 
-interface TemplateEditorRow {
-  slot: GlamourSlotKey
-  slotName: string
-  itemName: string
-  iconUrl: string
-  dyeEntries: GlamourDyeEntry[]
-  dyeStatusText: string
-}
-
-interface TemplateCanvasImage {
-  image: HTMLImageElement
-  imageUrl: string
-  name: string
-  sourceUrl: string
-  sourceName: string
-  backupOnly: boolean
-}
-
-let templateImageSyncTaskId = 0
 let previewResizeObserver: ResizeObserver | null = null
 let canvasResumeRenderFrame = 0
 
@@ -791,28 +610,46 @@ const canvasShellStyle = computed(() => {
   return style
 })
 const canvasUploadLayers = computed(() => templateRenderData.value.canvas.imageSlots)
-const pendingCropSlot = computed(() =>
-  pendingCrop.value
-    ? canvasUploadLayers.value.find((slot) => slot.id === pendingCrop.value?.slotId) || null
-    : null
-)
-const imageUploadMenuSlot = computed(
-  () => canvasUploadLayers.value.find((slot) => slot.id === imageUploadMenuSlotId.value) || null
-)
+const { imageStateVersion, getTemplateImage, hasTemplateImage, setTemplateImageData } =
+  useGlamourTemplateImageStore({
+    templateId,
+    slots: canvasUploadLayers
+  })
+const {
+  canvasShellEl,
+  imageInputEl,
+  imageUploadMenuSlotId,
+  activeDropSlotId,
+  recentTemplateImages,
+  pendingCrop,
+  pendingCropSlot,
+  imageUploadMenuSlot,
+  getCanvasUploadLayerStyle,
+  getImageUploadMenuStyle,
+  openImageUploadMenu,
+  closeImageUploadMenu,
+  chooseImageUpload,
+  handleImageInputChange,
+  clearRecentTemplateImages,
+  useRecentTemplateImage,
+  formatRecentTemplateImageTime,
+  applyImageCrop,
+  closeImageCropper,
+  handleCanvasDrag,
+  handleCanvasDragLeave,
+  handleCanvasDrop
+} = useGlamourTemplateImageInteraction({
+  renderData: templateRenderData,
+  slots: canvasUploadLayers,
+  currentLocale: current,
+  setTemplateImageData
+})
 const { templateCanvasEl, drawTemplateCanvas, downloadTemplateCanvas } = useGlamourTemplateCanvas({
   renderData: templateRenderData,
   apiBase: computed(() => props.apiBase),
   imageStateVersion,
   resolveImage: getTemplateImage
 })
-
-watch(
-  () => templateId.value,
-  (nextTemplateId, previousTemplateId) => {
-    void syncTemplateImagesForTemplate(nextTemplateId, previousTemplateId)
-  },
-  { immediate: true }
-)
 
 watch(
   () => props.busy,
@@ -859,1024 +696,6 @@ function updateEcSubtitleRight(event: Event) {
 
 function setDyeFrameMode(dyeFrameMode: 'psd' | 'color') {
   updateTemplateSettings({ dyeFrameMode })
-}
-
-function getTemplateImage(slotId: string): TemplateCanvasImage | null {
-  return templateImages[slotId] || null
-}
-
-function hasTemplateImage(slotId: string): boolean {
-  return Boolean(getTemplateImage(slotId))
-}
-
-function getCanvasUploadLayerStyle(slot: GlamourTemplateImageSlot) {
-  const rect = slot.uploadRegion || slot.region
-  const canvas = templateRenderData.value.canvas
-
-  return {
-    left: `${(rect.x / canvas.width) * 100}%`,
-    top: `${(rect.y / canvas.height) * 100}%`,
-    width: `${(rect.width / canvas.width) * 100}%`,
-    height: `${(rect.height / canvas.height) * 100}%`
-  }
-}
-
-function getImageUploadMenuStyle(slot: GlamourTemplateImageSlot) {
-  const rect = slot.uploadRegion || slot.region
-  const canvas = templateRenderData.value.canvas
-  const style: Record<string, string> = {}
-  const anchorTop = rect.y + rect.height
-  const anchorBottom = canvas.height - rect.y
-
-  if (rect.x + rect.width / 2 > canvas.width / 2) {
-    style.right = `${Math.max(0, ((canvas.width - rect.x - rect.width) / canvas.width) * 100)}%`
-  } else {
-    style.left = `${Math.max(0, (rect.x / canvas.width) * 100)}%`
-  }
-
-  if (rect.y > canvas.height * 0.58) {
-    style.bottom = `${Math.max(0, (anchorBottom / canvas.height) * 100)}%`
-  } else {
-    style.top = `${Math.max(0, (anchorTop / canvas.height) * 100)}%`
-  }
-
-  return style
-}
-
-function openImageUploadMenu(slotId: string) {
-  activeImageSlotId.value = slotId
-  imageUploadMenuSlotId.value = imageUploadMenuSlotId.value === slotId ? '' : slotId
-  void refreshRecentTemplateImages()
-}
-
-function closeImageUploadMenu() {
-  imageUploadMenuSlotId.value = ''
-}
-
-function chooseImageUpload(slotId: string) {
-  closeImageUploadMenu()
-  openImagePicker(slotId)
-}
-
-function openImagePicker(slotId: string) {
-  activeImageSlotId.value = slotId
-  imageInputEl.value?.click()
-}
-
-function handleImageInputChange(event: Event) {
-  const input = event.currentTarget as HTMLInputElement
-  void queueImageFiles(input.files)
-  input.value = ''
-}
-
-function getImageSlotSequence(startSlotId: string): GlamourTemplateImageSlot[] {
-  const slots = canvasUploadLayers.value
-  const startIndex = Math.max(
-    0,
-    slots.findIndex((slot) => slot.id === startSlotId)
-  )
-  return [...slots.slice(startIndex), ...slots.slice(0, startIndex)]
-}
-
-async function queueImageFiles(
-  files: FileList | File[] | null,
-  targetSlotId = activeImageSlotId.value
-) {
-  const imageFiles = Array.from(files || []).filter((file) => file.type.startsWith('image/'))
-
-  if (!imageFiles.length) {
-    return
-  }
-
-  const slotSequence = getImageSlotSequence(targetSlotId || canvasUploadLayers.value[0]?.id || '')
-
-  for (const [index, file] of imageFiles.entries()) {
-    const slot = slotSequence[Math.min(index, slotSequence.length - 1)]
-
-    if (!slot) {
-      return
-    }
-
-    await queueTemplateImageCrop(slot.id, file)
-  }
-}
-
-async function queueTemplateImageCrop(slotId: string, file: File) {
-  const imageUrl = await readFileAsDataUrl(file)
-
-  if (!imageUrl) {
-    return
-  }
-
-  const image = await loadImageFromDataUrl(imageUrl)
-
-  if (!image) {
-    return
-  }
-
-  await storeRecentTemplateImage(file, image)
-  openImageCropper({
-    slotId,
-    image,
-    imageUrl,
-    imageName: file.name,
-    sourceUrl: imageUrl,
-    sourceName: file.name
-  })
-}
-
-async function storeRecentTemplateImage(file: File, image: HTMLImageElement) {
-  const thumbnailUrl = createRecentTemplateImageThumbnail(image)
-
-  if (!thumbnailUrl) {
-    return
-  }
-
-  const saved = await saveGlamourTemplateRecentImage({
-    imageName: file.name,
-    thumbnailUrl,
-    blob: file
-  })
-
-  if (saved) {
-    await refreshRecentTemplateImages()
-  }
-}
-
-function createRecentTemplateImageThumbnail(image: HTMLImageElement): string {
-  try {
-    const output = document.createElement('canvas')
-    const size = 96
-    output.width = size
-    output.height = size
-    const ctx = output.getContext('2d')
-
-    if (!ctx) {
-      return ''
-    }
-
-    ctx.imageSmoothingEnabled = true
-    ctx.imageSmoothingQuality = 'high'
-    drawGlamourTemplateImageCover(ctx, image, 0, 0, size, size)
-    return output.toDataURL('image/png')
-  } catch {
-    return ''
-  }
-}
-
-async function refreshRecentTemplateImages() {
-  recentTemplateImages.value = (await loadGlamourTemplateRecentImages()).slice(
-    0,
-    GLAMOUR_TEMPLATE_RECENT_IMAGE_LIMIT
-  )
-}
-
-async function clearRecentTemplateImages() {
-  await clearStoredGlamourTemplateRecentImages()
-  recentTemplateImages.value = []
-}
-
-async function useRecentTemplateImage(slotId: string, record: GlamourTemplateRecentImageRecord) {
-  closeImageUploadMenu()
-  const imageUrl = await readBlobAsDataUrl(record.blob)
-
-  if (!imageUrl) {
-    return
-  }
-
-  const image = await loadImageFromDataUrl(imageUrl)
-
-  if (!image) {
-    return
-  }
-
-  openImageCropper({
-    slotId,
-    image,
-    imageUrl,
-    imageName: record.imageName,
-    sourceUrl: imageUrl,
-    sourceName: record.imageName
-  })
-}
-
-function formatRecentTemplateImageTime(updatedAt: number): string {
-  if (!Number.isFinite(updatedAt) || updatedAt <= 0) {
-    return ''
-  }
-
-  return new Intl.DateTimeFormat(current.value, {
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(new Date(updatedAt))
-}
-
-async function setTemplateImageData(
-  slotId: string,
-  imageData: {
-    image: HTMLImageElement
-    imageUrl: string
-    imageName: string
-    sourceUrl: string
-    sourceName: string
-  }
-) {
-  delete templateImages[slotId]
-  templateImages[slotId] = {
-    image: imageData.image,
-    imageUrl: imageData.imageUrl,
-    name: imageData.imageName,
-    sourceUrl: imageData.sourceUrl,
-    sourceName: imageData.sourceName,
-    backupOnly: false
-  }
-  writeGlamourTemplateImageSessionSlot(templateId.value, slotId, {
-    imageUrl: imageData.imageUrl,
-    imageName: imageData.imageName,
-    sourceUrl: imageData.sourceUrl,
-    sourceName: imageData.sourceName
-  })
-  await saveGlamourTemplateImageStoreSlot({
-    templateId: templateId.value,
-    slotId,
-    imageUrl: imageData.imageUrl,
-    imageName: imageData.imageName,
-    sourceUrl: imageData.sourceUrl,
-    sourceName: imageData.sourceName
-  })
-  saveCurrentTemplateRuntimeImages()
-  imageStateVersion.value += 1
-}
-
-function readFileAsDataUrl(file: File): Promise<string> {
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => {
-      resolve(typeof reader.result === 'string' ? reader.result : '')
-    })
-    reader.addEventListener('error', () => resolve(''))
-    reader.readAsDataURL(file)
-  })
-}
-
-function loadImageFromDataUrl(imageUrl: string): Promise<HTMLImageElement | null> {
-  return new Promise((resolve) => {
-    const image = new Image()
-    if (/^https?:\/\//i.test(imageUrl)) {
-      image.crossOrigin = 'anonymous'
-    }
-    image.decoding = 'async'
-    image.addEventListener(
-      'load',
-      () => {
-        resolve(image)
-      },
-      { once: true }
-    )
-    image.addEventListener('error', () => resolve(null), { once: true })
-    image.src = imageUrl
-  })
-}
-
-function normalizeDraggedImageUrl(value = ''): string {
-  const firstLine = String(value || '')
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .find((line) => line && !line.startsWith('#'))
-
-  if (!firstLine) {
-    return ''
-  }
-
-  if (/^data:image\//i.test(firstLine)) {
-    return firstLine
-  }
-
-  if (/^https?:\/\//i.test(firstLine) || /^blob:/i.test(firstLine)) {
-    return firstLine
-  }
-
-  return ''
-}
-
-function getDraggedData(dataTransfer: DataTransfer | null, type: string): string {
-  if (!dataTransfer || typeof dataTransfer.getData !== 'function') {
-    return ''
-  }
-
-  try {
-    return dataTransfer.getData(type)
-  } catch {
-    return ''
-  }
-}
-
-function getDroppedImageUrl(event: DragEvent): string {
-  const dataTransfer = event.dataTransfer
-  const uriList = normalizeDraggedImageUrl(getDraggedData(dataTransfer, 'text/uri-list'))
-
-  if (uriList) {
-    return uriList
-  }
-
-  return normalizeDraggedImageUrl(getDraggedData(dataTransfer, 'text/plain'))
-}
-
-function makeDroppedImageDataUrl(
-  image: HTMLImageElement,
-  slotId: string,
-  fallbackUrl: string
-): string {
-  if (isGlamourTemplatePersistentImageUrl(fallbackUrl)) {
-    return fallbackUrl
-  }
-
-  const slot = canvasUploadLayers.value.find((item) => item.id === slotId)
-  const rect = slot?.region
-
-  if (!rect) {
-    return ''
-  }
-
-  try {
-    const output = document.createElement('canvas')
-    output.width = Math.max(1, Math.round(rect.width))
-    output.height = Math.max(1, Math.round(rect.height))
-    const ctx = output.getContext('2d')
-
-    if (!ctx) {
-      return ''
-    }
-
-    ctx.imageSmoothingEnabled = true
-    ctx.imageSmoothingQuality = 'high'
-    drawGlamourTemplateImageCover(ctx, image, 0, 0, output.width, output.height)
-    return output.toDataURL('image/png')
-  } catch {
-    return ''
-  }
-}
-
-async function setTemplateImageFromUrl(slotId: string, imageUrl: string) {
-  const normalizedUrl = normalizeDraggedImageUrl(imageUrl)
-
-  if (!normalizedUrl) {
-    return
-  }
-
-  const image = await loadImageFromDataUrl(normalizedUrl)
-
-  if (!image) {
-    return
-  }
-
-  openImageCropper({
-    slotId,
-    image,
-    imageUrl: normalizedUrl,
-    imageName: '',
-    sourceUrl: isGlamourTemplatePersistentImageUrl(normalizedUrl) ? normalizedUrl : '',
-    sourceName: ''
-  })
-}
-
-function getCropSlot(slotId: string): GlamourTemplateImageSlot | null {
-  return canvasUploadLayers.value.find((slot) => slot.id === slotId) || null
-}
-
-function openImageCropper(request: TemplateImageCropRequest) {
-  const slot = getCropSlot(request.slotId)
-
-  if (!slot) {
-    return
-  }
-
-  const normalizedRequest = { ...request, slotId: slot.id }
-
-  if (pendingCrop.value) {
-    pendingCropQueue.push(normalizedRequest)
-    return
-  }
-
-  activeImageSlotId.value = slot.id
-  closeImageUploadMenu()
-  pendingCrop.value = normalizedRequest
-}
-
-async function applyImageCrop(croppedImageUrl: string) {
-  const request = pendingCrop.value
-
-  if (!request) {
-    return
-  }
-
-  const imageUrl =
-    croppedImageUrl || makeDroppedImageDataUrl(request.image, request.slotId, request.imageUrl)
-  const image = imageUrl ? await loadImageFromDataUrl(imageUrl) : null
-
-  if (!image || !imageUrl) {
-    return
-  }
-
-  await setTemplateImageData(request.slotId, {
-    image,
-    imageUrl,
-    imageName: request.imageName,
-    sourceUrl: request.sourceUrl || request.imageUrl,
-    sourceName: request.sourceName
-  })
-  pendingCrop.value = null
-
-  const nextCrop = pendingCropQueue.shift()
-
-  if (nextCrop) {
-    openImageCropper(nextCrop)
-  }
-}
-
-function closeImageCropper() {
-  pendingCrop.value = null
-  pendingCropQueue.splice(0)
-}
-
-function readBlobAsDataUrl(blob: Blob): Promise<string> {
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.addEventListener('load', () => {
-      resolve(typeof reader.result === 'string' ? reader.result : '')
-    })
-    reader.addEventListener('error', () => resolve(''))
-    reader.readAsDataURL(blob)
-  })
-}
-
-function cloneTemplateImages(
-  source: Record<string, TemplateCanvasImage>
-): Record<string, TemplateCanvasImage> {
-  return Object.fromEntries(
-    Object.entries(source).map(([slotId, image]) => [
-      slotId,
-      {
-        ...image
-      }
-    ])
-  )
-}
-
-function makeCurrentTemplateImages(
-  source: Record<string, TemplateCanvasImage> = {}
-): Record<string, TemplateCanvasImage> {
-  return Object.fromEntries(
-    canvasUploadLayers.value.flatMap((slot) => {
-      const image = source[slot.id]
-      return image ? [[slot.id, { ...image }]] : []
-    })
-  ) as Record<string, TemplateCanvasImage>
-}
-
-function replaceTemplateImages(nextImages: Record<string, TemplateCanvasImage>) {
-  clearTemplateImages()
-  Object.entries(nextImages).forEach(([slotId, image]) => {
-    templateImages[slotId] = image
-  })
-}
-
-function saveCurrentTemplateRuntimeImages(targetTemplateId: string = templateId.value) {
-  templateImagesById[targetTemplateId] = makeCurrentTemplateImages(templateImages)
-}
-
-function applyTemplateRuntimeImages(targetTemplateId: string) {
-  replaceTemplateImages(makeCurrentTemplateImages(templateImagesById[targetTemplateId] || {}))
-}
-
-async function restoreCurrentTemplateImages(
-  restoringTemplateId: string = templateId.value,
-  taskId = templateImageSyncTaskId
-) {
-  let changed = await restoreCurrentTemplateImagesFromStore(restoringTemplateId, taskId)
-
-  if (taskId !== templateImageSyncTaskId || templateId.value !== restoringTemplateId) {
-    return changed
-  }
-
-  changed = (await restoreCurrentTemplateImagesFromSession(restoringTemplateId, taskId)) || changed
-
-  if (changed) {
-    saveCurrentTemplateRuntimeImages(restoringTemplateId)
-  }
-
-  return changed
-}
-
-async function restoreCurrentTemplateImagesFromStore(restoringTemplateId: string, taskId: number) {
-  const records = await loadGlamourTemplateImageStoreRecords(restoringTemplateId)
-  let changed = false
-
-  for (const record of records) {
-    const slotExists = canvasUploadLayers.value.some((slot) => slot.id === record.slotId)
-    const currentImage = templateImages[record.slotId]
-
-    if (!slotExists || (currentImage && !currentImage.backupOnly)) {
-      continue
-    }
-
-    const imageUrl = record.imageUrl || (record.blob ? await readBlobAsDataUrl(record.blob) : '')
-
-    if (!imageUrl) {
-      continue
-    }
-
-    const image = await loadImageFromDataUrl(imageUrl)
-
-    if (!image || templateId.value !== restoringTemplateId || taskId !== templateImageSyncTaskId) {
-      return false
-    }
-
-    templateImages[record.slotId] = {
-      image,
-      imageUrl,
-      name: record.imageName || record.sourceName || '',
-      sourceUrl: record.sourceUrl || imageUrl,
-      sourceName: record.sourceName || record.imageName || '',
-      backupOnly: false
-    }
-    changed = true
-  }
-
-  return changed
-}
-
-async function restoreCurrentTemplateImagesFromSession(
-  restoringTemplateId: string,
-  taskId: number
-) {
-  let changed = false
-
-  for (const slot of canvasUploadLayers.value) {
-    if (templateImages[slot.id]) {
-      continue
-    }
-
-    const record = findGlamourTemplateImageSessionRecord(restoringTemplateId, slot.id)
-
-    if (!record) {
-      continue
-    }
-
-    const image = await loadImageFromDataUrl(record.imageUrl)
-
-    if (!image || templateId.value !== restoringTemplateId || taskId !== templateImageSyncTaskId) {
-      return false
-    }
-
-    templateImages[slot.id] = {
-      image,
-      imageUrl: record.imageUrl,
-      name: record.imageName || record.sourceName || '',
-      sourceUrl: record.sourceUrl || record.imageUrl,
-      sourceName: record.sourceName || record.imageName || '',
-      backupOnly: true
-    }
-    changed = true
-  }
-
-  return changed
-}
-
-async function makeTemplateImageForSlotFromSource(
-  slotId: string,
-  sourceImage: TemplateCanvasImage
-): Promise<TemplateCanvasImage | null> {
-  const sourceUrl = sourceImage.sourceUrl || sourceImage.imageUrl
-  const source = await loadImageFromDataUrl(sourceUrl)
-  const rect = getCropSlot(slotId)?.region
-
-  if (!source || !rect) {
-    return null
-  }
-
-  const output = document.createElement('canvas')
-  output.width = Math.max(1, Math.round(rect.width))
-  output.height = Math.max(1, Math.round(rect.height))
-  const ctx = output.getContext('2d')
-
-  if (!ctx) {
-    return null
-  }
-
-  ctx.imageSmoothingEnabled = true
-  ctx.imageSmoothingQuality = 'high'
-  drawGlamourTemplateImageCover(ctx, source, 0, 0, output.width, output.height)
-  const imageUrl = output.toDataURL('image/png')
-  const image = await loadImageFromDataUrl(imageUrl)
-
-  if (!image) {
-    return null
-  }
-
-  return {
-    image,
-    imageUrl,
-    name: sourceImage.name || sourceImage.sourceName,
-    sourceUrl,
-    sourceName: sourceImage.sourceName || sourceImage.name,
-    backupOnly: false
-  }
-}
-
-async function carryTemplateImagesIntoCurrentTemplate(
-  sourceImages: Record<string, TemplateCanvasImage>,
-  carryingTemplateId = templateId.value,
-  taskId = templateImageSyncTaskId
-) {
-  let changed = false
-
-  for (const slot of canvasUploadLayers.value) {
-    if (templateImages[slot.id]) {
-      continue
-    }
-
-    const sourceImage = getGlamourTemplateEquivalentImageSlotIds(slot.id)
-      .map((sourceSlotId) => sourceImages[sourceSlotId])
-      .find(Boolean)
-
-    if (!sourceImage) {
-      continue
-    }
-
-    const nextImage = await makeTemplateImageForSlotFromSource(slot.id, sourceImage)
-
-    if (
-      !nextImage ||
-      templateId.value !== carryingTemplateId ||
-      taskId !== templateImageSyncTaskId
-    ) {
-      return false
-    }
-
-    templateImages[slot.id] = nextImage
-    changed = true
-  }
-
-  if (changed) {
-    saveCurrentTemplateRuntimeImages(carryingTemplateId)
-  }
-
-  return changed
-}
-
-async function syncTemplateImagesForTemplate(nextTemplateId: string, previousTemplateId?: string) {
-  const taskId = ++templateImageSyncTaskId
-  const previousImages = cloneTemplateImages(templateImages)
-
-  if (previousTemplateId) {
-    saveCurrentTemplateRuntimeImages(previousTemplateId)
-  }
-
-  applyTemplateRuntimeImages(nextTemplateId)
-  activeImageSlotId.value = canvasUploadLayers.value[0]?.id || ''
-  const restored = await restoreCurrentTemplateImages(nextTemplateId, taskId)
-
-  if (taskId !== templateImageSyncTaskId || templateId.value !== nextTemplateId) {
-    return
-  }
-
-  const carried = previousTemplateId
-    ? await carryTemplateImagesIntoCurrentTemplate(previousImages, nextTemplateId, taskId)
-    : false
-
-  if (taskId !== templateImageSyncTaskId || templateId.value !== nextTemplateId) {
-    return
-  }
-
-  saveCurrentTemplateRuntimeImages(nextTemplateId)
-
-  if (restored || carried || previousTemplateId) {
-    imageStateVersion.value += 1
-  }
-}
-
-function clearTemplateImages() {
-  Object.keys(templateImages).forEach((slotId) => {
-    delete templateImages[slotId]
-  })
-}
-
-function handleCanvasDrag(event: DragEvent) {
-  if (!hasDraggedImage(event)) {
-    return
-  }
-
-  event.dataTransfer!.dropEffect = 'copy'
-  activeDropSlotId.value =
-    getImageSlotIdFromPoint(event.clientX, event.clientY) || canvasUploadLayers.value[0]?.id || ''
-}
-
-function handleCanvasDragLeave(event: DragEvent) {
-  const shell = canvasShellEl.value
-  const relatedTarget = event.relatedTarget as Node | null
-
-  if (!shell || !relatedTarget || !shell.contains(relatedTarget)) {
-    activeDropSlotId.value = ''
-  }
-}
-
-function handleCanvasDrop(event: DragEvent) {
-  if (!hasDraggedImage(event)) {
-    return
-  }
-
-  const slotId = getImageSlotIdFromPoint(event.clientX, event.clientY) || activeDropSlotId.value
-  activeDropSlotId.value = ''
-
-  if (getDraggedImageFiles(event).length) {
-    void queueImageFiles(getDraggedImageFiles(event), slotId)
-    return
-  }
-
-  void setTemplateImageFromUrl(slotId, getDroppedImageUrl(event))
-}
-
-function hasDraggedImage(event: DragEvent): boolean {
-  const dataTransfer = event.dataTransfer
-
-  if (!dataTransfer) {
-    return false
-  }
-
-  if (getDraggedImageFiles(event).length) {
-    return true
-  }
-
-  const types = Array.from(dataTransfer.types || []).map((type) => String(type).toLowerCase())
-
-  if (types.some((type) => type.startsWith('image/') || type === 'text/uri-list')) {
-    return true
-  }
-
-  return Boolean(normalizeDraggedImageUrl(getDraggedData(dataTransfer, 'text/plain')))
-}
-
-function getDraggedImageFiles(event: DragEvent): File[] {
-  return Array.from(event.dataTransfer?.files || []).filter((file) =>
-    file.type.startsWith('image/')
-  )
-}
-
-function getImageSlotIdFromPoint(clientX: number, clientY: number): string {
-  const shell = canvasShellEl.value
-
-  if (!shell) {
-    return activeImageSlotId.value
-  }
-
-  const shellRect = shell.getBoundingClientRect()
-  const canvas = templateRenderData.value.canvas
-  const x = ((clientX - shellRect.left) / shellRect.width) * canvas.width
-  const y = ((clientY - shellRect.top) / shellRect.height) * canvas.height
-  const slots = canvasUploadLayers.value
-  let nearestSlotId = activeImageSlotId.value || slots[0]?.id || ''
-  let nearestDistance = Number.POSITIVE_INFINITY
-
-  for (let index = slots.length - 1; index >= 0; index -= 1) {
-    const slot = slots[index]
-    const rect = slot.dropRegion || slot.uploadRegion || slot.region
-
-    if (x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height) {
-      return slot.id
-    }
-
-    const dx = x < rect.x ? rect.x - x : x > rect.x + rect.width ? x - (rect.x + rect.width) : 0
-    const dy = y < rect.y ? rect.y - y : y > rect.y + rect.height ? y - (rect.y + rect.height) : 0
-    const distance = dx * dx + dy * dy
-
-    if (distance < nearestDistance) {
-      nearestDistance = distance
-      nearestSlotId = slot.id
-    }
-  }
-
-  return nearestSlotId
-}
-
-function getSearchQuery(slot: string): string {
-  return searchQueries[slot] || ''
-}
-
-function getSearchResults(slot: string): GlamourCandidate[] {
-  return searchResults[slot] || []
-}
-
-function shouldShowSearchPanel(slot: string): boolean {
-  return Boolean(getSearchQuery(slot).trim() && searchTouched[slot])
-}
-
-function shouldShowSearchEmpty(slot: string): boolean {
-  return Boolean(
-    getSearchQuery(slot).trim() &&
-    searchTouched[slot] &&
-    !searchBusy[slot] &&
-    getSearchResults(slot).length === 0
-  )
-}
-
-function getSearchCandidateName(candidate: GlamourCandidate): string {
-  return getCandidateName(candidate, editorLocale.value, props.draft.source.locale)
-}
-
-function buildSearchIconUrl(candidate: GlamourCandidate): string {
-  return buildGlamourIconUrl(props.apiBase, candidate.icon)
-}
-
-function getSearchResultKey(candidate: GlamourCandidate): string {
-  return String(candidate.key ?? candidate.name ?? JSON.stringify(candidate.names ?? {}))
-}
-
-function clearSearch(slot: string) {
-  const timer = searchTimers.get(slot)
-
-  if (timer) {
-    window.clearTimeout(timer)
-    searchTimers.delete(slot)
-  }
-
-  searchQueries[slot] = ''
-  searchResults[slot] = []
-  searchTouched[slot] = false
-  searchBusy[slot] = false
-}
-
-function getDyePickerKey(slot: string, index: number): string {
-  return `${slot}:${index}`
-}
-
-function getDyeSearchQuery(slot: string, index: number): string {
-  return dyeSearchQueries[getDyePickerKey(slot, index)] || ''
-}
-
-function updateDyeSearch(slot: string, index: number, event: Event) {
-  dyeSearchQueries[getDyePickerKey(slot, index)] = (event.currentTarget as HTMLInputElement).value
-}
-
-function isDyePickerActive(row: TemplateEditorRow, index: number): boolean {
-  return activeDyePicker.value?.slot === row.slot && activeDyePicker.value.index === index
-}
-
-async function ensureStainsForCurrentLocale() {
-  const locale = editorLocale.value
-
-  if (stainLists[locale] || stainLoading[locale]) {
-    return
-  }
-
-  stainLoading[locale] = true
-  stainFailed[locale] = false
-
-  try {
-    stainLists[locale] = await props.loadStains(locale)
-  } catch {
-    stainLists[locale] = []
-    stainFailed[locale] = true
-  } finally {
-    stainLoading[locale] = false
-  }
-}
-
-function toggleDyePicker(row: TemplateEditorRow, index: number) {
-  if (isDyePickerActive(row, index)) {
-    activeDyePicker.value = null
-    return
-  }
-
-  activeDyePicker.value = { slot: row.slot, index }
-  void ensureStainsForCurrentLocale()
-}
-
-function getDyeGroups(slot: string, index: number): GlamourStainGroup[] {
-  const query = getDyeSearchQuery(slot, index)
-  const stains = stainLists[editorLocale.value] || []
-  return groupGlamourStains(stains.filter((stain) => stainMatchesQuery(stain, query)))
-}
-
-function shouldShowDyeEmpty(slot: string, index: number): boolean {
-  return Boolean(
-    activeDyePicker.value &&
-    !isDyeLoading() &&
-    !isDyeFailed() &&
-    getDyeGroups(slot, index).length === 0
-  )
-}
-
-function isDyeLoading(): boolean {
-  return Boolean(stainLoading[editorLocale.value])
-}
-
-function isDyeFailed(): boolean {
-  return Boolean(stainFailed[editorLocale.value])
-}
-
-function getDyeEntryLabel(dye: GlamourDyeEntry): string {
-  return getDyeEntryName(dye, props.draft.noDyeLabels, editorLocale.value)
-}
-
-function getDyeColor(dye: GlamourDyeEntry): string {
-  return isNoDye(dye) ? 'transparent' : dye.hex || '#000000'
-}
-
-function isNoDye(dye: GlamourDyeEntry): boolean {
-  return isNoDyeEntry(dye)
-}
-
-function getStainName(stain: GlamourStain): string {
-  return resolveLocalized(stain.names, editorLocale.value, props.draft.source.locale) || stain.name
-}
-
-function formatMessage(template: string, values: Record<string, string | number>): string {
-  return Object.entries(values).reduce(
-    (message, [key, value]) => message.replace(new RegExp(`\\{${key}\\}`, 'g'), String(value)),
-    template
-  )
-}
-
-function getDyeTitle(index: number, count: number): string {
-  if (count > 1) {
-    return formatMessage(t(textKeys.nsglamourEquipmentDyeSlotNumber), { number: index + 1 })
-  }
-
-  return t(textKeys.nsglamourEquipmentDyeSlot)
-}
-
-function selectDye(row: TemplateEditorRow, dyeIndex: number, stain: GlamourStain) {
-  emit('set-entry-dye', row.slot, dyeIndex, stain)
-  activeDyePicker.value = null
-}
-
-function updateSearch(row: TemplateEditorRow, event: Event) {
-  const slot = row.slot
-  const query = (event.currentTarget as HTMLInputElement).value
-  const timer = searchTimers.get(slot)
-
-  if (timer) {
-    window.clearTimeout(timer)
-  }
-
-  searchQueries[slot] = query
-  searchResults[slot] = []
-  searchTouched[slot] = false
-
-  if (!query.trim()) {
-    searchBusy[slot] = false
-    searchTimers.delete(slot)
-    return
-  }
-
-  searchTimers.set(
-    slot,
-    window.setTimeout(() => {
-      void runSearch(slot, query)
-    }, 180)
-  )
-}
-
-async function runSearch(slot: string, query: string) {
-  searchBusy[slot] = true
-
-  try {
-    const results = await props.searchItems({
-      slot,
-      query: query.trim(),
-      locale: editorLocale.value,
-      limit: 20
-    })
-
-    if (searchQueries[slot] === query) {
-      searchResults[slot] = results
-      searchTouched[slot] = true
-    }
-  } catch {
-    if (searchQueries[slot] === query) {
-      searchResults[slot] = []
-      searchTouched[slot] = false
-    }
-  } finally {
-    if (searchQueries[slot] === query) {
-      searchBusy[slot] = false
-    }
-  }
-}
-
-function selectSearchResult(row: TemplateEditorRow, candidate: GlamourCandidate) {
-  emit('replace-entry', row.slot, candidate)
-  clearSearch(row.slot)
-  activeDyePicker.value = null
-}
-
-function clearEditorEntry(row: TemplateEditorRow) {
-  emit('clear-entry', row.slot)
-  clearSearch(row.slot)
-  activeDyePicker.value = null
 }
 
 function isLanguageOptionActive(locales: GlamourLocale[]): boolean {
@@ -2068,7 +887,6 @@ function closeFloatingTemplatePanels() {
   closeImageUploadMenu()
   closeRecent()
   closeAuthorLinks()
-  activeDyePicker.value = null
 }
 
 function restoreRecent(item: GlamourRecentSnapshot) {
@@ -2090,8 +908,6 @@ function handleDocumentClick(event: MouseEvent) {
   if (authorLinksRootEl.value && !authorLinksRootEl.value.contains(target)) {
     closeAuthorLinks()
   }
-
-  activeDyePicker.value = null
 }
 
 function handleDocumentKeydown(event: KeyboardEvent) {
@@ -2122,56 +938,6 @@ function handleDocumentKeydown(event: KeyboardEvent) {
   if (importDialogOpen.value) {
     closeImportDialog()
   }
-}
-
-function isEventInsideTemplateCanvasShell(event: DragEvent): boolean {
-  const shell = canvasShellEl.value
-  const target = event.target as Node | null
-
-  return Boolean(shell && target && shell.contains(target))
-}
-
-function handleTemplateDocumentDragEvent(event: DragEvent) {
-  const insideShell = isEventInsideTemplateCanvasShell(event)
-  const isDragEvent = ['dragenter', 'dragover', 'dragleave', 'drop'].includes(event.type)
-
-  if (!hasDraggedImage(event) && !(insideShell && isDragEvent)) {
-    return
-  }
-
-  event.preventDefault()
-  event.stopPropagation()
-
-  if (event.dataTransfer) {
-    event.dataTransfer.dropEffect = 'copy'
-  }
-
-  if (insideShell && (event.type === 'dragenter' || event.type === 'dragover')) {
-    handleCanvasDrag(event)
-    return
-  }
-
-  if (event.type === 'drop') {
-    if (insideShell) {
-      handleCanvasDrop(event)
-    } else {
-      activeDropSlotId.value = ''
-    }
-    return
-  }
-
-  if (event.type === 'dragleave') {
-    if (!insideShell) {
-      activeDropSlotId.value = ''
-      return
-    }
-
-    handleCanvasDragLeave(event)
-  }
-}
-
-function getTemplateDocumentDragTargets(): EventTarget[] {
-  return [window, document, document.documentElement].filter(Boolean)
 }
 
 function updatePreviewSize() {
@@ -2224,31 +990,16 @@ function observePreviewSize() {
 onMounted(() => {
   document.addEventListener('click', handleDocumentClick)
   document.addEventListener('keydown', handleDocumentKeydown)
-  getTemplateDocumentDragTargets().forEach((target) => {
-    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
-      target.addEventListener(eventName, handleTemplateDocumentDragEvent as EventListener, {
-        capture: true
-      })
-    })
-  })
   document.addEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)
   window.addEventListener('pageshow', redrawTemplateCanvasAfterPageResume)
   window.addEventListener('focus', redrawTemplateCanvasAfterPageResume)
   window.addEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)
   observePreviewSize()
-  void refreshRecentTemplateImages()
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleDocumentClick)
   document.removeEventListener('keydown', handleDocumentKeydown)
-  getTemplateDocumentDragTargets().forEach((target) => {
-    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach((eventName) => {
-      target.removeEventListener(eventName, handleTemplateDocumentDragEvent as EventListener, {
-        capture: true
-      })
-    })
-  })
   document.removeEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)
   window.removeEventListener('pageshow', redrawTemplateCanvasAfterPageResume)
   window.removeEventListener('focus', redrawTemplateCanvasAfterPageResume)
@@ -2258,7 +1009,6 @@ onBeforeUnmount(() => {
     canvasResumeRenderFrame = 0
   }
   previewResizeObserver?.disconnect()
-  clearTemplateImages()
 })
 </script>
 
@@ -2595,18 +1345,6 @@ onBeforeUnmount(() => {
   min-width: 30px;
   height: 30px;
   min-height: 30px;
-  padding: 0;
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: var(--ns-pixel-surface);
-  box-shadow: var(--ns-pixel-soft-shadow);
-}
-
-.nsglamour-template__recent-button:hover,
-.nsglamour-template__recent-button:focus-visible {
-  border-color: var(--ns-pixel-border);
-  background: var(--ns-pixel-hover-surface);
-  color: var(--ns-color-accent-strong);
-  outline: none;
 }
 
 .nsglamour-template__recent-button img {
@@ -2738,310 +1476,6 @@ onBeforeUnmount(() => {
 .nsglamour-template__language-controls button:active {
   box-shadow: var(--ns-pixel-soft-shadow);
   transform: translate(2px, 2px);
-}
-
-.nsglamour-template__editor {
-  display: grid;
-  min-width: 0;
-  border-top: 1px solid var(--ns-color-border);
-}
-
-.nsglamour-template__row {
-  position: relative;
-  display: grid;
-  min-width: 0;
-  min-height: 76px;
-  padding: 24px 0 10px;
-  border-bottom: 1px solid var(--ns-color-border);
-}
-
-.nsglamour-template__row h3 {
-  position: absolute;
-  top: 7px;
-  left: 0;
-  min-width: 0;
-  margin: 0;
-  color: var(--ns-color-text-muted);
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.nsglamour-template__item {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 5px;
-  min-width: 0;
-}
-
-.nsglamour-template__item--search {
-  display: block;
-}
-
-.nsglamour-template__item-icon {
-  display: block;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface-solid);
-  object-fit: cover;
-}
-
-.nsglamour-template__item-body {
-  display: grid;
-  gap: 5px;
-  min-width: 0;
-}
-
-.nsglamour-template__item-body strong,
-.nsglamour-template__item-body small {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nsglamour-template__item-body strong {
-  font-size: 14px;
-  line-height: 1.35;
-}
-
-.nsglamour-template__item-body small {
-  color: var(--ns-color-text-muted);
-  font-size: 11px;
-}
-
-.nsglamour-template__dye-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-width: 0;
-}
-
-.nsglamour-template__dye-select {
-  position: relative;
-  min-width: 0;
-}
-
-.nsglamour-template__dye-chip {
-  display: inline-grid;
-  grid-template-columns: 12px minmax(0, 1fr);
-  align-items: center;
-  gap: 5px;
-  max-width: 132px;
-  min-height: 24px;
-  padding: 2px 7px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
-  background: transparent;
-  color: var(--ns-color-text-muted);
-  font: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.nsglamour-template__dye-chip::before {
-  content: '';
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--ns-color-border);
-  background:
-    linear-gradient(45deg, #ddd 25%, transparent 25% 75%, #ddd 75%) 0 0 / 6px 6px,
-    var(--nsglamour-dye-color, transparent);
-}
-
-.nsglamour-template__dye-chip:not(.empty-dye)::before {
-  background: var(--nsglamour-dye-color, #000);
-}
-
-.nsglamour-template__dye-chip.empty-dye::before {
-  border: 0;
-  background: url('/data/glamour/templates/com_icon_clear.svg') center / 10px 10px no-repeat;
-}
-
-.nsglamour-template__dye-chip:hover,
-.nsglamour-template__dye-chip:focus {
-  border-color: var(--ns-color-accent);
-  color: var(--ns-color-accent);
-  outline: none;
-}
-
-.nsglamour-template__dye-panel {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  z-index: 10;
-  display: grid;
-  gap: 6px;
-  width: min(280px, 82vw);
-  padding: 8px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface-solid);
-  box-shadow: 0 10px 22px rgba(20, 28, 45, 0.12);
-}
-
-.nsglamour-template__dye-search {
-  box-sizing: border-box;
-  width: 100%;
-  min-height: 30px;
-  padding: 4px 8px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font: inherit;
-  font-size: 12px;
-}
-
-.nsglamour-template__dye-results {
-  display: grid;
-  max-height: 230px;
-  overflow-y: auto;
-}
-
-.nsglamour-template__dye-group {
-  display: grid;
-}
-
-.nsglamour-template__dye-group-title,
-.nsglamour-template__dye-empty {
-  padding: 6px 4px;
-  color: var(--ns-color-text-muted);
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.nsglamour-template__dye-option {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: 7px;
-  min-height: 28px;
-  padding: 4px 6px;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  font-size: 12px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.nsglamour-template__dye-option:hover,
-.nsglamour-template__dye-option:focus {
-  background: var(--ns-color-surface);
-  outline: none;
-}
-
-.nsglamour-template__dye-swatch {
-  width: 14px;
-  height: 14px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--nsglamour-dye-color, #000);
-}
-
-.nsglamour-template__dye-option span:last-child {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nsglamour-template__delete {
-  display: inline-grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
-  background: transparent;
-  color: var(--ns-color-text-muted);
-  font: inherit;
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.nsglamour-template__delete:hover,
-.nsglamour-template__delete:focus {
-  border-color: var(--ns-color-danger, #c2410c);
-  color: var(--ns-color-danger, #c2410c);
-  outline: none;
-}
-
-.nsglamour-template__search {
-  position: relative;
-  min-width: 0;
-}
-
-.nsglamour-template__search .nsglamour-template__input {
-  width: 100%;
-}
-
-.nsglamour-template__search-results {
-  position: absolute;
-  top: calc(100% + 4px);
-  right: 0;
-  left: 0;
-  z-index: 8;
-  display: grid;
-  max-height: 220px;
-  overflow-y: auto;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface-solid);
-  box-shadow: 0 10px 22px rgba(20, 28, 45, 0.12);
-}
-
-.nsglamour-template__search-result {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-  min-height: 34px;
-  padding: 5px 8px;
-  border: 0;
-  border-bottom: 1px solid var(--ns-color-border);
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  font-size: 12px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.nsglamour-template__search-result:last-child {
-  border-bottom: 0;
-}
-
-.nsglamour-template__search-result:hover,
-.nsglamour-template__search-result:focus {
-  background: var(--ns-color-surface);
-  outline: none;
-}
-
-.nsglamour-template__search-result img {
-  display: block;
-  width: 24px;
-  height: 24px;
-  object-fit: cover;
-}
-
-.nsglamour-template__search-result span {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.nsglamour-template__search-empty {
-  padding: 9px 10px;
-  color: var(--ns-color-text-muted);
-  font-size: 12px;
 }
 
 @media (max-width: 1080px) {

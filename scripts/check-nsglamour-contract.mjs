@@ -11,6 +11,7 @@ const TEMPLATE_SOURCE_FILES = [
   'src/lib/glamour/templates/definitions.ts',
   'src/lib/glamour/templates/renderProfiles.ts',
   'src/lib/glamour/templates/imageSlots.ts',
+  'src/lib/glamour/templates/imageProcessing.ts',
   'src/lib/glamour/templates/settings.ts',
   'src/lib/glamour/templates/rows.ts',
   'src/lib/glamour/templates/renderData.ts',
@@ -26,7 +27,11 @@ const TEMPLATE_SOURCE_FILES = [
   'src/pages/glamour/components/NSGlamourImportPanel.vue',
   'src/pages/glamour/components/NSGlamourWorkspace.vue',
   'src/pages/glamour/components/NSGlamourTemplateWorkspace.vue',
+  'src/pages/glamour/components/NSGlamourTemplateEquipmentEditor.vue',
   'src/pages/glamour/composables/useGlamourTemplateCanvas.ts',
+  'src/pages/glamour/composables/useGlamourTemplateEquipmentEditor.ts',
+  'src/pages/glamour/composables/useGlamourTemplateImageInteraction.ts',
+  'src/pages/glamour/composables/useGlamourTemplateImageStore.ts',
   'src/pages/glamour/components/NSGlamourTemplateCropDialog.vue',
   'src/pages/glamour/components/NSGlamourTemplateSelectorDialog.vue',
   'src/pages/glamour/components/NSGlamourTemplateImportDialog.vue',
@@ -300,6 +305,7 @@ async function checkLocalTemplateDataLayer() {
     definitions,
     renderProfiles,
     imageSlots,
+    imageProcessing,
     settings,
     rows,
     renderData,
@@ -315,7 +321,11 @@ async function checkLocalTemplateDataLayer() {
     importPanel,
     glamourWorkspace,
     templateWorkspace,
+    templateEquipmentEditor,
     templateCanvas,
+    templateEquipmentComposable,
+    templateImageInteraction,
+    templateImageStore,
     templateCropDialog,
     templateSelectorDialog,
     templateImportDialog,
@@ -333,6 +343,15 @@ async function checkLocalTemplateDataLayer() {
       (filePath) => readFile(filePath, 'utf8')
     )
   )
+
+  const templateEditorSource = [templateWorkspace, templateEquipmentEditor, templateEquipmentComposable].join('\n')
+  const templateImageSource = [
+    templateWorkspace,
+    templateImageInteraction,
+    templateImageStore,
+    imageProcessing,
+    imageSlots
+  ].join('\n')
 
   const legacyOrder = extractQuotedArray(legacyDefinitions, 'TEMPLATE_SELECT_ORDER')
   const v2Order = extractQuotedArray(definitions, 'GLAMOUR_TEMPLATE_SELECT_ORDER')
@@ -378,8 +397,8 @@ async function checkLocalTemplateDataLayer() {
   assert(
     /nsglamour-slot__dye-chip[\s\S]*?radial-gradient\(circle at 11px center, var\(--nsglamour-dye-color, #000000\) 0 5px, transparent 6px\)/.test(equipmentPanel) &&
       /nsglamour-slot__dye-chip\.empty-dye[\s\S]*?com_icon_clear\.svg'\) 6px center \/ 10px 10px no-repeat/.test(equipmentPanel) &&
-      /nsglamour-template__dye-chip::before[\s\S]*?width:\s*10px[\s\S]*?height:\s*10px/.test(templateWorkspace) &&
-      /nsglamour-template__dye-chip\.empty-dye::before[\s\S]*?com_icon_clear\.svg'\) center \/ 10px 10px no-repeat/.test(templateWorkspace),
+      /nsglamour-template__dye-chip::before[\s\S]*?width:\s*10px[\s\S]*?height:\s*10px/.test(templateEditorSource) &&
+      /nsglamour-template__dye-chip\.empty-dye::before[\s\S]*?com_icon_clear\.svg'\) center \/ 10px 10px no-repeat/.test(templateEditorSource),
     'NSGlamour clear dye icon must occupy the same 10px box as normal dye swatches in equipinfo and template editors'
   )
 
@@ -545,7 +564,8 @@ async function checkLocalTemplateDataLayer() {
       templateCanvas.includes("options.renderData.value.requiredAssets.join('|')") &&
       templateCanvas.includes('assets: renderAssets.value') &&
       !templateCanvas.includes('renderGlamourTemplateCanvasFallback') &&
-      templateWorkspace.includes('drawGlamourTemplateImageCover') &&
+      imageProcessing.includes('drawGlamourTemplateImageCover') &&
+      !templateWorkspace.includes('function drawGlamourTemplateImageCover') &&
       templateCanvas.includes('iconImages') &&
       templateCanvas.includes('preloadIcons') &&
       templateCanvas.includes('shouldPreloadIcons') &&
@@ -639,47 +659,47 @@ async function checkLocalTemplateDataLayer() {
     'template selector must not show extra V2-only hint text that is absent from legacy /template'
   )
   assert(
-    !/<div class="nsglamour-template__item-body">[\s\S]*?\{\{\s*row\.dyeText\s*\}\}/.test(templateWorkspace) &&
-      !templateWorkspace.includes('dyeText: templateRow?.dyeText') &&
-      !templateWorkspace.includes('hasDyeLine: templateRow?.hasDyeLine'),
+    !/<div class="nsglamour-template__item-body">[\s\S]*?\{\{\s*row\.dyeText\s*\}\}/.test(templateEditorSource) &&
+      !templateEditorSource.includes('dyeText: templateRow?.dyeText') &&
+      !templateEditorSource.includes('hasDyeLine: templateRow?.hasDyeLine'),
     'template editor must not expose renderer-only dye summary lines'
   )
   assert(
-    templateWorkspace.includes('ref="templateCanvasEl"') &&
-      templateWorkspace.includes('nsglamour-template__canvas-upload-layer') &&
-      templateWorkspace.includes('downloadTemplateCanvas') &&
-      templateWorkspace.includes('queueImageFiles') &&
-      templateWorkspace.includes('openImageUploadMenu') &&
-      templateWorkspace.includes('nsglamour-template__image-menu') &&
-      templateWorkspace.includes('nsglamourTemplateRecentImages') &&
-      templateWorkspace.includes('recentTemplateImages') &&
-      templateWorkspace.includes('storeRecentTemplateImage') &&
-      templateWorkspace.includes('createRecentTemplateImageThumbnail') &&
-      templateWorkspace.includes('saveGlamourTemplateRecentImage') &&
-      templateWorkspace.includes('loadGlamourTemplateRecentImages') &&
-      templateWorkspace.includes('clearStoredGlamourTemplateRecentImages') &&
-      templateWorkspace.includes('useRecentTemplateImage') &&
-      templateWorkspace.includes('record.thumbnailUrl') &&
-      templateWorkspace.includes('record.imageName') &&
+    templateImageSource.includes('ref="templateCanvasEl"') &&
+      templateImageSource.includes('nsglamour-template__canvas-upload-layer') &&
+      templateImageSource.includes('downloadTemplateCanvas') &&
+      templateImageSource.includes('queueImageFiles') &&
+      templateImageSource.includes('openImageUploadMenu') &&
+      templateImageSource.includes('nsglamour-template__image-menu') &&
+      templateImageSource.includes('nsglamourTemplateRecentImages') &&
+      templateImageSource.includes('recentTemplateImages') &&
+      templateImageSource.includes('storeRecentTemplateImage') &&
+      templateImageSource.includes('createGlamourTemplateImageCoverDataUrl') &&
+      templateImageSource.includes('saveGlamourTemplateRecentImage') &&
+      templateImageSource.includes('loadGlamourTemplateRecentImages') &&
+      templateImageSource.includes('clearStoredGlamourTemplateRecentImages') &&
+      templateImageSource.includes('useRecentTemplateImage') &&
+      templateImageSource.includes('record.thumbnailUrl') &&
+      templateImageSource.includes('record.imageName') &&
       templateCanvas.includes('renderGlamourTemplateCanvas') &&
-      templateWorkspace.includes('restoreCurrentTemplateImages') &&
-      templateWorkspace.includes('templateImagesById') &&
-      templateWorkspace.includes('saveCurrentTemplateRuntimeImages') &&
-      templateWorkspace.includes('applyTemplateRuntimeImages') &&
-      templateWorkspace.includes('carryTemplateImagesIntoCurrentTemplate') &&
-      templateWorkspace.includes('makeTemplateImageForSlotFromSource') &&
-      templateWorkspace.includes('const sourceUrl = sourceImage.sourceUrl || sourceImage.imageUrl') &&
-      templateWorkspace.includes('drawGlamourTemplateImageCover(ctx, source, 0, 0, output.width, output.height)') &&
-      /makeTemplateImageForSlotFromSource[\s\S]*?backupOnly:\s*false/.test(templateWorkspace) &&
-      templateWorkspace.includes('loadGlamourTemplateImageStoreRecords') &&
-      templateWorkspace.includes('saveGlamourTemplateImageStoreSlot') &&
-      templateWorkspace.includes('restoreCurrentTemplateImagesFromStore') &&
-      templateWorkspace.includes('normalizeDraggedImageUrl') &&
-      templateWorkspace.includes('getDroppedImageUrl') &&
-      templateWorkspace.includes('setTemplateImageFromUrl') &&
+      templateImageSource.includes('restoreCurrentTemplateImages') &&
+      templateImageSource.includes('templateImagesById') &&
+      templateImageSource.includes('saveCurrentTemplateRuntimeImages') &&
+      templateImageSource.includes('applyTemplateRuntimeImages') &&
+      templateImageSource.includes('carryTemplateImagesIntoCurrentTemplate') &&
+      templateImageSource.includes('makeTemplateImageForSlotFromSource') &&
+      templateImageSource.includes('const sourceUrl = sourceImage.sourceUrl || sourceImage.imageUrl') &&
+      templateImageSource.includes('createGlamourTemplateImageCoverDataUrl(source, rect.width, rect.height)') &&
+      /makeTemplateImageForSlotFromSource[\s\S]*?backupOnly:\s*false/.test(templateImageSource) &&
+      templateImageSource.includes('loadGlamourTemplateImageStoreRecords') &&
+      templateImageSource.includes('saveGlamourTemplateImageStoreSlot') &&
+      templateImageSource.includes('restoreCurrentTemplateImagesFromStore') &&
+      templateImageSource.includes('normalizeGlamourDraggedImageUrl') &&
+      templateImageSource.includes('getGlamourDroppedImageUrl') &&
+      templateImageSource.includes('setTemplateImageFromUrl') &&
       templateCropDialog.includes('nsglamour-template-crop') &&
-      templateWorkspace.includes('openImageCropper') &&
-      templateWorkspace.includes('applyImageCrop') &&
+      templateImageSource.includes('openImageCropper') &&
+      templateImageSource.includes('applyImageCrop') &&
       templateCropDialog.includes('resetCrop') &&
       templateCropDialog.includes("output.toDataURL('image/png')") &&
       templateCropDialog.includes('canvasDisplayStyle') &&
@@ -688,33 +708,33 @@ async function checkLocalTemplateDataLayer() {
       templateCropDialog.includes("window.addEventListener('resize', updateViewportSize)") &&
       templateCropDialog.includes('width: 100%;\n  height: 100%;') &&
       !templateCropDialog.includes('max-height: min(62vh, 620px);') &&
-      templateWorkspace.includes('writeGlamourTemplateImageSessionSlot') &&
-      templateWorkspace.includes('findGlamourTemplateImageSessionRecord') &&
-      templateWorkspace.includes('let nearestSlotId = activeImageSlotId.value') &&
-      templateWorkspace.includes('let nearestDistance = Number.POSITIVE_INFINITY') &&
-      templateWorkspace.includes('for (let index = slots.length - 1; index >= 0; index -= 1)') &&
-      templateWorkspace.includes('handleTemplateDocumentDragEvent') &&
-      templateWorkspace.includes('getTemplateDocumentDragTargets') &&
-      templateWorkspace.includes("['dragenter', 'dragover', 'dragleave', 'drop']") &&
-      templateWorkspace.includes('target.addEventListener(eventName') &&
-      templateWorkspace.includes('target.removeEventListener(eventName') &&
-      templateWorkspace.includes('capture: true') &&
-      templateWorkspace.includes('previewResizeObserver') &&
-      templateWorkspace.includes('updatePreviewSize') &&
-      templateWorkspace.includes('previewSize.height * aspectRatio') &&
-      templateWorkspace.includes('redrawTemplateCanvasAfterPageResume') &&
-      templateWorkspace.includes('canvasResumeRenderFrame') &&
-      templateWorkspace.includes("document.addEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)") &&
-      templateWorkspace.includes("window.addEventListener('pageshow', redrawTemplateCanvasAfterPageResume)") &&
-      templateWorkspace.includes("window.addEventListener('focus', redrawTemplateCanvasAfterPageResume)") &&
-      templateWorkspace.includes("document.removeEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)") &&
-      templateWorkspace.includes("window.removeEventListener('pageshow', redrawTemplateCanvasAfterPageResume)") &&
-      templateWorkspace.includes("window.removeEventListener('focus', redrawTemplateCanvasAfterPageResume)") &&
-      templateWorkspace.includes('closeFloatingTemplatePanels') &&
-      templateWorkspace.includes("window.addEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)") &&
-      templateWorkspace.includes("window.removeEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)") &&
-      !templateWorkspace.includes('width: min(100%, 760px)') &&
-      !templateWorkspace.includes('nsglamour-template__preview-row'),
+      templateImageSource.includes('writeGlamourTemplateImageSessionSlot') &&
+      templateImageSource.includes('findGlamourTemplateImageSessionRecord') &&
+      templateImageSource.includes('let nearestSlotId = activeImageSlotId.value') &&
+      templateImageSource.includes('let nearestDistance = Number.POSITIVE_INFINITY') &&
+      templateImageSource.includes('for (let index = slots.length - 1; index >= 0; index -= 1)') &&
+      templateImageSource.includes('handleTemplateDocumentDragEvent') &&
+      templateImageSource.includes('getTemplateDocumentDragTargets') &&
+      templateImageSource.includes("['dragenter', 'dragover', 'dragleave', 'drop']") &&
+      templateImageSource.includes('target.addEventListener(eventName') &&
+      templateImageSource.includes('target.removeEventListener(eventName') &&
+      templateImageSource.includes('capture: true') &&
+      templateImageSource.includes('previewResizeObserver') &&
+      templateImageSource.includes('updatePreviewSize') &&
+      templateImageSource.includes('previewSize.height * aspectRatio') &&
+      templateImageSource.includes('redrawTemplateCanvasAfterPageResume') &&
+      templateImageSource.includes('canvasResumeRenderFrame') &&
+      templateImageSource.includes("document.addEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)") &&
+      templateImageSource.includes("window.addEventListener('pageshow', redrawTemplateCanvasAfterPageResume)") &&
+      templateImageSource.includes("window.addEventListener('focus', redrawTemplateCanvasAfterPageResume)") &&
+      templateImageSource.includes("document.removeEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)") &&
+      templateImageSource.includes("window.removeEventListener('pageshow', redrawTemplateCanvasAfterPageResume)") &&
+      templateImageSource.includes("window.removeEventListener('focus', redrawTemplateCanvasAfterPageResume)") &&
+      templateImageSource.includes('closeFloatingTemplatePanels') &&
+      templateImageSource.includes("window.addEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)") &&
+      templateImageSource.includes("window.removeEventListener('nsglamour:header-popover-open', closeFloatingTemplatePanels)") &&
+      !templateImageSource.includes('width: min(100%, 760px)') &&
+      !templateImageSource.includes('nsglamour-template__preview-row'),
     'template workspace must use the legacy canvas/upload/crop surface, runtime image cache, carry-forward switching, IndexedDB image store, resume redraw, header popover cleanup, and same-tab image backup instead of the temporary DOM preview rows'
   )
   assert(
@@ -736,7 +756,8 @@ async function checkLocalTemplateDataLayer() {
       templateWorkspace.includes('activeLocale.value !== locale') &&
       templateWorkspace.includes('watch(\n  activeLocale') &&
       templateWorkspace.includes('const editorLocale = computed(() => activeLocale.value || props.draft.locale)') &&
-      templateWorkspace.includes('locale: editorLocale.value'),
+      templateWorkspace.includes(':editor-locale="editorLocale"') &&
+      templateEquipmentComposable.includes('locale: options.editorLocale.value'),
     'template workspace must keep legacy current-edit locale separate from template output locale order'
   )
   assert(
