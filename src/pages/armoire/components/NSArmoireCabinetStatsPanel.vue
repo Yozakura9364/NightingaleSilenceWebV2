@@ -22,61 +22,83 @@
         @toggle="toggleGroup('transferable')"
       >
         <template v-if="isGroupExpanded('transferable')">
-          <ul v-if="hasVisibleTransferableItems" class="nsarmoire-collection-panel__list">
-            <li
-              v-for="item in visibleTransferableItems"
-              :key="item.key"
-              :class="{ 'nsarmoire-collection-panel__item--valuable-dye': item.hasValuableDye }"
-              @contextmenu="openItemActionMenu(item, $event)"
-              @pointerdown="startItemActionLongPress(item, $event)"
-              @pointermove="moveItemActionLongPress"
-              @pointerup="cancelItemActionLongPress"
-              @pointercancel="cancelItemActionLongPress"
-              @pointerleave="cancelItemActionLongPress"
+          <div v-if="hasVisibleTransferableItems" class="nsarmoire-collection-panel__category-list">
+            <section
+              v-for="category in visibleTransferableGroups"
+              :key="category.key"
+              class="nsarmoire-collection-panel__category"
             >
-              <img
-                v-if="item.iconUrl"
-                :src="item.iconUrl"
-                :alt="item.name"
-                loading="lazy"
-                @error="hideBrokenImage"
-              />
-              <span
-                v-else
-                class="nsarmoire-collection-panel__icon-fallback"
-                aria-hidden="true"
-              ></span>
-              <span class="nsarmoire-collection-panel__body">
-                <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
-                <small v-if="item.locationLabel">{{ item.locationLabel }}</small>
-                <small
-                  v-if="item.dyeLine"
-                  class="nsarmoire-collection-panel__dyes"
+              <h3 v-if="category.label" class="nsarmoire-collection-panel__category-title">
+                {{ category.label }}
+              </h3>
+
+              <section
+                v-for="subCategory in category.subCategories"
+                :key="subCategory.key"
+                class="nsarmoire-collection-panel__sub-category"
+              >
+                <h4
+                  v-if="subCategory.label"
+                  class="nsarmoire-collection-panel__sub-category-title"
                 >
-                  <span>{{ t(textKeys.nsarmoireHintDyed) }}</span>
-                  <span class="nsarmoire-collection-panel__dye-slots">
+                  {{ subCategory.label }}
+                </h4>
+
+                <ul class="nsarmoire-collection-panel__list">
+                  <li
+                    v-for="item in subCategory.items"
+                    :key="item.key"
+                    :class="{ 'nsarmoire-collection-panel__item--valuable-dye': item.hasValuableDye }"
+                    @contextmenu="openItemActionMenu(item, $event)"
+                    @pointerdown="startItemActionLongPress(item, $event)"
+                    @pointermove="moveItemActionLongPress"
+                    @pointerup="cancelItemActionLongPress"
+                    @pointercancel="cancelItemActionLongPress"
+                    @pointerleave="cancelItemActionLongPress"
+                  >
+                    <img
+                      v-if="item.iconUrl"
+                      :src="item.iconUrl"
+                      :alt="item.name"
+                      loading="lazy"
+                      @error="hideBrokenImage"
+                    />
                     <span
-                      v-for="dyeSlot in item.dyeLine.slots"
-                      :key="dyeSlot.key"
-                      class="nsarmoire-collection-panel__dye-slot"
-                    >
-                      <span
-                        v-if="dyeSlot.color"
-                        class="nsarmoire-collection-panel__dye-swatch"
-                        :style="{ backgroundColor: dyeSlot.color }"
-                        aria-hidden="true"
-                      />
-                      <span>{{ dyeSlot.name }}</span>
+                      v-else
+                      class="nsarmoire-collection-panel__icon-fallback"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="nsarmoire-collection-panel__body">
+                      <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
+                      <small v-if="item.locationLabel">{{ item.locationLabel }}</small>
+                      <small v-if="item.dyeLine" class="nsarmoire-collection-panel__dyes">
+                        <span>{{ t(textKeys.nsarmoireHintDyed) }}</span>
+                        <span class="nsarmoire-collection-panel__dye-slots">
+                          <span
+                            v-for="dyeSlot in item.dyeLine.slots"
+                            :key="dyeSlot.key"
+                            class="nsarmoire-collection-panel__dye-slot"
+                          >
+                            <span
+                              v-if="dyeSlot.color"
+                              class="nsarmoire-collection-panel__dye-swatch"
+                              :style="{ backgroundColor: dyeSlot.color }"
+                              aria-hidden="true"
+                            />
+                            <span>{{ dyeSlot.name }}</span>
+                          </span>
+                        </span>
+                        <span v-if="item.dyeLine.suffix">{{ item.dyeLine.suffix }}</span>
+                      </small>
                     </span>
-                  </span>
-                  <span v-if="item.dyeLine.suffix">{{ item.dyeLine.suffix }}</span>
-                </small>
-              </span>
-              <span class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--action">
-                {{ t(textKeys.nsarmoireCollectionStatusTransferable) }}
-              </span>
-            </li>
-          </ul>
+                    <span class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--action">
+                      {{ t(textKeys.nsarmoireCollectionStatusTransferable) }}
+                    </span>
+                  </li>
+                </ul>
+              </section>
+            </section>
+          </div>
 
           <AppStatus v-else compact tone="info" :message="t(textKeys.nsarmoireCollectionNoItems)" />
 
@@ -94,52 +116,77 @@
         @toggle="toggleGroup('missing')"
       >
         <template v-if="isGroupExpanded('missing')">
-          <ul v-if="hasVisibleMissingItems" class="nsarmoire-collection-panel__list">
-            <li
-              v-for="item in visibleMissingItems"
-              :key="item.key"
-              @contextmenu="openItemActionMenu(item, $event)"
-              @pointerdown="startItemActionLongPress(item, $event)"
-              @pointermove="moveItemActionLongPress"
-              @pointerup="cancelItemActionLongPress"
-              @pointercancel="cancelItemActionLongPress"
-              @pointerleave="cancelItemActionLongPress"
+          <div v-if="hasVisibleMissingItems" class="nsarmoire-collection-panel__category-list">
+            <section
+              v-for="category in visibleMissingGroups"
+              :key="category.key"
+              class="nsarmoire-collection-panel__category"
             >
-              <img
-                v-if="item.iconUrl"
-                :src="item.iconUrl"
-                :alt="item.name"
-                loading="lazy"
-                @error="hideBrokenImage"
-              />
-              <span
-                v-else
-                class="nsarmoire-collection-panel__icon-fallback"
-                aria-hidden="true"
-              ></span>
-              <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
-              <span class="nsarmoire-collection-panel__badge-list">
-                <span
-                  v-if="item.isOwned"
-                  class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--owned"
+              <h3 v-if="category.label" class="nsarmoire-collection-panel__category-title">
+                {{ category.label }}
+              </h3>
+
+              <section
+                v-for="subCategory in category.subCategories"
+                :key="subCategory.key"
+                class="nsarmoire-collection-panel__sub-category"
+              >
+                <h4
+                  v-if="subCategory.label"
+                  class="nsarmoire-collection-panel__sub-category-title"
                 >
-                  {{ t(textKeys.nsarmoireCollectionStatusOwned) }}
-                </span>
-                <span
-                  v-if="item.isDyed"
-                  class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--warning"
-                >
-                  {{ t(textKeys.nsarmoireCollectionStatusDyed) }}
-                </span>
-                <span
-                  v-if="!item.isOwned"
-                  class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--muted"
-                >
-                  {{ t(textKeys.nsarmoireCollectionStatusUnowned) }}
-                </span>
-              </span>
-            </li>
-          </ul>
+                  {{ subCategory.label }}
+                </h4>
+
+                <ul class="nsarmoire-collection-panel__list">
+                  <li
+                    v-for="item in subCategory.items"
+                    :key="item.key"
+                    @contextmenu="openItemActionMenu(item, $event)"
+                    @pointerdown="startItemActionLongPress(item, $event)"
+                    @pointermove="moveItemActionLongPress"
+                    @pointerup="cancelItemActionLongPress"
+                    @pointercancel="cancelItemActionLongPress"
+                    @pointerleave="cancelItemActionLongPress"
+                  >
+                    <img
+                      v-if="item.iconUrl"
+                      :src="item.iconUrl"
+                      :alt="item.name"
+                      loading="lazy"
+                      @error="hideBrokenImage"
+                    />
+                    <span
+                      v-else
+                      class="nsarmoire-collection-panel__icon-fallback"
+                      aria-hidden="true"
+                    ></span>
+                    <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
+                    <span class="nsarmoire-collection-panel__badge-list">
+                      <span
+                        v-if="item.isOwned"
+                        class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--owned"
+                      >
+                        {{ t(textKeys.nsarmoireCollectionStatusOwned) }}
+                      </span>
+                      <span
+                        v-if="item.isDyed"
+                        class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--warning"
+                      >
+                        {{ t(textKeys.nsarmoireCollectionStatusDyed) }}
+                      </span>
+                      <span
+                        v-if="!item.isOwned"
+                        class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--muted"
+                      >
+                        {{ t(textKeys.nsarmoireCollectionStatusUnowned) }}
+                      </span>
+                    </span>
+                  </li>
+                </ul>
+              </section>
+            </section>
+          </div>
 
           <AppStatus v-else compact tone="info" :message="t(textKeys.nsarmoireCollectionNoItems)" />
 
@@ -164,8 +211,17 @@ import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
 import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { getEffectiveOwnedItemDyes } from '@/lib/armoire/buildOwnedIndex'
+import {
+  buildArmoireCabinetEntryByItemId,
+  buildArmoireCabinetItemGroups,
+  compareArmoireCabinetGroupOrder,
+  compareArmoireCabinetOrder,
+  getArmoireCabinetGroupableItem
+} from '@/lib/armoire/cabinetDomain'
+import type { ArmoireCabinetGroupableItem } from '@/lib/armoire/cabinetDomain'
 import type {
   ArmoireCatalog,
+  ArmoireCabinetEntry,
   ArmoireDyeRiskItem,
   ArmoireOwnedItem,
   ArmoireSnapshotAnalysis
@@ -183,9 +239,8 @@ import type { ArmoireDyeSlotView } from '@/pages/armoire/utils/itemDisplay'
 import { useArmoireItemActionMenu } from '@/pages/armoire/composables/useArmoireItemActionMenu'
 import { useLocale } from '@/stores/locale'
 
-interface CabinetItemView {
+interface CabinetItemView extends ArmoireCabinetGroupableItem {
   key: string
-  itemId: number
   name: string
   iconUrl: string
   isOwned: boolean
@@ -193,6 +248,7 @@ interface CabinetItemView {
   locationLabel: string
   dyeLine: CabinetItemDyeLine | null
   hasValuableDye: boolean
+  cabinetEntry: ArmoireCabinetEntry | null
 }
 
 interface CabinetItemDyeLine {
@@ -247,6 +303,8 @@ const visibleTransferableItems = computed(() =>
 const visibleMissingItems = computed(() => missingItems.value.slice(0, visibleMissingCount.value))
 const hasVisibleTransferableItems = computed(() => visibleTransferableItems.value.length !== 0)
 const hasVisibleMissingItems = computed(() => visibleMissingItems.value.length !== 0)
+const visibleTransferableGroups = computed(() => groupCabinetItems(visibleTransferableItems.value))
+const visibleMissingGroups = computed(() => groupCabinetItems(visibleMissingItems.value))
 
 const hasMoreTransferableItems = computed(
   () => visibleTransferableItems.value.length < transferableItems.value.length
@@ -274,6 +332,10 @@ const transferableLoadMoreLabel = computed(() =>
 const missingLoadMoreLabel = computed(() =>
   formatArmoireText(t, textKeys.nsarmoireLoadMoreList, { count: nextMissingCount.value })
 )
+
+const cabinetEntryByItemId = computed(() => {
+  return buildArmoireCabinetEntryByItemId(props.catalog.cabinetEntries ?? [])
+})
 
 watch(
   () => [props.analysis, props.catalog.generatedAt] as const,
@@ -314,24 +376,33 @@ function toItemViews(itemIds: number[]): CabinetItemView[] {
       const entries = progress?.transferableEntriesByItemId[itemId] ?? []
       const dyeRiskItems = dyeRiskItemsByItemId.get(itemId) ?? []
       const hasValuableDye = dyeRiskItems.some((item) => item.hasValuableDye)
+      const cabinetEntry = cabinetEntryByItemId.value.get(itemId) ?? null
+      const cabinetItem = getArmoireCabinetGroupableItem(itemId, cabinetEntry)
 
       return {
+        ...cabinetItem,
         key: `cabinet-${itemId}`,
-        itemId,
         name: getArmoireItemName(props.catalog, itemId, t),
         iconUrl: getArmoireItemIconUrl(props.catalog, itemId),
         isOwned: ownedItemIds.has(itemId),
         isDyed: dyedOwnedItemIds.has(itemId),
         locationLabel: getItemLocationLabel(entries),
         dyeLine: getItemDyeLine(itemId, entries, dyeRiskItems),
-        hasValuableDye
+        hasValuableDye,
+        cabinetEntry
       }
     })
     .sort(
       (left, right) =>
+        compareArmoireCabinetGroupOrder(left, right) ||
         Number(left.hasValuableDye) - Number(right.hasValuableDye) ||
+        compareArmoireCabinetOrder(left, right) ||
         left.name.localeCompare(right.name)
     )
+}
+
+function groupCabinetItems(items: readonly CabinetItemView[]) {
+  return buildArmoireCabinetItemGroups(items)
 }
 
 function getDyeRiskItemsByItemId(): Map<number, ArmoireDyeRiskItem[]> {
@@ -452,6 +523,41 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-collection-panel__groups {
   display: grid;
   gap: 10px;
+}
+
+.nsarmoire-collection-panel__category-list {
+  display: grid;
+  gap: 14px;
+}
+
+.nsarmoire-collection-panel__category {
+  display: grid;
+  gap: 10px;
+}
+
+.nsarmoire-collection-panel__category-title {
+  margin: 0;
+  padding: 0 0 7px;
+  border-bottom: 1px solid var(--ns-color-border);
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-sans);
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.nsarmoire-collection-panel__sub-category {
+  display: grid;
+  gap: 8px;
+}
+
+.nsarmoire-collection-panel__sub-category-title {
+  margin: 0;
+  color: var(--ns-color-text-muted);
+  font-family: var(--ns-font-sans);
+  font-size: 13px;
+  font-weight: 850;
+  line-height: 1.25;
 }
 
 .nsarmoire-collection-panel__list {

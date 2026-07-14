@@ -1,18 +1,18 @@
-import { hasCabinetCatalog } from '@/lib/armoire/catalog'
 import { getOwnedItems, isDyedOwnedItem } from '@/lib/armoire/buildOwnedIndex'
+import { buildArmoireCabinetEntryByItemId } from '@/lib/armoire/cabinetDomain'
+import type { ArmoireCabinetCatalogView } from '@/lib/armoire/cabinetDomain'
 import type {
   ArmoireCabinetProgress,
-  ArmoireCatalog,
   ArmoireOwnedIndex,
   ArmoireSnapshot
 } from '@/lib/armoire/types'
 
 export function analyzeCabinetProgress(
   snapshot: ArmoireSnapshot,
-  catalog: ArmoireCatalog,
+  cabinetCatalog: ArmoireCabinetCatalogView,
   index: ArmoireOwnedIndex
 ): ArmoireCabinetProgress {
-  if (!hasCabinetCatalog(catalog)) {
+  if (cabinetCatalog.cabinetItemIds.length === 0) {
     return {
       status: 'missingCatalog',
       storedCount: snapshot.items.filter((item) => item.container === 'armoire').length,
@@ -25,11 +25,9 @@ export function analyzeCabinetProgress(
     }
   }
 
-  const cabinetItemIds = Array.from(new Set(catalog.cabinetItemIds)).sort(
-    (left, right) => left - right
-  )
-  const cabinetEntries = catalog.cabinetEntries ?? []
-  const cabinetEntryByItemId = new Map(cabinetEntries.map((entry) => [entry.itemId, entry]))
+  const cabinetItemIds = cabinetCatalog.cabinetItemIds
+  const cabinetEntries = cabinetCatalog.cabinetEntries
+  const cabinetEntryByItemId = buildArmoireCabinetEntryByItemId(cabinetEntries)
   const storedCabinetIds = new Set(
     snapshot.items
       .filter((item) => item.container === 'armoire' && typeof item.cabinetId === 'number')
@@ -43,12 +41,13 @@ export function analyzeCabinetProgress(
   const transferableItemIds: number[] = []
   const transferableEntriesByItemId: Record<number, typeof snapshot.items> = {}
   const missingCabinetItemIds: number[] = []
+  const missingCabinetItemIdSet = new Set<number>()
 
   for (const entry of cabinetEntries) {
     if (storedCabinetIds.has(entry.cabinetId) || storedItemIds.has(entry.itemId)) {
       storedItemIds.add(entry.itemId)
     } else {
-      missingCabinetItemIds.push(entry.itemId)
+      missingCabinetItemIdSet.add(entry.itemId)
     }
   }
 
@@ -65,7 +64,7 @@ export function analyzeCabinetProgress(
       if (isStoredInArmoire) {
         storedItemIds.add(itemId)
       } else {
-        missingCabinetItemIds.push(itemId)
+        missingCabinetItemIdSet.add(itemId)
       }
     }
 
@@ -90,6 +89,8 @@ export function analyzeCabinetProgress(
     transferableItemIds.push(itemId)
     transferableEntriesByItemId[itemId] = ownedItems.filter((item) => item.container !== 'armoire')
   }
+
+  missingCabinetItemIds.push(...missingCabinetItemIdSet)
 
   return {
     status: 'ready',

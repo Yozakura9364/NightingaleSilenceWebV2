@@ -1,4 +1,5 @@
 import { EMPTY_ARMOIRE_CATALOG } from '@/lib/armoire/catalog'
+import { mergeArmoireCabinetEntries } from '@/lib/armoire/cabinetDomain'
 import {
   ARMOIRE_CABINET_CATALOG_SCHEMA_VERSION,
   type ArmoireCabinetCatalog,
@@ -20,6 +21,18 @@ function isPositiveInteger(value: unknown): value is number {
   return typeof value === 'number' && Number.isInteger(value) && value > 0
 }
 
+function isOptionalNonNegativeInteger(value: unknown): boolean {
+  return value === undefined || (typeof value === 'number' && Number.isInteger(value) && value >= 0)
+}
+
+function isOptionalPositiveInteger(value: unknown): boolean {
+  return value === undefined || isPositiveInteger(value)
+}
+
+function isOptionalString(value: unknown): boolean {
+  return value === undefined || typeof value === 'string'
+}
+
 function isCabinetDisplayItem(value: unknown): boolean {
   return (
     isRecord(value) &&
@@ -30,7 +43,21 @@ function isCabinetDisplayItem(value: unknown): boolean {
 }
 
 function isCabinetEntry(value: unknown): boolean {
-  return isRecord(value) && isPositiveInteger(value.cabinetId) && isPositiveInteger(value.itemId)
+  return (
+    isRecord(value) &&
+    isPositiveInteger(value.cabinetId) &&
+    isPositiveInteger(value.itemId) &&
+    isOptionalPositiveInteger(value.order) &&
+    isOptionalNonNegativeInteger(value.sortKey) &&
+    isOptionalPositiveInteger(value.categoryId) &&
+    isOptionalString(value.categoryName) &&
+    isOptionalNonNegativeInteger(value.categoryMenuOrder) &&
+    isOptionalNonNegativeInteger(value.categoryHideOrder) &&
+    isOptionalPositiveInteger(value.categoryIconId) &&
+    isOptionalNonNegativeInteger(value.subCategoryId) &&
+    isOptionalString(value.subCategoryName) &&
+    isOptionalNonNegativeInteger(value.subCategoryOrder)
+  )
 }
 
 function isPositiveIntegerArray(value: unknown): value is number[] {
@@ -71,7 +98,7 @@ export function createArmoireCatalogFromCabinetCatalog(
       ])
     ),
     cabinetItemIds: cabinetCatalog.cabinetItemIds,
-    cabinetEntries: cabinetCatalog.cabinetEntries,
+    cabinetEntries: mergeArmoireCabinetEntries(cabinetCatalog.cabinetEntries ?? []),
     glamourSetItems: [],
     identicalGroups: [],
     dyes: {}

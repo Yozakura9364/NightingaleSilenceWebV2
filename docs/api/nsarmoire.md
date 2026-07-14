@@ -89,6 +89,16 @@ interface ArmoireCatalog {
 interface ArmoireCabinetEntry {
   cabinetId: number
   itemId: number
+  order?: number
+  sortKey?: number
+  categoryId?: number
+  categoryName?: string
+  categoryMenuOrder?: number
+  categoryHideOrder?: number
+  categoryIconId?: number
+  subCategoryId?: number
+  subCategoryName?: string
+  subCategoryOrder?: number
 }
 
 interface ArmoireCatalogItem {
@@ -120,6 +130,10 @@ interface ArmoireDye {
 ```
 
 页面优先加载站点静态 catalog；静态 catalog 加载失败时，会尝试从本地 helper `/catalog` 读取同结构 catalog。两者都失败时，使用空 catalog 表示“正式静态数据未接入”。依赖 `Cabinet.csv`、`MirageStoreSetItem.csv` 和同模型分组的分析会明确显示等待 catalog，不输出伪结果。
+
+收藏柜条目使用游戏原始分组：`Cabinet.csv.Category` 对应 `CabinetCategory.csv` 的 RowId，再通过 `CabinetCategory.csv.Category` 指向 `Addon.csv` 文本作为一级分类名；`Cabinet.csv.SortKey` 对应 `CabinetSubCategory.csv` 的 RowId，作为二级分类名；`Cabinet.csv.Order` 保留为组内排序。前端收藏柜统计按这些字段还原游戏里的“职业专用装备 / 季节活动装备”等大类和“骑士装备 / 妖怪手表”等子类，不用网页侧硬编码分类表。
+
+收藏柜分析边界集中在 `src/lib/armoire/cabinetDomain.ts` 和 `analyzeCabinetProgress.ts`：普通完整 catalog、完整收藏柜 catalog、按 snapshot 加载的 cabinet chunk 都必须先合并为收藏柜专用 view，再参与分析。`cabinetEntries` 按 `cabinetId` 去重并按游戏分类排序；chunk 只是运行时加速数据，不代表另一份收藏柜真源，不能和完整 catalog 重复计数。UI 组件只接收已归一化后的条目并渲染分组。
 
 同模型第一版判定口径：同时比较 `Item.csv` 的 `Model{Main}` / 灰机 `主模型`、`Model{Sub}` / 灰机 `副模型`、`ItemUICategory` 和 `EquipSlotCategory`。主副模型两组四元组完全一致，且物品 UI 分类、装备槽位分类也一致，才归为同模型；这是并且关系。`EquipSlotCategory=0` 的非装备、`6` 腰带、`14` 暂未纳入的主副手组合、`17` 灵魂水晶不进入第一版同模分组。
 
@@ -431,7 +445,10 @@ helper 输出的 snapshot 形态：
 | `Item{Glamour}` / 灰机 `投影材料` | 普通武具投影相关材料，不等同于投影台收纳。 |
 | 灰机 `武具投影` | 普通武具投影能力，不等同于投影台收纳。 |
 | `ItemUICategory=112` + `MirageStoreSetItem.csv` / 灰机 `套装.物品` | 套装幻影化容器，单独处理；拥有容器不代表散件全收集。 |
-| `Cabinet.csv` | 判断可放入收藏柜，不使用 `IsGlamourous` 代替。 |
+| `Cabinet.csv` | 判断可放入收藏柜，并提供 `Category`、`SortKey`、`Order` 作为收藏柜分类和排序基础；不使用 `IsGlamourous` 代替。 |
+| `CabinetCategory.csv` | 通过 `Category -> Addon.csv` 解析收藏柜一级分类名，并保留 `MenuOrder`、`HideOrder`、`Icon`。 |
+| `CabinetSubCategory.csv` | 解析收藏柜二级分类名；当前 CSV 表头为空，生成脚本按原始行位置读取。 |
+| `Addon.csv` | 提供 `CabinetCategory.csv` 指向的一级分类本地化文本。 |
 
 ## 当前校验
 

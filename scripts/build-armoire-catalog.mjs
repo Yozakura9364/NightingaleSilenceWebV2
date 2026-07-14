@@ -35,7 +35,15 @@ const SOURCE_REPOSITORY = 'InfSein/ffxiv-datamining-mixed'
 const SOURCE_REPOSITORY_URL = `https://github.com/${SOURCE_REPOSITORY}.git`
 const SOURCE_BRANCH = 'master'
 const SOURCE_FOLDER = 'chs'
-const REQUIRED_FILES = ['Item.csv', 'Cabinet.csv', 'MirageStoreSetItem.csv', 'Stain.csv']
+const REQUIRED_FILES = [
+  'Item.csv',
+  'Cabinet.csv',
+  'CabinetCategory.csv',
+  'CabinetSubCategory.csv',
+  'Addon.csv',
+  'MirageStoreSetItem.csv',
+  'Stain.csv'
+]
 const ITEM_NAME_LOCALE_SOURCES = [
   { locale: 'zh-CN', folder: 'chs' },
   { locale: 'en', folder: 'en' },
@@ -512,14 +520,95 @@ function buildCabinetItemIds(cabinetRows) {
   ).sort((left, right) => left - right)
 }
 
-function buildCabinetEntries(cabinetRows) {
+function buildAddonTextById(addonRows) {
+  return new Map(
+    addonRows
+      .map((row) => [parseInteger(row['#']), cleanText(row.Text)])
+      .filter(([addonId, text]) => addonId > 0 && text)
+  )
+}
+
+function buildCabinetCategoryById(cabinetCategoryRows, addonRows) {
+  const addonTextById = buildAddonTextById(addonRows)
+  const categories = new Map()
+
+  for (const row of cabinetCategoryRows) {
+    const categoryId = parseInteger(row['#'])
+
+    if (categoryId <= 0) {
+      continue
+    }
+
+    const addonId = parseInteger(row.Category)
+    const name = addonTextById.get(addonId) ?? ''
+
+    categories.set(categoryId, {
+      categoryId,
+      categoryName: name,
+      categoryMenuOrder: parseInteger(row.MenuOrder),
+      categoryHideOrder: parseInteger(row.HideOrder),
+      categoryIconId: parseInteger(row.Icon)
+    })
+  }
+
+  return categories
+}
+
+function buildCabinetSubCategoryById(cabinetSubCategoryText) {
+  const subCategories = new Map()
+
+  for (const row of parseCsv(cabinetSubCategoryText).slice(3)) {
+    const subCategoryId = parseInteger(row[0])
+
+    if (subCategoryId <= 0) {
+      continue
+    }
+
+    subCategories.set(subCategoryId, {
+      subCategoryId,
+      subCategoryOrder: parseInteger(row[1]),
+      subCategoryName: cleanText(row[2])
+    })
+  }
+
+  return subCategories
+}
+
+function pickDefinedObjectValues(record) {
+  return Object.fromEntries(
+    Object.entries(record).filter(([, value]) => value !== undefined && value !== '')
+  )
+}
+
+function buildCabinetEntries(cabinetRows, cabinetCategoryRows, cabinetSubCategoryText, addonRows) {
+  const categoryById = buildCabinetCategoryById(cabinetCategoryRows, addonRows)
+  const subCategoryById = buildCabinetSubCategoryById(cabinetSubCategoryText)
+
   return cabinetRows
-    .map((row) => ({
-      cabinetId: parseInteger(row['#']),
-      itemId: parseInteger(row.Item)
-    }))
+    .map((row) => {
+      const categoryId = parseInteger(row.Category)
+      const sortKey = parseInteger(row.SortKey)
+      const category = categoryById.get(categoryId)
+      const subCategory = subCategoryById.get(sortKey)
+
+      return pickDefinedObjectValues({
+        cabinetId: parseInteger(row['#']),
+        itemId: parseInteger(row.Item),
+        order: parseInteger(row.Order),
+        sortKey,
+        ...(category ?? (categoryId > 0 ? { categoryId } : {})),
+        ...(subCategory ?? (sortKey > 0 ? { subCategoryId: sortKey } : {}))
+      })
+    })
     .filter((entry) => entry.cabinetId > 0 && entry.itemId > 0)
-    .sort((left, right) => left.cabinetId - right.cabinetId)
+    .sort(
+      (left, right) =>
+        (left.categoryMenuOrder ?? 0) - (right.categoryMenuOrder ?? 0) ||
+        (left.categoryId ?? 0) - (right.categoryId ?? 0) ||
+        (left.subCategoryId ?? 0) - (right.subCategoryId ?? 0) ||
+        (left.order ?? 0) - (right.order ?? 0) ||
+        left.cabinetId - right.cabinetId
+    )
 }
 
 function buildGlamourSetRows(mirageRows) {
@@ -773,9 +862,15 @@ function buildLocalizedNamesByItemId(localizedItemCsvByLocale) {
 function buildCatalog(csvByFileName, args) {
   const itemRows = loadSheetRows(csvByFileName['Item.csv'])
   const cabinetRows = loadSheetRows(csvByFileName['Cabinet.csv'])
+  const cabinetCategoryRows = loadSheetRows(csvByFileName['CabinetCategory.csv'])
   const mirageRows = loadSheetRows(csvByFileName['MirageStoreSetItem.csv'])
   const cabinetItemIds = buildCabinetItemIds(cabinetRows)
-  const cabinetEntries = buildCabinetEntries(cabinetRows)
+  const cabinetEntries = buildCabinetEntries(
+    cabinetRows,
+    cabinetCategoryRows,
+    csvByFileName['CabinetSubCategory.csv'],
+    loadSheetRows(csvByFileName['Addon.csv'])
+  )
   const glamourSetRows = buildGlamourSetRows(mirageRows)
   const localizedNamesByItemId = buildLocalizedNamesByItemId(csvByFileName.localizedItemCsvByLocale)
   const { items, names } = buildItems(
