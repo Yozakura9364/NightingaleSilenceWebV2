@@ -239,6 +239,18 @@ export const armoireUiMessages: UiMessageMap = {
     ja: 'キャビネット未収納',
     ko: '보관함 미수납'
   }),
+  'nsarmoire.collection.cabinet.unknownCategory': msg({
+    zh: '未识别分类',
+    en: 'Unknown category',
+    ja: '未識別カテゴリ',
+    ko: '알 수 없는 분류'
+  }),
+  'nsarmoire.collection.cabinet.unknownSubCategory': msg({
+    zh: '未识别子分类',
+    en: 'Unknown subcategory',
+    ja: '未識別サブカテゴリ',
+    ko: '알 수 없는 하위 분류'
+  }),
   'nsarmoire.collection.glamourSet.summary': msg({
     zh: '已收纳套装 {stored} / {total}，残缺套装 {incomplete}。',
     en: '{stored} / {total} set baskets stored; {incomplete} incomplete.',

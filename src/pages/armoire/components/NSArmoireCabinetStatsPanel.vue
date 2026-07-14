@@ -40,7 +40,9 @@
                 @click="toggleCategory(category)"
               >
                 <span class="nsarmoire-collection-panel__category-caret" aria-hidden="true" />
-                <span class="nsarmoire-collection-panel__category-label">{{ category.label }}</span>
+                <span class="nsarmoire-collection-panel__category-label">
+                  {{ getCategoryDisplayLabel(category) }}
+                </span>
                 <span class="nsarmoire-collection-panel__group-count">{{ category.count }}</span>
               </button>
 
@@ -51,7 +53,6 @@
                   class="nsarmoire-collection-panel__sub-category"
                 >
                   <button
-                    v-if="subCategory.label"
                     type="button"
                     class="nsarmoire-collection-panel__sub-category-title"
                     :class="{
@@ -64,7 +65,7 @@
                   >
                     <span class="nsarmoire-collection-panel__sub-category-caret" aria-hidden="true" />
                     <span class="nsarmoire-collection-panel__sub-category-label">
-                      {{ subCategory.label }}
+                      {{ getSubCategoryDisplayLabel(subCategory) }}
                     </span>
                     <span class="nsarmoire-collection-panel__group-count">{{ subCategory.count }}</span>
                   </button>
@@ -167,7 +168,9 @@
                 @click="toggleCategory(category)"
               >
                 <span class="nsarmoire-collection-panel__category-caret" aria-hidden="true" />
-                <span class="nsarmoire-collection-panel__category-label">{{ category.label }}</span>
+                <span class="nsarmoire-collection-panel__category-label">
+                  {{ getCategoryDisplayLabel(category) }}
+                </span>
                 <span class="nsarmoire-collection-panel__group-count">{{ category.count }}</span>
               </button>
 
@@ -178,7 +181,6 @@
                   class="nsarmoire-collection-panel__sub-category"
                 >
                   <button
-                    v-if="subCategory.label"
                     type="button"
                     class="nsarmoire-collection-panel__sub-category-title"
                     :class="{
@@ -191,7 +193,7 @@
                   >
                     <span class="nsarmoire-collection-panel__sub-category-caret" aria-hidden="true" />
                     <span class="nsarmoire-collection-panel__sub-category-label">
-                      {{ subCategory.label }}
+                      {{ getSubCategoryDisplayLabel(subCategory) }}
                     </span>
                     <span class="nsarmoire-collection-panel__group-count">{{ subCategory.count }}</span>
                   </button>
@@ -349,7 +351,6 @@ const {
   cancelItemActionLongPress
 } = useArmoireItemActionMenu()
 const CABINET_BATCH_SIZE = 24
-const AUTO_EXPAND_SUB_CATEGORY_LIMIT = 8
 type CabinetGroupKey = 'transferable' | 'missing'
 const expandedGroups = ref<Partial<Record<CabinetGroupKey, boolean>>>({})
 const expandedCategories = ref<Partial<Record<string, boolean>>>({})
@@ -462,7 +463,7 @@ function groupCabinetItems(
 function isCategoryExpanded(
   category: ArmoireCabinetCategoryGroup<CabinetItemView>
 ): boolean {
-  return expandedCategories.value[category.key] ?? true
+  return expandedCategories.value[category.key] === true
 }
 
 function toggleCategory(category: ArmoireCabinetCategoryGroup<CabinetItemView>): void {
@@ -473,18 +474,23 @@ function toggleCategory(category: ArmoireCabinetCategoryGroup<CabinetItemView>):
 }
 
 function getCategoryToggleLabel(category: ArmoireCabinetCategoryGroup<CabinetItemView>): string {
-  return isCategoryExpanded(category)
+  const action = isCategoryExpanded(category)
     ? t(textKeys.nsarmoireCollapseList)
     : t(textKeys.nsarmoireExpandList)
+
+  return `${action}: ${getCategoryDisplayLabel(category)}`
+}
+
+function getCategoryDisplayLabel(
+  category: ArmoireCabinetCategoryGroup<CabinetItemView>
+): string {
+  return category.label || t(textKeys.nsarmoireCabinetUnknownCategory)
 }
 
 function isSubCategoryExpanded(
   subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
 ): boolean {
-  return (
-    expandedSubCategories.value[subCategory.key] ??
-    subCategory.count <= AUTO_EXPAND_SUB_CATEGORY_LIMIT
-  )
+  return expandedSubCategories.value[subCategory.key] === true
 }
 
 function toggleSubCategory(subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>): void {
@@ -497,9 +503,17 @@ function toggleSubCategory(subCategory: ArmoireCabinetSubCategoryGroup<CabinetIt
 function getSubCategoryToggleLabel(
   subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
 ): string {
-  return isSubCategoryExpanded(subCategory)
+  const action = isSubCategoryExpanded(subCategory)
     ? t(textKeys.nsarmoireCollapseList)
     : t(textKeys.nsarmoireExpandList)
+
+  return `${action}: ${getSubCategoryDisplayLabel(subCategory)}`
+}
+
+function getSubCategoryDisplayLabel(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): string {
+  return subCategory.label || t(textKeys.nsarmoireCabinetUnknownSubCategory)
 }
 
 function getVisibleSubCategoryCount(

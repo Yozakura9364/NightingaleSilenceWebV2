@@ -44,6 +44,8 @@ export const armoireTextKeys = {
   nsarmoireCabinetStatsSummary: 'nsarmoire.collection.cabinet.summary',
   nsarmoireCabinetTransferableTitle: 'nsarmoire.collection.cabinet.transferable',
   nsarmoireCabinetMissingTitle: 'nsarmoire.collection.cabinet.missing',
+  nsarmoireCabinetUnknownCategory: 'nsarmoire.collection.cabinet.unknownCategory',
+  nsarmoireCabinetUnknownSubCategory: 'nsarmoire.collection.cabinet.unknownSubCategory',
   nsarmoireGlamourSetStatsSummary: 'nsarmoire.collection.glamourSet.summary',
   nsarmoireGlamourSetNoSets: 'nsarmoire.collection.glamourSet.empty',
   nsarmoireGlamourSetPieces: 'nsarmoire.collection.glamourSet.pieces',

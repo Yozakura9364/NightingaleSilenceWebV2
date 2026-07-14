@@ -48,7 +48,7 @@
 - 2026-07-10 套装幻影化分析已支持把投影台里的套装容器按 `MirageStoreSetItem.csv` 展开为散件拥有状态。`ArmoireGlamourSet.pieceSlotItemIds` 保留槽位顺序，用于读取到套装 bitmask 时判断部分套装；旧 catalog 没有该字段时，若检测到套装容器在投影台中，先按完整套装保守处理，避免误报缺件。下次刷新 `armoire-glamour-set-catalog.json` 和 chunk 数据时必须重新运行 `npm run build:armoire-catalog`，让静态数据带上 `pieceSlotItemIds`。
 - 2026-07-13 收藏柜条目已补游戏原始分类字段：生成脚本从 `Cabinet.csv` 读取 `Category`、`SortKey`、`Order`，用 `CabinetCategory.csv + Addon.csv` 解析一级分类名，用 `CabinetSubCategory.csv` 解析二级分类名。衣柜清理里的收藏柜可转入/未收纳列表按这些字段分组，尽量还原游戏内收藏柜的分类顺序。
 - 2026-07-13 收藏柜逻辑已收敛到专用域：`src/lib/armoire/cabinetDomain.ts` 负责收藏柜 catalog view、`cabinetEntries` 去重合并、游戏分类排序和 UI 分组；`analyzeCabinetProgress.ts` 只接收收藏柜 view，不再直接读取完整 `ArmoireCatalog`。完整 catalog、完整收藏柜 catalog 和 cabinet chunk 都必须先通过该域函数归一化，避免完整 catalog 与 chunk 重复计数。
-- 2026-07-14 收藏柜统计分组 UI 改为完整展示游戏内一级/二级分类骨架；一级分类标题不参与分页，二级分类标题在一级分类展开后完整可见，只有二级分类内的物品卡片按批次继续显示。分类展开和每个二级分类的可见数量只保存在当前组件会话中，不写入角色档案或长期配置。
+- 2026-07-14 收藏柜统计分组 UI 改为完整展示游戏内一级/二级分类骨架；一级分类标题不参与分页，二级分类标题在一级分类展开后完整可见，只有二级分类内的物品卡片按批次继续显示。一级和二级分类默认全收起，分类展开和每个二级分类的可见数量只保存在当前组件会话中，不写入角色档案或长期配置。
 
 ## 已读取文件
 
