@@ -22,89 +22,122 @@
         @toggle="toggleGroup('transferable')"
       >
         <template v-if="isGroupExpanded('transferable')">
-          <div v-if="hasVisibleTransferableItems" class="nsarmoire-collection-panel__category-list">
+          <div v-if="hasTransferableGroups" class="nsarmoire-collection-panel__category-list">
             <section
-              v-for="category in visibleTransferableGroups"
+              v-for="category in transferableGroups"
               :key="category.key"
               class="nsarmoire-collection-panel__category"
             >
-              <h3 v-if="category.label" class="nsarmoire-collection-panel__category-title">
-                {{ category.label }}
-              </h3>
-
-              <section
-                v-for="subCategory in category.subCategories"
-                :key="subCategory.key"
-                class="nsarmoire-collection-panel__sub-category"
+              <button
+                type="button"
+                class="nsarmoire-collection-panel__category-title"
+                :class="{
+                  'nsarmoire-collection-panel__category-title--collapsed':
+                    !isCategoryExpanded(category)
+                }"
+                :aria-expanded="isCategoryExpanded(category)"
+                :aria-label="getCategoryToggleLabel(category)"
+                @click="toggleCategory(category)"
               >
-                <h4
-                  v-if="subCategory.label"
-                  class="nsarmoire-collection-panel__sub-category-title"
-                >
-                  {{ subCategory.label }}
-                </h4>
+                <span class="nsarmoire-collection-panel__category-caret" aria-hidden="true" />
+                <span class="nsarmoire-collection-panel__category-label">{{ category.label }}</span>
+                <span class="nsarmoire-collection-panel__group-count">{{ category.count }}</span>
+              </button>
 
-                <ul class="nsarmoire-collection-panel__list">
-                  <li
-                    v-for="item in subCategory.items"
-                    :key="item.key"
-                    :class="{ 'nsarmoire-collection-panel__item--valuable-dye': item.hasValuableDye }"
-                    @contextmenu="openItemActionMenu(item, $event)"
-                    @pointerdown="startItemActionLongPress(item, $event)"
-                    @pointermove="moveItemActionLongPress"
-                    @pointerup="cancelItemActionLongPress"
-                    @pointercancel="cancelItemActionLongPress"
-                    @pointerleave="cancelItemActionLongPress"
+              <template v-if="isCategoryExpanded(category)">
+                <section
+                  v-for="subCategory in category.subCategories"
+                  :key="subCategory.key"
+                  class="nsarmoire-collection-panel__sub-category"
+                >
+                  <button
+                    v-if="subCategory.label"
+                    type="button"
+                    class="nsarmoire-collection-panel__sub-category-title"
+                    :class="{
+                      'nsarmoire-collection-panel__sub-category-title--collapsed':
+                        !isSubCategoryExpanded(subCategory)
+                    }"
+                    :aria-expanded="isSubCategoryExpanded(subCategory)"
+                    :aria-label="getSubCategoryToggleLabel(subCategory)"
+                    @click="toggleSubCategory(subCategory)"
                   >
-                    <img
-                      v-if="item.iconUrl"
-                      :src="item.iconUrl"
-                      :alt="item.name"
-                      loading="lazy"
-                      @error="hideBrokenImage"
-                    />
-                    <span
-                      v-else
-                      class="nsarmoire-collection-panel__icon-fallback"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="nsarmoire-collection-panel__body">
-                      <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
-                      <small v-if="item.locationLabel">{{ item.locationLabel }}</small>
-                      <small v-if="item.dyeLine" class="nsarmoire-collection-panel__dyes">
-                        <span>{{ t(textKeys.nsarmoireHintDyed) }}</span>
-                        <span class="nsarmoire-collection-panel__dye-slots">
-                          <span
-                            v-for="dyeSlot in item.dyeLine.slots"
-                            :key="dyeSlot.key"
-                            class="nsarmoire-collection-panel__dye-slot"
-                          >
+                    <span class="nsarmoire-collection-panel__sub-category-caret" aria-hidden="true" />
+                    <span class="nsarmoire-collection-panel__sub-category-label">
+                      {{ subCategory.label }}
+                    </span>
+                    <span class="nsarmoire-collection-panel__group-count">{{ subCategory.count }}</span>
+                  </button>
+
+                  <ul
+                    v-if="isSubCategoryExpanded(subCategory)"
+                    class="nsarmoire-collection-panel__list"
+                  >
+                    <li
+                      v-for="item in getVisibleSubCategoryItems(subCategory)"
+                      :key="item.key"
+                      :class="{ 'nsarmoire-collection-panel__item--valuable-dye': item.hasValuableDye }"
+                      @contextmenu="openItemActionMenu(item, $event)"
+                      @pointerdown="startItemActionLongPress(item, $event)"
+                      @pointermove="moveItemActionLongPress"
+                      @pointerup="cancelItemActionLongPress"
+                      @pointercancel="cancelItemActionLongPress"
+                      @pointerleave="cancelItemActionLongPress"
+                    >
+                      <img
+                        v-if="item.iconUrl"
+                        :src="item.iconUrl"
+                        :alt="item.name"
+                        loading="lazy"
+                        @error="hideBrokenImage"
+                      />
+                      <span
+                        v-else
+                        class="nsarmoire-collection-panel__icon-fallback"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="nsarmoire-collection-panel__body">
+                        <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
+                        <small v-if="item.locationLabel">{{ item.locationLabel }}</small>
+                        <small v-if="item.dyeLine" class="nsarmoire-collection-panel__dyes">
+                          <span>{{ t(textKeys.nsarmoireHintDyed) }}</span>
+                          <span class="nsarmoire-collection-panel__dye-slots">
                             <span
-                              v-if="dyeSlot.color"
-                              class="nsarmoire-collection-panel__dye-swatch"
-                              :style="{ backgroundColor: dyeSlot.color }"
-                              aria-hidden="true"
-                            />
-                            <span>{{ dyeSlot.name }}</span>
+                              v-for="dyeSlot in item.dyeLine.slots"
+                              :key="dyeSlot.key"
+                              class="nsarmoire-collection-panel__dye-slot"
+                            >
+                              <span
+                                v-if="dyeSlot.color"
+                                class="nsarmoire-collection-panel__dye-swatch"
+                                :style="{ backgroundColor: dyeSlot.color }"
+                                aria-hidden="true"
+                              />
+                              <span>{{ dyeSlot.name }}</span>
+                            </span>
                           </span>
-                        </span>
-                        <span v-if="item.dyeLine.suffix">{{ item.dyeLine.suffix }}</span>
-                      </small>
-                    </span>
-                    <span class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--action">
-                      {{ t(textKeys.nsarmoireCollectionStatusTransferable) }}
-                    </span>
-                  </li>
-                </ul>
-              </section>
+                          <span v-if="item.dyeLine.suffix">{{ item.dyeLine.suffix }}</span>
+                        </small>
+                      </span>
+                      <span class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--action">
+                        {{ t(textKeys.nsarmoireCollectionStatusTransferable) }}
+                      </span>
+                    </li>
+                  </ul>
+
+                  <AppButton
+                    v-if="canLoadMoreSubCategoryItems(subCategory)"
+                    @click="showMoreSubCategoryItems(subCategory)"
+                  >
+                    {{ getSubCategoryLoadMoreLabel(subCategory) }}
+                  </AppButton>
+                </section>
+              </template>
             </section>
           </div>
 
           <AppStatus v-else compact tone="info" :message="t(textKeys.nsarmoireCollectionNoItems)" />
 
-          <AppButton v-if="hasMoreTransferableItems" @click="showMoreTransferableItems">
-            {{ transferableLoadMoreLabel }}
-          </AppButton>
         </template>
       </NSArmoireActionCard>
 
@@ -116,83 +149,120 @@
         @toggle="toggleGroup('missing')"
       >
         <template v-if="isGroupExpanded('missing')">
-          <div v-if="hasVisibleMissingItems" class="nsarmoire-collection-panel__category-list">
+          <div v-if="hasMissingGroups" class="nsarmoire-collection-panel__category-list">
             <section
-              v-for="category in visibleMissingGroups"
+              v-for="category in missingGroups"
               :key="category.key"
               class="nsarmoire-collection-panel__category"
             >
-              <h3 v-if="category.label" class="nsarmoire-collection-panel__category-title">
-                {{ category.label }}
-              </h3>
-
-              <section
-                v-for="subCategory in category.subCategories"
-                :key="subCategory.key"
-                class="nsarmoire-collection-panel__sub-category"
+              <button
+                type="button"
+                class="nsarmoire-collection-panel__category-title"
+                :class="{
+                  'nsarmoire-collection-panel__category-title--collapsed':
+                    !isCategoryExpanded(category)
+                }"
+                :aria-expanded="isCategoryExpanded(category)"
+                :aria-label="getCategoryToggleLabel(category)"
+                @click="toggleCategory(category)"
               >
-                <h4
-                  v-if="subCategory.label"
-                  class="nsarmoire-collection-panel__sub-category-title"
-                >
-                  {{ subCategory.label }}
-                </h4>
+                <span class="nsarmoire-collection-panel__category-caret" aria-hidden="true" />
+                <span class="nsarmoire-collection-panel__category-label">{{ category.label }}</span>
+                <span class="nsarmoire-collection-panel__group-count">{{ category.count }}</span>
+              </button>
 
-                <ul class="nsarmoire-collection-panel__list">
-                  <li
-                    v-for="item in subCategory.items"
-                    :key="item.key"
-                    @contextmenu="openItemActionMenu(item, $event)"
-                    @pointerdown="startItemActionLongPress(item, $event)"
-                    @pointermove="moveItemActionLongPress"
-                    @pointerup="cancelItemActionLongPress"
-                    @pointercancel="cancelItemActionLongPress"
-                    @pointerleave="cancelItemActionLongPress"
+              <template v-if="isCategoryExpanded(category)">
+                <section
+                  v-for="subCategory in category.subCategories"
+                  :key="subCategory.key"
+                  class="nsarmoire-collection-panel__sub-category"
+                >
+                  <button
+                    v-if="subCategory.label"
+                    type="button"
+                    class="nsarmoire-collection-panel__sub-category-title"
+                    :class="{
+                      'nsarmoire-collection-panel__sub-category-title--collapsed':
+                        !isSubCategoryExpanded(subCategory)
+                    }"
+                    :aria-expanded="isSubCategoryExpanded(subCategory)"
+                    :aria-label="getSubCategoryToggleLabel(subCategory)"
+                    @click="toggleSubCategory(subCategory)"
                   >
-                    <img
-                      v-if="item.iconUrl"
-                      :src="item.iconUrl"
-                      :alt="item.name"
-                      loading="lazy"
-                      @error="hideBrokenImage"
-                    />
-                    <span
-                      v-else
-                      class="nsarmoire-collection-panel__icon-fallback"
-                      aria-hidden="true"
-                    ></span>
-                    <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
-                    <span class="nsarmoire-collection-panel__badge-list">
-                      <span
-                        v-if="item.isOwned"
-                        class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--owned"
-                      >
-                        {{ t(textKeys.nsarmoireCollectionStatusOwned) }}
-                      </span>
-                      <span
-                        v-if="item.isDyed"
-                        class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--warning"
-                      >
-                        {{ t(textKeys.nsarmoireCollectionStatusDyed) }}
-                      </span>
-                      <span
-                        v-if="!item.isOwned"
-                        class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--muted"
-                      >
-                        {{ t(textKeys.nsarmoireCollectionStatusUnowned) }}
-                      </span>
+                    <span class="nsarmoire-collection-panel__sub-category-caret" aria-hidden="true" />
+                    <span class="nsarmoire-collection-panel__sub-category-label">
+                      {{ subCategory.label }}
                     </span>
-                  </li>
-                </ul>
-              </section>
+                    <span class="nsarmoire-collection-panel__group-count">{{ subCategory.count }}</span>
+                  </button>
+
+                  <ul
+                    v-if="isSubCategoryExpanded(subCategory)"
+                    class="nsarmoire-collection-panel__list"
+                  >
+                    <li
+                      v-for="item in getVisibleSubCategoryItems(subCategory)"
+                      :key="item.key"
+                      :class="{
+                        'nsarmoire-collection-panel__item--owned': item.isOwned,
+                        'nsarmoire-collection-panel__item--unowned': !item.isOwned
+                      }"
+                      @contextmenu="openItemActionMenu(item, $event)"
+                      @pointerdown="startItemActionLongPress(item, $event)"
+                      @pointermove="moveItemActionLongPress"
+                      @pointerup="cancelItemActionLongPress"
+                      @pointercancel="cancelItemActionLongPress"
+                      @pointerleave="cancelItemActionLongPress"
+                    >
+                      <img
+                        v-if="item.iconUrl"
+                        :src="item.iconUrl"
+                        :alt="item.name"
+                        loading="lazy"
+                        @error="hideBrokenImage"
+                      />
+                      <span
+                        v-else
+                        class="nsarmoire-collection-panel__icon-fallback"
+                        aria-hidden="true"
+                      ></span>
+                      <span class="nsarmoire-collection-panel__name">{{ item.name }}</span>
+                      <span class="nsarmoire-collection-panel__badge-list">
+                        <span
+                          v-if="item.isOwned"
+                          class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--owned"
+                        >
+                          {{ t(textKeys.nsarmoireCollectionStatusOwned) }}
+                        </span>
+                        <span
+                          v-if="item.isDyed"
+                          class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--warning"
+                        >
+                          {{ t(textKeys.nsarmoireCollectionStatusDyed) }}
+                        </span>
+                        <span
+                          v-if="!item.isOwned"
+                          class="nsarmoire-collection-panel__badge nsarmoire-collection-panel__badge--muted"
+                        >
+                          {{ t(textKeys.nsarmoireCollectionStatusUnowned) }}
+                        </span>
+                      </span>
+                    </li>
+                  </ul>
+
+                  <AppButton
+                    v-if="canLoadMoreSubCategoryItems(subCategory)"
+                    @click="showMoreSubCategoryItems(subCategory)"
+                  >
+                    {{ getSubCategoryLoadMoreLabel(subCategory) }}
+                  </AppButton>
+                </section>
+              </template>
             </section>
           </div>
 
           <AppStatus v-else compact tone="info" :message="t(textKeys.nsarmoireCollectionNoItems)" />
 
-          <AppButton v-if="hasMoreMissingItems" @click="showMoreMissingItems">
-            {{ missingLoadMoreLabel }}
-          </AppButton>
         </template>
       </NSArmoireActionCard>
     </div>
@@ -218,7 +288,11 @@ import {
   compareArmoireCabinetOrder,
   getArmoireCabinetGroupableItem
 } from '@/lib/armoire/cabinetDomain'
-import type { ArmoireCabinetGroupableItem } from '@/lib/armoire/cabinetDomain'
+import type {
+  ArmoireCabinetCategoryGroup,
+  ArmoireCabinetGroupableItem,
+  ArmoireCabinetSubCategoryGroup
+} from '@/lib/armoire/cabinetDomain'
 import type {
   ArmoireCatalog,
   ArmoireCabinetEntry,
@@ -275,10 +349,12 @@ const {
   cancelItemActionLongPress
 } = useArmoireItemActionMenu()
 const CABINET_BATCH_SIZE = 24
+const AUTO_EXPAND_SUB_CATEGORY_LIMIT = 8
 type CabinetGroupKey = 'transferable' | 'missing'
 const expandedGroups = ref<Partial<Record<CabinetGroupKey, boolean>>>({})
-const visibleTransferableCount = ref(CABINET_BATCH_SIZE)
-const visibleMissingCount = ref(CABINET_BATCH_SIZE)
+const expandedCategories = ref<Partial<Record<string, boolean>>>({})
+const expandedSubCategories = ref<Partial<Record<string, boolean>>>({})
+const visibleSubCategoryCounts = ref<Partial<Record<string, number>>>({})
 
 const cabinetProgress = computed(() =>
   props.analysis?.cabinetProgress.status === 'ready' ? props.analysis.cabinetProgress : null
@@ -295,43 +371,10 @@ const transferableItems = computed(() =>
 const missingItems = computed(() =>
   isGroupExpanded('missing') ? toItemViews(cabinetProgress.value?.missingCabinetItemIds ?? []) : []
 )
-
-const visibleTransferableItems = computed(() =>
-  transferableItems.value.slice(0, visibleTransferableCount.value)
-)
-
-const visibleMissingItems = computed(() => missingItems.value.slice(0, visibleMissingCount.value))
-const hasVisibleTransferableItems = computed(() => visibleTransferableItems.value.length !== 0)
-const hasVisibleMissingItems = computed(() => visibleMissingItems.value.length !== 0)
-const visibleTransferableGroups = computed(() => groupCabinetItems(visibleTransferableItems.value))
-const visibleMissingGroups = computed(() => groupCabinetItems(visibleMissingItems.value))
-
-const hasMoreTransferableItems = computed(
-  () => visibleTransferableItems.value.length < transferableItems.value.length
-)
-
-const hasMoreMissingItems = computed(
-  () => visibleMissingItems.value.length < missingItems.value.length
-)
-
-const nextTransferableCount = computed(() =>
-  Math.min(
-    CABINET_BATCH_SIZE,
-    transferableItems.value.length - visibleTransferableItems.value.length
-  )
-)
-
-const nextMissingCount = computed(() =>
-  Math.min(CABINET_BATCH_SIZE, missingItems.value.length - visibleMissingItems.value.length)
-)
-
-const transferableLoadMoreLabel = computed(() =>
-  formatArmoireText(t, textKeys.nsarmoireLoadMoreList, { count: nextTransferableCount.value })
-)
-
-const missingLoadMoreLabel = computed(() =>
-  formatArmoireText(t, textKeys.nsarmoireLoadMoreList, { count: nextMissingCount.value })
-)
+const transferableGroups = computed(() => groupCabinetItems(transferableItems.value, 'transferable'))
+const missingGroups = computed(() => groupCabinetItems(missingItems.value, 'missing'))
+const hasTransferableGroups = computed(() => transferableGroups.value.length !== 0)
+const hasMissingGroups = computed(() => missingGroups.value.length !== 0)
 
 const cabinetEntryByItemId = computed(() => {
   return buildArmoireCabinetEntryByItemId(props.catalog.cabinetEntries ?? [])
@@ -341,8 +384,9 @@ watch(
   () => [props.analysis, props.catalog.generatedAt] as const,
   () => {
     expandedGroups.value = {}
-    visibleTransferableCount.value = CABINET_BATCH_SIZE
-    visibleMissingCount.value = CABINET_BATCH_SIZE
+    expandedCategories.value = {}
+    expandedSubCategories.value = {}
+    visibleSubCategoryCounts.value = {}
   }
 )
 
@@ -401,8 +445,111 @@ function toItemViews(itemIds: number[]): CabinetItemView[] {
     )
 }
 
-function groupCabinetItems(items: readonly CabinetItemView[]) {
-  return buildArmoireCabinetItemGroups(items)
+function groupCabinetItems(
+  items: readonly CabinetItemView[],
+  scope: CabinetGroupKey
+): ArmoireCabinetCategoryGroup<CabinetItemView>[] {
+  return buildArmoireCabinetItemGroups(items).map((category) => ({
+    ...category,
+    key: `${scope}-${category.key}`,
+    subCategories: category.subCategories.map((subCategory) => ({
+      ...subCategory,
+      key: `${scope}-${subCategory.key}`
+    }))
+  }))
+}
+
+function isCategoryExpanded(
+  category: ArmoireCabinetCategoryGroup<CabinetItemView>
+): boolean {
+  return expandedCategories.value[category.key] ?? true
+}
+
+function toggleCategory(category: ArmoireCabinetCategoryGroup<CabinetItemView>): void {
+  expandedCategories.value = {
+    ...expandedCategories.value,
+    [category.key]: !isCategoryExpanded(category)
+  }
+}
+
+function getCategoryToggleLabel(category: ArmoireCabinetCategoryGroup<CabinetItemView>): string {
+  return isCategoryExpanded(category)
+    ? t(textKeys.nsarmoireCollapseList)
+    : t(textKeys.nsarmoireExpandList)
+}
+
+function isSubCategoryExpanded(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): boolean {
+  return (
+    expandedSubCategories.value[subCategory.key] ??
+    subCategory.count <= AUTO_EXPAND_SUB_CATEGORY_LIMIT
+  )
+}
+
+function toggleSubCategory(subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>): void {
+  expandedSubCategories.value = {
+    ...expandedSubCategories.value,
+    [subCategory.key]: !isSubCategoryExpanded(subCategory)
+  }
+}
+
+function getSubCategoryToggleLabel(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): string {
+  return isSubCategoryExpanded(subCategory)
+    ? t(textKeys.nsarmoireCollapseList)
+    : t(textKeys.nsarmoireExpandList)
+}
+
+function getVisibleSubCategoryCount(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): number {
+  return visibleSubCategoryCounts.value[subCategory.key] ?? CABINET_BATCH_SIZE
+}
+
+function getVisibleSubCategoryItems(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): CabinetItemView[] {
+  return subCategory.items.slice(0, getVisibleSubCategoryCount(subCategory))
+}
+
+function getNextSubCategoryCount(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): number {
+  return Math.min(
+    CABINET_BATCH_SIZE,
+    subCategory.items.length - getVisibleSubCategoryItems(subCategory).length
+  )
+}
+
+function canLoadMoreSubCategoryItems(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): boolean {
+  return (
+    isSubCategoryExpanded(subCategory) &&
+    getVisibleSubCategoryItems(subCategory).length < subCategory.items.length
+  )
+}
+
+function showMoreSubCategoryItems(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): void {
+  visibleSubCategoryCounts.value = {
+    ...visibleSubCategoryCounts.value,
+    [subCategory.key]: Math.min(
+      subCategory.items.length,
+      getVisibleSubCategoryCount(subCategory) + CABINET_BATCH_SIZE
+    )
+  }
+}
+
+function getSubCategoryLoadMoreLabel(
+  subCategory: ArmoireCabinetSubCategoryGroup<CabinetItemView>
+): string {
+  return formatArmoireText(t, textKeys.nsarmoireLoadMoreList, {
+    count: getNextSubCategoryCount(subCategory)
+  })
 }
 
 function getDyeRiskItemsByItemId(): Map<number, ArmoireDyeRiskItem[]> {
@@ -470,20 +617,6 @@ function getItemDyeLine(
   }
 }
 
-function showMoreTransferableItems(): void {
-  visibleTransferableCount.value = Math.min(
-    transferableItems.value.length,
-    visibleTransferableCount.value + CABINET_BATCH_SIZE
-  )
-}
-
-function showMoreMissingItems(): void {
-  visibleMissingCount.value = Math.min(
-    missingItems.value.length,
-    visibleMissingCount.value + CABINET_BATCH_SIZE
-  )
-}
-
 function hideBrokenImage(event: Event): void {
   const image = event.currentTarget
 
@@ -536,14 +669,33 @@ function hideBrokenImage(event: Event): void {
 }
 
 .nsarmoire-collection-panel__category-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
   margin: 0;
-  padding: 0 0 7px;
-  border-bottom: 1px solid var(--ns-color-border);
+  padding: 7px 10px;
+  border: 1px solid var(--ns-color-border);
+  border-left: 4px solid var(--ns-pixel-border);
+  background: var(--ns-color-bg-soft);
   color: var(--ns-color-text);
   font-family: var(--ns-font-sans);
   font-size: 15px;
   font-weight: 900;
   line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nsarmoire-collection-panel__category-title:hover,
+.nsarmoire-collection-panel__category-title:focus-visible {
+  border-color: var(--ns-color-border-strong);
+  color: var(--ns-color-text);
+}
+
+.nsarmoire-collection-panel__category-title:focus-visible {
+  outline: none;
+  box-shadow: var(--ns-focus-ring);
 }
 
 .nsarmoire-collection-panel__sub-category {
@@ -551,13 +703,72 @@ function hideBrokenImage(event: Event): void {
   gap: 8px;
 }
 
+.nsarmoire-collection-panel__category-caret,
+.nsarmoire-collection-panel__sub-category-caret {
+  width: 0;
+  height: 0;
+  flex: 0 0 auto;
+  border-top: 5px solid var(--ns-color-text-muted);
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+
+.nsarmoire-collection-panel__category-title--collapsed
+  .nsarmoire-collection-panel__category-caret,
+.nsarmoire-collection-panel__sub-category-title--collapsed
+  .nsarmoire-collection-panel__sub-category-caret {
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 5px solid var(--ns-color-text-muted);
+}
+
+.nsarmoire-collection-panel__category-label,
+.nsarmoire-collection-panel__sub-category-label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .nsarmoire-collection-panel__sub-category-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
   margin: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text-muted);
   font-family: var(--ns-font-sans);
   font-size: 13px;
   font-weight: 850;
   line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nsarmoire-collection-panel__sub-category-title:hover,
+.nsarmoire-collection-panel__sub-category-title:focus-visible {
+  border-color: var(--ns-color-border-strong);
+  color: var(--ns-color-text);
+}
+
+.nsarmoire-collection-panel__sub-category-title:focus-visible {
+  outline: none;
+  box-shadow: var(--ns-focus-ring);
+}
+
+.nsarmoire-collection-panel__group-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  padding: 2px 7px;
+  border: 1px solid var(--ns-color-border);
+  background: var(--ns-pixel-surface);
+  color: var(--ns-color-text-muted);
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1.2;
 }
 
 .nsarmoire-collection-panel__list {
@@ -587,6 +798,28 @@ function hideBrokenImage(event: Event): void {
   color: var(--ns-color-text-muted);
   filter: grayscale(0.45);
   opacity: 0.72;
+}
+
+.nsarmoire-collection-panel__item--owned {
+  border-color: var(--ns-status-info-border);
+  background: var(--ns-status-info-bg);
+  box-shadow: inset 4px 0 0 var(--ns-status-info-border);
+}
+
+.nsarmoire-collection-panel__item--owned .nsarmoire-collection-panel__name {
+  color: var(--ns-color-text);
+}
+
+.nsarmoire-collection-panel__item--unowned {
+  color: var(--ns-color-text-muted);
+  background: var(--ns-color-bg-soft);
+  opacity: 0.76;
+}
+
+.nsarmoire-collection-panel__item--unowned img,
+.nsarmoire-collection-panel__item--unowned .nsarmoire-collection-panel__icon-fallback {
+  filter: grayscale(0.7);
+  opacity: 0.68;
 }
 
 .nsarmoire-collection-panel__list img,
