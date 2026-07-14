@@ -1,5 +1,6 @@
 import { useFetch } from '@/composables/useFetch'
 import type { GlamourCandidate, GlamourImportPayload, GlamourStain } from '@/lib/glamour/types'
+import type { GlamourEquipmentSearchRequest } from '@/pages/glamour/types/equipmentEditor'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 
 export interface ParseGlamourTextOptions {
@@ -12,12 +13,7 @@ export interface ImportGlamourLinkOptions {
   url: string
 }
 
-export interface SearchGlamourItemsOptions {
-  slot: string
-  query: string
-  locale: string
-  limit?: number
-}
+export type SearchGlamourItemsOptions = GlamourEquipmentSearchRequest
 
 export interface SearchGlamourItemsResponse {
   results?: GlamourCandidate[]
@@ -69,6 +65,7 @@ export function useNSGlamourApi(boundary: ApiBoundary) {
         locale: options.locale,
         limit: options.limit ?? 20
       },
+      signal: options.signal,
       cache: 'no-store'
     })
 
