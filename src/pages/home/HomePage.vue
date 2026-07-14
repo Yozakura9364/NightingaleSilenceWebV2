@@ -63,8 +63,15 @@
             <div class="home-profile">
               <div class="home-profile__art" :style="homeCharacterArtStyle" aria-hidden="true"></div>
               <div class="home-profile__copy">
-                <p class="home-profile__command">{{ t(textKeys.homeDesktopCommand) }}</p>
-                <h1 id="home-title">{{ t(siteMeta.zhNameKey) }}</h1>
+                <h1 id="home-title">
+                  <span
+                    v-if="isHomeCharacterArtPreview"
+                    class="home-profile__logo"
+                    :style="homeLogoArtStyle"
+                    aria-hidden="true"
+                  ></span>
+                  <span :class="{ 'ns-sr-only': isHomeCharacterArtPreview }">{{ t(siteMeta.zhNameKey) }}</span>
+                </h1>
                 <p>{{ t(textKeys.placeholder) }}</p>
               </div>
             </div>
@@ -445,6 +452,7 @@ import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelFolderIcon from '@/assets/icons/pixelarticons/folder.svg'
 import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
+import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import { ffxivTools, siteMeta, siteRoutes } from '@/config/site'
 import { homeTextKeys as textKeys } from '@/locales/keys/home'
@@ -494,16 +502,22 @@ const homeCharacterArtStyle = computed(
       '--home-character-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-1.png")' : 'none'
     }) as CSSProperties
 )
+const homeLogoArtStyle = computed(
+  () =>
+    ({
+      '--home-logo-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/nightingale-logo-1.webp")' : 'none'
+    }) as CSSProperties
+)
 const homeDayArtStyle = computed(
   () =>
     ({
-      '--home-day-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-6.png")' : 'none'
+      '--home-day-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-6.webp")' : 'none'
     }) as CSSProperties
 )
 const homeNightArtStyle = computed(
   () =>
     ({
-      '--home-night-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoin-3.png")' : 'none'
+      '--home-night-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoin-3.webp")' : 'none'
     }) as CSSProperties
 )
 const homeClockLabel = computed(() => (themeMode.value === 'night' ? '00:29' : '06:29'))
@@ -513,13 +527,13 @@ const dayAvatarCards = [
     id: 'yoine',
     nameKey: textKeys.homeAvatarYoine,
     stateKey: textKeys.homeRosterOnline,
-    image: '/local-assets/yoine-1.png'
+    image: '/local-assets/yoine-avatar.webp'
   },
   {
     id: 'yoin',
     nameKey: textKeys.homeAvatarYoin,
     stateKey: textKeys.homeRosterSleep,
-    image: '/local-assets/yoin-1.png'
+    image: '/local-assets/yoin-avatar.webp'
   }
 ] as const
 
@@ -528,14 +542,14 @@ const nightAvatarCards = [
     id: 'yoine',
     nameKey: textKeys.homeAvatarYoine,
     stateKey: textKeys.homeArchiveStable,
-    image: '/local-assets/yoine-1.png',
+    image: '/local-assets/yoine-avatar.webp',
     tone: 'stable'
   },
   {
     id: 'yoin',
     nameKey: textKeys.homeAvatarYoin,
     stateKey: textKeys.homeArchiveCorrupt,
-    image: '/local-assets/yoin-1.png',
+    image: '/local-assets/yoin-avatar.webp',
     tone: 'corrupt'
   }
 ] as const
@@ -729,6 +743,10 @@ const homeSocialLinks = [
 ] as const
 
 function workshopIconFor(id: string) {
+  if (id === 'itemCard') {
+    return pixelImageIcon
+  }
+
   if (id === 'glamour') {
     return pixelSparklesIcon
   }
@@ -2132,12 +2150,13 @@ button.home-window__control:focus-visible {
   left: 28px;
   z-index: 2;
   display: grid;
-  max-width: min(390px, 48%);
+  width: min(330px, 48%);
+  max-width: none;
   gap: 10px;
-  padding: 14px;
-  border: 2px solid var(--home-border);
-  background: var(--home-surface-soft);
-  box-shadow: 4px 4px 0 color-mix(in srgb, var(--home-shadow) 72%, transparent);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .home-profile__command {
@@ -2161,6 +2180,14 @@ button.home-window__control:focus-visible {
     4px 4px 0 color-mix(in srgb, var(--home-pink) 22%, transparent);
 }
 
+.home-profile__logo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  background: var(--home-logo-art-url, none) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+
 :global(:root[data-theme='night'] .home-profile__copy h1) {
   text-shadow:
     2px 2px 0 rgba(94, 234, 255, 0.42),
@@ -2178,15 +2205,18 @@ button.home-window__control:focus-visible {
 
 .home-link-list {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-auto-rows: 46px;
   gap: 8px;
 }
 
 .home-link-list__item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
   min-width: 0;
   align-items: center;
   gap: 9px;
-  min-height: 38px;
+  height: 46px;
   padding: 0 9px;
   border: 2px solid var(--home-border);
   background: var(--home-surface);
@@ -2214,9 +2244,8 @@ button.home-window__control:focus-visible {
 
 .home-link-list__icon {
   display: block;
-  flex: 0 0 auto;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   background: currentColor;
   mask: var(--home-icon-url) center / 100% 100% no-repeat;
   -webkit-mask: var(--home-icon-url) center / 100% 100% no-repeat;
@@ -2262,7 +2291,7 @@ button.home-window__control:focus-visible {
   height: 58px;
   border: 2px solid var(--home-border);
   background:
-    var(--home-avatar-url, none) center 18% / 145% auto no-repeat,
+    var(--home-avatar-url, none) center / contain no-repeat,
     linear-gradient(135deg, var(--home-pink-soft), var(--home-blue-soft));
   image-rendering: auto;
   box-shadow: inset 2px 2px 0 color-mix(in srgb, #ffffff 72%, transparent);
@@ -2294,7 +2323,7 @@ button.home-window__control:focus-visible {
 
 .home-avatar-list--archive .home-avatar-card__portrait {
   background:
-    var(--home-avatar-url, none) center 18% / 145% auto no-repeat,
+    var(--home-avatar-url, none) center / contain no-repeat,
     linear-gradient(135deg, var(--home-violet-soft), var(--home-blue-soft));
   box-shadow:
     inset 2px 2px 0 color-mix(in srgb, #ffffff 18%, transparent),
@@ -2302,17 +2331,135 @@ button.home-window__control:focus-visible {
 }
 
 .home-avatar-card--corrupt .home-avatar-card__portrait {
+  position: relative;
+  isolation: isolate;
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--home-pink) 34%, transparent) 0 2px, transparent 2px 100%),
-    var(--home-avatar-url, none) center 18% / 145% auto no-repeat,
+    var(--home-avatar-url, none) center / contain no-repeat,
     linear-gradient(135deg, var(--home-pink-soft), var(--home-violet-soft));
-  background-size:
-    8px 100%,
-    145% auto,
-    auto;
   filter:
     drop-shadow(2px 0 0 color-mix(in srgb, var(--home-pink) 44%, transparent))
     drop-shadow(-2px 0 0 color-mix(in srgb, var(--home-blue) 34%, transparent));
+}
+
+.home-avatar-card--corrupt .home-avatar-card__portrait::before {
+  position: absolute;
+  top: 17px;
+  right: -5px;
+  z-index: 1;
+  width: 35px;
+  height: 22px;
+  background:
+    repeating-conic-gradient(
+        from 18deg,
+        #f8fbff 0 12.5%,
+        #8cf3ff 12.5% 25%,
+        #202438 25% 37.5%,
+        #ff82bd 37.5% 50%
+      )
+      0 0 / 5px 5px,
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.92) 0 1px, transparent 1px 4px);
+  box-shadow:
+    2px 0 0 rgba(119, 246, 255, 0.64),
+    -1px 0 0 rgba(255, 112, 189, 0.46);
+  clip-path: polygon(
+    0 18%,
+    12% 18%,
+    12% 8%,
+    34% 8%,
+    34% 0,
+    64% 0,
+    64% 8%,
+    86% 8%,
+    86% 18%,
+    100% 18%,
+    100% 38%,
+    88% 38%,
+    88% 52%,
+    100% 52%,
+    100% 72%,
+    82% 72%,
+    82% 90%,
+    60% 90%,
+    60% 100%,
+    28% 100%,
+    28% 92%,
+    10% 92%,
+    10% 76%,
+    0 76%
+  );
+  content: '';
+  image-rendering: pixelated;
+  opacity: 0.9;
+  pointer-events: none;
+  transform: translateX(-1px);
+  animation: homeYoinEyeStatic 820ms steps(2, end) infinite;
+}
+
+.home-avatar-card--corrupt .home-avatar-card__portrait::after {
+  position: absolute;
+  top: 22px;
+  right: -7px;
+  z-index: 2;
+  width: 42px;
+  height: 2px;
+  background: #f7fbff;
+  box-shadow:
+    0 7px 0 rgba(124, 244, 255, 0.92),
+    0 14px 0 rgba(255, 126, 190, 0.86);
+  content: '';
+  opacity: 0.76;
+  pointer-events: none;
+  animation: homeYoinEyeTear 820ms steps(2, end) infinite;
+}
+
+@keyframes homeYoinEyeStatic {
+  0%,
+  18% {
+    opacity: 0.88;
+    transform: translateX(-2px) translateY(0);
+  }
+
+  19%,
+  41% {
+    opacity: 1;
+    transform: translateX(2px) translateY(-1px);
+  }
+
+  42%,
+  69% {
+    opacity: 0.76;
+    transform: translateX(-1px) translateY(1px);
+  }
+
+  70%,
+  100% {
+    opacity: 0.96;
+    transform: translateX(1px) translateY(0);
+  }
+}
+
+@keyframes homeYoinEyeTear {
+  0%,
+  31% {
+    transform: translateX(-3px);
+  }
+
+  32%,
+  61% {
+    transform: translateX(2px);
+  }
+
+  62%,
+  100% {
+    transform: translateX(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-avatar-card--corrupt .home-avatar-card__portrait::before,
+  .home-avatar-card--corrupt .home-avatar-card__portrait::after {
+    animation: none;
+  }
 }
 
 .home-night-live__menu {
@@ -3213,7 +3360,7 @@ button.home-window__control:focus-visible {
   }
 
   .home-profile__copy {
-    max-width: min(360px, 52%);
+    width: min(330px, 52%);
   }
 }
 
@@ -3347,7 +3494,7 @@ button.home-window__control:focus-visible {
   .home-profile__copy {
     top: 16px;
     left: 16px;
-    max-width: calc(100% - 32px);
+    width: min(220px, calc(100% - 32px));
   }
 
   .home-taskbar__windows {
