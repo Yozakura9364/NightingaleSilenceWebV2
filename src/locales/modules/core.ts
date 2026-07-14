@@ -140,6 +140,7 @@ export const coreUiMessages: UiMessageMap = {
     ko: 'FFXIV 도구'
   }),
   'ffxiv.tool.badge': msg({ zh: '工具', en: 'Tool', ja: 'ツール', ko: '도구' }),
+  'ffxiv.tool.itemCard.title': same('物品卡片'),
   'ffxiv.tool.glamour.title': same('幻化工房'),
   'ffxiv.tool.plate.title': same('铭牌工房'),
   'ffxiv.tool.armoire.title': same('衣柜管家'),

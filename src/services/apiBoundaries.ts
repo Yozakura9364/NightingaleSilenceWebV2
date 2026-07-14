@@ -1,6 +1,6 @@
 import { ffxivTools } from '@/config/site'
 
-export type FfxivToolId = 'glamour' | 'plate' | 'armoire'
+export type FfxivToolId = 'itemCard' | 'glamour' | 'plate' | 'armoire'
 
 export interface ApiBoundary {
   id: FfxivToolId
