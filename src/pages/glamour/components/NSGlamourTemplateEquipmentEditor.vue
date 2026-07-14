@@ -145,6 +145,10 @@ import type {
   GlamourStain
 } from '@/lib/glamour/types'
 import { useGlamourTemplateEquipmentEditor } from '@/pages/glamour/composables/useGlamourTemplateEquipmentEditor'
+import type {
+  GlamourEquipmentSearch,
+  GlamourStainLoader
+} from '@/pages/glamour/types/equipmentEditor'
 import type { GlamourTemplateEditorRow } from '@/pages/glamour/types/templateWorkspace'
 import { useLocale } from '@/stores/locale'
 
@@ -153,13 +157,8 @@ const props = defineProps<{
   draft: GlamourDraft
   apiBase: string
   editorLocale: GlamourLocale
-  searchItems: (options: {
-    slot: string
-    query: string
-    locale: string
-    limit?: number
-  }) => Promise<GlamourCandidate[]>
-  loadStains: (locale: string) => Promise<GlamourStain[]>
+  searchItems: GlamourEquipmentSearch
+  loadStains: GlamourStainLoader
 }>()
 
 const emit = defineEmits<{

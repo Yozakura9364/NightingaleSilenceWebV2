@@ -24,10 +24,19 @@ const TEMPLATE_SOURCE_FILES = [
   'src/lib/glamour/links.ts',
   'src/pages/glamour/NSGlamourPage.vue',
   'src/pages/glamour/components/NSGlamourEquipmentPanel.vue',
+  'src/pages/glamour/components/NSGlamourEquipmentSlot.vue',
+  'src/pages/glamour/styles/equipment-slot.css',
   'src/pages/glamour/components/NSGlamourImportPanel.vue',
   'src/pages/glamour/components/NSGlamourWorkspace.vue',
   'src/pages/glamour/components/NSGlamourTemplateWorkspace.vue',
+  'src/pages/glamour/components/NSGlamourTemplateSettingsPanel.vue',
+  'src/pages/glamour/components/NSGlamourTemplateEquipmentPanel.vue',
   'src/pages/glamour/components/NSGlamourTemplateEquipmentEditor.vue',
+  'src/pages/glamour/composables/useGlamourTemplateLanguageControls.ts',
+  'src/pages/glamour/styles/template-workspace.css',
+  'src/pages/glamour/composables/useGlamourDyePicker.ts',
+  'src/pages/glamour/composables/useGlamourEquipInfoEditor.ts',
+  'src/pages/glamour/composables/useGlamourEquipmentSearch.ts',
   'src/pages/glamour/composables/useGlamourTemplateCanvas.ts',
   'src/pages/glamour/composables/useGlamourTemplateEquipmentEditor.ts',
   'src/pages/glamour/composables/useGlamourTemplateImageInteraction.ts',
@@ -318,10 +327,19 @@ async function checkLocalTemplateDataLayer() {
     links,
     glamourPage,
     equipmentPanel,
+    equipmentSlot,
+    equipmentSlotStyles,
     importPanel,
     glamourWorkspace,
     templateWorkspace,
+    templateSettingsPanel,
+    templateEquipmentPanel,
     templateEquipmentEditor,
+    templateLanguageControls,
+    templateWorkspaceStyles,
+    dyePickerComposable,
+    equipInfoEditorComposable,
+    equipmentSearchComposable,
     templateCanvas,
     templateEquipmentComposable,
     templateImageInteraction,
@@ -344,7 +362,16 @@ async function checkLocalTemplateDataLayer() {
     )
   )
 
-  const templateEditorSource = [templateWorkspace, templateEquipmentEditor, templateEquipmentComposable].join('\n')
+  const templateEditorSource = [
+    templateWorkspace,
+    templateSettingsPanel,
+    templateEquipmentPanel,
+    templateEquipmentEditor,
+    templateLanguageControls,
+    templateWorkspaceStyles,
+    templateEquipmentComposable
+  ].join('\n')
+  const sharedEquipmentEditorSource = [dyePickerComposable, equipInfoEditorComposable, equipmentSearchComposable, templateEquipmentComposable].join('\n')
   const templateImageSource = [
     templateWorkspace,
     templateImageInteraction,
@@ -373,9 +400,9 @@ async function checkLocalTemplateDataLayer() {
     glamourPage.includes('--ns-ffxiv-workspace-bg: var(--ns-glamour-workspace-bg)') &&
       !glamourPage.includes('#fff8fc') &&
       glamourWorkspace.includes('background: #fff;') &&
-      templateWorkspace.includes('background: #fff;') &&
+      templateWorkspaceStyles.includes('background: #fff;') &&
       !glamourWorkspace.includes('#fff8fc') &&
-      !templateWorkspace.includes('#fff8fc'),
+      !templateWorkspaceStyles.includes('#fff8fc'),
     'NSGlamour page shell must keep the shared theme background while equipinfo/template workspaces stay pure white'
   )
   assert(
@@ -388,27 +415,57 @@ async function checkLocalTemplateDataLayer() {
     'template and equipinfo UI branches must remain lazy-loaded outside the shared NSGlamour workspace chunk'
   )
   assert(
-    equipmentPanel.includes('nsglamour-slot--selected-no-dye') &&
-      countSubstring(equipmentPanel, 'v-else-if="!entry.itemName" class="nsglamour-slot__search"') === 2 &&
-      !equipmentPanel.includes('<div v-else class="nsglamour-slot__search">'),
+    templateWorkspace.includes('import NSGlamourTemplateSettingsPanel') &&
+      templateWorkspace.includes('import NSGlamourTemplateEquipmentPanel') &&
+      templateWorkspace.includes('<NSGlamourTemplateSettingsPanel') &&
+      templateWorkspace.includes('<NSGlamourTemplateEquipmentPanel') &&
+      templateWorkspace.includes('<style src="../styles/template-workspace.css"></style>') &&
+      templateSettingsPanel.includes('nsglamour-template__author-popover') &&
+      templateEquipmentPanel.includes('<NSGlamourTemplateEquipmentEditor') &&
+      templateLanguageControls.includes('useGlamourTemplateLanguageControls'),
+    'template workspace must keep settings, equipment controls, language state, and module styles in their dedicated boundaries'
+  )
+  assert(
+    equipmentSlot.includes('nsglamour-slot--selected-no-dye') &&
+      countSubstring(equipmentSlot, 'v-else-if="!entry.itemName" class="nsglamour-slot__search"') === 1 &&
+      !equipmentSlot.includes('<div v-else class="nsglamour-slot__search">'),
     'selected NSGlamour equipment without dye rows must center the selected item and must not render an empty-slot search box'
   )
   assert(
-    /nsglamour-slot__candidate-panel[\s\S]*?width:\s*min\(420px, calc\(100vw - 42px\)\)/.test(equipmentPanel) &&
-      /nsglamour-slot__candidate-option[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*52px/.test(equipmentPanel) &&
-      /nsglamour-slot__candidate-option img[\s\S]*?width:\s*42px[\s\S]*?height:\s*42px/.test(equipmentPanel) &&
-      /nsglamour-slot__candidate-option span[\s\S]*?font-size:\s*14px/.test(equipmentPanel) &&
-      /nsglamour-slot__search-result[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*52px/.test(equipmentPanel) &&
-      /nsglamour-slot__search-result img[\s\S]*?width:\s*42px[\s\S]*?height:\s*42px/.test(equipmentPanel) &&
-      /nsglamour-slot__search-result[\s\S]*?font-size:\s*14px/.test(equipmentPanel),
+    /nsglamour-slot__candidate-panel[\s\S]*?width:\s*min\(420px, calc\(100vw - 42px\)\)/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__candidate-option[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*52px/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__candidate-option img[\s\S]*?width:\s*42px[\s\S]*?height:\s*42px/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__candidate-option span[\s\S]*?font-size:\s*14px/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__search-result[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*52px/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__search-result img[\s\S]*?width:\s*42px[\s\S]*?height:\s*42px/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__search-result[\s\S]*?font-size:\s*14px/.test(equipmentSlotStyles),
     'NSGlamour equipment candidates/search results must stay aligned with selected equipment icon and text sizing'
   )
   assert(
-    /nsglamour-slot__dye-chip[\s\S]*?radial-gradient\(circle at 11px center, var\(--nsglamour-dye-color, #000000\) 0 5px, transparent 6px\)/.test(equipmentPanel) &&
-      /nsglamour-slot__dye-chip\.empty-dye[\s\S]*?com_icon_clear\.svg'\) 6px center \/ 10px 10px no-repeat/.test(equipmentPanel) &&
+    /nsglamour-slot__dye-chip[\s\S]*?radial-gradient\(\s*circle at 11px center,\s*var\(--nsglamour-dye-color, #000000\) 0 5px,\s*transparent 6px\s*\)/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__dye-chip\.empty-dye[\s\S]*?com_icon_clear\.svg'\) 6px center \/ 10px 10px no-repeat/.test(equipmentSlotStyles) &&
       /nsglamour-template__dye-chip::before[\s\S]*?width:\s*10px[\s\S]*?height:\s*10px/.test(templateEditorSource) &&
       /nsglamour-template__dye-chip\.empty-dye::before[\s\S]*?com_icon_clear\.svg'\) center \/ 10px 10px no-repeat/.test(templateEditorSource),
     'NSGlamour clear dye icon must occupy the same 10px box as normal dye swatches in equipinfo and template editors'
+  )
+  assert(
+    equipmentPanel.includes('v-if="!isMobileLayout"') &&
+      equipmentPanel.includes('v-else class="nsglamour-equipment__grid nsglamour-equipment__grid--mobile"') &&
+      equipmentPanel.includes("window.matchMedia('(max-width: 1080px)')") &&
+      countSubstring(equipmentPanel, '<NSGlamourEquipmentSlot') === 2,
+    'equipinfo must mount only the active desktop or mobile slot layout while preserving both explicit slot orders'
+  )
+  assert(
+    equipmentSearchComposable.includes('new AbortController()') &&
+      equipmentSearchComposable.includes('controllers.get(slot)?.abort()') &&
+      equipmentSearchComposable.includes('signal: controller.signal') &&
+      equipmentSearchComposable.includes('onBeforeUnmount(() =>') &&
+      dyePickerComposable.includes('sharedStainLists') &&
+      dyePickerComposable.includes('sharedStainRequests') &&
+      equipInfoEditorComposable.includes('useGlamourEquipmentSearch') &&
+      templateEquipmentComposable.includes('useGlamourEquipmentSearch') &&
+      sharedEquipmentEditorSource.includes('useGlamourDyePicker'),
+    'equipinfo and template must share cancellable equipment search and cross-page stain loading logic'
   )
 
   assert(
@@ -630,7 +687,7 @@ async function checkLocalTemplateDataLayer() {
     'template switching must preserve legacy UI-language/default locale reset'
   )
   assert(
-    templateWorkspace.includes('templateImportPreferredLocale') &&
+    templateLanguageControls.includes('templateImportPreferredLocale') &&
       templateWorkspace.includes("preferredLocale: templateImportPreferredLocale.value") &&
       glamourWorkspace.includes('selectImportPreferredLocale') &&
       glamourWorkspace.includes('availableLocales.includes(normalizedPreferred)') &&
@@ -651,16 +708,16 @@ async function checkLocalTemplateDataLayer() {
     'template link imports must reset template output locales to the imported edit locale'
   )
   assert(
-    templateWorkspace.includes('toggleTemplateLocale') &&
-      templateWorkspace.includes("const templateLanguageDisplayOrder: GlamourLocale[] = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']") &&
-      templateWorkspace.includes('sortTemplateLanguageOptions(languageOptions.value)') &&
+    templateLanguageControls.includes('toggleTemplateLocale') &&
+      templateLanguageControls.includes("const displayOrder: GlamourLocale[] = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']") &&
+      templateLanguageControls.includes('getLanguageRank(left.locales)') &&
       templateSelectorDialog.includes("const languageOrder: GlamourLocale[] = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']") &&
       templateSelectorDialog.includes('sortLanguageOptions(option.languageOptions)') &&
       templateSelectorDialog.includes('[...option.localeOrder]') &&
-      !templateWorkspace.includes('languageSettingRows') &&
-      !templateWorkspace.includes('moveTemplateLocale') &&
-      !templateWorkspace.includes('removeTemplateLocale') &&
-      !templateWorkspace.includes('nsglamour-template__language-order-controls'),
+      !templateEditorSource.includes('languageSettingRows') &&
+      !templateEditorSource.includes('moveTemplateLocale') &&
+      !templateEditorSource.includes('removeTemplateLocale') &&
+      !templateEditorSource.includes('nsglamour-template__language-order-controls'),
     'template workspace must keep fixed language display order without exposing extra language order controls'
   )
   assert(
@@ -760,13 +817,13 @@ async function checkLocalTemplateDataLayer() {
   assert(
     templateComposable.includes('selectedLocales.value.includes(draftLocale)') &&
       templateWorkspace.includes("'update-locale': [locale: string]") &&
-      templateWorkspace.includes('setTemplateActiveLocale') &&
-      templateWorkspace.includes('setNormalizedTemplateLocales([...selected, locale])') &&
-      templateWorkspace.includes('activeLocale.value !== locale') &&
-      templateWorkspace.includes('watch(\n  activeLocale') &&
-      templateWorkspace.includes('const editorLocale = computed(() => activeLocale.value || props.draft.locale)') &&
+      templateLanguageControls.includes('function setActiveLocale') &&
+      templateLanguageControls.includes('setNormalizedLocales([...selected, locale])') &&
+      templateLanguageControls.includes('options.activeLocale.value !== locale') &&
+      templateLanguageControls.includes('watch(\n    options.activeLocale') &&
+      templateLanguageControls.includes('options.activeLocale.value || options.draftLocale.value') &&
       templateWorkspace.includes(':editor-locale="editorLocale"') &&
-      templateEquipmentComposable.includes('locale: options.editorLocale.value'),
+      equipmentSearchComposable.includes('locale: options.editorLocale.value'),
     'template workspace must keep legacy current-edit locale separate from template output locale order'
   )
   assert(
@@ -1997,7 +2054,6 @@ function extractNumericPropertyResolved(block, property, source) {
   assert(match, `template block must include numeric property ${property}`)
   return resolveNumericExpression(match[1], source)
 }
-
 function resolveNumericExpression(value, source) {
   const text = String(value || '').trim()
 
