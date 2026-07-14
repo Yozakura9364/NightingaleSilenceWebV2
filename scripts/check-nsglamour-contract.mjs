@@ -379,6 +379,15 @@ async function checkLocalTemplateDataLayer() {
     'NSGlamour page shell must keep the shared theme background while equipinfo/template workspaces stay pure white'
   )
   assert(
+    countSubstring(glamourWorkspace, 'defineAsyncComponent(') === 4 &&
+      glamourWorkspace.includes("import('@/pages/glamour/components/NSGlamourCopyPanel.vue')") &&
+      glamourWorkspace.includes("import('@/pages/glamour/components/NSGlamourEquipmentPanel.vue')") &&
+      glamourWorkspace.includes("import('@/pages/glamour/components/NSGlamourImportPanel.vue')") &&
+      glamourWorkspace.includes("import('@/pages/glamour/components/NSGlamourTemplateWorkspace.vue')") &&
+      !glamourWorkspace.includes('import NSGlamourTemplateWorkspace from'),
+    'template and equipinfo UI branches must remain lazy-loaded outside the shared NSGlamour workspace chunk'
+  )
+  assert(
     equipmentPanel.includes('nsglamour-slot--selected-no-dye') &&
       countSubstring(equipmentPanel, 'v-else-if="!entry.itemName" class="nsglamour-slot__search"') === 2 &&
       !equipmentPanel.includes('<div v-else class="nsglamour-slot__search">'),

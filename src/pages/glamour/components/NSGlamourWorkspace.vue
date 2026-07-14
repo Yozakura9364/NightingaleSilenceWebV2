@@ -73,17 +73,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, defineAsyncComponent, ref } from 'vue'
 import { ApiError } from '@/composables/useFetch'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import { normalizeGlamourLocale } from '@/lib/glamour/equipment'
 import { formatGlamourText } from '@/lib/glamour/formatText'
 import { isSupportedGlamourLinkUrl } from '@/lib/glamour/links'
 import type { GlamourImportPayload } from '@/lib/glamour/types'
-import NSGlamourCopyPanel from '@/pages/glamour/components/NSGlamourCopyPanel.vue'
-import NSGlamourEquipmentPanel from '@/pages/glamour/components/NSGlamourEquipmentPanel.vue'
-import NSGlamourImportPanel from '@/pages/glamour/components/NSGlamourImportPanel.vue'
-import NSGlamourTemplateWorkspace from '@/pages/glamour/components/NSGlamourTemplateWorkspace.vue'
 import { useGlamourDraft } from '@/pages/glamour/composables/useGlamourDraft'
 import { useNSGlamourApi } from '@/pages/glamour/services/nsglamourApi'
 import type { ApiBoundary } from '@/services/apiBoundaries'
@@ -91,6 +87,19 @@ import type { GlamourRecentSnapshot } from '@/lib/glamour/types'
 import { useLocale } from '@/stores/locale'
 
 const MAX_CHARA_UPLOAD_BYTES = 5 * 1024 * 1024
+
+const NSGlamourCopyPanel = defineAsyncComponent(
+  () => import('@/pages/glamour/components/NSGlamourCopyPanel.vue')
+)
+const NSGlamourEquipmentPanel = defineAsyncComponent(
+  () => import('@/pages/glamour/components/NSGlamourEquipmentPanel.vue')
+)
+const NSGlamourImportPanel = defineAsyncComponent(
+  () => import('@/pages/glamour/components/NSGlamourImportPanel.vue')
+)
+const NSGlamourTemplateWorkspace = defineAsyncComponent(
+  () => import('@/pages/glamour/components/NSGlamourTemplateWorkspace.vue')
+)
 
 const props = defineProps<{
   boundary: ApiBoundary
