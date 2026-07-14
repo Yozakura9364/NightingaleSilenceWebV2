@@ -32,6 +32,8 @@ type NSPlateCustomPortraitSplitSource = {
 
 const CUSTOM_PORTRAIT_MIN_ZOOM = 1
 const CUSTOM_PORTRAIT_MAX_ZOOM = 3
+const CUSTOM_PORTRAIT_FREE_MIN_SCALE = 0.05
+const CUSTOM_PORTRAIT_FREE_MAX_SCALE = 3
 const CUSTOM_PORTRAIT_POPOUT_SPLIT_GUARD_PX = 2
 
 export async function createCustomPortraitImageFromFile(
@@ -69,7 +71,11 @@ export async function createCustomPortraitCropStateFromFile(
     offsetY: 0,
     splitY,
     splitLeftY: splitY,
-    splitRightY: splitY
+    splitRightY: splitY,
+    freeX: NSPLATE_CANVAS_DIMENSIONS.nameplate.width / 2,
+    freeY: NSPLATE_CANVAS_DIMENSIONS.nameplate.height / 2,
+    freeScale: getDefaultFreeScale(sourceWidth, sourceHeight),
+    freeRotation: 0
   } satisfies NSPlateCustomPortraitCropState
 
   clampCustomPortraitCropState(cropState)
@@ -80,7 +86,7 @@ export async function createCustomPortraitCropStateFromImage(
   customPortrait: NSPlateCustomPortraitImage
 ): Promise<NSPlateCustomPortraitCropState> {
   const sourceDataUrl =
-    customPortrait.mode === 'popout'
+    customPortrait.mode === 'popout' || customPortrait.mode === 'free'
       ? customPortrait.sourceDataUrl || customPortrait.dataUrl
       : customPortrait.dataUrl
   const image = await loadImage(sourceDataUrl)
@@ -113,9 +119,16 @@ export async function createCustomPortraitCropStateFromImage(
     offsetY: customPortrait.mode === 'popout' ? (customPortrait.offsetY ?? 0) : 0,
     splitY: splitLine.centerY,
     splitLeftY: splitLine.leftY,
-    splitRightY: splitLine.rightY
+    splitRightY: splitLine.rightY,
+    freeLayerAnchor: customPortrait.freeLayerAnchor,
+    freeX: customPortrait.freeX ?? NSPLATE_CANVAS_DIMENSIONS.nameplate.width / 2,
+    freeY: customPortrait.freeY ?? NSPLATE_CANVAS_DIMENSIONS.nameplate.height / 2,
+    freeScale:
+      customPortrait.freeScale ?? getDefaultFreeScale(sourceWidth, sourceHeight),
+    freeRotation: customPortrait.freeRotation ?? 0
   } satisfies NSPlateCustomPortraitCropState
 
+  upgradeLegacyFreeScale(cropState)
   clampCustomPortraitCropState(cropState)
   return cropState
 }
@@ -123,7 +136,8 @@ export async function createCustomPortraitCropStateFromImage(
 export async function createCustomPortraitImageFromCropState(
   cropState: NSPlateCustomPortraitCropState
 ): Promise<NSPlateCustomPortraitImage> {
-  const dataUrl = createPortraitDataUrl(cropState)
+  const dataUrl =
+    cropState.mode === 'free' ? cropState.sourceDataUrl : createPortraitDataUrl(cropState)
   const { width, height } = NSPLATE_CANVAS_DIMENSIONS.portrait
   const popoutSource = cropState.mode === 'popout' ? createPopoutSourceDataUrl(cropState) : null
 
@@ -158,7 +172,18 @@ export async function createCustomPortraitImageFromCropState(
           splitLeftY: cropState.splitLeftY,
           splitRightY: cropState.splitRightY
         }
-      : {})
+      : cropState.mode === 'free'
+        ? {
+            freeLayerAnchor: cropState.freeLayerAnchor ?? 'portraitBase',
+            sourceDataUrl: cropState.sourceDataUrl,
+            sourceWidth: cropState.sourceWidth,
+            sourceHeight: cropState.sourceHeight,
+            freeX: cropState.freeX,
+            freeY: cropState.freeY,
+            freeScale: cropState.freeScale,
+            freeRotation: cropState.freeRotation
+          }
+        : {})
   }
 }
 
@@ -169,6 +194,11 @@ export function drawCustomPortraitCropPreview(
 ) {
   if (cropState.mode === 'popout') {
     drawCustomPortraitPopoutCropPreview(canvas, cropState, portraitSide)
+    return
+  }
+
+  if (cropState.mode === 'free') {
+    drawCustomPortraitFreeCropPreview(canvas, cropState, portraitSide)
     return
   }
 
@@ -186,7 +216,7 @@ export function drawCustomPortraitCropPreview(
 }
 
 export function getCustomPortraitCropPreviewDimensions(cropState: NSPlateCustomPortraitCropState) {
-  return cropState.mode === 'popout'
+  return cropState.mode === 'popout' || cropState.mode === 'free'
     ? NSPLATE_CANVAS_DIMENSIONS.nameplate
     : NSPLATE_CANVAS_DIMENSIONS.portrait
 }
@@ -201,6 +231,12 @@ export function clampCustomPortraitCropState(cropState: NSPlateCustomPortraitCro
   cropState.splitLeftY = splitLine.leftY
   cropState.splitRightY = splitLine.rightY
   cropState.splitY = splitLine.centerY
+
+  cropState.freeScale = Math.max(
+    CUSTOM_PORTRAIT_FREE_MIN_SCALE,
+    Math.min(CUSTOM_PORTRAIT_FREE_MAX_SCALE, cropState.freeScale)
+  )
+  cropState.freeRotation = normalizeFreeRotation(cropState.freeRotation)
 
   const rect = getCustomPortraitCropDrawRect(cropState)
 
@@ -223,6 +259,8 @@ export function getCustomPortraitCropLimits() {
   return {
     minZoom: CUSTOM_PORTRAIT_MIN_ZOOM,
     maxZoom: CUSTOM_PORTRAIT_MAX_ZOOM,
+    minFreeScale: CUSTOM_PORTRAIT_FREE_MIN_SCALE,
+    maxFreeScale: CUSTOM_PORTRAIT_FREE_MAX_SCALE,
     minSplitY: 0,
     maxSplitY: NSPLATE_CANVAS_DIMENSIONS.portrait.height
   }
@@ -233,6 +271,7 @@ export function setCustomPortraitCropMode(
   mode: NSPlateCustomPortraitMode
 ) {
   cropState.mode = mode
+  upgradeLegacyFreeScale(cropState)
   clampCustomPortraitCropState(cropState)
 }
 
@@ -255,6 +294,29 @@ export function getCustomPortraitSourceDrawRect(
     width: drawWidth,
     height: drawHeight
   }
+}
+
+export function drawCustomPortraitFreeImage(
+  context: CanvasRenderingContext2D,
+  image: CanvasImageSource,
+  sourceWidth: number,
+  sourceHeight: number,
+  source: Pick<NSPlateCustomPortraitImage, 'freeX' | 'freeY' | 'freeScale' | 'freeRotation'>
+) {
+  const { width, height } = NSPLATE_CANVAS_DIMENSIONS.nameplate
+  const scale = Math.max(CUSTOM_PORTRAIT_FREE_MIN_SCALE, source.freeScale ?? 1)
+  const x = source.freeX ?? width / 2
+  const y = source.freeY ?? height / 2
+  const rotation = ((source.freeRotation ?? 0) * Math.PI) / 180
+  const drawWidth = sourceWidth * scale
+  const drawHeight = sourceHeight * scale
+
+  context.save()
+  setHighQualityImageSmoothing(context)
+  context.translate(x, y)
+  context.rotate(rotation)
+  context.drawImage(image, -drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight)
+  context.restore()
 }
 
 export function getCustomPortraitPopoutSplitLine(
@@ -444,6 +506,48 @@ function drawCustomPortraitCropToContext(
   context.restore()
 }
 
+function drawCustomPortraitFreeCropPreview(
+  canvas: HTMLCanvasElement,
+  cropState: NSPlateCustomPortraitCropState,
+  portraitSide: NSPlatePortraitSide = 'right'
+) {
+  const { width, height } = NSPLATE_CANVAS_DIMENSIONS.nameplate
+  canvas.width = width
+  canvas.height = height
+  const context = canvas.getContext('2d')
+
+  if (!context) {
+    return
+  }
+
+  context.clearRect(0, 0, width, height)
+  const portrait = NSPLATE_CANVAS_DIMENSIONS.portrait
+  const portraitOrigin = NSPLATE_PORTRAIT_EMBED[portraitSide]
+  context.save()
+  context.lineWidth = 8
+  context.strokeStyle = 'rgba(69, 56, 83, 0.96)'
+  context.strokeRect(portraitOrigin.x, portraitOrigin.y, portrait.width, portrait.height)
+  context.restore()
+  drawCustomPortraitFreeImage(
+    context,
+    cropState.image,
+    cropState.sourceWidth,
+    cropState.sourceHeight,
+    cropState
+  )
+
+  const drawWidth = cropState.sourceWidth * cropState.freeScale
+  const drawHeight = cropState.sourceHeight * cropState.freeScale
+  context.save()
+  context.translate(cropState.freeX, cropState.freeY)
+  context.rotate((cropState.freeRotation * Math.PI) / 180)
+  context.setLineDash([18, 12])
+  context.lineWidth = 4
+  context.strokeStyle = 'rgba(214, 79, 114, 0.96)'
+  context.strokeRect(-drawWidth / 2, -drawHeight / 2, drawWidth, drawHeight)
+  context.restore()
+}
+
 function drawCustomPortraitPopoutCropPreview(
   canvas: HTMLCanvasElement,
   cropState: NSPlateCustomPortraitCropState,
@@ -557,6 +661,35 @@ function getCustomPortraitCropDrawRect(cropState: NSPlateCustomPortraitCropState
     width: drawWidth,
     height: drawHeight
   }
+}
+
+function getDefaultFreeScale(sourceWidth: number, sourceHeight: number) {
+  const { width, height } = NSPLATE_CANVAS_DIMENSIONS.portrait
+  return Math.min(
+    CUSTOM_PORTRAIT_FREE_MAX_SCALE,
+    Math.max(width / sourceWidth, height / sourceHeight)
+  )
+}
+
+function getLegacyFreeScale(sourceWidth: number, sourceHeight: number) {
+  const { width, height } = NSPLATE_CANVAS_DIMENSIONS.nameplate
+  return Math.min(1, Math.min(width / sourceWidth, height / sourceHeight))
+}
+
+function upgradeLegacyFreeScale(cropState: NSPlateCustomPortraitCropState) {
+  if (cropState.mode !== 'free') {
+    return
+  }
+
+  const legacyScale = getLegacyFreeScale(cropState.sourceWidth, cropState.sourceHeight)
+  if (Math.abs(cropState.freeScale - legacyScale) < 0.001) {
+    cropState.freeScale = getDefaultFreeScale(cropState.sourceWidth, cropState.sourceHeight)
+  }
+}
+
+function normalizeFreeRotation(value: number) {
+  const normalized = Number.isFinite(value) ? Number(value) : 0
+  return ((normalized + 180) % 360 + 360) % 360 - 180
 }
 
 function readFileAsDataUrl(file: File) {

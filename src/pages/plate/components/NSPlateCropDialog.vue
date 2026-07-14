@@ -39,6 +39,13 @@
             >
               {{ t(textKeys.nsplateCustomPortraitCropModePopout) }}
             </button>
+            <button
+              type="button"
+              :data-active="localCropState?.mode === 'free'"
+              @click="setCropMode('free')"
+            >
+              {{ t(textKeys.nsplateCustomPortraitCropModeFree) }}
+            </button>
           </div>
 
           <div
@@ -54,14 +61,25 @@
             <span>{{ t(textKeys.nsplateCustomPortraitCropZoom) }}</span>
             <input
               type="range"
-              :min="cropLimits.minZoom"
-              :max="cropLimits.maxZoom"
+              :min="localCropState?.mode === 'free' ? cropLimits.minFreeScale : cropLimits.minZoom"
+              :max="localCropState?.mode === 'free' ? cropLimits.maxFreeScale : cropLimits.maxZoom"
               step="0.02"
-              :value="localCropState?.scaleMultiplier ?? 1"
+              :value="localCropState?.mode === 'free' ? localCropState.freeScale : localCropState?.scaleMultiplier ?? 1"
               @input="onZoomInput"
             />
-            <output>{{ zoomLabel }}</output>
+            <output>{{ localCropState?.mode === 'free' ? freeScaleLabel : zoomLabel }}</output>
           </label>
+
+          <div v-if="localCropState?.mode === 'free'" class="nsplate-crop-dialog__angle-control">
+            <label>
+              <span>{{ t(textKeys.nsplateCustomPortraitCropRotation) }}</span>
+              <span class="nsplate-crop-dialog__angle-input">
+                <input type="number" min="-180" max="180" step="1" :value="localCropState.freeRotation" @input="onFreeRotationInput" />
+                <span aria-hidden="true">°</span>
+              </span>
+            </label>
+            <button type="button" @click="resetFreeTransform">{{ t(textKeys.nsplateCustomPortraitCropTransformReset) }}</button>
+          </div>
 
           <label v-if="localCropState?.mode === 'popout'" class="nsplate-crop-dialog__control">
             <span>{{ t(textKeys.nsplateCustomPortraitCropSplit) }}</span>
@@ -138,16 +156,19 @@ const {
   canvasRef,
   cloneCurrentCropState,
   cropLimits,
+  freeScaleLabel,
   localCropState,
   onPointerDown,
   onPointerMove,
   onPointerUp,
+  onFreeRotationInput,
   onSplitAngleInput,
   onSplitInput,
   onWheel,
   onZoomInput,
   previewDimensions,
   resetSplitAngle,
+  resetFreeTransform,
   setCropMode,
   splitAngle,
   splitLabel,
@@ -177,7 +198,7 @@ function confirmCrop() {
 }
 
 .nsplate-crop-dialog__window {
-  width: min(960px, 100%);
+  width: min(1120px, 100%);
   max-height: min(92vh, 860px);
   overflow: hidden;
 }
@@ -185,7 +206,7 @@ function confirmCrop() {
 .nsplate-crop-dialog__body {
   display: grid;
   min-height: 0;
-  gap: 12px;
+  gap: 8px;
 }
 
 .nsplate-crop-dialog__canvas-shell {
@@ -217,10 +238,11 @@ function confirmCrop() {
 
 .nsplate-crop-dialog__canvas[data-mode='standard'] {
   width: auto;
-  height: min(58vh, 560px);
+  height: min(64vh, 640px);
 }
 
-.nsplate-crop-dialog__canvas[data-mode='popout'] {
+.nsplate-crop-dialog__canvas[data-mode='popout'],
+.nsplate-crop-dialog__canvas[data-mode='free'] {
   width: min(100%, 900px);
   height: auto;
 }
@@ -231,14 +253,14 @@ function confirmCrop() {
 
 .nsplate-crop-dialog__mode {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
   border: 2px solid var(--ns-pixel-border);
   background: var(--ns-color-surface-solid);
 }
 
 .nsplate-crop-dialog__mode button {
-  min-height: 34px;
+  min-height: 30px;
   border: 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
@@ -258,23 +280,24 @@ function confirmCrop() {
 }
 
 .nsplate-crop-dialog__hints {
-  display: grid;
-  gap: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 12px;
   color: var(--ns-color-text-muted);
   font-family: var(--ns-font-sans);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.3;
 }
 
 .nsplate-crop-dialog__control {
   display: grid;
   grid-template-columns: auto minmax(120px, 1fr) 52px;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   color: var(--ns-color-text);
   font-family: var(--ns-font-sans);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 850;
 }
 
@@ -292,9 +315,9 @@ function confirmCrop() {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
-  gap: 8px;
+  gap: 6px;
   font-family: var(--ns-font-sans);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 850;
 }
 
@@ -310,7 +333,7 @@ function confirmCrop() {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
-  min-height: 32px;
+  min-height: 30px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
 }
@@ -318,7 +341,7 @@ function confirmCrop() {
 .nsplate-crop-dialog__angle-input input {
   width: 100%;
   min-width: 0;
-  height: 30px;
+  height: 28px;
   padding: 0 4px 0 8px;
   border: 0;
   outline: 0;
@@ -334,7 +357,7 @@ function confirmCrop() {
 }
 
 .nsplate-crop-dialog__angle-control > button {
-  min-height: 32px;
+  min-height: 30px;
   padding: 0 10px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);

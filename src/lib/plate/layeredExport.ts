@@ -1,4 +1,5 @@
 import {
+  drawCustomPortraitFreeImage,
   getCustomPortraitSourceDrawRect,
   traceCustomPortraitInFrameClipPath,
   traceCustomPortraitPopoutClipPath
@@ -654,7 +655,7 @@ async function createCustomPortraitInFrameLayer(
   portraitEmbed: NSPlateLayerPosition,
   exportScale: number
 ) {
-  if (!customPortrait) {
+  if (!customPortrait || customPortrait.mode === 'free') {
     return null
   }
 
@@ -715,7 +716,7 @@ async function createCustomPortraitPopoutLayer(
   dimensions: { width: number; height: number },
   exportScale: number
 ) {
-  if (!customPortrait || customPortrait.mode !== 'popout') {
+  if (!customPortrait || (customPortrait.mode !== 'popout' && customPortrait.mode !== 'free')) {
     return null
   }
 
@@ -731,6 +732,28 @@ async function createCustomPortraitPopoutLayer(
     Math.round(dimensions.height * exportScale)
   )
   const context = getLayerContext(canvas, true)
+
+  if (customPortrait.mode === 'free') {
+    context.save()
+    context.scale(exportScale, exportScale)
+    drawCustomPortraitFreeImage(
+      context,
+      image,
+      customPortrait.sourceWidth ?? image.naturalWidth,
+      customPortrait.sourceHeight ?? image.naturalHeight,
+      customPortrait
+    )
+    context.restore()
+    return {
+      name: '自定义图片（全出框）',
+      x: 0,
+      y: 0,
+      width: canvas.width,
+      height: canvas.height,
+      rgbaData: canvas.toDataURL('image/png'),
+      sourceType: 'custom'
+    } satisfies NSPlateLayeredExportLayer
+  }
 
   context.save()
   context.beginPath()

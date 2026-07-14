@@ -197,6 +197,7 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
     id,
     mode,
     ...pickOptionalPopoutLayerAnchor(value),
+    ...pickOptionalFreeLayerAnchor(value),
     fileName,
     dataUrl,
     width,
@@ -211,12 +212,16 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
     ...pickOptionalNumber(value, 'offsetY'),
     ...pickOptionalNumber(value, 'splitY'),
     ...pickOptionalNumber(value, 'splitLeftY'),
-    ...pickOptionalNumber(value, 'splitRightY')
+    ...pickOptionalNumber(value, 'splitRightY'),
+    ...pickOptionalNumber(value, 'freeX'),
+    ...pickOptionalNumber(value, 'freeY'),
+    ...pickOptionalNumber(value, 'freeScale'),
+    ...pickOptionalNumber(value, 'freeRotation')
   }
 }
 
 function normalizeCustomPortraitMode(value: unknown): NSPlateCustomPortraitMode | null {
-  return value === 'standard' || value === 'popout' ? value : null
+  return value === 'standard' || value === 'popout' || value === 'free' ? value : null
 }
 
 function normalizeCustomPortraitPopoutLayerAnchor(
@@ -256,6 +261,12 @@ function pickOptionalString(
 function pickOptionalPopoutLayerAnchor(record: Record<string, unknown>) {
   const value = normalizeCustomPortraitPopoutLayerAnchor(record.popoutLayerAnchor)
   return value ? { popoutLayerAnchor: value } : {}
+}
+
+function pickOptionalFreeLayerAnchor(record: Record<string, unknown>) {
+  if (record.freeLayerAnchor === 'portraitBase') return { freeLayerAnchor: 'portraitBase' as const }
+  const value = normalizeCustomPortraitPopoutLayerAnchor(record.freeLayerAnchor)
+  return value ? { freeLayerAnchor: value } : {}
 }
 
 function pickOptionalNumber(

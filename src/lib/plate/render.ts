@@ -13,10 +13,13 @@ import type {
   NSPlateAssetSummary,
   NSPlateCanvasMode,
   NSPlateCustomPortraitImage,
-  NSPlateCustomPortraitPopoutLayerAnchor,
+  NSPlateCustomPortraitFreeLayerAnchor,
   NSPlatePortraitSide
 } from '@/lib/plate/types'
-import { normalizeNSPlateCustomPortraitPopoutLayerAnchor } from '@/lib/plate/types'
+import {
+  normalizeNSPlateCustomPortraitFreeLayerAnchor,
+  normalizeNSPlateCustomPortraitPopoutLayerAnchor
+} from '@/lib/plate/types'
 
 export interface NSPlateCanvasDimensions {
   width: number
@@ -253,7 +256,7 @@ export function getPlateRenderLayerNames(plan: NSPlateRenderPlan) {
       }
     } else if (
       segment.type === 'customPortraitPopout' &&
-      segment.customPortrait?.mode === 'popout'
+      (segment.customPortrait?.mode === 'popout' || segment.customPortrait?.mode === 'free')
     ) {
       names.push(`${NSPLATE_CUSTOM_PORTRAIT_LAYER_KEY}:popout`)
     }
@@ -281,6 +284,7 @@ export function getNameplateRenderSegments(
       customPortrait: plan.customPortrait,
       portraitEmbed: plan.portraitEmbed
     },
+    ...(popoutAnchor === 'portraitBase' ? [popoutSegment] : []),
     ...(popoutAnchor === 'aboveCustomPortrait' ? [popoutSegment] : []),
     {
       type: 'portraitOverlayComposite',
@@ -320,8 +324,7 @@ export function getNameplateRenderSegments(
       textLayers: plan.infoTextLayers,
       dimensions: plan.dimensions
     },
-    ...(popoutAnchor === 'aboveInfoText' ? [popoutSegment] : []),
-    ...(popoutAnchor === 'front' ? [popoutSegment] : [])
+    ...(popoutAnchor === 'aboveInfoText' ? [popoutSegment] : [])
   ]
 }
 
@@ -335,6 +338,7 @@ export function getNameplateLayerOrderSlots(
     ...NAMEPLATE_BASE_CATEGORIES.map(createAssetLayerOrderSlot),
     createAssetLayerOrderSlot(NSPLATE_PORTRAIT_CATEGORIES[0]),
     { type: 'customPortraitInFrame' },
+    ...(popoutAnchor === 'portraitBase' ? [popoutSlot] : []),
     ...(popoutAnchor === 'aboveCustomPortrait' ? [popoutSlot] : []),
     ...NSPLATE_PORTRAIT_CATEGORIES.slice(1).map(createAssetLayerOrderSlot),
     ...(popoutAnchor === 'belowNameplateFrame' ? [popoutSlot] : []),
@@ -350,14 +354,17 @@ export function getNameplateLayerOrderSlots(
     ...(popoutAnchor === 'aboveNameplateOrnaments' ? [popoutSlot] : []),
     ...(popoutAnchor === 'aboveInfoGraphics' ? [popoutSlot] : []),
     { type: 'infoLayers' },
-    ...(popoutAnchor === 'aboveInfoText' ? [popoutSlot] : []),
-    ...(popoutAnchor === 'front' ? [popoutSlot] : [])
+    ...(popoutAnchor === 'aboveInfoText' ? [popoutSlot] : [])
   ]
 }
 
 function getCustomPortraitPopoutLayerAnchor(
   customPortrait: NSPlateCustomPortraitImage | null
-): NSPlateCustomPortraitPopoutLayerAnchor {
+): NSPlateCustomPortraitFreeLayerAnchor {
+  if (customPortrait?.mode === 'free') {
+    return normalizeNSPlateCustomPortraitFreeLayerAnchor(customPortrait.freeLayerAnchor)
+  }
+
   if (customPortrait?.mode !== 'popout') {
     return normalizeNSPlateCustomPortraitPopoutLayerAnchor(null)
   }

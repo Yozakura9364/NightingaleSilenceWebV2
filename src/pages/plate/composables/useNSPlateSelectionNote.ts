@@ -12,12 +12,14 @@ import { useLocale } from '@/stores/locale'
 import type {
   NSPlateAssetGroup,
   NSPlateCanvasMode,
+  NSPlateCustomPortraitFreeLayerAnchor,
   NSPlateCustomPortraitImage,
   NSPlatePanelTab,
   NSPlateSelectionNoteItem
 } from '@/lib/plate/types'
 import {
   NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS,
+  normalizeNSPlateCustomPortraitFreeLayerAnchor,
   normalizeNSPlateCustomPortraitPopoutLayerAnchor
 } from '@/lib/plate/types'
 
@@ -124,25 +126,27 @@ export function useNSPlateSelectionNote(options: UseNSPlateSelectionNoteOptions)
   }
 
   function createCustomPortraitPopoutItem(): NSPlateSelectionNoteItem {
-    const isEnabled = options.customPortrait.value?.mode === 'popout'
-    const currentAnchor = normalizeNSPlateCustomPortraitPopoutLayerAnchor(
-      options.customPortrait.value?.popoutLayerAnchor
-    )
-    const anchorIndex = NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.indexOf(currentAnchor)
+    const portrait = options.customPortrait.value
+    const isFree = portrait?.mode === 'free'
+    const isEnabled = portrait?.mode === 'popout' || isFree
+    const currentAnchor = isFree
+      ? normalizeNSPlateCustomPortraitFreeLayerAnchor(portrait.freeLayerAnchor)
+      : normalizeNSPlateCustomPortraitPopoutLayerAnchor(portrait?.popoutLayerAnchor)
+    const layerAnchors: readonly NSPlateCustomPortraitFreeLayerAnchor[] = isFree
+      ? (['portraitBase', ...NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS] as const)
+      : NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS
+    const anchorIndex = layerAnchors.indexOf(currentAnchor)
 
     return {
       id: 'customPortrait:popout',
       target: 'customPortrait',
       label: t(textKeys.nsplateLayerOrderCustomPortraitPopout),
       valueLabel: isEnabled
-        ? (options.customPortrait.value?.fileName ?? t(textKeys.notSelected))
+        ? (portrait?.fileName ?? t(textKeys.notSelected))
         : t(textKeys.nsplateLayerOrderNotEnabled),
       selected: isEnabled,
       movable: isEnabled,
-      canMoveUp:
-        isEnabled &&
-        anchorIndex >= 0 &&
-        anchorIndex < NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.length - 1,
+      canMoveUp: isEnabled && anchorIndex >= 0 && anchorIndex < layerAnchors.length - 1,
       canMoveDown: isEnabled && anchorIndex > 0
     }
   }

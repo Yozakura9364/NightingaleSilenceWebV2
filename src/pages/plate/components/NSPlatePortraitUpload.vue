@@ -28,18 +28,6 @@
         {{ t(textKeys.nsplateCustomPortraitAdjust) }}
       </button>
     </div>
-
-    <label
-      v-if="modelValue?.mode === 'popout'"
-      class="nsplate-portrait-upload__layer-control"
-    >
-      <span>{{ t(textKeys.nsplateCustomPortraitPopoutLayer) }}</span>
-      <select :value="modelValue.popoutLayerAnchor" @change="setPopoutLayerAnchor">
-        <option v-for="option in popoutLayerOptions" :key="option.value" :value="option.value">
-          {{ t(option.labelKey) }}
-        </option>
-      </select>
-    </label>
   </NSPlatePanel>
 
   <NSPlateCropDialog
@@ -60,12 +48,10 @@ import {
   createCustomPortraitCropStateFromImage,
   createCustomPortraitImageFromCropState
 } from '@/lib/plate/customPortrait'
-import {
-  NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS,
-  type NSPlateCustomPortraitCropState,
-  type NSPlateCustomPortraitImage,
-  type NSPlateCustomPortraitPopoutLayerAnchor,
-  type NSPlatePortraitSide
+import type {
+  NSPlateCustomPortraitCropState,
+  NSPlateCustomPortraitImage,
+  NSPlatePortraitSide
 } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
 import NSPlateCropDialog from '@/pages/plate/components/NSPlateCropDialog.vue'
@@ -86,10 +72,6 @@ const cropState = ref<NSPlateCustomPortraitCropState | null>(null)
 const emptyIconStyle = {
   '--nsplate-portrait-upload-empty-icon': `url("${image2PlusIcon}")`
 } as CSSProperties
-const popoutLayerOptions = NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.map((value) => ({
-  value,
-  labelKey: `nsplate.customPortrait.popoutLayer.${value}`
-}))
 async function onFileChange(event: Event) {
   const input = event.target as HTMLInputElement
   const file = input.files?.[0] ?? null
@@ -120,17 +102,6 @@ async function adjustCurrentImage() {
   } catch {
     errorText.value = t(textKeys.nsplateCustomPortraitError)
   }
-}
-
-function setPopoutLayerAnchor(event: Event) {
-  const current = props.modelValue
-  const value = (event.target as HTMLSelectElement).value as NSPlateCustomPortraitPopoutLayerAnchor
-
-  if (!current || current.mode !== 'popout') {
-    return
-  }
-
-  emit('update:modelValue', { ...current, popoutLayerAnchor: value })
 }
 
 async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
@@ -254,8 +225,7 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
   justify-content: flex-end;
 }
 
-.nsplate-portrait-upload__actions button,
-.nsplate-portrait-upload__layer-control select {
+.nsplate-portrait-upload__actions button {
   min-height: 32px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
@@ -268,18 +238,5 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
 .nsplate-portrait-upload__actions button {
   padding: 0 10px;
   cursor: pointer;
-}
-
-.nsplate-portrait-upload__layer-control {
-  display: grid;
-  gap: 6px;
-  color: var(--ns-color-text-muted);
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.nsplate-portrait-upload__layer-control select {
-  width: 100%;
-  padding: 0 8px;
 }
 </style>

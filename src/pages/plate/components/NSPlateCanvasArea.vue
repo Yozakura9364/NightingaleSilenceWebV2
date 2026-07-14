@@ -110,6 +110,7 @@ const renderSignature = computed(() =>
     props.customPortrait?.id ?? '',
     props.customPortrait?.mode ?? '',
     props.customPortrait?.popoutLayerAnchor ?? '',
+    props.customPortrait?.freeLayerAnchor ?? '',
     props.customPortrait?.dataUrl ?? '',
     props.customPortrait?.sourceDataUrl ?? '',
     props.customPortrait?.splitY ?? '',

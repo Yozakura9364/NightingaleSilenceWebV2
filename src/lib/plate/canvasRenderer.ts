@@ -8,6 +8,7 @@ import {
   type NSPlateRenderImageLayer
 } from '@/lib/plate/render'
 import {
+  drawCustomPortraitFreeImage,
   getCustomPortraitSourceDrawRect,
   traceCustomPortraitInFrameClipPath,
   traceCustomPortraitPopoutClipPath
@@ -205,6 +206,10 @@ async function drawCustomPortraitInFrame(
     return
   }
 
+  if (customPortrait.mode === 'free') {
+    return
+  }
+
   const source =
     customPortrait.mode === 'popout'
       ? (customPortrait.sourceDataUrl ?? customPortrait.dataUrl)
@@ -240,7 +245,7 @@ async function drawCustomPortraitPopout(
   portraitEmbed: NSPlateLayerPosition,
   options: NSPlateCanvasRenderOptions
 ) {
-  if (!customPortrait || customPortrait.mode !== 'popout') {
+  if (!customPortrait || (customPortrait.mode !== 'popout' && customPortrait.mode !== 'free')) {
     return
   }
 
@@ -248,6 +253,17 @@ async function drawCustomPortraitPopout(
   const image = await loadImage(source, options.imageCache)
 
   if (!image || !isCurrentRender(options)) {
+    return
+  }
+
+  if (customPortrait.mode === 'free') {
+    drawCustomPortraitFreeImage(
+      context,
+      image,
+      customPortrait.sourceWidth ?? image.naturalWidth,
+      customPortrait.sourceHeight ?? image.naturalHeight,
+      customPortrait
+    )
     return
   }
 

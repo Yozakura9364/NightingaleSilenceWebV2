@@ -1,5 +1,9 @@
 import { plateTextKeys as textKeys } from '@/locales/keys/plate'
-import { joinNSPlateResourceUrl, normalizeNSPlateResourcePath } from '@/lib/plate/assetUrls'
+import {
+  joinNSPlateResourceUrl,
+  normalizeNSPlatePreviewPath,
+  normalizeNSPlateResourcePath
+} from '@/lib/plate/assetUrls'
 import {
   NSPLATE_NAMEPLATE_CATEGORIES,
   NSPLATE_PORTRAIT_CATEGORIES,
@@ -130,7 +134,10 @@ function normalizeAssetList(
           file,
           path,
           imageUrl: joinNSPlateResourceUrl(meta?.imgBase, path),
-          previewUrl: joinNSPlateResourceUrl(meta?.previewImgBase, path),
+          previewUrl: joinNSPlateResourceUrl(
+            meta?.previewImgBase,
+            normalizeNSPlatePreviewPath(path, meta?.previewFormat)
+          ),
           raw: asset
         },
         index

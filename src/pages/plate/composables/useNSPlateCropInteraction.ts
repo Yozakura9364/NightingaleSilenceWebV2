@@ -47,6 +47,10 @@ export function useNSPlateCropInteraction(
       : 0
   })
 
+  const freeScaleLabel = computed(() =>
+    `${Math.round((localCropState.value?.freeScale ?? 1) * 100)}%`
+  )
+
   const previewDimensions = computed(() => {
     const currentCropState = localCropState.value
     return currentCropState
@@ -85,7 +89,37 @@ export function useNSPlateCropInteraction(
       return
     }
 
+    if (currentCropState.mode === 'free') {
+      updateFreeScale(Number((event.target as HTMLInputElement).value))
+      return
+    }
+
     updateZoom(Number((event.target as HTMLInputElement).value))
+  }
+
+  function onFreeRotationInput(event: Event) {
+    const currentCropState = localCropState.value
+    const value = (event.target as HTMLInputElement).valueAsNumber
+    if (!currentCropState || !Number.isFinite(value)) return
+    currentCropState.freeRotation = value
+    clampCustomPortraitCropState(currentCropState)
+    renderPreview()
+  }
+
+  function resetFreeTransform() {
+    const currentCropState = localCropState.value
+    if (!currentCropState) return
+    currentCropState.freeX = NSPLATE_CANVAS_DIMENSIONS.nameplate.width / 2
+    currentCropState.freeY = NSPLATE_CANVAS_DIMENSIONS.nameplate.height / 2
+    currentCropState.freeScale = Math.min(
+      1,
+      Math.min(
+        NSPLATE_CANVAS_DIMENSIONS.nameplate.width / currentCropState.sourceWidth,
+        NSPLATE_CANVAS_DIMENSIONS.nameplate.height / currentCropState.sourceHeight
+      )
+    )
+    currentCropState.freeRotation = 0
+    renderPreview()
   }
 
   function onSplitInput(event: Event) {
@@ -134,10 +168,12 @@ export function useNSPlateCropInteraction(
     }
 
     event.preventDefault()
-    updateZoom(
-      currentCropState.scaleMultiplier + (event.deltaY > 0 ? -0.06 : 0.06),
-      getPortraitPointerPosition(event, canvasRef.value, currentCropState)
-    )
+    if (currentCropState.mode === 'free') {
+      updateFreeScale(currentCropState.freeScale + (event.deltaY > 0 ? -0.06 : 0.06))
+      return
+    }
+
+    updateZoom(currentCropState.scaleMultiplier + (event.deltaY > 0 ? -0.06 : 0.06), getPortraitPointerPosition(event, canvasRef.value, currentCropState))
   }
 
   function onPointerDown(event: PointerEvent) {
@@ -189,8 +225,13 @@ export function useNSPlateCropInteraction(
     const dimensions = previewDimensions.value
     const scaleX = dimensions.width / rect.width
     const scaleY = dimensions.height / rect.height
-    currentCropState.offsetX += (event.clientX - lastPointerX) * scaleX
-    currentCropState.offsetY += (event.clientY - lastPointerY) * scaleY
+    if (currentCropState.mode === 'free') {
+      currentCropState.freeX += (event.clientX - lastPointerX) * scaleX
+      currentCropState.freeY += (event.clientY - lastPointerY) * scaleY
+    } else {
+      currentCropState.offsetX += (event.clientX - lastPointerX) * scaleX
+      currentCropState.offsetY += (event.clientY - lastPointerY) * scaleY
+    }
     lastPointerX = event.clientX
     lastPointerY = event.clientY
     clampCustomPortraitCropState(currentCropState)
@@ -248,6 +289,16 @@ export function useNSPlateCropInteraction(
     renderPreview()
   }
 
+  function updateFreeScale(nextScale: number) {
+    const currentCropState = localCropState.value
+    if (!currentCropState) return
+    currentCropState.freeScale = Math.max(
+      cropLimits.minFreeScale,
+      Math.min(cropLimits.maxFreeScale, nextScale)
+    )
+    renderPreview()
+  }
+
   function getPreviewPointerPosition(event: MouseEvent, canvas: HTMLCanvasElement) {
     const rect = canvas.getBoundingClientRect()
     const dimensions = previewDimensions.value
@@ -283,15 +334,18 @@ export function useNSPlateCropInteraction(
     onPointerDown,
     onPointerMove,
     onPointerUp,
+    onFreeRotationInput,
     onSplitAngleInput,
     onSplitInput,
     onWheel,
     onZoomInput,
     previewDimensions,
     resetSplitAngle,
+    resetFreeTransform,
     setCropMode,
     splitAngle,
     splitLabel,
+    freeScaleLabel,
     zoomLabel
   }
 }

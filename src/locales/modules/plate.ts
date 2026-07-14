@@ -427,6 +427,9 @@ export const plateUiMessages: UiMessageMap = {
     ja: 'カスタム画像の上',
     ko: '사용자 이미지 위'
   }),
+  'nsplate.customPortrait.freeLayer.portraitBase': msg({
+    zh: '普通图片层', en: 'Standard image layer', ja: '通常画像レイヤー', ko: '일반 이미지 레이어'
+  }),
   'nsplate.customPortrait.popoutLayer.belowNameplateFrame': msg({
     zh: '铭牌外框下方',
     en: 'Below nameplate frame',
@@ -464,16 +467,16 @@ export const plateUiMessages: UiMessageMap = {
     ko: '명패 장식물 위'
   }),
   'nsplate.customPortrait.popoutLayer.aboveInfoGraphics': msg({
-    zh: '信息图形上方',
-    en: 'Above info graphics',
-    ja: '情報グラフィックの上',
-    ko: '정보 그래픽 위'
+    zh: '信息层下方',
+    en: 'Below info layer',
+    ja: '情報レイヤーの下',
+    ko: '정보 레이어 아래'
   }),
   'nsplate.customPortrait.popoutLayer.aboveInfoText': msg({
-    zh: '信息文字上方',
-    en: 'Above info text',
-    ja: '情報テキストの上',
-    ko: '정보 텍스트 위'
+    zh: '信息层上方',
+    en: 'Above info layer',
+    ja: '情報レイヤーの上',
+    ko: '정보 레이어 위'
   }),
   'nsplate.customPortrait.popoutLayer.front': msg({
     zh: '最前方',
@@ -524,16 +527,22 @@ export const plateUiMessages: UiMessageMap = {
     ko: '자르기 모드'
   }),
   'nsplate.customPortrait.crop.mode.standard': msg({
-    zh: '标准进框',
-    en: 'Standard',
-    ja: '標準',
-    ko: '표준'
+    zh: '普通图片',
+    en: 'Standard image',
+    ja: '通常画像',
+    ko: '일반 이미지'
   }),
   'nsplate.customPortrait.crop.mode.popout': msg({
-    zh: '出框',
-    en: 'Popout',
-    ja: '枠外',
-    ko: '프레임 밖'
+    zh: '半出框图片',
+    en: 'Partial popout',
+    ja: '半分はみ出し画像',
+    ko: '반 프레임 밖 이미지'
+  }),
+  'nsplate.customPortrait.crop.mode.free': msg({
+    zh: '全出框图片',
+    en: 'Full popout',
+    ja: '全枠外画像',
+    ko: '전체 프레임 밖 이미지'
   }),
   'nsplate.customPortrait.crop.zoom': msg({
     zh: '缩放',
@@ -558,6 +567,12 @@ export const plateUiMessages: UiMessageMap = {
     en: 'Reset',
     ja: 'リセット',
     ko: '초기화'
+  }),
+  'nsplate.customPortrait.crop.rotation': msg({
+    zh: '旋转', en: 'Rotation', ja: '回転', ko: '회전'
+  }),
+  'nsplate.customPortrait.crop.transformReset': msg({
+    zh: '重置位置', en: 'Reset position', ja: '位置をリセット', ko: '위치 초기화'
   }),
   'nsplate.customPortrait.crop.hint.moveImage': msg({
     zh: '拖拽画布：修改图片位置',
