@@ -8,6 +8,7 @@ import { analyzeGlamourSets } from '@/lib/armoire/analyzeGlamourSets'
 import { analyzeIdenticalModels } from '@/lib/armoire/analyzeIdenticalModels'
 import { analyzeTradableItems } from '@/lib/armoire/analyzeTradableItems'
 import { buildOwnedIndex } from '@/lib/armoire/buildOwnedIndex'
+import { createArmoireCabinetCatalogView } from '@/lib/armoire/cabinetDomain'
 import {
   filterArmoireSnapshotForDuplicateSuggestions,
   filterArmoireSnapshotForActionableItems,
@@ -62,6 +63,7 @@ export function analyzeArmoireSnapshot(
     options.ignoredItemIds
   )
   const actionableIndex = buildOwnedIndex(actionableSnapshot)
+  const cabinetCatalog = createArmoireCabinetCatalogView(catalog)
   const glamourSetProgress = analyzeGlamourSets(actionableIndex, catalog, options)
   const duplicateSuggestionSnapshot = filterArmoireSnapshotForDuplicateSuggestions(actionableSnapshot)
   const duplicateSuggestionIndex =
@@ -71,7 +73,7 @@ export function analyzeArmoireSnapshot(
 
   return {
     basic: analyzeArmoireBasics(featureSnapshot),
-    cabinetProgress: analyzeCabinetProgress(actionableSnapshot, catalog, actionableIndex),
+    cabinetProgress: analyzeCabinetProgress(actionableSnapshot, cabinetCatalog, actionableIndex),
     glamourSetProgress,
     dyeRisk: analyzeDyeRisk(actionableSnapshot, catalog, options),
     tradableItems: analyzeTradableItems(actionableIndex, catalog),

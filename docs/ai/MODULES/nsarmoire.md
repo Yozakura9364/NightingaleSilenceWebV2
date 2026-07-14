@@ -46,6 +46,8 @@
 - 2026-07-08 已接入生产采集复制品回收板块：构建阶段输出轻量 `public/data/armoire-crafter-gatherer-replica-catalog.json`，当前候选 275 件、无缺失项；衣柜清理按 snapshot 命中项展示所在位置、回收可得 `染剂兑换券 x4` 和返还染剂。
 - 2026-07-09 已接入角色级“已忽略装备”：用户可在清理建议物品卡片右键/移动端长按菜单中忽略某个 `itemId`，忽略后该物品种类不再参与收藏柜转入、套装散件、未绑定可交易、生产采集复制品、重复物品、同模型和染色风险等清理建议；原始 snapshot、衣柜统计和拥有状态不变。忽略配置跟随 IndexedDB 角色档案持久化，只保存 itemId 列表，并在角色配置中提供查看、取消和清空入口。旧版 `localStorage` 忽略列表会在打开对应角色档案时迁入角色记录。
 - 2026-07-10 套装幻影化分析已支持把投影台里的套装容器按 `MirageStoreSetItem.csv` 展开为散件拥有状态。`ArmoireGlamourSet.pieceSlotItemIds` 保留槽位顺序，用于读取到套装 bitmask 时判断部分套装；旧 catalog 没有该字段时，若检测到套装容器在投影台中，先按完整套装保守处理，避免误报缺件。下次刷新 `armoire-glamour-set-catalog.json` 和 chunk 数据时必须重新运行 `npm run build:armoire-catalog`，让静态数据带上 `pieceSlotItemIds`。
+- 2026-07-13 收藏柜条目已补游戏原始分类字段：生成脚本从 `Cabinet.csv` 读取 `Category`、`SortKey`、`Order`，用 `CabinetCategory.csv + Addon.csv` 解析一级分类名，用 `CabinetSubCategory.csv` 解析二级分类名。衣柜清理里的收藏柜可转入/未收纳列表按这些字段分组，尽量还原游戏内收藏柜的分类顺序。
+- 2026-07-13 收藏柜逻辑已收敛到专用域：`src/lib/armoire/cabinetDomain.ts` 负责收藏柜 catalog view、`cabinetEntries` 去重合并、游戏分类排序和 UI 分组；`analyzeCabinetProgress.ts` 只接收收藏柜 view，不再直接读取完整 `ArmoireCatalog`。完整 catalog、完整收藏柜 catalog 和 cabinet chunk 都必须先通过该域函数归一化，避免完整 catalog 与 chunk 重复计数。
 
 ## 已读取文件
 
@@ -306,7 +308,7 @@ interface AsvelDresserItem {
 当前已完成的第一阶段 C：
 
 1. 新增 `scripts/build-armoire-catalog.mjs`，从 datamining CSV 构建 `ArmoireCatalog v1`。
-2. 默认从 `InfSein/ffxiv-datamining-mixed` 的 `chs` 目录读取 `Item.csv`、`Cabinet.csv`、`MirageStoreSetItem.csv`、`Stain.csv`，同时保留本地 `--source-dir` 作为 fallback。
+2. 默认从 `InfSein/ffxiv-datamining-mixed` 的 `chs` 目录读取 `Item.csv`、`Cabinet.csv`、`CabinetCategory.csv`、`CabinetSubCategory.csv`、`Addon.csv`、`MirageStoreSetItem.csv`、`Stain.csv`，同时保留本地 `--source-dir` 作为 fallback。
 3. 输出轻量静态数据到 `public/data/armoire-catalog.json`，不把原始 CSV 或完整多语言映射放入前端。
 4. 页面启动后加载该静态 catalog；加载成功时收藏柜、套装和同模型分析进入正式口径，加载失败时继续显示 catalog pending。
 5. 本阶段仍不接本地 helper，不读取游戏进程，不新增 Vite proxy；该限制只适用于第一阶段 C，后续 helper v0.1 已单独接入。
@@ -374,7 +376,8 @@ interface ArmoireCatalog {
 - 默认输出：`public/data/armoire-catalog.json`。
 - catalog 只保留分析需要的轻量字段：
   - `Item.csv`：`#`、`Name`、`Icon`、`ItemUICategory`、`EquipSlotCategory`、`DyeCount`、`Model{Main}`、`Model{Sub}`、`IsGlamourous`。
-  - `Cabinet.csv`：收藏柜可收纳 item id。
+  - `Cabinet.csv`：收藏柜可收纳 item id、分类、子分类和组内排序。
+  - `CabinetCategory.csv`、`CabinetSubCategory.csv`、`Addon.csv`：收藏柜一级/二级分类名和排序。
   - `MirageStoreSetItem.csv`：套装容器 item id 与 `Item[0]` 到 `Item[8]` 的散件关系。
   - `Stain.csv`：后续用于染剂名称、颜色和贵重染剂判断；第一版可先为 catalog 预留，不强制接 UI。
 - 同模型分组由 catalog item 的 `Model{Main}`、`Model{Sub}`、`ItemUICategory`、`EquipSlotCategory` 构建，保持第一版严格口径。

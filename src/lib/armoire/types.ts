@@ -135,6 +135,16 @@ export interface ArmoireGlamourSet {
 export interface ArmoireCabinetEntry {
   cabinetId: number
   itemId: number
+  order?: number
+  sortKey?: number
+  categoryId?: number
+  categoryName?: string
+  categoryMenuOrder?: number
+  categoryHideOrder?: number
+  categoryIconId?: number
+  subCategoryId?: number
+  subCategoryName?: string
+  subCategoryOrder?: number
 }
 
 export interface ArmoireIdenticalGroup {

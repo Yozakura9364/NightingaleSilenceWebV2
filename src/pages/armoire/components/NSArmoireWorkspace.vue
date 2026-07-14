@@ -426,7 +426,7 @@ const ignoredItemViews = computed<ArmoireReadableItemView[]>(() =>
 )
 const cabinetAnalysis = computed(() =>
   snapshot.value
-    ? analyzeArmoireSnapshot(snapshot.value, cabinetCatalog.value, {
+    ? analyzeArmoireSnapshot(snapshot.value, catalog.value, {
         valuableDyeCategories: selectedDyeValueCategories.value,
         valuableDyeIds: selectedValuableDyeIds.value,
         filterToCatalogItems: true

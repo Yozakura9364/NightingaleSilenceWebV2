@@ -8,6 +8,7 @@ import {
   type ArmoireLocalizedNames,
   type ArmoireModelTuple
 } from '@/lib/armoire/types'
+import { mergeArmoireCabinetEntries } from '@/lib/armoire/cabinetDomain'
 
 export const EMPTY_ARMOIRE_CATALOG: ArmoireCatalog = {
   schemaVersion: ARMOIRE_CATALOG_SCHEMA_VERSION,
@@ -139,7 +140,9 @@ export function mergeArmoireCatalogs(...catalogs: ArmoireCatalog[]): ArmoireCata
     cabinetItemIds: uniqueSortedNumbers(
       nonEmptyCatalogs.flatMap((catalog) => catalog.cabinetItemIds)
     ),
-    cabinetEntries: nonEmptyCatalogs.flatMap((catalog) => catalog.cabinetEntries ?? []),
+    cabinetEntries: mergeArmoireCabinetEntries(
+      nonEmptyCatalogs.flatMap((catalog) => catalog.cabinetEntries ?? [])
+    ),
     glamourSetItems: mergeGlamourSetItems(nonEmptyCatalogs),
     identicalGroups: nonEmptyCatalogs.flatMap((catalog) => catalog.identicalGroups),
     dyes: Object.assign({}, ...nonEmptyCatalogs.map((catalog) => catalog.dyes)),
