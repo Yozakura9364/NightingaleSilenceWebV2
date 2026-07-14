@@ -499,7 +499,7 @@ const isHomeCharacterArtPreview = import.meta.env.DEV
 const homeCharacterArtStyle = computed(
   () =>
     ({
-      '--home-character-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-1.png")' : 'none'
+      '--home-character-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-7.png")' : 'none'
     }) as CSSProperties
 )
 const homeLogoArtStyle = computed(
@@ -1292,6 +1292,7 @@ onBeforeUnmount(() => {
 }
 
 .home-day-foreground {
+  display: none;
   width: min(68vw, 1040px);
   background: var(--home-day-art-url, none) center bottom / contain no-repeat;
   opacity: 1;
@@ -1772,17 +1773,19 @@ button.home-window__control:focus-visible {
 
 .home-profile__art {
   position: absolute;
-  display: none;
+  z-index: 1;
+  display: block;
   right: 0;
-  bottom: -18px;
-  left: 22%;
-  height: calc(100% + 44px);
+  bottom: 0;
+  left: auto;
+  width: min(88%, 720px);
+  height: min(94%, 720px);
   background: var(--home-character-art-url, none) center bottom / contain no-repeat;
   filter:
     drop-shadow(8px 8px 0 color-mix(in srgb, var(--home-shadow) 72%, transparent))
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--home-pink) 22%, transparent))
     drop-shadow(3px 0 0 color-mix(in srgb, var(--home-blue) 22%, transparent));
-  opacity: 0;
+  opacity: 0.96;
   pointer-events: none;
   transition:
     opacity var(--home-theme-duration) ease,
