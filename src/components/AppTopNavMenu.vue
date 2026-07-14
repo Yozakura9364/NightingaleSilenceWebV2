@@ -196,6 +196,7 @@ const isMenuRoute = computed(
   () => isFfxivRoute.value || isSilenceRoute.value || route.path === siteRoutes.about
 )
 const toolIconMap: Record<string, string> = {
+  itemCard: imageIcon,
   glamour: sparklesIcon,
   plate: avatarCircleIcon,
   armoire: archiveIcon

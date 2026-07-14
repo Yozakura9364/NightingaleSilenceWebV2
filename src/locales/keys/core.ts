@@ -67,6 +67,7 @@ export const coreTextKeys = {
   ffxivWorkshopShort: 'ffxiv.workshop.short',
   ffxivWorkshopKicker: 'ffxiv.workshop.kicker',
   ffxivToolBadge: 'ffxiv.tool.badge',
+  itemCardTitle: 'ffxiv.tool.itemCard.title',
   glamourTitle: 'ffxiv.tool.glamour.title',
   plateTitle: 'ffxiv.tool.plate.title',
   armoireTitle: 'ffxiv.tool.armoire.title',

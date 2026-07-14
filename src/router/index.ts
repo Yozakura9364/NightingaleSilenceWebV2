@@ -8,6 +8,7 @@ import { useLocale } from '@/stores/locale'
 
 const ffxivCategory = getCategory('ffxiv')
 const silenceCategory = getCategory('silence')
+const itemCardTool = getFfxivTool('itemCard')
 const glamourTool = getFfxivTool('glamour')
 const plateTool = getFfxivTool('plate')
 const armoireTool = getFfxivTool('armoire')
@@ -37,6 +38,12 @@ const router = createRouter({
       name: 'ffxiv',
       meta: { titleKey: ffxivCategory?.titleKey ?? textKeys.ffxivWorkshop },
       component: () => import('@/pages/ffxiv/FfxivIndexPage.vue')
+    },
+    {
+      path: siteRoutes.itemCard,
+      name: 'ffxiv-item-card',
+      meta: { titleKey: itemCardTool?.titleKey ?? textKeys.itemCardTitle },
+      component: () => import('@/pages/item-card/ItemCardPage.vue')
     },
     {
       path: siteRoutes.glamour,

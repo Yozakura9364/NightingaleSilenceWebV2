@@ -34,6 +34,7 @@
 import { computed } from 'vue'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
+import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import { ffxivTools, getCategory, siteRoutes } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
@@ -51,6 +52,7 @@ const categoryDescription = computed(() => t(ffxivCategory.descriptionKey).trim(
 const actionLabel = computed(() => t(textKeys.open).trim())
 const toolBadge = computed(() => t(textKeys.ffxivToolBadge).trim())
 const toolIcons: Record<string, string> = {
+  itemCard: pixelImageIcon,
   glamour: pixelSparklesIcon,
   plate: pixelAvatarCircleIcon,
   armoire: pixelArchiveIcon
@@ -62,7 +64,7 @@ const toolCards = computed(() =>
     title: t(tool.titleKey).trim(),
     summary: t(tool.summaryKey).trim(),
     statusLabel: t(tool.statusLabelKey).trim(),
-    isPrimary: tool.id === 'glamour'
+    isPrimary: tool.id === 'itemCard'
   }))
 )
 </script>

@@ -5,6 +5,7 @@ import { coreTextKeys as textKeys } from '@/locales/keys/core'
 export type RoutePath =
   | '/'
   | '/ffxiv'
+  | '/ffxiv/item-card'
   | '/ffxiv/glamour'
   | '/ffxiv/glamour/template'
   | '/ffxiv/glamour/equipinfo'
@@ -96,6 +97,7 @@ export const siteMeta = {
 export const siteRoutes = {
   home: '/',
   ffxiv: '/ffxiv',
+  itemCard: '/ffxiv/item-card',
   glamour: '/ffxiv/glamour',
   glamourTemplate: '/ffxiv/glamour/template',
   glamourEquipInfo: '/ffxiv/glamour/equipinfo',
@@ -172,6 +174,17 @@ export const silenceGroups: SilenceGroupEntry[] = [
 ]
 
 export const ffxivTools: ToolEntry[] = [
+  {
+    id: 'itemCard',
+    titleKey: textKeys.itemCardTitle,
+    projectName: '物品卡片',
+    route: siteRoutes.itemCard,
+    summaryKey: textKeys.placeholder,
+    sourcePath: '../NSGlamour',
+    apiBase: '/api/glamour',
+    devPort: 8765,
+    statusLabelKey: textKeys.placeholder
+  },
   {
     id: 'glamour',
     titleKey: textKeys.glamourTitle,
