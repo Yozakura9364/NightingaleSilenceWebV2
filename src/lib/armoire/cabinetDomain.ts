@@ -30,6 +30,7 @@ export interface ArmoireCabinetCategoryGroup<T extends ArmoireCabinetGroupableIt
   key: string
   label: string
   order: number
+  count: number
   subCategories: ArmoireCabinetSubCategoryGroup<T>[]
 }
 
@@ -37,6 +38,7 @@ export interface ArmoireCabinetSubCategoryGroup<T extends ArmoireCabinetGroupabl
   key: string
   label: string
   order: number
+  count: number
   items: T[]
 }
 
@@ -153,10 +155,13 @@ export function buildArmoireCabinetItemGroups<T extends ArmoireCabinetGroupableI
         key: categoryKey,
         label: item.categoryName,
         order: item.categoryMenuOrder,
+        count: 0,
         subCategories: []
       }
       categoryMap.set(categoryKey, category)
     }
+
+    category.count += 1
 
     const subCategoryKey =
       item.subCategoryId > 0
@@ -169,11 +174,13 @@ export function buildArmoireCabinetItemGroups<T extends ArmoireCabinetGroupableI
         key: subCategoryKey,
         label: item.subCategoryName,
         order: item.subCategoryOrder,
+        count: 0,
         items: []
       }
       category.subCategories.push(subCategory)
     }
 
+    subCategory.count += 1
     subCategory.items.push(item)
   }
 
