@@ -3,8 +3,9 @@ import { join, resolve } from 'node:path'
 
 const DEFAULT_MANIFEST_DIR = 'public/data/plate'
 const DEFAULT_EXPECTED_IMG_BASE = 'https://img.nightingalesilence.com'
-const DEFAULT_EXPECTED_PREVIEW_BASE = 'https://img.nightingalesilence.com/plate-preview/256'
+const DEFAULT_EXPECTED_PREVIEW_BASE = 'https://img.nightingalesilence.com/plate-preview-webp/256'
 const DEFAULT_EXPECTED_PREVIEW_MAX_EDGE = 256
+const DEFAULT_EXPECTED_PREVIEW_FORMAT = 'webp'
 const UNRELEASED_MATERIAL_RANGES = [
   [190000, 199999],
   [230000, 239999]
@@ -23,6 +24,10 @@ function parseArgs(argv) {
     expectedPreviewMaxEdge: parsePositiveInt(
       process.env.NSPLATE_STATIC_PREVIEW_MAX_EDGE,
       DEFAULT_EXPECTED_PREVIEW_MAX_EDGE
+    ),
+    expectedPreviewFormat: normalizePreviewFormat(
+      process.env.NSPLATE_STATIC_PREVIEW_FORMAT,
+      DEFAULT_EXPECTED_PREVIEW_FORMAT
     ),
     allowUnreleased: parseBooleanEnv(process.env.NSPLATE_INCLUDE_UNRELEASED, true),
     checkRemote: parseBooleanEnv(process.env.NSPLATE_CHECK_REMOTE),
@@ -61,6 +66,15 @@ function parseArgs(argv) {
       args.expectedPreviewMaxEdge = parsePositiveInt(
         argv[index + 1],
         DEFAULT_EXPECTED_PREVIEW_MAX_EDGE
+      )
+      index += 1
+      continue
+    }
+
+    if (arg === '--expected-preview-format') {
+      args.expectedPreviewFormat = normalizePreviewFormat(
+        argv[index + 1],
+        DEFAULT_EXPECTED_PREVIEW_FORMAT
       )
       index += 1
       continue
@@ -118,6 +132,7 @@ Options:
   --expected-img-base <url>  Expected files._meta.imgBase. Default: ${DEFAULT_EXPECTED_IMG_BASE}
   --expected-preview-img-base <url> Expected files._meta.previewImgBase. Default: ${DEFAULT_EXPECTED_PREVIEW_BASE}
   --expected-preview-max-edge <px>  Expected files._meta.previewMaxEdge. Default: ${DEFAULT_EXPECTED_PREVIEW_MAX_EDGE}
+  --expected-preview-format <format> Expected files._meta.previewFormat. Default: ${DEFAULT_EXPECTED_PREVIEW_FORMAT}
   --allow-unreleased         Allow assets marked as unreleased. This is the default.
   --disallow-unreleased      Fail if assets marked as unreleased are present.
   --expect-preview           Require previewImgBase and previewMaxEdge.
@@ -130,6 +145,7 @@ Environment:
   NSPLATE_STATIC_IMG_BASE
   NSPLATE_STATIC_PREVIEW_IMG_BASE
   NSPLATE_STATIC_PREVIEW_MAX_EDGE
+  NSPLATE_STATIC_PREVIEW_FORMAT
   NSPLATE_INCLUDE_UNRELEASED (defaults to true)
   NSPLATE_CHECK_REMOTE
   NSPLATE_CHECK_PREVIEW_REMOTE
@@ -153,6 +169,11 @@ function parseBooleanEnv(value, fallback = false) {
   }
 
   return fallback
+}
+
+function normalizePreviewFormat(value, fallback = DEFAULT_EXPECTED_PREVIEW_FORMAT) {
+  const format = String(value ?? '').trim().toLowerCase()
+  return ['png', 'webp', 'avif'].includes(format) ? format : fallback
 }
 
 function parsePositiveInt(value, fallback) {
@@ -201,6 +222,7 @@ async function main() {
   if (args.checkRemote) {
     await validateRemoteSamples(files, args, {
       base: files?._meta?.imgBase,
+      format: null,
       label: 'asset',
       errors,
       warnings
@@ -210,6 +232,7 @@ async function main() {
   if (args.checkPreviewRemote) {
     await validateRemoteSamples(files, args, {
       base: files?._meta?.previewImgBase,
+      format: files?._meta?.previewFormat,
       label: 'preview asset',
       errors,
       warnings
@@ -237,6 +260,7 @@ async function main() {
       `assets: ${assetStats.totalAssets}`,
       `imgBase: ${files?._meta?.imgBase ?? '(missing)'}`,
       `previewImgBase: ${files?._meta?.previewImgBase ?? '(missing)'}`,
+      `previewFormat: ${files?._meta?.previewFormat ?? '(source)'}`,
       `remote: ${args.checkRemote ? 'checked' : 'skipped'}`,
       `previewRemote: ${args.checkPreviewRemote ? 'checked' : 'skipped'}`
     ].join(' ')
@@ -293,6 +317,14 @@ function validateFiles(files, args, errors, warnings) {
       if (Number(files._meta.previewMaxEdge) !== args.expectedPreviewMaxEdge) {
         errors.push(
           `files._meta.previewMaxEdge must be ${args.expectedPreviewMaxEdge}, got ${files._meta.previewMaxEdge}.`
+        )
+      }
+
+      if (normalizePreviewFormat(files._meta.previewFormat, '') !== args.expectedPreviewFormat) {
+        errors.push(
+          `files._meta.previewFormat must be ${args.expectedPreviewFormat}, got ${
+            files._meta.previewFormat || '(missing)'
+          }.`
         )
       }
     } else if (args.expectPreview) {
@@ -384,6 +416,14 @@ function validateManifestMeta(manifestMeta, args, assetStats, errors, warnings) 
         }.`
       )
     }
+
+    if (normalizePreviewFormat(manifestMeta.previewFormat, '') !== args.expectedPreviewFormat) {
+      errors.push(
+        `manifest-meta.previewFormat must be ${args.expectedPreviewFormat}, got ${
+          manifestMeta.previewFormat || '(missing)'
+        }.`
+      )
+    }
   }
 
   if (manifestMeta.includeUnreleased && !args.allowUnreleased) {
@@ -408,7 +448,7 @@ function validateManifestMeta(manifestMeta, args, assetStats, errors, warnings) 
 async function validateRemoteSamples(files, args, options) {
   const errors = options.errors
   const warnings = options.warnings
-  const urls = collectSampleUrls(files, args.remoteSamples, options.base)
+  const urls = collectSampleUrls(files, args.remoteSamples, options.base, options.format)
 
   if (urls.length === 0) {
     errors.push(`No ${options.label} URLs available for remote check.`)
@@ -428,7 +468,7 @@ async function validateRemoteSamples(files, args, options) {
   }
 }
 
-function collectSampleUrls(files, limit, rawBase) {
+function collectSampleUrls(files, limit, rawBase, format) {
   const base = normalizeBase(rawBase)
   const urls = []
 
@@ -452,7 +492,7 @@ function collectSampleUrls(files, limit, rawBase) {
         const path = normalizeAssetPath(asset?.path ?? asset?.file)
 
         if (path) {
-          urls.push(`${base}/${path}`)
+          urls.push(`${base}/${replaceAssetExtension(path, format)}`)
         }
 
         if (urls.length >= limit) {
@@ -463,6 +503,10 @@ function collectSampleUrls(files, limit, rawBase) {
   }
 
   return urls
+}
+
+function replaceAssetExtension(path, format) {
+  return format ? path.replace(/\.[^./]+$/, `.${format}`) : path
 }
 
 async function probeRemoteUrl(url) {

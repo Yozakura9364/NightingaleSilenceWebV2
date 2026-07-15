@@ -35346,6 +35346,138 @@
     ],
     "职业图标": [
       {
+        "id": "雇员-暗黑骑士.png",
+        "file": "雇员-暗黑骑士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E6%9A%97%E9%BB%91%E9%AA%91%E5%A3%AB.png",
+        "name": "雇员-暗黑骑士"
+      },
+      {
+        "id": "雇员-白魔法师.png",
+        "file": "雇员-白魔法师.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E7%99%BD%E9%AD%94%E6%B3%95%E5%B8%88.png",
+        "name": "雇员-白魔法师"
+      },
+      {
+        "id": "雇员-赤魔法师.png",
+        "file": "雇员-赤魔法师.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E8%B5%A4%E9%AD%94%E6%B3%95%E5%B8%88.png",
+        "name": "雇员-赤魔法师"
+      },
+      {
+        "id": "雇员-黑魔法师.png",
+        "file": "雇员-黑魔法师.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E9%BB%91%E9%AD%94%E6%B3%95%E5%B8%88.png",
+        "name": "雇员-黑魔法师"
+      },
+      {
+        "id": "雇员-绘灵法师.png",
+        "file": "雇员-绘灵法师.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E7%BB%98%E7%81%B5%E6%B3%95%E5%B8%88.png",
+        "name": "雇员-绘灵法师"
+      },
+      {
+        "id": "雇员-机工士.png",
+        "file": "雇员-机工士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E6%9C%BA%E5%B7%A5%E5%A3%AB.png",
+        "name": "雇员-机工士"
+      },
+      {
+        "id": "雇员-绝枪战士.png",
+        "file": "雇员-绝枪战士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E7%BB%9D%E6%9E%AA%E6%88%98%E5%A3%AB.png",
+        "name": "雇员-绝枪战士"
+      },
+      {
+        "id": "雇员-蝰蛇剑士.png",
+        "file": "雇员-蝰蛇剑士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E8%9D%B0%E8%9B%87%E5%89%91%E5%A3%AB.png",
+        "name": "雇员-蝰蛇剑士"
+      },
+      {
+        "id": "雇员-龙骑士.png",
+        "file": "雇员-龙骑士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E9%BE%99%E9%AA%91%E5%A3%AB.png",
+        "name": "雇员-龙骑士"
+      },
+      {
+        "id": "雇员-骑士.png",
+        "file": "雇员-骑士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E9%AA%91%E5%A3%AB.png",
+        "name": "雇员-骑士"
+      },
+      {
+        "id": "雇员-青魔法师.png",
+        "file": "雇员-青魔法师.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E9%9D%92%E9%AD%94%E6%B3%95%E5%B8%88.png",
+        "name": "雇员-青魔法师"
+      },
+      {
+        "id": "雇员-忍者.png",
+        "file": "雇员-忍者.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E5%BF%8D%E8%80%85.png",
+        "name": "雇员-忍者"
+      },
+      {
+        "id": "雇员-钐镰客.png",
+        "file": "雇员-钐镰客.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E9%92%90%E9%95%B0%E5%AE%A2.png",
+        "name": "雇员-钐镰客"
+      },
+      {
+        "id": "雇员-武僧.png",
+        "file": "雇员-武僧.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E6%AD%A6%E5%83%A7.png",
+        "name": "雇员-武僧"
+      },
+      {
+        "id": "雇员-武士.png",
+        "file": "雇员-武士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E6%AD%A6%E5%A3%AB.png",
+        "name": "雇员-武士"
+      },
+      {
+        "id": "雇员-舞者.png",
+        "file": "雇员-舞者.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E8%88%9E%E8%80%85.png",
+        "name": "雇员-舞者"
+      },
+      {
+        "id": "雇员-贤者.png",
+        "file": "雇员-贤者.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E8%B4%A4%E8%80%85.png",
+        "name": "雇员-贤者"
+      },
+      {
+        "id": "雇员-学者.png",
+        "file": "雇员-学者.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E5%AD%A6%E8%80%85.png",
+        "name": "雇员-学者"
+      },
+      {
+        "id": "雇员-吟游诗人.png",
+        "file": "雇员-吟游诗人.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E5%90%9F%E6%B8%B8%E8%AF%97%E4%BA%BA.png",
+        "name": "雇员-吟游诗人"
+      },
+      {
+        "id": "雇员-占星术士.png",
+        "file": "雇员-占星术士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E5%8D%A0%E6%98%9F%E6%9C%AF%E5%A3%AB.png",
+        "name": "雇员-占星术士"
+      },
+      {
+        "id": "雇员-战士.png",
+        "file": "雇员-战士.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E6%88%98%E5%A3%AB.png",
+        "name": "雇员-战士"
+      },
+      {
+        "id": "雇员-召唤师.png",
+        "file": "雇员-召唤师.png",
+        "path": "ui/sprites/class/%E9%9B%87%E5%91%98-%E5%8F%AC%E5%94%A4%E5%B8%88.png",
+        "name": "雇员-召唤师"
+      },
+      {
         "id": "经典-暗黑骑士.png",
         "file": "经典-暗黑骑士.png",
         "path": "ui/sprites/class/%E7%BB%8F%E5%85%B8-%E6%9A%97%E9%BB%91%E9%AA%91%E5%A3%AB.png",
@@ -48746,6 +48878,9 @@
     ]
   },
   "_meta": {
-    "imgBase": "https://img.nightingalesilence.com"
+    "imgBase": "https://img.nightingalesilence.com",
+    "previewImgBase": "https://img.nightingalesilence.com/plate-preview-webp/256",
+    "previewMaxEdge": 256,
+    "previewFormat": "webp"
   }
 }
