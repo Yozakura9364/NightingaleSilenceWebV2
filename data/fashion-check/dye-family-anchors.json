@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "fashion-check.dye-family-anchors.v1",
+  "families": {
+    "red": { "name": "红色系", "anchorDye": "宝石红", "color": "#E40011" },
+    "brown": { "name": "棕色系", "anchorDye": "哥布林", "color": "#B9A489" },
+    "yellow": { "name": "黄色系", "anchorDye": "蜂蜜黄", "color": "#FAC62B" },
+    "green": { "name": "绿色系", "anchorDye": "仙人掌", "color": "#658241" },
+    "blue": { "name": "蓝色系", "anchorDye": "盗龙蓝", "color": "#5B7FC0" },
+    "purple": { "name": "紫色系", "anchorDye": "罗兰紫", "color": "#62508F" },
+    "black": { "name": "黑色系", "anchorDye": "煤玉黑", "color": "#1E1E1E" },
+    "white": { "name": "白色系", "anchorDye": "无瑕白", "color": "#F9F8F4" }
+  }
+}

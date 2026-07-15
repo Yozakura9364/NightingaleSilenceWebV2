@@ -1,0 +1,9 @@
+{
+  "items": [
+    { "itemId": 2668, "name": "黄铜眼镜", "slotId": "head", "equipSlotCategoryId": 3 },
+    { "itemId": 2671, "name": "秘银眼镜", "slotId": "head", "equipSlotCategoryId": 3 },
+    { "itemId": 9950, "name": "歹徒制敌短衣", "slotId": "body", "equipSlotCategoryId": 4 },
+    { "itemId": 9956, "name": "歹徒强袭短衣", "slotId": "body", "equipSlotCategoryId": 4 },
+    { "itemId": 20261, "name": "红色雏菊头花", "slotId": "head", "equipSlotCategoryId": 3 }
+  ]
+}

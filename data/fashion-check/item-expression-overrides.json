@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "fashion-check.item-expression-overrides.v1",
+  "overrides": [
+    { "categoryId": 1, "slotId": "wrists", "namePatterns": ["^寒冰.+手镯$"], "sourceId": "qq-cn-history", "locator": "Global issue 18; source expression 极冰神系列; current official CN names are 寒冰XX手镯", "resolutionMethod": "manual-review" },
+    { "categoryId": 135, "slotId": "ears", "namePatterns": ["^(大)?龙脉.+耳饰$"], "sourceId": "qq-cn-history", "locator": "Global issue 30; source expression 龙脉XX耳饰/大龙脉XX耳饰", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 116, "slotId": "hands", "namePatterns": ["^(改良型)?田园.+(手套|手铠)$"], "sourceId": "qq-cn-history", "locator": "Global issue 31; source expression 田园XX者手套/手铠（及同模）", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 137, "slotId": "neck", "namePatterns": ["^龙堡.+项环$"], "sourceId": "qq-cn-history", "locator": "Global issues 32 and 187; source expression 龙堡XX项环", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 166, "slotId": "body", "namePatterns": ["^(大)?龙脉.+$"], "sourceId": "qq-cn-history", "locator": "Global issues 41, 82 and 180; source states Dragon Vein and Augmented Dragon Vein body gear are gold", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 83, "slotId": "head", "namePatterns": ["色雏菊头花$"], "sourceId": "qq-cn-history", "locator": "Global issues 47, 166 and 253; source expression X色雏菊头花", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 143, "slotId": "neck", "namePatterns": ["^龙神.+项环$"], "sourceId": "qq-cn-history", "locator": "Global issues 105 and 162; source expression 龙神XX项环", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 161, "slotId": "legs", "namePatterns": ["^(源太|源氏之).+筒袴$"], "sourceId": "qq-cn-history", "locator": "Global issues 120, 131, 206 and 285; source expression 源太/源氏之XX筒袴", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 161, "slotId": "body", "namePatterns": ["^(源太|源氏之).+(大铠|胴丸|阵羽织)$"], "sourceId": "qq-cn-history", "locator": "Global issues 142, 172, 206 and 211; source expression 源太/源氏之XX大铠/胴丸/阵羽织", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 27, "slotId": "body", "namePatterns": ["^(歹徒|长颈驼革).+短衣$"], "sourceId": "qq-cn-history", "locator": "Global issues 121 and 138; source expression 歹徒/长颈驼革职能短衣", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 63, "slotId": "feet", "namePatterns": ["^萨雷安.+长靴$"], "sourceId": "qq-cn-history", "locator": "Global issues 136, 185, 216 and 221; source expression 萨雷安XX者长靴", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 136, "slotId": "ears", "namePatterns": ["^亚历山大(原型)?.+耳坠$"], "sourceId": "qq-cn-history", "locator": "Global issue 150; source expression 亚历山大/亚历山大原型XX耳坠", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 216, "slotId": "body", "namePatterns": ["^巫骨.+(短衣|长衣|战铠|胸衣)$"], "sourceId": "qq-cn-history", "locator": "Global issues 216 and 235; source expression 巫骨XX短衣/长衣/战铠/胸衣", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 54, "slotId": "neck", "namePatterns": ["^究极神兵原型.+项链$"], "sourceId": "qq-cn-history", "locator": "Global issue 219; source expression 究极神兵原型XX项链", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 172, "slotId": "hands", "namePatterns": ["^罗汉.+(笼手|手甲)$"], "sourceId": "qq-cn-history", "locator": "Global issues 236 and 249; source expression 罗汉XX笼手/手甲", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 55, "slotId": "wrists", "namePatterns": ["^灵银.+手镯$"], "sourceId": "qq-cn-history", "locator": "Global issue 240; source expression 灵银XX手镯", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 53, "slotId": "neck", "namePatterns": ["^(伊修加德|战女神).+项环$"], "sourceId": "qq-cn-history", "locator": "Global issue 253; source expression 伊修加德/战女神XX项环", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 231, "slotId": "ears", "namePatterns": ["色紫灯花耳环$"], "sourceId": "qq-cn-history", "locator": "Global issue 282; source expression XX紫灯花耳环", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 53, "slotId": "wrists", "namePatterns": ["^(伊修加德|战女神).+手镯$"], "sourceId": "qq-cn-history", "locator": "Global issue 291; source expression 伊修加德/战女神XX手镯", "resolutionMethod": "deterministic-expansion" }
+  ]
+}

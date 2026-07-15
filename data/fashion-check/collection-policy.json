@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "fashion-check.collection-policy.v1",
+  "timeZone": "Asia/Shanghai",
+  "timer": {
+    "minute": 5,
+    "intervalMinutes": 60,
+    "outsideWindowBehavior": "no-network"
+  },
+  "windows": [
+    {
+      "windowId": "theme",
+      "starts": "Tuesday 16:05",
+      "ends": "Wednesday 16:05",
+      "sourceIds": ["qq-cn-history"],
+      "claims": ["current-week", "theme", "tagged-slots"]
+    },
+    {
+      "windowId": "answers",
+      "starts": "Friday 16:05",
+      "ends": "Saturday 16:05",
+      "sourceIds": [
+        "qq-cn-history",
+        "avantgarde-tracker",
+        "allgamestaff-en",
+        "allgamestaff-it"
+      ],
+      "claims": ["gold-answers", "dyes", "score-plans"]
+    }
+  ],
+  "notificationEvents": [
+    "theme-updated",
+    "answers-updated",
+    "source-failed",
+    "source-recovered",
+    "window-incomplete"
+  ],
+  "publicationMode": "private-staging-only"
+}

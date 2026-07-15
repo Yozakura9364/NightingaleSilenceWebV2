@@ -11,6 +11,9 @@ export type RoutePath =
   | '/ffxiv/glamour/equipinfo'
   | '/ffxiv/plate'
   | '/ffxiv/armoire'
+  | '/ffxiv/fashioncheck'
+  | '/ffxiv/fashioncheck/gold-items'
+  | '/ffxiv/fashioncheck/sources'
   | '/silence'
   | '/silence/angel'
   | '/silence/glitch'
@@ -103,6 +106,9 @@ export const siteRoutes = {
   glamourEquipInfo: '/ffxiv/glamour/equipinfo',
   plate: '/ffxiv/plate',
   armoire: '/ffxiv/armoire',
+  fashionCheck: '/ffxiv/fashioncheck',
+  fashionCheckGoldItems: '/ffxiv/fashioncheck/gold-items',
+  fashionCheckSources: '/ffxiv/fashioncheck/sources',
   silence: '/silence',
   silenceAngel: '/silence/angel',
   silenceGlitch: '/silence/glitch',
@@ -206,6 +212,15 @@ export const ffxivTools: ToolEntry[] = [
     apiBase: '/api/plate',
     devPort: 3456,
     statusLabelKey: textKeys.placeholder
+  },
+  {
+    id: 'fashionCheck',
+    titleKey: 'fashionCheck.title',
+    projectName: 'Fashion Check',
+    route: siteRoutes.fashionCheck,
+    summaryKey: 'fashionCheck.solutions',
+    sourcePath: 'data/fashion-check',
+    statusLabelKey: 'fashionCheck.verified'
   },
   {
     id: 'armoire',

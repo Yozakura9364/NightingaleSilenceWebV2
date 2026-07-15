@@ -7,6 +7,7 @@ const messageLoaders: Record<UiMessageModuleName, () => Promise<UiMessageMap>> =
   glamour: () => import('@/locales/modules/glamour').then((module) => module.glamourUiMessages),
   armoire: () => import('@/locales/modules/armoire').then((module) => module.armoireUiMessages),
   silence: () => import('@/locales/modules/silence').then((module) => module.silenceUiMessages),
+  fashionCheck: () => import('@/locales/modules/fashionCheck').then((module) => module.fashionCheckUiMessages),
   styleLab: () => import('@/locales/modules/styleLab').then((module) => module.styleLabUiMessages)
 }
 
