@@ -4,4 +4,4 @@ export type UiMessage = Record<Locale, string>
 
 export type UiMessageMap = Record<string, UiMessage>
 
-export type UiMessageModuleName = 'home' | 'plate' | 'glamour' | 'armoire' | 'silence' | 'styleLab'
+export type UiMessageModuleName = 'home' | 'plate' | 'glamour' | 'armoire' | 'silence' | 'styleLab' | 'fashionCheck'

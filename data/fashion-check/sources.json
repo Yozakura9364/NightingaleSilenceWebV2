@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "fashion-check.sources.v1",
+  "sources": [
+    {
+      "sourceId": "ffxiv-datamining-mixed",
+      "name": "InfSein FFXIV datamining mixed",
+      "url": "https://github.com/InfSein/ffxiv-datamining-mixed",
+      "roles": ["canonical"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "unspecified",
+      "license": null,
+      "usePolicy": "canonical",
+      "notes": "SaintCoinach client-data extraction used for FashionCheck and Item row IDs, localized names, icons, dye counts, and official equipment slots. The repository does not declare a license."
+    },
+    {
+      "sourceId": "qq-cn-history",
+      "name": "游玩c哩酱",
+      "url": "https://www.youwanc.com/",
+      "roles": ["history", "gold-answers"],
+      "retrievedAt": "2026-07-13T13:52:45.385Z",
+      "licenseStatus": "unspecified",
+      "license": null,
+      "usePolicy": "local-evidence",
+      "notes": "游玩c哩酱维护的国服历史、标签和答案表达式。本地证据提取不保留请求或会话元数据。"
+    },
+    {
+      "sourceId": "avantgarde",
+      "name": "AvantGarde",
+      "url": "https://github.com/NeNeppie/AvantGarde",
+      "roles": ["gold-answers", "mechanics", "validation-only"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "declared",
+      "license": "AGPL-3.0",
+      "usePolicy": "cross-check-only",
+      "notes": "Plugin implementation and scoring research reference. Code is not vendored into this project."
+    },
+    {
+      "sourceId": "avantgarde-tracker",
+      "name": "AvantGarde public data tracker",
+      "url": "https://docs.google.com/spreadsheets/d/1b9NwL-Ba4tS0ROSy1_4HPfi7QSMQWuhXKqFSSY9Ovp4/edit",
+      "roles": ["gold-answers"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "unspecified",
+      "license": null,
+      "usePolicy": "local-evidence",
+      "notes": "Public category-to-Item tracker. The sheet credits Kaiyoko Star for a significant portion of the research. Standalone data redistribution terms are not declared."
+    },
+    {
+      "sourceId": "kaiyoko-reddit",
+      "name": "Kaiyoko Star Reddit",
+      "url": "https://www.reddit.com/user/KaiyokoStar/",
+      "roles": ["current-week", "gold-answers", "dyes"],
+      "retrievedAt": null,
+      "licenseStatus": "not-applicable",
+      "license": null,
+      "usePolicy": "link-only",
+      "notes": "Primary weekly infographic profile. Automated JSON access returned 403/429 during research, so it is registry-only unless a specific public post is reviewed."
+    },
+    {
+      "sourceId": "kaiyoko-x",
+      "name": "Kaiyoko Star X",
+      "url": "https://x.com/KaiyokoStar",
+      "roles": ["current-week", "gold-answers", "dyes"],
+      "retrievedAt": null,
+      "licenseStatus": "not-applicable",
+      "license": null,
+      "usePolicy": "link-only",
+      "notes": "Weekly infographic profile retained as a current-week reference; no bulk historical import is performed."
+    },
+    {
+      "sourceId": "allgamestaff-en",
+      "name": "AllGameStaff Fashion Report Guide (English)",
+      "url": "https://www.allgamestaff.it/fashion-report-guide-ffxiv-eng/",
+      "roles": ["current-week", "gold-answers", "dyes"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "unspecified",
+      "license": null,
+      "usePolicy": "cross-check-only",
+      "notes": "Mutable current-week article containing 80/100 suggestions, dyes, and accepted-item lists; WordPress revisions are not publicly readable."
+    },
+    {
+      "sourceId": "allgamestaff-it",
+      "name": "AllGameStaff Fashion Report Guide (Italian)",
+      "url": "https://www.allgamestaff.it/guida-fashion-report-ffxiv/",
+      "roles": ["current-week", "gold-answers", "dyes"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "unspecified",
+      "license": null,
+      "usePolicy": "cross-check-only",
+      "notes": "Italian companion to the mutable current-week guide; useful for comparison, not a stable historical API."
+    },
+    {
+      "sourceId": "shapes-fashionreportff",
+      "name": "Shapes Fashion Report AI",
+      "url": "https://shapes.inc/fashionreportff",
+      "roles": ["related-tool"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "not-applicable",
+      "license": null,
+      "usePolicy": "link-only",
+      "notes": "Related presentation tool with no exposed stable upstream dataset; never used as answer evidence."
+    },
+    {
+      "sourceId": "gamerescape-fashion-report",
+      "name": "Gamer Escape Fashion Report Wiki",
+      "url": "https://ffxiv.gamerescape.com/wiki/Fashion_Report",
+      "roles": ["mechanics", "item-acquisition"],
+      "retrievedAt": null,
+      "licenseStatus": "unspecified",
+      "license": null,
+      "usePolicy": "link-only",
+      "notes": "Mechanics and item-acquisition reference. The page and MediaWiki API returned 403 during automated research."
+    },
+    {
+      "sourceId": "dsa-fashion-check-tool",
+      "name": "FFXIV-Fashion-check-Tool",
+      "url": "https://github.com/dsa83171/FFXIV-Fashion-check-Tool",
+      "roles": ["history", "validation-only"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "unspecified",
+      "license": null,
+      "usePolicy": "cross-check-only",
+      "notes": "Traditional Chinese weekly dataset used to verify issue/slot alignment. The repository declares no license."
+    },
+    {
+      "sourceId": "kevin-fashion-report",
+      "name": "ffxiv-fashion-report",
+      "url": "https://github.com/KevinAllenWiegand/ffxiv-fashion-report",
+      "roles": ["history", "validation-only"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "unspecified",
+      "license": null,
+      "usePolicy": "cross-check-only",
+      "notes": "Historical English week/theme/hint dataset used to verify old CN translations from global week 48 onward. The repository declares no license."
+    },
+    {
+      "sourceId": "etsuna-fashion-report",
+      "name": "FFXIVFashionReport",
+      "url": "https://github.com/Etsuna/FFXIVFashionReport",
+      "roles": ["related-tool", "validation-only"],
+      "retrievedAt": "2026-07-14T00:00:00.000Z",
+      "licenseStatus": "declared",
+      "license": "MIT",
+      "usePolicy": "cross-check-only",
+      "notes": "Desktop tool implementation reference; it is not used as canonical history or category-to-Item evidence."
+    }
+  ]
+}

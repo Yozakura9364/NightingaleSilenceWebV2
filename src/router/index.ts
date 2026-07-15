@@ -12,6 +12,7 @@ const itemCardTool = getFfxivTool('itemCard')
 const glamourTool = getFfxivTool('glamour')
 const plateTool = getFfxivTool('plate')
 const armoireTool = getFfxivTool('armoire')
+const fashionCheckTool = getFfxivTool('fashionCheck')
 const { current: locale, messages, t } = useLocale()
 
 function loadLocalizedPage<T>(
@@ -68,6 +69,31 @@ const router = createRouter({
       name: 'ffxiv-plate',
       meta: { titleKey: plateTool?.titleKey ?? textKeys.plateTitle },
       component: loadLocalizedPage(['plate'], () => import('@/pages/plate/NSPlatePage.vue'))
+    },
+    {
+      path: siteRoutes.fashionCheck,
+      meta: { titleKey: fashionCheckTool?.titleKey ?? 'fashionCheck.title' },
+      component: loadLocalizedPage(
+        ['fashionCheck'],
+        () => import('@/pages/fashion-check/FashionCheckPage.vue')
+      ),
+      children: [
+        {
+          path: '',
+          name: 'ffxiv-fashion-check',
+          component: () => import('@/pages/fashion-check/views/FashionCheckSolutionsView.vue')
+        },
+        {
+          path: 'gold-items',
+          name: 'ffxiv-fashion-check-gold-items',
+          component: () => import('@/pages/fashion-check/views/FashionCheckGoldItemsView.vue')
+        },
+        {
+          path: 'sources',
+          name: 'ffxiv-fashion-check-sources',
+          component: () => import('@/pages/fashion-check/views/FashionCheckSourcesView.vue')
+        }
+      ]
     },
     {
       path: siteRoutes.armoire,

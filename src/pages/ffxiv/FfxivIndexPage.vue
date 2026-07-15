@@ -1,8 +1,6 @@
 <template>
   <main class="ns-page ffxiv-page">
     <div class="ns-page-shell">
-      <RouterLink class="ffxiv-back" :to="siteRoutes.home">← {{ t(textKeys.back) }}</RouterLink>
-
       <p v-if="categoryKicker" class="ns-eyebrow">{{ categoryKicker }}</p>
       <h1 class="ns-title ns-heading-bloom">{{ t(ffxivCategory.titleKey) }}</h1>
       <p v-if="categoryDescription" class="ns-lead">{{ categoryDescription }}</p>
@@ -36,7 +34,7 @@ import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
-import { ffxivTools, getCategory, siteRoutes } from '@/config/site'
+import { ffxivTools, getCategory } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 
@@ -55,7 +53,8 @@ const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,
   glamour: pixelSparklesIcon,
   plate: pixelAvatarCircleIcon,
-  armoire: pixelArchiveIcon
+  armoire: pixelArchiveIcon,
+  fashionCheck: pixelSparklesIcon
 }
 const toolCards = computed(() =>
   ffxivTools.map((tool) => ({
@@ -76,18 +75,7 @@ const toolCards = computed(() =>
 
 .ffxiv-page :deep(.ns-page-shell) {
   width: min(1040px, calc(100vw - 32px));
-}
-
-.ffxiv-back {
-  display: inline-flex;
-  margin-bottom: 32px;
-  color: var(--ns-color-text-muted);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.ffxiv-back:hover {
-  color: var(--ns-color-accent-strong);
+  padding-top: 24px;
 }
 
 .ffxiv-page :deep(.ns-title) {
@@ -254,10 +242,6 @@ const toolCards = computed(() =>
 @media (max-width: 680px) {
   .ffxiv-page :deep(.ns-page-shell) {
     width: min(100%, calc(100vw - 24px));
-  }
-
-  .ffxiv-back {
-    margin-bottom: 24px;
   }
 
   .ffxiv-tool-card,

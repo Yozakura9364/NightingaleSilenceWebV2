@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "fashion-check.theme-aliases.v1",
+  "aliases": [
+    { "sourceLabel": "时尚管家", "targetId": 38, "reason": "old-translation", "evidence": "Global issue 29; official ID 38 is 雅致的管家 / Elegant Retainer." },
+    { "sourceLabel": "聪明的知识人", "targetId": 47, "reason": "old-translation", "evidence": "Global issue 38; official ID 47 is 雅致的知识分子 / Elegant Intellectual." },
+    { "sourceLabel": "悬垂风格", "targetId": 59, "reason": "old-translation", "evidence": "Global issue 50; Kevin historical theme is When the Curtains Fall, official ID 59." },
+    { "sourceLabel": "聪慧的冒险者", "targetId": 66, "reason": "old-translation", "evidence": "Global issue 57; Kevin historical theme is Adventurer Debonair, official ID 66." },
+    { "sourceLabel": "新锐的守护者", "targetId": 77, "reason": "old-translation", "evidence": "Global issue 68; Kevin historical theme is To Serve and Protect, official ID 77." },
+    { "sourceLabel": "野孩子的战装", "targetId": 111, "reason": "old-translation", "evidence": "Global issue 102; Kevin historical theme is (Not Quite) Ready for Battle, official ID 111." },
+    { "sourceLabel": "潇洒的雇员", "targetId": 143, "reason": "old-translation", "evidence": "Global issue 134; Kevin historical theme is Dressed to Impress, official ID 143." },
+    { "sourceLabel": "风流倜傥的船员", "targetId": 183, "reason": "old-translation", "evidence": "Global issue 174; Kevin historical theme is Dandified Deckhand, official ID 183." },
+    { "sourceLabel": "弯月厨师", "targetId": 199, "reason": "old-translation", "evidence": "Global issue 190; Kevin historical theme is Lunar Culinarian, official ID 199." },
+    { "sourceLabel": "穿着朴素的厨师", "targetId": 202, "reason": "old-translation", "evidence": "Global issue 193; Kevin historical theme is Simple Chef, official ID 202." }
+  ]
+}

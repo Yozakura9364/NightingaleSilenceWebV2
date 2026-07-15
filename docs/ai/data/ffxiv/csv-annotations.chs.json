@@ -53,11 +53,70 @@
         }
       }
     },
+    "FashionCheckWeeklyTheme.csv": {
+      "purpose": "时尚品鉴每周主题的稳定 RowId 和本地化名称表。本表不包含周次排期、标签部位或答案。",
+      "relatedTools": [
+        "时尚品鉴助手"
+      ],
+      "displayColumns": [
+        "Name"
+      ],
+      "columns": {
+        "0": {
+          "field": "#",
+          "rawKey": "key",
+          "csvIndex": 0,
+          "type": "int32",
+          "meaning": "RowId / 品鉴主题 ID。"
+        },
+        "1": {
+          "field": "Name",
+          "rawKey": "0",
+          "csvIndex": 1,
+          "type": "str",
+          "meaning": "主题在当前 CSV 语言中的名称。"
+        }
+      },
+      "rules": [
+        "历史主题必须以 RowId 为主键；社区旧译名通过已审阅别名表转换。",
+        "不得从本表推断某个 RowId 的实际日期、当周部位、金牌装备或染色。"
+      ]
+    },
+    "FashionCheckThemeCategory.csv": {
+      "purpose": "时尚品鉴提示标签的稳定 RowId 和本地化名称表。本表不包含部位、金牌装备、低贴合分档或染色。",
+      "relatedTools": [
+        "时尚品鉴助手"
+      ],
+      "displayColumns": [
+        "Name"
+      ],
+      "columns": {
+        "0": {
+          "field": "#",
+          "rawKey": "key",
+          "csvIndex": 0,
+          "type": "int32",
+          "meaning": "RowId / 品鉴提示标签 ID。"
+        },
+        "1": {
+          "field": "Name",
+          "rawKey": "0",
+          "csvIndex": 1,
+          "type": "str",
+          "meaning": "提示标签在当前 CSV 语言中的名称。"
+        }
+      },
+      "rules": [
+        "历史标签必须以 RowId 为主键；旧译名、错别字和源列错位通过已审阅映射表处理。",
+        "Category RowId 与 Item RowId 的金牌答案关系需要独立证据，不存在于本表中。"
+      ]
+    },
     "Item.csv": {
       "purpose": "物品基础表。用于装备、图标、名称、说明、装备槽位、模型、染色槽、可投影等外观相关数据。",
       "relatedTools": [
         "NSGlamour",
-        "NSArmoire"
+        "NSArmoire",
+        "时尚品鉴助手"
       ],
       "displayColumns": [
         "Name",

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "fashion-check.accepted-source-exceptions.v1",
+  "exceptions": [
+    {
+      "globalIssue": 220,
+      "slotId": "hands",
+      "categoryId": 29,
+      "type": "missing-source-answer",
+      "evidence": "QQ answer cell is empty; canonical category answers must come from another registered evidence source."
+    },
+    {
+      "globalIssue": 303,
+      "slotId": "body",
+      "categoryId": 146,
+      "type": "source-column-shift",
+      "evidence": "QQ answer text shifted into the tag cell; Kevin issue 303 identifies Leaping Leopards and canonical items must come from another registered evidence source."
+    },
+    {
+      "globalIssue": 70,
+      "slotId": "feet",
+      "categoryId": 191,
+      "type": "source-slot-correction",
+      "evidence": "QQ labels the slot as legs; Kevin issue 70 and official Item slot metadata identify it as feet."
+    }
+  ]
+}

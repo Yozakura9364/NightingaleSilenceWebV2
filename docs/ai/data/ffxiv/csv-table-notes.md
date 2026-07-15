@@ -393,8 +393,8 @@
 | `ExtendedQuestCounter.csv` | 6 | 65 |  |  |  |  |
 | `ExtraCommand.csv` | 5 | 14 |  |  |  |  |
 | `ExVersion.csv` | 6 | 6 |  |  |  |  |
-| `FashionCheckThemeCategory.csv` | 2 | 270 |  |  |  |  |
-| `FashionCheckWeeklyTheme.csv` | 2 | 535 |  |  |  |  |
+| `FashionCheckThemeCategory.csv` | 2 | 270 | 高 | 时尚品鉴助手 | 品鉴提示标签 ID 与本地化名称表；不包含部位、周次、金牌装备、染色或分数方案。 | 历史文本必须通过显式别名映射到 RowId，不用模糊匹配自动发布。 |
+| `FashionCheckWeeklyTheme.csv` | 2 | 535 | 高 | 时尚品鉴助手 | 每周主题 ID 与本地化名称表；不包含实际周次排期、部位或答案。 | 国服历史排期来自独立社区历史源，再按官方 RowId 校验主题。 |
 | `Fate.csv` | 114 | 2448 |  |  |  |  |
 | `FateEvent.csv` | 65 | 3340 |  |  |  |  |
 | `FateMode.csv` | 6 | 5 |  |  |  |  |
@@ -606,7 +606,7 @@
 | `InstanceContentRewardItem.csv` | 3 | 364 |  |  |  |  |
 | `InstanceContentTextData.csv` | 2 | 15390 |  |  |  |  |
 | `InstanceContentType.csv` | 10 | 24 |  |  |  |  |
-| `Item.csv` | 92 | 68819 | 高 | NSGlamour, NSArmoire | 物品基础表：名称、说明、图标、装备槽、搜索分类、模型、染色槽、可投影等。 |  |
+| `Item.csv` | 92 | 68819 | 高 | NSGlamour, NSArmoire, 时尚品鉴助手 | 物品基础表：名称、说明、图标、装备槽、搜索分类、模型、染色槽、可投影等。 | 时尚品鉴答案以 Item RowId 为主键，社区槽位与 Item.EquipSlotCategory 冲突时以官方表为准。 |
 | `ItemAction.csv` | 24 | 3051 |  |  |  |  |
 | `ItemActionTelepo.csv` | 3 | 8 |  |  |  |  |
 | `ItemBarterCheck.csv` | 4 | 95 |  |  |  |  |

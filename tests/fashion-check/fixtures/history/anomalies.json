@@ -1,0 +1,64 @@
+{
+  "records": [
+    {
+      "cn_issue": 4,
+      "global_issue": 19,
+      "start_date": "2018-06-05",
+      "theme": "theme-13",
+      "source_rows": [4],
+      "tag_count": 4,
+      "missing_answer_count": 0,
+      "slots": [
+        { "slot": "头部防具", "tag": "head-tag", "items_text": "head-item" },
+        { "slot": "身体防具", "tag": "body-tag", "items_text": "body-item" },
+        { "slot": "手部防具", "tag": "hands-tag", "items_text": "hands-item" },
+        { "slot": "脚部防具", "tag": "feet-tag", "items_text": "feet-item" }
+      ]
+    },
+    {
+      "cn_issue": 3,
+      "global_issue": 18,
+      "start_date": "2018-05-29",
+      "theme": "old-theme-12",
+      "source_rows": [3],
+      "tag_count": 4,
+      "missing_answer_count": 1,
+      "slots": [
+        { "slot": "头部防具", "tag": "old-head-tag", "items_text": "" },
+        { "slot": "身体防具", "tag": "body-tag", "items_text": "body-item" },
+        { "slot": "手部防具", "tag": "hands-tag", "items_text": "hands-item" },
+        { "slot": "脚部防具", "tag": "feet-tag", "items_text": "feet-item" }
+      ]
+    },
+    {
+      "cn_issue": 2,
+      "global_issue": 17,
+      "start_date": "2018-05-22",
+      "theme": "theme-11",
+      "source_rows": [2],
+      "tag_count": 3,
+      "missing_answer_count": 0,
+      "slots": [
+        { "slot": "头部防具", "tag": "head-tag", "items_text": "head-item" },
+        { "slot": "身体防具", "tag": "body-tag", "items_text": "body-item" },
+        { "slot": "脚部防具", "tag": "feet-tag", "items_text": "feet-item" }
+      ]
+    },
+    {
+      "cn_issue": 1,
+      "global_issue": 16,
+      "start_date": "2018-05-15",
+      "theme": "theme-10",
+      "source_rows": [1],
+      "tag_count": 5,
+      "missing_answer_count": 0,
+      "slots": [
+        { "slot": "头部防具", "tag": "head-tag", "items_text": "head-item" },
+        { "slot": "身体防具", "tag": "body-tag", "items_text": "body-item" },
+        { "slot": "手部防具", "tag": "hands-tag", "items_text": "hands-item" },
+        { "slot": "腿部防具", "tag": "legs-tag", "items_text": "legs-item" },
+        { "slot": "脚部防具", "tag": "feet-tag", "items_text": "feet-item" }
+      ]
+    }
+  ]
+}
