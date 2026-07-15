@@ -38,6 +38,7 @@ const TEMPLATE_SOURCE_FILES = [
   'src/pages/glamour/composables/useGlamourEquipInfoEditor.ts',
   'src/pages/glamour/composables/useGlamourEquipmentSearch.ts',
   'src/pages/glamour/composables/useGlamourTemplateCanvas.ts',
+  'src/pages/glamour/services/nsglamourApi.ts',
   'src/pages/glamour/composables/useGlamourTemplateEquipmentEditor.ts',
   'src/pages/glamour/composables/useGlamourTemplateImageInteraction.ts',
   'src/pages/glamour/composables/useGlamourTemplateImageStore.ts',
@@ -341,6 +342,7 @@ async function checkLocalTemplateDataLayer() {
     equipInfoEditorComposable,
     equipmentSearchComposable,
     templateCanvas,
+    glamourApi,
     templateEquipmentComposable,
     templateImageInteraction,
     templateImageStore,
@@ -640,6 +642,23 @@ async function checkLocalTemplateDataLayer() {
       !templateCanvas.includes('function drawTemplateCanvasFallback') &&
       !templateCanvas.includes('function drawImageCover'),
     'template canvas composable must keep the V2 renderer, font, asset, and icon-loading boundary outside the Vue workspace component'
+  )
+  assert(
+    renderData.includes('GLAMOUR_TEMPLATE_PREVIEW_MAX_EDGE = 1920') &&
+      renderData.includes('createGlamourTemplatePreviewRenderData') &&
+      renderData.includes('scaleTemplateImageSlot') &&
+      templateWorkspace.includes(':width="previewCanvasSize.width"') &&
+      templateWorkspace.includes(':height="previewCanvasSize.height"') &&
+      templateCanvas.includes('createGlamourTemplatePreviewRenderData') &&
+      templateCanvas.includes('window.requestAnimationFrame') &&
+      templateCanvas.includes('document.createElement(\'canvas\')') &&
+      templateCanvas.includes('const renderData = options.renderData.value') &&
+      glamourApi.includes('SEARCH_CACHE_LIMIT = 80') &&
+      glamourApi.includes('SEARCH_CACHE_TTL_MS = 5 * 60 * 1000') &&
+      glamourApi.includes('makeSearchCacheKey') &&
+      glamourApi.includes('rememberSearchResults') &&
+      glamourApi.includes("cache: 'force-cache'"),
+    'template preview performance boundary must retain scaled previews, original-size exports, frame batching, and bounded search/stain caching'
   )
   assert(
     assets.includes('GLAMOUR_TEMPLATE_RENDER_ASSET_URLS') &&
