@@ -1,16 +1,18 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-12T08:40:41.991Z",
+  "generatedAt": "2026-07-13T10:44:56.372Z",
   "imgBase": "https://img.nightingalesilence.com",
-  "previewImgBase": null,
+  "previewImgBase": "https://img.nightingalesilence.com/plate-preview-webp/256",
+  "previewMaxEdge": 256,
+  "previewFormat": "webp",
   "includeUnreleased": true,
   "presets": {
     "banner": 421,
     "charcard": 143
   },
   "files": {
-    "totalSourceAssets": 4619,
-    "totalAssets": 4618,
+    "totalSourceAssets": 4641,
+    "totalAssets": 4640,
     "unreleasedAssetsIncluded": 255,
     "unreleasedAssetsRemoved": 0,
     "placeholderAssetsRemoved": 1,
@@ -48,8 +50,8 @@
       },
       "nameplate": {
         "categoryCount": 16,
-        "totalSourceAssets": 3438,
-        "totalAssets": 3437,
+        "totalSourceAssets": 3460,
+        "totalAssets": 3459,
         "unreleasedAssetsIncluded": 242,
         "unreleasedAssetsRemoved": 0,
         "placeholderAssetsRemoved": 1,
@@ -118,8 +120,8 @@
             "placeholderAssetsRemoved": 0
           },
           "职业图标": {
-            "totalSourceAssets": 153,
-            "totalAssets": 153,
+            "totalSourceAssets": 175,
+            "totalAssets": 175,
             "unreleasedAssetsIncluded": 0,
             "unreleasedAssetsRemoved": 0,
             "placeholderAssetsRemoved": 0

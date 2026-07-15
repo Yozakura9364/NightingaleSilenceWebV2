@@ -10,6 +10,8 @@ const DEFAULT_MANIFEST_DIR = 'public/data/plate'
 const DEFAULT_OUTPUT_ROOT = '../.cache/nsplate-thumbnails'
 const DEFAULT_MAX_EDGE = 256
 const DEFAULT_CONCURRENCY = 4
+const DEFAULT_FORMAT = 'png'
+const DEFAULT_WEBP_QUALITY = 82
 
 function parseArgs(argv) {
   const maxEdge = parsePositiveInt(
@@ -30,6 +32,11 @@ function parseArgs(argv) {
     limit: 0,
     force: parseBooleanEnv(process.env.NSPLATE_THUMBNAIL_FORCE),
     dryRun: false,
+    format: normalizeOutputFormat(process.env.NSPLATE_THUMBNAIL_FORMAT, DEFAULT_FORMAT),
+    quality: parsePositiveInt(
+      process.env.NSPLATE_THUMBNAIL_QUALITY,
+      DEFAULT_WEBP_QUALITY
+    ),
     magickBin: process.env.MAGICK_PATH || process.env.NSPLATE_MAGICK_PATH || 'magick'
   }
 
@@ -87,6 +94,18 @@ function parseArgs(argv) {
       continue
     }
 
+    if (arg === '--format') {
+      args.format = normalizeOutputFormat(argv[index + 1], DEFAULT_FORMAT)
+      index += 1
+      continue
+    }
+
+    if (arg === '--quality') {
+      args.quality = parsePositiveInt(argv[index + 1], DEFAULT_WEBP_QUALITY)
+      index += 1
+      continue
+    }
+
     if (arg === '--magick-bin') {
       args.magickBin = argv[index + 1] ?? 'magick'
       index += 1
@@ -118,6 +137,8 @@ Options:
   --limit <n>           Process only the first n unique images, useful for smoke checks.
   --force               Rebuild existing thumbnails.
   --dry-run             Only report source/output paths.
+  --format <format>     Output format: png or webp. Default: ${DEFAULT_FORMAT}
+  --quality <n>         WebP quality. Default: ${DEFAULT_WEBP_QUALITY}
   --magick-bin <path>   ImageMagick executable. Default: magick
 
 Environment:
@@ -127,6 +148,8 @@ Environment:
   NSPLATE_THUMBNAIL_MAX_EDGE
   NSPLATE_THUMBNAIL_CONCURRENCY
   NSPLATE_THUMBNAIL_FORCE
+  NSPLATE_THUMBNAIL_FORMAT
+  NSPLATE_THUMBNAIL_QUALITY
   MAGICK_PATH / NSPLATE_MAGICK_PATH
 `)
 }
@@ -138,6 +161,11 @@ function parseBooleanEnv(value) {
 function parsePositiveInt(value, fallback) {
   const parsed = Number.parseInt(String(value ?? ''), 10)
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
+}
+
+function normalizeOutputFormat(value, fallback = DEFAULT_FORMAT) {
+  const format = String(value ?? '').trim().toLowerCase()
+  return ['png', 'webp'].includes(format) ? format : fallback
 }
 
 async function readJson(filePath) {
@@ -169,7 +197,7 @@ async function main() {
   }
 
   console.log(
-    `NSPlate thumbnails: ${selectedPaths.length}/${paths.length} image(s), maxEdge=${args.maxEdge}, output=${args.outputDir}`
+    `NSPlate thumbnails: ${selectedPaths.length}/${paths.length} image(s), maxEdge=${args.maxEdge}, format=${args.format}, output=${args.outputDir}`
   )
 
   const jobs = []
@@ -192,7 +220,7 @@ async function main() {
     jobs.push({
       relativePath,
       sourcePath,
-      outputPath: resolveOutputPath(args.outputDir, relativePath)
+      outputPath: resolveOutputPath(args.outputDir, relativePath, args.format)
     })
   }
 
@@ -221,7 +249,14 @@ async function main() {
         if (!args.force && (await fileExists(job.outputPath))) {
           stats.skipped += 1
         } else {
-          await createThumbnail(job.sourcePath, job.outputPath, args.maxEdge, args.magickBin)
+          await createThumbnail(
+            job.sourcePath,
+            job.outputPath,
+            args.maxEdge,
+            args.format,
+            args.quality,
+            args.magickBin
+          )
           stats.generated += 1
         }
       }
@@ -321,8 +356,10 @@ async function resolveLocalSourcePath(sourceDir, relativePath) {
   return undefined
 }
 
-function resolveOutputPath(outputDir, relativePath) {
-  return join(outputDir, ...decodeAssetPathForFileSystem(relativePath).split('/'))
+function resolveOutputPath(outputDir, relativePath, format) {
+  const decoded = decodeAssetPathForFileSystem(relativePath)
+  const outputPath = format === 'webp' ? decoded.replace(/\.[^./]+$/, '.webp') : decoded
+  return join(outputDir, ...outputPath.split('/'))
 }
 
 function decodeAssetPathForFileSystem(relativePath) {
@@ -338,8 +375,19 @@ function decodeAssetPathForFileSystem(relativePath) {
     .join('/')
 }
 
-async function createThumbnail(sourcePath, outputPath, maxEdge, magickBin) {
+async function createThumbnail(sourcePath, outputPath, maxEdge, format, quality, magickBin) {
   await mkdir(dirname(outputPath), { recursive: true })
+  const formatArgs =
+    format === 'webp'
+      ? [
+          '-define',
+          'webp:method=6',
+          '-define',
+          'webp:alpha-quality=100',
+          '-quality',
+          String(quality)
+        ]
+      : []
   await execFileAsync(
     magickBin,
     [
@@ -349,6 +397,7 @@ async function createThumbnail(sourcePath, outputPath, maxEdge, magickBin) {
       '-resize',
       `${maxEdge}x${maxEdge}>`,
       '-strip',
+      ...formatArgs,
       outputPath
     ],
     {

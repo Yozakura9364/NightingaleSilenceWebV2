@@ -5,6 +5,7 @@ const DEFAULT_SOURCE_API_BASE = 'http://127.0.0.1:3456/api'
 const DEFAULT_OUTPUT_DIR = 'public/data/plate'
 const DEFAULT_STATIC_IMG_BASE = 'https://img.nightingalesilence.com'
 const DEFAULT_PREVIEW_MAX_EDGE = 256
+const DEFAULT_PREVIEW_FORMAT = 'webp'
 const UNRELEASED_MATERIAL_RANGES = [
   [190000, 199999],
   [230000, 239999]
@@ -20,6 +21,10 @@ function parseArgs(argv) {
     previewMaxEdge: parsePositiveInt(
       process.env.NSPLATE_STATIC_PREVIEW_MAX_EDGE,
       DEFAULT_PREVIEW_MAX_EDGE
+    ),
+    previewFormat: normalizePreviewFormat(
+      process.env.NSPLATE_STATIC_PREVIEW_FORMAT,
+      DEFAULT_PREVIEW_FORMAT
     ),
     includeUnreleased: parseBooleanEnv(process.env.NSPLATE_INCLUDE_UNRELEASED, true)
   }
@@ -63,6 +68,12 @@ function parseArgs(argv) {
       continue
     }
 
+    if (arg === '--preview-format') {
+      args.previewFormat = normalizePreviewFormat(argv[index + 1], DEFAULT_PREVIEW_FORMAT)
+      index += 1
+      continue
+    }
+
     if (arg === '--include-unreleased') {
       args.includeUnreleased = true
       continue
@@ -99,6 +110,7 @@ Options:
   --img-base <url>        Override files._meta.imgBase. Default: ${DEFAULT_STATIC_IMG_BASE}
   --preview-img-base <url> Override files._meta.previewImgBase. Omitted by default.
   --preview-max-edge <px> Set files._meta.previewMaxEdge when preview base is provided. Default: ${DEFAULT_PREVIEW_MAX_EDGE}
+  --preview-format <format> Preview file format: png, webp, or avif. Default: ${DEFAULT_PREVIEW_FORMAT}
   --include-unreleased    Keep materials marked as unreleased by the source API. This is the default.
   --exclude-unreleased    Remove materials marked as unreleased by the source API.
 
@@ -108,6 +120,7 @@ Environment:
   NSPLATE_STATIC_IMG_BASE
   NSPLATE_STATIC_PREVIEW_IMG_BASE
   NSPLATE_STATIC_PREVIEW_MAX_EDGE
+  NSPLATE_STATIC_PREVIEW_FORMAT
   NSPLATE_INCLUDE_UNRELEASED (defaults to true; set to 0 only for a separate non-public manifest)
 `)
 }
@@ -150,6 +163,11 @@ function parseBooleanEnv(value, fallback = false) {
   return fallback
 }
 
+function normalizePreviewFormat(value, fallback = DEFAULT_PREVIEW_FORMAT) {
+  const format = String(value ?? '').trim().toLowerCase()
+  return ['png', 'webp', 'avif'].includes(format) ? format : fallback
+}
+
 function parsePositiveInt(value, fallback) {
   const parsed = Number.parseInt(String(value ?? ''), 10)
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
@@ -177,9 +195,11 @@ function applyStaticManifestRules(files, args) {
   if (args.previewImgBaseExplicit && args.previewImgBase) {
     nextFiles._meta.previewImgBase = args.previewImgBase
     nextFiles._meta.previewMaxEdge = args.previewMaxEdge
+    nextFiles._meta.previewFormat = args.previewFormat
   } else {
     delete nextFiles._meta.previewImgBase
     delete nextFiles._meta.previewMaxEdge
+    delete nextFiles._meta.previewFormat
   }
 
   const stats = createEmptyFileStats()
@@ -338,6 +358,8 @@ function createManifestMeta({ args, presets, files, fileStats }) {
     generatedAt: new Date().toISOString(),
     imgBase: files?._meta?.imgBase ?? null,
     previewImgBase: files?._meta?.previewImgBase ?? null,
+    previewMaxEdge: files?._meta?.previewMaxEdge ?? null,
+    previewFormat: files?._meta?.previewFormat ?? null,
     includeUnreleased: args.includeUnreleased,
     presets: {
       banner: Array.isArray(presets?.banner) ? presets.banner.length : 0,

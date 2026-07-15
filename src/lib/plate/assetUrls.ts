@@ -46,6 +46,19 @@ export function joinNSPlateResourceUrl(base: string | null | undefined, path: st
   return `${normalizedBase}/${normalizedPath}`
 }
 
+export function normalizeNSPlatePreviewPath(
+  path: string,
+  format: 'png' | 'webp' | 'avif' | null | undefined
+) {
+  const normalizedPath = normalizeNSPlateResourcePath(path)
+
+  if (!format || isAbsoluteNSPlateAssetUrl(normalizedPath)) {
+    return normalizedPath
+  }
+
+  return normalizedPath.replace(/\.[^./]+$/, `.${format}`)
+}
+
 export function resolveNSPlateImageUrl(
   path: string,
   base: string | null | undefined = NSPLATE_DEFAULT_IMAGE_BASE

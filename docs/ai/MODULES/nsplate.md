@@ -7,7 +7,7 @@
 - 当前页面入口：`src/pages/plate/NSPlatePage.vue`。
 - 来源项目路径：旧 `NSPortable`。
 - 当前默认数据源：`/data/plate/presets.json`、`/data/plate/files.json`。
-- 当前图片资源路径：`files._meta.imgBase` 指向 `https://img.nightingalesilence.com`，缩略图使用 `https://img.nightingalesilence.com/plate-preview/256`。
+- 当前图片资源路径：`files._meta.imgBase` 指向 `https://img.nightingalesilence.com`，缩略图使用 `https://img.nightingalesilence.com/plate-preview-webp/256`，格式为 WebP Q82。
 - 旧 API 边界：`/api/plate/*`，开发代理 rewrite 到旧服务 `/api/*`；只有显式 `VITE_NSPLATE_DATA_SOURCE=legacy-api` 时用于本地 fallback。
 - 当前旧服务端口：`3456`，仅作为 legacy/dev 和 manifest 生成源。
 - 固定回归矩阵：`docs/ai/MODULES/nsplate-regression.md`；重型浏览器回归命令为 `npm run check:plate-regression`，不挂入默认 `npm run check`。
@@ -138,6 +138,8 @@
 
 2026-07-05 已完成第六十一段静态模式本地验收和下载命名收口：`npm run build:plate-manifest` 默认改为生成带 `https://img.nightingalesilence.com/plate-preview/256` 缩略图前缀的正式 manifest，保留 `npm run build:plate-manifest:no-preview` 作为临时排障入口；新增 `npm run check:plate-static:preview` 固化远端缩略图抽样校验。新增 `src/lib/plate/downloadFilenames.ts`，统一配置 JSON、扁平 PNG/JPG 和分层 ZIP 的下载文件名，避免继续使用旧的 `Date.now()` 裸时间戳和 `composite_` / `layered_export_` 前缀。本机静态模式验证使用 `VITE_NSPLATE_DATA_SOURCE=static-manifest` 和 `VITE_NSPLATE_MANIFEST_BASE=/data/plate` 启动，`#/ffxiv/plate` 只请求 `/data/plate/presets.json`、`/data/plate/files.json`，没有请求 `/api/plate/presets` 或 `/api/plate/files`；素材卡缩略图请求 `plate-preview/256`，画布原图仍请求 `https://img.nightingalesilence.com/ui/...`。同时验证了素材选择、自定义图片上传裁切、配置导出、PNG 导出和分层 ZIP 导出。此切片不改变 Canvas 坐标、素材选择语义或导出 ZIP 内部图层条目名。
 
+2026-07-13 已完成 WebP 缩略图和旧站本机图片链路收口：按旧站当前有效 manifest 为普通素材、特殊 UI 和 175 个职业图标生成 `4640` 张长边 `256px`、Q82 WebP 缩略图，总体积由 PNG 的 `110.57MB` 降为 `24.31MB`。正式 COS prefix 为 `plate-preview-webp/256/`；`files._meta` 新增 `previewFormat=webp`，V2 adapter 和旧 `NSPortable` 素材卡会把源 `.png` 路径映射成 `.webp`，Canvas 与导出继续读取 `imgBase` 下的 PNG 原图。旧服务仍保留本机 `/img`、`/img-preview` 作为显式开发兼容入口，但生产 API 返回绝对 COS 原图/缩略图地址。
+
 2026-07-05 已完成第六十二段图层顺序便签：左下角便签从“当前组合”改为“图层顺序”，列表由固定层级槽位生成，而不是只显示当前已选素材。`src/lib/plate/render.ts` 新增 `getNameplateLayerOrderSlots()`，负责提供铭牌固定部件、自定义图片框内层、出框角色层和信息层占位的顺序；`useNSPlateSelectionNote.ts` 根据该槽位表补全“未选择 / 未启用”状态。Canvas 预览和分层 ZIP 仍只消费 `getNameplateRenderSegments()` 并只绘制真实已选择/已启用的图层；信息层继续位于其他固定部件层之上，出框角色层仍按有限锚点插入，未来如果开放出框层位置调整，应优先复用这张固定槽位表，不能让 UI 自行排序。
 
 2026-07-05 已完成第六十三段出框层级细化：出框角色层从旧四档锚点扩展为十档有限锚点：`aboveCustomPortrait`、`belowNameplateFrame`、`aboveNameplateFrame`、`abovePortraitFrame`、`aboveNameplateBottomDecoration`、`aboveNameplateDecorations`、`aboveNameplateOrnaments`、`aboveInfoGraphics`、`aboveInfoText`、`front`。旧草稿/旧配置里的 `behindFrames`、`aboveFrames`、`aboveDecorations` 会分别兼容映射到 `belowNameplateFrame`、`abovePortraitFrame`、`aboveNameplateOrnaments`；默认锚点改为 `abovePortraitFrame`。出框层级不再由 `NSPlatePortraitUpload.vue` 的四个按钮选择，而是在左下角“图层顺序”便签里的“出框角色层”行用上下按钮移动；列表按视觉前后关系显示，最前方显示在最上面，底层如“铭牌背衬”显示在最底部。
@@ -216,11 +218,11 @@ src/pages/plate/
 - 当前 `NSPlateWorkspace.vue` 是干净的迁移工作台骨架，还不是最终 `FFXIV` 工具页统一骨架。后续整理 `#/ffxiv/glamour` 和 `#/ffxiv/plate` 共享工作台时，应把通用预览区、配置区、tab 容器上移到 `src/pages/ffxiv/components/`，让 NSPlate 只提供业务 slot。
 - `src/lib/plate/dataSource.ts` 是 NSPlate 数据源契约边界；页面和 composable 不应直接假设数据一定来自旧 `NSPortable`。
 - `services/nsplateDataSource.ts` 负责选择数据源。默认使用静态 manifest，读取 `VITE_NSPLATE_MANIFEST_BASE` 下的 `presets.json` 和 `files.json`；`VITE_NSPLATE_MANIFEST_BASE` 默认 `/data/plate`。只有显式设置 `VITE_NSPLATE_DATA_SOURCE=legacy-api` 时才回旧 `/api/plate`。
-- `npm run build:plate-manifest` 负责从旧兼容 API 生成正式静态 manifest。默认源为 `http://127.0.0.1:3456/api`，默认素材 base 为 `https://img.nightingalesilence.com`，并默认写入 `https://img.nightingalesilence.com/plate-preview/256` 作为缩略图 base；可用 `--source-api-base`、`--output-dir`、`--img-base`、`--preview-img-base` 或对应环境变量覆盖。正式 manifest 默认保留未实装素材，让它们能在 V2 中选择；只剔除 Plate 素材占位编号。若未来需要临时生成隐藏未实装素材的测试 manifest，必须用 `--exclude-unreleased` 或 `NSPLATE_INCLUDE_UNRELEASED=0` 配合独立输出目录，不得覆盖公开 `public/data/plate/`。生成物只包含 JSON manifest，不复制 COS 游戏素材。临时排查缩略图 fallback 时使用 `npm run build:plate-manifest:no-preview`。
-- `npm run build:plate-thumbnails` 负责从 `files.json` 和本机解包目录生成离线缩略图。默认长边 `256px`，默认输出到仓库外 `../.cache/nsplate-thumbnails/256/`；如果使用 COSBrowser 同步素材桶，可用 `--output-dir "H:\解包\nine-1326554799\plate-preview\256"` 直接写入本机桶同步目录。缩略图目录不属于 V2 源码资产。
+- `npm run build:plate-manifest` 负责从旧兼容 API 生成正式静态 manifest。默认源为 `http://127.0.0.1:3456/api`，默认素材 base 为 `https://img.nightingalesilence.com`，并默认写入 `https://img.nightingalesilence.com/plate-preview-webp/256`、`previewMaxEdge=256` 和 `previewFormat=webp`；可用 `--source-api-base`、`--output-dir`、`--img-base`、`--preview-img-base`、`--preview-format` 或对应环境变量覆盖。正式 manifest 默认保留未实装素材，让它们能在 V2 中选择；只剔除 Plate 素材占位编号。若未来需要临时生成隐藏未实装素材的测试 manifest，必须用 `--exclude-unreleased` 或 `NSPLATE_INCLUDE_UNRELEASED=0` 配合独立输出目录，不得覆盖公开 `public/data/plate/`。生成物只包含 JSON manifest，不复制 COS 游戏素材。临时排查缩略图 fallback 时使用 `npm run build:plate-manifest:no-preview`。
+- `npm run build:plate-thumbnails` 负责从 `files.json` 和本机解包目录生成离线缩略图。当前 package script 固定生成 Q82 WebP，默认长边 `256px`，默认输出到仓库外 `../.cache/nsplate-thumbnails/256/`；如果使用 COSBrowser 同步素材桶，可用 `--output-dir "H:\解包\nine-1326554799\plate-preview-webp\256"` 直接写入本机桶同步目录。缩略图目录不属于 V2 源码资产。
 - `npm run check:plate-static` 校验 `public/data/plate/` 的静态 manifest 结构、COS base、未实装/占位过滤和关键分类；需要抽样访问 COS 原图时使用 `node scripts/check-nsplate-static-manifest.mjs --check-remote`，上传缩略图并写入 `previewImgBase` 后使用 `npm run check:plate-static:preview` 校验缩略图 URL。
 - `services/nsplateApi.ts` 只负责旧 `/api/plate/presets`、`/api/plate/files`、`/api/plate/export-layered-zip` 调用；`services/nsplateAdapters.ts` 负责把旧接口返回归一成 V2 展示模型。
-- 素材 URL 由 adapter 根据 `_meta.imgBase`、`_meta.previewImgBase` 生成；兼容旧服务可能返回的 `/portable/img`、`/portable/img-preview/256` 前缀，组件不硬编码 `localhost`、端口或旧挂载前缀。素材 id 不应依赖接口数组顺序；如需兼容旧 V2 草稿，可通过 `legacyIds` 在加载后归一到稳定 id。
+- 素材 URL 由 adapter 根据 `_meta.imgBase`、`_meta.previewImgBase` 和 `_meta.previewFormat` 生成；兼容旧服务可能返回的 `/portable/img`、`/portable/img-preview/256` 前缀，组件不硬编码 `localhost`、端口或旧挂载前缀。素材 id 不应依赖接口数组顺序；如需兼容旧 V2 草稿，可通过 `legacyIds` 在加载后归一到稳定 id。
 - `useNSPlateData.ts` 只负责数据源请求生命周期、错误状态、当前选中预设和素材；它不读取 `ApiBoundary`，不创建旧 API client。
 - `useNSPlateConfigTransfer.ts` 负责页面层配置传输编排：文件导入、剪贴板导入/复制、配置 JSON 下载、旧 localStorage 自动恢复和导入结果写回当前草稿；`src/lib/plate/configTransfer.ts` 只处理纯数据序列化和归一。
 - `useNSPlateCanvasExport.ts` 负责当前前端导出编排：浏览器端 PNG/JPG、浏览器端分层 ZIP、数据源提供的 ZIP fallback 和导出错误格式化。`NSPlateCanvasArea.vue` 不直接承担 API fallback 或 ZIP 生成细节，也不直接持有 `/api/plate`。
@@ -279,7 +281,7 @@ src/pages/plate/
 - 分层 ZIP 当前覆盖已迁移的系统素材层、自定义肖像层、合并信息层，并内嵌 `composer-config.json`、`layers.json` 和 `manifest.json`。当前 ZIP 优先使用 V2 前端无压缩打包器，旧后端导出接口只作为 fallback。
 - 旧 `NSPortable` 导出 API 如果启用 token，开发环境需要让 Vite 进程设置 `ICON_COMPOSER_API_TOKEN` 或 `NSPLATE_EXPORT_API_TOKEN`；生产反代也必须在服务端注入等价 header，不能把 token 暴露给浏览器。当前默认导出不依赖该旧接口。
 - 静态 manifest 已是默认运行模式，并已在本机验证默认不请求旧 `/api/plate/presets` 或 `/api/plate/files`；生产部署时仍需验证静态文件、COS 原图、COS 缩略图、缓存和回滚路径。
-- 离线缩略图本机已生成到缓存目录和 COSBrowser 本机同步目录；正式 `public/data/plate/files.json` 已写入 `previewImgBase=https://img.nightingalesilence.com/plate-preview/256`，并通过远端抽样校验。
+- 离线 WebP 缩略图本机已生成并同步 COS；正式 `public/data/plate/files.json` 已写入 `previewImgBase=https://img.nightingalesilence.com/plate-preview-webp/256` 和 `previewFormat=webp`，并通过远端抽样校验。
 - 旧用户配置已支持在无 V2 草稿时从本地旧键 `iconComposer.ui.config.v1` 自动恢复，并支持 V2 JSON/剪贴板/旧 JSON/`IC1?` 导入。旧主题、视口缩放、旧服务端导出配置和未迁移字段当前明确不写入 V2 状态；如果后续要恢复，必须单独开切片并补回归样本。
 - 固定 UI 文案本地化已有 `npm run check:i18n` 基础检查；右侧面板内部搜索、素材缩略图卡、字段行、操作提示和错误提示需要继续结合 `nsplate-regression.md` 做人工语义审计。
 - 像素状态图标当前规则：已选择/已有选择使用四角星 `sparkles.svg`，未选择使用中性空心图标，信息层启用/禁用使用像素化 `eye / eye-off`。后续如新增未启用、警告或缺失素材状态，应继续先定义语义和颜色，不得用通用装饰图标替代游戏内素材图标。
