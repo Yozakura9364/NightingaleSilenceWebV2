@@ -45,12 +45,12 @@ FFXIV 分类页 `#/ffxiv`：
 
 | 工具 | 目标路由 | 状态 |
 |------|---------|------|
-| 幻化工房 | `#/ffxiv/glamour` | 迁移占位页已接入 |
+| 幻化工房 | `#/ffxiv/glamour` | EquipInfo/Template 双工作台已接入，当前复用旧 Flask API 契约 |
 | 铭牌工房 | `#/ffxiv/plate` | 核心工作台已接入，默认走静态 manifest + COS/CDN |
 | 衣柜管家 | `#/ffxiv/armoire` | 第一阶段本地 helper / snapshot 工作台已接入 |
 | 术语校对 | `#/ffxiv/term-review` | 隐藏内部页，读取 `src/lib/ffxiv/terms.ts` |
 
-工具迁移状态按模块区分：`NSPlate` 不再按占位页处理；`NSGlamour` 仍是占位迁移入口；`NSArmoire` 处于第一阶段验证。
+工具迁移状态按模块区分：`NSPlate` 不再按占位页处理；`NSGlamour` 已完成当前前端双工作台迁移，但后端和旧项目等价回归仍在推进；`NSArmoire` 处于第一阶段验证。
 
 `#/ffxiv/term-review` 只服务人工校对游戏 CSV 术语、旧字段和网页 UI 文案边界，不写入 FFXIV 分类页公开工具卡。术语来源和校对规则见 `docs/ai/data/ffxiv/README.md`。
 

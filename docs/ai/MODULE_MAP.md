@@ -14,11 +14,10 @@
 - `src/styles/`：已建立第一版 reset/theme/base/components/utilities 公共 CSS。
 - `src/components/`：已建立第一版 `AppButton.vue`、`AppPanel.vue`、`AppPixelWindow.vue`、`AppTopNav.vue`、`AppField.vue`、`AppToolbar.vue`、`AppTabs.vue`、`AppStatus.vue`。
 - `src/pages/ffxiv/components/ToolApiStatus.vue`：保留给调试或临时占位界面使用；正式工具工作台不展示内部 API 状态块。
-- `src/pages/`：已建立首页、FFXIV 分类页、NSGlamour 第一段 equipinfo 工作台、NSPlate 核心工作台、NSArmoire 第一阶段页、Silence 入口/分组/角色页和 About 占位页。
+- `src/pages/`：已建立首页、FFXIV 分类页、NSGlamour EquipInfo/Template 双工作台、NSPlate 核心工作台、NSArmoire 第一阶段页、Silence 入口/分组/角色页和 About 占位页。
 
 当前尚未实现：
 
-- `NSGlamour` 模板 Canvas 渲染、候选替换、染剂编辑、图片裁剪和 PNG 导出迁移
 - `#/silence/glitch/:characterId` 预留单角色详情页，当前 `glitch` 组先使用双人页
 
 当前已存在：
@@ -38,7 +37,7 @@
 | `#/`                            | `src/pages/home/HomePage.vue`                | 已接入占位视觉首页                          |
 | `#/ffxiv`                       | `src/pages/ffxiv/FfxivIndexPage.vue`         | 已接入分类导航骨架                          |
 | `#/ffxiv/plate`                 | `src/pages/plate/NSPlatePage.vue`            | 已接入 NSPlate 核心工作台、静态 manifest、Canvas 预览和主要导入导出 |
-| `#/ffxiv/glamour`               | `src/pages/glamour/NSGlamourPage.vue`        | 已接入 NSGlamour 第一段 equipinfo 工作台、共享草稿、网页链接导入、文字导入、隐式本地配置导入和基础复制 |
+| `#/ffxiv/glamour`               | `src/pages/glamour/NSGlamourPage.vue`        | 已接入 EquipInfo/Template 双工作台、共享草稿、导入/编辑、多语言、六套 Canvas 模板、图片裁剪/暂存和 PNG 导出；仍通过 `/api/glamour/*` 复用旧 Flask 契约 |
 | `#/ffxiv/armoire`               | `src/pages/armoire/NSArmoirePage.vue`        | 已接入 NSArmoire 第一阶段手动 snapshot 导入、基础统计和分析面板 |
 | `#/ffxiv/term-review`           | `src/pages/ffxiv/FfxivTermReviewPage.vue`    | 隐藏内部 FFXIV 术语校对页，不写入导航          |
 | `#/about`                       | `src/pages/about/AboutPage.vue`              | 已接入 About 占位页                         |
@@ -49,7 +48,7 @@
 | `#/silence/angel/:characterId`  | `src/pages/silence/SilenceCharacterPage.vue` | 已接入动态路由和六个多区块测试角色数据骨架  |
 | `#/silence/glitch/:characterId` | `src/pages/silence/SilenceCharacterPage.vue` | 预留路由形态，当前不启用单人详情页          |
 
-> 注意：当前页面状态不一致。`NSPlate` 已进入核心工作台收口；`NSGlamour` 已开始真实业务迁移但仍缺模板 Canvas 等核心后续能力；About 和部分内容页仍是占位或迁移入口，不能用同一句“占位页”概括全部模块。
+> 注意：当前页面状态不一致。`NSPlate` 已进入核心工作台收口；`NSGlamour` 已完成当前前端双工作台迁移但仍依赖旧 Flask 服务与后续等价回归；About 和部分内容页仍是占位或迁移入口，不能用同一句“占位页”概括全部模块。
 
 当前导航行为：
 
@@ -109,13 +108,13 @@
   - 素材和预设通过静态 manifest + COS/CDN 接入；旧 `/api/plate` 只保留显式 fallback 或未来服务端导出能力。
 - **模块文档**：`docs/ai/MODULES/nsplate.md`。
 
-## NSGlamour 幻化工具（第一段 equipinfo 工作台已接入）
+## NSGlamour 幻化工具（EquipInfo/Template 双工作台已接入）
 
 - **计划路由**：`#/ffxiv/glamour`
 - **来源项目路径**：`NSGlamour`
 - **后端**：Python Flask，开发端口 `8765`
 - **核心能力**：本地角色配置解析、装备/染剂映射、石之家与 Eorzea Collection 导入、模板 Canvas 渲染、图片裁剪、PNG 导出、装备文案生成。
-- **当前状态**：已接入统一工具页外壳、共享 `GlamourDraft`、网页链接导入、文字导入、隐式本地配置导入、固定 14 装备槽展示、语言切换和基础复制文案；模板 Canvas、候选替换、染剂编辑和最近记录仍待迁移。
+- **当前状态**：已接入统一工具页外壳、共享 `GlamourDraft`、网页链接/文字/隐式本地配置导入、固定 14 装备槽、候选替换、染剂编辑、语言切换、复制与最近记录；Template 已接入六套 Canvas 模板、图片裁剪、最近图片 IndexedDB 暂存、跨模板继承与原尺寸 PNG 导出。预览画布最长边限制为 `1920px`，导出仍按模板原始尺寸重绘。
 - **当前 API 检查**：通过 `npm run check:nsglamour-contract` 检查旧后端轻量契约；私有本地配置 fixture 仅本机 ignored 回归使用。页面通过 V2 `/api/glamour/*` 代理 rewrite 到旧后端 `/api/*`。
 - **迁移目标**：
   - 旧项目行为先抽取为 API/数据/视觉契约，最终后端可按 V2 新规则重写。

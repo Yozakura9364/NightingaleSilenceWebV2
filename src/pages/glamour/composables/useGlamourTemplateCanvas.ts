@@ -1,6 +1,7 @@
-import { nextTick, ref, watch, type ComputedRef, type Ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch, type ComputedRef, type Ref } from 'vue'
 import { buildGlamourIconUrl } from '@/lib/glamour/equipment'
 import {
+  createGlamourTemplatePreviewRenderData,
   loadGlamourTemplateRenderAssets,
   renderGlamourTemplateCanvas,
   type GlamourTemplateCanvasImage,
@@ -54,12 +55,20 @@ interface GlamourTemplateCanvasOptions {
 export function useGlamourTemplateCanvas(options: GlamourTemplateCanvasOptions) {
   const { current: themeMode } = useTheme()
   const templateCanvasEl = ref<HTMLCanvasElement | null>(null)
+  const previewRenderData = computed(() =>
+    createGlamourTemplatePreviewRenderData(options.renderData.value)
+  )
+  const previewCanvasSize = computed(() => ({
+    width: previewRenderData.value.canvas.width,
+    height: previewRenderData.value.canvas.height
+  }))
   const iconStateVersion = ref(0)
   const iconImages = new Map<string, HTMLImageElement | null>()
   const loadingIconKeys = new Set<string>()
   const renderAssets = ref<GlamourTemplateLoadedAssetMap>({})
   let renderAssetTaskId = 0
   let canvasDrawTaskId = 0
+  let scheduledDrawFrame = 0
 
   watch(
     () => [
@@ -71,7 +80,7 @@ export function useGlamourTemplateCanvas(options: GlamourTemplateCanvasOptions) 
     ],
     () => {
       void nextTick(() => {
-        void drawTemplateCanvas()
+        scheduleTemplateCanvasDraw()
       })
     },
     { deep: true, immediate: true }
@@ -163,12 +172,25 @@ export function useGlamourTemplateCanvas(options: GlamourTemplateCanvasOptions) 
     const canvas = templateCanvasEl.value
     if (!canvas) return
 
-    const renderData = options.renderData.value
+    const renderData = previewRenderData.value
     const taskId = ++canvasDrawTaskId
     await ensureCanvasFonts(renderData)
 
-    if (taskId !== canvasDrawTaskId || renderData !== options.renderData.value) return
+    if (taskId !== canvasDrawTaskId || renderData !== previewRenderData.value) return
 
+    renderCanvas(canvas, renderData)
+  }
+
+  function scheduleTemplateCanvasDraw() {
+    if (scheduledDrawFrame) return
+
+    scheduledDrawFrame = window.requestAnimationFrame(() => {
+      scheduledDrawFrame = 0
+      void drawTemplateCanvas()
+    })
+  }
+
+  function renderCanvas(canvas: HTMLCanvasElement, renderData: GlamourTemplateRenderData) {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
@@ -185,9 +207,10 @@ export function useGlamourTemplateCanvas(options: GlamourTemplateCanvasOptions) 
   }
 
   async function downloadTemplateCanvas() {
-    await drawTemplateCanvas()
-    const canvas = templateCanvasEl.value
-    if (!canvas) return
+    const renderData = options.renderData.value
+    await ensureCanvasFonts(renderData)
+    const canvas = document.createElement('canvas')
+    renderCanvas(canvas, renderData)
 
     canvas.toBlob((blob) => {
       if (!blob) return
@@ -203,7 +226,15 @@ export function useGlamourTemplateCanvas(options: GlamourTemplateCanvasOptions) 
     }, 'image/png')
   }
 
-  return { templateCanvasEl, drawTemplateCanvas, downloadTemplateCanvas }
+  onBeforeUnmount(() => {
+    if (scheduledDrawFrame) {
+      window.cancelAnimationFrame(scheduledDrawFrame)
+      scheduledDrawFrame = 0
+    }
+    canvasDrawTaskId += 1
+  })
+
+  return { templateCanvasEl, previewCanvasSize, drawTemplateCanvas, downloadTemplateCanvas }
 }
 
 function getCanvasFonts(renderData: GlamourTemplateRenderData): string[] {

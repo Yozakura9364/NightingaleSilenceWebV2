@@ -15,8 +15,8 @@
         <canvas
           ref="templateCanvasEl"
           class="nsglamour-template__canvas"
-          :width="templateRenderData.canvas.width"
-          :height="templateRenderData.canvas.height"
+          :width="previewCanvasSize.width"
+          :height="previewCanvasSize.height"
         ></canvas>
         <input
           ref="imageInputEl"
@@ -405,7 +405,7 @@ const {
   currentLocale: current,
   setTemplateImageData
 })
-const { templateCanvasEl, drawTemplateCanvas, downloadTemplateCanvas } = useGlamourTemplateCanvas({
+const { templateCanvasEl, previewCanvasSize, drawTemplateCanvas, downloadTemplateCanvas } = useGlamourTemplateCanvas({
   renderData: templateRenderData,
   apiBase: computed(() => props.apiBase),
   imageStateVersion,

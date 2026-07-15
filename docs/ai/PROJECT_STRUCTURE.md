@@ -95,7 +95,7 @@ src/pages/
 | ------------ | -------------------------------------------------------------------- |
 | `home/`      | 首页占位视觉已接入；首页有页面专属舞台，不作为全站公共组件默认外观。 |
 | `ffxiv/`     | FFXIV 分类页已接入，读取 `site.ts` 中的工具列表。                    |
-| `glamour/`   | NSGlamour 迁移占位页已接入，真实业务未迁移。                         |
+| `glamour/`   | NSGlamour EquipInfo/Template 双工作台已接入：共享草稿、导入/编辑、六套 Canvas 模板、图片裁剪/暂存和 PNG 导出均在模块内维护；仍通过旧 Flask API 提供数据与导入契约。 |
 | `plate/`     | 铭牌工房核心工作台已接入，包含静态 manifest 数据源、Canvas 预览、信息层、配置传输和 PNG/JPG/分层 ZIP。 |
 | `about/`     | About 占位页已接入。                                                 |
 | `silence/`   | Silence 双入口门厅页和 `angel` / `glitch` 分组占位页已接入。          |

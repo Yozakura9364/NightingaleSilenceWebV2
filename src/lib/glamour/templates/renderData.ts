@@ -3,7 +3,8 @@ import {
   getGlamourTemplateDefinition,
   type GlamourTemplateDefinition,
   type GlamourTemplateId,
-  type GlamourTemplateImageSlot
+  type GlamourTemplateImageSlot,
+  type GlamourTemplateRect
 } from '@/lib/glamour/templates/definitions'
 import {
   getGlamourTemplateSubtitleParts,
@@ -62,6 +63,57 @@ export interface GlamourTemplateRenderData {
   localizedRows: GlamourTemplateLocalizedRows[]
   text: GlamourTemplateRenderText
   style: GlamourTemplateRenderStyle
+}
+
+export const GLAMOUR_TEMPLATE_PREVIEW_MAX_EDGE = 1920
+
+function scaleTemplateRect(rect: GlamourTemplateRect, scale: number): GlamourTemplateRect {
+  return {
+    x: Math.round(rect.x * scale),
+    y: Math.round(rect.y * scale),
+    width: Math.max(1, Math.round(rect.width * scale)),
+    height: Math.max(1, Math.round(rect.height * scale))
+  }
+}
+
+function scaleTemplateImageSlot(
+  slot: GlamourTemplateImageSlot,
+  scale: number
+): GlamourTemplateImageSlot {
+  return {
+    ...slot,
+    region: scaleTemplateRect(slot.region, scale),
+    uploadRegion: slot.uploadRegion ? scaleTemplateRect(slot.uploadRegion, scale) : undefined,
+    dropRegion: slot.dropRegion ? scaleTemplateRect(slot.dropRegion, scale) : undefined
+  }
+}
+
+export function createGlamourTemplatePreviewRenderData(
+  renderData: GlamourTemplateRenderData,
+  maxEdge: number = GLAMOUR_TEMPLATE_PREVIEW_MAX_EDGE
+): GlamourTemplateRenderData {
+  const sourceWidth = renderData.canvas.width
+  const sourceHeight = renderData.canvas.height
+  const normalizedMaxEdge = Math.max(1, Math.round(maxEdge))
+  const scale = Math.min(1, normalizedMaxEdge / Math.max(sourceWidth, sourceHeight))
+
+  if (scale === 1) {
+    return renderData
+  }
+
+  const width = Math.max(1, Math.round(sourceWidth * scale))
+  const height = Math.max(1, Math.round(sourceHeight * scale))
+
+  return {
+    ...renderData,
+    canvas: {
+      ...renderData.canvas,
+      width,
+      height,
+      aspectRatio: width / height,
+      imageSlots: renderData.canvas.imageSlots.map((slot) => scaleTemplateImageSlot(slot, scale))
+    }
+  }
 }
 
 function normalizeRenderLocales(

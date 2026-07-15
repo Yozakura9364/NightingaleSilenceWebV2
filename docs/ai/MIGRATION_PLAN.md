@@ -145,7 +145,7 @@ NSHome 完成后，由用户决定先迁移：
 - 补齐 `docs/api/nsplate.md`、`docs/api/nsglamour.md` 中“待补充”的真实字段和样本描述。
 - 明确两个工具各自的第一段垂直切片，但只选择一个先进入业务实现。
 
-当前状态：`NSPlate` 已完成该阶段的大部分契约盘点和核心工作台迁移，后续以 `docs/ai/MODULES/nsplate.md` 的剩余计划为准；`NSGlamour` 已完成阶段 0 契约地基，并接入第一段 equipinfo 工作台，后续继续按 `docs/ai/MODULES/nsglamour.md` 推进。
+当前状态：`NSPlate` 已完成该阶段的大部分契约盘点和核心工作台迁移，后续以 `docs/ai/MODULES/nsplate.md` 的剩余计划为准；`NSGlamour` 已完成阶段 0 契约地基和 EquipInfo/Template 双工作台迁移，包含候选/染剂编辑、六套 Canvas 模板、图片裁剪/暂存与原尺寸 PNG 导出。后续以旧项目等价回归、生产部署边界和后端演进为主，详见 `docs/ai/MODULES/nsglamour.md`。
 
 推荐执行顺序：
 
