@@ -181,14 +181,14 @@ export const silenceGroups: SilenceGroupEntry[] = [
 
 export const ffxivTools: ToolEntry[] = [
   {
-    id: 'itemCard',
-    titleKey: textKeys.itemCardTitle,
-    projectName: '物品卡片',
-    route: siteRoutes.itemCard,
+    id: 'plate',
+    titleKey: textKeys.plateTitle,
+    projectName: 'NSPlate',
+    route: siteRoutes.plate,
     summaryKey: textKeys.placeholder,
-    sourcePath: '../NSGlamour',
-    apiBase: '/api/glamour',
-    devPort: 8765,
+    sourcePath: '../NSPortable',
+    apiBase: '/api/plate',
+    devPort: 3456,
     statusLabelKey: textKeys.placeholder
   },
   {
@@ -203,26 +203,6 @@ export const ffxivTools: ToolEntry[] = [
     statusLabelKey: textKeys.placeholder
   },
   {
-    id: 'plate',
-    titleKey: textKeys.plateTitle,
-    projectName: 'NSPlate',
-    route: siteRoutes.plate,
-    summaryKey: textKeys.placeholder,
-    sourcePath: '../NSPortable',
-    apiBase: '/api/plate',
-    devPort: 3456,
-    statusLabelKey: textKeys.placeholder
-  },
-  {
-    id: 'fashionCheck',
-    titleKey: 'fashionCheck.title',
-    projectName: 'Fashion Check',
-    route: siteRoutes.fashionCheck,
-    summaryKey: 'fashionCheck.solutions',
-    sourcePath: 'data/fashion-check',
-    statusLabelKey: 'fashionCheck.verified'
-  },
-  {
     id: 'armoire',
     titleKey: textKeys.armoireTitle,
     projectName: 'NSArmoire',
@@ -231,6 +211,26 @@ export const ffxivTools: ToolEntry[] = [
     sourcePath: 'docs/ARMOIRE_PLAN.md',
     apiBase: '/api/armoire',
     devPort: 8015,
+    statusLabelKey: textKeys.placeholder
+  },
+  {
+    id: 'fashionCheck',
+    titleKey: textKeys.fashionCheckTitle,
+    projectName: 'Fashion Check',
+    route: siteRoutes.fashionCheck,
+    summaryKey: textKeys.fashionCheckSummary,
+    sourcePath: 'data/fashion-check',
+    statusLabelKey: 'fashionCheck.verified'
+  },
+  {
+    id: 'itemCard',
+    titleKey: textKeys.itemCardTitle,
+    projectName: '物品卡片',
+    route: siteRoutes.itemCard,
+    summaryKey: textKeys.placeholder,
+    sourcePath: '../NSGlamour',
+    apiBase: '/api/glamour',
+    devPort: 8765,
     statusLabelKey: textKeys.placeholder
   }
 ]

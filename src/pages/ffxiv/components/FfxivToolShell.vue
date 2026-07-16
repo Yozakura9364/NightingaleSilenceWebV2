@@ -14,9 +14,7 @@
       </template>
 
       <template v-else>
-        <RouterLink class="ffxiv-tool-back" :to="siteRoutes.ffxiv"
-          >← {{ t(textKeys.back) }}</RouterLink
-        >
+        <AppBackLink :to="siteRoutes.ffxiv" />
 
         <section class="ns-panel ffxiv-tool-hero">
           <p class="ns-eyebrow">{{ tool.projectName }}</p>
@@ -54,6 +52,7 @@
 
 <script setup lang="ts">
 import { siteRoutes, type ToolEntry } from '@/config/site'
+import AppBackLink from '@/components/AppBackLink.vue'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 import type { ApiBoundary } from '@/services/apiBoundaries'
@@ -76,22 +75,6 @@ withDefaults(
 <style scoped>
 .ffxiv-tool-page {
   background: var(--ns-body-background);
-}
-
-.ffxiv-tool-back {
-  display: inline-flex;
-  color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-decorative);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.ffxiv-tool-page--default .ffxiv-tool-back {
-  margin-bottom: 24px;
-}
-
-.ffxiv-tool-back:hover {
-  color: var(--ns-color-accent-strong);
 }
 
 .ffxiv-tool-hero {

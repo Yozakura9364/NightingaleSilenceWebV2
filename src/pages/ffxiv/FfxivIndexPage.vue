@@ -3,24 +3,19 @@
     <div class="ns-page-shell">
       <p v-if="categoryKicker" class="ns-eyebrow">{{ categoryKicker }}</p>
       <h1 class="ns-title ns-heading-bloom">{{ t(ffxivCategory.titleKey) }}</h1>
-      <p v-if="categoryDescription" class="ns-lead">{{ categoryDescription }}</p>
 
       <div class="ns-tool-grid">
         <RouterLink
           v-for="tool in toolCards"
           :key="tool.id"
           class="ffxiv-tool-card"
-          :class="[`ffxiv-tool-card--${tool.id}`, { 'ffxiv-tool-card--primary': tool.isPrimary }]"
+          :class="`ffxiv-tool-card--${tool.id}`"
           :to="tool.route"
         >
-          <div class="ffxiv-tool-card__main">
-            <span class="ffxiv-tool-card__badge">{{ toolBadge }}</span>
-            <h2 class="ffxiv-tool-card__title ns-heading-bloom">
-              <img class="ffxiv-tool-card__title-icon" :src="tool.icon" alt="" aria-hidden="true" />
-              {{ tool.title }}
-            </h2>
-            <p v-if="tool.summary" class="ffxiv-tool-card__text">{{ tool.summary }}</p>
-          </div>
+          <img class="ffxiv-tool-card__icon" :src="tool.icon" alt="" aria-hidden="true" />
+          <h2 class="ffxiv-tool-card__title ns-heading-bloom">
+            {{ tool.title }}
+          </h2>
           <span class="ffxiv-tool-card__button">{{ actionLabel }}</span>
         </RouterLink>
       </div>
@@ -46,9 +41,7 @@ const ffxivCategory = getCategory('ffxiv') ?? {
 const { t } = useLocale()
 
 const categoryKicker = computed(() => t(ffxivCategory.kickerKey).trim())
-const categoryDescription = computed(() => t(ffxivCategory.descriptionKey).trim())
 const actionLabel = computed(() => t(textKeys.open).trim())
-const toolBadge = computed(() => t(textKeys.ffxivToolBadge).trim())
 const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,
   glamour: pixelSparklesIcon,
@@ -56,15 +49,15 @@ const toolIcons: Record<string, string> = {
   armoire: pixelArchiveIcon,
   fashionCheck: pixelSparklesIcon
 }
+const toolCardOrder = ['plate', 'glamour', 'armoire', 'fashionCheck', 'itemCard']
 const toolCards = computed(() =>
-  ffxivTools.map((tool) => ({
-    ...tool,
-    icon: toolIcons[tool.id] ?? pixelSparklesIcon,
-    title: t(tool.titleKey).trim(),
-    summary: t(tool.summaryKey).trim(),
-    statusLabel: t(tool.statusLabelKey).trim(),
-    isPrimary: tool.id === 'itemCard'
-  }))
+  [...ffxivTools]
+    .sort((left, right) => toolCardOrder.indexOf(left.id) - toolCardOrder.indexOf(right.id))
+    .map((tool) => ({
+      ...tool,
+      icon: toolIcons[tool.id] ?? pixelSparklesIcon,
+      title: t(tool.titleKey).trim()
+    }))
 )
 </script>
 
@@ -84,7 +77,7 @@ const toolCards = computed(() =>
 
 .ffxiv-page :deep(.ns-tool-grid) {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-auto-rows: minmax(260px, auto);
+  grid-auto-rows: minmax(240px, auto);
   align-items: stretch;
   gap: 18px;
 }
@@ -97,14 +90,14 @@ const toolCards = computed(() =>
   --ffxiv-card-surface: var(--ns-color-surface-solid);
   --ffxiv-card-surface-pink: var(--ns-pixel-pink-surface);
   --ffxiv-card-surface-blue: var(--ns-pixel-cyan-surface);
-  --ffxiv-card-accent: var(--ns-color-accent);
-  --ffxiv-card-blue: var(--ns-pixel-cyan-surface);
   --ffxiv-card-ink: var(--ns-color-text);
-  --ffxiv-card-muted: var(--ns-color-text-muted);
   position: relative;
   display: grid;
-  min-height: 260px;
-  gap: 18px;
+  grid-template-rows: auto auto auto;
+  align-content: center;
+  justify-items: center;
+  min-height: 240px;
+  gap: 14px;
   padding: 18px;
   border: 2px solid var(--ffxiv-card-border);
   background: var(--ffxiv-card-surface);
@@ -125,70 +118,22 @@ const toolCards = computed(() =>
   box-shadow: var(--ffxiv-card-shadow-active);
 }
 
-.ffxiv-tool-card--plate {
-  background: var(--ffxiv-card-surface);
-}
-
-.ffxiv-tool-card__main {
-  display: grid;
-  align-content: start;
-  gap: 18px;
-  min-width: 0;
-}
-
-.ffxiv-tool-card__badge {
-  display: inline-flex;
-  align-items: center;
-  width: 100%;
-  min-height: 42px;
-  padding: 0 14px;
-  border: 2px solid var(--ffxiv-card-border);
-  background: var(--ffxiv-card-surface-pink);
-  color: var(--ffxiv-card-ink);
-  font-family: var(--ns-font-decorative);
-  font-size: 15px;
-  font-weight: 900;
-  box-shadow: var(--ns-pixel-soft-shadow);
-}
-
-.ffxiv-tool-card--plate .ffxiv-tool-card__badge {
-  background: var(--ffxiv-card-surface-blue);
-}
-
-.ffxiv-tool-card--armoire .ffxiv-tool-card__badge {
-  background: var(--ns-status-success-bg);
-}
-
-.ffxiv-tool-card__title {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-  color: var(--ffxiv-card-ink);
-  font-family: var(--ns-font-decorative);
-  font-size: 28px;
-  font-weight: 950;
-  line-height: 1.12;
-  letter-spacing: 0;
-  overflow-wrap: anywhere;
-}
-
-.ffxiv-tool-card__title-icon {
-  width: 28px;
-  height: 28px;
-  flex: 0 0 auto;
-  color: currentColor;
+.ffxiv-tool-card__icon {
+  width: 48px;
+  height: 48px;
   filter: var(--ns-pixel-icon-filter);
   image-rendering: pixelated;
 }
 
-.ffxiv-tool-card__text {
+.ffxiv-tool-card__title {
   margin: 0;
-  color: var(--ffxiv-card-muted);
-  font-family: var(--ns-font-sans);
-  font-size: 16px;
-  font-weight: 650;
-  line-height: 1.65;
+  color: var(--ffxiv-card-ink);
+  font-family: var(--ns-font-decorative);
+  font-size: 30px;
+  font-weight: 950;
+  line-height: 1.12;
+  letter-spacing: 0;
+  text-align: center;
   overflow-wrap: anywhere;
 }
 
@@ -196,32 +141,20 @@ const toolCards = computed(() =>
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   min-height: 54px;
-  margin-top: auto;
+  margin-top: 14px;
   padding: 0 16px;
   border: 2px solid var(--ffxiv-card-border);
-  background: var(--ffxiv-card-accent);
+  background: transparent;
   box-shadow: var(--ffxiv-card-shadow);
-  color: var(--ns-color-on-accent);
+  color: var(--ffxiv-card-ink);
   font-family: var(--ns-font-decorative);
   font-size: 17px;
   font-weight: 950;
-  text-shadow: var(--ns-control-primary-text-shadow);
   transition:
     transform var(--ns-transition-fast),
     box-shadow var(--ns-transition-fast);
-}
-
-.ffxiv-tool-card--plate .ffxiv-tool-card__button {
-  background: var(--ffxiv-card-blue);
-  color: var(--ns-color-text);
-  text-shadow: none;
-}
-
-.ffxiv-tool-card--armoire .ffxiv-tool-card__button {
-  background: var(--ffxiv-card-surface);
-  color: var(--ffxiv-card-ink);
-  text-shadow: none;
 }
 
 .ffxiv-tool-card:hover .ffxiv-tool-card__button {
@@ -233,10 +166,6 @@ const toolCards = computed(() =>
   .ffxiv-page :deep(.ns-tool-grid) {
     grid-template-columns: 1fr;
   }
-
-  .ffxiv-tool-card--primary {
-    min-height: 260px;
-  }
 }
 
 @media (max-width: 680px) {
@@ -244,18 +173,13 @@ const toolCards = computed(() =>
     width: min(100%, calc(100vw - 24px));
   }
 
-  .ffxiv-tool-card,
-  .ffxiv-tool-card--primary {
-    min-height: 230px;
+  .ffxiv-tool-card {
+    min-height: 220px;
     padding: 16px;
   }
 
   .ffxiv-tool-card__title {
     font-size: 26px;
-  }
-
-  .ffxiv-tool-card__text {
-    font-size: 15px;
   }
 }
 </style>

@@ -1,9 +1,7 @@
 <template>
   <main class="ns-page ffxiv-term-review-page">
     <div class="ffxiv-term-review-page__shell">
-      <RouterLink class="ffxiv-term-review-page__back" :to="siteRoutes.ffxiv">
-        {{ t(textKeys.back) }}
-      </RouterLink>
+      <AppBackLink :to="siteRoutes.ffxiv" />
 
       <header class="ffxiv-term-review-page__header">
         <p class="ns-eyebrow">{{ t(textKeys.ffxivTermReviewKicker) }}</p>
@@ -11,7 +9,10 @@
         <p class="ns-lead">{{ t(textKeys.ffxivTermReviewLead) }}</p>
       </header>
 
-      <section class="ffxiv-term-review-page__filters" :aria-label="t(textKeys.ffxivTermReviewFilters)">
+      <section
+        class="ffxiv-term-review-page__filters"
+        :aria-label="t(textKeys.ffxivTermReviewFilters)"
+      >
         <label class="ffxiv-term-review-page__field">
           <span>{{ t(textKeys.ffxivTermReviewSearch) }}</span>
           <input
@@ -52,7 +53,10 @@
         </label>
       </section>
 
-      <section class="ffxiv-term-review-page__summary" :aria-label="t(textKeys.ffxivTermReviewSummary)">
+      <section
+        class="ffxiv-term-review-page__summary"
+        :aria-label="t(textKeys.ffxivTermReviewSummary)"
+      >
         <span>{{ t(textKeys.ffxivTermReviewVisible) }} {{ filteredTerms.length }}</span>
         <span>{{ t(textKeys.ffxivTermReviewTotal) }} {{ ffxivTermEntries.length }}</span>
         <span>{{ t(textKeys.ffxivTermReviewNeedsCheck) }} {{ needsCheckCount }}</span>
@@ -113,6 +117,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import AppBackLink from '@/components/AppBackLink.vue'
 import { siteRoutes } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import {
@@ -133,7 +138,12 @@ const selectedSource = ref<FfxivTermSourceKind | 'all'>('all')
 
 const moduleOptions = uniqueOptions(ffxivTermEntries.map((term) => term.module))
 const statusOptions: FfxivTermStatus[] = ['confirmed', 'needs-check', 'layout']
-const sourceOptions: FfxivTermSourceKind[] = ['game-csv', 'legacy-layout', 'user-confirmed', 'site-ui']
+const sourceOptions: FfxivTermSourceKind[] = [
+  'game-csv',
+  'legacy-layout',
+  'user-confirmed',
+  'site-ui'
+]
 const termById = new Map(ffxivTermEntries.map((term) => [term.id, term]))
 
 const filteredTerms = computed(() => {
@@ -240,18 +250,6 @@ function uniqueOptions<T extends string>(values: T[]) {
   width: min(1440px, calc(100% - 32px));
   margin: 0 auto;
   padding: 32px 0 48px;
-}
-
-.ffxiv-term-review-page__back {
-  display: inline-flex;
-  margin-bottom: 24px;
-  color: var(--ns-color-text-muted);
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.ffxiv-term-review-page__back:hover {
-  color: var(--ns-color-accent-strong);
 }
 
 .ffxiv-term-review-page__header {

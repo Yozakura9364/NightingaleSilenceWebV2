@@ -26,24 +26,6 @@
     >
       <div class="app-top-nav__launcher-tabs" :aria-label="t(textKeys.menuCategory)">
         <RouterLink
-          class="app-top-nav__window-link app-top-nav__window-link--home"
-          :class="{ 'app-top-nav__window-link--active': route.path === siteRoutes.home }"
-          :to="siteRoutes.home"
-          role="menuitem"
-          @click="emit('close')"
-        >
-          <span class="app-top-nav__window-link-main">
-            <span
-              class="app-top-nav__icon"
-              :style="iconStyle(homeIcon)"
-              aria-hidden="true"
-            ></span>
-            <span class="app-top-nav__window-label">{{ t(textKeys.home) }}</span>
-          </span>
-          <small>{{ t(textKeys.homeCommand) }}</small>
-        </RouterLink>
-
-        <RouterLink
           class="app-top-nav__window-link app-top-nav__window-link--section"
           :class="{
             'app-top-nav__window-link--active': isFfxivRoute,
@@ -51,7 +33,8 @@
           }"
           :to="siteRoutes.ffxiv"
           role="menuitem"
-          @mouseenter="activeMenuSection = 'ffxiv'"
+          @mouseenter="queueMenuSection('ffxiv')"
+          @mouseleave="cancelMenuSectionChange"
           @focus="activeMenuSection = 'ffxiv'"
           @click="emit('close')"
         >
@@ -94,7 +77,8 @@
           }"
           :to="siteRoutes.silence"
           role="menuitem"
-          @mouseenter="activeMenuSection = 'silence'"
+          @mouseenter="queueMenuSection('silence')"
+          @mouseleave="cancelMenuSectionChange"
           @focus="activeMenuSection = 'silence'"
           @click="emit('close')"
         >
@@ -125,7 +109,7 @@
               :style="iconStyle(groupIconMap[group.id] ?? imageIcon)"
               aria-hidden="true"
             ></span>
-            <span class="app-top-nav__window-label">{{ t(group.titleKey) }}</span>
+            <span class="app-top-nav__window-label">{{ t(groupMenuTitleKeyMap[group.id]) }}</span>
           </span>
         </RouterLink>
 
@@ -152,12 +136,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, type CSSProperties } from 'vue'
+import { computed, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import archiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import avatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import folderIcon from '@/assets/icons/pixelarticons/folder.svg'
-import homeIcon from '@/assets/icons/pixelarticons/home.svg'
 import imageIcon from '@/assets/icons/pixelarticons/image.svg'
 import sparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import starIcon from '@/assets/icons/pixelarticons/star.svg'
@@ -181,6 +164,8 @@ const emit = defineEmits<{
 const route = useRoute()
 const { t } = useLocale()
 const activeMenuSection = ref<MenuSectionId>('ffxiv')
+const menuSectionHoverDelay = 180
+let menuSectionHoverTimer: ReturnType<typeof setTimeout> | null = null
 
 const isFfxivRoute = computed(
   () => route.path === siteRoutes.ffxiv || ffxivTools.some((tool) => isRouteUnder(tool.route))
@@ -205,16 +190,46 @@ const groupIconMap: Record<string, string> = {
   angel: userIcon,
   glitch: starIcon
 }
+const groupMenuTitleKeyMap: Record<(typeof silenceGroups)[number]['id'], string> = {
+  angel: textKeys.menuSilenceAngel,
+  glitch: textKeys.menuSilenceGlitch
+}
 
 watch(
   () => props.open,
   (open) => {
+    cancelMenuSectionChange()
+
     if (open) {
       activeMenuSection.value = getMenuSectionForRoute()
     }
   },
   { immediate: true }
 )
+
+onBeforeUnmount(cancelMenuSectionChange)
+
+function queueMenuSection(section: MenuSectionId) {
+  cancelMenuSectionChange()
+
+  if (activeMenuSection.value === section) {
+    return
+  }
+
+  menuSectionHoverTimer = setTimeout(() => {
+    activeMenuSection.value = section
+    menuSectionHoverTimer = null
+  }, menuSectionHoverDelay)
+}
+
+function cancelMenuSectionChange() {
+  if (menuSectionHoverTimer === null) {
+    return
+  }
+
+  clearTimeout(menuSectionHoverTimer)
+  menuSectionHoverTimer = null
+}
 
 function getMenuSectionForRoute(): MenuSectionId {
   if (isFfxivRoute.value) {
