@@ -4,9 +4,11 @@
       <article
         v-for="solution in showcase.solutions"
         :key="solution.id"
-        class="fashion-check-showcase__solution"
+        class="fashion-check-showcase__solution ns-workbench-panel ns-workbench-panel--solid"
       >
-        <h2>{{ solution.id === '80' ? t(keys.solution80Title) : t(keys.solution100Title) }}</h2>
+        <h2 class="ns-workbench-panel__title">
+          {{ solution.id === '80' ? t(keys.solution80Title) : t(keys.solution100Title) }}
+        </h2>
         <div class="fashion-check-showcase__entries">
           <div
             v-for="entry in solution.entries"
@@ -16,23 +18,27 @@
             <FashionCheckItemLine
               v-if="entry.item || entry.iconId"
               :item="entry.item"
+              :display-name="entry.item ? itemName(entry.item.itemId, entry.item.name) : undefined"
               :icon-id="entry.iconId"
               :slot-label="slotLabel(entry.slotId)"
-              :label="entry.label"
-              :secondary-text="entry.dye?.name"
+              :label="entryLabel(entry)"
+              :secondary-text="entry.dye ? dyeName(entry.dye.dyeId, entry.dye.name) : undefined"
             />
             <p v-else>
               <b>{{ slotLabel(entry.slotId) }}</b
-              ><span>{{ entry.label }}</span>
+              ><span>{{ entryLabel(entry) }}</span>
             </p>
             <small v-if="entry.dye && !entry.item && !entry.iconId">
-              {{ entry.dye.name }}
+              {{ dyeName(entry.dye.dyeId, entry.dye.name) }}
             </small>
           </div>
         </div>
       </article>
-      <section class="fashion-check-showcase__dyes" :aria-label="t(keys.dyeGuide)">
-        <h2>{{ t(keys.dyeGuide) }}</h2>
+      <section
+        class="fashion-check-showcase__dyes ns-workbench-panel ns-workbench-panel--solid"
+        :aria-label="t(keys.dyeGuide)"
+      >
+        <h2 class="ns-workbench-panel__title">{{ t(keys.dyeGuide) }}</h2>
         <article v-for="dye in showcase.dyes" :key="dye.slotId">
           <b class="fashion-check-showcase__dye-slot">{{ slotLabel(dye.slotId) }}</b>
           <div class="fashion-check-showcase__dye-row">
@@ -41,7 +47,7 @@
               :style="{ backgroundColor: dye.family.color }"
               aria-hidden="true"
             />
-            <span>{{ dye.family.name }} +{{ dye.family.points }}</span>
+            <span>{{ familyName(dye.family.id, dye.family.name) }} +{{ dye.family.points }}</span>
           </div>
           <div class="fashion-check-showcase__dye-row">
             <span
@@ -49,23 +55,36 @@
               :style="{ backgroundColor: dye.exact.color }"
               aria-hidden="true"
             />
-            <strong>{{ dye.exact.name }} +{{ dye.exact.points }}</strong>
-            <small>{{ dye.exact.declaration }}</small>
+            <strong>{{ dyeName(dye.exact.dyeId, dye.exact.name) }} +{{ dye.exact.points }}</strong>
+            <small>{{ declarationName(dye.exact.declarationKey, dye.exact.declaration) }}</small>
           </div>
         </article>
       </section>
     </div>
-    <section class="fashion-check-showcase__faq" :aria-label="t(keys.faq)">
-      <h2>{{ t(keys.faq) }}</h2>
+    <section
+      class="fashion-check-showcase__faq ns-workbench-panel ns-workbench-panel--soft ns-workbench-panel--compact"
+      :aria-label="t(keys.faq)"
+    >
+      <h2 class="ns-workbench-panel__title">{{ t(keys.faq) }}</h2>
       <p>{{ t(keys.faqPlaceholder) }}</p>
     </section>
   </section>
 
-  <section v-else class="fashion-check-solutions" :aria-label="t(keys.solutions)">
-    <article v-for="solution in week.solutions" :key="solution.id" class="fashion-check-solution">
+  <section
+    v-else-if="week.solutions.length > 0"
+    class="fashion-check-solutions"
+    :aria-label="t(keys.solutions)"
+  >
+    <article
+      v-for="solution in week.solutions"
+      :key="solution.id"
+      class="fashion-check-solution ns-workbench-panel ns-workbench-panel--soft"
+    >
       <div class="fashion-check-solution__body">
         <p>{{ solution.id === '80' ? t(keys.target80) : t(keys.target100) }}</p>
-        <h2>{{ solution.id === '80' ? t(keys.goldWithDye) : t(keys.allGold) }}</h2>
+        <h2 class="ns-workbench-panel__title">
+          {{ solution.id === '80' ? t(keys.goldWithDye) : t(keys.allGold) }}
+        </h2>
         <div class="fashion-check-solution__items">
           <FashionCheckItemLine
             v-for="entry in solution.items"
@@ -82,21 +101,36 @@
       <strong>{{ solution.score }}</strong>
     </article>
   </section>
+
+  <section v-else class="fashion-check-solutions" :aria-label="t(keys.solutions)">
+    <p
+      class="fashion-check-solutions__pending ns-workbench-panel ns-workbench-panel--solid ns-workbench-panel--compact"
+    >
+      {{ t(keys.awaitingData) }}
+    </p>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import FashionCheckItemLine from '@/pages/fashion-check/components/FashionCheckItemLine.vue'
+import { resolveFashionCheckName } from '@/lib/fashion-check/localization'
 import type {
   FashionCheckItem,
+  FashionCheckLocaleCatalog,
+  FashionCheckReferenceEntry,
   FashionCheckReferenceShowcase,
   FashionCheckWeek
 } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
 import { useLocale } from '@/stores/locale'
 
-const props = defineProps<{ week: FashionCheckWeek; showcase?: FashionCheckReferenceShowcase }>()
-const { t } = useLocale()
+const props = defineProps<{
+  week: FashionCheckWeek
+  showcase?: FashionCheckReferenceShowcase
+  localeCatalog: FashionCheckLocaleCatalog
+}>()
+const { current, t } = useLocale()
 const itemById = computed(
   () =>
     new Map(props.week.slots.flatMap((slot) => slot.gold.items).map((item) => [item.itemId, item]))
@@ -115,11 +149,31 @@ function findItem(itemId: number): FashionCheckItem {
 function slotLabel(slotId: string) {
   return t(dyeLabelKeys[slotId as keyof typeof dyeLabelKeys] ?? keys.dyeWeapon)
 }
+function itemName(itemId: number, fallback: string) {
+  return resolveFashionCheckName(props.localeCatalog.items[String(itemId)], current.value, fallback)
+}
+function dyeName(dyeId: number | undefined, fallback: string) {
+  return resolveFashionCheckName(
+    dyeId === undefined ? undefined : props.localeCatalog.dyes[String(dyeId)],
+    current.value,
+    fallback
+  )
+}
+function entryLabel(entry: FashionCheckReferenceEntry) {
+  return entry.labelKey ? t(entry.labelKey) : entry.label
+}
+function familyName(familyId: 'black' | 'red' | undefined, fallback: string) {
+  if (familyId === 'black') return t(keys.dyeFamilyBlack)
+  if (familyId === 'red') return t(keys.dyeFamilyRed)
+  return fallback
+}
+function declarationName(declarationKey: string | undefined, fallback: string) {
+  return declarationKey ? t(declarationKey) : fallback
+}
 </script>
 
 <style scoped>
-.fashion-check-showcase,
-.fashion-check-showcase__dyes {
+.fashion-check-showcase {
   display: grid;
 }
 .fashion-check-showcase {
@@ -131,22 +185,15 @@ function slotLabel(slotId: string) {
   gap: 14px;
 }
 .fashion-check-showcase__solution {
-  display: grid;
   align-content: start;
   gap: 12px;
-  min-width: 0;
-  padding: 16px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface-solid);
 }
-.fashion-check-showcase__solution h2,
 .fashion-check-showcase__solution p {
   margin: 0;
 }
 .fashion-check-showcase__solution h2,
 .fashion-check-showcase__dyes h2 {
   font-size: 16px;
-  font-weight: 800;
 }
 .fashion-check-showcase__entries {
   display: grid;
@@ -160,6 +207,8 @@ function slotLabel(slotId: string) {
 }
 .fashion-check-showcase__entry > p {
   display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
   gap: 6px;
 }
 .fashion-check-showcase__entry > p b {
@@ -172,13 +221,6 @@ function slotLabel(slotId: string) {
 .fashion-check-showcase__dyes {
   grid-template-columns: 1fr;
   gap: 8px;
-  min-width: 0;
-  padding: 16px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface-solid);
-}
-.fashion-check-showcase__dyes h2 {
-  margin: 0;
 }
 .fashion-check-showcase__dyes article {
   display: grid;
@@ -208,7 +250,6 @@ function slotLabel(slotId: string) {
   color: var(--ns-color-text-muted);
   font-size: 11px;
 }
-.fashion-check-showcase__faq h2,
 .fashion-check-showcase__faq p {
   margin: 0;
 }
@@ -217,28 +258,28 @@ function slotLabel(slotId: string) {
 }
 .fashion-check-showcase__faq p {
   font-size: 14px;
+  overflow-wrap: anywhere;
 }
 .fashion-check-solutions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
+.fashion-check-solutions__pending {
+  margin: 0;
+}
 .fashion-check-solution {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   min-width: 0;
-  padding: 16px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-cyan-surface);
 }
 .fashion-check-solution__body {
   display: grid;
   gap: 7px;
   min-width: 0;
 }
-.fashion-check-solution p,
-.fashion-check-solution h2 {
+.fashion-check-solution p {
   margin: 0;
 }
 .fashion-check-solution > strong {
@@ -252,6 +293,7 @@ function slotLabel(slotId: string) {
 }
 .fashion-check-solution h2 {
   font-size: 18px;
+  overflow-wrap: anywhere;
 }
 .fashion-check-solution__items {
   display: grid;
@@ -259,6 +301,8 @@ function slotLabel(slotId: string) {
 }
 .fashion-check-solution__items p {
   display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
   gap: 6px;
 }
 .fashion-check-solution__items p b {

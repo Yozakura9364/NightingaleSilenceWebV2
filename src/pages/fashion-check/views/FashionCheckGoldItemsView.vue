@@ -1,8 +1,12 @@
 <template>
   <section class="fashion-check-gold-items" :aria-label="t(keys.goldItems)">
-    <article v-for="slot in week.slots" :key="slot.slotId" class="fashion-check-gold-items__slot">
-      <header>
-        <h2>{{ slot.label }} | {{ slot.tag }}</h2>
+    <article
+      v-for="slot in week.slots"
+      :key="slot.slotId"
+      class="fashion-check-gold-items__slot ns-workbench-panel ns-workbench-panel--solid ns-workbench-panel--compact"
+    >
+      <header class="ns-workbench-panel__header">
+        <h2 class="ns-workbench-panel__title">{{ slotLabel(slot.slotId) }} | {{ slot.tag }}</h2>
         <strong>{{ t(keys.gold) }} +{{ slot.gold.points }}</strong>
       </header>
       <div class="fashion-check-gold-items__list">
@@ -11,7 +15,7 @@
           :key="item.itemId"
           class="fashion-check-gold-items__item"
         >
-          <FashionCheckItemLine :item="item" />
+          <FashionCheckItemLine :item="item" :display-name="itemName(item.itemId, item.name)" />
         </div>
       </div>
     </article>
@@ -21,11 +25,29 @@
 <script setup lang="ts">
 import FashionCheckItemLine from '@/pages/fashion-check/components/FashionCheckItemLine.vue'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
+import { resolveFashionCheckName } from '@/lib/fashion-check/localization'
 import { useLocale } from '@/stores/locale'
-import type { FashionCheckWeek } from '@/lib/fashion-check/types'
+import type { FashionCheckLocaleCatalog, FashionCheckWeek } from '@/lib/fashion-check/types'
 
-defineProps<{ week: FashionCheckWeek }>()
-const { t } = useLocale()
+const props = defineProps<{ week: FashionCheckWeek; localeCatalog: FashionCheckLocaleCatalog }>()
+const { current, t } = useLocale()
+
+function itemName(itemId: number, fallback: string) {
+  return resolveFashionCheckName(props.localeCatalog.items[String(itemId)], current.value, fallback)
+}
+
+const slotLabelKeys = {
+  weapon: keys.dyeWeapon,
+  head: keys.dyeHead,
+  body: keys.dyeBody,
+  hands: keys.dyeHands,
+  legs: keys.dyeLegs,
+  feet: keys.dyeFeet
+} as const
+
+function slotLabel(slotId: string) {
+  return t(slotLabelKeys[slotId as keyof typeof slotLabelKeys] ?? keys.dyeWeapon)
+}
 </script>
 
 <style scoped>
@@ -34,26 +56,18 @@ const { t } = useLocale()
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
-.fashion-check-gold-items__slot {
-  display: grid;
-  gap: 12px;
-  padding: 14px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface-solid);
-}
 .fashion-check-gold-items__slot header {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
   align-items: baseline;
+  flex-wrap: wrap;
 }
 .fashion-check-gold-items__slot h2 {
-  margin: 0;
   font-size: 16px;
+  overflow-wrap: anywhere;
 }
 .fashion-check-gold-items__slot strong {
   color: var(--ns-color-text-muted);
   font-size: 13px;
+  white-space: nowrap;
 }
 .fashion-check-gold-items__list {
   display: grid;

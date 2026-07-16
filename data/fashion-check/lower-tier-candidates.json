@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "fashion-check.lower-tier-candidates.v1",
+  "retrievedAt": "2026-07-15T06:03:32.000Z",
+  "scope": "Reviewed lower-tier match candidates from explicit community claims. These records are not gold answers and are not consumed by public UI.",
+  "entries": [
+    {
+      "sourceId": "gottesstrafe-reddit",
+      "sourceUrl": "https://www.reddit.com/r/ffxiv/comments/1usj9vd/fashion_report_results_for_week_of_7102026_week/",
+      "sourceTitle": "Fashion Report Results for Week of 7/10/2026 (Week 441)",
+      "sourceWeekDate": "2026-07-10",
+      "globalIssue": 441,
+      "cnIssue": 426,
+      "grade": "one-star",
+      "confidence": "source-reported",
+      "rawClaim": "1 Star: Cauldronfiend's Spectacles, Plain Pajama Shirt, Plain Neotunic, Riversbreath Bottoms of Fending/Maiming/Aiming",
+      "resolvedItems": [
+        { "slotId": "head", "itemId": 25363, "nameEn": "Cauldronfiend's Spectacles", "sourceExpression": "Cauldronfiend's Spectacles", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 40405, "nameEn": "Plain Pajama Shirt", "sourceExpression": "Plain Pajama Shirt", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 48994, "nameEn": "Plain Neotunic", "sourceExpression": "Plain Neotunic", "resolutionMethod": "exact-official-name" },
+        { "slotId": "legs", "itemId": 41938, "nameEn": "Riversbreath Bottoms of Fending", "sourceExpression": "Riversbreath Bottoms of Fending/Maiming/Aiming", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "legs", "itemId": 41943, "nameEn": "Riversbreath Bottoms of Maiming", "sourceExpression": "Riversbreath Bottoms of Fending/Maiming/Aiming", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "legs", "itemId": 41953, "nameEn": "Riversbreath Bottoms of Aiming", "sourceExpression": "Riversbreath Bottoms of Fending/Maiming/Aiming", "resolutionMethod": "deterministic-expression-review" }
+      ],
+      "expressionsNeedingReview": []
+    },
+    {
+      "sourceId": "gottesstrafe-reddit",
+      "sourceUrl": "https://www.reddit.com/r/ffxiv/comments/1umacn5/fashion_report_results_for_week_of_7032026_week/",
+      "sourceTitle": "Fashion Report Results for Week of 7/03/2026 (Week 440)",
+      "sourceWeekDate": "2026-07-03",
+      "globalIssue": 440,
+      "cnIssue": 425,
+      "grade": "one-star",
+      "confidence": "source-reported",
+      "rawClaim": "1 star: Archaeoskin Gloves of Crafting/Gathering",
+      "resolvedItems": [
+        { "slotId": "hands", "itemId": 11965, "nameEn": "Archaeoskin Gloves of Crafting", "sourceExpression": "Archaeoskin Gloves of Crafting/Gathering", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 11993, "nameEn": "Archaeoskin Gloves of Gathering", "sourceExpression": "Archaeoskin Gloves of Crafting/Gathering", "resolutionMethod": "deterministic-expression-review" }
+      ],
+      "expressionsNeedingReview": []
+    },
+    {
+      "sourceId": "gottesstrafe-reddit",
+      "sourceUrl": "https://www.reddit.com/r/ffxiv/comments/1uf8nrv/fashion_report_results_for_week_of_6262026_week/",
+      "sourceTitle": "Fashion Report Results for Week of 6/26/2026 (Week 439)",
+      "sourceWeekDate": "2026-06-26",
+      "globalIssue": 439,
+      "cnIssue": 424,
+      "grade": "one-star",
+      "confidence": "source-reported",
+      "rawClaim": "1 Star: Ehcatl Wristgloves, Ehcatl Smithing Gloves, Critical Hit C-1/C-2 Tour False Nails, Republican Signifer's Fingerless Gloves, Gloves of the Black/White Griffin, Aurum Sabatons, Lord's Sabatons, Rainbow Ribbon of XXXXX, Yellow Byregotia Choker, Ravel Keeper's Choker of XXXXX, The Last Necklace of XXXXX",
+      "resolvedItems": [
+        { "slotId": "hands", "itemId": 8568, "nameEn": "Ehcatl Wristgloves", "sourceExpression": "Ehcatl Wristgloves", "resolutionMethod": "exact-official-name" },
+        { "slotId": "hands", "itemId": 8569, "nameEn": "Ehcatl Smithing Gloves", "sourceExpression": "Ehcatl Smithing Gloves", "resolutionMethod": "exact-official-name" },
+        { "slotId": "hands", "itemId": 47251, "nameEn": "Critical Hit C-1 Tour False Nails", "sourceExpression": "Critical Hit C-1/C-2 Tour False Nails", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 47255, "nameEn": "Critical Hit C-2 Tour False Nails", "sourceExpression": "Critical Hit C-1/C-2 Tour False Nails", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 22350, "nameEn": "Republican Signifer's Fingerless Gloves", "sourceExpression": "Republican Signifer's Fingerless Gloves", "resolutionMethod": "exact-official-name" },
+        { "slotId": "hands", "itemId": 12332, "nameEn": "Gloves of the Black Griffin", "sourceExpression": "Gloves of the Black/White Griffin", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 12326, "nameEn": "Gloves of the White Griffin", "sourceExpression": "Gloves of the Black/White Griffin", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "feet", "itemId": 31559, "nameEn": "Aurum Sabatons", "sourceExpression": "Aurum Sabatons", "resolutionMethod": "exact-official-name" },
+        { "slotId": "feet", "itemId": 6727, "nameEn": "Lord's Sabatons", "sourceExpression": "Lord's Sabatons", "resolutionMethod": "exact-official-name" },
+        { "slotId": "neck", "itemId": 37295, "nameEn": "Yellow Byregotia Choker", "sourceExpression": "Yellow Byregotia Choker", "resolutionMethod": "exact-official-name" }
+      ],
+      "expressionsNeedingReview": [
+        "Rainbow Ribbon of XXXXX",
+        "Ravel Keeper's Choker of XXXXX",
+        "The Last Necklace of XXXXX"
+      ]
+    },
+    {
+      "sourceId": "gottesstrafe-reddit",
+      "sourceUrl": "https://www.reddit.com/r/ffxiv/comments/1u9zhr5/fashion_report_results_for_week_of_6192026_week/",
+      "sourceTitle": "Fashion Report Results for Week of 6/19/2026 (Week 438)",
+      "sourceWeekDate": "2026-06-19",
+      "globalIssue": 438,
+      "cnIssue": 423,
+      "grade": "one-star",
+      "confidence": "source-reported",
+      "rawClaim": "1 star: Scientist's Coat, Replica / Allagan Tunic of Casting/Healing, Replica / High Allagan Coat of Healing, Replica / Dreadwyrm Robe of Casting, Replica / Dreadwyrm Robe of Healing, Altered Felt Robe, Antiquated / Machinist's Shirt, Mended Imperial Short Robe, Carbonweave/Ironworks Apron of Crafting, Custom-made Robe of Casting/Healing, Ishgardian Historian's Robe, Chimerical Felt Robe of Casting, Prototype / Alexandrian Coat of Casting/Scouting, Valerian Wizard's Robe, Ivalician Arithmetician's/Chemist's Robe, Filibuster's Coat of Healing, Antiquated / Gunner's Coat, Weathered / Gunslinger's Coat, Weathered / Evenstar Gloves, Magician's/Pilgrim's Gloves, Magus's Gloves",
+      "resolvedItems": [
+        { "slotId": "body", "itemId": 44252, "nameEn": "Scientist's Coat", "sourceExpression": "Scientist's Coat", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 3267, "nameEn": "Allagan Tunic of Casting", "sourceExpression": "Replica / Allagan Tunic of Casting/Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 3265, "nameEn": "Allagan Tunic of Healing", "sourceExpression": "Replica / Allagan Tunic of Casting/Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 13830, "nameEn": "Replica Allagan Tunic of Casting", "sourceExpression": "Replica / Allagan Tunic of Casting/Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 13825, "nameEn": "Replica Allagan Tunic of Healing", "sourceExpression": "Replica / Allagan Tunic of Casting/Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 7199, "nameEn": "High Allagan Coat of Healing", "sourceExpression": "Replica / High Allagan Coat of Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 13869, "nameEn": "Replica High Allagan Coat of Healing", "sourceExpression": "Replica / High Allagan Coat of Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 8990, "nameEn": "Dreadwyrm Robe of Casting", "sourceExpression": "Replica / Dreadwyrm Robe of Casting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 13918, "nameEn": "Replica Dreadwyrm Robe of Casting", "sourceExpression": "Replica / Dreadwyrm Robe of Casting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 8980, "nameEn": "Dreadwyrm Robe of Healing", "sourceExpression": "Replica / Dreadwyrm Robe of Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 13913, "nameEn": "Replica Dreadwyrm Robe of Healing", "sourceExpression": "Replica / Dreadwyrm Robe of Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 27679, "nameEn": "Altered Felt Robe", "sourceExpression": "Altered Felt Robe", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 9636, "nameEn": "Antiquated Machinist's Shirt", "sourceExpression": "Antiquated / Machinist's Shirt", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 11815, "nameEn": "Machinist's Shirt", "sourceExpression": "Antiquated / Machinist's Shirt", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 6224, "nameEn": "Mended Imperial Short Robe", "sourceExpression": "Mended Imperial Short Robe", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 15521, "nameEn": "Carbonweave Apron of Crafting", "sourceExpression": "Carbonweave/Ironworks Apron of Crafting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 15516, "nameEn": "Ironworks Apron of Crafting", "sourceExpression": "Carbonweave/Ironworks Apron of Crafting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 3007, "nameEn": "Custom-made Robe of Casting", "sourceExpression": "Custom-made Robe of Casting/Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 3004, "nameEn": "Custom-made Robe of Healing", "sourceExpression": "Custom-made Robe of Casting/Healing", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 11111, "nameEn": "Ishgardian Historian's Robe", "sourceExpression": "Ishgardian Historian's Robe", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 10933, "nameEn": "Chimerical Felt Robe of Casting", "sourceExpression": "Chimerical Felt Robe of Casting", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 16440, "nameEn": "Prototype Alexandrian Coat of Casting", "sourceExpression": "Prototype / Alexandrian Coat of Casting/Scouting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 16428, "nameEn": "Prototype Alexandrian Coat of Scouting", "sourceExpression": "Prototype / Alexandrian Coat of Casting/Scouting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 16516, "nameEn": "Alexandrian Coat of Casting", "sourceExpression": "Prototype / Alexandrian Coat of Casting/Scouting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 16504, "nameEn": "Alexandrian Coat of Scouting", "sourceExpression": "Prototype / Alexandrian Coat of Casting/Scouting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 11391, "nameEn": "Valerian Wizard's Robe", "sourceExpression": "Valerian Wizard's Robe", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 22847, "nameEn": "Ivalician Arithmetician's Robe", "sourceExpression": "Ivalician Arithmetician's/Chemist's Robe", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 22841, "nameEn": "Ivalician Chemist's Robe", "sourceExpression": "Ivalician Arithmetician's/Chemist's Robe", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 17416, "nameEn": "Filibuster's Coat of Healing", "sourceExpression": "Filibuster's Coat of Healing", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 17798, "nameEn": "Antiquated Gunner's Coat", "sourceExpression": "Antiquated / Gunner's Coat", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 22062, "nameEn": "Gunner's Coat", "sourceExpression": "Antiquated / Gunner's Coat", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 7276, "nameEn": "Weathered Evenstar Gloves", "sourceExpression": "Weathered / Evenstar Gloves", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 7342, "nameEn": "Evenstar Gloves", "sourceExpression": "Weathered / Evenstar Gloves", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 7476, "nameEn": "Magician's Gloves", "sourceExpression": "Magician's/Pilgrim's Gloves", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 7470, "nameEn": "Pilgrim's Gloves", "sourceExpression": "Magician's/Pilgrim's Gloves", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "hands", "itemId": 24554, "nameEn": "Magus's Gloves", "sourceExpression": "Magus's Gloves", "resolutionMethod": "exact-official-name" }
+      ],
+      "expressionsNeedingReview": [
+        "Weathered / Gunslinger's Coat"
+      ]
+    },
+    {
+      "sourceId": "gottesstrafe-reddit",
+      "sourceUrl": "https://www.reddit.com/r/ffxiv/comments/1u3qqsc/fashion_report_results_for_week_of_6122026_week/",
+      "sourceTitle": "Fashion Report Results for Week of 6/12/2026 (Week 437)",
+      "sourceWeekDate": "2026-06-12",
+      "globalIssue": 437,
+      "cnIssue": 422,
+      "grade": "one-star",
+      "confidence": "source-reported",
+      "rawClaim": "1 star: AR-Caean Velvet Work Cap of Crafting, Carbonweave/Ironworks Cap of Crafting, Weathered/Idealized Bodyguard's Blinder, Hellwolf Choker of XXXXX, Werewolf Choker of XXXXX, Petalite Choker of XXXXX, Astral Choker, Augmented / Primal Choker of Casting/Healing, Platinum Scarf of Fending, Ribbon of XXXXX",
+      "resolvedItems": [
+        { "slotId": "head", "itemId": 35434, "nameEn": "AR-Caean Velvet Work Cap of Crafting", "sourceExpression": "AR-Caean Velvet Work Cap of Crafting", "resolutionMethod": "exact-official-name" },
+        { "slotId": "head", "itemId": 15520, "nameEn": "Carbonweave Cap of Crafting", "sourceExpression": "Carbonweave/Ironworks Cap of Crafting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "head", "itemId": 15515, "nameEn": "Ironworks Cap of Crafting", "sourceExpression": "Carbonweave/Ironworks Cap of Crafting", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "head", "itemId": 25311, "nameEn": "Weathered Bodyguard's Blinder", "sourceExpression": "Weathered/Idealized Bodyguard's Blinder", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "head", "itemId": 30217, "nameEn": "Idealized Bodyguard's Blinder", "sourceExpression": "Weathered/Idealized Bodyguard's Blinder", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "neck", "itemId": 4389, "nameEn": "Astral Choker", "sourceExpression": "Astral Choker", "resolutionMethod": "exact-official-name" },
+        { "slotId": "neck", "itemId": 9034, "nameEn": "Platinum Scarf of Fending", "sourceExpression": "Platinum Scarf of Fending", "resolutionMethod": "exact-official-name" }
+      ],
+      "expressionsNeedingReview": [
+        "Hellwolf Choker of XXXXX",
+        "Werewolf Choker of XXXXX",
+        "Petalite Choker of XXXXX",
+        "Augmented / Primal Choker of Casting/Healing",
+        "Ribbon of XXXXX"
+      ]
+    },
+    {
+      "sourceId": "gottesstrafe-reddit",
+      "sourceUrl": "https://www.reddit.com/r/ffxiv/comments/1txh404/fashion_report_results_for_week_of_6052026_week/",
+      "sourceTitle": "Fashion Report Results for Week of 6/05/2026 (Week 436)",
+      "sourceWeekDate": "2026-06-05",
+      "globalIssue": 436,
+      "cnIssue": 421,
+      "grade": "one-star",
+      "confidence": "source-reported",
+      "rawClaim": "1 star: Comfy/Cozy Valentione Cardigan, Field Commander's Coat, Star Captain Coat, Gambler's Trenchcoat, Scientist's Coat",
+      "resolvedItems": [
+        { "slotId": "body", "itemId": 47268, "nameEn": "Comfy Valentione Cardigan", "sourceExpression": "Comfy/Cozy Valentione Cardigan", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 47264, "nameEn": "Cozy Valentione Cardigan", "sourceExpression": "Comfy/Cozy Valentione Cardigan", "resolutionMethod": "deterministic-expression-review" },
+        { "slotId": "body", "itemId": 12514, "nameEn": "Field Commander's Coat", "sourceExpression": "Field Commander's Coat", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 47280, "nameEn": "Star Captain Coat", "sourceExpression": "Star Captain Coat", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 10005, "nameEn": "Gambler's Trenchcoat", "sourceExpression": "Gambler's Trenchcoat", "resolutionMethod": "exact-official-name" },
+        { "slotId": "body", "itemId": 44252, "nameEn": "Scientist's Coat", "sourceExpression": "Scientist's Coat", "resolutionMethod": "exact-official-name" }
+      ],
+      "expressionsNeedingReview": []
+    }
+  ]
+}

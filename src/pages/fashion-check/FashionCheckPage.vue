@@ -2,7 +2,7 @@
   <main class="ns-page fashion-check-page">
     <div class="ns-page-shell fashion-check-page__shell">
       <header class="fashion-check-page__header">
-        <h1>{{ t(keys.title) }}</h1>
+        <h1 class="ns-heading-bloom">{{ t(keys.title) }}</h1>
         <div v-if="week" class="fashion-check-page__week">
           <strong>{{ week.theme }}</strong>
           <time v-if="challengePeriod">{{ challengePeriod }}</time>
@@ -23,6 +23,12 @@
           v-if="activeTab === 'solutions'"
           :week="week"
           :showcase="week.referenceShowcase"
+          :locale-catalog="localeCatalog"
+        />
+        <FashionCheckGoldItemsView
+          v-else-if="activeTab === 'gold'"
+          :week="week"
+          :locale-catalog="localeCatalog"
         />
         <component :is="Component" v-else :week="week" />
       </RouterView>
@@ -37,9 +43,10 @@ import AppStatus from '@/components/AppStatus.vue'
 import AppTabs from '@/components/AppTabs.vue'
 import { useFetch } from '@/composables/useFetch'
 import { siteRoutes } from '@/config/site'
-import type { FashionCheckWeek } from '@/lib/fashion-check/types'
+import type { FashionCheckLocaleCatalog, FashionCheckWeek } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
 import FashionCheckSolutionsView from '@/pages/fashion-check/views/FashionCheckSolutionsView.vue'
+import FashionCheckGoldItemsView from '@/pages/fashion-check/views/FashionCheckGoldItemsView.vue'
 import { useLocale } from '@/stores/locale'
 
 const { t } = useLocale()
@@ -47,6 +54,7 @@ const { api } = useFetch()
 const route = useRoute()
 const router = useRouter()
 const week = ref<FashionCheckWeek | null>(null)
+const localeCatalog = ref<FashionCheckLocaleCatalog>({ items: {}, dyes: {} })
 const loading = ref(true)
 const tabRoutes = {
   solutions: siteRoutes.fashionCheck,
@@ -90,7 +98,12 @@ function formatChallengeDate(value: string) {
 
 onMounted(async () => {
   try {
-    week.value = await api<FashionCheckWeek>('/data/fashion-check/current.json')
+    const [currentWeek, currentLocaleCatalog] = await Promise.all([
+      api<FashionCheckWeek>('/data/fashion-check/current.json'),
+      api<FashionCheckLocaleCatalog>('/data/fashion-check/current-locales.json')
+    ])
+    week.value = currentWeek
+    localeCatalog.value = currentLocaleCatalog
   } finally {
     loading.value = false
   }
@@ -99,14 +112,12 @@ onMounted(async () => {
 
 <style scoped>
 .fashion-check-page__shell {
-  width: min(1120px, calc(100vw - 32px));
   display: grid;
+  width: min(var(--ns-content-width), calc(100vw - 32px));
   gap: 20px;
   padding-block: 16px 48px;
 }
-.fashion-check-page,
-.fashion-check-page :deep(button),
-.fashion-check-page :deep(label) {
+.fashion-check-page {
   font-family: var(--ns-font-sans);
 }
 .fashion-check-page__header {
@@ -115,8 +126,6 @@ onMounted(async () => {
 }
 .fashion-check-page__header h1 {
   margin: 0;
-}
-.fashion-check-page__header h1 {
   font-family: var(--ns-font-decorative);
   font-size: 28px;
 }
@@ -127,11 +136,14 @@ onMounted(async () => {
   gap: 20px;
 }
 .fashion-check-page__week strong {
+  min-width: 0;
   font-size: 18px;
+  overflow-wrap: anywhere;
 }
 .fashion-check-page__week time {
   color: var(--ns-color-accent-strong);
   font-size: 18px;
+  white-space: nowrap;
 }
 @media (max-width: 760px) {
   .fashion-check-page__shell {

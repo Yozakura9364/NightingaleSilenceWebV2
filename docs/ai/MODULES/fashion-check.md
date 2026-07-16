@@ -5,11 +5,20 @@
 - 页面路由：`#/ffxiv/fashioncheck`、`#/ffxiv/fashioncheck/gold-items`、`#/ffxiv/fashioncheck/sources`。
 - 已完成：历史周次与金牌装备答案的本地数据底座；当前周 Vue 页面、80/100 作业、金牌物品一览和数据来源展示。
 - 已实现并部署：服务器私有自动采集、两个北京时间窗口、持久 QQ 通知队列。
-- 当前页面数据：`public/data/fashion-check/current.json` 仅包含用户确认可公开的当前周切片，含所需物品 ID、图标 ID、品质和金牌分值。
+- 当前页面数据：`public/data/fashion-check/current.json` 仅包含用户确认可公开的当前周切片，含所需物品 ID、图标 ID、品质和金牌分值；`public/data/fashion-check/current-locales.json` 按同一批 ID 提供中英日韩装备和染剂名，跟随全局语言状态切换。
 - 未实现：低贴合分档、历史染色、历史答案公开浏览和公开自动发布。
 - 未公开：原始参考和生成物位于 ignored `local-assets/fashion-check/`。
 
 Spec Kit 设计文档位于 `specs/001-fashion-check-assistant/`。
+
+每周公开作业与服务器 staging 的维护步骤见 `docs/ai/FASHION_CHECK_WEEKLY_MAINTENANCE.md`。
+
+## 页面样式契约
+
+- 一级业务区域统一使用 `.ns-workbench-panel`、`--solid` / `--soft` / `--compact` modifier 和公共 panel title；内部装备行、染色行等高密度数据可继续使用 `1px` 像素分隔。
+- 页面标题使用公共 night bloom，`AppTabs` 和右键菜单按钮保留公共像素字体、focus 与交互状态，页面 scoped CSS 不覆盖公共控件字体。
+- 双列/三列桌面布局与移动端单列布局属于 FashionCheck 页面私有结构，不上提为公共工作台布局组件。
+- Item rarity 颜色是 FFXIV 业务颜色，必须保持当前值；在没有第二个稳定复用点前不抽通用状态色或全站 token。
 
 ## 数据范围
 
@@ -24,12 +33,15 @@ Spec Kit 设计文档位于 `specs/001-fashion-check-assistant/`。
 
 本切片只声称“社区已验证/已报告的金牌装备”。不根据装备名相似度推断低贴合分档，不从金牌答案反推历史染色。
 
+`data/fashion-check/lower-tier-candidates.json` 仅保存已审阅来源中明确标注的低分档候选，例如 Gottesstrafe Reddit `1 Star` 装备；它不是公开页面数据，也不参与当前金牌答案构建。
+
 服务器当前周采集也遵循相同证据规则：QQ 表中的平铺装备文本默认是“待核验档位”；只有来源明确的 Gold/Silver 分数表或维护者人工确认才会写入分档与分值。80/100 方案会保留基础分、装备和染色的逐项审计；缺少任一可靠分值时只保留来源方案，不能宣称精确得分。
 
 ## 目录边界
 
 ```text
 data/fashion-check/                 # 已审阅的来源/别名/表达式配置
+data/fashion-check/lower-tier-candidates.json  # 明确来源标注的低分档候选，当前仅本地证据
 scripts/fashion-check/              # Node ESM 构建器和 checker
 tests/fashion-check/                # fixture 与真实生成物 mutation 测试
 local-assets/fashion-check/         # 原始第三方参考与生成物，不跟踪
@@ -50,10 +62,10 @@ specs/001-fashion-check-assistant/  # 规格、计划、契约和任务
 | `avantgarde-tracker` | `https://docs.google.com/spreadsheets/d/1b9NwL-Ba4tS0ROSy1_4HPfi7QSMQWuhXKqFSSY9Ovp4/edit` | gold-answers | Category-to-Item 证据；表内感谢 Kaiyoko Star，数据许可未声明 |
 | `kaiyoko-reddit` | `https://www.reddit.com/user/KaiyokoStar/` | current-week, gold-answers, dyes | 每周信息图主页；未审阅具体帖子时不作 evidence |
 | `kaiyoko-x` | `https://x.com/KaiyokoStar` | current-week, gold-answers, dyes | 每周信息图主页，当前 link-only |
+| `gottesstrafe-reddit` | `https://www.reddit.com/user/Gottesstrafe/` | current-week, gold-answers, dyes, score-plans | 当前英文社区常见 results/full-details 发帖者；已审阅 Results 帖可作本地低分档候选证据 |
 | `allgamestaff-en` | `https://www.allgamestaff.it/fashion-report-guide-ffxiv-eng/` | current-week, gold-answers, dyes | 可变的当周 80/100/染色对照，非稳定历史 API |
 | `allgamestaff-it` | `https://www.allgamestaff.it/guida-fashion-report-ffxiv/` | current-week, gold-answers, dyes | 意大利语当周对照，非稳定历史 API |
 | `shapes-fashionreportff` | `https://shapes.inc/fashionreportff` | related-tool | 相关展示工具，不暴露稳定底层数据，不作 evidence |
-| `gamerescape-fashion-report` | `https://ffxiv.gamerescape.com/wiki/Fashion_Report` | mechanics, item-acquisition | 机制/获取链接，自动访问 403，当前 link-only |
 | `dsa-fashion-check-tool` | `https://github.com/dsa83171/FFXIV-Fashion-check-Tool` | history, validation-only | 繁中周次/部位校对，仓库未声明许可证 |
 | `kevin-fashion-report` | `https://github.com/KevinAllenWiegand/ffxiv-fashion-report` | history, validation-only | 英文历史周次与提示校对，仓库未声明许可证 |
 | `etsuna-fashion-report` | `https://github.com/Etsuna/FFXIVFashionReport` | related-tool, validation-only | MIT 桌面工具参考，不作主数据源 |
@@ -95,7 +107,10 @@ local-assets/fashion-check/generated/
 npm run build:fashion-check-history
 npm run check:fashion-check-history
 node --test tests/fashion-check/*.test.mjs
+node scripts/fashion-check/build-current-locales.mjs
 ```
+
+`build-current-locales.mjs` 只提取当前公开切片引用的 Item ID 和 Dye ID，产物不包含完整官方 CSV。它需要 ignored 的 `local-assets/fashion-check/references/official/{chs,en,ja,ko}/Item.csv`；中英文源与历史构建器共用，日文和韩文源只用于当前公开名称索引。法德不在此契约内，前端按英文回退。
 
 ## 自动采集
 
@@ -103,6 +118,7 @@ node --test tests/fashion-check/*.test.mjs
 
 - 周二 16:05 至周三 16:05：每小时采集 QQ 当前主题、部位和标签。
 - 周五 16:05 至周六 16:05：每小时采集 QQ、AvantGarde tracker、AllGameStaff 中英页面。
+- `gottesstrafe-reddit` 已登记为候选来源，并可人工审阅 Results 帖中的明确低分档 claim；尚未加入自动采集窗口，加入前需确认具体帖子的新鲜度语义、转载/引用边界和解析失败口径。
 - 窗口外不访问来源；相同内容按 SHA-256 去重。
 - QQ `opendoc` 原始响应不落盘，只保存去除协议/账号字段后的派生数据。
 - `/fc` 向群友和私聊用户返回严格属于当前周次的答案；旧周 staging 不会被冒充为本周答案。
@@ -115,7 +131,7 @@ checker 要求 426 期连续周次、0 unresolved、官方 ID/槽位有效、逐
 
 ## 公开发布门禁
 
-当前仅公开 `public/data/fashion-check/current.json` 这一份用户已确认的当前周切片。扩展为历史库或其他公开静态数据前必须：
+当前仅公开用户已确认的当前周切片 `public/data/fashion-check/current.json`、其生成的中英日韩名称索引 `public/data/fashion-check/current-locales.json`，以及经用户确认的来源署名清单 `public/data/fashion-check/sources.json`。扩展为历史库或其他公开静态数据前必须：
 
 1. 由用户确认具体公开文件和字段。
 2. 复核 QQ 社区表和 AvantGarde tracker 的转载、署名与许可条款。

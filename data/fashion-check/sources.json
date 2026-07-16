@@ -68,6 +68,17 @@
       "notes": "Weekly infographic profile retained as a current-week reference; no bulk historical import is performed."
     },
     {
+      "sourceId": "gottesstrafe-reddit",
+      "name": "Gottesstrafe Reddit",
+      "url": "https://www.reddit.com/user/Gottesstrafe/",
+      "roles": ["current-week", "gold-answers", "dyes", "score-plans"],
+      "retrievedAt": "2026-07-15T00:00:00.000Z",
+      "licenseStatus": "not-applicable",
+      "license": null,
+      "usePolicy": "local-evidence",
+      "notes": "Active weekly results/full-details poster observed in current English community sources. Reviewed results posts may support local lower-tier candidate records; profile-level data remains registry-only until a specific post is reviewed."
+    },
+    {
       "sourceId": "allgamestaff-en",
       "name": "AllGameStaff Fashion Report Guide (English)",
       "url": "https://www.allgamestaff.it/fashion-report-guide-ffxiv-eng/",
@@ -99,17 +110,6 @@
       "license": null,
       "usePolicy": "link-only",
       "notes": "Related presentation tool with no exposed stable upstream dataset; never used as answer evidence."
-    },
-    {
-      "sourceId": "gamerescape-fashion-report",
-      "name": "Gamer Escape Fashion Report Wiki",
-      "url": "https://ffxiv.gamerescape.com/wiki/Fashion_Report",
-      "roles": ["mechanics", "item-acquisition"],
-      "retrievedAt": null,
-      "licenseStatus": "unspecified",
-      "license": null,
-      "usePolicy": "link-only",
-      "notes": "Mechanics and item-acquisition reference. The page and MediaWiki API returned 403 during automated research."
     },
     {
       "sourceId": "dsa-fashion-check-tool",

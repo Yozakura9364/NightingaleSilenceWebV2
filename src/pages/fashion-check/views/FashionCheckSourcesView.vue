@@ -6,13 +6,12 @@
       <a
         v-for="source in sources"
         :key="source.url"
-        class="fashion-check-sources__item"
+        class="fashion-check-sources__item ns-workbench-panel ns-workbench-panel--solid ns-workbench-panel--compact"
         :href="source.url"
         target="_blank"
         rel="noreferrer"
       >
         <strong>{{ source.author }}</strong>
-        <span>{{ source.title }}</span>
         <small>{{ source.url }}</small>
       </a>
     </template>
@@ -58,27 +57,28 @@ onMounted(async () => {
   gap: 14px;
 }
 .fashion-check-sources__item {
-  display: grid;
-  gap: 5px;
-  min-width: 0;
-  padding: 14px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface-solid);
   color: inherit;
   text-decoration: none;
+  transition:
+    transform var(--ns-transition-fast),
+    border-color var(--ns-transition-fast),
+    background var(--ns-transition-fast),
+    box-shadow var(--ns-transition-fast);
 }
-.fashion-check-sources__item:hover {
+.fashion-check-sources__item:hover,
+.fashion-check-sources__item:focus-visible {
   transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0 var(--ns-pixel-border);
+  border-color: var(--ns-pixel-border-accent);
+  background: var(--ns-pixel-hover-surface);
+  box-shadow: var(--ns-pixel-button-shadow-hover);
+  outline: 0;
 }
 .fashion-check-sources__item strong {
   font-size: 16px;
-}
-.fashion-check-sources__item span,
-.fashion-check-sources__item small {
   overflow-wrap: anywhere;
 }
 .fashion-check-sources__item small {
+  overflow-wrap: anywhere;
   color: var(--ns-color-text-muted);
 }
 @media (max-width: 760px) {

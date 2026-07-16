@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "fashion-check.current-dye-locales.v1",
+  "dyes": {
+    "6": {
+      "zh-CN": "煤烟黑",
+      "en": "Soot Black",
+      "ja": "スートブラック",
+      "ko": "숯검정색"
+    },
+    "11": {
+      "zh-CN": "铁锈红",
+      "en": "Rust Red",
+      "ja": "ラストレッド",
+      "ko": "녹슨 빨간색"
+    }
+  }
+}
