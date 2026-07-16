@@ -34,6 +34,11 @@ Thumbs.db
 # local-only icon experiments and draft exports
 /icon-drafts/
 /com_icon_clear.svg
+/style-experiments/
 
 # local AI / IDE settings
 .claude/settings.local.json
+/.codex-tmp/
+
+# local-only git identity mapping
+/docs/ai/LOCAL_GIT_IDENTITIES.md
