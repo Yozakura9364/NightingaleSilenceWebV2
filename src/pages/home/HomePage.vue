@@ -6,10 +6,14 @@
       :class="{
         'home-desktop--background-glitching': isNightBackgroundGlitching,
         'home-desktop--to-night': homeThemeTransition === 'to-night',
-        'home-desktop--to-day': homeThemeTransition === 'to-day'
+        'home-desktop--to-day': homeThemeTransition === 'to-day',
+        'home-desktop--dragging': draggedHomeWindowKey !== null
       }"
       aria-labelledby="home-title"
-      @pointermove="handleHomePointerMove"
+      @pointerdown="handleHomeWindowPointerDown"
+      @pointermove="handleHomeDesktopPointerMove"
+      @pointerup="finishHomeWindowDrag"
+      @pointercancel="finishHomeWindowDrag"
       @pointerleave="resetHomePointer"
     >
       <span class="home-night-ambient home-night-ambient--depth" aria-hidden="true"></span>
@@ -40,6 +44,8 @@
         <article
           v-show="isDayWindowVisible('main')"
           class="home-window home-day-window home-window--main"
+          data-home-window="day:main"
+          :style="homeWindowStyle('day', 'main')"
           :aria-label="t(siteMeta.zhNameKey)"
         >
           <div class="home-window__bar">
@@ -81,6 +87,8 @@
         <aside
           v-show="isDayWindowVisible('links')"
           class="home-window home-day-window home-window--links"
+          data-home-window="day:links"
+          :style="homeWindowStyle('day', 'links')"
           :aria-label="t(textKeys.ffxivWorkshop)"
         >
           <div class="home-window__bar home-window__bar--blue">
@@ -113,39 +121,16 @@
         </aside>
 
         <aside
-          v-show="isDayWindowVisible('note')"
-          class="home-window home-day-window home-window--note"
-          :aria-label="t(textKeys.homeDesktopMemo)"
-        >
-          <div class="home-window__bar home-window__bar--pink">
-            <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelSparklesIcon)" aria-hidden="true"></span>
-              <span>{{ t(textKeys.homeDesktopMemo) }}</span>
-            </span>
-            <span class="home-window__controls">
-              <button
-                type="button"
-                class="home-window__control home-window__control--close"
-                :aria-label="t(textKeys.closeWindow)"
-                @click="closeDayWindow('note')"
-              ></button>
-            </span>
-          </div>
-          <div class="home-window__body home-memo">
-            <span>{{ t(textKeys.placeholder) }}</span>
-            <strong>{{ t(textKeys.homeDesktopReady) }}</strong>
-          </div>
-        </aside>
-
-        <aside
-          v-show="isDayWindowVisible('roster')"
-          class="home-window home-day-window home-window--roster"
-          :aria-label="t(textKeys.homeRosterWindow)"
+          v-show="isDayWindowVisible('portrait')"
+          class="home-window home-day-window home-window--portrait"
+          data-home-window="day:portrait"
+          :style="homeWindowStyle('day', 'portrait')"
+          :aria-label="t(textKeys.homeAvatarYoine)"
         >
           <div class="home-window__bar home-window__bar--blue">
             <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelAvatarCircleIcon)" aria-hidden="true"></span>
-              <span>{{ t(textKeys.homeRosterWindow) }}</span>
+              <span class="home-window__icon" :style="pixelIconStyle(pixelImageIcon)" aria-hidden="true"></span>
+              <span>{{ t(textKeys.homeAvatarYoine) }}</span>
             </span>
             <span class="home-window__controls">
               <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
@@ -153,64 +138,20 @@
                 type="button"
                 class="home-window__control home-window__control--close"
                 :aria-label="t(textKeys.closeWindow)"
-                @click="closeDayWindow('roster')"
+                @click="closeDayWindow('portrait')"
               ></button>
             </span>
           </div>
-          <div class="home-avatar-list">
-            <div v-for="avatar in dayAvatarCards" :key="avatar.id" class="home-avatar-card">
-              <span class="home-avatar-card__portrait" :style="homeAvatarStyle(avatar.image)" aria-hidden="true"></span>
-              <span class="home-avatar-card__name">{{ t(avatar.nameKey) }}</span>
-              <span class="home-avatar-card__state">{{ t(avatar.stateKey) }}</span>
-            </div>
-          </div>
+          <div class="home-day-portrait" :style="homeDayPortraitStyle" aria-hidden="true"></div>
         </aside>
       </div>
 
       <div class="home-night-windows">
-        <article
-          v-show="isNightWindowVisible('live')"
-          class="home-window home-night-window home-night-window--live"
-          :aria-label="t(textKeys.homeNightLiveWindow)"
-        >
-          <div class="home-window__bar home-window__bar--hot">
-            <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelHomeIcon)" aria-hidden="true"></span>
-              <span>{{ t(textKeys.homeNightLiveWindow) }}</span>
-            </span>
-            <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
-              <span class="home-window__control home-window__control--max" aria-hidden="true"></span>
-              <button
-                type="button"
-                class="home-window__control home-window__control--close"
-                :aria-label="t(textKeys.closeWindow)"
-                @click="closeNightWindow('live')"
-              ></button>
-            </span>
-          </div>
-          <div class="home-night-live__menu" aria-hidden="true">
-            <span>{{ t(textKeys.homeNightScene) }}</span>
-            <span>{{ t(textKeys.homeNightSource) }}</span>
-            <span>{{ t(textKeys.homeNightMixer) }}</span>
-          </div>
-          <div class="home-night-live__stage">
-            <span class="home-night-live__badge">{{ t(textKeys.homeNightLiveBadge) }}</span>
-            <span class="home-night-live__clock">{{ t(textKeys.homeNightStreamTime) }}</span>
-            <span class="home-night-live__mark" aria-hidden="true">🎀</span>
-            <p>{{ t(textKeys.placeholder) }}</p>
-          </div>
-          <div class="home-night-meter">
-            <span v-for="meter in nightMeters" :key="meter.id">
-              <strong>{{ t(meter.labelKey) }}</strong>
-              <i :style="{ '--home-progress-size': meter.size }"></i>
-            </span>
-          </div>
-        </article>
-
         <aside
           v-show="isNightWindowVisible('status')"
           class="home-window home-night-window home-night-window--status"
+          data-home-window="night:status"
+          :style="homeWindowStyle('night', 'status')"
           :aria-label="t(textKeys.homeNightStatusWindow)"
         >
           <div class="home-window__bar home-window__bar--violet">
@@ -238,14 +179,16 @@
         </aside>
 
         <aside
-          v-show="isNightWindowVisible('alert')"
-          class="home-window home-night-window home-night-window--alert"
-          :aria-label="t(textKeys.homeNightAlertWindow)"
+          v-show="isNightWindowVisible('dialogue')"
+          class="home-window home-night-window home-night-window--dialogue"
+          data-home-window="night:dialogue"
+          :style="homeWindowStyle('night', 'dialogue')"
+          :aria-label="t(textKeys.homeNightDialogueWindow)"
         >
-          <div class="home-window__bar">
+          <div class="home-window__bar home-window__bar--violet">
             <span class="home-window__title">
-              <span aria-hidden="true">🔔</span>
-              <span>{{ t(textKeys.homeNightAlertWindow) }}</span>
+              <span class="home-window__icon" :style="pixelIconStyle(pixelAvatarCircleIcon)" aria-hidden="true"></span>
+              <span>{{ t(textKeys.homeNightDialogueWindow) }}</span>
             </span>
             <span class="home-window__controls">
               <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
@@ -253,21 +196,29 @@
                 type="button"
                 class="home-window__control home-window__control--close"
                 :aria-label="t(textKeys.closeWindow)"
-                @click="closeNightWindow('alert')"
+                @click="closeNightWindow('dialogue')"
               ></button>
             </span>
           </div>
-          <div class="home-night-alert">
-            <span aria-hidden="true">🎁</span>
-            <strong>{{ t(textKeys.homeNightSuperchat) }}</strong>
-            <i></i>
-            <small>{{ t(textKeys.homeNightGoal) }}</small>
+          <div class="home-night-dialogue">
+            <p v-for="message in nightDialogueMessages" :key="message.id">
+              <span
+                class="home-night-dialogue__avatar"
+                :class="{ 'home-night-dialogue__avatar--portrait': isHomeCharacterArtPreview }"
+                :style="homeChatAvatarStyle(message.avatar)"
+                aria-hidden="true"
+              >{{ isHomeCharacterArtPreview ? '' : message.icon }}</span>
+              <strong>{{ t(message.nameKey) }}</strong>
+              <span>{{ t(textKeys.homeNightDialoguePlaceholder) }}</span>
+            </p>
           </div>
         </aside>
 
         <aside
           v-show="isNightWindowVisible('chat')"
           class="home-window home-night-window home-night-window--chat"
+          data-home-window="night:chat"
+          :style="homeWindowStyle('night', 'chat')"
           :aria-label="t(textKeys.homeNightChatWindow)"
         >
           <div class="home-window__bar home-window__bar--pink">
@@ -286,14 +237,22 @@
             </span>
           </div>
           <div class="home-night-chat">
-            <p v-for="message in nightChatMessages" :key="message.id" :class="`home-night-chat__message--${message.side}`">
-              <span aria-hidden="true">{{ message.icon }}</span>
+            <p v-for="message in nightFragmentRecords" :key="message.id" :class="`home-night-chat__message--${message.side}`">
+              <span
+                class="home-night-chat__avatar"
+                :class="{ 'home-night-chat__avatar--portrait': isHomeCharacterArtPreview }"
+                :style="homeChatAvatarStyle(message.avatar)"
+                aria-hidden="true"
+              >{{ isHomeCharacterArtPreview ? '' : message.icon }}</span>
               <strong>{{ t(message.nameKey) }}</strong>
-              <em>{{ t(message.bodyKey) }}</em>
+              <span class="home-night-fragment-stability" v-for="meter in message.meters" :key="meter.id">
+                <span>{{ t(meter.labelKey) }}</span>
+                <i :style="{ '--home-progress-size': meter.size }"></i>
+              </span>
             </p>
-            <div class="home-night-chat__input">
-              <span>{{ t(textKeys.placeholder) }}</span>
-              <button type="button">{{ t(textKeys.homeNightSend) }}</button>
+            <div class="home-night-world-stability">
+              <span>{{ t(textKeys.homeNightWorldStability) }}</span>
+              <i :style="{ '--home-progress-size': nightWorldStability.size }"></i>
             </div>
           </div>
         </aside>
@@ -301,6 +260,8 @@
         <aside
           v-show="isNightWindowVisible('assets')"
           class="home-window home-night-window home-night-window--assets"
+          data-home-window="night:assets"
+          :style="homeWindowStyle('night', 'assets')"
           :aria-label="t(textKeys.homeArchiveWindow)"
         >
           <div class="home-window__bar home-window__bar--hot">
@@ -335,6 +296,8 @@
         <aside
           v-show="isNightWindowVisible('control')"
           class="home-window home-night-window home-night-window--control"
+          data-home-window="night:control"
+          :style="homeWindowStyle('night', 'control')"
           :aria-label="t(textKeys.homeNightControlWindow)"
         >
           <div class="home-window__bar home-window__bar--cyan">
@@ -470,14 +433,52 @@ const isNightBackgroundGlitching = ref(false)
 const nightMetricTick = ref(0)
 
 type NightMetricTrend = 'rise' | 'fall'
-type DayWindowId = 'main' | 'links' | 'note' | 'roster'
-type NightWindowId = 'live' | 'status' | 'alert' | 'chat' | 'assets' | 'control'
+type DayWindowId = 'main' | 'links' | 'portrait'
+type NightWindowId = 'status' | 'dialogue' | 'chat' | 'assets' | 'control'
 type HomeThemeTransition = 'idle' | 'to-night' | 'to-day'
+type HomeWindowLayer = 'day' | 'night'
+type HomeWindowKey = `day:${DayWindowId}` | `night:${NightWindowId}`
+
+interface HomeWindowPosition {
+  x: number
+  y: number
+  zIndex: number
+}
+
+interface HomeWindowDragState {
+  key: HomeWindowKey
+  pointerId: number
+  startClientX: number
+  startClientY: number
+  originX: number
+  originY: number
+  windowElement: HTMLElement
+  barElement: HTMLElement
+}
+
+interface NightStabilityMotion {
+  base: number
+  amplitude: number
+  speed: number
+  phase: number
+}
+
+interface NightFragmentStabilityConfig {
+  id: string
+  nameKey: string
+  avatar: string
+  icon: string
+  side: 'left' | 'right'
+  existence: NightStabilityMotion
+  mental: NightStabilityMotion
+}
 
 const HOME_THEME_TRANSITION_MS = 1060
 const hiddenDayWindowIds = ref<DayWindowId[]>([])
 const hiddenNightWindowIds = ref<NightWindowId[]>([])
 const homeThemeTransition = ref<HomeThemeTransition>('idle')
+const homeWindowPositions = ref<Partial<Record<HomeWindowKey, HomeWindowPosition>>>({})
+const draggedHomeWindowKey = ref<HomeWindowKey | null>(null)
 const dayWindowRespawnTimers = new Map<DayWindowId, number>()
 const nightWindowRespawnTimers = new Map<NightWindowId, number>()
 
@@ -494,6 +495,8 @@ let nightBackgroundGlitchBurstTimer = 0
 let nightBackgroundGlitchRepeatTimer = 0
 let nightMetricTimer = 0
 let homeThemeTransitionTimer = 0
+let homeWindowTopZIndex = 20
+let activeHomeWindowDrag: HomeWindowDragState | null = null
 
 const isHomeCharacterArtPreview = import.meta.env.DEV
 const homeCharacterArtStyle = computed(
@@ -514,6 +517,12 @@ const homeDayArtStyle = computed(
       '--home-day-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-6.webp")' : 'none'
     }) as CSSProperties
 )
+const homeDayPortraitStyle = computed(
+  () =>
+    ({
+      '--home-day-portrait-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-8.png")' : 'none'
+    }) as CSSProperties
+)
 const homeNightArtStyle = computed(
   () =>
     ({
@@ -521,21 +530,6 @@ const homeNightArtStyle = computed(
     }) as CSSProperties
 )
 const homeClockLabel = computed(() => (themeMode.value === 'night' ? '00:29' : '06:29'))
-
-const dayAvatarCards = [
-  {
-    id: 'yoine',
-    nameKey: textKeys.homeAvatarYoine,
-    stateKey: textKeys.homeRosterOnline,
-    image: '/local-assets/yoine-avatar.webp'
-  },
-  {
-    id: 'yoin',
-    nameKey: textKeys.homeAvatarYoin,
-    stateKey: textKeys.homeRosterSleep,
-    image: '/local-assets/yoin-avatar.webp'
-  }
-] as const
 
 const nightAvatarCards = [
   {
@@ -607,12 +601,6 @@ const taskbarItems = [
 ] as const
 
 const homeWorkshopLinks = [
-  {
-    id: 'ffxiv',
-    labelKey: textKeys.ffxivWorkshop,
-    route: siteRoutes.ffxiv,
-    icon: pixelFolderIcon
-  },
   ...ffxivTools.map((tool) => ({
     id: tool.id,
     labelKey: tool.titleKey,
@@ -623,27 +611,27 @@ const homeWorkshopLinks = [
 
 const nightMetricBases = [
   {
-    id: 'viewers',
-    labelKey: textKeys.homeNightViewers,
-    baseValue: 1284,
+    id: 'heart-rate',
+    labelKey: textKeys.homeNightHeartRate,
+    baseValue: 72,
     baseSize: 64,
-    valueJitter: 42,
+    valueJitter: 3,
     sizeJitter: 12
   },
   {
-    id: 'likes',
-    labelKey: textKeys.homeNightLikes,
-    baseValue: 3842,
+    id: 'oxygen-saturation',
+    labelKey: textKeys.homeNightOxygenSaturation,
+    baseValue: 98,
     baseSize: 77,
-    valueJitter: 88,
+    valueJitter: 1,
     sizeJitter: 9
   },
   {
-    id: 'comments',
-    labelKey: textKeys.homeNightComments,
-    baseValue: 847,
+    id: 'neural-activity',
+    labelKey: textKeys.homeNightNeuralActivity,
+    baseValue: 63,
     baseSize: 42,
-    valueJitter: 27,
+    valueJitter: 4,
     sizeJitter: 15
   }
 ] as const
@@ -660,54 +648,92 @@ const nightMetrics = computed(() =>
     return {
       id: metric.id,
       labelKey: metric.labelKey,
-      value: formatHomeMetricValue(metric.baseValue + valueOffset),
+      value: formatNightVitalValue(metric.id, metric.baseValue + valueOffset),
       size: `${Math.round(size)}%`,
       trend
     }
   })
 )
 
-const nightMeters = [
+const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   {
-    id: 'mic',
-    labelKey: textKeys.homeNightMic,
-    size: '70%'
+    id: 'geliya',
+    nameKey: textKeys.homeNightFragmentGeliya,
+    avatar: '歌莉亚-像素小人.png',
+    icon: '◇',
+    side: 'left',
+    existence: { base: 100, amplitude: 0, speed: 0, phase: 0 },
+    mental: { base: 95, amplitude: 5, speed: 0.61, phase: 2.4 }
   },
   {
-    id: 'bgm',
-    labelKey: textKeys.homeNightBgm,
-    size: '54%'
+    id: 'gelin',
+    nameKey: textKeys.homeNightFragmentGelin,
+    avatar: '歌林-像素小人.png',
+    icon: '◈',
+    side: 'right',
+    existence: { base: 95, amplitude: 5, speed: 0.42, phase: 4.1 },
+    mental: { base: 80, amplitude: 10, speed: 0.68, phase: 5.7 }
   },
   {
-    id: 'alert',
-    labelKey: textKeys.homeNightAlert,
-    size: '82%'
+    id: 'qianzao',
+    nameKey: textKeys.homeNightFragmentQianzao,
+    avatar: '千早-像素小人.png',
+    icon: '🌸',
+    side: 'left',
+    existence: { base: 90, amplitude: 10, speed: 0.66, phase: 0 },
+    mental: { base: 55, amplitude: 15, speed: 0.74, phase: 0 }
+  },
+  {
+    id: 'naiyi',
+    nameKey: textKeys.homeNightFragmentNaiyi,
+    avatar: '奈伊-像素小人.png',
+    icon: '👻',
+    side: 'right',
+    existence: { base: 70, amplitude: 10, speed: 0.84, phase: 2.6 },
+    mental: { base: 15, amplitude: 15, speed: 0.57, phase: 3.8 }
+  },
+  {
+    id: 'nightingale',
+    nameKey: textKeys.homeNightFragmentNightingale,
+    avatar: '南丁格尔-像素小人.png',
+    icon: '🧸',
+    side: 'left',
+    existence: { base: 40, amplitude: 40, speed: 2.4, phase: 1.3 },
+    mental: { base: 40, amplitude: 40, speed: 3.1, phase: 1.9 }
+  },
+  {
+    id: 'shalewan',
+    nameKey: textKeys.homeNightFragmentShalewan,
+    avatar: '沙乐万-像素小人.png',
+    icon: '○',
+    side: 'right',
+    existence: { base: 40, amplitude: 40, speed: 2.8, phase: 3.2 },
+    mental: { base: 100, amplitude: 0, speed: 0, phase: 0 }
   }
 ] as const
 
-const nightChatMessages = [
-  {
-    id: 'a',
-    nameKey: textKeys.homeAngel,
-    bodyKey: textKeys.homeNightCommentA,
-    icon: '🌸',
-    side: 'left'
-  },
-  {
-    id: 'b',
-    nameKey: textKeys.homeNetworkNeighbor,
-    bodyKey: textKeys.homeNightCommentB,
-    icon: '🧸',
-    side: 'right'
-  },
-  {
-    id: 'c',
-    nameKey: textKeys.homeGlitch,
-    bodyKey: textKeys.homeNightCommentC,
-    icon: '👻',
-    side: 'left'
-  }
-] as const
+const nightWorldStabilityMotion: NightStabilityMotion = {
+  base: 73,
+  amplitude: 10,
+  speed: 0.42,
+  phase: 0
+}
+
+const nightFragmentRecords = computed(() =>
+  nightFragmentStabilityConfigs.map((message) => {
+    return {
+      ...message,
+      meters: [
+        { id: 'existence', labelKey: textKeys.homeNightExistenceStability, size: nightStabilitySize(message.existence) },
+        { id: 'mental', labelKey: textKeys.homeNightMentalStability, size: nightStabilitySize(message.mental) }
+      ]
+    }
+  })
+)
+
+const nightWorldStability = computed(() => ({ size: nightStabilitySize(nightWorldStabilityMotion) }))
+
+const nightDialogueMessages = computed(() => nightFragmentStabilityConfigs.slice(0, 3))
 
 const homeSocialLinks = [
   {
@@ -770,6 +796,16 @@ function homeAvatarStyle(image: string): CSSProperties {
   } as CSSProperties
 }
 
+function homeChatAvatarStyle(filename: string): CSSProperties | undefined {
+  if (!isHomeCharacterArtPreview) {
+    return undefined
+  }
+
+  return {
+    '--home-chat-avatar-url': `url("/local-assets/${encodeURIComponent(filename)}")`
+  } as CSSProperties
+}
+
 function toggleHomeTheme() {
   setThemeMode(themeMode.value === 'night' ? 'day' : 'night')
 }
@@ -778,12 +814,152 @@ function clampNumber(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
 
+function nightStabilitySize(motion: NightStabilityMotion) {
+  const value = motion.base + Math.sin(nightMetricTick.value * motion.speed + motion.phase) * motion.amplitude
+  return `${Math.round(clampNumber(value, 0, 100))}%`
+}
+
 function formatHomeMetricValue(value: number) {
   return Math.max(0, Math.round(value)).toLocaleString('en-US')
 }
 
+function formatNightVitalValue(id: string, value: number) {
+  const formattedValue = formatHomeMetricValue(value)
+  return id === 'heart-rate' ? `${formattedValue} BPM` : `${formattedValue}%`
+}
+
 function randomHomeDelay(min: number, max: number) {
   return Math.round(min + Math.random() * (max - min))
+}
+
+function homeWindowKey(layer: HomeWindowLayer, id: DayWindowId | NightWindowId): HomeWindowKey {
+  return `${layer}:${id}` as HomeWindowKey
+}
+
+function parseHomeWindowKey(value: string | undefined): HomeWindowKey | null {
+  if (!value) {
+    return null
+  }
+
+  const [layer, id] = value.split(':')
+  const isDayWindow = layer === 'day' && ['main', 'links', 'portrait'].includes(id)
+  const isNightWindow = layer === 'night' && ['status', 'dialogue', 'chat', 'assets', 'control'].includes(id)
+
+  return isDayWindow || isNightWindow ? (value as HomeWindowKey) : null
+}
+
+function homeWindowStyle(layer: HomeWindowLayer, id: DayWindowId | NightWindowId): CSSProperties {
+  const position = homeWindowPositions.value[homeWindowKey(layer, id)]
+
+  return {
+    '--home-window-offset-x': `${position?.x ?? 0}px`,
+    '--home-window-offset-y': `${position?.y ?? 0}px`,
+    zIndex: position?.zIndex
+  } as CSSProperties
+}
+
+function canDragHomeWindows() {
+  return window.innerWidth > 720
+}
+
+function handleHomeWindowPointerDown(event: PointerEvent) {
+  if (event.button !== 0 || !canDragHomeWindows()) {
+    return
+  }
+
+  const target = event.target
+  if (!(target instanceof Element) || target.closest('.home-window__controls')) {
+    return
+  }
+
+  const barElement = target.closest<HTMLElement>('.home-window__bar')
+  const windowElement = barElement?.closest<HTMLElement>('[data-home-window]')
+  const key = parseHomeWindowKey(windowElement?.dataset.homeWindow)
+
+  if (!barElement || !windowElement || !key) {
+    return
+  }
+
+  const position = homeWindowPositions.value[key] ?? { x: 0, y: 0, zIndex: 0 }
+  const nextPosition = {
+    x: position.x,
+    y: position.y,
+    zIndex: ++homeWindowTopZIndex
+  }
+
+  homeWindowPositions.value = {
+    ...homeWindowPositions.value,
+    [key]: nextPosition
+  }
+  activeHomeWindowDrag = {
+    key,
+    pointerId: event.pointerId,
+    startClientX: event.clientX,
+    startClientY: event.clientY,
+    originX: position.x,
+    originY: position.y,
+    windowElement,
+    barElement
+  }
+  draggedHomeWindowKey.value = key
+  barElement.setPointerCapture(event.pointerId)
+  event.preventDefault()
+}
+
+function handleHomeWindowPointerMove(event: PointerEvent) {
+  const drag = activeHomeWindowDrag
+  const desktop = desktopEl.value
+
+  if (!drag || drag.pointerId !== event.pointerId || !desktop) {
+    return false
+  }
+
+  const desktopRect = desktop.getBoundingClientRect()
+  const windowRect = drag.windowElement.getBoundingClientRect()
+  const taskbarTop = desktop.querySelector<HTMLElement>('.home-taskbar')?.getBoundingClientRect().top ?? desktopRect.bottom
+  const edgePadding = 10
+  const currentPosition = homeWindowPositions.value[drag.key] ?? {
+    x: drag.originX,
+    y: drag.originY,
+    zIndex: homeWindowTopZIndex
+  }
+  const minX = currentPosition.x + desktopRect.left + edgePadding - windowRect.left
+  const maxX = currentPosition.x + desktopRect.right - edgePadding - windowRect.right
+  const minY = currentPosition.y + desktopRect.top + edgePadding - windowRect.top
+  const maxY = currentPosition.y + taskbarTop - edgePadding - windowRect.bottom
+  const offsetX = clampNumber(drag.originX + event.clientX - drag.startClientX, minX, maxX)
+
+  homeWindowPositions.value = {
+    ...homeWindowPositions.value,
+    [drag.key]: {
+      x: offsetX,
+      y: clampNumber(drag.originY + event.clientY - drag.startClientY, minY, maxY),
+      zIndex: currentPosition.zIndex
+    }
+  }
+
+  return true
+}
+
+function finishHomeWindowDrag(event?: PointerEvent) {
+  const drag = activeHomeWindowDrag
+
+  if (!drag || (event && drag.pointerId !== event.pointerId)) {
+    return
+  }
+
+  if (drag.barElement.hasPointerCapture(drag.pointerId)) {
+    drag.barElement.releasePointerCapture(drag.pointerId)
+  }
+
+  activeHomeWindowDrag = null
+  draggedHomeWindowKey.value = null
+}
+
+function handleHomeDesktopPointerMove(event: PointerEvent) {
+  if (!handleHomeWindowPointerMove(event)) {
+    handleHomePointerMove(event)
+  }
 }
 
 function isDayWindowVisible(id: DayWindowId) {
@@ -894,7 +1070,7 @@ function scheduleHomePointerFrame() {
 function handleHomePointerMove(event: PointerEvent) {
   const desktop = desktopEl.value
 
-  if (!desktop || shouldReduceHomeMotion()) {
+  if (!desktop || activeHomeWindowDrag || shouldReduceHomeMotion()) {
     return
   }
 
@@ -905,6 +1081,10 @@ function handleHomePointerMove(event: PointerEvent) {
 }
 
 function resetHomePointer() {
+  if (activeHomeWindowDrag) {
+    return
+  }
+
   pointerTargetX = 0
   pointerTargetY = 0
   scheduleHomePointerFrame()
@@ -1102,6 +1282,8 @@ watch(themeMode, (mode) => {
 })
 
 onBeforeUnmount(() => {
+  finishHomeWindowDrag()
+
   if (pointerFrame) {
     window.cancelAnimationFrame(pointerFrame)
   }
@@ -1483,8 +1665,6 @@ onBeforeUnmount(() => {
   .home-profile__copy h1,
   .home-profile__copy p,
   .home-link-list__item,
-  .home-memo,
-  .home-memo strong,
   .home-taskbar,
   .home-taskbar__start,
   .home-taskbar__window,
@@ -1511,6 +1691,7 @@ onBeforeUnmount(() => {
   z-index: 4;
   display: grid;
   min-width: 0;
+  translate: var(--home-window-offset-x, 0) var(--home-window-offset-y, 0);
   border: 2px solid var(--home-border);
   background: var(--home-surface);
   box-shadow: var(--home-window-shadow);
@@ -1547,22 +1728,24 @@ onBeforeUnmount(() => {
 }
 
 .home-window--links {
-  top: 78px;
+  top: 64px;
   right: 34px;
-  width: min(320px, 28vw);
+  width: min(300px, 22vw);
 }
 
-.home-window--note {
-  right: 70px;
-  bottom: 112px;
-  width: min(300px, 26vw);
+.home-window--portrait {
+  top: 466px;
+  right: 34px;
+  bottom: 82px;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: min(300px, 22vw);
 }
 
-.home-window--roster {
-  top: 390px;
-  right: 44px;
-  z-index: 13;
-  width: min(300px, 26vw);
+.home-day-portrait {
+  min-height: 0;
+  background:
+    var(--home-day-portrait-url, none) left top / auto 130% no-repeat,
+    var(--home-surface-soft);
 }
 
 .home-night-window {
@@ -1593,15 +1776,6 @@ onBeforeUnmount(() => {
   background: var(--home-blue-soft);
 }
 
-.home-night-window--live {
-  top: 54px;
-  right: 26px;
-  z-index: 5;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
-  width: min(520px, 34vw);
-  min-height: 520px;
-}
-
 .home-night-window--status {
   top: 54px;
   left: 154px;
@@ -1609,18 +1783,19 @@ onBeforeUnmount(() => {
   width: 292px;
 }
 
-.home-night-window--alert {
-  top: 220px;
-  left: 180px;
-  z-index: 9;
-  width: 276px;
-}
-
-.home-night-window--chat {
+.home-night-window--dialogue {
   bottom: 74px;
   left: 146px;
   z-index: 7;
-  width: min(440px, 34vw);
+  width: min(380px, 28vw);
+}
+
+.home-night-window--chat {
+  top: 60px;
+  right: 26px;
+  z-index: 14;
+  width: min(560px, 39vw);
+  min-height: 520px;
 }
 
 .home-night-window--assets {
@@ -1631,7 +1806,7 @@ onBeforeUnmount(() => {
 }
 
 .home-night-window--control {
-  right: 30px;
+  right: 8px;
   bottom: 58px;
   z-index: 6;
   width: min(390px, 30vw);
@@ -1650,6 +1825,13 @@ onBeforeUnmount(() => {
   font-family: var(--ns-font-decorative);
   font-size: 12px;
   font-weight: 950;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.home-desktop--dragging .home-window__bar {
+  cursor: grabbing;
 }
 
 .home-window__bar--blue {
@@ -2251,20 +2433,6 @@ button.home-window__control:focus-visible {
   -webkit-mask: var(--home-icon-url) center / 100% 100% no-repeat;
 }
 
-.home-memo {
-  display: grid;
-  gap: 8px;
-  color: var(--home-muted);
-  font-family: var(--ns-font-decorative);
-  font-size: 12px;
-  font-weight: 900;
-}
-
-.home-memo strong {
-  color: var(--home-pink);
-  font-size: 11px;
-}
-
 .home-avatar-list {
   display: grid;
   gap: 10px;
@@ -2308,8 +2476,11 @@ button.home-window__control:focus-visible {
 }
 
 .home-avatar-card__name {
+  align-self: end;
   color: var(--home-ink);
+  font-family: var(--ns-font-sans);
   font-size: 13px;
+  line-height: 1;
 }
 
 .home-avatar-card__state {
@@ -2462,147 +2633,6 @@ button.home-window__control:focus-visible {
   }
 }
 
-.home-night-live__menu {
-  display: flex;
-  gap: 18px;
-  padding: 8px 12px;
-  border-bottom: 2px solid var(--home-border);
-  background: color-mix(in srgb, var(--home-surface-soft) 86%, transparent);
-  color: var(--home-muted);
-  font-family: var(--ns-font-decorative);
-  font-size: 11px;
-  font-weight: 950;
-}
-
-.home-night-live__stage {
-  position: relative;
-  display: grid;
-  min-height: 360px;
-  place-items: center;
-  overflow: hidden;
-  padding: 22px;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--home-pink) 10%, transparent) 1px, transparent 1px),
-    linear-gradient(0deg, color-mix(in srgb, var(--home-blue) 10%, transparent) 1px, transparent 1px),
-    var(--home-surface-soft);
-  background-size:
-    16px 16px,
-    16px 16px,
-    auto;
-}
-
-.home-night-live__stage::before {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--home-pink) 16%, transparent), transparent 34%);
-  content: '';
-}
-
-.home-night-live__badge,
-.home-night-live__clock,
-.home-night-live__mark,
-.home-night-live__stage p {
-  position: relative;
-  z-index: 1;
-}
-
-.home-night-live__badge {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  padding: 6px 12px;
-  border: 2px solid var(--home-border);
-  background: var(--home-pink-soft);
-  color: var(--home-pink);
-  font-family: var(--ns-font-decorative);
-  font-size: 12px;
-  font-weight: 950;
-  box-shadow: 2px 2px 0 var(--home-shadow);
-}
-
-.home-night-live__clock {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  padding: 5px 9px;
-  border: 2px solid var(--home-border);
-  background: var(--home-surface);
-  font-family: var(--ns-font-decorative);
-  font-size: 12px;
-  font-weight: 950;
-  box-shadow: 2px 2px 0 var(--home-shadow);
-}
-
-.home-night-live__mark {
-  font-size: 72px;
-  filter:
-    drop-shadow(2px 0 0 color-mix(in srgb, var(--home-pink) 38%, transparent))
-    drop-shadow(6px 6px 0 color-mix(in srgb, var(--home-shadow) 70%, transparent));
-}
-
-.home-night-live__stage p {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  left: 18px;
-  margin: 0;
-  color: var(--home-ink);
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.home-night-meter {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 9px;
-  padding: 12px;
-  border-top: 2px solid var(--home-border);
-  background: color-mix(in srgb, var(--home-surface-soft) 88%, transparent);
-}
-
-.home-night-meter span {
-  display: grid;
-  gap: 5px;
-  min-width: 0;
-  color: var(--home-muted);
-  font-family: var(--ns-font-decorative);
-  font-size: 10px;
-  font-weight: 950;
-}
-
-.home-night-meter i {
-  position: relative;
-  display: block;
-  inline-size: 100%;
-  height: 10px;
-  border: 2px solid color-mix(in srgb, var(--home-border) 72%, transparent);
-  overflow: hidden;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--home-muted) 20%, transparent) 0 8px,
-      transparent 8px 10px
-    ),
-    color-mix(in srgb, var(--home-muted) 18%, transparent);
-}
-
-.home-night-meter i::before {
-  position: absolute;
-  inset: 2px auto 2px 2px;
-  inline-size: min(var(--home-progress-size, 50%), calc(100% - 4px));
-  background:
-    repeating-linear-gradient(
-      90deg,
-      var(--home-pink) 0 8px,
-      color-mix(in srgb, var(--home-pink) 54%, transparent) 8px 10px
-    );
-  content: '';
-  transform: scaleX(1);
-  transform-origin: left center;
-  animation: home-progress-fill 860ms steps(9, end) both;
-}
-
 .home-night-status {
   display: grid;
   gap: 10px;
@@ -2675,30 +2705,120 @@ button.home-window__control:focus-visible {
     filter 280ms steps(2, end);
 }
 
-.home-night-alert {
+.home-night-chat {
   display: grid;
-  justify-items: center;
-  gap: 9px;
-  padding: 30px 14px 22px;
+  gap: 5px;
+  padding: 12px;
+}
+
+.home-night-dialogue {
+  display: grid;
+  gap: 7px;
+  padding: 10px;
+}
+
+.home-night-dialogue p {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 3px 8px;
+  margin: 0;
+  padding: 5px;
+  border: 2px solid var(--home-border);
+  background: var(--home-surface-soft);
+}
+
+.home-night-dialogue__avatar {
+  grid-row: span 2;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 2px solid var(--home-border);
+  background: var(--home-violet-soft);
+  overflow: hidden;
+}
+
+.home-night-dialogue__avatar--portrait {
+  background-image: var(--home-chat-avatar-url);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
+.home-night-dialogue p strong {
+  align-self: end;
   color: var(--home-pink);
+  font-family: var(--ns-font-sans);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.home-night-dialogue p > span:last-child {
+  color: var(--home-muted);
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.home-night-chat p {
+  display: grid;
+  grid-template-columns: 52px repeat(2, minmax(0, 1fr));
+  gap: 3px 10px;
+  margin: 0;
+  padding: 5px 7px;
+  border: 2px solid var(--home-border);
+  background: var(--home-surface-soft);
+}
+
+.home-night-chat__avatar {
+  grid-row: span 2;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 2px solid var(--home-border);
+  background: var(--home-violet-soft);
+  overflow: hidden;
+}
+
+.home-night-chat__avatar--portrait {
+  background-image: var(--home-chat-avatar-url);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
+.home-night-chat p strong {
+  grid-column: 2 / -1;
+  align-self: end;
+  color: var(--home-pink);
+  font-family: var(--ns-font-sans);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.home-night-chat__message--right {
+  margin-left: 44px;
+}
+
+.home-night-fragment-stability,
+.home-night-world-stability {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 4px;
+  align-items: center;
+  min-width: 0;
+  color: var(--home-muted);
   font-family: var(--ns-font-decorative);
+  font-size: 9px;
   font-weight: 950;
-  text-align: center;
 }
 
-.home-night-alert > span {
-  font-size: 42px;
-}
-
-.home-night-alert strong {
-  font-size: 12px;
-}
-
-.home-night-alert i {
+.home-night-fragment-stability i,
+.home-night-world-stability i {
   position: relative;
-  width: 86%;
+  display: block;
   height: 10px;
-  border: 2px solid color-mix(in srgb, var(--home-border) 72%, transparent);
+  border: 2px solid var(--home-border);
   overflow: hidden;
   background:
     repeating-linear-gradient(
@@ -2709,10 +2829,11 @@ button.home-window__control:focus-visible {
     color-mix(in srgb, var(--home-muted) 18%, transparent);
 }
 
-.home-night-alert i::before {
+.home-night-fragment-stability i::before,
+.home-night-world-stability i::before {
   position: absolute;
   inset: 2px auto 2px 2px;
-  inline-size: min(var(--home-progress-size, 58%), calc(100% - 4px));
+  inline-size: min(var(--home-progress-size, 50%), calc(100% - 4px));
   background:
     repeating-linear-gradient(
       90deg,
@@ -2720,87 +2841,18 @@ button.home-window__control:focus-visible {
       color-mix(in srgb, var(--home-pink) 54%, transparent) 8px 10px
     );
   content: '';
-  transform: scaleX(1);
-  transform-origin: left center;
-  animation: home-progress-fill 1040ms steps(10, end) both;
+  transition: inline-size 280ms steps(5, end);
 }
 
-.home-night-alert small {
-  color: var(--home-muted);
-  font-size: 10px;
-}
-
-.home-night-chat {
-  display: grid;
+.home-night-world-stability {
+  grid-template-columns: 96px minmax(0, 1fr);
   gap: 10px;
-  padding: 14px;
-}
-
-.home-night-chat p {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 4px 10px;
-  margin: 0;
-  padding: 9px;
+  margin-top: 4px;
+  padding: 10px;
   border: 2px solid var(--home-border);
-  background: var(--home-surface-soft);
-}
-
-.home-night-chat p span {
-  grid-row: span 2;
-  display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  border: 2px solid var(--home-border);
-  background: var(--home-violet-soft);
-}
-
-.home-night-chat p strong {
-  color: var(--home-pink);
-  font-family: var(--ns-font-decorative);
-  font-size: 11px;
-}
-
-.home-night-chat p em {
-  color: var(--home-ink);
-  font-style: normal;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.home-night-chat__message--right {
-  margin-left: 38px;
-}
-
-.home-night-chat__input {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 7px;
-  margin-top: 2px;
-}
-
-.home-night-chat__input span,
-.home-night-chat__input button {
-  min-height: 32px;
-  border: 2px solid var(--home-border);
-  background: var(--home-surface);
-  color: var(--home-muted);
-  font-family: var(--ns-font-decorative);
-  font-size: 11px;
-  font-weight: 950;
-}
-
-.home-night-chat__input span {
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-}
-
-.home-night-chat__input button {
-  padding: 0 12px;
   background: var(--home-pink-soft);
   color: var(--home-ink);
+  font-size: 11px;
   box-shadow: 2px 2px 0 var(--home-shadow);
 }
 
@@ -3317,25 +3369,20 @@ button.home-window__control:focus-visible {
     left: 132px;
   }
 
-  .home-night-window--live {
-    right: 18px;
-    width: min(450px, 42vw);
-  }
-
   .home-night-window--status {
     left: 132px;
     width: 252px;
   }
 
-  .home-night-window--alert {
-    top: 214px;
-    left: 154px;
-    width: 240px;
+  .home-night-window--dialogue {
+    left: 132px;
+    width: min(320px, 34vw);
   }
 
   .home-night-window--chat {
-    left: 132px;
-    width: min(360px, 36vw);
+    top: 58px;
+    right: 18px;
+    width: min(450px, 42vw);
   }
 
   .home-night-window--assets {
@@ -3345,17 +3392,12 @@ button.home-window__control:focus-visible {
   }
 
   .home-night-window--control {
-    right: 20px;
+    right: 8px;
     width: min(330px, 32vw);
   }
 
-  .home-night-live__stage {
-    min-height: 330px;
-  }
-
   .home-window--links,
-  .home-window--note,
-  .home-window--roster {
+  .home-window--portrait {
     display: none;
   }
 
@@ -3396,6 +3438,12 @@ button.home-window__control:focus-visible {
     position: relative;
     inset: auto;
     width: 100%;
+    translate: none;
+  }
+
+  .home-window__bar {
+    cursor: default;
+    touch-action: auto;
   }
 
   .home-window--main {
@@ -3406,49 +3454,33 @@ button.home-window__control:focus-visible {
     display: grid;
   }
 
-  .home-window--roster {
+  .home-window--portrait {
     display: grid;
+    min-height: 260px;
   }
 
   .home-night-window {
     min-height: 0;
   }
 
-  .home-night-window--live,
+  .home-night-chat p {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  .home-night-chat__avatar {
+    grid-row: span 3;
+  }
+
+  .home-night-fragment-stability {
+    grid-column: 2;
+  }
+
   .home-night-window--status,
-  .home-night-window--alert,
+  .home-night-window--dialogue,
   .home-night-window--chat,
   .home-night-window--assets,
   .home-night-window--control {
     width: 100%;
-  }
-
-  .home-night-window--live {
-    min-height: 0;
-  }
-
-  .home-night-live__menu {
-    gap: 10px;
-    overflow: hidden;
-  }
-
-  .home-night-live__menu span {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .home-night-live__stage {
-    min-height: 250px;
-  }
-
-  .home-night-live__mark {
-    font-size: 56px;
-  }
-
-  .home-night-meter {
-    grid-template-columns: 1fr;
   }
 
   .home-avatar-list {
@@ -3467,16 +3499,8 @@ button.home-window__control:focus-visible {
     margin-left: 0;
   }
 
-  .home-night-chat__input {
-    grid-template-columns: 1fr;
-  }
-
   .home-day-foreground,
   .home-night-foreground {
-    display: none;
-  }
-
-  .home-window--note {
     display: none;
   }
 
