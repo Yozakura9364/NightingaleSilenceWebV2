@@ -1,6 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 import { watch } from 'vue'
 import { formatDocumentTitle, getCategory, getFfxivTool, siteMeta, siteRoutes } from '@/config/site'
+import { isArmoireWorkbenchEnabled } from '@/config/features'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { ensureUiMessageModules } from '@/locales/loadUiMessages'
 import type { UiMessageModuleName } from '@/locales/types'
@@ -24,6 +26,30 @@ function loadLocalizedPage<T>(
     return page
   }
 }
+
+const armoireRoutes: RouteRecordRaw[] = [
+  {
+    path: siteRoutes.armoire,
+    name: 'ffxiv-armoire',
+    meta: { titleKey: armoireTool?.titleKey ?? textKeys.armoireTitle },
+    component: isArmoireWorkbenchEnabled
+      ? loadLocalizedPage(['armoire'], () => import('@/pages/armoire/NSArmoirePage.vue'))
+      : loadLocalizedPage(['armoire'], () => import('@/pages/armoire/NSArmoireLandingPage.vue'))
+  },
+  ...(isArmoireWorkbenchEnabled
+    ? [
+        {
+          path: '/ffxiv/armoire/store-review',
+          name: 'ffxiv-armoire-store-review',
+          meta: { titleKey: 'nsarmoire.storeReview.title' },
+          component: loadLocalizedPage(
+            ['armoire'],
+            () => import('@/pages/armoire/NSArmoireStoreReviewPage.vue')
+          )
+        } satisfies RouteRecordRaw
+      ]
+    : [])
+]
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -95,21 +121,7 @@ const router = createRouter({
         }
       ]
     },
-    {
-      path: siteRoutes.armoire,
-      name: 'ffxiv-armoire',
-      meta: { titleKey: armoireTool?.titleKey ?? textKeys.armoireTitle },
-      component: loadLocalizedPage(['armoire'], () => import('@/pages/armoire/NSArmoirePage.vue'))
-    },
-    {
-      path: '/ffxiv/armoire/store-review',
-      name: 'ffxiv-armoire-store-review',
-      meta: { titleKey: 'nsarmoire.storeReview.title' },
-      component: loadLocalizedPage(
-        ['armoire'],
-        () => import('@/pages/armoire/NSArmoireStoreReviewPage.vue')
-      )
-    },
+    ...armoireRoutes,
     {
       path: '/ffxiv/term-review',
       name: 'ffxiv-term-review',

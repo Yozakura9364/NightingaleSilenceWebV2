@@ -69,7 +69,16 @@
     </div>
 
     <div class="nsarmoire-import-panel__actions">
+      <AppButton
+        v-if="helperCanSelectProcess"
+        :disabled="helperBusy"
+        @click="$emit('select-process')"
+      >
+        {{ cleanT(textKeys.nsarmoireSelectHelperProcess) }}
+      </AppButton>
+
       <a
+        v-if="!isArmoireLocalApp"
         class="nsarmoire-import-panel__download-helper"
         :href="HELPER_RELEASE_URL"
         target="_blank"
@@ -122,7 +131,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import AppButton from '@/components/AppButton.vue'
 import AppStatus from '@/components/AppStatus.vue'
+import { isArmoireLocalApp } from '@/config/features'
 import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
 import { useLocale } from '@/stores/locale'
 import type { ArmoireContainerKind, ArmoireSnapshot } from '@/lib/armoire/types'
@@ -146,6 +157,11 @@ const props = defineProps<{
   helperHealth: ArmoireHelperHealth | null
   helperProbe: ArmoireHelperProbe | null
   helperBusy: boolean
+  helperCanSelectProcess: boolean
+}>()
+
+defineEmits<{
+  'select-process': []
 }>()
 
 const { current, t } = useLocale()
