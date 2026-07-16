@@ -6,7 +6,7 @@
 
 - `src/main.ts`：创建 Vue app，注册 Pinia 和 Router。
 - `src/App.vue`：渲染轻量全局导航和 `<router-view />`。
-- `src/router/index.ts`：使用 `createWebHashHistory()`，已注册首页、FFXIV 分类页、三个 FFXIV 工具页、Silence 入口/分组/角色页和 About 占位页。
+- `src/router/index.ts`：使用 `createWebHashHistory()`，已注册首页、FFXIV 分类页、五个公开 FFXIV 工具页、Silence 入口/分组/角色页和 About 占位页。
 - `src/config/site.ts`：集中维护站点名称、首页导航、分类入口、工具入口、来源项目路径和 API base path。
 - `src/composables/useFetch.ts`：提供第一版统一请求封装。
 - `src/services/apiBoundaries.ts`：提供 FFXIV 旧项目 API 边界信息；无后端的工具入口不会进入 API 边界列表。
@@ -14,9 +14,9 @@
 - `src/styles/`：已建立第一版 reset/theme/base/components/utilities 公共 CSS。
 - `src/components/`：已建立第一版 `AppButton.vue`、`AppPanel.vue`、`AppPixelWindow.vue`、`AppTopNav.vue`、`AppField.vue`、`AppToolbar.vue`、`AppTabs.vue`、`AppStatus.vue`。
 - `src/pages/ffxiv/components/ToolApiStatus.vue`：保留给调试或临时占位界面使用；正式工具工作台不展示内部 API 状态块。
-- `src/pages/`：已建立首页、FFXIV 分类页、NSGlamour EquipInfo/Template 双工作台、NSPlate 核心工作台、NSArmoire 第一阶段页、Silence 入口/分组/角色页和 About 占位页。
+- `src/pages/`：已建立首页、FFXIV 分类页、独立物品卡片工作台、NSGlamour EquipInfo/Template 双工作台、NSPlate 核心工作台、NSArmoire 第一阶段页、Silence 入口/分组/角色页和 About 占位页。
 
-当前尚未实现：
+当前尚未实现的已注册路由：
 
 - `#/silence/glitch/:characterId` 预留单角色详情页，当前 `glitch` 组先使用双人页
 
@@ -36,6 +36,8 @@
 | ------------------------------- | -------------------------------------------- | ------------------------------------------- |
 | `#/`                            | `src/pages/home/HomePage.vue`                | 已接入占位视觉首页                          |
 | `#/ffxiv`                       | `src/pages/ffxiv/FfxivIndexPage.vue`         | 已接入分类导航骨架                          |
+| `#/ffxiv/item-card`             | `src/pages/item-card/ItemCardPage.vue`       | 已接入旧 `/card` 的链接/文本导入、装备和染剂编辑、多语言单张 PNG、批量 ZIP 和连续列表长图 |
+| `#/ffxiv/fashioncheck`          | `src/pages/fashion-check/FashionCheckPage.vue` | 已接入当前周方案、金牌物品和来源页面        |
 | `#/ffxiv/plate`                 | `src/pages/plate/NSPlatePage.vue`            | 已接入 NSPlate 核心工作台、静态 manifest、Canvas 预览和主要导入导出 |
 | `#/ffxiv/glamour`               | `src/pages/glamour/NSGlamourPage.vue`        | 已接入 EquipInfo/Template 双工作台、共享草稿、导入/编辑、多语言、六套 Canvas 模板、图片裁剪/暂存和 PNG 导出；仍通过 `/api/glamour/*` 复用旧 Flask 契约 |
 | `#/ffxiv/armoire`               | `src/pages/armoire/NSArmoirePage.vue`        | 已接入 NSArmoire 第一阶段手动 snapshot 导入、基础统计和分析面板 |
@@ -53,7 +55,7 @@
 当前导航行为：
 
 - `#/` 首页使用首页专属右上导航，不显示 `AppTopNav`。
-- `#/ffxiv`、`#/ffxiv/glamour`、`#/ffxiv/plate`、`#/about` 显示轻量 `AppTopNav`。
+- `#/ffxiv`、五个公开 FFXIV 工具路由和 `#/about` 显示轻量 `AppTopNav`。
 - `AppTopNav` 提供回首页入口。
 - `狒狒14工房` 是父级分类入口，在 `AppTopNav` 中用下拉菜单承载 `幻化工房`、`铭牌工房` 等子工具；不要把父级分类和子工具做成同一排并列项。
 - `设置 | CONFIG` 与 `菜单 | MENU` 是顶栏同级入口；`菜单` 管站点导航，`设置` 管全局显示模式等站点设置。
@@ -81,9 +83,11 @@
 - **页面类型**：分类导航页 / 工具入口页
 - **当前状态**：已读取 `src/config/site.ts` 中的 `ffxivTools` 生成工具卡。
 - **包含工具**：
-  - `#/ffxiv/glamour`：幻化工房
   - `#/ffxiv/plate`：铭牌工房
+  - `#/ffxiv/glamour`：幻化工房
   - `#/ffxiv/armoire`：衣柜管家轻量教程和 Helper 下载入口；完整工作台由 Helper GUI 本地承载
+  - `#/ffxiv/fashioncheck`：时尚品鉴
+  - `#/ffxiv/item-card`：物品卡片
 - **迁移目标**：
   - 承接首页 `FFXIV` 主入口。
   - 展示当前和未来 FFXIV 工具，不把工具列表塞进纯视觉首页。
@@ -91,6 +95,24 @@
   - 作为模块/分类级页面，继承全站像素风基础控件，但不继承首页人物舞台和强装饰。
   - 只代表当前第一阶段 FFXIV 分类，不代表整站长期只服务 FFXIV。
 - **模块文档**：`docs/ai/MODULES/ffxiv.md`。
+
+## 物品卡片（独立工作台已接入）
+
+- **路由**：`#/ffxiv/item-card`
+- **来源功能**：旧 `NSGlamour /card`，不是 `/template`
+- **页面入口**：`src/pages/item-card/ItemCardPage.vue`
+- **当前状态**：已按恢复代码重建网页链接和装备文本导入、装备与染剂编辑、文字样式、多语言、简易/完整版、左右排版、单张 PNG、批量 ZIP 和连续列表长图；草稿自动保存，最近记录仅保留兼容数据。不包含人物图片、图片裁剪或幻化模板。
+- **隔离边界**：源码、文案和浏览器存储均由 `src/pages/item-card/` 私有维护；不移动或改写旧 `NSGlamour` 文件，也不让 V2 glamour 页面引用物品卡片私有组件。
+- **后端**：开发阶段仅复用 `/api/glamour/*` 接口契约和端口 `8765`。
+- **模块文档**：`docs/ai/MODULES/item-card.md`。
+
+## 时尚品鉴（当前周作业已接入）
+
+- **路由**：`#/ffxiv/fashioncheck`、`#/ffxiv/fashioncheck/gold-items`、`#/ffxiv/fashioncheck/sources`
+- **页面入口**：`src/pages/fashion-check/FashionCheckPage.vue`
+- **当前状态**：已接入当前周 80/100 作业、金牌物品、来源展示和中英日韩名称索引；历史答案和原始参考不向公开页面发布。
+- **数据边界**：公开页面只读取 `public/data/fashion-check/` 下经确认的当前周切片、名称索引和来源清单。
+- **模块文档**：`docs/ai/MODULES/fashion-check.md`。
 
 ## NSPlate 铭牌编辑器（核心工作台已接入）
 
