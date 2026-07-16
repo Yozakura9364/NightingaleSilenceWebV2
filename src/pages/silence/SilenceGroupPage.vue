@@ -3,18 +3,8 @@
     <section
       class="silence-group-stage"
       :class="`silence-group-stage--${currentGroup.id}`"
-      :aria-labelledby="`${currentGroup.id}-title`"
+      :aria-label="t(currentGroup.titleKey)"
     >
-      <div class="silence-group-stage__copy">
-        <p class="ns-eyebrow">{{ t(textKeys.silence) }}</p>
-        <h1 :id="`${currentGroup.id}-title`" class="ns-title">
-          {{ t(currentGroup.titleKey) }}
-        </h1>
-        <p v-if="currentGroup.id !== 'glitch'" class="ns-lead">
-          {{ t(currentGroup.summaryKey) }}
-        </p>
-      </div>
-
       <SilenceGroupVisual
         :group-id="currentGroup.id"
         :group-title="t(currentGroup.titleKey)"
@@ -24,14 +14,6 @@
         @open="openVisual"
         @previous="selectPrevious"
         @next="selectNext"
-      />
-
-      <SilenceGlitchDuoPanel
-        v-if="currentGroup.id === 'glitch'"
-        :members="silenceGlitchDuoMembers"
-        :concept-notes="silenceGlitchConceptNotes"
-        :selected-id="selectedVisualId"
-        @select="selectVisual"
       />
 
       <SilenceTurnHint
@@ -51,17 +33,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { silenceGroups } from '@/config/site'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import { silenceUiMessages } from '@/locales/modules/silence'
-import {
-  silenceGlitchConceptNotes,
-  silenceGlitchDuoMembers
-} from '@/data/silence/glitchDuo'
+import { silenceGlitchDuoMembers } from '@/data/silence/glitchDuo'
 import {
   getSilenceCharacterRoute,
   getSilenceCharactersByGroup,
   type SilenceCharacter
 } from '@/data/silence/characters'
 import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilenceTurnNavigation'
-import SilenceGlitchDuoPanel from '@/pages/silence/components/SilenceGlitchDuoPanel.vue'
 import SilenceGroupVisual from '@/pages/silence/components/SilenceGroupVisual.vue'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { loadMessages, useLocale } from '@/stores/locale'
@@ -72,6 +50,117 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useLocale()
 const selectedVisualId = ref('')
+const localGlitchPortraits: Partial<Record<'yoin' | 'yoine', string>> = import.meta.env.DEV
+  ? {
+      yoin: '/local-assets/%E5%B9%BD%E7%81%B5-banner/yoin-banner.webp',
+      yoine: '/local-assets/%E5%B9%BD%E7%81%B5-banner/yoine-banner.webp'
+    }
+  : {}
+
+interface AngelGroupStagePlacement {
+  slot: number
+  left: string
+  height: string
+  aspectRatio: string
+  zIndex: number
+  shadowColor: string
+  displayName: string
+  labelSide: 'left' | 'right'
+  labelTop: string
+  focusShift: string
+}
+
+const angelGroupStagePlacements: Record<string, AngelGroupStagePlacement> = {
+  nightingale: {
+    slot: 1,
+    left: '18.2%',
+    height: '75.32%',
+    aspectRatio: '858 / 1627',
+    zIndex: 2,
+    shadowColor: '#878c93',
+    displayName: '南丁格尔',
+    labelSide: 'right',
+    labelTop: '36%',
+    focusShift: '-2vw'
+  },
+  goelia: {
+    slot: 2,
+    left: '33.9%',
+    height: '74.4%',
+    aspectRatio: '995 / 1607',
+    zIndex: 5,
+    shadowColor: '#000000',
+    displayName: '歌莉亚',
+    labelSide: 'right',
+    labelTop: '42%',
+    focusShift: '-2.2vw'
+  },
+  glynne: {
+    slot: 3,
+    left: '43%',
+    height: '100%',
+    aspectRatio: '1084 / 2160',
+    zIndex: 4,
+    shadowColor: '#000000',
+    displayName: '歌林',
+    labelSide: 'right',
+    labelTop: '47%',
+    focusShift: '-2.4vw'
+  },
+  ney: {
+    slot: 4,
+    left: '57.3%',
+    height: '100%',
+    aspectRatio: '1097 / 2160',
+    zIndex: 3,
+    shadowColor: '#540100',
+    displayName: '奈伊',
+    labelSide: 'left',
+    labelTop: '25%',
+    focusShift: '2.4vw'
+  },
+  chihaya: {
+    slot: 5,
+    left: '67.7%',
+    height: '68.94%',
+    aspectRatio: '981 / 1489',
+    zIndex: 6,
+    shadowColor: '#540100',
+    displayName: '千早',
+    labelSide: 'left',
+    labelTop: '43%',
+    focusShift: '2.2vw'
+  },
+  salvance: {
+    slot: 6,
+    left: '84.6%',
+    height: '100%',
+    aspectRatio: '1032 / 2160',
+    zIndex: 4,
+    shadowColor: '#878c93',
+    displayName: '沙乐万',
+    labelSide: 'left',
+    labelTop: '43%',
+    focusShift: '2vw'
+  }
+}
+
+const localAngelGroupPortraits: Record<string, string> = import.meta.env.DEV
+  ? {
+      goelia:
+        '/local-assets/%E4%B8%8D%E8%AF%AD-banner/%E6%97%A7%E6%A8%A1%E5%9E%8B-%E6%AD%8C%E8%8E%89%E4%BA%9A%20%E6%8B%B7%E8%B4%9D.png',
+      glynne:
+        '/local-assets/%E4%B8%8D%E8%AF%AD-banner/%E6%97%A7%E6%A8%A1%E5%9E%8B-%E6%AD%8C%E6%9E%97%20%E6%8B%B7%E8%B4%9D.png',
+      chihaya:
+        '/local-assets/%E4%B8%8D%E8%AF%AD-banner/%E6%97%A7%E6%A8%A1%E5%9E%8B-%E5%8D%83%E6%97%A9%20%E6%8B%B7%E8%B4%9D.png',
+      ney:
+        '/local-assets/%E4%B8%8D%E8%AF%AD-banner/%E6%97%A7%E6%A8%A1%E5%9E%8B-%E5%A5%88%E4%BC%8A%20%E6%8B%B7%E8%B4%9D.png',
+      nightingale:
+        '/local-assets/%E4%B8%8D%E8%AF%AD-banner/%E6%97%A7%E6%A8%A1%E5%9E%8B-%E5%8D%97%E4%B8%81%E6%A0%BC%E5%B0%94%20%E6%8B%B7%E8%B4%9D.png',
+      salvance:
+        '/local-assets/%E4%B8%8D%E8%AF%AD-banner/%E6%97%A7%E6%A8%A1%E5%9E%8B-%E6%B2%99%E4%B9%90%E4%B8%87%20%E6%8B%B7%E8%B4%9D.png'
+    }
+  : {}
 
 const currentGroup = computed(
   () => silenceGroups.find((group) => group.route === route.path) ?? silenceGroups[0]
@@ -88,18 +177,33 @@ const visualItems = computed(() => {
       reading: member.reading,
       color: member.color,
       signal: member.signal,
+      portraitSrc: localGlitchPortraits[member.id],
       slot: index + 1,
       character: undefined
     }))
   }
 
   if (currentCharacters.value.length > 0) {
-    return currentCharacters.value.map((character, index) => ({
-      id: character.id,
-      name: character.name,
-      slot: index + 1,
-      character
-    }))
+    return currentCharacters.value.map((character, index) => {
+      const placement = angelGroupStagePlacements[character.id]
+
+      return {
+        id: character.id,
+        name: character.name,
+        slot: placement?.slot ?? index + 1,
+        character,
+        portraitSrc: localAngelGroupPortraits[character.id] ?? character.portraitSrc,
+        stageLeft: placement?.left,
+        stageHeight: placement?.height,
+        stageAspectRatio: placement?.aspectRatio,
+        stageZIndex: placement?.zIndex,
+        stageShadowColor: placement?.shadowColor,
+        secondaryName: placement?.displayName,
+        stageLabelSide: placement?.labelSide,
+        stageLabelTop: placement?.labelTop,
+        stageFocusShift: placement?.focusShift
+      }
+    })
   }
 
   return []
@@ -160,7 +264,7 @@ watch(
 <style scoped>
 .silence-group-page {
   position: relative;
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 58px);
   overflow: hidden;
   background:
     radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.8), transparent 26%),
@@ -169,7 +273,7 @@ watch(
 }
 
 .silence-group-page--angel {
-  background: #ffffff;
+  background: #e8f0fb;
 }
 
 .silence-group-page--glitch {
@@ -181,7 +285,7 @@ watch(
 
 .silence-group-stage {
   position: relative;
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 58px);
   padding: clamp(24px, 4vw, 56px);
   overflow: hidden;
 }
@@ -210,49 +314,15 @@ watch(
   pointer-events: none;
 }
 
-.silence-group-stage__copy {
-  position: relative;
-  z-index: 6;
-  width: min(560px, 54vw);
-  margin-top: clamp(50px, 8vh, 96px);
-  pointer-events: none;
-}
-
-.silence-group-page--glitch .ns-title,
-.silence-group-page--glitch .ns-lead {
-  color: #f8f1ff;
-}
-
-.silence-group-page--glitch .ns-title {
-  text-shadow:
-    4px 0 0 rgba(255, 65, 172, 0.34),
-    -4px 0 0 rgba(119, 255, 244, 0.26),
-    0 8px 0 rgba(0, 0, 0, 0.28);
-}
-
-.silence-group-page--glitch .ns-lead {
-  color: rgba(248, 241, 255, 0.72);
-}
-
 @media (max-width: 920px) {
   .silence-group-page {
     overflow: visible;
   }
 
   .silence-group-stage {
-    min-height: calc(100vh - 56px);
+    min-height: calc(100vh - 58px);
     padding: 20px 14px 120px;
   }
 
-  .silence-group-stage__copy {
-    width: min(100%, 520px);
-    margin-top: 62px;
-  }
-}
-
-@media (max-width: 640px) {
-  .silence-group-stage__copy .ns-title {
-    font-size: 46px;
-  }
 }
 </style>
