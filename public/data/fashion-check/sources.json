@@ -11,16 +11,6 @@
       "url": "https://www.youwanc.com/"
     },
     {
-      "author": "NeNeppie",
-      "title": "AvantGarde",
-      "url": "https://github.com/NeNeppie/AvantGarde"
-    },
-    {
-      "author": "NeNeppie",
-      "title": "AvantGarde public data tracker",
-      "url": "https://docs.google.com/spreadsheets/d/1b9NwL-Ba4tS0ROSy1_4HPfi7QSMQWuhXKqFSSY9Ovp4/edit"
-    },
-    {
       "author": "Kaiyoko Star",
       "title": "Fashion Report",
       "url": "https://www.reddit.com/user/KaiyokoStar/"
@@ -29,6 +19,11 @@
       "author": "Kaiyoko Star",
       "title": "Fashion Report",
       "url": "https://x.com/KaiyokoStar"
+    },
+    {
+      "author": "Gottesstrafe",
+      "title": "Fashion Report Results",
+      "url": "https://www.reddit.com/user/Gottesstrafe/"
     },
     {
       "author": "AllGameStaff",
@@ -46,24 +41,9 @@
       "url": "https://shapes.inc/fashionreportff"
     },
     {
-      "author": "Gamer Escape",
-      "title": "Fashion Report Wiki",
-      "url": "https://ffxiv.gamerescape.com/wiki/Fashion_Report"
-    },
-    {
-      "author": "dsa83171",
-      "title": "FFXIV-Fashion-check-Tool",
-      "url": "https://github.com/dsa83171/FFXIV-Fashion-check-Tool"
-    },
-    {
       "author": "KevinAllenWiegand",
       "title": "ffxiv-fashion-report",
       "url": "https://github.com/KevinAllenWiegand/ffxiv-fashion-report"
-    },
-    {
-      "author": "Etsuna",
-      "title": "FFXIVFashionReport",
-      "url": "https://github.com/Etsuna/FFXIVFashionReport"
     }
   ]
 }

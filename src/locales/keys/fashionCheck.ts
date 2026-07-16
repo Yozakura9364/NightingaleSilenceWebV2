@@ -7,6 +7,7 @@ export const fashionCheckTextKeys = {
   verified: 'fashionCheck.verified',
   loading: 'fashionCheck.loading',
   unavailable: 'fashionCheck.unavailable',
+  awaitingData: 'fashionCheck.awaitingData',
   solutions: 'fashionCheck.solutions',
   goldItems: 'fashionCheck.goldItems',
   anyTwoGold: 'fashionCheck.anyTwoGold',
@@ -30,6 +31,13 @@ export const fashionCheckTextKeys = {
   dyeGuide: 'fashionCheck.dyeGuide',
   solution80Title: 'fashionCheck.solution80Title',
   solution100Title: 'fashionCheck.solution100Title',
+  anyDyeableBody: 'fashionCheck.anyDyeableBody',
+  anyDyeableLegs: 'fashionCheck.anyDyeableLegs',
+  anyDyeableFeet: 'fashionCheck.anyDyeableFeet',
+  dyeFamilyBlack: 'fashionCheck.dyeFamilyBlack',
+  dyeFamilyRed: 'fashionCheck.dyeFamilyRed',
+  commonDye: 'fashionCheck.commonDye',
+  openHuijiWiki: 'fashionCheck.openHuijiWiki',
   faq: 'fashionCheck.faq',
   faqPlaceholder: 'fashionCheck.faqPlaceholder'
 } as const

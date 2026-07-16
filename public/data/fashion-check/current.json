@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "fashion-check.public-current.v3",
+  "schemaVersion": "fashion-check.public-current.v4",
   "globalIssue": 442,
   "cnIssue": 427,
   "theme": "亚拉戈高位装扮",
@@ -7,111 +7,7 @@
     "startsAt": "2026-07-17T16:00:00+08:00",
     "endsAt": "2026-07-21T16:00:00+08:00"
   },
-  "referenceShowcase": {
-    "globalIssue": 441,
-    "theme": "知性蛮族工匠",
-    "solutions": [
-      {
-        "id": "80",
-        "score": 80,
-        "entries": [
-          {
-            "slotId": "head",
-            "item": { "itemId": 2668, "name": "黄铜眼镜", "iconId": 40879, "rarity": 1 },
-            "points": 8,
-            "dye": { "name": "铁锈红", "points": 2 }
-          },
-          {
-            "slotId": "body",
-            "iconId": 42422,
-            "label": "任意可染色身体装备",
-            "dye": { "name": "煤烟黑", "points": 2 }
-          }
-        ]
-      },
-      {
-        "id": "100",
-        "score": 100,
-        "entries": [
-          {
-            "slotId": "head",
-            "item": { "itemId": 2668, "name": "黄铜眼镜", "iconId": 40879, "rarity": 1 },
-            "dye": { "name": "铁锈红" }
-          },
-          {
-            "slotId": "body",
-            "item": { "itemId": 15476, "name": "极限幸存者衬衫", "iconId": 42525, "rarity": 1 },
-            "dye": { "name": "煤烟黑" }
-          },
-          {
-            "slotId": "hands",
-            "item": { "itemId": 10812, "name": "长颈驼革精准护臂", "iconId": 48509, "rarity": 1 },
-            "dye": { "name": "铁锈红" }
-          },
-          {
-            "slotId": "legs",
-            "iconId": 45539,
-            "label": "任意可染色腿部装备",
-            "dye": { "name": "煤烟黑" }
-          },
-          { "slotId": "feet", "iconId": 46446, "label": "任意可染色脚部装备" }
-        ]
-      }
-    ],
-    "dyes": [
-      {
-        "slotId": "weapon",
-        "family": { "name": "黑色系", "color": "#1E1E1E", "points": 1 },
-        "exact": { "name": "煤烟黑", "color": "#2B2923", "points": 2, "declaration": "通用染剂" }
-      },
-      {
-        "slotId": "head",
-        "family": { "name": "红色系", "color": "#E40011", "points": 1 },
-        "exact": { "name": "铁锈红", "color": "#622207", "points": 2, "declaration": "通用染剂" }
-      },
-      {
-        "slotId": "body",
-        "family": { "name": "黑色系", "color": "#1E1E1E", "points": 1 },
-        "exact": { "name": "煤烟黑", "color": "#2B2923", "points": 2, "declaration": "通用染剂" }
-      },
-      {
-        "slotId": "hands",
-        "family": { "name": "红色系", "color": "#E40011", "points": 1 },
-        "exact": { "name": "铁锈红", "color": "#622207", "points": 2, "declaration": "通用染剂" }
-      },
-      {
-        "slotId": "legs",
-        "family": { "name": "黑色系", "color": "#1E1E1E", "points": 1 },
-        "exact": { "name": "煤烟黑", "color": "#2B2923", "points": 2, "declaration": "通用染剂" }
-      },
-      {
-        "slotId": "feet",
-        "family": { "name": "红色系", "color": "#E40011", "points": 1 },
-        "exact": { "name": "铁锈红", "color": "#622207", "points": 2, "declaration": "通用染剂" }
-      }
-    ]
-  },
-  "solutions": [
-    {
-      "id": "80",
-      "score": 80,
-      "items": [{ "slotId": "body", "itemId": 7163, "points": 8 }],
-      "dyes": [
-        { "slotId": "weapon", "points": 2 },
-        { "slotId": "head", "points": 2 }
-      ]
-    },
-    {
-      "id": "100",
-      "score": 100,
-      "items": [
-        { "slotId": "body", "itemId": 7163, "points": 8 },
-        { "slotId": "hands", "itemId": 7164, "points": 8 },
-        { "slotId": "legs", "itemId": 7165, "points": 8 },
-        { "slotId": "feet", "itemId": 7166, "points": 8 }
-      ]
-    }
-  ],
+  "solutions": [],
   "slots": [
     {
       "slotId": "body",
@@ -120,12 +16,42 @@
       "gold": {
         "points": 8,
         "items": [
-          { "itemId": 7163, "name": "亚拉戈高位重长衣", "iconId": 43205, "rarity": 3 },
-          { "itemId": 7173, "name": "亚拉戈高位制敌胸甲", "iconId": 43206, "rarity": 3 },
-          { "itemId": 7179, "name": "亚拉戈高位强袭胸甲", "iconId": 43207, "rarity": 3 },
-          { "itemId": 7189, "name": "亚拉戈高位精准长衣", "iconId": 43645, "rarity": 3 },
-          { "itemId": 7199, "name": "亚拉戈高位治愈长衣", "iconId": 42382, "rarity": 3 },
-          { "itemId": 7209, "name": "亚拉戈高位咏咒长衣", "iconId": 43644, "rarity": 3 }
+          {
+            "itemId": 7163,
+            "name": "亚拉戈高位重长衣",
+            "iconId": 43205,
+            "rarity": 3
+          },
+          {
+            "itemId": 7173,
+            "name": "亚拉戈高位制敌胸甲",
+            "iconId": 43206,
+            "rarity": 3
+          },
+          {
+            "itemId": 7179,
+            "name": "亚拉戈高位强袭胸甲",
+            "iconId": 43207,
+            "rarity": 3
+          },
+          {
+            "itemId": 7189,
+            "name": "亚拉戈高位精准长衣",
+            "iconId": 43645,
+            "rarity": 3
+          },
+          {
+            "itemId": 7199,
+            "name": "亚拉戈高位治愈长衣",
+            "iconId": 42382,
+            "rarity": 3
+          },
+          {
+            "itemId": 7209,
+            "name": "亚拉戈高位咏咒长衣",
+            "iconId": 43644,
+            "rarity": 3
+          }
         ]
       }
     },
@@ -136,12 +62,42 @@
       "gold": {
         "points": 8,
         "items": [
-          { "itemId": 7164, "name": "亚拉戈高位御敌手铠", "iconId": 48421, "rarity": 3 },
-          { "itemId": 7174, "name": "亚拉戈高位制敌手铠", "iconId": 48422, "rarity": 3 },
-          { "itemId": 7180, "name": "亚拉戈高位强袭手铠", "iconId": 48423, "rarity": 3 },
-          { "itemId": 7190, "name": "亚拉戈高位精准手套", "iconId": 44262, "rarity": 3 },
-          { "itemId": 7200, "name": "亚拉戈高位治愈手套", "iconId": 44261, "rarity": 3 },
-          { "itemId": 7210, "name": "亚拉戈高位咏咒手套", "iconId": 44253, "rarity": 3 }
+          {
+            "itemId": 7164,
+            "name": "亚拉戈高位御敌手铠",
+            "iconId": 48421,
+            "rarity": 3
+          },
+          {
+            "itemId": 7174,
+            "name": "亚拉戈高位制敌手铠",
+            "iconId": 48422,
+            "rarity": 3
+          },
+          {
+            "itemId": 7180,
+            "name": "亚拉戈高位强袭手铠",
+            "iconId": 48423,
+            "rarity": 3
+          },
+          {
+            "itemId": 7190,
+            "name": "亚拉戈高位精准手套",
+            "iconId": 44262,
+            "rarity": 3
+          },
+          {
+            "itemId": 7200,
+            "name": "亚拉戈高位治愈手套",
+            "iconId": 44261,
+            "rarity": 3
+          },
+          {
+            "itemId": 7210,
+            "name": "亚拉戈高位咏咒手套",
+            "iconId": 44253,
+            "rarity": 3
+          }
         ]
       }
     },
@@ -152,12 +108,42 @@
       "gold": {
         "points": 8,
         "items": [
-          { "itemId": 7165, "name": "亚拉戈高位御敌软甲裤", "iconId": 45440, "rarity": 3 },
-          { "itemId": 7175, "name": "亚拉戈高位制敌软甲裤", "iconId": 45442, "rarity": 3 },
-          { "itemId": 7181, "name": "亚拉戈高位强袭软甲裤", "iconId": 45443, "rarity": 3 },
-          { "itemId": 7191, "name": "亚拉戈高位精准马裤", "iconId": 45444, "rarity": 3 },
-          { "itemId": 7201, "name": "亚拉戈高位治愈喇叭裤", "iconId": 45441, "rarity": 3 },
-          { "itemId": 7211, "name": "亚拉戈高位咏咒马裤", "iconId": 45429, "rarity": 3 }
+          {
+            "itemId": 7165,
+            "name": "亚拉戈高位御敌软甲裤",
+            "iconId": 45440,
+            "rarity": 3
+          },
+          {
+            "itemId": 7175,
+            "name": "亚拉戈高位制敌软甲裤",
+            "iconId": 45442,
+            "rarity": 3
+          },
+          {
+            "itemId": 7181,
+            "name": "亚拉戈高位强袭软甲裤",
+            "iconId": 45443,
+            "rarity": 3
+          },
+          {
+            "itemId": 7191,
+            "name": "亚拉戈高位精准马裤",
+            "iconId": 45444,
+            "rarity": 3
+          },
+          {
+            "itemId": 7201,
+            "name": "亚拉戈高位治愈喇叭裤",
+            "iconId": 45441,
+            "rarity": 3
+          },
+          {
+            "itemId": 7211,
+            "name": "亚拉戈高位咏咒马裤",
+            "iconId": 45429,
+            "rarity": 3
+          }
         ]
       }
     },
@@ -168,12 +154,42 @@
       "gold": {
         "points": 8,
         "items": [
-          { "itemId": 7166, "name": "亚拉戈高位御敌铠靴", "iconId": 46935, "rarity": 3 },
-          { "itemId": 7176, "name": "亚拉戈高位制敌铠靴", "iconId": 46937, "rarity": 3 },
-          { "itemId": 7182, "name": "亚拉戈高位强袭铠靴", "iconId": 46938, "rarity": 3 },
-          { "itemId": 7192, "name": "亚拉戈高位精准筒靴", "iconId": 46939, "rarity": 3 },
-          { "itemId": 7202, "name": "亚拉戈高位治愈长靴", "iconId": 46936, "rarity": 3 },
-          { "itemId": 7212, "name": "亚拉戈高位咏咒筒靴", "iconId": 46929, "rarity": 3 }
+          {
+            "itemId": 7166,
+            "name": "亚拉戈高位御敌铠靴",
+            "iconId": 46935,
+            "rarity": 3
+          },
+          {
+            "itemId": 7176,
+            "name": "亚拉戈高位制敌铠靴",
+            "iconId": 46937,
+            "rarity": 3
+          },
+          {
+            "itemId": 7182,
+            "name": "亚拉戈高位强袭铠靴",
+            "iconId": 46938,
+            "rarity": 3
+          },
+          {
+            "itemId": 7192,
+            "name": "亚拉戈高位精准筒靴",
+            "iconId": 46939,
+            "rarity": 3
+          },
+          {
+            "itemId": 7202,
+            "name": "亚拉戈高位治愈长靴",
+            "iconId": 46936,
+            "rarity": 3
+          },
+          {
+            "itemId": 7212,
+            "name": "亚拉戈高位咏咒筒靴",
+            "iconId": 46929,
+            "rarity": 3
+          }
         ]
       }
     }

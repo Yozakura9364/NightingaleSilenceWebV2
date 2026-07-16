@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "fashion-check.current-locales.v1",
+  "items": {
+    "7163": {
+      "zh-CN": "亚拉戈高位重长衣",
+      "en": "Heavy High Allagan Coat",
+      "ja": "ハイアラガン・ヘヴィコート",
+      "ko": "상급 알라그 중장외투"
+    },
+    "7164": {
+      "zh-CN": "亚拉戈高位御敌手铠",
+      "en": "High Allagan Gauntlets of Fending",
+      "ja": "ハイアラガン・ディフェンダーガントレット",
+      "ko": "상급 알라그 수호자 건틀릿"
+    },
+    "7165": {
+      "zh-CN": "亚拉戈高位御敌软甲裤",
+      "en": "High Allagan Trousers of Fending",
+      "ja": "ハイアラガン・ディフェンダートラウザー",
+      "ko": "상급 알라그 수호자 긴바지"
+    },
+    "7166": {
+      "zh-CN": "亚拉戈高位御敌铠靴",
+      "en": "High Allagan Sabatons of Fending",
+      "ja": "ハイアラガン・ディフェンダーサバトン",
+      "ko": "상급 알라그 수호자 판금장화"
+    },
+    "7173": {
+      "zh-CN": "亚拉戈高位制敌胸甲",
+      "en": "High Allagan Cuirass of Maiming",
+      "ja": "ハイアラガン・スレイヤーキュイラス",
+      "ko": "상급 알라그 학살자 전투흉갑"
+    },
+    "7174": {
+      "zh-CN": "亚拉戈高位制敌手铠",
+      "en": "High Allagan Gauntlets of Maiming",
+      "ja": "ハイアラガン・スレイヤーガントレット",
+      "ko": "상급 알라그 학살자 건틀릿"
+    },
+    "7175": {
+      "zh-CN": "亚拉戈高位制敌软甲裤",
+      "en": "High Allagan Trousers of Maiming",
+      "ja": "ハイアラガン・スレイヤートラウザー",
+      "ko": "상급 알라그 학살자 긴바지"
+    },
+    "7176": {
+      "zh-CN": "亚拉戈高位制敌铠靴",
+      "en": "High Allagan Sabatons of Maiming",
+      "ja": "ハイアラガン・スレイヤーサバトン",
+      "ko": "상급 알라그 학살자 판금장화"
+    },
+    "7179": {
+      "zh-CN": "亚拉戈高位强袭胸甲",
+      "en": "High Allagan Cuirass of Striking",
+      "ja": "ハイアラガン・ストライカーキュイラス",
+      "ko": "상급 알라그 타격대 전투흉갑"
+    },
+    "7180": {
+      "zh-CN": "亚拉戈高位强袭手铠",
+      "en": "High Allagan Gauntlets of Striking",
+      "ja": "ハイアラガン・ストライカーガントレット",
+      "ko": "상급 알라그 타격대 건틀릿"
+    },
+    "7181": {
+      "zh-CN": "亚拉戈高位强袭软甲裤",
+      "en": "High Allagan Trousers of Striking",
+      "ja": "ハイアラガン・ストライカートラウザー",
+      "ko": "상급 알라그 타격대 긴바지"
+    },
+    "7182": {
+      "zh-CN": "亚拉戈高位强袭铠靴",
+      "en": "High Allagan Sabatons of Striking",
+      "ja": "ハイアラガン・ストライカーサバトン",
+      "ko": "상급 알라그 타격대 판금장화"
+    },
+    "7189": {
+      "zh-CN": "亚拉戈高位精准长衣",
+      "en": "High Allagan Coat of Aiming",
+      "ja": "ハイアラガン・レンジャーコート",
+      "ko": "상급 알라그 유격대 외투"
+    },
+    "7190": {
+      "zh-CN": "亚拉戈高位精准手套",
+      "en": "High Allagan Gloves of Aiming",
+      "ja": "ハイアラガン・レンジャーグローブ",
+      "ko": "상급 알라그 유격대 장갑"
+    },
+    "7191": {
+      "zh-CN": "亚拉戈高位精准马裤",
+      "en": "High Allagan Breeches of Aiming",
+      "ja": "ハイアラガン・レンジャーブリーチ",
+      "ko": "상급 알라그 유격대 바지"
+    },
+    "7192": {
+      "zh-CN": "亚拉戈高位精准筒靴",
+      "en": "High Allagan Boots of Aiming",
+      "ja": "ハイアラガン・レンジャーブーツ",
+      "ko": "상급 알라그 유격대 장화"
+    },
+    "7199": {
+      "zh-CN": "亚拉戈高位治愈长衣",
+      "en": "High Allagan Coat of Healing",
+      "ja": "ハイアラガン・ヒーラーコート",
+      "ko": "상급 알라그 치유사 외투"
+    },
+    "7200": {
+      "zh-CN": "亚拉戈高位治愈手套",
+      "en": "High Allagan Gloves of Healing",
+      "ja": "ハイアラガン・ヒーラーグローブ",
+      "ko": "상급 알라그 치유사 장갑"
+    },
+    "7201": {
+      "zh-CN": "亚拉戈高位治愈喇叭裤",
+      "en": "High Allagan Pantaloons of Healing",
+      "ja": "ハイアラガン・ヒーラーパンタロン",
+      "ko": "상급 알라그 치유사 나팔바지"
+    },
+    "7202": {
+      "zh-CN": "亚拉戈高位治愈长靴",
+      "en": "High Allagan Thighboots of Healing",
+      "ja": "ハイアラガン・ヒーラーサイブーツ",
+      "ko": "상급 알라그 치유사 허벅지장화"
+    },
+    "7209": {
+      "zh-CN": "亚拉戈高位咏咒长衣",
+      "en": "High Allagan Coat of Casting",
+      "ja": "ハイアラガン・キャスターコート",
+      "ko": "상급 알라그 마술사 외투"
+    },
+    "7210": {
+      "zh-CN": "亚拉戈高位咏咒手套",
+      "en": "High Allagan Gloves of Casting",
+      "ja": "ハイアラガン・キャスターグローブ",
+      "ko": "상급 알라그 마술사 장갑"
+    },
+    "7211": {
+      "zh-CN": "亚拉戈高位咏咒马裤",
+      "en": "High Allagan Breeches of Casting",
+      "ja": "ハイアラガン・キャスターブリーチ",
+      "ko": "상급 알라그 마술사 바지"
+    },
+    "7212": {
+      "zh-CN": "亚拉戈高位咏咒筒靴",
+      "en": "High Allagan Boots of Casting",
+      "ja": "ハイアラガン・キャスターブーツ",
+      "ko": "상급 알라그 마술사 장화"
+    }
+  },
+  "dyes": {}
+}

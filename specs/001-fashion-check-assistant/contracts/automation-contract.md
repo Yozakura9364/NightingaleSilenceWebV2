@@ -17,6 +17,7 @@
 ├── current.json
 ├── state.json
 ├── notifications.json
+├── subscriber-updates.json
 └── snapshots/<sourceId>/<sha256>.json
 ```
 
@@ -24,11 +25,13 @@
 
 ## Notification Delivery
 
-通知通过 NightingaleOpsBot 的独立 `/fc bind` 私聊绑定发送。通知进入持久队列；AstrBot 成功发送后才 ACK 删除。不得向群聊自动推送。
+管理员异常通知通过 NightingaleOpsBot 的独立 `/fc bind` 私聊绑定发送。通知进入持久队列；AstrBot 成功发送后才 ACK 删除。
 
-群友和私聊用户可以发送 `/fc` 读取本周公开答案。`/fc` 必须先按北京时间周二 16:00 边界计算应属周次；私有 staging 仍是旧周时，只返回“本周答案尚未更新”，不得回退发送旧答案。`/fc status|bind|check|unbind` 仅限已授权管理员。
+私聊用户可以通过 `/fc follow` 订阅、`/fc unfollow` 取消订阅；已授权管理员也可以在群内订阅或取消当前群。订阅目标仅接收有效主题变化和完整答案变化；订阅前的历史更新不补发，每个私聊或群独立记录最后成功发送的更新。未订阅的群不得自动推送。
 
-需要通知的事件：有效主题变化、当周答案变化、同一来源连续失败 3 次、失败后恢复，以及窗口结束仍无完整新数据。无变化的小时检查不得发送消息。
+群友和私聊用户可以发送 `/fc` 读取本周答案。`/fc` 必须先按北京时间周二 16:00 边界计算应属周次；私有 staging 仍是旧周时，只返回“本周答案尚未更新”，不得回退发送旧答案。`/fc status|bind|check|unbind` 仅限已授权管理员。
+
+管理员需要通知的事件：有效主题变化、当周答案变化、同一来源连续失败 3 次、失败后恢复，以及窗口结束仍无完整新数据。订阅者只接收有效主题变化和完整答案变化。无变化的小时检查不得发送消息。
 
 ## Publication Boundary
 
