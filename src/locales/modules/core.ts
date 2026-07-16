@@ -126,6 +126,8 @@ export const coreUiMessages: UiMessageMap = {
   'site.status.wip': same('WIP'),
   'site.menu.silence': same('Silence'),
   'site.menu.oc': same('OC'),
+  'site.menu.silenceAngel': same('不语·silence'),
+  'site.menu.silenceGlitch': same('幽灵·silence'),
   'ffxiv.workshop.title': msg({
     zh: '狒狒14工房',
     en: 'FFXIV Workshop',
@@ -143,6 +145,18 @@ export const coreUiMessages: UiMessageMap = {
   'ffxiv.tool.itemCard.title': same('物品卡片'),
   'ffxiv.tool.glamour.title': same('幻化工房'),
   'ffxiv.tool.plate.title': same('铭牌工房'),
+  'ffxiv.tool.fashionCheck.title': msg({
+    zh: '时尚品鉴',
+    en: 'Fashion Check',
+    ja: '时尚品鉴',
+    ko: '时尚品鉴'
+  }),
+  'ffxiv.tool.fashionCheck.summary': msg({
+    zh: '本周方案',
+    en: 'Weekly solutions',
+    ja: '本周方案',
+    ko: '本周方案'
+  }),
   'ffxiv.tool.armoire.title': same('衣柜管家'),
   'ffxiv.termReview.title': msg({
     zh: 'FFXIV 术语校对',

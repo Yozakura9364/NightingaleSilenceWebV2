@@ -43,6 +43,20 @@
   text-decoration: none;
 }
 
+.app-top-nav__brand--art {
+  height: 34px;
+  min-height: 34px;
+  padding: 2px 7px;
+}
+
+.app-top-nav__brand-art {
+  display: block;
+  width: 108px;
+  height: 24px;
+  background: var(--ns-top-nav-brand-art-url, none) center / contain no-repeat;
+  image-rendering: pixelated;
+}
+
 .app-top-nav__menu-button,
 .app-top-nav__config-button {
   width: var(--ns-top-nav-control-width);

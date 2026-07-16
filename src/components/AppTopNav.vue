@@ -1,9 +1,23 @@
 <template>
   <header v-if="showNav" class="app-top-nav">
     <nav class="app-top-nav__inner" :aria-label="t(textKeys.primaryNavigation)">
-      <RouterLink class="app-top-nav__brand" :to="siteRoutes.home">
-        <span>{{ t(siteMeta.zhNameKey) }}</span>
-        <span class="app-top-nav__brand-command" aria-hidden="true">
+      <RouterLink
+        class="app-top-nav__brand"
+        :class="{ 'app-top-nav__brand--art': isLocalBrandPreview }"
+        :to="siteRoutes.home"
+      >
+        <span
+          v-if="isLocalBrandPreview"
+          class="app-top-nav__brand-art"
+          :style="topNavBrandArtStyle"
+          aria-hidden="true"
+        ></span>
+        <span :class="{ 'ns-sr-only': isLocalBrandPreview }">{{ t(siteMeta.zhNameKey) }}</span>
+        <span
+          class="app-top-nav__brand-command"
+          :class="{ 'ns-sr-only': isLocalBrandPreview }"
+          aria-hidden="true"
+        >
           {{ t(textKeys.homeCommand) }}
         </span>
       </RouterLink>
@@ -17,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
 import { useRoute } from 'vue-router'
 import AppTopNavMenu from '@/components/AppTopNavMenu.vue'
 import AppTopNavSettings from '@/components/AppTopNavSettings.vue'
@@ -30,6 +44,10 @@ const { t } = useLocale()
 const menuOpen = ref(false)
 const configOpen = ref(false)
 const controlsRoot = ref<HTMLElement | null>(null)
+const isLocalBrandPreview = import.meta.env.DEV
+const topNavBrandArtStyle = {
+  '--ns-top-nav-brand-art-url': isLocalBrandPreview ? 'url("/local-assets/nightingale-title-2.webp")' : 'none'
+} as CSSProperties
 const showNav = computed(() => route.path !== siteRoutes.home && route.meta.hideTopNav !== true)
 
 function closeMenu() {
