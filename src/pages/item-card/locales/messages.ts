@@ -222,6 +222,12 @@ export const itemCardUiMessages: UiMessageMap = {
     ja: '装備テキストを認識中……',
     ko: '장비 텍스트 인식 중……'
   }),
+  'itemCard.status.readingConfig': msg({
+    zh: '正在读取配置……',
+    en: 'Reading config...',
+    ja: '設定を読み込み中……',
+    ko: '설정을 읽는 중……'
+  }),
   'itemCard.status.importError': msg({
     zh: '导入失败',
     en: 'Import failed',
@@ -235,6 +241,18 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Enter equipment text',
     ja: '装備テキストを入力してください',
     ko: '장비 텍스트를 입력하세요'
+  }),
+  'itemCard.status.invalidLocalFile': msg({
+    zh: '不支持的本地文件',
+    en: 'Unsupported local file',
+    ja: '対応していないローカルファイルです',
+    ko: '지원하지 않는 로컬 파일입니다'
+  }),
+  'itemCard.status.fileTooLarge': msg({
+    zh: '文件超过 {size} MB',
+    en: 'File is over {size} MB',
+    ja: 'ファイルが {size} MB を超えています',
+    ko: '파일이 {size} MB를 초과합니다'
   }),
   'itemCard.status.textImported': msg({
     zh: '已识别 {count} 件装备',

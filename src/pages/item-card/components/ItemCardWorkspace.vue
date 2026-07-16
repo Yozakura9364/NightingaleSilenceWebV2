@@ -74,6 +74,7 @@
       @close="closeImport"
       @submit="submitImport"
       @open-text="openTextImportFromLink"
+      @parse-chara="emit('import-chara', $event)"
     />
     <ItemCardTextImportDialog
       v-if="textImportOpen"
@@ -128,6 +129,7 @@ const emit = defineEmits<{
   'clear-draft': []
   'import-link': [payload: { url: string; preferredLocale?: string }]
   'import-text': [payload: { text: string; sourceLocale: string }]
+  'import-chara': [file: File]
   'add-entry-after': [rowId: string]
   'replace-entry': [rowId: string, candidate: GlamourCandidate]
   'select-entry-candidate': [rowId: string, candidateKey: string | number | undefined]

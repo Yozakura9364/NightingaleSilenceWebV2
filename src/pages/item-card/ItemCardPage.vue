@@ -11,6 +11,7 @@
       @clear-draft="clear"
       @import-link="importLink"
       @import-text="importText"
+      @import-chara="importChara"
       @add-entry-after="addEntryAfter"
       @replace-entry="replaceEntry"
       @select-entry-candidate="selectEntryCandidate"
@@ -44,6 +45,7 @@ import { loadMessages, useLocale } from '@/stores/locale'
 
 loadMessages(itemCardUiMessages)
 
+const MAX_CHARA_UPLOAD_BYTES = 5 * 1024 * 1024
 const tool = getRequiredFfxivTool('itemCard')
 const boundary = getApiBoundary('itemCard')
 const { t } = useLocale()
@@ -156,6 +158,24 @@ function importText(payload: { text: string; sourceLocale: string }) {
       }
     }
   )
+}
+
+function importChara(file: File) {
+  if (!file.name.toLowerCase().endsWith('.chara')) {
+    setStatus(textKeys.nsglamourStatusInvalidLocalFile, 'warning')
+    return
+  }
+
+  if (file.size > MAX_CHARA_UPLOAD_BYTES) {
+    setStatus(textKeys.nsglamourStatusFileTooLarge, 'warning', {
+      size: Math.round(MAX_CHARA_UPLOAD_BYTES / 1024 / 1024)
+    })
+    return
+  }
+
+  void runImport(() => api.parseChara(file), draft.value.locale, {
+    loadingKey: textKeys.nsglamourStatusReadingConfig
+  })
 }
 
 function selectImportLocale(payload: GlamourImportPayload, preferredLocale?: string): string {

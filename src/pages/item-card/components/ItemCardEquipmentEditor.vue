@@ -107,6 +107,7 @@
 
           <div class="equipment-row__controls">
             <button
+              v-if="selectedCandidate(entry)"
               type="button"
               class="equipment-row__add"
               :title="t(textKeys.nsglamourEquipmentAddSameSlot)"
@@ -139,7 +140,7 @@
             </button>
           </div>
 
-          <div class="equipment-search">
+          <div v-if="!selectedCandidate(entry)" class="equipment-search">
             <input
               type="search"
               autocomplete="off"

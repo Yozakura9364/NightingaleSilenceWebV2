@@ -15,7 +15,7 @@
         </button>
       </header>
 
-      <label>
+      <label @dragover="handleDragOver" @drop="handleDrop">
         <span>{{ t(textKeys.importUrlLabel) }}</span>
         <input
           ref="urlInput"
@@ -56,7 +56,7 @@ import AppStatus from '@/components/AppStatus.vue'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
 import { useLocale } from '@/stores/locale'
 
-defineProps<{
+const props = defineProps<{
   url: string
   busy: boolean
   statusMessage: string
@@ -67,6 +67,7 @@ const emit = defineEmits<{
   close: []
   submit: []
   'open-text': []
+  'parse-chara': [file: File]
   'update:url': [url: string]
 }>()
 
@@ -75,6 +76,39 @@ const titleId = 'item-card-import-title'
 const urlInput = ref<HTMLInputElement | null>(null)
 
 onMounted(() => void nextTick(() => urlInput.value?.focus()))
+
+function handleDragOver(event: DragEvent) {
+  if (!hasDraggedFiles(event)) {
+    return
+  }
+
+  event.preventDefault()
+
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = props.busy ? 'none' : 'copy'
+  }
+}
+
+function handleDrop(event: DragEvent) {
+  if (!hasDraggedFiles(event)) {
+    return
+  }
+
+  event.preventDefault()
+
+  if (props.busy) {
+    return
+  }
+
+  const file = event.dataTransfer?.files?.[0]
+  if (file) {
+    emit('parse-chara', file)
+  }
+}
+
+function hasDraggedFiles(event: DragEvent): boolean {
+  return Array.from(event.dataTransfer?.types || []).includes('Files')
+}
 </script>
 
 <style scoped>
