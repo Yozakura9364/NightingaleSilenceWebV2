@@ -359,7 +359,8 @@ export function useArmoireCharacterProfiles(snapshot: Ref<ArmoireSnapshot | null
         storedRecord?.snapshot ?? null
       )
       const record = createRecordFromSnapshot(mergedSnapshot)
-      record.ignoredItemIds = storedRecord?.ignoredItemIds ?? []
+      const latestStoredRecord = profileKey ? await getArmoireSnapshotRecord(profileKey) : null
+      record.ignoredItemIds = latestStoredRecord?.ignoredItemIds ?? storedRecord?.ignoredItemIds ?? []
 
       await putArmoireSnapshotRecord(record)
       saveActiveProfileKey(record.key)

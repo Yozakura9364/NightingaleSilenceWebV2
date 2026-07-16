@@ -135,7 +135,7 @@ const props = withDefaults(defineProps<{
   canIgnoreItems?: boolean
   canUnignoreItems?: boolean
 }>(), {
-  canIgnoreItems: true,
+  canIgnoreItems: false,
   canUnignoreItems: false
 })
 

@@ -118,8 +118,8 @@
 
     <NSArmoireItemActionMenu
       :menu="itemActionMenu"
+      :can-ignore-items="false"
       @close="closeItemActionMenu"
-      @ignore-item="$emit('ignore-item', $event)"
     />
   </section>
 </template>
@@ -197,10 +197,6 @@ interface GlamourSetStatusGroupView {
 const props = defineProps<{
   analysis: ArmoireSnapshotAnalysis | null
   catalog: ArmoireCatalog
-}>()
-
-defineEmits<{
-  'ignore-item': [itemId: number]
 }>()
 
 const { t } = useLocale()

@@ -222,8 +222,8 @@
 
     <NSArmoireItemActionMenu
       :menu="itemActionMenu"
+      :can-ignore-items="false"
       @close="closeItemActionMenu"
-      @ignore-item="$emit('ignore-item', $event)"
     />
   </section>
 </template>
@@ -339,7 +339,6 @@ const props = defineProps<{
 
 defineEmits<{
   reload: []
-  'ignore-item': [itemId: number]
 }>()
 
 const { current, t } = useLocale()

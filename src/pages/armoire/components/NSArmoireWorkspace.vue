@@ -90,20 +90,17 @@
                   :status="storeCatalogStatus"
                   :store-catalog="storeCatalog"
                   :store-item-display-index="storeItemDisplayIndex"
-                  @ignore-item="ignoreCleanupItem"
                   @reload="reloadStoreCatalog"
                 />
                 <NSArmoireCabinetStatsPanel
                   v-else-if="activeDetailTab === 'cabinet'"
                   :analysis="cabinetAnalysis"
                   :catalog="catalog"
-                  @ignore-item="ignoreCleanupItem"
                 />
                 <NSArmoireGlamourSetStatsPanel
                   v-else-if="activeDetailTab === 'sets'"
                   :analysis="analysis"
                   :catalog="catalog"
-                  @ignore-item="ignoreCleanupItem"
                 />
                 <NSArmoireOverview
                   v-else
@@ -111,7 +108,6 @@
                   :catalog="catalog"
                   :snapshot="snapshot"
                   :title-key="textKeys.nsarmoireCollectionCatalog"
-                  @ignore-item="ignoreCleanupItem"
                 />
               </div>
             </section>

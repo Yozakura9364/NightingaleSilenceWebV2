@@ -1,10 +1,12 @@
-import { computed, ref, watch, type Ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch, type Ref } from 'vue'
 import {
   getArmoireSnapshotRecord,
   updateArmoireSnapshotIgnoredItemIds
 } from '@/pages/armoire/services/armoireSnapshotStore'
 
 const LEGACY_STORAGE_KEY_PREFIX = 'nsarmoire.ignoredItems.v1:'
+const PERSIST_RETRY_DELAY_MS = 250
+const PERSIST_RETRY_LIMIT = 8
 
 interface StoredIgnoredItems {
   profileKey: string
@@ -62,6 +64,65 @@ export function useArmoireIgnoredItems(activeProfileKey: Ref<string | null>) {
   const ignoredItemIds = ref<number[]>([])
   const storageError = ref<string | null>(null)
   let requestVersion = 0
+  let persistRetryTimer = 0
+
+  function clearPersistRetry(): void {
+    if (typeof window !== 'undefined' && persistRetryTimer !== 0) {
+      window.clearTimeout(persistRetryTimer)
+    }
+
+    persistRetryTimer = 0
+  }
+
+  function isProfileNotCachedError(error: unknown): boolean {
+    return error instanceof Error && error.message === 'Armoire profile is not cached'
+  }
+
+  async function writeIgnoredItemIds(profileKey: string, itemIds: readonly number[]): Promise<void> {
+    await updateArmoireSnapshotIgnoredItemIds(profileKey, itemIds)
+    removeLegacyIgnoredItemIds(profileKey)
+  }
+
+  function schedulePersistRetry(
+    profileKey: string,
+    itemIds: readonly number[],
+    version: number,
+    attempt: number
+  ): void {
+    clearPersistRetry()
+
+    if (attempt >= PERSIST_RETRY_LIMIT || typeof window === 'undefined') {
+      storageError.value = 'Armoire profile is not cached'
+      return
+    }
+
+    persistRetryTimer = window.setTimeout(() => {
+      persistRetryTimer = 0
+
+      if (version !== requestVersion || activeProfileKey.value !== profileKey) {
+        return
+      }
+
+      void writeIgnoredItemIds(profileKey, itemIds)
+        .then(() => {
+          if (version === requestVersion && activeProfileKey.value === profileKey) {
+            storageError.value = null
+          }
+        })
+        .catch((error: unknown) => {
+          if (version !== requestVersion || activeProfileKey.value !== profileKey) {
+            return
+          }
+
+          if (isProfileNotCachedError(error)) {
+            schedulePersistRetry(profileKey, itemIds, version, attempt + 1)
+            return
+          }
+
+          storageError.value = error instanceof Error ? error.message : String(error)
+        })
+    }, PERSIST_RETRY_DELAY_MS)
+  }
 
   async function loadIgnoredItems(profileKey: string): Promise<void> {
     const version = ++requestVersion
@@ -96,19 +157,31 @@ export function useArmoireIgnoredItems(activeProfileKey: Ref<string | null>) {
 
   async function persist(nextItemIds: readonly number[]): Promise<void> {
     const profileKey = activeProfileKey.value
+    const version = ++requestVersion
 
     ignoredItemIds.value = normalizeItemIds(nextItemIds)
-    requestVersion += 1
+    clearPersistRetry()
 
     if (!profileKey) {
       return
     }
 
     try {
-      await updateArmoireSnapshotIgnoredItemIds(profileKey, ignoredItemIds.value)
-      removeLegacyIgnoredItemIds(profileKey)
-      storageError.value = null
+      await writeIgnoredItemIds(profileKey, ignoredItemIds.value)
+
+      if (version === requestVersion && activeProfileKey.value === profileKey) {
+        storageError.value = null
+      }
     } catch (error) {
+      if (version !== requestVersion || activeProfileKey.value !== profileKey) {
+        return
+      }
+
+      if (isProfileNotCachedError(error)) {
+        schedulePersistRetry(profileKey, ignoredItemIds.value, version, 0)
+        return
+      }
+
       storageError.value = error instanceof Error ? error.message : String(error)
     }
   }
@@ -132,6 +205,8 @@ export function useArmoireIgnoredItems(activeProfileKey: Ref<string | null>) {
   watch(
     activeProfileKey,
     (profileKey) => {
+      clearPersistRetry()
+
       if (!profileKey) {
         requestVersion += 1
         ignoredItemIds.value = []
@@ -143,6 +218,8 @@ export function useArmoireIgnoredItems(activeProfileKey: Ref<string | null>) {
     },
     { immediate: true }
   )
+
+  onBeforeUnmount(clearPersistRetry)
 
   const ignoredItemIdSet = computed(() => new Set(ignoredItemIds.value))
 

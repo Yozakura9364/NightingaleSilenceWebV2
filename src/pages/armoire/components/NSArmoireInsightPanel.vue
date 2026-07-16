@@ -26,6 +26,7 @@
           :items="transferableItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('cabinet')"
+          can-ignore-items
           @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
@@ -48,6 +49,7 @@
           :items="setBucketLoosePieceItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('setPieces')"
+          can-ignore-items
           @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
@@ -70,6 +72,7 @@
           :items="tradableItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('tradableItems')"
+          can-ignore-items
           @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
@@ -92,6 +95,7 @@
           :items="crafterGathererReplicaItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('crafterGathererReplicas')"
+          can-ignore-items
           @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
@@ -107,6 +111,7 @@
           :items="duplicateItemItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('duplicateItems')"
+          can-ignore-items
           @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>
@@ -129,6 +134,7 @@
           :items="duplicateModelItems"
           :limit="listPreviewLimit"
           :expanded="isListExpanded('duplicateModels')"
+          can-ignore-items
           @ignore-item="$emit('ignore-item', $event)"
         />
       </NSArmoireActionCard>

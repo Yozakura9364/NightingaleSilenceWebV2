@@ -1,6 +1,6 @@
 import { onBeforeUnmount } from 'vue'
+import { getHuijiWikiItemUrl } from '@/lib/ffxiv/huijiWiki'
 
-const HUIJI_WIKI_ITEM_URL_PREFIX = 'https://ff14.huijiwiki.com/wiki/物品:'
 const LONG_PRESS_MS = 650
 const LONG_PRESS_MOVE_TOLERANCE = 12
 
@@ -13,7 +13,7 @@ interface LongPressState {
 }
 
 export function getArmoireHuijiWikiItemUrl(itemName: string): string {
-  return `${HUIJI_WIKI_ITEM_URL_PREFIX}${encodeURIComponent(itemName.trim())}`
+  return getHuijiWikiItemUrl(itemName)
 }
 
 export function useArmoireItemWikiNavigation() {
