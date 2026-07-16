@@ -1,18 +1,19 @@
 # NSArmoire API / 数据契约草案
 
-本文件记录 V2 `NSArmoire` 的数据契约。当前阶段已接入本地 helper：V2 仍支持手动导入 snapshot JSON，同时可以从本机 `NSArmoire helper` 读取投影台、背包、兵装库、鞍囊、当前已加载雇员缓存和收藏柜 snapshot。
+本文件记录 `NSArmoire` 的数据契约。完整 Vue 工作台由 `NSArmoireButler` 的 WPF/WebView2 GUI 内嵌，页面、catalog 和 API 均来自本机；公网 V2 路由只保留教程和下载入口。
 
 ## 基本信息
 
 | 项 | 值 |
 |----|----|
-| 目标路由 | `#/ffxiv/armoire` |
-| 页面入口 | `src/pages/armoire/NSArmoirePage.vue` |
+| 公网路由 | `#/ffxiv/armoire`，轻量教程和下载页 |
+| 本地工作台 | `http://127.0.0.1:8015/#/ffxiv/armoire?connect=1` |
+| 页面入口 | `src/pages/armoire/NSArmoirePage.vue`，仅 `armoire-local` 构建使用 |
 | 当前输入 | 手动导入 JSON；本地 helper snapshot |
 | 当前本地 helper | 独立项目 `H:\NightingaleSilenceWeb\NSArmoireButler`；V2 内 `tools/nsarmoire-helper` 仅作为历史内置副本/开发参考 |
 | 当前静态 catalog | `public/data/armoire-catalog.json` |
 | helper 开发代理 | `/api/armoire` -> `http://127.0.0.1:8015` |
-| helper 生产直连 | `http://127.0.0.1:8015` |
+| helper GUI 同源 | `http://127.0.0.1:8015` |
 
 ## Snapshot v1
 

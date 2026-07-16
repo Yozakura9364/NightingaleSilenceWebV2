@@ -28,6 +28,8 @@
             :helper-health="helperHealth"
             :helper-probe="helperProbe"
             :helper-busy="helperBusy"
+            :helper-can-select-process="helperCanSelectProcess"
+            @select-process="openHelperProcessPicker"
           />
 
           <div v-if="snapshot || activeSection === 'characters'" class="nsarmoire-workspace__main">
@@ -442,11 +444,13 @@ const {
   titleKey: helperTitleKey,
   messageKey: helperMessageKey,
   tone: helperTone,
+  canSelectProcess: helperCanSelectProcess,
   connectHelper,
   processes: helperProcesses,
   processPickerOpen: helperProcessPickerOpen,
   processBusy: helperProcessBusy,
   processError: helperProcessError,
+  openProcessPicker: openHelperProcessPicker,
   loadProcesses: loadHelperProcesses,
   selectProcess: selectHelperProcess,
   closeProcessPicker: closeHelperProcessPicker
@@ -572,7 +576,7 @@ onMounted(() => {
   --nsarmoire-import-hero-max: 680px;
 
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-columns: 116px minmax(0, 1fr);
   align-items: stretch;
   min-width: 0;
   min-height: calc(100vh - 58px);
@@ -704,12 +708,9 @@ onMounted(() => {
 }
 
 @media (min-width: 981px) {
-  .nsarmoire-workspace__shell:has(.nsarmoire-section-rail:hover),
-  .nsarmoire-workspace__shell:has(.nsarmoire-section-rail:focus-within) {
+  .nsarmoire-workspace__shell {
     --nsarmoire-import-compact-max: 752px;
     --nsarmoire-import-hero-max: 692px;
-
-    grid-template-columns: 116px minmax(0, 1fr);
   }
 
   .nsarmoire-workspace__content {

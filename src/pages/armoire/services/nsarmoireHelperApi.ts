@@ -4,12 +4,15 @@ import {
   type ArmoireSnapshotErrorCode
 } from '@/lib/armoire/normalizeSnapshot'
 import type { ArmoireCatalog, ArmoireSnapshot } from '@/lib/armoire/types'
+import { isArmoireLocalApp } from '@/config/features'
 
 export const NSARMOIRE_HELPER_PORT = 8015
 const NSARMOIRE_HELPER_LOOPBACK_HOST = ['127', '0', '0', '1'].join('.')
 export const NSARMOIRE_HELPER_DIRECT_BASE_URL = new URL(
   `http://${NSARMOIRE_HELPER_LOOPBACK_HOST}:${NSARMOIRE_HELPER_PORT}`
-).toString().replace(/\/$/, '')
+)
+  .toString()
+  .replace(/\/$/, '')
 export const NSARMOIRE_HELPER_PROXY_BASE_URL = '/api/armoire'
 export const NSARMOIRE_BUTLER_PROTOCOL_URL = 'nsarmoire-butler://start'
 export const NSARMOIRE_BUTLER_RELEASE_URL =
@@ -151,6 +154,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function getHelperBaseUrl(): string {
+  if (isArmoireLocalApp) {
+    return window.location.origin
+  }
+
   return import.meta.env.DEV ? NSARMOIRE_HELPER_PROXY_BASE_URL : NSARMOIRE_HELPER_DIRECT_BASE_URL
 }
 

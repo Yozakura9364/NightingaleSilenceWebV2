@@ -8,13 +8,12 @@
 
 ```bash
 npm run check:i18n
-npm run check:armoire-store-catalog:quiet
 npm run check:nsglamour-contract
 npm run build
 npm run check:release
 ```
 
-`npm run check:release` 会检查 `dist/` 的静态形态、NSGlamour 运行时资源、NSGlamour JS/CSS 体积预算，以及公开产物里是否混入本机路径、旧大映射、PSD/Cropper 等不应发布内容。
+`npm run check:release` 会检查 `dist/` 的静态形态、NSGlamour 运行时资源、NSGlamour JS/CSS 体积预算，以及公开产物里是否混入 Armoire 本地 catalog、本机路径、旧大映射、PSD/Cropper 等不应发布内容。
 
 如果只验证 NSGlamour 的 V2 代理链路，先启动 Vite，再运行：
 
@@ -35,6 +34,8 @@ dist/data/glamour/templates/
 ```
 
 当前 `dist/data/glamour/` 只包含已确认的模板预览图和运行时背景/遮罩资源，不包含 PSD/SVG 原稿、用户图片或本地私有 fixture。
+
+公网 `#/ffxiv/armoire` 只保留轻量教程和 Helper 下载入口。`dist/data/` 下不得出现任何 `armoire-*` 文件或目录；完整工作台和 catalog 只进入 `NSArmoireButler` 的 `armoire-local` 构建。
 
 ## 反向代理
 

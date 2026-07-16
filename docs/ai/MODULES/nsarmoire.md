@@ -4,18 +4,18 @@
 
 - 模块状态：已接入第一阶段页面入口、站点配置、路由、手动 snapshot 导入、内置示例 snapshot、基础容器分布统计、前端 catalog/analysis 类型、snapshot 级染色风险分析、第一版静态 `armoire_catalog`、可读处理提示、第一版本地 helper 接入和三分区工作台第一版；helper 当前已能读取投影台、背包、兵装库、鞍囊、当前已加载雇员缓存和收藏柜。
 - 用户需求来源：`docs/ARMOIRE_PLAN.md`。
-- 目标路由：`#/ffxiv/armoire`。
-- 计划页面入口：`src/pages/armoire/NSArmoirePage.vue`。
+- 公网路由：`#/ffxiv/armoire`，只提供轻量教程和 GitHub Release 下载入口。
+- 完整工作台入口：`src/pages/armoire/NSArmoirePage.vue`，仅进入 `armoire-local` 构建并由 Helper GUI 内嵌。
 - 计划模块名：`NSArmoire`。
 - 计划工具名：`衣柜管家`。
-- 计划形态：V2 网页工具 + 用户本机本地助手。
+- 计划形态：`NSArmoireButler` WPF/WebView2 桌面工具；公网 V2 不承载完整工作台。
 - 后续可选形态：独立卫月 / Dalamud 插件项目。该项目暂不放入 V2 仓库，真正启动前必须先阅读官方 Dalamud 开发者指南并单独规划。
 - 当前 V2 后端状态：V2 自身没有后端，现阶段通过 Vite proxy 接旧 `NSGlamour`、`NSPlate` 服务和本机 `NSArmoire` helper。
 - 当前本地助手正式项目：`H:\NightingaleSilenceWeb\NSArmoireButler`；V2 内 `tools/nsarmoire-helper` 只作为历史内置副本/开发参考。
 - 当前本地助手分发口径：公开页面跳转到 `NSArmoireButler` 仓库 GitHub Releases 最新页，由用户下载 zip；页面不直链 `.exe` 或 `.zip`。
-- 2026-07-08 已开始拆分 `NSArmoireButler` 独立项目：独立项目使用 `NSArmoireButler.exe` 作为发布产物，默认启动后打开 `https://nightingalesilence.com/#/ffxiv/armoire?connect=1`，网页带 `connect=1` 时自动连接本机 helper。Release 包提供 `register-protocol.ps1` 注册 `nsarmoire-butler://start`；网页连接失败时可尝试唤起该协议并自动重试连接。
+- 2026-07-16 完整工作台已改为 Helper 内嵌：`NSArmoireButler` 使用 WPF + WebView2 显示 V2 的 `armoire-local` 构建，Vue 页面、catalog 和 API 全部由 `127.0.0.1:8015` 同源提供，不再启动外部浏览器。公网生产构建会排除所有 `data/armoire-*`，但保留轻量教程下载页。
 - 2026-07-09 `NSArmoireButler` 当前 helper 版本为 `0.5.2`，`/probe` 保留 `snapshotContentHash`，用于前端保留 2 秒探针但只在可读衣柜内容变化时刷新完整 snapshot；雇员物品实例会输出 `retainerSlot`，用于网页按“雇员 1-10”的游戏槽位顺序展示衣柜统计。Release 面向普通用户，不外显 SHA256 校验文案。
-- 当前本地助手端口：`8015`，开发期 `/api/armoire/*` 代理到 `http://127.0.0.1:8015/*`；生产/公开页面直连 `http://127.0.0.1:8015`。
+- 当前本地助手端口：`8015`；Helper 内嵌页面直接使用同源 API，Vite 开发期仍可通过 `/api/armoire/*` 代理调试。
 - 2026-07-05 已完成三分区工作台第一版：`NSArmoireWorkspace.vue` 改为“导入区 + 分区轨道 + 当前分区内容”，新增 `NSArmoireSectionRail.vue` 和 `NSArmoireCharacterPanel.vue`。当前分区包括衣柜清理、查漏补缺、角色配置；衣柜清理承接整理建议和容器分布，查漏补缺承接图鉴、商城、判定依据和静态数据，角色配置展示当前 snapshot 的角色名、服务器、来源、生成时间、条目数、雇员缓存数和本地角色缓存列表。尚未实现手动合并、商城账号购买状态或稳定角色 ID 自动合并。
 - 2026-07-05 已建立第一版商城目录：`public/data/armoire-store-catalog.json` 记录国服商城公开商品列表中筛出的外观商品；有国际服商品链接时，未校正条目的 `itemIds` 以国际服商城商品详情 `items` + 日文 `Item.csv` 映射结果为主，国服商城说明只保留为国服商品名、链接、价格和无国际服链接时的待校正参考。商城卡片封面使用 `coverItemId`，仅用于展示图标，不参与拥有状态检测；`NSArmoireStorePanel.vue` 当前只根据 snapshot 检测这些物品是否出现在角色仓库中，不等同于账号购买记录。目录可通过 `npm run build:armoire-store-catalog` 刷新，生成脚本会尽量保留已有人工 `corrected: true`、`itemIds` 和 `coverItemId` 校正。
 - 2026-07-06 已确认繁中服商城进度与其他服务器不同、整体较落后；繁中服链接只作为人工维护的地区参考链接参与格式校验，不参与自动抓取、漏网商品扫描或从链接反推 `itemIds`。

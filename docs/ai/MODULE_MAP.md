@@ -83,7 +83,7 @@
 - **包含工具**：
   - `#/ffxiv/glamour`：幻化工房
   - `#/ffxiv/plate`：铭牌工房
-  - `#/ffxiv/armoire`：衣柜管家
+  - `#/ffxiv/armoire`：衣柜管家轻量教程和 Helper 下载入口；完整工作台由 Helper GUI 本地承载
 - **迁移目标**：
   - 承接首页 `FFXIV` 主入口。
   - 展示当前和未来 FFXIV 工具，不把工具列表塞进纯视觉首页。

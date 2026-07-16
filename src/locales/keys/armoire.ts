@@ -3,6 +3,8 @@ import { coreTextKeys } from '@/locales/keys/core'
 export const armoireTextKeys = {
   ...coreTextKeys,
   nsarmoireImport: 'nsarmoire.panel.import',
+  nsarmoireLandingGuide: 'nsarmoire.landing.guide',
+  nsarmoireLandingSummary: 'nsarmoire.landing.summary',
   nsarmoireOverview: 'nsarmoire.panel.overview',
   nsarmoireDistribution: 'nsarmoire.panel.distribution',
   nsarmoireInsights: 'nsarmoire.panel.insights',

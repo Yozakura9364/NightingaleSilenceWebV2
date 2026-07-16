@@ -209,37 +209,24 @@ function selectSection(sectionId: string, event: MouseEvent): void {
     left: 0;
     z-index: 20;
     align-self: start;
-    width: 48px;
+    width: 116px;
     height: calc(100vh - 58px);
     min-height: 0;
     overflow-y: auto;
     transition: none;
   }
 
-  .nsarmoire-section-rail:hover {
-    width: 116px;
-    box-shadow: var(--ns-pixel-soft-shadow);
-  }
-
   .nsarmoire-section-rail__item {
-    grid-template-columns: 22px 0;
-    gap: 0;
-    justify-content: center;
-    justify-items: center;
-    width: 36px;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 7px;
+    justify-content: start;
+    justify-items: start;
+    width: 100%;
     padding: 5px;
     overflow: hidden;
   }
 
-  .nsarmoire-section-rail:hover .nsarmoire-section-rail__item {
-    grid-template-columns: 22px minmax(0, 1fr);
-    gap: 7px;
-    width: 100%;
-    justify-content: start;
-    justify-items: start;
-  }
-
-  .nsarmoire-section-rail:hover .nsarmoire-section-rail__label {
+  .nsarmoire-section-rail__label {
     max-width: 72px;
     opacity: 1;
   }

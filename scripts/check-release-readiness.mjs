@@ -389,6 +389,20 @@ function checkPublicPlaceholders() {
   }
 }
 
+function checkNoPublicArmoireData() {
+  const dataDir = join(DIST_DIR, 'data')
+
+  if (!existsSync(dataDir)) {
+    return
+  }
+
+  for (const entry of readdirSync(dataDir)) {
+    if (entry.startsWith('armoire-')) {
+      fail(`dist/data/${entry} is local-only NSArmoire data and must not enter the public build.`)
+    }
+  }
+}
+
 checkDistShape()
 checkGlamourAssets(PUBLIC_GLAMOUR_DIR, 'public/data/glamour')
 checkGlamourAssets(DIST_GLAMOUR_DIR, 'dist/data/glamour')
@@ -397,6 +411,7 @@ checkDistTextLeaks()
 checkSharedBundleBudget()
 checkNsglamourBundleBudget()
 checkPublicPlaceholders()
+checkNoPublicArmoireData()
 
 for (const message of warnings) {
   console.warn(`[warn] ${message}`)
