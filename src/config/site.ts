@@ -1,6 +1,7 @@
 import type { Locale } from '@/locales/types'
 import { coreUiMessages } from '@/locales/modules/core'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
+import { isSilenceEnabled } from '@/config/features'
 
 export type RoutePath =
   | '/'
@@ -94,7 +95,9 @@ export const siteMeta = {
   zhNameKey: textKeys.siteZhName,
   enNameKey: textKeys.siteEnName,
   titleKey: textKeys.siteTitle,
-  descriptionKey: textKeys.siteDescription
+  descriptionKey: textKeys.siteDescription,
+  homepageUrl: 'https://nightingalesilence.com',
+  iconUrl: 'https://nightingalesilence.com/assets/icons/WebIcon.png'
 } as const
 
 export const siteRoutes = {
@@ -129,12 +132,16 @@ export const homeNavItems: NavItem[] = [
     route: siteRoutes.ffxiv,
     variant: 'primary'
   },
-  {
-    id: 'silence',
-    labelKey: textKeys.silence,
-    commandKey: textKeys.silenceCommand,
-    route: siteRoutes.silence
-  },
+  ...(isSilenceEnabled
+    ? [
+        {
+          id: 'silence',
+          labelKey: textKeys.silence,
+          commandKey: textKeys.silenceCommand,
+          route: siteRoutes.silence
+        } satisfies NavItem
+      ]
+    : []),
   {
     id: 'about',
     labelKey: textKeys.about,
@@ -152,32 +159,38 @@ export const siteCategories: SiteCategory[] = [
     descriptionKey: textKeys.placeholder,
     route: siteRoutes.ffxiv
   },
-  {
-    id: 'silence',
-    titleKey: textKeys.silence,
-    shortTitleKey: textKeys.silence,
-    kickerKey: textKeys.placeholder,
-    descriptionKey: textKeys.placeholder,
-    route: siteRoutes.silence
-  }
+  ...(isSilenceEnabled
+    ? [
+        {
+          id: 'silence',
+          titleKey: textKeys.silence,
+          shortTitleKey: textKeys.silence,
+          kickerKey: textKeys.placeholder,
+          descriptionKey: textKeys.placeholder,
+          route: siteRoutes.silence
+        } satisfies SiteCategory
+      ]
+    : [])
 ]
 
-export const silenceGroups: SilenceGroupEntry[] = [
-  {
-    id: 'angel',
-    titleKey: 'silence.group.angel.title',
-    route: siteRoutes.silenceAngel,
-    summaryKey: textKeys.placeholder,
-    statusLabelKey: textKeys.statusWip
-  },
-  {
-    id: 'glitch',
-    titleKey: 'silence.group.glitch.title',
-    route: siteRoutes.silenceGlitch,
-    summaryKey: textKeys.placeholder,
-    statusLabelKey: textKeys.statusWip
-  }
-]
+export const silenceGroups: SilenceGroupEntry[] = isSilenceEnabled
+  ? [
+      {
+        id: 'angel',
+        titleKey: 'silence.group.angel.title',
+        route: siteRoutes.silenceAngel,
+        summaryKey: textKeys.placeholder,
+        statusLabelKey: textKeys.statusWip
+      },
+      {
+        id: 'glitch',
+        titleKey: 'silence.group.glitch.title',
+        route: siteRoutes.silenceGlitch,
+        summaryKey: textKeys.placeholder,
+        statusLabelKey: textKeys.statusWip
+      }
+    ]
+  : []
 
 export const ffxivTools: ToolEntry[] = [
   {

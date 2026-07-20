@@ -1,3 +1,13 @@
+---
+summary: "V2 路由、页面入口、模块职责、当前状态和文档入口地图。"
+status: "active"
+scope: "整站页面、隐藏路由和主要业务模块。"
+source_of_truth: "src/router/index.ts、src/config/site.ts 和 src/pages。"
+read_when: "跨页面修改、查找模块入口或评估当前实现范围。"
+update_when: "路由、页面组件、模块状态或公开入口变化时。"
+verify: "逐项对照 router、site config 和实际文件。"
+---
+
 # 模块地图
 
 ## 当前代码状态
@@ -6,17 +16,19 @@
 
 - `src/main.ts`：创建 Vue app，注册 Pinia 和 Router。
 - `src/App.vue`：渲染轻量全局导航和 `<router-view />`。
-- `src/router/index.ts`：使用 `createWebHashHistory()`，已注册首页、FFXIV 分类页、五个公开 FFXIV 工具页、Silence 入口/分组/角色页和 About 占位页。
+- `src/router/index.ts`：使用 `createWebHashHistory()`；普通生产构建注册首页、FFXIV 分类页、五个公开 FFXIV 工具页和 About，开发环境另注册 Silence、Style Lab 与术语校对路由。
+- `src/config/features.ts`：集中暴露 Armoire 本地工作台、Silence 和内部路由构建开关；开发服务器默认启用内部路由，普通构建默认排除。
 - `src/config/site.ts`：集中维护站点名称、首页导航、分类入口、工具入口、来源项目路径和 API base path。
 - `src/composables/useFetch.ts`：提供第一版统一请求封装。
 - `src/services/apiBoundaries.ts`：提供 FFXIV 旧项目 API 边界信息；无后端的工具入口不会进入 API 边界列表。
-- `src/stores/locale.ts`：提供 locale store，常驻 core 文案并接入 `document.lang` 和标题刷新；页面消息包由路由并行按需加载。
+- `src/stores/locale.ts`：提供 locale 状态，常驻 core 文案并接入 `document.lang` 和标题刷新；页面消息包由路由并行按需加载。
+- `src/stores/theme.ts`：提供 day/night 状态、浏览器偏好、持久化和跨标签页同步。
 - `src/styles/`：已建立第一版 reset/theme/base/components/utilities 公共 CSS。
 - `src/components/`：已建立第一版 `AppButton.vue`、`AppPanel.vue`、`AppPixelWindow.vue`、`AppTopNav.vue`、`AppField.vue`、`AppToolbar.vue`、`AppTabs.vue`、`AppStatus.vue`。
 - `src/pages/ffxiv/components/ToolApiStatus.vue`：保留给调试或临时占位界面使用；正式工具工作台不展示内部 API 状态块。
-- `src/pages/`：已建立首页、FFXIV 分类页、独立物品卡片工作台、NSGlamour EquipInfo/Template 双工作台、NSPlate 核心工作台、NSArmoire 第一阶段页、Silence 入口/分组/角色页和 About 占位页。
+- `src/pages/`：已建立首页、FFXIV 分类页、物品卡片、时尚品鉴、NSGlamour 双工作台、NSPlate 核心工作台、NSArmoire 公网下载页/本地工作台、Silence 本地开发页面和 About 个人与友链页。
 
-当前尚未实现的已注册路由：
+当前已注册但不作为当前产品页面的路由：
 
 - `#/silence/glitch/:characterId` 预留单角色详情页，当前 `glitch` 组先使用双人页
 
@@ -24,33 +36,33 @@
 
 - `docs/ai/MODULES/`：模块文档目录，具体模块文档逐步补齐。
 - `docs/ai/PROJECT_STRUCTURE.md`：当前代码结构、近期结构整理结果和目录职责快照。
-- `docs/api/`：API 契约草案目录，当前包含 `plate.md` 和 `glamour.md`。
+- `docs/api/`：API 契约目录，当前包含 `nsplate.md`、`nsglamour.md` 和 `nsarmoire.md`。
 - `docs/ai/CODE_STRUCTURE_RULES.md`：复杂业务拆分和防止单文件膨胀规则。
 - `docs/ai/WORKBENCH_STYLE_CONTRACT.md`：NSPlate、NSGlamour 等工房类复杂工具页的工作台样式、密度、状态和响应式契约。
 - `docs/ai/REVIEW_GUIDE.md`：项目评估指南。
 - `scripts/check-ui-copy.mjs`：固定 UI 文案硬编码检查脚本，已接入 `npm run check:i18n` 和 `npm run check`。
 
-## 计划路由总览
+## 路由总览
 
 | 路由                            | 页面组件                                     | 当前状态                                    |
 | ------------------------------- | -------------------------------------------- | ------------------------------------------- |
-| `#/`                            | `src/pages/home/HomePage.vue`                | 已接入占位视觉首页                          |
+| `#/`                            | `src/pages/home/HomePage.vue`                | 已接入昼夜像素桌面视觉入口                  |
 | `#/ffxiv`                       | `src/pages/ffxiv/FfxivIndexPage.vue`         | 已接入分类导航骨架                          |
-| `#/ffxiv/item-card`             | `src/pages/item-card/ItemCardPage.vue`       | 已接入旧 `/card` 的链接/文本导入、装备和染剂编辑、多语言单张 PNG、批量 ZIP 和连续列表长图 |
-| `#/ffxiv/fashioncheck`          | `src/pages/fashion-check/FashionCheckPage.vue` | 已接入当前周方案、金牌物品和来源页面        |
 | `#/ffxiv/plate`                 | `src/pages/plate/NSPlatePage.vue`            | 已接入 NSPlate 核心工作台、静态 manifest、Canvas 预览和主要导入导出 |
 | `#/ffxiv/glamour`               | `src/pages/glamour/NSGlamourPage.vue`        | 已接入 EquipInfo/Template 双工作台、共享草稿、导入/编辑、多语言、六套 Canvas 模板、图片裁剪/暂存和 PNG 导出；仍通过 `/api/glamour/*` 复用旧 Flask 契约 |
-| `#/ffxiv/armoire`               | `src/pages/armoire/NSArmoirePage.vue`        | 已接入 NSArmoire 第一阶段手动 snapshot 导入、基础统计和分析面板 |
-| `#/ffxiv/term-review`           | `src/pages/ffxiv/FfxivTermReviewPage.vue`    | 隐藏内部 FFXIV 术语校对页，不写入导航          |
-| `#/about`                       | `src/pages/about/AboutPage.vue`              | 已接入 About 占位页                         |
-| `#/style-lab`                   | `src/pages/style-lab/StyleLabPage.vue`       | 隐藏内部样式探索页，不写入导航              |
-| `#/silence`                     | `src/pages/silence/SilenceIndexPage.vue`     | 已接入左右分割海报式双入口页                |
-| `#/silence/angel`               | `src/pages/silence/SilenceGroupPage.vue`     | 已接入全屏分组舞台占位页                    |
-| `#/silence/glitch`              | `src/pages/silence/SilenceGroupPage.vue`     | 已接入 Yoin & Yoine 双人页                  |
-| `#/silence/angel/:characterId`  | `src/pages/silence/SilenceCharacterPage.vue` | 已接入动态路由和六个多区块测试角色数据骨架  |
-| `#/silence/glitch/:characterId` | `src/pages/silence/SilenceCharacterPage.vue` | 预留路由形态，当前不启用单人详情页          |
+| `#/ffxiv/armoire`               | `src/pages/armoire/NSArmoireLandingPage.vue` | 公网教程和 Release 下载页；`armoire-local` 构建才加载 `NSArmoirePage.vue` 完整工作台 |
+| `#/ffxiv/fashioncheck`          | `src/pages/fashion-check/FashionCheckPage.vue` | 已接入当前周方案、金牌物品和来源页面        |
+| `#/ffxiv/item-card`             | `src/pages/item-card/ItemCardPage.vue`       | 已接入旧 `/card` 的链接/文本导入、装备和染剂编辑、多语言单张 PNG、批量 ZIP 和连续列表长图 |
+| `#/ffxiv/term-review`           | `src/pages/ffxiv/FfxivTermReviewPage.vue`    | 内部 FFXIV 术语校对页；仅开发/显式内部构建注册 |
+| `#/about`                       | `src/pages/about/AboutPage.vue`              | 已接入像素头像、SNS、本站信息和静态友链列表 |
+| `#/style-lab`                   | `src/pages/style-lab/StyleLabPage.vue`       | 内部样式探索页；仅开发/显式内部构建注册      |
+| `#/silence`                     | `src/pages/silence/SilenceIndexPage.vue`     | 双入口页代码已接入；普通生产构建排除         |
+| `#/silence/angel`               | `src/pages/silence/SilenceGroupPage.vue`     | 全屏分组舞台已接入；普通生产构建排除         |
+| `#/silence/glitch`              | `src/pages/silence/SilenceGroupPage.vue`     | Yoin & Yoine 双人页已接入；普通生产构建排除  |
+| `#/silence/angel/:characterId`  | `src/pages/silence/SilenceCharacterPage.vue` | 动态路由和资料骨架已接入；普通生产构建排除   |
+| `#/silence/glitch/:characterId` | `src/pages/silence/SilenceCharacterPage.vue` | 预留内部路由形态；普通生产构建排除           |
 
-> 注意：当前页面状态不一致。`NSPlate` 已进入核心工作台收口；`NSGlamour` 已完成当前前端双工作台迁移但仍依赖旧 Flask 服务与后续等价回归；About 和部分内容页仍是占位或迁移入口，不能用同一句“占位页”概括全部模块。
+> 注意：各页面成熟度不同。`NSPlate` 已进入核心工作台收口；`NSGlamour` 已完成当前前端双工作台迁移但仍依赖旧 Flask 服务与后续等价回归；Silence 等内容模块仍有资料未完成，不能用同一句“占位页”概括全部模块。
 
 当前导航行为：
 
@@ -61,13 +73,13 @@
 - `设置 | CONFIG` 与 `菜单 | MENU` 是顶栏同级入口；`菜单` 管站点导航，`设置` 管全局显示模式等站点设置。
 - `AppTopNav` 不作为大型全站 header。
 
-## NSHome 首页（占位骨架已接入）
+## NSHome 首页（昼夜视觉入口已接入）
 
 - **计划路由**：`#/`
 - **来源项目**：`NSHome`
 - **计划组件**：`src/pages/home/HomePage.vue`
 - **页面类型**：个人站首页 / 视觉入口页
-- **当前状态**：已接入第一版占位视觉，不作为最终设计稿。
+- **当前状态**：已接入昼夜像素桌面、工房入口、可拖动窗口和开发环境本地人物预览；正式人物资产与部分真实内容仍待确认和公开。
 - **迁移目标**：
   - 承接夜莺不语个人站主页视觉和工具入口。
   - 为工具、博客、创作信息和未来分类保留扩展余地。
@@ -140,20 +152,21 @@
 - **当前 API 检查**：通过 `npm run check:nsglamour-contract` 检查旧后端轻量契约；私有本地配置 fixture 仅本机 ignored 回归使用。页面通过 V2 `/api/glamour/*` 代理 rewrite 到旧后端 `/api/*`。
 - **迁移目标**：
   - 旧项目行为先抽取为 API/数据/视觉契约，最终后端可按 V2 新规则重写。
-  - 旧模板渲染器或等价新实现迁入 `src/lib/glamour/`。
+  - 模板渲染器已进入 `src/lib/glamour/templates/`，后续保持 Vue 与纯渲染逻辑边界。
   - `/template` 和 `/equipinfo` 的核心交互拆到 `src/pages/glamour/`。
   - 保持装备、染剂、多语言和模板渲染规则与原项目兼容。
   - API 通过 `/api/glamour` 接入。
 - **模块文档**：`docs/ai/MODULES/nsglamour.md`。
 
-## NSArmoire 衣柜管家（第一版本地 helper 已接入）
+## NSArmoire 衣柜管家（公网下载页 / Helper 本地工作台）
 
 - **计划路由**：`#/ffxiv/armoire`
 - **需求来源**：`docs/ARMOIRE_PLAN.md`
-- **页面入口**：`src/pages/armoire/NSArmoirePage.vue`
+- **公网页面入口**：`src/pages/armoire/NSArmoireLandingPage.vue`
+- **本地工作台入口**：`src/pages/armoire/NSArmoirePage.vue`，仅 `armoire-local` 构建使用
 - **数据契约**：`docs/api/nsarmoire.md`
-- **当前状态**：已接入站点配置、FFXIV 工具入口、hash 路由、手动 JSON snapshot 导入、Asvel dresser 简化数据兼容导入、基础条目/容器分布统计、catalog/analysis 类型、分析面板和第一版本地 helper 连接入口；依赖正式 catalog 的结果会显示等待 catalog，不输出伪结果。
-- **当前后端/API**：`NSArmoire` 使用本机 helper，开发代理为 `/api/armoire` -> `http://127.0.0.1:8015`；公开页面直连用户本机 helper 并保留手动导入 fallback。
+- **当前状态**：公网路由只提供轻量教程和 GitHub Release 下载入口；完整工作台支持手动 JSON snapshot、Helper snapshot、三分区分析和本地角色缓存，但只进入 `armoire-local` 构建并由 Helper GUI 内嵌。
+- **当前后端/API**：Vite 开发期使用 `/api/armoire` -> `http://127.0.0.1:8015`；正式本地工作台由 Helper 同源提供页面、catalog 和 API；公网页面不连接 Helper。
 - **已确认字段口径**：
   - `投影台 / IsGlamourous`：判断这条 Item 记录本身能否作为普通物品放入投影台。
   - `武具投影 / Item{Glamour}`：普通武具投影能力或材料，不等同于投影台收纳。
@@ -163,17 +176,18 @@
 - **迁移目标**：
   - 建立稳定 `NSArmoire snapshot` 数据契约，页面分析只依赖 snapshot，不理解本地 helper 内部结构。
   - 第一版 helper 只读取投影台；背包、鞍囊、雇员、兵装库和收藏柜必须逐容器验证后再扩展。
-  - 浏览器直连 localhost、CORS/私有网络限制和 Dalamud 插件路线仍需后续实测/预研。
+  - Helper GUI 内嵌工作台、版本升级和 Dalamud 插件路线仍需后续回归/预研。
 - **模块文档**：`docs/ai/MODULES/nsarmoire.md`。
 
-## Silence 角色档案（入口和分组占位页已接入）
+## Silence 角色档案（代码已接入，当前暂不上线）
 
 - **计划入口路由**：`#/silence`
 - **推荐分组路由**：`#/silence/angel`、`#/silence/glitch`
 - **推荐详情路由**：`#/silence/angel/:characterId`；`#/silence/glitch/:characterId` 作为未来预留
 - **计划页面入口**：`src/pages/silence/SilenceIndexPage.vue`、`src/pages/silence/SilenceGroupPage.vue`、`src/pages/silence/SilenceCharacterPage.vue`
 - **页面类型**：创作信息分类 / 原创角色档案 / 角色图鉴
-- **当前状态**：`#/silence` 左右分割海报式双入口、`#/silence/angel` 全屏分组舞台和 `#/silence/glitch` 双人页已接入代码、路由、站点配置和公开导航；`angel` 六个角色的动态详情页、多区块测试数据骨架和详情页私有组件已接入，`glitch` 两个 meta 角色已确认命名为 `ヨイン / Yoin` 和 `宵音 / よいね / Yoine`，但暂不拆单人详情页；正式角色资料和正式素材尚未接入。
+- **当前状态**：`#/silence` 双入口、`angel` 分组舞台、`glitch` 双人页、`angel` 动态详情页和本地数据骨架已接入代码；Salvance 只有首版资料，其他资料和正式素材尚未填写完成。整个 Silence 模块当前只保留给本地开发和资料录入，不纳入公开上线范围。
+- **构建边界**：`VITE_ENABLE_SILENCE` 在开发服务器中默认开启，在普通生产构建中默认关闭；关闭时路由、导航入口和 Silence 消息包均不进入公开产物。
 - **迁移目标**：
   - 承接首页未来的创作信息入口。
   - 展示 `不语·silence`、`幽灵·silence` 两组角色入口；`angel` 组进入单角色档案，`glitch` 组当前作为双人页展示。
@@ -205,6 +219,7 @@
 - **计划组件**：`src/pages/style-lab/StyleLabPage.vue`
 - **页面类型**：隐藏内部设计预览页
 - **当前状态**：用于比较像素风强度、工具工作台密度和单页特殊风格，不是用户可见主题切换系统。
+- **构建边界**：由 `VITE_ENABLE_INTERNAL_ROUTES` 控制，普通生产构建不生成 Style Lab 页面或消息包 chunk。
 - **边界**：
   - 不写入首页、顶部导航或 `src/config/site.ts` 公开入口。
   - 实验皮肤必须通过容器选择器或可选 class 隔离。
@@ -218,6 +233,7 @@
 - **计划组件**：`src/pages/ffxiv/FfxivTermReviewPage.vue`
 - **页面类型**：隐藏内部数据校对页
 - **当前状态**：读取 `src/lib/ffxiv/terms.ts` 的轻量术语注册表，支持按模块、状态、来源和关键词筛选，便于人工核对游戏 CSV 术语、旧字段和网页 UI 文案边界。
+- **构建边界**：由 `VITE_ENABLE_INTERNAL_ROUTES` 控制，普通生产构建不生成术语校对页面 chunk。
 - **边界**：
   - 不写入首页、顶部导航、FFXIV 工具卡或公开入口。
   - 不直接读取全量原始 CSV，不替代派生数据生成流程。

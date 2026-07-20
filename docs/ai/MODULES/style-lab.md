@@ -1,3 +1,13 @@
+---
+summary: "隐藏 Style Lab 的用途、实验隔离和禁止公开边界。"
+status: "active"
+scope: "#/style-lab 和页面私有样式实验。"
+source_of_truth: "StyleLabPage、公共样式和站点公开路由配置。"
+read_when: "使用 Style Lab 比较视觉、提取公共样式或修改实验入口。"
+update_when: "实验定位、公开状态或与公共样式的边界变化时。"
+verify: "确认不进入公开导航且实验样式不污染正式页面。"
+---
+
 # Style Lab 样式探索页
 
 ## 定位
@@ -9,6 +19,7 @@
 - 隐藏路由：`#/style-lab`
 - 不写入 `src/config/site.ts` 的导航配置。
 - 不出现在首页、顶部导航或公开工具入口中。
+- 由 `VITE_ENABLE_INTERNAL_ROUTES` 控制；`vite dev` 默认注册，普通生产构建默认不注册也不生成页面/消息包 chunk。
 
 ## 当前边界
 
@@ -19,6 +30,7 @@
 5. 不修改核心公共组件的 DOM、状态和业务交互。
 6. 实验样式文件只能由隐藏实验页或调试页按路由加载，不从 `src/styles/index.css` 全站入口导入。
 7. `NSGlamour`、`NSPlate` 等工具页继承全站像素风基础控件，但不默认继承首页舞台式强装饰。
+8. Style Lab 的 ignored 本地预览图只允许通过开发服务器注入的本地资产根路径读取；静态 CSS 不得直接写 `/local-assets/`，防止 Vite 将图片哈希重命名后带入公开产物。
 
 ## 日夜模式联动规则
 

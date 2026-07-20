@@ -45,8 +45,11 @@ const menuOpen = ref(false)
 const configOpen = ref(false)
 const controlsRoot = ref<HTMLElement | null>(null)
 const isLocalBrandPreview = import.meta.env.DEV
+const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE
 const topNavBrandArtStyle = {
-  '--ns-top-nav-brand-art-url': isLocalBrandPreview ? 'url("/local-assets/nightingale-title-2.webp")' : 'none'
+  '--ns-top-nav-brand-art-url': isLocalBrandPreview
+    ? `url("${localAssetBase}/nightingale-title-2.webp")`
+    : 'none'
 } as CSSProperties
 const showNav = computed(() => route.path !== siteRoutes.home && route.meta.hideTopNav !== true)
 

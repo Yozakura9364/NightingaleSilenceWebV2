@@ -1,3 +1,13 @@
+---
+summary: "V2 构建、公开产物、反向代理、缓存和上线后烟测清单。"
+status: "active"
+scope: "生产构建与公开站点部署。"
+source_of_truth: "package scripts、vite config、dist 产物和生产代理配置。"
+read_when: "准备上线、修改发布边界、缓存策略或生产代理时。"
+update_when: "构建脚本、公开资源、路由、API 或部署方式变化时。"
+verify: "执行完整构建、release check、产物扫描和上线后烟测。"
+---
+
 # 上线检查清单
 
 本清单用于 V2 前端上线前的最后核对。当前项目使用 hash 路由，构建产物为 `dist/`。
@@ -13,7 +23,9 @@ npm run build
 npm run check:release
 ```
 
-`npm run check:release` 会检查 `dist/` 的静态形态、NSGlamour 运行时资源、NSGlamour JS/CSS 体积预算，以及公开产物里是否混入 Armoire 本地 catalog、本机路径、旧大映射、PSD/Cropper 等不应发布内容。
+`npm run check:release` 会检查 `dist/` 的静态形态、NSGlamour 运行时资源、NSGlamour JS/CSS 体积预算，以及公开产物里是否混入 Armoire 本地 catalog、本机路径、旧大映射、PSD/Cropper、Silence/Style Lab/术语校对 chunk 等不应发布内容。它还会扫描 `/local-assets/` 文本路径，并用文件大小 + SHA256 对比 ignored `local-assets/` 与 `dist/`，防止本地图片被哈希重命名后漏检。
+
+普通 `npm run build` 默认关闭 `VITE_ENABLE_SILENCE` 和 `VITE_ENABLE_INTERNAL_ROUTES`。发布环境不要把这两个变量设为 `true`；即使误开，`npm run check:release` 也必须阻止该产物发布。`vite dev` 默认启用两者，便于继续维护内部页面。
 
 如果只验证 NSGlamour 的 V2 代理链路，先启动 Vite，再运行：
 
@@ -36,6 +48,8 @@ dist/data/glamour/templates/
 当前 `dist/data/glamour/` 只包含已确认的模板预览图和运行时背景/遮罩资源，不包含 PSD/SVG 原稿、用户图片或本地私有 fixture。
 
 公网 `#/ffxiv/armoire` 只保留轻量教程和 Helper 下载入口。`dist/data/` 下不得出现任何 `armoire-*` 文件或目录；完整工作台和 catalog 只进入 `NSArmoireButler` 的 `armoire-local` 构建。
+
+`dist/assets/` 不得出现 `Silence*`、`silence-*`、`StyleLabPage-*`、`styleLab-*` 或 `FfxivTermReviewPage-*` chunk，也不得出现与 ignored `local-assets/` 内容相同的文件。公开 JS/CSS/HTML 中不得保留 `/local-assets/` 路径。
 
 ## 反向代理
 
@@ -112,12 +126,22 @@ location / {
 ```text
 /#/
 /#/ffxiv
+/#/ffxiv/plate
 /#/ffxiv/glamour/template
 /#/ffxiv/glamour/equipinfo
+/#/ffxiv/armoire
+/#/ffxiv/fashioncheck
+/#/ffxiv/fashioncheck/gold-items
+/#/ffxiv/fashioncheck/sources
+/#/ffxiv/item-card
 /api/glamour/health
 /data/glamour/templates/eorzea-magazine.png
 /data/glamour/template-preview/1-Eorzea%20Magazine/1-Preview.webp
 ```
+
+每个页面至少检查首屏渲染、主要导航、控制台错误和失败请求。工具页还需执行一条最常用用户路径；响应式或移动端改动需要增加对应视口烟测。
+
+Silence 资料、正式文案和授权素材尚未填写完成，当前不纳入公开上线和生产烟测范围。其路由代码只保留给本地开发；恢复上线前必须单独更新模块文档、公开导航、构建边界和本清单。
 
 NSGlamour 必测流程：
 

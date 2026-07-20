@@ -69,49 +69,51 @@
           </span>
         </RouterLink>
 
-        <RouterLink
-          class="app-top-nav__window-link app-top-nav__window-link--section"
-          :class="{
-            'app-top-nav__window-link--active': isSilenceRoute,
-            'app-top-nav__window-link--expanded': activeMenuSection === 'silence'
-          }"
-          :to="siteRoutes.silence"
-          role="menuitem"
-          @mouseenter="queueMenuSection('silence')"
-          @mouseleave="cancelMenuSectionChange"
-          @focus="activeMenuSection = 'silence'"
-          @click="emit('close')"
-        >
-          <span class="app-top-nav__window-link-main">
-            <span
-              class="app-top-nav__icon"
-              :style="iconStyle(imageIcon)"
-              aria-hidden="true"
-            ></span>
-            <span class="app-top-nav__window-label">{{ t(textKeys.silence) }}</span>
-          </span>
-          <small>{{ t(textKeys.silenceCommand) }}</small>
-        </RouterLink>
+        <template v-if="isSilenceEnabled">
+          <RouterLink
+            class="app-top-nav__window-link app-top-nav__window-link--section"
+            :class="{
+              'app-top-nav__window-link--active': isSilenceRoute,
+              'app-top-nav__window-link--expanded': activeMenuSection === 'silence'
+            }"
+            :to="siteRoutes.silence"
+            role="menuitem"
+            @mouseenter="queueMenuSection('silence')"
+            @mouseleave="cancelMenuSectionChange"
+            @focus="activeMenuSection = 'silence'"
+            @click="emit('close')"
+          >
+            <span class="app-top-nav__window-link-main">
+              <span
+                class="app-top-nav__icon"
+                :style="iconStyle(imageIcon)"
+                aria-hidden="true"
+              ></span>
+              <span class="app-top-nav__window-label">{{ t(textKeys.silence) }}</span>
+            </span>
+            <small>{{ t(textKeys.silenceCommand) }}</small>
+          </RouterLink>
 
-        <RouterLink
-          v-for="group in silenceGroups"
-          v-show="activeMenuSection === 'silence'"
-          :key="group.id"
-          class="app-top-nav__window-child"
-          :class="{ 'app-top-nav__window-child--active': route.path === group.route }"
-          :to="group.route"
-          role="menuitem"
-          @click="emit('close')"
-        >
-          <span class="app-top-nav__window-child-main">
-            <span
-              class="app-top-nav__icon app-top-nav__icon--child"
-              :style="iconStyle(groupIconMap[group.id] ?? imageIcon)"
-              aria-hidden="true"
-            ></span>
-            <span class="app-top-nav__window-label">{{ t(groupMenuTitleKeyMap[group.id]) }}</span>
-          </span>
-        </RouterLink>
+          <RouterLink
+            v-for="group in silenceGroups"
+            v-show="activeMenuSection === 'silence'"
+            :key="group.id"
+            class="app-top-nav__window-child"
+            :class="{ 'app-top-nav__window-child--active': route.path === group.route }"
+            :to="group.route"
+            role="menuitem"
+            @click="emit('close')"
+          >
+            <span class="app-top-nav__window-child-main">
+              <span
+                class="app-top-nav__icon app-top-nav__icon--child"
+                :style="iconStyle(groupIconMap[group.id] ?? imageIcon)"
+                aria-hidden="true"
+              ></span>
+              <span class="app-top-nav__window-label">{{ t(groupMenuTitleKeyMap[group.id]) }}</span>
+            </span>
+          </RouterLink>
+        </template>
 
         <RouterLink
           class="app-top-nav__window-link"
@@ -146,6 +148,7 @@ import sparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import starIcon from '@/assets/icons/pixelarticons/star.svg'
 import userIcon from '@/assets/icons/pixelarticons/user.svg'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
+import { isSilenceEnabled } from '@/config/features'
 import { ffxivTools, silenceGroups, siteRoutes } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
@@ -172,10 +175,11 @@ const isFfxivRoute = computed(
 )
 const isSilenceRoute = computed(
   () =>
-    route.path === siteRoutes.silence ||
-    silenceGroups.some(
-      (group) => route.path === group.route || route.path.startsWith(`${group.route}/`)
-    )
+    isSilenceEnabled &&
+    (route.path === siteRoutes.silence ||
+      silenceGroups.some(
+        (group) => route.path === group.route || route.path.startsWith(`${group.route}/`)
+      ))
 )
 const isMenuRoute = computed(
   () => isFfxivRoute.value || isSilenceRoute.value || route.path === siteRoutes.about

@@ -1,8 +1,19 @@
+---
+summary: "Silence 入口、分组舞台、角色档案、资料和本地预览资产边界。"
+status: "active"
+scope: "#/silence、angel/glitch 分组和角色详情页。"
+source_of_truth: "src/pages/silence、src/data/silence、router 和用户确认资料。"
+read_when: "修改 Silence 页面、角色导航、资料结构、视觉或素材。"
+update_when: "路由、角色、正式资料、页面架构或资产授权状态变化时。"
+verify: "实测入口、分组、详情翻页及桌面/移动布局，扫描构建资产。"
+---
+
 # Silence 角色档案模块计划
 
 ## 当前状态
 
-- 模块状态：`#/silence` 左右分割海报式入口页、`#/silence/angel` 全屏分组舞台、`#/silence/glitch` 幽灵双人页，以及 `angel` 六个角色的详情页动态路由、多区块测试数据骨架和详情页私有组件已接入；当前导航方向已改为横向翻页蒙版 + 点击立绘跳页；Salvance 首版正式资料已接入本地数据层并可在详情页渲染，`glitch` 两个 meta 角色已确认命名为 `ヨイン / Yoin` 和 `宵音 / よいね / Yoine`，但当前不拆单人详情页；其他正式角色资料和正式素材尚未接入。
+- 模块状态：`#/silence` 左右分割海报式入口页、`#/silence/angel` 全屏分组舞台、`#/silence/glitch` 幽灵双人页，以及 `angel` 六个角色的详情页动态路由、多区块测试数据骨架和详情页私有组件已接入；当前导航方向已改为横向翻页蒙版 + 点击立绘跳页；Salvance 首版正式资料已接入本地数据层并可在详情页渲染，`glitch` 两个 meta 角色已确认命名为 `ヨイン / Yoin` 和 `宵音 / よいね / Yoine`，但当前不拆单人详情页。角色资料、正式文案和正式素材尚未填写完成，整个模块当前只用于本地开发和资料录入，不纳入公开上线范围。
+- 构建边界：`VITE_ENABLE_SILENCE` 在 `vite dev` 中默认开启，在任何普通 `vite build` 中默认关闭；关闭时 Router、首页/顶栏入口和 Silence 本地化消息包同步排除，release checker 还会拒绝残留的 Silence chunk。
 - 计划入口路由：`#/silence`。
 - 推荐分组路由：`#/silence/angel`、`#/silence/glitch`。
 - 推荐详情路由：`#/silence/angel/:characterId`；`#/silence/glitch/:characterId` 作为未来预留，当前 `glitch` 组先共用 `#/silence/glitch` 双人页。
@@ -270,7 +281,7 @@ salvance
 
 新增或修改角色身份种子时优先从 `characterSeeds.ts` 入手；新增正式角色档案时优先从 `characterProfiles.ts` 入手；正式资料接入前，占位资料仍由 `draftCharacterContent.ts` 提供。不要把大量角色数据直接写进页面组件。
 
-正式资料字段定稿和 wiki 笔记迁移规则见 `docs/ai/MODULES/silence-character-data-schema.md`。其中已记录 Salvance 的结构化样例，但尚未渲染到公开页面。
+正式资料字段定稿和 wiki 笔记迁移规则见 `docs/ai/MODULES/silence-character-data-schema.md`。Salvance 首版结构化资料已经接入并可在本地详情页渲染；由于 Silence 当前暂不上线，这不代表资料已经完成或页面已经进入公开发布。
 
 角色数据建议包含：
 

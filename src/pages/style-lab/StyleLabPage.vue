@@ -1,5 +1,5 @@
 <template>
-  <main class="style-lab-page">
+  <main class="style-lab-page" :style="styleLabLocalArtStyle">
     <section class="style-formal-sample" :aria-label="t(textKeys.styleLabFormalComponents)">
       <div class="style-formal-sample__shell">
         <AppPixelWindow :title="t(textKeys.styleLabFormalComponents)" :closable="false">
@@ -1211,6 +1211,12 @@ type PixelIconBarAction = PixelIconAction & {
 
 const { t } = useLocale()
 const { current: themeMode } = useTheme()
+const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE
+const styleLabLocalArtStyle = {
+  '--style-lab-character-art-url': import.meta.env.DEV
+    ? `url("${localAssetBase}/yoine-1.png")`
+    : 'none'
+} as CSSProperties
 const fontMode = ref<FontMode>('decorative')
 const pixelTone = ref<PixelTone>(defaultPixelTone(themeMode.value))
 const styleLabCanvasSize = '1440 x 1920'
@@ -2428,7 +2434,7 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
   width: min(82%, 640px);
   height: min(134%, 720px);
   background:
-    url('/local-assets/yoine-1.png') center bottom / contain no-repeat,
+    var(--style-lab-character-art-url, none) center bottom / contain no-repeat,
     linear-gradient(180deg, transparent 0 28%, var(--ns-pixel-surface-pink) 28% 42%, var(--ns-pixel-surface-blue) 42% 100%);
   filter:
     drop-shadow(8px 8px 0 rgba(42, 33, 56, 0.18))

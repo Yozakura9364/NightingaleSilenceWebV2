@@ -2,7 +2,11 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { watch } from 'vue'
 import { formatDocumentTitle, getCategory, getFfxivTool, siteMeta, siteRoutes } from '@/config/site'
-import { isArmoireWorkbenchEnabled } from '@/config/features'
+import {
+  areInternalRoutesEnabled,
+  isArmoireWorkbenchEnabled,
+  isSilenceEnabled
+} from '@/config/features'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { ensureUiMessageModules } from '@/locales/loadUiMessages'
 import type { UiMessageModuleName } from '@/locales/types'
@@ -50,6 +54,76 @@ const armoireRoutes: RouteRecordRaw[] = [
       ]
     : [])
 ]
+
+const silenceRoutes: RouteRecordRaw[] = isSilenceEnabled
+  ? [
+      {
+        path: siteRoutes.silence,
+        name: 'silence',
+        meta: { titleKey: silenceCategory?.titleKey ?? textKeys.silence },
+        component: loadLocalizedPage(
+          ['silence'],
+          () => import('@/pages/silence/SilenceIndexPage.vue')
+        )
+      },
+      {
+        path: siteRoutes.silenceAngel,
+        name: 'silence-angel',
+        meta: { titleKey: 'silence.group.angel.title' },
+        component: loadLocalizedPage(
+          ['silence'],
+          () => import('@/pages/silence/SilenceGroupPage.vue')
+        )
+      },
+      {
+        path: '/silence/angel/:characterId',
+        name: 'silence-angel-character',
+        meta: { titleKey: 'silence.group.angel.title' },
+        component: loadLocalizedPage(
+          ['silence'],
+          () => import('@/pages/silence/SilenceCharacterPage.vue')
+        )
+      },
+      {
+        path: siteRoutes.silenceGlitch,
+        name: 'silence-glitch',
+        meta: { titleKey: 'silence.group.glitch.title' },
+        component: loadLocalizedPage(
+          ['silence'],
+          () => import('@/pages/silence/SilenceGroupPage.vue')
+        )
+      },
+      {
+        path: '/silence/glitch/:characterId',
+        name: 'silence-glitch-character',
+        meta: { titleKey: 'silence.group.glitch.title' },
+        component: loadLocalizedPage(
+          ['silence'],
+          () => import('@/pages/silence/SilenceCharacterPage.vue')
+        )
+      }
+    ]
+  : []
+
+const internalRoutes: RouteRecordRaw[] = areInternalRoutesEnabled
+  ? [
+      {
+        path: '/ffxiv/term-review',
+        name: 'ffxiv-term-review',
+        meta: { titleKey: textKeys.ffxivTermReviewTitle },
+        component: () => import('@/pages/ffxiv/FfxivTermReviewPage.vue')
+      },
+      {
+        path: '/style-lab',
+        name: 'style-lab',
+        meta: { title: 'Style Lab', hideTopNav: true },
+        component: loadLocalizedPage(
+          ['home', 'plate', 'glamour', 'armoire', 'silence', 'styleLab'],
+          () => import('@/pages/style-lab/StyleLabPage.vue')
+        )
+      }
+    ]
+  : []
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -122,72 +196,14 @@ const router = createRouter({
       ]
     },
     ...armoireRoutes,
-    {
-      path: '/ffxiv/term-review',
-      name: 'ffxiv-term-review',
-      meta: { titleKey: textKeys.ffxivTermReviewTitle },
-      component: () => import('@/pages/ffxiv/FfxivTermReviewPage.vue')
-    },
-    {
-      path: siteRoutes.silence,
-      name: 'silence',
-      meta: { titleKey: silenceCategory?.titleKey ?? textKeys.silence },
-      component: loadLocalizedPage(
-        ['silence'],
-        () => import('@/pages/silence/SilenceIndexPage.vue')
-      )
-    },
-    {
-      path: siteRoutes.silenceAngel,
-      name: 'silence-angel',
-      meta: { titleKey: 'silence.group.angel.title' },
-      component: loadLocalizedPage(
-        ['silence'],
-        () => import('@/pages/silence/SilenceGroupPage.vue')
-      )
-    },
-    {
-      path: '/silence/angel/:characterId',
-      name: 'silence-angel-character',
-      meta: { titleKey: 'silence.group.angel.title' },
-      component: loadLocalizedPage(
-        ['silence'],
-        () => import('@/pages/silence/SilenceCharacterPage.vue')
-      )
-    },
-    {
-      path: siteRoutes.silenceGlitch,
-      name: 'silence-glitch',
-      meta: { titleKey: 'silence.group.glitch.title' },
-      component: loadLocalizedPage(
-        ['silence'],
-        () => import('@/pages/silence/SilenceGroupPage.vue')
-      )
-    },
-    {
-      path: '/silence/glitch/:characterId',
-      name: 'silence-glitch-character',
-      meta: { titleKey: 'silence.group.glitch.title' },
-      component: loadLocalizedPage(
-        ['silence'],
-        () => import('@/pages/silence/SilenceCharacterPage.vue')
-      )
-    },
+    ...silenceRoutes,
     {
       path: siteRoutes.about,
       name: 'about',
-      meta: { titleKey: textKeys.placeholder },
-      component: () => import('@/pages/about/AboutPage.vue')
+      meta: { titleKey: textKeys.about },
+      component: loadLocalizedPage(['about'], () => import('@/pages/about/AboutPage.vue'))
     },
-    {
-      path: '/style-lab',
-      name: 'style-lab',
-      meta: { title: 'Style Lab', hideTopNav: true },
-      component: loadLocalizedPage(
-        ['home', 'plate', 'glamour', 'armoire', 'silence', 'styleLab'],
-        () => import('@/pages/style-lab/StyleLabPage.vue')
-      )
-    },
+    ...internalRoutes,
     {
       path: '/:pathMatch(.*)*',
       redirect: '/'

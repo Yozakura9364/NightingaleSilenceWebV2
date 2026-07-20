@@ -31,13 +31,37 @@ export const homeUiMessages: UiMessageMap = {
     ja: 'バイタル',
     ko: '활력 징후'
   }),
-  'home.night.dialogueWindow': msg({ zh: '聊天', en: 'Chat', ja: 'チャット', ko: '채팅' }),
+  'home.night.dialogueWindow': msg({
+    zh: '对话记录',
+    en: 'Conversation history',
+    ja: '会話履歴',
+    ko: '대화 기록'
+  }),
   'home.night.dialoguePlaceholder': msg({
     zh: '占位用，待编辑',
     en: 'Draft placeholder',
     ja: '仮置き',
     ko: '임시 문구'
   }),
+  'home.night.dialogue.geliya': msg({
+    zh: '早点休息，晚安。',
+    en: 'Get some rest. Good night.',
+    ja: '早めに休んで。おやすみ。',
+    ko: '일찍 쉬어. 잘 자.'
+  }),
+  'home.night.dialogue.naiyi': msg({
+    zh: '外面雨好大……',
+    en: "It's raining so hard outside...",
+    ja: '外、雨がすごい……',
+    ko: '밖에 비가 너무 많이 와……'
+  }),
+  'home.night.dialogue.shalewan': msg({
+    zh: '你是谁？',
+    en: 'Who are you?',
+    ja: 'あなたは誰？',
+    ko: '너는 누구야?'
+  }),
+  'home.night.dialogue.unread': msg({ zh: '未读', en: 'Unread', ja: '未読', ko: '읽지 않음' }),
   'home.night.chatWindow': msg({
     zh: '残片记录',
     en: 'Fragment log',
