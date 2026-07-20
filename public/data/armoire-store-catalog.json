@@ -17364,18 +17364,26 @@
       ]
     },
     {
-      "id": "unlisted-52433",
+      "id": "global-1158",
       "region": "global",
-      "name": "涂鸦新式文化衫组合（未上架）",
+      "name": "グラフィティ・ネオチュニック3点セット",
       "localizedNames": {
-        "zh-CN": "涂鸦新式文化衫组合（未上架）",
-        "ja": "グラフィティ・ネオチュニック3点セット（未発売）",
-        "en": "Graffiti Neotunic Set (Unlisted)",
-        "ko": "그래피티 네오 튜닉 세트 (미출시)"
+        "zh-CN": "涂鸦新式文化衫组合",
+        "ja": "グラフィティ・ネオチュニック3点セット",
+        "en": "Graffiti Neotunic Three-piece Set",
+        "ko": "그래피티 네오 튜닉 세트"
       },
-      "storeUrl": "unlisted",
-      "sourceUrl": "unlisted",
-      "productId": "unlisted-52433",
+      "storeUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1158",
+      "regionalStoreUrls": {
+        "global": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/product/1158"
+      },
+      "sourceUrl": "https://store.finalfantasyxiv.com/ffxivstore/ja-jp/",
+      "productId": "1158",
+      "skuId": "MOG-01158",
+      "priceLabel": "990 crysta",
+      "regionalPriceLabels": {
+        "global": "990 crysta"
+      },
       "itemNames": [
         "涂鸦新式文化衫",
         "大码涂鸦新式文化衫",
@@ -17391,7 +17399,19 @@
       "coverItemId": 52433,
       "corrected": true,
       "tags": [
-        "bonusCostume"
+        "fanFestivalCostume"
+      ],
+      "globalProductId": "1158",
+      "globalProductName": "グラフィティ・ネオチュニック3点セット",
+      "globalItemNames": [
+        "グラフィティ・ネオチュニック:タイトサイズ",
+        "グラフィティ・ネオチュニック",
+        "グラフィティ・ネオチュニック:オーバーサイズ"
+      ],
+      "globalItemUris": [
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/2ca3d94d8c1",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/c7d57ac653b",
+        "https://jp.finalfantasyxiv.com/lodestone/playguide/db/item/64de74c4c34"
       ]
     },
     {
