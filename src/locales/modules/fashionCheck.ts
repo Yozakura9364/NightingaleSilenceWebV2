@@ -59,13 +59,46 @@ export const fashionCheckUiMessages: UiMessageMap = {
     'Week {issue} temporary showcase'
   ),
   'fashionCheck.dyeGuide': message('全部位染色', 'Full-slot dyes'),
+  'fashionCheck.providedBy': localizedMessage('提供者：', 'Provided by:', '提供：', '제공:'),
   'fashionCheck.solution80Title': message('80分作业', '80-point solution'),
   'fashionCheck.solution100Title': message('100分作业', '100-point solution'),
+  'fashionCheck.solutionOptionOne': localizedMessage('方案 1', 'Option 1', 'プラン1', '방법 1'),
+  'fashionCheck.solutionOptionTwo': localizedMessage('方案 2', 'Option 2', 'プラン2', '방법 2'),
+  'fashionCheck.solution80SixDyes': localizedMessage(
+    '六个精准染色',
+    'Six exact dyes',
+    '6部位を指定色で染色',
+    '6부위를 정확한 색으로 염색'
+  ),
+  'fashionCheck.solution80GoldAndDyes': localizedMessage(
+    '胸/手/腿/脚任意一件亚拉戈高位 + 两个精准染色',
+    'Any one High Allagan body, hands, legs, or feet piece + two exact dyes',
+    'ハイアラガンの胴・手・脚・足装備から1点 + 2部位を指定色で染色',
+    '상급 알라그 몸통/손/다리/발 장비 중 1개 + 2부위를 정확한 색으로 염색'
+  ),
+  'fashionCheck.anyDyeableWeapon': localizedMessage(
+    '任意可染色武器',
+    'Any dyeable weapon',
+    '染色可能な武器',
+    '염색 가능한 무기'
+  ),
+  'fashionCheck.anyDyeableHead': localizedMessage(
+    '任意可染色头部装备',
+    'Any dyeable head gear',
+    '染色可能な頭防具',
+    '염색 가능한 머리 방어구'
+  ),
   'fashionCheck.anyDyeableBody': localizedMessage(
     '任意可染色身体装备',
     'Any dyeable body gear',
     '染色可能な胴防具',
     '염색 가능한 몸통 방어구'
+  ),
+  'fashionCheck.anyDyeableHands': localizedMessage(
+    '任意可染色手部装备',
+    'Any dyeable hand gear',
+    '染色可能な手防具',
+    '염색 가능한 손 방어구'
   ),
   'fashionCheck.anyDyeableLegs': localizedMessage(
     '任意可染色腿部装备',
@@ -86,12 +119,19 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '검은색 계열'
   ),
   'fashionCheck.dyeFamilyRed': localizedMessage('红色系', 'Red dyes', 'レッド系', '붉은색 계열'),
-  'fashionCheck.commonDye': localizedMessage(
-    '通用染剂',
-    'Common dye',
-    '汎用カララント',
-    '일반 염료'
+  'fashionCheck.dyeFamilyBrown': localizedMessage(
+    '棕色系',
+    'Brown dyes',
+    'ブラウン系',
+    '갈색 계열'
   ),
+  'fashionCheck.dyeFamilyGreen': localizedMessage(
+    '绿色系',
+    'Green dyes',
+    'グリーン系',
+    '초록색 계열'
+  ),
+  'fashionCheck.dyeFamilyBlue': localizedMessage('蓝色系', 'Blue dyes', 'ブルー系', '파란색 계열'),
   'fashionCheck.openHuijiWiki': localizedMessage(
     '打开灰机 Wiki',
     'Open Huiji Wiki',

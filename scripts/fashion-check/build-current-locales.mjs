@@ -11,12 +11,18 @@ const referenceRoot = path.resolve(
 )
 const currentPath = path.join(projectRoot, 'public/data/fashion-check/current.json')
 const dyePath = path.join(projectRoot, 'data/fashion-check/current-dye-locales.json')
+const armoireDyePath = path.join(projectRoot, 'public/data/armoire-dye-catalog.json')
 const outputPath = path.join(projectRoot, 'public/data/fashion-check/current-locales.json')
 const itemPaths = {
   'zh-CN': path.join(referenceRoot, 'official/chs/Item.csv'),
   en: path.join(referenceRoot, 'official/en/Item.csv'),
   ja: path.join(referenceRoot, 'official/ja/Item.csv'),
   ko: path.join(referenceRoot, 'official/ko/Item.csv')
+}
+const mergedDyeItemIds = {
+  general: 52254,
+  extra1: 52255,
+  extra2: 52256
 }
 
 function collectIds(value, key, result) {
@@ -32,8 +38,7 @@ function collectIds(value, key, result) {
   Object.entries(record).forEach(([childKey, child]) => collectIds(child, key, result))
 }
 
-async function loadNames(filePath, ids) {
-  const rows = await readSaintCoinachCsv(filePath)
+function loadNames(rows, ids) {
   const names = new Map()
   for (const row of rows) {
     const itemId = Number(row['#'])
@@ -44,23 +49,72 @@ async function loadNames(filePath, ids) {
   return names
 }
 
+function findStoreDyeItemId(dyeId, dyeDocument, rows) {
+  const dyeName = dyeDocument.dyes?.[String(dyeId)]?.['zh-CN']
+  const expectedItemName = dyeName ? `${dyeName}染剂` : ''
+  const row = rows.find(
+    (candidate) =>
+      Number(candidate.AdditionalData) === dyeId &&
+      String(candidate.Name ?? '').trim() === expectedItemName
+  )
+  const itemId = Number(row?.['#'])
+
+  if (!Number.isInteger(itemId) || itemId <= 0) {
+    throw new Error(`Missing store dye item for dye ID ${dyeId}`)
+  }
+  return itemId
+}
+
+function getDyeItemIds(dyeIds, dyeDocument, armoireDyeCatalog, chsRows) {
+  const result = new Map()
+  for (const dyeId of dyeIds) {
+    const category = armoireDyeCatalog.dyes?.[String(dyeId)]?.valueCategory
+    const mergedItemId = mergedDyeItemIds[category]
+    const itemId =
+      mergedItemId ??
+      (category === 'storeSpecial' ? findStoreDyeItemId(dyeId, dyeDocument, chsRows) : undefined)
+
+    if (!itemId) throw new Error(`Missing dye item category for dye ID ${dyeId}`)
+    result.set(dyeId, itemId)
+  }
+  return result
+}
+
 function sortedRecord(values) {
-  return Object.fromEntries([...values.entries()].sort(([left], [right]) => Number(left) - Number(right)))
+  return Object.fromEntries(
+    [...values.entries()].sort(([left], [right]) => Number(left) - Number(right))
+  )
 }
 
 async function main() {
-  const [current, dyeDocument] = await Promise.all([
+  const [current, dyeDocument, armoireDyeCatalog, localeRowsEntries] = await Promise.all([
     readFile(currentPath, 'utf8').then(JSON.parse),
-    readFile(dyePath, 'utf8').then(JSON.parse)
+    readFile(dyePath, 'utf8').then(JSON.parse),
+    readFile(armoireDyePath, 'utf8').then(JSON.parse),
+    Promise.all(
+      Object.entries(itemPaths).map(async ([locale, filePath]) => [
+        locale,
+        await readSaintCoinachCsv(filePath)
+      ])
+    )
   ])
   const itemIds = new Set()
   const dyeIds = new Set()
   collectIds(current, 'itemId', itemIds)
   collectIds(current, 'dyeId', dyeIds)
-
-  const entries = await Promise.all(
-    Object.entries(itemPaths).map(async ([locale, filePath]) => [locale, await loadNames(filePath, itemIds)])
+  const localeRows = new Map(localeRowsEntries)
+  const dyeItemIds = getDyeItemIds(
+    dyeIds,
+    dyeDocument,
+    armoireDyeCatalog,
+    localeRows.get('zh-CN') ?? []
   )
+  const allItemIds = new Set([...itemIds, ...dyeItemIds.values()])
+
+  const entries = Object.entries(itemPaths).map(([locale]) => [
+    locale,
+    loadNames(localeRows.get(locale) ?? [], allItemIds)
+  ])
   const itemNamesByLocale = new Map(entries)
   const items = new Map()
 
@@ -83,13 +137,35 @@ async function main() {
     dyes.set(String(dyeId), names)
   }
 
+  const chsItemsById = new Map(
+    (localeRows.get('zh-CN') ?? []).map((row) => [Number(row['#']), row])
+  )
+  const dyeItems = new Map()
+  for (const [dyeId, itemId] of dyeItemIds) {
+    const row = chsItemsById.get(itemId)
+    const iconId = Number(row?.Icon)
+    const names = Object.fromEntries(
+      [...itemNamesByLocale.entries()].map(([locale, values]) => [locale, values.get(itemId) ?? ''])
+    )
+    if (!Number.isInteger(iconId) || iconId <= 0) {
+      throw new Error(`Missing dye item icon for Item ID ${itemId}`)
+    }
+    if (Object.values(names).some((name) => !name)) {
+      throw new Error(`Missing localized dye item name for Item ID ${itemId}`)
+    }
+    dyeItems.set(String(dyeId), { itemId, iconId, names })
+  }
+
   const output = {
-    schemaVersion: 'fashion-check.current-locales.v1',
+    schemaVersion: 'fashion-check.current-locales.v2',
     items: sortedRecord(items),
-    dyes: sortedRecord(dyes)
+    dyes: sortedRecord(dyes),
+    dyeItems: sortedRecord(dyeItems)
   }
   await writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8')
-  console.log(`Fashion Check current locales: ${items.size} items, ${dyes.size} dyes`)
+  console.log(
+    `Fashion Check current locales: ${items.size} items, ${dyes.size} dyes, ${dyeItems.size} dye items`
+  )
 }
 
 await main()

@@ -98,9 +98,16 @@ function formatChallengeDate(value: string) {
 
 onMounted(async () => {
   try {
+    const dataVersion = Date.now()
     const [currentWeek, currentLocaleCatalog] = await Promise.all([
-      api<FashionCheckWeek>('/data/fashion-check/current.json'),
-      api<FashionCheckLocaleCatalog>('/data/fashion-check/current-locales.json')
+      api<FashionCheckWeek>('/data/fashion-check/current.json', {
+        cache: 'no-store',
+        query: { v: dataVersion }
+      }),
+      api<FashionCheckLocaleCatalog>('/data/fashion-check/current-locales.json', {
+        cache: 'no-store',
+        query: { v: dataVersion }
+      })
     ])
     week.value = currentWeek
     localeCatalog.value = currentLocaleCatalog

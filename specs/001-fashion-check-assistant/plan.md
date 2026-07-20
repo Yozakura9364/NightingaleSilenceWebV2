@@ -12,7 +12,7 @@
 
 ## Project Context
 
-**Current project**: `H:\NightingaleSilenceWeb\NightingaleSilenceWebV2`
+**Current project**: repository root
 
 **Technology stack**: Vue 3.5, Vite 6, TypeScript 5.7, Node.js ESM build scripts, Vue Router 4, Pinia, static JSON runtime data.
 
@@ -35,7 +35,7 @@
 - `scripts/build-armoire-store-catalog.mjs`
 - `scripts/check-armoire-store-catalog.mjs`
 - `public/data/armoire-catalog.json`
-- `H:\NightingaleSilenceWeb\NSGlamour\data\item_model_mapping.json`
+- `../NSGlamour/data/item_model_mapping.json`
 - `local-assets/fashion-check/qq-fashion-check-history.json`
 - `local-assets/fashion-check/qq-fashion-check-history.csv`
 - `local-assets/fashion-check/qq-fashion-check-BB08J2-raw.csv`
