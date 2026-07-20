@@ -2,7 +2,7 @@
 
 夜莺不语 / Nightingale Silence 的个人与工具网站 V2。这个仓库用于把原本分散的站点和工具逐步重构成一套统一的 Vue 前端。
 
-当前项目还处在 V2 重构推进期：应用外壳、路由、公共样式、基础组件、API 边界和迁移文档已经建立；NSPlate 与 NSArmoire 已进入核心功能接入阶段，NSGlamour 等旧工具仍按模块计划逐步迁移。
+当前项目已进入现有工具收口和生产边界稳定阶段：NSPlate、NSGlamour、物品卡片和时尚品鉴已具备真实工作流；NSArmoire 公网页与 Helper 内嵌本地工作台已分离；Silence 资料尚未填写完成，暂不纳入公开上线范围。
 
 ## 项目目标
 
@@ -18,18 +18,18 @@
 
 | 路由 | 页面 | 状态 |
 |------|------|------|
-| `#/` | 首页 | 占位视觉首页已接入 |
-| `#/ffxiv` | FFXIV 分类导航页 | 工具入口骨架已接入 |
-| `#/ffxiv/glamour` | 幻化工房 / NSGlamour | `template` 与 `equipinfo` 主工作流已接入，仍依赖旧 Flask 后端 |
+| `#/` | 首页 | 第一版视觉入口已接入 |
+| `#/ffxiv` | FFXIV 分类导航页 | 五个工具入口已接入 |
 | `#/ffxiv/plate` | 铭牌工房 / NSPlate | 核心工作台已接入 |
-| `#/ffxiv/armoire` | 衣柜管家 / NSArmoire | 本地 helper、snapshot 导入和三分区工作台已接入 |
-| `#/ffxiv/armoire/store-review` | NSArmoire 商城数据校正 | 隐藏校正页已接入 |
+| `#/ffxiv/glamour` | 幻化工房 / NSGlamour | `template` 与 `equipinfo` 主工作流已接入，仍依赖旧 Flask 后端 |
+| `#/ffxiv/armoire` | 衣柜管家 / NSArmoire | 公网教程和 GitHub Release 下载页 |
+| `#/ffxiv/fashioncheck` | 时尚品鉴 | 当前周方案、金牌物品和来源页面已接入 |
+| `#/ffxiv/item-card` | 物品卡片 | 独立导入、编辑和多种导出工作台已接入 |
+| `#/ffxiv/armoire/store-review` | NSArmoire 商城数据校正 | 仅 `armoire-local` 构建中的隐藏校正页 |
 | `#/ffxiv/term-review` | FFXIV 术语校正 | 内部校正页已接入 |
-| `#/silence` | Silence 创作入口 | 双入口门厅页已接入 |
-| `#/silence/angel` | 不语·silence | 分组占位页已接入 |
-| `#/silence/angel/:characterId` | 不语·silence 角色页 | 角色资料页骨架已接入 |
-| `#/silence/glitch` | 幽灵·silence | 分组占位页已接入 |
-| `#/silence/glitch/:characterId` | 幽灵·silence 角色页 | 角色资料页骨架已接入 |
+| `#/silence` | Silence 创作入口 | 代码已接入，资料未完成，暂不上线 |
+| `#/silence/angel` | 不语·silence | 分组和角色详情代码已接入，暂不上线 |
+| `#/silence/glitch` | 幽灵·silence | 双人页代码已接入，暂不上线 |
 | `#/about` | About | 占位页已接入 |
 | `#/style-lab` | Style Lab | 内部样式实验页 |
 
@@ -69,13 +69,13 @@ npm run preview
 
 ## 旧项目与后端边界
 
-当前 V2 前端通过 Vite proxy 对接旧后端：
+当前 V2 的服务和数据边界：
 
 | 模块 | V2 API | 本地旧服务 | 说明 |
 |------|--------|------------|------|
-| NSGlamour | `/api/glamour/*` | `http://localhost:8765/api/*` | Flask 后端 |
-| NSPlate | `/api/plate/*` | `http://localhost:3456/api/*` | 旧 NSPortable Node.js 后端 |
-| NSPlate 素材 | `/img/*`、`/img-preview/*` | `http://localhost:3456` | 旧 NSPortable 游戏素材与预览图 |
+| NSGlamour | `/api/glamour/*` | `http://localhost:8765/api/*` | 当前仍使用旧 Flask 后端 |
+| NSPlate | `/data/plate/*` + COS/CDN | 静态资源 | 默认运行路径；`/api/plate/*` 仅 legacy/dev fallback |
+| NSArmoire | `http://127.0.0.1:8015` 同源页面/API | `NSArmoireButler` | 完整工作台仅由 Helper GUI 内嵌，公网页不连接 Helper |
 
 旧后端不是最终架构的限制，而是当前阶段的契约来源。后续重写后端时，应保持 V2 对外 API 路径稳定，并用旧项目真实样本做回归验证。
 
@@ -84,8 +84,10 @@ npm run preview
 给评估项目的朋友可以优先看：
 
 - `docs/OWNER_VISION.md`：站点愿景和用户手写需求。
+- `AGENT_WORKFLOW.md`：实现、验证、文档同步和交付流程。
 - `docs/ROADMAP.md`：当前阶段、短中长期计划和暂缓事项。
 - `docs/ai/PROJECT_CONTEXT.md`：当前真实状态和目标架构。
+- `docs/ai/DOCUMENTATION_CONTRACT.md`：文档事实来源、自愈和维护规则。
 - `docs/ai/ARCHITECTURE_PLAN.md`：路由、CSS、组件、端口和代理策略。
 - `docs/ai/CODE_STRUCTURE_RULES.md`：防止复杂业务再次写成大坨代码的结构规则。
 - `docs/ai/MIGRATION_PLAN.md`：旧项目迁移顺序和后端重写边界。
@@ -94,23 +96,19 @@ npm run preview
 - `docs/ai/REVIEW_GUIDE.md`：给评估者看的检查重点。
 - `docs/ai/MODULES/nsglamour.md`：NSGlamour 迁移计划。
 - `docs/ai/MODULES/nsplate.md`：NSPlate 迁移计划。
-- `docs/api/nsglamour.md`、`docs/api/nsplate.md`：API 契约草案。
+- `docs/api/nsglamour.md`、`docs/api/nsplate.md`、`docs/api/nsarmoire.md`：API 和数据契约。
 
 ## 当前评估重点
 
-这个仓库目前最适合评估：
+这个仓库目前适合评估：
 
 - V2 的项目边界是否清晰。
 - Vue 前端目录、路由和公共组件规划是否合理。
 - CSS 分层和“公共组件优先”的规则是否能支撑后续工具迁移。
-- `/api/glamour` 与 `/api/plate` 的代理命名空间是否方便未来替换后端。
-- 对旧项目复杂业务的迁移策略是否足够谨慎，尤其是 FFXIV 数据、Canvas 渲染、导出、染剂和多语言。
+- NSPlate 静态数据源、NSGlamour 旧后端契约和 NSArmoire 本地边界是否清晰。
+- FFXIV 数据、Canvas 渲染、导出、染剂、多语言和生产资源边界是否稳定。
 
-暂时不适合评估：
-
-- 旧 NSGlamour / 旧 NSPortable 的完整功能可用性。
-- 最终首页视觉设计。
-- 最终生产部署方案。
+Silence 当前只适合评估代码结构和本地页面，不适合按公开成品验收；角色资料、正式文案和授权素材完成后再单独进入上线评估。
 
 ## 代码约定
 

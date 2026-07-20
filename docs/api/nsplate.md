@@ -1,4 +1,14 @@
-# NSPlate API 契约草案
+---
+summary: "NSPlate 静态 manifest、COS 资源和旧 API fallback 的数据契约。"
+status: "active"
+scope: "plate manifest、素材 URL、旧 3456 服务和生成/检查脚本。"
+source_of_truth: "public/data/plate、plate data source adapters 和 manifest scripts。"
+read_when: "修改铭牌数据源、素材路径、旧 API fallback 或生成流程。"
+update_when: "manifest schema、COS 前缀、endpoint 或生成参数变化时。"
+verify: "运行 plate static checks、远端抽样和对应浏览器回归。"
+---
+
+# NSPlate API 契约
 
 本文件记录 V2 `NSPlate` 模块的数据源和旧兼容 API 契约。
 
@@ -47,8 +57,8 @@
 ```bash
 npm run build:plate-manifest
 npm run build:plate-manifest:no-preview
-npm run build:plate-thumbnails -- --source-dir "H:\解包\nine-1326554799"
-npm run build:plate-thumbnails -- --source-dir "H:\解包\nine-1326554799" --output-dir "H:\解包\nine-1326554799\plate-preview-webp\256"
+npm run build:plate-thumbnails -- --source-dir "<FFXIV 解包目录>"
+npm run build:plate-thumbnails -- --source-dir "<FFXIV 解包目录>" --output-dir "<COS 同步目录>/plate-preview-webp/256"
 npm run check:plate-static
 npm run check:plate-static:preview
 node scripts/check-nsplate-static-manifest.mjs --check-remote
@@ -86,7 +96,7 @@ node scripts/check-nsplate-static-manifest.mjs --expect-preview --check-preview-
 - 默认 `_meta.imgBase` 为 `https://img.nightingalesilence.com`，不复制游戏素材到 V2 仓库。
 - 当前 `npm run build:plate-manifest` 默认写入 `_meta.previewImgBase=https://img.nightingalesilence.com/plate-preview-webp/256`、`_meta.previewMaxEdge=256` 和 `_meta.previewFormat=webp`；如需临时排查原图预览 fallback，使用 `npm run build:plate-manifest:no-preview`。
 - 缩略图为离线生成的 WebP Q82 产物，默认输出到仓库外 `../.cache/nsplate-thumbnails/256/`，目录结构与素材路径一致，扩展名由 `.png` 改为 `.webp`；上传到 COS 后使用 `plate-preview-webp/256/` prefix。
-- 如果使用 COSBrowser 从本机同步整个素材桶，推荐直接输出到本机桶同步目录 `H:\解包\nine-1326554799\plate-preview-webp\256`，同步到桶根后对应 URL 前缀为 `https://img.nightingalesilence.com/plate-preview-webp/256`。
+- 如果使用 COSBrowser 从本机同步整个素材桶，推荐直接输出到 `<COS 同步目录>/plate-preview-webp/256`，同步到桶根后对应 URL 前缀为 `https://img.nightingalesilence.com/plate-preview-webp/256`。
 - 只有确认 COS 上对应 `plate-preview-webp/256/` 缩略图已同步完成后，才给正式 `files.json` 写完整 preview meta；否则素材卡会回退到 COS 原图。
 - 正式 manifest 默认保留旧源数据标记为 `unreleased` 的素材，让未实装素材能正常出现在素材列表并被选择。
 - 始终过滤 Plate 素材范围内的占位/索引编号：`234400`、以及 `190000..199999` / `230000..239999` 范围内编号末尾为 `000` 或 `001` 的素材。此类素材是占位/空素材，不属于用户应选择的未实装内容。

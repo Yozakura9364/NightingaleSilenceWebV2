@@ -1,4 +1,14 @@
-# NSGlamour API 契约草案
+---
+summary: "V2 NSGlamour 对旧 Flask 后端的导入、搜索、染剂和资源 API 契约。"
+status: "active"
+scope: "/api/glamour 代理、旧后端字段和前端 adapter。"
+source_of_truth: "旧 Flask 路由、V2 glamour services 和真实 EC/石之家样本。"
+read_when: "修改幻化后端、代理、外部导入、搜索或错误处理。"
+update_when: "endpoint、字段、上游错误、鉴权或后端替换策略变化时。"
+verify: "运行契约检查并请求健康、导入和搜索接口的成功/失败分支。"
+---
+
+# NSGlamour API 契约
 
 本文件记录 V2 `NSGlamour` 模块的 API 契约方向。当前接口仍由旧 Flask 后端提供，V2 通过 `/api/glamour/*` 命名空间接入。
 

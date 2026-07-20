@@ -42,3 +42,4 @@ Thumbs.db
 
 # local-only git identity mapping
 /docs/ai/LOCAL_GIT_IDENTITIES.md
+/docs/ai/LOCAL_ENVIRONMENT.md
