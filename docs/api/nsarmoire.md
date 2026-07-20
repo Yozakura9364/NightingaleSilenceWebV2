@@ -1,4 +1,14 @@
-# NSArmoire API / 数据契约草案
+---
+summary: "NSArmoire snapshot、helper、catalog 和本地完整工作台的数据/API 契约。"
+status: "active"
+scope: "NSArmoireButler、本地 8015 服务、V2 adapter 和公开隔离边界。"
+source_of_truth: "helper 实现、src/pages/armoire services/types 和真实 snapshot。"
+read_when: "修改 helper endpoint、snapshot 字段、catalog 或本地页面连接。"
+update_when: "接口、字段、端口、错误、安全或构建边界变化时。"
+verify: "启动 helper，请求实际接口并导入代表性 snapshot。"
+---
+
+# NSArmoire API / 数据契约
 
 本文件记录 `NSArmoire` 的数据契约。完整 Vue 工作台由 `NSArmoireButler` 的 WPF/WebView2 GUI 内嵌，页面、catalog 和 API 均来自本机；公网 V2 路由只保留教程和下载入口。
 
@@ -10,7 +20,7 @@
 | 本地工作台 | `http://127.0.0.1:8015/#/ffxiv/armoire?connect=1` |
 | 页面入口 | `src/pages/armoire/NSArmoirePage.vue`，仅 `armoire-local` 构建使用 |
 | 当前输入 | 手动导入 JSON；本地 helper snapshot |
-| 当前本地 helper | 独立项目 `H:\NightingaleSilenceWeb\NSArmoireButler`；V2 内 `tools/nsarmoire-helper` 仅作为历史内置副本/开发参考 |
+| 当前本地 helper | 仓库同级独立项目 `../NSArmoireButler`；V2 内 `tools/nsarmoire-helper` 仅作为历史内置副本/开发参考 |
 | 当前静态 catalog | `public/data/armoire-catalog.json` |
 | helper 开发代理 | `/api/armoire` -> `http://127.0.0.1:8015` |
 | helper GUI 同源 | `http://127.0.0.1:8015` |
@@ -307,13 +317,13 @@ v0.5.2 起，helper 会在雇员物品实例上输出 `retainerSlot`。该字段
 正式 helper 已拆为独立项目：
 
 ```text
-H:\NightingaleSilenceWeb\NSArmoireButler
+../NSArmoireButler
 ```
 
 运行命令：
 
 ```powershell
-dotnet run --project H:\NightingaleSilenceWeb\NSArmoireButler\NSArmoireButler.csproj
+dotnet run --project ..\NSArmoireButler\NSArmoireButler.csproj
 ```
 
 默认监听：
@@ -330,13 +340,13 @@ https://github.com/Yozakura9364/NSArmoireButler/releases/latest
 
 公开页面只跳转到 `NSArmoireButler` GitHub Releases 最新页，不直链 `.exe` 或 `.zip`。每个 helper Release 需要写明 helper 版本、支持游戏版本、使用步骤、只监听 `127.0.0.1`、不上传用户仓库数据、杀软/SmartScreen 可能提示未知发布者，以及对应源码路径。Release 页面面向普通用户，不外显 SHA256 校验文案。
 
-当前独立 helper 默认启动后打开：
+当前独立 Helper 在 WPF/WebView2 GUI 内打开本地同源工作台：
 
 ```text
-https://nightingalesilence.com/#/ffxiv/armoire?connect=1
+http://127.0.0.1:8015/#/ffxiv/armoire?connect=1
 ```
 
-网页看到 `connect=1` 后会自动连接 `http://127.0.0.1:8015`。如果用户在网页中点击连接而 helper 未运行，网页会尝试唤起 `nsarmoire-butler://start`，然后自动重试连接；浏览器仍会按系统策略显示打开本地应用的确认弹窗。Release 包内的 `register-protocol.ps1` 用于注册该协议。
+Vue 页面、catalog 和 API 均由 Helper 在 `127.0.0.1:8015` 同源提供，不经过公网 V2 页面，也不依赖公开 HTTPS 页面访问本机 HTTP 服务。旧版“公网网页通过 `connect=1` 直连 Helper”和 `nsarmoire-butler://start` 唤起方案只作为历史记录，不是当前分发链路。
 
 当前接口：
 
@@ -363,7 +373,7 @@ https://nightingalesilence.com/#/ffxiv/armoire?connect=1
 - 雇员身份通过 `RetainerManager.Instance` 读取，最多 10 个槽位；当前已能取得雇员名、雇员 ID、职业、等级、仓库占用数、上架数和当前选中状态。
 - `InventoryManager` 中的 `10000-10006` 是当前加载雇员仓库的 7 个 25 格内存块，总计 175 格；游戏 UI 展示为 5 页，每页 35 格。helper snapshot 不直接外显内部块，而是按全局 slot 重排为 `雇员名 背包 1-5`。
 - 多雇员归档的正式交互口径不是一次性读完所有雇员；helper 会在用户打开或切换某个雇员且其 7 个内部块加载完成时，把该雇员库存写入本次 helper 进程的内存缓存。用户逐个打开雇员后，snapshot 会逐步累积多个雇员，这与游戏内检索系统需要访问过雇员后才有完整数据的体验一致。
-- 当前雇员缓存同时纳入雇员背包、雇员已装备和雇员市场；雇员 ID 以字符串形式写入 `retainerId`，避免 JavaScript 64 位整数精度问题。前端会保留这些原始数据用于衣柜统计和位置展示。行动建议会全局过滤雇员市场上架物品：`inventoryType=12002` 或容器名以 `市场` 结尾的条目，不进入商城拥有状态、可交易物品、重复物品、同模型和生产采集复制品回收建议。雇员已装备物品只在重复相关建议中排除：`inventoryType=11000` 或容器名以 `已装备` 结尾的条目，不参与重复物品和同模型多余判断，但仍可参与商城拥有状态、收藏柜、套装、可交易、复制品和染色风险等其他判断。
+- 当前雇员缓存同时纳入雇员背包、雇员已装备和雇员市场；雇员 ID 以字符串形式写入 `retainerId`，避免 JavaScript 64 位整数精度问题。前端会在原始 snapshot、角色缓存和衣柜统计中保留这些条目，但所有功能分析统一使用过滤后的 actionable snapshot：`inventoryType=12002` 或容器名以 `市场` 结尾的雇员市场物品，以及 `inventoryType=11000` 或容器名以 `已装备` 结尾的雇员已装备物品，都不参与基础统计、容器分布、商城拥有状态、收藏柜、套装、可交易、生产采集复制品、染色风险、重复物品和同模型物品分析。
 - 前端连接 helper 后会轮询 `/probe`：页面可见时约 2 秒一次，隐藏时约 10 秒一次。首次探针只记录刷新签名；后续检测到角色、容器、雇员状态、雇员缓存或 `snapshotContentHash` 等探针签名变化后，会延迟约 1.4 秒调用 `/snapshot/refresh` 更新页面，减少“每打开一个雇员还要手动刷新一次”的操作，同时避免每 2 秒重建完整 snapshot。`snapshotContentHash` 只暴露稳定内容哈希，不外显物品明细，用于覆盖同容器等量交换、染色或绑定状态变化。
 - `/retainer-cache/clear` 只清空 helper 进程内缓存，不清空当前页面已经显示的 snapshot；页面数据会在下一次刷新或重新读取后更新。
 - `/probe` 是当前验证入口；它不外显物品 ID，只返回容器状态和数量。
@@ -388,16 +398,16 @@ https://tommadness.github.io/Plugin-Browser/
 3. 对能迁移到外部 helper 的部分，只参考字段来源、结构名、签名和失败口径；实际偏移仍以当前本机 `FFXIVClientStructs.dll/xml` 和 helper `/probe` 验证为准。
 4. 记录参考项目、许可证和验证结果；不要直接复制未知许可证代码到 V2。
 
-helper 默认 V2 页面地址为：
+旧版外部浏览器开发参数示例为：
 
 ```text
 http://localhost:5173/#/ffxiv/armoire
 ```
 
-开发端口变化或正式分发时，可以用启动参数覆盖：
+该参数属于 Helper 内嵌 WebView2 之前的历史调试方式；当前正式分发不使用公网或外部 Vite 页面承载工作台。
 
 ```powershell
-dotnet run --project H:\NightingaleSilenceWeb\NSArmoireButler\NSArmoireButler.csproj -- --web-url "http://localhost:5173/#/ffxiv/armoire?connect=1"
+dotnet run --project ..\NSArmoireButler\NSArmoireButler.csproj -- --web-url "http://localhost:5173/#/ffxiv/armoire?connect=1"
 ```
 
 `/open-v2` 不接受请求传入的任意 URL，只打开启动时配置的 `http` 或 `https` 地址，避免本地接口被用作任意打开网页的跳板。
@@ -493,4 +503,4 @@ helper 输出的 snapshot 形态：
 - 错误信息不输出本机路径、堆栈、用户名、游戏安装路径、角色 ID 或 helper 调试信息。
 - 当前 helper 只监听 `127.0.0.1`，不监听公网网卡。
 - 当前 helper API 错误不得输出本机用户名、游戏安装路径、进程路径、角色 ID 或堆栈。
-- 公开站点直连本地 helper 的浏览器私有网络访问限制仍需实测；手动导入必须保留为 fallback。
+- 公网 V2 只提供教程和 Release 下载入口，不读取 snapshot、不连接 Helper。完整工作台在 Helper 的 WPF/WebView2 GUI 内以同源方式运行；手动导入只作为本地工作台的数据入口和故障 fallback。

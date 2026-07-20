@@ -1,6 +1,8 @@
 # NSArmoire Local Helper
 
-NSArmoire local helper reads the local FFXIV game process and exposes a loopback-only JSON API for the V2 web page.
+This directory is the historical in-repository helper copy and development reference. The current distributable Helper is the sibling `../NSArmoireButler` project, which embeds the `armoire-local` Vue build in a WPF/WebView2 GUI and serves the page, catalog, and API from `127.0.0.1:8015`.
+
+This historical helper reads the local FFXIV game process and exposes a loopback-only JSON API. It is not the current public download target and the public V2 page does not connect to it.
 
 Current MVP scope:
 
