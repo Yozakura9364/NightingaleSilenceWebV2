@@ -1,4 +1,5 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { join, posix, relative, sep } from 'node:path'
 import { gzipSync } from 'node:zlib'
 
@@ -7,6 +8,7 @@ const DIST_DIR = join(ROOT, 'dist')
 const DIST_ASSET_DIR = join(DIST_DIR, 'assets')
 const PUBLIC_GLAMOUR_DIR = join(ROOT, 'public', 'data', 'glamour')
 const DIST_GLAMOUR_DIR = join(DIST_DIR, 'data', 'glamour')
+const LOCAL_ASSET_DIR = join(ROOT, 'local-assets')
 
 const NSGLAMOUR_BUNDLE_BUDGETS = {
   jsRawBytes: 260 * 1024,
@@ -62,6 +64,26 @@ const FORBIDDEN_DIST_FILE_PATTERNS = [
   /\.(?:ai|fig|psb|psd|sketch)$/i
 ]
 
+const FORBIDDEN_PUBLIC_CHUNK_PATTERNS = [
+  {
+    pattern:
+      /^(?:Silence(?:IndexPage|GroupPage|CharacterPage|TurnHint)|useSilenceTurnNavigation)-/i,
+    label: 'Silence'
+  },
+  {
+    pattern: /^silence-.*\.(?:css|js)$/i,
+    label: 'Silence locale/runtime'
+  },
+  {
+    pattern: /^(?:StyleLabPage|styleLab)-/i,
+    label: 'Style Lab'
+  },
+  {
+    pattern: /^FfxivTermReviewPage-/i,
+    label: 'FFXIV term review'
+  }
+]
+
 const TEXT_DIST_EXTENSIONS = new Set([
   '.css',
   '.html',
@@ -97,6 +119,11 @@ const FORBIDDEN_DIST_TEXT_PATTERNS = [
   {
     pattern: /NSGLAMOUR_CONTRACT_/i,
     label: 'contract-check environment variable',
+    severity: 'fail'
+  },
+  {
+    pattern: /(?:^|["'(\s])\/?local-assets\//i,
+    label: 'ignored local asset path',
     severity: 'fail'
   }
 ]
@@ -231,6 +258,69 @@ function checkDistForbiddenFiles() {
 
     if (FORBIDDEN_DIST_FILE_PATTERNS.some((pattern) => pattern.test(relativePath))) {
       fail(`dist/${relativePath} must not ship with NSGlamour runtime assets.`)
+    }
+  }
+}
+
+function checkNoInternalChunks() {
+  if (!existsSync(DIST_ASSET_DIR)) {
+    return
+  }
+
+  for (const entry of readdirSync(DIST_ASSET_DIR, { withFileTypes: true })) {
+    if (!entry.isFile()) {
+      continue
+    }
+
+    for (const { pattern, label } of FORBIDDEN_PUBLIC_CHUNK_PATTERNS) {
+      if (pattern.test(entry.name)) {
+        fail(`dist/assets/${entry.name} is a ${label} chunk and must not enter the public build.`)
+      }
+    }
+  }
+}
+
+function fileSha256(file) {
+  return createHash('sha256').update(readFileSync(file)).digest('hex')
+}
+
+function checkNoIgnoredLocalAssetCopies() {
+  if (!existsSync(LOCAL_ASSET_DIR) || !existsSync(DIST_DIR)) {
+    return
+  }
+
+  const distFilesBySize = new Map()
+  const distHashes = new Map()
+
+  for (const file of walkFiles(DIST_DIR)) {
+    const size = statSync(file).size
+    const files = distFilesBySize.get(size) ?? []
+    files.push(file)
+    distFilesBySize.set(size, files)
+  }
+
+  for (const localFile of walkFiles(LOCAL_ASSET_DIR)) {
+    const candidates = distFilesBySize.get(statSync(localFile).size) ?? []
+
+    if (candidates.length === 0) {
+      continue
+    }
+
+    const localHash = fileSha256(localFile)
+
+    for (const distFile of candidates) {
+      const distHash = distHashes.get(distFile) ?? fileSha256(distFile)
+      distHashes.set(distFile, distHash)
+
+      if (distHash !== localHash) {
+        continue
+      }
+
+      const localPath = toPosixPath(relative(ROOT, localFile))
+      const distPath = toPosixPath(relative(DIST_DIR, distFile))
+      fail(
+        `dist/${distPath} is byte-identical to ignored ${localPath}; local preview assets must not ship.`
+      )
     }
   }
 }
@@ -407,6 +497,8 @@ checkDistShape()
 checkGlamourAssets(PUBLIC_GLAMOUR_DIR, 'public/data/glamour')
 checkGlamourAssets(DIST_GLAMOUR_DIR, 'dist/data/glamour')
 checkDistForbiddenFiles()
+checkNoInternalChunks()
+checkNoIgnoredLocalAssetCopies()
 checkDistTextLeaks()
 checkSharedBundleBudget()
 checkNsglamourBundleBudget()

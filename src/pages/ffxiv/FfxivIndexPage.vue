@@ -1,7 +1,6 @@
 <template>
   <main class="ns-page ffxiv-page">
     <div class="ns-page-shell">
-      <p v-if="categoryKicker" class="ns-eyebrow">{{ categoryKicker }}</p>
       <h1 class="ns-title ns-heading-bloom">{{ t(ffxivCategory.titleKey) }}</h1>
 
       <div class="ns-tool-grid">
@@ -40,7 +39,6 @@ const ffxivCategory = getCategory('ffxiv') ?? {
 }
 const { t } = useLocale()
 
-const categoryKicker = computed(() => t(ffxivCategory.kickerKey).trim())
 const actionLabel = computed(() => t(textKeys.open).trim())
 const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,

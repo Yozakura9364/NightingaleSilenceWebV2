@@ -1,14 +1,29 @@
 import type { UiMessageMap, UiMessageModuleName } from '@/locales/types'
 import { loadMessages } from '@/stores/locale'
+import { areInternalRoutesEnabled, isSilenceEnabled } from '@/config/features'
 
-const messageLoaders: Record<UiMessageModuleName, () => Promise<UiMessageMap>> = {
+type UiMessageLoader = () => Promise<UiMessageMap>
+
+const messageLoaders: Partial<Record<UiMessageModuleName, UiMessageLoader>> = {
   home: () => import('@/locales/modules/home').then((module) => module.homeUiMessages),
+  about: () => import('@/locales/modules/about').then((module) => module.aboutUiMessages),
   plate: () => import('@/locales/modules/plate').then((module) => module.plateUiMessages),
   glamour: () => import('@/locales/modules/glamour').then((module) => module.glamourUiMessages),
   armoire: () => import('@/locales/modules/armoire').then((module) => module.armoireUiMessages),
-  silence: () => import('@/locales/modules/silence').then((module) => module.silenceUiMessages),
-  fashionCheck: () => import('@/locales/modules/fashionCheck').then((module) => module.fashionCheckUiMessages),
-  styleLab: () => import('@/locales/modules/styleLab').then((module) => module.styleLabUiMessages)
+  fashionCheck: () =>
+    import('@/locales/modules/fashionCheck').then((module) => module.fashionCheckUiMessages),
+  ...(isSilenceEnabled || areInternalRoutesEnabled
+    ? {
+        silence: () =>
+          import('@/locales/modules/silence').then((module) => module.silenceUiMessages)
+      }
+    : {}),
+  ...(areInternalRoutesEnabled
+    ? {
+        styleLab: () =>
+          import('@/locales/modules/styleLab').then((module) => module.styleLabUiMessages)
+      }
+    : {})
 }
 
 const loadedModules = new Set<UiMessageModuleName>()
@@ -29,7 +44,13 @@ async function loadUiMessageModule(moduleName: UiMessageModuleName) {
     return pending
   }
 
-  const task = messageLoaders[moduleName]().then((messages) => {
+  const loader = messageLoaders[moduleName]
+
+  if (!loader) {
+    throw new Error(`UI message module is disabled in this build: ${moduleName}`)
+  }
+
+  const task = loader().then((messages) => {
     loadMessages(messages)
     loadedModules.add(moduleName)
   })

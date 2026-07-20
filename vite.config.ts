@@ -2,11 +2,12 @@
 import { existsSync, readdirSync, rmSync } from 'node:fs'
 // @ts-expect-error The Vite config runs in Node; this project intentionally omits @types/node.
 import { join, resolve } from 'node:path'
-import { defineConfig, type Plugin, type ResolvedConfig } from 'vite'
+import { defineConfig, loadEnv, type Plugin, type ResolvedConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 declare const process: {
   env: Record<string, string | undefined>
+  cwd(): string
 }
 
 const srcPath = decodeURIComponent(new URL('./src', import.meta.url).pathname).replace(
@@ -15,6 +16,14 @@ const srcPath = decodeURIComponent(new URL('./src', import.meta.url).pathname).r
 )
 const plateExportApiToken =
   process.env.ICON_COMPOSER_API_TOKEN ?? process.env.NSPLATE_EXPORT_API_TOKEN ?? ''
+
+function readBooleanEnv(value: string | undefined, fallback: boolean): boolean {
+  if (value === undefined || value === '') {
+    return fallback
+  }
+
+  return value === 'true'
+}
 
 function excludePublicArmoireDataPlugin(enabled: boolean): Plugin {
   let resolvedConfig: ResolvedConfig
@@ -44,12 +53,24 @@ function excludePublicArmoireDataPlugin(enabled: boolean): Plugin {
   }
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ command, mode }) => {
+  const env = loadEnv(mode, process.cwd(), 'VITE_')
   const isArmoireLocalBuild = mode === 'armoire-local'
+  const enableDevelopmentRoutesByDefault = command === 'serve'
+  const enableSilence = readBooleanEnv(env.VITE_ENABLE_SILENCE, enableDevelopmentRoutesByDefault)
+  const enableInternalRoutes = readBooleanEnv(
+    env.VITE_ENABLE_INTERNAL_ROUTES,
+    enableDevelopmentRoutesByDefault
+  )
 
   return {
     define: {
-      'import.meta.env.VITE_NSARMOIRE_LOCAL_APP': JSON.stringify(String(isArmoireLocalBuild))
+      'import.meta.env.VITE_NSARMOIRE_LOCAL_APP': JSON.stringify(String(isArmoireLocalBuild)),
+      'import.meta.env.VITE_ENABLE_SILENCE': JSON.stringify(String(enableSilence)),
+      'import.meta.env.VITE_ENABLE_INTERNAL_ROUTES': JSON.stringify(String(enableInternalRoutes)),
+      'import.meta.env.VITE_LOCAL_ASSET_BASE': JSON.stringify(
+        command === 'serve' ? '/local-assets' : ''
+      )
     },
     plugins: [vue(), excludePublicArmoireDataPlugin(!isArmoireLocalBuild)],
     resolve: {

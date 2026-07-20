@@ -209,7 +209,12 @@
                 aria-hidden="true"
               >{{ isHomeCharacterArtPreview ? '' : message.icon }}</span>
               <strong>{{ t(message.nameKey) }}</strong>
-              <span>{{ t(textKeys.homeNightDialoguePlaceholder) }}</span>
+              <span class="home-night-dialogue__preview">{{ t(message.previewKey) }}</span>
+              <span
+                v-if="message.unread"
+                class="home-night-dialogue__unread"
+                :aria-label="t(textKeys.homeNightDialogueUnread)"
+              ></span>
             </p>
           </div>
         </aside>
@@ -348,9 +353,10 @@
               </div>
             </div>
             <div class="home-night-player__controls" aria-hidden="true">
-              <span>◀</span>
-              <span>▮▮</span>
-              <span>▶</span>
+              <span class="home-night-player__control--rewind"></span>
+              <span class="home-night-player__control--fast-forward"></span>
+              <span class="home-night-player__control--pause"></span>
+              <span class="home-night-player__control--next"></span>
             </div>
           </div>
         </aside>
@@ -417,7 +423,9 @@ import pixelFolderIcon from '@/assets/icons/pixelarticons/folder.svg'
 import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
 import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
+import { isSilenceEnabled } from '@/config/features'
 import { ffxivTools, siteMeta, siteRoutes } from '@/config/site'
+import { siteSocialLinks } from '@/config/socialLinks'
 import { homeTextKeys as textKeys } from '@/locales/keys/home'
 import { homeUiMessages } from '@/locales/modules/home'
 import { loadMessages, useLocale } from '@/stores/locale'
@@ -469,6 +477,8 @@ interface NightFragmentStabilityConfig {
   avatar: string
   icon: string
   side: 'left' | 'right'
+  dialoguePreviewKey?: string
+  dialogueUnread?: boolean
   existence: NightStabilityMotion
   mental: NightStabilityMotion
 }
@@ -499,34 +509,45 @@ let homeWindowTopZIndex = 20
 let activeHomeWindowDrag: HomeWindowDragState | null = null
 
 const isHomeCharacterArtPreview = import.meta.env.DEV
+const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE
 const homeCharacterArtStyle = computed(
   () =>
     ({
-      '--home-character-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-1.png")' : 'none'
+      '--home-character-art-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/yoine-1.png")`
+        : 'none'
     }) as CSSProperties
 )
 const homeLogoArtStyle = computed(
   () =>
     ({
-      '--home-logo-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/nightingale-logo-1.webp")' : 'none'
+      '--home-logo-art-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/nightingale-logo-1.webp")`
+        : 'none'
     }) as CSSProperties
 )
 const homeDayArtStyle = computed(
   () =>
     ({
-      '--home-day-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-6.webp")' : 'none'
+      '--home-day-art-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/yoine-6.webp")`
+        : 'none'
     }) as CSSProperties
 )
 const homeDayPortraitStyle = computed(
   () =>
     ({
-      '--home-day-portrait-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoine-8.png")' : 'none'
+      '--home-day-portrait-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/yoine-8.png")`
+        : 'none'
     }) as CSSProperties
 )
 const homeNightArtStyle = computed(
   () =>
     ({
-      '--home-night-art-url': isHomeCharacterArtPreview ? 'url("/local-assets/yoin-3.webp")' : 'none'
+      '--home-night-art-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/yoin-3.webp")`
+        : 'none'
     }) as CSSProperties
 )
 const homeClockLabel = computed(() => (themeMode.value === 'night' ? '00:29' : '06:29'))
@@ -536,40 +557,44 @@ const nightAvatarCards = [
     id: 'yoine',
     nameKey: textKeys.homeAvatarYoine,
     stateKey: textKeys.homeArchiveStable,
-    image: '/local-assets/yoine-avatar.webp',
+    image: `${localAssetBase}/yoine-avatar.webp`,
     tone: 'stable'
   },
   {
     id: 'yoin',
     nameKey: textKeys.homeAvatarYoin,
     stateKey: textKeys.homeArchiveCorrupt,
-    image: '/local-assets/yoin-avatar.webp',
+    image: `${localAssetBase}/yoin-avatar.webp`,
     tone: 'corrupt'
   }
 ] as const
 
 const desktopIcons = [
-  {
-    id: 'dream',
-    labelKey: textKeys.homeDream,
-    route: siteRoutes.silence,
-    icon: pixelSparklesIcon,
-    tone: 'pink'
-  },
-  {
-    id: 'angel',
-    labelKey: textKeys.homeAngel,
-    route: siteRoutes.silenceAngel,
-    icon: pixelAvatarCircleIcon,
-    tone: 'blue'
-  },
-  {
-    id: 'glitch',
-    labelKey: textKeys.homeGlitch,
-    route: siteRoutes.silenceGlitch,
-    icon: pixelArchiveIcon,
-    tone: 'violet'
-  },
+  ...(isSilenceEnabled
+    ? [
+        {
+          id: 'dream',
+          labelKey: textKeys.homeDream,
+          route: siteRoutes.silence,
+          icon: pixelSparklesIcon,
+          tone: 'pink'
+        },
+        {
+          id: 'angel',
+          labelKey: textKeys.homeAngel,
+          route: siteRoutes.silenceAngel,
+          icon: pixelAvatarCircleIcon,
+          tone: 'blue'
+        },
+        {
+          id: 'glitch',
+          labelKey: textKeys.homeGlitch,
+          route: siteRoutes.silenceGlitch,
+          icon: pixelArchiveIcon,
+          tone: 'violet'
+        }
+      ]
+    : []),
   {
     id: 'network',
     labelKey: textKeys.homeNetworkNeighbor,
@@ -592,12 +617,16 @@ const taskbarItems = [
     route: siteRoutes.ffxiv,
     active: false
   },
-  {
-    id: 'silence',
-    labelKey: textKeys.silence,
-    route: siteRoutes.silence,
-    active: false
-  }
+  ...(isSilenceEnabled
+    ? [
+        {
+          id: 'silence',
+          labelKey: textKeys.silence,
+          route: siteRoutes.silence,
+          active: false
+        }
+      ]
+    : [])
 ] as const
 
 const homeWorkshopLinks = [
@@ -662,6 +691,7 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
     avatar: '歌莉亚-像素小人.png',
     icon: '◇',
     side: 'left',
+    dialoguePreviewKey: textKeys.homeNightDialogueGeliya,
     existence: { base: 100, amplitude: 0, speed: 0, phase: 0 },
     mental: { base: 95, amplitude: 5, speed: 0.61, phase: 2.4 }
   },
@@ -689,6 +719,7 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
     avatar: '奈伊-像素小人.png',
     icon: '👻',
     side: 'right',
+    dialoguePreviewKey: textKeys.homeNightDialogueNaiyi,
     existence: { base: 70, amplitude: 10, speed: 0.84, phase: 2.6 },
     mental: { base: 15, amplitude: 15, speed: 0.57, phase: 3.8 }
   },
@@ -707,6 +738,8 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
     avatar: '沙乐万-像素小人.png',
     icon: '○',
     side: 'right',
+    dialoguePreviewKey: textKeys.homeNightDialogueShalewan,
+    dialogueUnread: true,
     existence: { base: 40, amplitude: 40, speed: 2.8, phase: 3.2 },
     mental: { base: 100, amplitude: 0, speed: 0, phase: 0 }
   }
@@ -733,40 +766,18 @@ const nightFragmentRecords = computed(() =>
 
 const nightWorldStability = computed(() => ({ size: nightStabilitySize(nightWorldStabilityMotion) }))
 
-const nightDialogueMessages = computed(() => nightFragmentStabilityConfigs.slice(0, 3))
+const nightDialogueMessages = computed(() =>
+  nightFragmentStabilityConfigs.flatMap((message) =>
+    message.dialoguePreviewKey
+      ? [{ ...message, previewKey: message.dialoguePreviewKey, unread: message.dialogueUnread === true }]
+      : []
+  )
+)
 
-const homeSocialLinks = [
-  {
-    id: 'huiji',
-    labelKey: 'home.social.huiji',
-    href: 'https://ff14.huijiwiki.com/wiki/%E5%88%86%E7%B1%BB:%E4%BD%9C%E8%80%85NIGHTINGALE',
-    icon: '/assets/icons/huiji.svg'
-  },
-  {
-    id: 'nga',
-    labelKey: 'home.social.nga',
-    href: 'https://nga.178.com/thread.php?authorid=12605886',
-    icon: '/assets/icons/nga.svg'
-  },
-  {
-    id: 'xiaohongshu',
-    labelKey: 'home.social.xiaohongshu',
-    href: 'https://xhslink.com/m/2xLfxolEhzS',
-    icon: '/assets/icons/xiaohongshu.svg'
-  },
-  {
-    id: 'weibo',
-    labelKey: 'home.social.weibo',
-    href: 'https://weibo.com/1734754935?refer_flag=1001030103_',
-    icon: '/assets/icons/weibo.svg'
-  },
-  {
-    id: 'douyin',
-    labelKey: 'home.social.douyin',
-    href: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY',
-    icon: '/assets/icons/douyin.svg'
-  }
-] as const
+const homeSocialLinks = siteSocialLinks.map((link) => ({
+  ...link,
+  labelKey: `home.social.${link.id}`
+}))
 
 function workshopIconFor(id: string) {
   if (id === 'itemCard') {
@@ -802,7 +813,7 @@ function homeChatAvatarStyle(filename: string): CSSProperties | undefined {
   }
 
   return {
-    '--home-chat-avatar-url': `url("/local-assets/${encodeURIComponent(filename)}")`
+    '--home-chat-avatar-url': `url("${localAssetBase}/${encodeURIComponent(filename)}")`
   } as CSSProperties
 }
 
@@ -2719,7 +2730,7 @@ button.home-window__control:focus-visible {
 
 .home-night-dialogue p {
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr);
+  grid-template-columns: 38px minmax(0, 1fr) auto;
   gap: 3px 8px;
   margin: 0;
   padding: 5px;
@@ -2728,7 +2739,7 @@ button.home-window__control:focus-visible {
 }
 
 .home-night-dialogue__avatar {
-  grid-row: span 2;
+  grid-row: 1 / span 2;
   display: grid;
   width: 38px;
   height: 38px;
@@ -2746,6 +2757,8 @@ button.home-window__control:focus-visible {
 }
 
 .home-night-dialogue p strong {
+  grid-column: 2;
+  grid-row: 1;
   align-self: end;
   color: var(--home-pink);
   font-family: var(--ns-font-sans);
@@ -2753,10 +2766,27 @@ button.home-window__control:focus-visible {
   line-height: 1;
 }
 
-.home-night-dialogue p > span:last-child {
+.home-night-dialogue__preview {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  overflow: hidden;
   color: var(--home-muted);
   font-size: 10px;
   line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-night-dialogue__unread {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--home-border);
+  background: var(--home-pink);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--home-shadow) 72%, transparent);
 }
 
 .home-night-chat p {
@@ -3118,7 +3148,7 @@ button.home-window__control:focus-visible {
 .home-night-player__controls {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -3137,6 +3167,82 @@ button.home-window__control:focus-visible {
   box-shadow:
     inset 2px 2px 0 rgba(255, 255, 255, 0.08),
     inset -2px -2px 0 rgba(0, 0, 0, 0.58);
+}
+
+.home-night-player__control--rewind,
+.home-night-player__control--fast-forward,
+.home-night-player__control--pause,
+.home-night-player__control--next {
+  position: relative;
+}
+
+.home-night-player__control--rewind::before,
+.home-night-player__control--rewind::after,
+.home-night-player__control--fast-forward::before,
+.home-night-player__control--fast-forward::after,
+.home-night-player__control--next::before {
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content: '';
+  transform: translateY(-50%);
+}
+
+.home-night-player__control--rewind::before,
+.home-night-player__control--rewind::after {
+  border-right: 7px solid currentColor;
+}
+
+.home-night-player__control--rewind::before {
+  left: calc(50% - 8px);
+}
+
+.home-night-player__control--rewind::after {
+  left: calc(50% - 1px);
+}
+
+.home-night-player__control--fast-forward::before,
+.home-night-player__control--fast-forward::after {
+  border-left: 7px solid currentColor;
+}
+
+.home-night-player__control--fast-forward::before {
+  left: calc(50% - 6px);
+}
+
+.home-night-player__control--fast-forward::after {
+  left: calc(50% + 1px);
+}
+
+.home-night-player__control--pause::before {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 5px);
+  width: 3px;
+  height: 12px;
+  background: currentColor;
+  box-shadow: 7px 0 0 currentColor;
+  content: '';
+  transform: translateY(-50%);
+}
+
+.home-night-player__control--next::before {
+  left: calc(50% - 7px);
+  border-left: 8px solid currentColor;
+}
+
+.home-night-player__control--next::after {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 5px);
+  width: 3px;
+  height: 12px;
+  background: currentColor;
+  content: '';
+  transform: translateY(-50%);
 }
 
 .home-taskbar {
@@ -3430,13 +3536,15 @@ button.home-window__control:focus-visible {
   }
 
   .home-desktop-icon__image {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    padding: 8px;
   }
 
   .home-window {
     position: relative;
     inset: auto;
+    z-index: 1 !important;
     width: 100%;
     translate: none;
   }
@@ -3488,7 +3596,16 @@ button.home-window__control:focus-visible {
   }
 
   .home-night-player {
-    grid-template-columns: 72px minmax(0, 1fr);
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .home-night-player__pad {
+    width: 76px;
+    height: 76px;
+  }
+
+  .home-night-player__pad::before {
+    inset: 20px;
   }
 
   .home-night-player__controls span {
@@ -3521,8 +3638,46 @@ button.home-window__control:focus-visible {
     width: min(220px, calc(100% - 32px));
   }
 
+  .home-taskbar {
+    z-index: 30;
+  }
+
   .home-taskbar__windows {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .home-taskbar__windows::-webkit-scrollbar {
     display: none;
+  }
+
+  :global(:root:not([data-theme='night']) .home-taskbar__windows--day),
+  :global(:root[data-theme='night'] .home-taskbar__windows--night) {
+    display: flex;
+  }
+
+  :global(:root:not([data-theme='night']) .home-taskbar__windows--night),
+  :global(:root[data-theme='night'] .home-taskbar__windows--day) {
+    display: none;
+  }
+
+  .home-taskbar__window {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .home-taskbar__windows--night .home-taskbar__window {
+    width: auto;
+    min-width: 112px;
+    max-width: 150px;
   }
 
   .home-taskbar__clock {
