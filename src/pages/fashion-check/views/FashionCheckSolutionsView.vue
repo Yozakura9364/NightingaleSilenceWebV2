@@ -9,29 +9,43 @@
         <h2 class="ns-workbench-panel__title">
           {{ solution.id === '80' ? t(keys.solution80Title) : t(keys.solution100Title) }}
         </h2>
-        <div class="fashion-check-showcase__entries">
-          <div
-            v-for="entry in solution.entries"
-            :key="`${solution.id}:${entry.slotId}`"
-            class="fashion-check-showcase__entry"
+        <div class="fashion-check-showcase__variants">
+          <section
+            v-for="section in solutionSections(solution)"
+            :key="`${solution.id}:${section.id}`"
+            class="fashion-check-showcase__variant"
           >
-            <FashionCheckItemLine
-              v-if="entry.item || entry.iconId"
-              :item="entry.item"
-              :display-name="entry.item ? itemName(entry.item.itemId, entry.item.name) : undefined"
-              :icon-id="entry.iconId"
-              :slot-label="slotLabel(entry.slotId)"
-              :label="entryLabel(entry)"
-              :secondary-text="entry.dye ? dyeName(entry.dye.dyeId, entry.dye.name) : undefined"
-            />
-            <p v-else>
-              <b>{{ slotLabel(entry.slotId) }}</b
-              ><span>{{ entryLabel(entry) }}</span>
+            <h3 v-if="section.label">{{ section.label }}</h3>
+            <p v-if="section.description" class="fashion-check-showcase__variant-description">
+              {{ section.description }}
             </p>
-            <small v-if="entry.dye && !entry.item && !entry.iconId">
-              {{ dyeName(entry.dye.dyeId, entry.dye.name) }}
-            </small>
-          </div>
+            <div v-if="section.entries.length > 0" class="fashion-check-showcase__entries">
+              <div
+                v-for="entry in section.entries"
+                :key="`${solution.id}:${section.id}:${entry.slotId}`"
+                class="fashion-check-showcase__entry"
+              >
+                <FashionCheckItemLine
+                  v-if="entry.item || entry.iconId"
+                  :item="entry.item"
+                  :display-name="
+                    entry.item ? itemName(entry.item.itemId, entry.item.name) : undefined
+                  "
+                  :icon-id="entry.iconId"
+                  :slot-label="slotLabel(entry.slotId)"
+                  :label="entryLabel(entry)"
+                  :secondary-text="entry.dye ? dyeName(entry.dye.dyeId, entry.dye.name) : undefined"
+                />
+                <p v-else>
+                  <b>{{ slotLabel(entry.slotId) }}</b
+                  ><span>{{ entryLabel(entry) }}</span>
+                </p>
+                <small v-if="entry.dye && !entry.item && !entry.iconId">
+                  {{ dyeName(entry.dye.dyeId, entry.dye.name) }}
+                </small>
+              </div>
+            </div>
+          </section>
         </div>
       </article>
       <section
@@ -39,24 +53,45 @@
         :aria-label="t(keys.dyeGuide)"
       >
         <h2 class="ns-workbench-panel__title">{{ t(keys.dyeGuide) }}</h2>
+        <small v-if="showcase.dyeProvider" class="fashion-check-showcase__dye-provider">
+          {{ t(keys.providedBy) }} {{ showcase.dyeProvider }}
+        </small>
         <article v-for="dye in showcase.dyes" :key="dye.slotId">
           <b class="fashion-check-showcase__dye-slot">{{ slotLabel(dye.slotId) }}</b>
-          <div class="fashion-check-showcase__dye-row">
-            <span
-              class="fashion-check-showcase__swatch"
-              :style="{ backgroundColor: dye.family.color }"
-              aria-hidden="true"
-            />
-            <span>{{ familyName(dye.family.id, dye.family.name) }} +{{ dye.family.points }}</span>
-          </div>
-          <div class="fashion-check-showcase__dye-row">
-            <span
-              class="fashion-check-showcase__swatch"
-              :style="{ backgroundColor: dye.exact.color }"
-              aria-hidden="true"
-            />
-            <strong>{{ dyeName(dye.exact.dyeId, dye.exact.name) }} +{{ dye.exact.points }}</strong>
-            <small>{{ declarationName(dye.exact.declarationKey, dye.exact.declaration) }}</small>
+          <div class="fashion-check-showcase__dye-content">
+            <div class="fashion-check-showcase__dye-values">
+              <div class="fashion-check-showcase__dye-row">
+                <span
+                  class="fashion-check-showcase__swatch"
+                  :style="{ backgroundColor: dye.family.color }"
+                  aria-hidden="true"
+                />
+                <span>
+                  {{ familyName(dye.family.id, dye.family.name) }} +{{ dye.family.points }}
+                </span>
+              </div>
+              <div class="fashion-check-showcase__dye-row">
+                <span
+                  class="fashion-check-showcase__swatch"
+                  :style="{ backgroundColor: dye.exact.color }"
+                  aria-hidden="true"
+                />
+                <strong>
+                  {{ dyeName(dye.exact.dyeId, dye.exact.name) }} +{{ dye.exact.points }}
+                </strong>
+              </div>
+            </div>
+            <span v-if="dyeItem(dye.exact.dyeId)" class="fashion-check-showcase__dye-item">
+              <span class="fashion-check-showcase__dye-item-icon" aria-hidden="true">
+                <img
+                  v-if="dyeItemIconUrl(dye.exact.dyeId)"
+                  :src="dyeItemIconUrl(dye.exact.dyeId)"
+                  alt=""
+                  loading="lazy"
+                />
+              </span>
+              <small>{{ dyeItemName(dye.exact.dyeId) }}</small>
+            </span>
           </div>
         </article>
       </section>
@@ -114,12 +149,15 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import FashionCheckItemLine from '@/pages/fashion-check/components/FashionCheckItemLine.vue'
+import { getArmoireIconUrl } from '@/lib/armoire/catalog'
 import { resolveFashionCheckName } from '@/lib/fashion-check/localization'
 import type {
   FashionCheckItem,
   FashionCheckLocaleCatalog,
+  FashionCheckDyeFamilyId,
   FashionCheckReferenceEntry,
   FashionCheckReferenceShowcase,
+  FashionCheckReferenceSolution,
   FashionCheckWeek
 } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
@@ -159,16 +197,40 @@ function dyeName(dyeId: number | undefined, fallback: string) {
     fallback
   )
 }
+function dyeItem(dyeId: number | undefined) {
+  return dyeId === undefined ? undefined : props.localeCatalog.dyeItems?.[String(dyeId)]
+}
+function dyeItemName(dyeId: number | undefined) {
+  const item = dyeItem(dyeId)
+  return item ? resolveFashionCheckName(item.names, current.value, '') : ''
+}
+function dyeItemIconUrl(dyeId: number | undefined) {
+  return getArmoireIconUrl(dyeItem(dyeId)?.iconId)
+}
 function entryLabel(entry: FashionCheckReferenceEntry) {
   return entry.labelKey ? t(entry.labelKey) : entry.label
 }
-function familyName(familyId: 'black' | 'red' | undefined, fallback: string) {
+function solutionSections(solution: FashionCheckReferenceSolution) {
+  if (solution.variants?.length) {
+    return solution.variants.map((variant) => ({
+      id: variant.id,
+      label: variant.labelKey ? t(variant.labelKey) : variant.label,
+      description: variant.descriptionKey ? t(variant.descriptionKey) : variant.description,
+      entries: variant.entries
+    }))
+  }
+
+  return [
+    { id: 'default', label: undefined, description: undefined, entries: solution.entries ?? [] }
+  ]
+}
+function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: string) {
   if (familyId === 'black') return t(keys.dyeFamilyBlack)
   if (familyId === 'red') return t(keys.dyeFamilyRed)
+  if (familyId === 'brown') return t(keys.dyeFamilyBrown)
+  if (familyId === 'green') return t(keys.dyeFamilyGreen)
+  if (familyId === 'blue') return t(keys.dyeFamilyBlue)
   return fallback
-}
-function declarationName(declarationKey: string | undefined, fallback: string) {
-  return declarationKey ? t(declarationKey) : fallback
 }
 </script>
 
@@ -183,6 +245,7 @@ function declarationName(declarationKey: string | undefined, fallback: string) {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+  align-items: start;
 }
 .fashion-check-showcase__solution {
   align-content: start;
@@ -194,6 +257,27 @@ function declarationName(declarationKey: string | undefined, fallback: string) {
 .fashion-check-showcase__solution h2,
 .fashion-check-showcase__dyes h2 {
   font-size: 16px;
+}
+.fashion-check-showcase__variants,
+.fashion-check-showcase__variant {
+  display: grid;
+  gap: 10px;
+}
+.fashion-check-showcase__variant + .fashion-check-showcase__variant {
+  padding-top: 10px;
+  border-top: 1px solid var(--ns-pixel-border);
+}
+.fashion-check-showcase__variant h3,
+.fashion-check-showcase__variant-description {
+  margin: 0;
+}
+.fashion-check-showcase__variant h3 {
+  font-size: 13px;
+}
+.fashion-check-showcase__variant-description {
+  color: var(--ns-color-text-muted);
+  font-size: 13px;
+  line-height: 1.5;
 }
 .fashion-check-showcase__entries {
   display: grid;
@@ -232,9 +316,21 @@ function declarationName(declarationKey: string | undefined, fallback: string) {
 .fashion-check-showcase__dye-slot {
   font-size: 12px;
 }
+.fashion-check-showcase__dye-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+}
+.fashion-check-showcase__dye-values {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
 .fashion-check-showcase__dye-row {
   display: grid;
-  grid-template-columns: 14px minmax(0, 1fr) auto;
+  grid-template-columns: 14px minmax(0, 1fr);
   gap: 8px;
   align-items: center;
   min-width: 0;
@@ -249,6 +345,34 @@ function declarationName(declarationKey: string | undefined, fallback: string) {
 .fashion-check-showcase__dyes small {
   color: var(--ns-color-text-muted);
   font-size: 11px;
+}
+.fashion-check-showcase__dye-item {
+  display: grid;
+  justify-items: end;
+  justify-self: end;
+  gap: 2px;
+  min-width: 0;
+}
+.fashion-check-showcase__dye-item small {
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+.fashion-check-showcase__dye-item-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--ns-pixel-border);
+  background: var(--ns-color-bg-soft);
+  overflow: hidden;
+}
+.fashion-check-showcase__dye-item-icon img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+.fashion-check-showcase__dye-provider {
+  margin-top: -4px;
 }
 .fashion-check-showcase__faq p {
   margin: 0;

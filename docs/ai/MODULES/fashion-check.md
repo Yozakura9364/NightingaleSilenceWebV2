@@ -1,3 +1,13 @@
+---
+summary: '时尚品鉴页面、历史底座、当前周公开数据和采集发布边界。'
+status: 'active'
+scope: 'fashion-check 页面、数据、生成器、来源和维护流程。'
+source_of_truth: 'src/pages/fashion-check、data/public 数据、scripts 和 checker。'
+read_when: '修改时尚品鉴页面、周数据、来源、多语言或自动采集。'
+update_when: '路由、数据格式、来源、页面能力或发布边界改变时。'
+verify: '运行历史 checker、生成器并检查三个公开路由。'
+---
+
 # 时尚品鉴助手模块
 
 ## 当前状态
@@ -5,7 +15,7 @@
 - 页面路由：`#/ffxiv/fashioncheck`、`#/ffxiv/fashioncheck/gold-items`、`#/ffxiv/fashioncheck/sources`。
 - 已完成：历史周次与金牌装备答案的本地数据底座；当前周 Vue 页面、80/100 作业、金牌物品一览和数据来源展示。
 - 已实现并部署：服务器私有自动采集、两个北京时间窗口、持久 QQ 通知队列。
-- 当前页面数据：`public/data/fashion-check/current.json` 仅包含用户确认可公开的当前周切片，含所需物品 ID、图标 ID、品质和金牌分值；`public/data/fashion-check/current-locales.json` 按同一批 ID 提供中英日韩装备和染剂名，跟随全局语言状态切换。
+- 当前页面数据：`public/data/fashion-check/current.json` 仅包含用户确认可公开的当前周切片，含所需物品 ID、图标 ID、品质和金牌分值；`public/data/fashion-check/current-locales.json` 按同一批 ID 提供中英日韩装备名、染剂名，以及根据染剂分类自动解析的实际消耗物品与图标，跟随全局语言状态切换。页面进入时以无缓存请求读取这两个文件；展示结构不变的每周更新可以只替换生产静态目录中的语言索引和当前周 JSON，不需要重启静态服务。
 - 未实现：低贴合分档、历史染色、历史答案公开浏览和公开自动发布。
 - 未公开：原始参考和生成物位于 ignored `local-assets/fashion-check/`。
 
@@ -54,21 +64,21 @@ specs/001-fashion-check-assistant/  # 规格、计划、契约和任务
 
 机器可读登记表是 `data/fashion-check/sources.json`。每个来源均保留 URL、角色、检索时间、许可状态、使用政策和说明。公开页面只读取 `public/data/fashion-check/sources.json` 中已核准的署名、标题和链接。
 
-| Source ID | URL | 角色 | 当前用法 |
-|---|---|---|---|
-| `ffxiv-datamining-mixed` | `https://github.com/InfSein/ffxiv-datamining-mixed` | canonical | RowId、名称、图标和 Item 槽位；仓库未声明许可证 |
-| `qq-cn-history` | `https://www.youwanc.com/` | history, gold-answers | 游玩 c 哩酱的国服历史与答案原文，仅本地证据 |
-| `avantgarde` | `https://github.com/NeNeppie/AvantGarde` | gold-answers, mechanics, validation-only | AGPL-3.0 代码/机制参考，不复制源码 |
-| `avantgarde-tracker` | `https://docs.google.com/spreadsheets/d/1b9NwL-Ba4tS0ROSy1_4HPfi7QSMQWuhXKqFSSY9Ovp4/edit` | gold-answers | Category-to-Item 证据；表内感谢 Kaiyoko Star，数据许可未声明 |
-| `kaiyoko-reddit` | `https://www.reddit.com/user/KaiyokoStar/` | current-week, gold-answers, dyes | 每周信息图主页；未审阅具体帖子时不作 evidence |
-| `kaiyoko-x` | `https://x.com/KaiyokoStar` | current-week, gold-answers, dyes | 每周信息图主页，当前 link-only |
-| `gottesstrafe-reddit` | `https://www.reddit.com/user/Gottesstrafe/` | current-week, gold-answers, dyes, score-plans | 当前英文社区常见 results/full-details 发帖者；已审阅 Results 帖可作本地低分档候选证据 |
-| `allgamestaff-en` | `https://www.allgamestaff.it/fashion-report-guide-ffxiv-eng/` | current-week, gold-answers, dyes | 可变的当周 80/100/染色对照，非稳定历史 API |
-| `allgamestaff-it` | `https://www.allgamestaff.it/guida-fashion-report-ffxiv/` | current-week, gold-answers, dyes | 意大利语当周对照，非稳定历史 API |
-| `shapes-fashionreportff` | `https://shapes.inc/fashionreportff` | related-tool | 相关展示工具，不暴露稳定底层数据，不作 evidence |
-| `dsa-fashion-check-tool` | `https://github.com/dsa83171/FFXIV-Fashion-check-Tool` | history, validation-only | 繁中周次/部位校对，仓库未声明许可证 |
-| `kevin-fashion-report` | `https://github.com/KevinAllenWiegand/ffxiv-fashion-report` | history, validation-only | 英文历史周次与提示校对，仓库未声明许可证 |
-| `etsuna-fashion-report` | `https://github.com/Etsuna/FFXIVFashionReport` | related-tool, validation-only | MIT 桌面工具参考，不作主数据源 |
+| Source ID                | URL                                                                                        | 角色                                          | 当前用法                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `ffxiv-datamining-mixed` | `https://github.com/InfSein/ffxiv-datamining-mixed`                                        | canonical                                     | RowId、名称、图标和 Item 槽位；仓库未声明许可证                                       |
+| `qq-cn-history`          | `https://www.youwanc.com/`                                                                 | history, gold-answers                         | 游玩 c 哩酱的国服历史与答案原文，仅本地证据                                           |
+| `avantgarde`             | `https://github.com/NeNeppie/AvantGarde`                                                   | gold-answers, mechanics, validation-only      | AGPL-3.0 代码/机制参考，不复制源码                                                    |
+| `avantgarde-tracker`     | `https://docs.google.com/spreadsheets/d/1b9NwL-Ba4tS0ROSy1_4HPfi7QSMQWuhXKqFSSY9Ovp4/edit` | gold-answers                                  | Category-to-Item 证据；表内感谢 Kaiyoko Star，数据许可未声明                          |
+| `kaiyoko-reddit`         | `https://www.reddit.com/user/KaiyokoStar/`                                                 | current-week, gold-answers, dyes              | 每周信息图主页；未审阅具体帖子时不作 evidence                                         |
+| `kaiyoko-x`              | `https://x.com/KaiyokoStar`                                                                | current-week, gold-answers, dyes              | 每周信息图主页，当前 link-only                                                        |
+| `gottesstrafe-reddit`    | `https://www.reddit.com/user/Gottesstrafe/`                                                | current-week, gold-answers, dyes, score-plans | 当前英文社区常见 results/full-details 发帖者；已审阅 Results 帖可作本地低分档候选证据 |
+| `allgamestaff-en`        | `https://www.allgamestaff.it/fashion-report-guide-ffxiv-eng/`                              | current-week, gold-answers, dyes              | 可变的当周 80/100/染色对照，非稳定历史 API                                            |
+| `allgamestaff-it`        | `https://www.allgamestaff.it/guida-fashion-report-ffxiv/`                                  | current-week, gold-answers, dyes              | 意大利语当周对照，非稳定历史 API                                                      |
+| `shapes-fashionreportff` | `https://shapes.inc/fashionreportff`                                                       | related-tool                                  | 相关展示工具，不暴露稳定底层数据，不作 evidence                                       |
+| `dsa-fashion-check-tool` | `https://github.com/dsa83171/FFXIV-Fashion-check-Tool`                                     | history, validation-only                      | 繁中周次/部位校对，仓库未声明许可证                                                   |
+| `kevin-fashion-report`   | `https://github.com/KevinAllenWiegand/ffxiv-fashion-report`                                | history, validation-only                      | 英文历史周次与提示校对，仓库未声明许可证                                              |
+| `etsuna-fashion-report`  | `https://github.com/Etsuna/FFXIVFashionReport`                                             | related-tool, validation-only                 | MIT 桌面工具参考，不作主数据源                                                        |
 
 `related-tool` 或 `link-only` 来源可出现在 credits/registry，但不能被写入 Item `EvidenceRef`。checker 会拒绝这种混用。
 
@@ -110,7 +120,7 @@ node --test tests/fashion-check/*.test.mjs
 node scripts/fashion-check/build-current-locales.mjs
 ```
 
-`build-current-locales.mjs` 只提取当前公开切片引用的 Item ID 和 Dye ID，产物不包含完整官方 CSV。它需要 ignored 的 `local-assets/fashion-check/references/official/{chs,en,ja,ko}/Item.csv`；中英文源与历史构建器共用，日文和韩文源只用于当前公开名称索引。法德不在此契约内，前端按英文回退。
+`build-current-locales.mjs` 只提取当前公开切片引用的 Item ID 和 Dye ID，产物不包含完整官方 CSV。它同时读取轻量 `armoire-dye-catalog.json` 的染剂分类，自动把普通色、追加染剂 1、追加染剂 2 和独立商城染剂解析为实际消耗物品，并写入 `dyeItems`。脚本需要 ignored 的 `local-assets/fashion-check/references/official/{chs,en,ja,ko}/Item.csv`；中英文源与历史构建器共用，日文和韩文源只用于当前公开名称索引。法德不在此契约内，前端按英文回退。
 
 ## 自动采集
 

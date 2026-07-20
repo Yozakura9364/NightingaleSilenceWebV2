@@ -7,9 +7,16 @@ export interface FashionCheckItem {
 
 export type FashionCheckLocalizedNames = Partial<Record<'zh-CN' | 'en' | 'ja' | 'ko', string>>
 
+export interface FashionCheckDyeItem {
+  itemId: number
+  iconId: number
+  names: FashionCheckLocalizedNames
+}
+
 export interface FashionCheckLocaleCatalog {
   items: Record<string, FashionCheckLocalizedNames>
   dyes: Record<string, FashionCheckLocalizedNames>
+  dyeItems?: Record<string, FashionCheckDyeItem>
 }
 
 export interface FashionCheckDyeStep {
@@ -33,24 +40,37 @@ export interface FashionCheckReferenceEntry {
   dye?: { dyeId?: number; name: string; points?: number }
 }
 
+export interface FashionCheckReferenceVariant {
+  id: string
+  label?: string
+  labelKey?: string
+  description?: string
+  descriptionKey?: string
+  entries: FashionCheckReferenceEntry[]
+}
+
+export interface FashionCheckReferenceSolution {
+  id: '80' | '100'
+  score: number
+  entries?: FashionCheckReferenceEntry[]
+  variants?: FashionCheckReferenceVariant[]
+}
+
+export type FashionCheckDyeFamilyId = 'black' | 'red' | 'brown' | 'green' | 'blue'
+
 export interface FashionCheckReferenceShowcase {
   globalIssue: number
   theme: string
-  solutions: Array<{
-    id: '80' | '100'
-    score: number
-    entries: FashionCheckReferenceEntry[]
-  }>
+  dyeProvider?: string
+  solutions: FashionCheckReferenceSolution[]
   dyes: Array<{
     slotId: string
-    family: { id?: 'black' | 'red'; name: string; color: string; points: 1 }
+    family: { id?: FashionCheckDyeFamilyId; name: string; color: string; points: 1 }
     exact: {
       dyeId?: number
       name: string
       color: string
       points: 2
-      declaration: string
-      declarationKey?: string
     }
   }>
 }

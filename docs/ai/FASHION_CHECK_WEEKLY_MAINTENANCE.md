@@ -1,3 +1,13 @@
+---
+summary: '时尚品鉴当前周数据、来源、名称索引和发布切片的维护流程。'
+status: 'active'
+scope: 'data/public fashion-check 数据和相关生成器。'
+source_of_truth: 'fashion-check scripts、checker、当前公开 JSON 和已审阅来源。'
+read_when: '更新周次、物品、染剂、来源或多语言名称。'
+update_when: '采集策略、数据格式、生成器或发布门禁改变时。'
+verify: '运行生成器、历史 checker，并检查公开页面与产物边界。'
+---
+
 # 时尚品鉴每周维护指南
 
 本文是时尚品鉴助手的操作手册。目标是在不把未核验社区信息、私有会话数据或第三方原始文件公开的前提下，更新：
@@ -21,12 +31,12 @@
 
 所有时间均为 `Asia/Shanghai`。
 
-| 时间 | 目标 | 允许的动作 | 不允许的动作 |
-| --- | --- | --- | --- |
-| 周二 16:05 至周三 16:05 | 发现新主题、部位和标签 | 读取服务器通知、对照社区来源、填写待确认记录 | 根据旧周答案提前公开作业 |
-| 周三至周四 | 整理主题和候选金牌 | 核对官方 ID、槽位、图标和名称 | 根据装备名相似度猜测分档 |
-| 周五 16:05 至周六 16:05 | 确认金牌、染色、80/100 作业 | 多源对照、更新私有 staging、人工验算 | 未核验时将候选答案称为金牌或满分 |
-| 确认完成后 | 发布当前周切片 | 修改公开 JSON、生成语言索引、跑检查、浏览器核对 | 直接发布服务器 `.local` 内容 |
+| 时间                    | 目标                        | 允许的动作                                      | 不允许的动作                     |
+| ----------------------- | --------------------------- | ----------------------------------------------- | -------------------------------- |
+| 周二 16:05 至周三 16:05 | 发现新主题、部位和标签      | 读取服务器通知、对照社区来源、填写待确认记录    | 根据旧周答案提前公开作业         |
+| 周三至周四              | 整理主题和候选金牌          | 核对官方 ID、槽位、图标和名称                   | 根据装备名相似度猜测分档         |
+| 周五 16:05 至周六 16:05 | 确认金牌、染色、80/100 作业 | 多源对照、更新私有 staging、人工验算            | 未核验时将候选答案称为金牌或满分 |
+| 确认完成后              | 发布当前周切片              | 修改公开 JSON、生成语言索引、跑检查、浏览器核对 | 直接发布服务器 `.local` 内容     |
 
 ## 来源使用顺序
 
@@ -78,15 +88,17 @@ public/data/fashion-check/current-locales.json
 
 ### `current.json` 必填内容
 
-| 字段 | 说明 |
-| --- | --- |
-| `schemaVersion` | 当前使用 `fashion-check.public-current.v4`。结构调整时升级版本。 |
-| `globalIssue` / `cnIssue` | 国际服和国服周次，必须与本周主题一致。 |
-| `theme` | 已确认的当前主题展示名。 |
-| `challengeWindow` | `+08:00` 的可挑战起止时间。 |
-| `referenceShowcase` | 用户可见的 80 分、100 分与全部位染色展示。 |
-| `solutions` | 备用结构化分数方案；当前展示优先使用 `referenceShowcase`。 |
-| `slots` | 金牌物品页的部位、标签、金牌分值与 Item 列表。 |
+| 字段                      | 说明                                                                                         |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| `schemaVersion`           | 当前使用 `fashion-check.public-current.v4`。结构调整时升级版本。                             |
+| `globalIssue` / `cnIssue` | 国际服和国服周次，必须与本周主题一致。                                                       |
+| `theme`                   | 已确认的当前主题展示名。                                                                     |
+| `challengeWindow`         | `+08:00` 的可挑战起止时间。                                                                  |
+| `referenceShowcase`       | 用户可见的 80 分、100 分与全部位染色展示；本周染色攻略有公开提供者时一并填写 `dyeProvider`。 |
+| `solutions`               | 备用结构化分数方案；当前展示优先使用 `referenceShowcase`。                                   |
+| `slots`                   | 金牌物品页的部位、标签、金牌分值与 Item 列表。                                               |
+
+`referenceShowcase.solutions[]` 继续兼容单个方案直接填写 `entries`。同一分数存在多种完成方式时，改用 `variants`；每个 variant 必须有稳定 `id`、本地化 `labelKey` / `descriptionKey` 和自己的 `entries`，避免用重复的 `80` ID 生成重复 Vue key。
 
 ### Item 条目
 
@@ -115,14 +127,14 @@ public/data/fashion-check/current-locales.json
   "dyeId": 6,
   "name": "煤烟黑",
   "color": "#2B2923",
-  "points": 2,
-  "declaration": "通用染剂",
-  "declarationKey": "fashionCheck.commonDye"
+  "points": 2
 }
 ```
 
-- `dyeId` 是生成多语言染剂名的唯一键；缺失时生成器必须失败。
-- `name` 和 `declaration` 是中文回退，不能替代 ID。
+- `dyeId` 是生成多语言染剂名和解析实际消耗物品的唯一键；缺失时生成器必须失败。
+- `name` 是中文回退，不能替代 ID；不要在当前周数据中手填染剂来源或消耗物品名称。
+- 生成器根据 `armoire-dye-catalog.json` 的分类自动解析消耗物品：普通色使用“通用染剂”，`extra1` 使用“追加染剂1”，`extra2` 使用“追加染剂2”，商城特殊色使用与该 `dyeId` 对应的独立染剂物品。
+- 消耗物品的 Item ID、Icon ID 和中英日韩名称写入 `current-locales.json` 的 `dyeItems`，页面在染色攻略右侧显示物品名称和图标。
 - 色系使用 `family.id`，目前只接受 `black`、`red` 等已在前端本地化消息中登记的值；新增色系前先补齐中英日韩文案。
 
 ### 泛用可染色装备
@@ -138,7 +150,7 @@ public/data/fashion-check/current-locales.json
 }
 ```
 
-当前图标约定：身体 `42422`、腿部 `45539`、脚部 `46446`。不要用空白图标、通用占位符或随意替换为其他装备图标。
+当前图标约定：武器 `31104`、头部 `41227`、身体 `42422`、手部 `44305`、腿部 `45539`、脚部 `46446`。不要用空白图标、通用占位符或随意替换为其他装备图标。
 
 ## 中英日韩名称索引
 
@@ -167,7 +179,7 @@ data/fashion-check/current-dye-locales.json
 node scripts/fashion-check/build-current-locales.mjs
 ```
 
-生成器会从 `current.json` 收集所有 `itemId` 与 `dyeId`，缺任一语言名称即失败。成功后才会覆写：
+生成器会从 `current.json` 收集所有 `itemId` 与 `dyeId`，并结合轻量衣柜染剂分类和官方 Item.csv 解析实际染剂物品；缺任一语言名称、物品 ID 或图标 ID 即失败。成功后才会覆写：
 
 ```text
 public/data/fashion-check/current-locales.json
@@ -181,7 +193,7 @@ public/data/fashion-check/current-locales.json
 
 - 确认周次、主题、标签、可挑战时间。
 - 对每个金牌部位确认 Item ID、槽位、图标和品质。
-- 分别确认 80 分、100 分、精确染色、同色系染色与通用/特殊染剂声明。
+- 分别确认 80 分、100 分、精确染色、同色系染色，以及自动解析的实际染剂物品名称与图标。
 - 证据不足时，宁可不发布该项，也不要用上周、推测或未核验内容补齐。
 
 ### 2. 更新公开切片
@@ -228,18 +240,29 @@ node --test tests/fashion-check/*.test.mjs
 
 推荐截图命名：`fashion-check-zh.png`、`fashion-check-en.png`、`fashion-check-ja.png`、`fashion-check-ko.png`、`fashion-check-gold.png`、`fashion-check-sources.png`。
 
+### 6. 当前周数据热更新
+
+时尚品鉴页面在每次进入时以 `no-store` 和时间戳查询参数读取当前周 JSON。前端展示结构没有变化时，不需要重新构建 Vue，也不需要重启 Nginx 或其他静态文件服务；完成上述生成和验证后，只替换生产静态目录中的两个文件：
+
+```text
+dist/data/fashion-check/current-locales.json
+dist/data/fashion-check/current.json
+```
+
+必须先上传 `current-locales.json`，确认成功后再上传 `current.json`。这样切换瞬间即使有用户请求，旧周数据最多短暂读取到包含新 ID 的语言索引，不会让新周数据引用尚未上传的名称。修改数据结构、页面组件、本地化 key 或其他运行时代码时仍需执行完整构建和部署。
+
 ## 常见故障
 
-| 现象 | 优先检查 | 处理方式 |
-| --- | --- | --- |
-| 页面显示中文装备名 | `current-locales.json` 是否存在该 Item ID | 更新 `current.json` 后重跑名称生成器 |
-| 日/韩名称缺失 | 对应 Item.csv 是否在 ignored 参考目录 | 补齐官方 CSV；不要用机翻代替 |
-| 染剂仍显示中文 | 染剂条目是否有 `dyeId`，配置是否包含四语名称 | 补 `current-dye-locales.json` 后重跑生成器 |
-| 部位名未切换 | `slotId` 是否为标准槽位，消息 key 是否已登记 | 使用 `weapon/head/body/hands/legs/feet`，补中英日韩消息 |
-| 金牌物品图标错误 | Item ID 与 Icon ID 是否来自同一行 | 以官方 Item.csv 修复，不修改图标 URL |
-| 生成器报缺失 Item ID | 任一语言 Item.csv 中没有该 ID/Name | 更新本地官方 CSV 或暂停发布该物品 |
-| `/fc` 发旧周答案 | 服务器私有 staging 的周次未更新 | 不修改网页补救；先修采集/审核状态 |
-| 来源页出现不该展示的条目 | `public/data/fashion-check/sources.json` | 仅从公开清单移除；保留内部证据记录 |
+| 现象                     | 优先检查                                     | 处理方式                                                |
+| ------------------------ | -------------------------------------------- | ------------------------------------------------------- |
+| 页面显示中文装备名       | `current-locales.json` 是否存在该 Item ID    | 更新 `current.json` 后重跑名称生成器                    |
+| 日/韩名称缺失            | 对应 Item.csv 是否在 ignored 参考目录        | 补齐官方 CSV；不要用机翻代替                            |
+| 染剂仍显示中文           | 染剂条目是否有 `dyeId`，配置是否包含四语名称 | 补 `current-dye-locales.json` 后重跑生成器              |
+| 部位名未切换             | `slotId` 是否为标准槽位，消息 key 是否已登记 | 使用 `weapon/head/body/hands/legs/feet`，补中英日韩消息 |
+| 金牌物品图标错误         | Item ID 与 Icon ID 是否来自同一行            | 以官方 Item.csv 修复，不修改图标 URL                    |
+| 生成器报缺失 Item ID     | 任一语言 Item.csv 中没有该 ID/Name           | 更新本地官方 CSV 或暂停发布该物品                       |
+| `/fc` 发旧周答案         | 服务器私有 staging 的周次未更新              | 不修改网页补救；先修采集/审核状态                       |
+| 来源页出现不该展示的条目 | `public/data/fashion-check/sources.json`     | 仅从公开清单移除；保留内部证据记录                      |
 
 ## 交给 Codex 的最短请求
 
