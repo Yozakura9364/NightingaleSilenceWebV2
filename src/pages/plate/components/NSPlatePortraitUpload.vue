@@ -40,7 +40,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, type CSSProperties } from 'vue'
+import { defineAsyncComponent, ref, type CSSProperties } from 'vue'
+
+const NSPlateCropDialog = defineAsyncComponent(
+  () => import('@/pages/plate/components/NSPlateCropDialog.vue')
+)
 import image2PlusIcon from '@/assets/icons/image-2-plus.svg'
 import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import {
@@ -54,7 +58,6 @@ import type {
   NSPlatePortraitSide
 } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
-import NSPlateCropDialog from '@/pages/plate/components/NSPlateCropDialog.vue'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 
 const props = defineProps<{
