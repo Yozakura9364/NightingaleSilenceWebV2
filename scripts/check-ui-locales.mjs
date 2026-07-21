@@ -1,4 +1,5 @@
 import { readdir, readFile, stat } from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
@@ -7,6 +8,7 @@ const rootDir = dirname(dirname(fileURLToPath(import.meta.url)))
 const srcDir = join(rootDir, 'src')
 const localeDir = join(srcDir, 'locales')
 const moduleNames = ['core', 'home', 'plate', 'glamour', 'armoire', 'silence', 'styleLab']
+const require = createRequire(import.meta.url)
 const errors = []
 const messageOwners = new Map()
 let messageCount = 0
@@ -123,6 +125,23 @@ async function findObjectVariable(filePath, variableName) {
 }
 
 function unwrapObject(node) {
+  let current = node
+
+  while (
+    current &&
+    (ts.isAsExpression(current) ||
+      ts.isSatisfiesExpression(current) ||
+      ts.isParenthesizedExpression(current))
+  ) {
+    current = current.expression
+  }
+
+  return current && ts.isObjectLiteralExpression(current) ? current : undefined
+}
+
+function readFileSyncShim(filePath) {
+  return require('fs').readFileSync(filePath, 'utf8')
+}
   let current = node
 
   while (

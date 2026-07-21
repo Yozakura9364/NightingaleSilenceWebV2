@@ -1,5 +1,6 @@
 import { ref, computed, type Ref } from 'vue'
 import type {
+  ArmoireCatalog,
   ArmoireStoreOutfit,
   ArmoireStoreLinkRegion,
   ArmoireStoreRegionalPriceLabels,
@@ -14,7 +15,6 @@ import {
 import {
   ARMOIRE_STORE_DETAIL_TAG_LABEL_KEYS,
   ARMOIRE_STORE_TAG_LABEL_KEYS,
-  getArmoireStoreTagLabels
 } from '@/pages/armoire/utils/storeTagDisplay'
 import {
   formatArmoireText,
@@ -22,10 +22,10 @@ import {
   getArmoireItemName
 } from '@/pages/armoire/utils/itemDisplay'
 import { armoireTextKeys as textKeys } from '@/locales/keys/armoire'
-import type { ArmoireCatalog } from '@/pages/armoire/composables/useArmoireCatalog'
-import type { ArmoireStoreCatalog } from '@/pages/armoire/composables/useArmoireStoreCatalog'
-import { useArmoireStoreReviewCandidate } from '@/pages/armoire/composables/useArmoireStoreReviewCandidate'
+import type { Locale } from '@/locales/types'
 import type { LocaleFunction } from '@/stores/locale'
+import { useArmoireStoreReviewCandidate } from '@/pages/armoire/composables/useArmoireStoreReviewCandidate'
+import type { ArmoireStoreCatalog } from '@/lib/armoire/types'
 
 export interface StoreReviewDraftEntry {
   regionalStoreUrls?: ArmoireStoreRegionalUrls
@@ -61,12 +61,12 @@ export function useArmoireStoreReviewDraft(
   catalog: Ref<ArmoireCatalog>,
   storeCatalog: Ref<ArmoireStoreCatalog>,
   t: LocaleFunction,
-  current: Ref<string>,
+  current: Ref<Locale>,
 ) {
   const STORE_REVIEW_DRAFT_KEY = 'nsarmoire.storeReview.draft.v1'
   const STORE_TAG_SET = new Set<ArmoireStoreTag>(ARMOIRE_STORE_TAGS)
   const STORE_DETAIL_TAG_SET = new Set<ArmoireStoreDetailTag>(ARMOIRE_STORE_DETAIL_TAGS)
-  const candidateHelpers = useArmoireStoreReviewCandidate(getMergedItemIds, getUniqueItemIds)
+  const candidateHelpers = useArmoireStoreReviewCandidate(getUniqueItemIds)
 
   const draftEntries = ref<Record<string, StoreReviewDraftEntry>>(loadDraftEntries())
   const itemDraftInputs = ref<Record<string, string>>({})
@@ -414,7 +414,7 @@ export function useArmoireStoreReviewDraft(
   }
 
   function getStoreReviewOutfitName(outfit: ArmoireStoreOutfit): string {
-    return outfit.localizedNames?.[current.value] ??
+    return (outfit.localizedNames as Record<string, string | undefined> | undefined)?.[current.value] ??
       outfit.localizedNames?.['zh-CN'] ??
       outfit.localizedNames?.en ??
       outfit.name
@@ -558,7 +558,7 @@ export function useArmoireStoreReviewDraft(
   // --- Patch ---
 
   function buildPatch(): StoreReviewPatch {
-    const outfitIndex = new Map(storeCatalog.value.outfits.map((o) => [o.id, o]))
+    const outfitIndex = new Map<string, ArmoireStoreOutfit>(storeCatalog.value.outfits.map((o: ArmoireStoreOutfit) => [o.id, o]))
     const outfits = Object.entries(draftEntries.value)
       .filter(([, draft]) => hasStoredDraftEntry(draft))
       .map(([id, draft]) => {

@@ -232,9 +232,9 @@ const PREFETCH_ROUTES = ['ffxiv-plate', 'ffxiv-glamour-template', 'ffxiv-armoire
 if ('requestIdleCallback' in window) {
   requestIdleCallback(() => {
     for (const routeName of PREFETCH_ROUTES) {
-      const route = router.resolve({ name: routeName })
+      const route = router.resolve({ name: routeName }) as { component?: () => Promise<unknown> }
       if (typeof route.component === 'function') {
-        ;(route.component as () => Promise<unknown>)().catch(() => {})
+        route.component().catch(() => {})
       }
     }
   })

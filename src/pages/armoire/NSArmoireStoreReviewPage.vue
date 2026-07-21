@@ -427,7 +427,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
@@ -508,7 +508,6 @@ const {
   hasMoreVisibleOutfits,
   loadMoreSentinel,
   loadMoreVisibleOutfits,
-  observeLoadMoreSentinel,
   disconnectLoadMoreObserver,
 } = useArmoireStoreReviewFilter(
   storeCatalog,
