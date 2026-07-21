@@ -94,12 +94,14 @@
 <script setup lang="ts">
 import { defineAsyncComponent, computed, ref, watch } from 'vue'
 
-const ItemCardImportDialog = defineAsyncComponent(
-  () => import('@/pages/item-card/components/ItemCardImportDialog.vue')
-)
-const ItemCardTextImportDialog = defineAsyncComponent(
-  () => import('@/pages/item-card/components/ItemCardTextImportDialog.vue')
-)
+const ItemCardImportDialog = defineAsyncComponent({
+  loader: () => import('@/pages/item-card/components/ItemCardImportDialog.vue'),
+  delay: 200
+})
+const ItemCardTextImportDialog = defineAsyncComponent({
+  loader: () => import('@/pages/item-card/components/ItemCardTextImportDialog.vue'),
+  delay: 200
+})
 import ItemCardEquipmentEditor from '@/pages/item-card/components/ItemCardEquipmentEditor.vue'
 import ItemCardPreview from '@/pages/item-card/components/ItemCardPreview.vue'
 import ItemCardRenderSettings from '@/pages/item-card/components/ItemCardRenderSettings.vue'

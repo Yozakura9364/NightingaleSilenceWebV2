@@ -59,6 +59,7 @@
                   <img :src="link.icon" alt="" width="28" height="28" aria-hidden="true" />
                   <strong>{{ t(link.labelKey) }}</strong>
                   <span>{{ link.domain }}</span>
+                  <span class="ns-sr-only">{{ t(textKeys.opensInNewTab) }}</span>
                 </a>
               </div>
             </section>
@@ -242,7 +243,10 @@ function useFriendIconFallback(event: Event) {
   box-shadow: 3px 3px 0 var(--ns-pixel-shadow-color);
   color: var(--ns-color-text);
   text-decoration: none;
-  transition: none;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .about-profile__sns-link:hover {
@@ -367,7 +371,10 @@ function useFriendIconFallback(event: Event) {
   box-shadow: var(--ns-pixel-soft-shadow);
   color: var(--ns-color-text);
   text-decoration: none;
-  transition: none;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .about-friend-link:hover {
