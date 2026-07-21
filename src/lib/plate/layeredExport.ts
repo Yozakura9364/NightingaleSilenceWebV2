@@ -195,13 +195,15 @@ async function createMergedInfoLayerData(
     return null
   }
 
+  const infoRgbaData = await canvasToBlobUrl(canvas)
+
   return {
     name: INFO_LAYER_NAME,
     x: 0,
     y: 0,
     width,
     height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: infoRgbaData,
     sourceType: 'info'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -240,13 +242,15 @@ async function createInfoFixedLayerData(
   context.globalAlpha = clampInfoLayerAlpha(layer.opacity)
   context.drawImage(image, 0, 0, width, height)
 
+  const fixedRgbaData = await canvasToBlobUrl(canvas)
+
   return {
     name: layer.legacyName,
     x: Math.round(layer.x * exportScale),
     y: Math.round(layer.y * exportScale),
     width,
     height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: fixedRgbaData,
     sourceType: 'info'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -323,7 +327,7 @@ async function createInfoBar48LayerData(layer: NSPlateInfoBar48RenderLayer, expo
     y: Math.round(layer.y * exportScale),
     width,
     height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'info'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -378,7 +382,7 @@ async function createInfoSpecialLayerData(
     y: Math.round(layer.y * exportScale),
     width,
     height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'info'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -410,7 +414,7 @@ async function createInfoIconLayerData(layer: NSPlateInfoIconRenderLayer, export
     y: Math.round(layer.y * exportScale),
     width,
     height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'info'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -452,7 +456,7 @@ async function createInfoActivityIconLayerData(
     y: Math.round(layer.y * exportScale),
     width,
     height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'info'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -507,6 +511,9 @@ export async function createLayeredZipBlobOnClient(
       name: createLayeredZipLayerEntryName(index),
       bytes
     })
+
+    // Free blob URL memory for this layer
+    revokeCanvasBlobUrl(layer.rgbaData)
   }
 
   return createStoredZipBlob(files)
@@ -604,7 +611,7 @@ async function createSystemLayerData(
     y: Math.round(position.y * exportScale),
     width,
     height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'system'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -645,7 +652,7 @@ async function createPortraitSystemLayerData(
     y: Math.round((portraitEmbed.y + offsetY) * exportScale),
     width: canvas.width,
     height: canvas.height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'system'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -705,7 +712,7 @@ async function createCustomPortraitInFrameLayer(
     y: Math.round(portraitEmbed.y * exportScale),
     width: canvas.width,
     height: canvas.height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'custom'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -750,7 +757,7 @@ async function createCustomPortraitPopoutLayer(
       y: 0,
       width: canvas.width,
       height: canvas.height,
-      rgbaData: canvas.toDataURL('image/png'),
+      rgbaData: await canvasToBlobUrl(canvas),
       sourceType: 'custom'
     } satisfies NSPlateLayeredExportLayer
   }
@@ -782,7 +789,7 @@ async function createCustomPortraitPopoutLayer(
     y: 0,
     width: canvas.width,
     height: canvas.height,
-    rgbaData: canvas.toDataURL('image/png'),
+    rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'custom'
   } satisfies NSPlateLayeredExportLayer
 }
@@ -817,6 +824,26 @@ function normalizeExportScale(scale: number) {
   }
 
   return scale
+}
+
+/** Create a Blob URL from a canvas, avoiding base64 data URL overhead. Free with revokeCanvasBlobUrl(). */
+function canvasToBlobUrl(canvas: HTMLCanvasElement): Promise<string> {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => {
+      if (!blob) {
+        // Fallback to data URL if toBlob fails
+        resolve(canvas.toDataURL('image/png'))
+        return
+      }
+      resolve(URL.createObjectURL(blob))
+    }, 'image/png')
+  })
+}
+
+function revokeCanvasBlobUrl(url: string): void {
+  if (url.startsWith('blob:')) {
+    URL.revokeObjectURL(url)
+  }
 }
 
 function loadLayerImage(source: string) {
@@ -861,14 +888,21 @@ async function placeLayerOnFullCanvas(
 }
 
 function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     canvas.toBlob((blob) => {
       if (blob) {
         resolve(blob)
         return
       }
 
-      reject(new Error('canvas-blob'))
+      // Fallback: generate blob from data URL
+      const dataUrl = canvas.toDataURL('image/png')
+      const binary = atob(dataUrl.split(',')[1])
+      const array = new Uint8Array(binary.length)
+      for (let i = 0; i < binary.length; i++) {
+        array[i] = binary.charCodeAt(i)
+      }
+      resolve(new Blob([array], { type: 'image/png' }))
     }, 'image/png')
   })
 }

@@ -95,7 +95,7 @@ import {
   getGlamourTemplateDefinition,
   type GlamourTemplateDefinition,
   type GlamourTemplateId
-} from '@/lib/glamour/templates'
+} from '@/lib/glamour/templates/definitions'
 import type { GlamourLocale } from '@/lib/glamour/types'
 import { useLocale } from '@/stores/locale'
 
