@@ -1,23 +1,21 @@
 import { onBeforeUnmount, watch, type Ref } from 'vue'
 
 export interface AnimateEntranceOptions {
-  /** Intersection ratio threshold (0-1). Default 0.15 */
   threshold?: number
-  /** Root margin. Default '0px' */
   rootMargin?: string
-  /** Only trigger once. Default true */
   triggerOnce?: boolean
-  /** Additional class to add when visible. Default 'ns-animate-visible' */
   visibleClass?: string
+  /** Also apply to direct children with stagger delay */
+  staggerChildren?: boolean
 }
 
 /**
- * Observes an element and adds `visibleClass` when it enters the viewport.
- * Designed to work with the `.ns-animate` CSS utility classes.
+ * Observes an element and applies animation when it enters the viewport.
+ * Uses inline styles (not CSS classes) to avoid Vue scoped CSS cascade issues.
  *
  * @example
  * ```vue
- * <div ref="elRef" class="ns-animate ns-animate--fade-in-up">
+ * <div ref="elRef" style="opacity:0">
  *   content
  * </div>
  *
@@ -35,17 +33,24 @@ export function useAnimateEntrance(
     threshold = 0.15,
     rootMargin = '0px',
     triggerOnce = true,
-    visibleClass = 'ns-animate-visible'
+    staggerChildren = false
   } = options
 
   let observer: IntersectionObserver | null = null
   let hasTriggered = false
 
+  function animateIn(el: Element, delay = 0) {
+    const htmlEl = el as HTMLElement
+    htmlEl.style.opacity = '1'
+    htmlEl.style.transform = 'translateY(0)'
+    htmlEl.style.transition = `opacity 420ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 420ms cubic-bezier(0.22,1,0.36,1) ${delay}ms`
+  }
+
   function observe(el: Element) {
     if (hasTriggered) return
 
     if (typeof IntersectionObserver === 'undefined') {
-      el.classList.add(visibleClass)
+      triggerVisible(el)
       hasTriggered = true
       return
     }
@@ -54,7 +59,7 @@ export function useAnimateEntrance(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            entry.target.classList.add(visibleClass)
+            triggerVisible(entry.target)
             hasTriggered = true
             if (triggerOnce && observer) {
               observer.disconnect()
@@ -69,6 +74,16 @@ export function useAnimateEntrance(
     observer.observe(el)
   }
 
+  function triggerVisible(el: Element) {
+    if (staggerChildren) {
+      Array.from(el.children).forEach((child, i) => {
+        animateIn(child, 40 + i * 60)
+      })
+    } else {
+      animateIn(el)
+    }
+  }
+
   function disconnect() {
     if (observer) {
       observer.disconnect()
@@ -76,7 +91,6 @@ export function useAnimateEntrance(
     }
   }
 
-  // Watch for the ref to be populated after mount
   watch(target, (el) => {
     if (el) observe(el)
   })

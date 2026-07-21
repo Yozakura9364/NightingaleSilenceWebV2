@@ -1,5 +1,5 @@
 <template>
-  <header v-if="showNav" ref="navRef" class="app-top-nav ns-animate ns-animate--fade-in-down ns-animate--fast">
+  <header v-if="showNav" ref="navRef" class="app-top-nav">
     <nav class="app-top-nav__inner" :aria-label="t(textKeys.primaryNavigation)">
       <RouterLink
         class="app-top-nav__brand"
@@ -42,7 +42,6 @@ import { useRoute } from 'vue-router'
 import homeIcon from '@/assets/icons/pixelarticons/home.svg'
 import AppTopNavMenu from '@/components/AppTopNavMenu.vue'
 import AppTopNavSettings from '@/components/AppTopNavSettings.vue'
-import { useAnimateEntrance } from '@/composables/useAnimateEntrance'
 import { siteMeta, siteRoutes } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
@@ -59,8 +58,6 @@ const topNavBrandArtStyle = {
     : 'none'
 } as CSSProperties
 const showNav = computed(() => route.path !== siteRoutes.home && route.meta.hideTopNav !== true)
-const navRef = ref<HTMLElement | null>(null)
-useAnimateEntrance(navRef)
 const brandIconStyle = {
   '--ns-brand-icon-url': `url("${homeIcon}")`
 } as CSSProperties

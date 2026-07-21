@@ -1,11 +1,11 @@
 <template>
   <main class="ns-page ffxiv-page">
     <div class="ns-page-shell">
-      <h1 ref="titleRef" class="ns-title ns-heading-bloom ns-animate ns-animate--fade-in-up ns-animate--fast">
+      <h1 ref="titleRef" class="ns-title ns-heading-bloom">
         {{ t(ffxivCategory.titleKey) }}
       </h1>
 
-      <div ref="gridRef" class="ns-tool-grid ns-stagger ns-animate ns-animate--slow">
+      <div ref="gridRef" class="ns-tool-grid">
         <RouterLink
           v-for="tool in toolCards"
           :key="tool.id"
@@ -44,7 +44,7 @@ const { t } = useLocale()
 const titleRef = ref<HTMLHeadingElement | null>(null)
 const gridRef = ref<HTMLDivElement | null>(null)
 useAnimateEntrance(titleRef)
-useAnimateEntrance(gridRef)
+useAnimateEntrance(gridRef, { staggerChildren: true })
 
 const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,
