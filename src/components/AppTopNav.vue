@@ -1,5 +1,5 @@
 <template>
-  <header v-if="showNav" ref="navRef" class="app-top-nav">
+  <header v-if="showNav" ref="navEl" class="app-top-nav">
     <nav class="app-top-nav__inner" :aria-label="t(textKeys.primaryNavigation)">
       <RouterLink
         class="app-top-nav__brand"
@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
 import { useRoute } from 'vue-router'
 import homeIcon from '@/assets/icons/pixelarticons/home.svg'
 import AppTopNavMenu from '@/components/AppTopNavMenu.vue'
@@ -58,6 +58,24 @@ const topNavBrandArtStyle = {
     : 'none'
 } as CSSProperties
 const showNav = computed(() => route.path !== siteRoutes.home && route.meta.hideTopNav !== true)
+const navEl = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  nextTick(() => {
+    if (navEl.value) {
+      const el = navEl.value
+      el.style.opacity = '0'
+      el.style.transform = 'translateY(-8px)'
+      requestAnimationFrame(() => {
+        el.style.transition =
+          'opacity 260ms cubic-bezier(0.22,1,0.36,1), transform 260ms cubic-bezier(0.22,1,0.36,1)'
+        el.style.opacity = '1'
+        el.style.transform = 'translateY(0)'
+      })
+    }
+  })
+})
+
 const brandIconStyle = {
   '--ns-brand-icon-url': `url("${homeIcon}")`
 } as CSSProperties
