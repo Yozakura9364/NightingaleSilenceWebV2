@@ -19,5 +19,6 @@ export const silenceTextKeys = {
   silenceCharacterPreview: 'silence.character.preview',
   silenceCharacterColor: 'silence.character.color',
   silenceCharacterDraftStatus: 'silence.character.draftStatus',
-  silenceCharacterForms: 'silence.character.forms'
+  silenceCharacterForms: 'silence.character.forms',
+  silenceGroupEmpty: 'silence.group.empty'
 } as const

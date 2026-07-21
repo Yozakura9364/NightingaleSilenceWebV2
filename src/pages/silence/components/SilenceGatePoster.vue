@@ -4,7 +4,11 @@
       <h1 id="silence-title" class="silence-gate__title">{{ t(textKeys.silence) }}</h1>
     </section>
 
-    <div class="silence-poster" :aria-label="t(textKeys.silence)">
+    <div
+      v-if="silenceGroups.length > 0"
+      class="silence-poster"
+      :aria-label="t(textKeys.silence)"
+    >
       <div
         v-for="group in silenceGroups"
         :key="group.id"
@@ -453,6 +457,15 @@ const angelPreviewCharacters = getSilenceCharactersByGroup('angel')
   .silence-poster__ghost {
     bottom: 41%;
     width: clamp(58px, 22vw, 86px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .silence-poster__entry {
+    transition: none;
+  }
+  .silence-poster__entry::before {
+    transition: none;
   }
 }
 </style>
