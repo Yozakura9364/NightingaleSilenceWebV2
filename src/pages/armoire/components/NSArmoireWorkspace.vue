@@ -196,8 +196,12 @@ import {
   type ArmoireWorkspaceSection
 } from '@/pages/armoire/composables/useArmoireWorkspaceCatalogLoading'
 import AppLoading from '@/components/AppLoading.vue'
-import NSArmoireImportPanel from '@/pages/armoire/components/NSArmoireImportPanel.vue'
-import NSArmoireSectionRail from '@/pages/armoire/components/NSArmoireSectionRail.vue'
+const NSArmoireImportPanel = defineAsyncComponent(
+  () => import('@/pages/armoire/components/NSArmoireImportPanel.vue')
+)
+const NSArmoireSectionRail = defineAsyncComponent(
+  () => import('@/pages/armoire/components/NSArmoireSectionRail.vue')
+)
 import { getArmoireItemIconUrl, getArmoireItemName } from '@/pages/armoire/utils/itemDisplay'
 import type { ArmoireReadableItemView } from '@/pages/armoire/utils/insightDisplay'
 import { useLocale } from '@/stores/locale'
