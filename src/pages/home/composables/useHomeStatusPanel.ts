@@ -124,6 +124,10 @@ export function useHomeStatusPanel(
   function scheduleNightMetricPulse() {
     clearNightMetricTimer()
     if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
+    if (document.hidden) {
+      nightMetricTimer = window.setTimeout(scheduleNightMetricPulse, 500)
+      return
+    }
     nightMetricTimer = window.setTimeout(() => {
       nightMetricTick.value += 1
       scheduleNightMetricPulse()

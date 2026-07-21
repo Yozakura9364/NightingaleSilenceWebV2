@@ -52,6 +52,7 @@ export function useHomeEffects() {
   function handleHomePointerMove(event: PointerEvent) {
     const desktop = event.currentTarget as HTMLElement | null
     if (!desktop || shouldReduceHomeMotion()) return
+    if (window.innerWidth <= 720) return
     const rect = desktop.getBoundingClientRect()
     pointerTargetX = ((event.clientX - rect.left) / rect.width - 0.5) * 2
     pointerTargetY = ((event.clientY - rect.top) / rect.height - 0.5) * 2
@@ -111,6 +112,7 @@ export function useHomeEffects() {
     if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
     nightPortraitGlitchTimer = window.setTimeout(() => {
       nightPortraitGlitchTimer = 0
+      if (document.hidden) { queueNightPortraitGlitch(); return }
       runNightPortraitGlitchBurst(Math.random() > 0.5 ? 2 : 1)
     }, randomHomeDelay(3600, 9200))
   }
@@ -144,6 +146,7 @@ export function useHomeEffects() {
     if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
     nightBackgroundGlitchTimer = window.setTimeout(() => {
       nightBackgroundGlitchTimer = 0
+      if (document.hidden) { queueNightBackgroundGlitch(); return }
       runNightBackgroundGlitchBurst(Math.random() > 0.55 ? 2 : 1)
     }, randomHomeDelay(3200, 8500))
   }

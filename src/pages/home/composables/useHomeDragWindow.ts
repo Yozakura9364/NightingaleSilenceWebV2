@@ -112,14 +112,16 @@ export function useHomeDragWindow() {
     const minY = currentPosition.y + desktopRect.top + edgePadding - windowRect.top
     const maxY = currentPosition.y + taskbarTop - edgePadding - windowRect.bottom
 
-    homeWindowPositions.value = {
-      ...homeWindowPositions.value,
-      [drag.key]: {
-        x: clampNumber(drag.originX + event.clientX - drag.startClientX, minX, maxX),
-        y: clampNumber(drag.originY + event.clientY - drag.startClientY, minY, maxY),
-        zIndex: currentPosition.zIndex
-      }
+    const updatedPosition = {
+      x: clampNumber(drag.originX + event.clientX - drag.startClientX, minX, maxX),
+      y: clampNumber(drag.originY + event.clientY - drag.startClientY, minY, maxY),
+      zIndex: currentPosition.zIndex
     }
+    // Only update the dragged window instead of cloning the entire state
+    const current = homeWindowPositions.value
+    if (current[drag.key]?.x === updatedPosition.x && current[drag.key]?.y === updatedPosition.y) return false
+    current[drag.key] = updatedPosition
+    homeWindowPositions.value = { ...current }
     return true
   }
 
