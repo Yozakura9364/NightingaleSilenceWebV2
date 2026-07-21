@@ -98,7 +98,12 @@ const turnIconStyle = computed(
   box-shadow: none;
   text-decoration: none;
   transform: translateY(-50%);
-  transition: none;
+  transition:
+    width 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .nsglamour-page-turn:hover,
@@ -149,7 +154,9 @@ const turnIconStyle = computed(
   line-height: 1.15;
   opacity: 0;
   text-align: center;
-  transition: none;
+  transition:
+    max-width 0.25s ease,
+    opacity 0.25s ease;
   white-space: normal;
   word-break: keep-all;
   overflow-wrap: anywhere;

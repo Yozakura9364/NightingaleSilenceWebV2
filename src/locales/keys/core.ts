@@ -21,6 +21,7 @@ export const coreTextKeys = {
   project: 'common.project',
   port: 'common.port',
   health: 'common.health',
+  retry: 'common.retry',
   import: 'common.import',
   export: 'common.export',
   save: 'common.save',

@@ -58,6 +58,7 @@ export const coreUiMessages: UiMessageMap = {
   }),
   'common.check': msg({ zh: '检查', en: 'Check', ja: '確認', ko: '확인' }),
   'common.checking': msg({ zh: '检查中', en: 'Checking', ja: '確認中', ko: '확인 중' }),
+  'common.retry': msg({ zh: '重试', en: 'Retry', ja: '再試行', ko: '재시도' }),
   'common.ok': msg({ zh: '确定', en: 'OK', ja: 'OK', ko: '확인' }),
   'common.cancel': msg({ zh: '取消', en: 'Cancel', ja: 'キャンセル', ko: '취소' }),
   'common.api': same('API'),
