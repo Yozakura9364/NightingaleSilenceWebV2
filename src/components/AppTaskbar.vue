@@ -28,6 +28,7 @@
         :key="item.id"
         class="app-taskbar__window"
         :class="{ 'app-taskbar__window--active': item.active }"
+        :aria-current="item.active ? 'page' : undefined"
         :to="item.route"
       >
         <span class="app-taskbar__dot" aria-hidden="true"></span>
@@ -153,6 +154,13 @@ function modeIconStyle(icon: string): CSSProperties {
   color: var(--ns-color-text);
   transform: translate(-1px, -1px);
   box-shadow: var(--ns-pixel-button-shadow-hover);
+}
+
+.app-taskbar__start:active,
+.app-taskbar__window:active,
+.app-taskbar__clock:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--ns-pixel-soft-shadow);
 }
 
 /* ---- Start button ---- */
@@ -291,11 +299,13 @@ function modeIconStyle(icon: string): CSSProperties {
 .app-taskbar__mode-icon--day {
   color: #f5a623;
   opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
 .app-taskbar__mode-icon--night {
   color: #7fd9e3;
   opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 :root[data-theme='night'] .app-taskbar__mode-icon--day {
