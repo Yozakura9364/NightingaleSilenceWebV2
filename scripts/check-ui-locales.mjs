@@ -1,4 +1,5 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { readdir, readFile, stat } from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import ts from 'typescript'
@@ -7,6 +8,7 @@ const rootDir = dirname(dirname(fileURLToPath(import.meta.url)))
 const srcDir = join(rootDir, 'src')
 const localeDir = join(srcDir, 'locales')
 const moduleNames = ['core', 'home', 'plate', 'glamour', 'armoire', 'silence', 'styleLab']
+const require = createRequire(import.meta.url)
 const errors = []
 const messageOwners = new Map()
 let messageCount = 0
@@ -41,13 +43,15 @@ for (const moduleName of moduleNames) {
   }
 }
 
-for (const file of walk(srcDir)) {
+const allFiles = await walk(srcDir)
+
+for (const file of allFiles) {
   if (!file.endsWith('.ts') && !file.endsWith('.vue')) {
     continue
   }
 
   const relativePath = toRelativePath(file)
-  const source = readFileSync(file, 'utf8')
+  const source = await readFile(file, 'utf8')
 
   if (relativePath !== 'src/locales/ui.ts' && source.includes('@/locales/ui')) {
     errors.push(`${relativePath} imports the all-module locale aggregate.`)
@@ -95,7 +99,7 @@ function readTextKeyValues(filePath, variableName) {
 }
 
 function findObjectVariable(filePath, variableName) {
-  const source = readFileSync(filePath, 'utf8')
+  const source = readFileSyncShim(filePath)
   const sourceFile = ts.createSourceFile(filePath, source, ts.ScriptTarget.Latest, true)
   let result
 
@@ -118,6 +122,10 @@ function findObjectVariable(filePath, variableName) {
   }
 
   return result
+}
+
+function readFileSyncShim(filePath) {
+  return require('fs').readFileSync(filePath, 'utf8')
 }
 
 function unwrapObject(node) {
@@ -171,11 +179,22 @@ function importsTextKeysFromSite(filePath, source) {
   })
 }
 
-function walk(dirPath) {
-  return readdirSync(dirPath).flatMap((name) => {
+async function walk(dirPath) {
+  const entries = await readdir(dirPath)
+  const results = []
+
+  for (const name of entries) {
     const filePath = join(dirPath, name)
-    return statSync(filePath).isDirectory() ? walk(filePath) : [filePath]
-  })
+    const stats = await stat(filePath)
+
+    if (stats.isDirectory()) {
+      results.push(...await walk(filePath))
+    } else {
+      results.push(filePath)
+    }
+  }
+
+  return results
 }
 
 function toRelativePath(filePath) {
