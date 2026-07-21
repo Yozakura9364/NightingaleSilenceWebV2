@@ -179,6 +179,11 @@
     --ns-home-floating-shadow: 6px 6px 0 rgba(99, 217, 220, 0.32);
 
     --ns-content-width: 1120px;
+    --ns-animation: 420ms;
+    --ns-animation-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --ns-animation-fast: 260ms;
+    --ns-animation-slow: 680ms;
+    --ns-animation-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ns-transition-fast: 140ms ease;
     --ns-transition: 220ms ease;
   }

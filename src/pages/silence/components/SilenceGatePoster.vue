@@ -1,13 +1,13 @@
 <template>
   <div class="silence-gate">
-    <section class="silence-gate__intro" aria-labelledby="silence-title">
+    <section ref="introRef" class="silence-gate__intro ns-animate ns-animate--fade-in-down ns-animate--fast" aria-labelledby="silence-title">
       <h1 id="silence-title" class="silence-gate__title">{{ t(textKeys.silence) }}</h1>
     </section>
 
     <div
       v-if="silenceGroups.length > 0"
-      class="silence-poster"
-      :aria-label="t(textKeys.silence)"
+      ref="posterRef"
+      class="silence-poster ns-animate ns-animate--fade-in-scale ns-animate--slow"
     >
       <div
         v-for="group in silenceGroups"
@@ -59,15 +59,21 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { silenceGroups, siteRoutes } from '@/config/site'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import { getSilenceCharactersByGroup } from '@/data/silence/characters'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
+import { useAnimateEntrance } from '@/composables/useAnimateEntrance'
 import { useLocale } from '@/stores/locale'
 
 const { t } = useLocale()
 const glitchGhostSlots = 2
 const angelPreviewCharacters = getSilenceCharactersByGroup('angel')
+const introRef = ref<HTMLElement | null>(null)
+const posterRef = ref<HTMLElement | null>(null)
+useAnimateEntrance(introRef)
+useAnimateEntrance(posterRef)
 </script>
 
 <style scoped>

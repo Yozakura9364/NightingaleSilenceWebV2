@@ -1,7 +1,7 @@
 <template>
   <main class="ns-page fashion-check-page">
     <div class="ns-page-shell fashion-check-page__shell">
-      <header class="fashion-check-page__header">
+      <header ref="headerRef" class="fashion-check-page__header ns-animate ns-animate--fade-in-up ns-animate--fast">
         <h1 class="ns-heading-bloom">{{ t(keys.title) }}</h1>
         <div v-if="week" class="fashion-check-page__week">
           <strong>{{ week.theme }}</strong>
@@ -45,6 +45,7 @@ import { useRoute, useRouter } from 'vue-router'
 import AppStatus from '@/components/AppStatus.vue'
 import AppTabs from '@/components/AppTabs.vue'
 import { useFetch } from '@/composables/useFetch'
+import { useAnimateEntrance } from '@/composables/useAnimateEntrance'
 import { siteRoutes } from '@/config/site'
 import type { FashionCheckLocaleCatalog, FashionCheckWeek } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
@@ -59,8 +60,10 @@ const router = useRouter()
 const week = ref<FashionCheckWeek | null>(null)
 const localeCatalog = ref<FashionCheckLocaleCatalog>({ items: {}, dyes: {} })
 const loading = ref(true)
+const headerRef = ref<HTMLElement | null>(null)
 const FASHION_CACHE_KEY = 'ns_fashion_check_week'
 const FASHION_CATALOG_CACHE_KEY = 'ns_fashion_check_catalog'
+useAnimateEntrance(headerRef)
 const tabRoutes = {
   solutions: siteRoutes.fashionCheck,
   gold: siteRoutes.fashionCheckGoldItems,

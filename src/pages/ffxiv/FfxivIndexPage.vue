@@ -1,9 +1,11 @@
 <template>
   <main class="ns-page ffxiv-page">
     <div class="ns-page-shell">
-      <h1 class="ns-title ns-heading-bloom">{{ t(ffxivCategory.titleKey) }}</h1>
+      <h1 ref="titleRef" class="ns-title ns-heading-bloom ns-animate ns-animate--fade-in-up ns-animate--fast">
+        {{ t(ffxivCategory.titleKey) }}
+      </h1>
 
-      <div class="ns-tool-grid">
+      <div ref="gridRef" class="ns-tool-grid ns-stagger ns-animate ns-animate--slow">
         <RouterLink
           v-for="tool in toolCards"
           :key="tool.id"
@@ -22,13 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import { ffxivTools, getCategory } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
+import { useAnimateEntrance } from '@/composables/useAnimateEntrance'
 import { useLocale } from '@/stores/locale'
 
 const ffxivCategory = getCategory('ffxiv') ?? {
@@ -37,6 +40,11 @@ const ffxivCategory = getCategory('ffxiv') ?? {
   descriptionKey: textKeys.placeholder
 }
 const { t } = useLocale()
+
+const titleRef = ref<HTMLHeadingElement | null>(null)
+const gridRef = ref<HTMLDivElement | null>(null)
+useAnimateEntrance(titleRef)
+useAnimateEntrance(gridRef)
 
 const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,
