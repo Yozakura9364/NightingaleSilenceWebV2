@@ -4,7 +4,9 @@
     <div
       class="app-top-nav__dropdown-group"
       @mouseenter="openFfxivDropdown"
-      @mouseleave="closeFfxivDropdown"
+      @mouseleave="scheduleCloseFfxiv"
+      @focusin="onFfxivFocusIn"
+      @focusout="onFfxivFocusOut"
     >
       <RouterLink
         class="app-top-nav__nav-link"
@@ -13,6 +15,10 @@
           'app-top-nav__nav-link--parent': true
         }"
         :to="siteRoutes.ffxiv"
+        :aria-haspopup="true"
+        :aria-expanded="ffxivOpen"
+        @keydown.enter.prevent="toggleFfxiv"
+        @keydown.space.prevent="toggleFfxiv"
       >
         <span>{{ t(textKeys.ffxivWorkshop) }}</span>
         <span class="app-top-nav__nav-arrow" aria-hidden="true">&#9660;</span>
@@ -21,12 +27,14 @@
       <div
         v-if="ffxivOpen"
         class="app-top-nav__dropdown"
+        role="menu"
         @mouseenter="cancelFfxivClose"
-        @mouseleave="closeFfxivDropdown"
+        @mouseleave="scheduleCloseFfxiv"
       >
         <RouterLink
           v-for="tool in ffxivTools"
           :key="tool.id"
+          role="menuitem"
           class="app-top-nav__dropdown-link"
           :class="{ 'app-top-nav__dropdown-link--active': isRouteUnder(tool.route) }"
           :to="tool.route"
@@ -46,7 +54,9 @@
       v-if="isSilenceEnabled"
       class="app-top-nav__dropdown-group"
       @mouseenter="openSilenceDropdown"
-      @mouseleave="closeSilenceDropdown"
+      @mouseleave="scheduleCloseSilence"
+      @focusin="onSilenceFocusIn"
+      @focusout="onSilenceFocusOut"
     >
       <RouterLink
         class="app-top-nav__nav-link"
@@ -55,6 +65,10 @@
           'app-top-nav__nav-link--parent': true
         }"
         :to="siteRoutes.silence"
+        :aria-haspopup="true"
+        :aria-expanded="silenceOpen"
+        @keydown.enter.prevent="toggleSilence"
+        @keydown.space.prevent="toggleSilence"
       >
         <span>{{ t(textKeys.silence) }}</span>
         <span class="app-top-nav__nav-arrow" aria-hidden="true">&#9660;</span>
@@ -63,12 +77,14 @@
       <div
         v-if="silenceOpen"
         class="app-top-nav__dropdown"
+        role="menu"
         @mouseenter="cancelSilenceClose"
-        @mouseleave="closeSilenceDropdown"
+        @mouseleave="scheduleCloseSilence"
       >
         <RouterLink
           v-for="group in silenceGroups"
           :key="group.id"
+          role="menuitem"
           class="app-top-nav__dropdown-link"
           :class="{
             'app-top-nav__dropdown-link--active':
@@ -119,9 +135,11 @@ const ffxivOpen = ref(false)
 const silenceOpen = ref(false)
 let ffxivTimer: ReturnType<typeof setTimeout> | null = null
 let silenceTimer: ReturnType<typeof setTimeout> | null = null
+let ffxivFocusWithin = false
+let silenceFocusWithin = false
 
 const HOVER_DELAY = 120
-const CLOSE_DELAY = 200
+const CLOSE_DELAY = 300
 
 const toolIconMap: Record<string, string> = {
   itemCard: imageIcon,
@@ -151,36 +169,84 @@ const isSilenceRoute = computed(
 )
 const isAboutRoute = computed(() => route.path === siteRoutes.about)
 
-// FFXIV dropdown
-function openFfxivDropdown() {
-  if (ffxivTimer) clearTimeout(ffxivTimer)
-  ffxivTimer = setTimeout(() => { ffxivOpen.value = true }, HOVER_DELAY)
+// --- shared dropdown helpers ---
+function scheduleOpen(timer: { value: ReturnType<typeof setTimeout> | null }, openRef: ReturnType<typeof ref<boolean>>, delay: number) {
+  clearTimer(timer)
+  timer.value = setTimeout(() => { openRef.value = true }, delay)
 }
 
-function closeFfxivDropdown() {
-  if (ffxivTimer) clearTimeout(ffxivTimer)
-  ffxivTimer = setTimeout(() => { ffxivOpen.value = false }, CLOSE_DELAY)
+function scheduleClose(timer: { value: ReturnType<typeof setTimeout> | null }, openRef: ReturnType<typeof ref<boolean>>, delay: number) {
+  clearTimer(timer)
+  timer.value = setTimeout(() => { openRef.value = false }, delay)
+}
+
+function clearTimer(timer: { value: ReturnType<typeof setTimeout> | null }) {
+  if (timer.value) clearTimeout(timer.value)
+  timer.value = null
+}
+
+// --- FFXIV dropdown ---
+function openFfxivDropdown() {
+  scheduleOpen({ value: ffxivTimer }, ffxivOpen, HOVER_DELAY)
+}
+
+function scheduleCloseFfxiv() {
+  if (ffxivFocusWithin) return
+  scheduleClose({ value: ffxivTimer }, ffxivOpen, CLOSE_DELAY)
 }
 
 function cancelFfxivClose() {
-  if (ffxivTimer) clearTimeout(ffxivTimer)
-  ffxivTimer = null
+  clearTimer({ value: ffxivTimer })
 }
 
-// Silence dropdown
+function toggleFfxiv() {
+  ffxivOpen.value = !ffxivOpen.value
+}
+
+function onFfxivFocusIn() {
+  ffxivFocusWithin = true
+  cancelFfxivClose()
+  ffxivOpen.value = true
+}
+
+function onFfxivFocusOut(e: FocusEvent) {
+  const currentTarget = e.currentTarget as HTMLElement | null
+  const related = e.relatedTarget as Node | null
+  if (currentTarget && related && currentTarget.contains(related)) return
+  ffxivFocusWithin = false
+  scheduleCloseFfxiv()
+}
+
+// --- Silence dropdown ---
 function openSilenceDropdown() {
-  if (silenceTimer) clearTimeout(silenceTimer)
-  silenceTimer = setTimeout(() => { silenceOpen.value = true }, HOVER_DELAY)
+  scheduleOpen({ value: silenceTimer }, silenceOpen, HOVER_DELAY)
 }
 
-function closeSilenceDropdown() {
-  if (silenceTimer) clearTimeout(silenceTimer)
-  silenceTimer = setTimeout(() => { silenceOpen.value = false }, CLOSE_DELAY)
+function scheduleCloseSilence() {
+  if (silenceFocusWithin) return
+  scheduleClose({ value: silenceTimer }, silenceOpen, CLOSE_DELAY)
 }
 
 function cancelSilenceClose() {
-  if (silenceTimer) clearTimeout(silenceTimer)
-  silenceTimer = null
+  clearTimer({ value: silenceTimer })
+}
+
+function toggleSilence() {
+  silenceOpen.value = !silenceOpen.value
+}
+
+function onSilenceFocusIn() {
+  silenceFocusWithin = true
+  cancelSilenceClose()
+  silenceOpen.value = true
+}
+
+function onSilenceFocusOut(e: FocusEvent) {
+  const currentTarget = e.currentTarget as HTMLElement | null
+  const related = e.relatedTarget as Node | null
+  if (currentTarget && related && currentTarget.contains(related)) return
+  silenceFocusWithin = false
+  scheduleCloseSilence()
 }
 
 function isRouteUnder(baseRoute: string): boolean {

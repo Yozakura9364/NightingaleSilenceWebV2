@@ -2,10 +2,12 @@
   <Teleport to="body">
     <div
       v-if="state.visible"
+      ref="overlayRef"
       class="app-dialog-overlay"
       role="dialog"
       aria-modal="true"
       :aria-label="state.title"
+      :aria-describedby="describedById"
       @click.self="onOverlayClick"
       @keydown.esc="onEsc"
     >
@@ -18,7 +20,7 @@
         </div>
 
         <div class="app-dialog-window__body">
-          <p class="app-dialog-window__message">{{ state.message }}</p>
+          <p id="app-dialog-message" class="app-dialog-window__message">{{ state.message }}</p>
 
           <input
             v-if="state.mode === 'prompt'"
@@ -32,6 +34,7 @@
           <div class="app-dialog-window__actions" :class="{ 'app-dialog-window__actions--center': state.mode === 'alert' }">
             <button
               v-if="state.mode !== 'alert'"
+              ref="cancelBtnRef"
               class="app-dialog-window__btn"
               type="button"
               @click="onCancel"
@@ -39,6 +42,7 @@
               {{ cancelText }}
             </button>
             <button
+              ref="confirmBtnRef"
               class="app-dialog-window__btn app-dialog-window__btn--primary"
               type="button"
               @click="onConfirm"
@@ -56,6 +60,7 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { coreTextKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
+import { useFocusTrap } from '@/composables/useFocusTrap'
 import type { DialogState } from '@/composables/useDialog'
 
 const props = defineProps<{
@@ -68,21 +73,33 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useLocale()
+const overlayRef = ref<HTMLElement | null>(null)
 const inputRef = ref<HTMLInputElement | null>(null)
+const confirmBtnRef = ref<HTMLButtonElement | null>(null)
+const cancelBtnRef = ref<HTMLButtonElement | null>(null)
 const inputValue = ref('')
+
+const visible = computed(() => props.state.visible)
+const describedById = 'app-dialog-message'
 
 const confirmText = computed(() => props.locale?.ok ?? t(coreTextKeys.ok))
 const cancelText = computed(() => props.locale?.cancel ?? t(coreTextKeys.cancel))
+
+useFocusTrap(overlayRef, visible)
 
 watch(
   () => props.state.visible,
   async (visible) => {
     if (visible) {
-      inputValue.value = props.state.value
+      inputValue.value = props.state.value ?? ''
       await nextTick()
       if (props.state.mode === 'prompt') {
         inputRef.value?.focus()
         inputRef.value?.select()
+      } else if (props.state.mode === 'alert') {
+        confirmBtnRef.value?.focus()
+      } else {
+        cancelBtnRef.value?.focus()
       }
     }
   }

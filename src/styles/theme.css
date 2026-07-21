@@ -23,7 +23,7 @@
     --ns-color-surface-solid: #ffffff;
     --ns-color-surface-tint: #f7efff;
     --ns-color-text: #241b2f;
-    --ns-color-text-muted: #766a83;
+    --ns-color-text-muted: #584b66;
     --ns-color-border: rgba(88, 68, 105, 0.18);
     --ns-color-border-strong: rgba(88, 68, 105, 0.32);
     --ns-color-accent: #ef6fb2;
@@ -63,7 +63,7 @@
 
     --ns-shadow-soft: 6px 6px 0 rgba(42, 33, 56, 0.12);
     --ns-shadow-panel: 4px 4px 0 rgba(42, 33, 56, 0.1);
-    --ns-focus-ring: 0 0 0 3px rgba(99, 217, 220, 0.42);
+    --ns-focus-ring: 0 0 0 3px rgba(99, 217, 220, 0.72);
     --ns-control-inset-shadow: 2px 2px 0 rgba(42, 33, 56, 0.12) inset;
     --ns-control-primary-text-shadow: 0 1px 0 rgba(35, 20, 42, 0.2);
     --ns-heading-bloom-color: var(--ns-color-text);
@@ -78,12 +78,13 @@
     --ns-select-padding-start: 10px;
     --ns-select-padding-end: 40px;
     --ns-scrollbar-size: 4px;
-    --ns-scrollbar-compact-size: 4px;
+    --ns-scrollbar-compact-size: 2px;
     --ns-scrollbar-arrow-size: 8px;
     --ns-scroll-track: var(--ns-pixel-surface);
     --ns-scroll-thumb: var(--ns-pixel-pink-surface);
     --ns-scroll-thumb-hover: var(--ns-pixel-cyan-surface);
     --ns-scroll-border: rgba(42, 33, 56, 0.24);
+    --ns-scroll-thumb-highlight: inset 2px 2px 0 rgba(255, 255, 255, 0.28);
     --ns-scroll-arrow-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%238f8a96' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 6V5h1V4h1V2h2v2h1v1h1v1H1Z'/%3E%3C/svg%3E");
     --ns-scroll-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%238f8a96' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 2h6v1H6v1H5v2H3V4H2V3H1V2Z'/%3E%3C/svg%3E");
 
@@ -124,6 +125,7 @@
     --ns-pixel-button-shadow: 3px 3px 0 rgba(42, 33, 56, 0.16);
     --ns-pixel-button-shadow-hover: 4px 4px 0 rgba(42, 33, 56, 0.18);
     --ns-pixel-soft-shadow: 2px 2px 0 rgba(42, 33, 56, 0.1);
+    --ns-pixel-shadow-active: 1px 1px 0 rgba(42, 33, 56, 0.16);
     --ns-pixel-window-shadow: 6px 6px 0 rgba(42, 33, 56, 0.16);
     --ns-top-nav-menu-icon-filter: none;
     --ns-top-nav-menu-icon-step-filter: drop-shadow(2px 2px 0 rgba(42, 33, 56, 0.18));
@@ -143,10 +145,13 @@
     --ns-status-info-text: #237579;
     --ns-status-success-border: rgba(57, 168, 135, 0.42);
     --ns-status-success-bg: rgba(57, 168, 135, 0.12);
+    --ns-status-success-text: #1d7a5e;
     --ns-status-warning-border: rgba(241, 167, 72, 0.48);
     --ns-status-warning-bg: rgba(241, 167, 72, 0.14);
+    --ns-status-warning-text: #a86b1b;
     --ns-status-danger-border: rgba(214, 79, 114, 0.52);
     --ns-status-danger-bg: rgba(214, 79, 114, 0.12);
+    --ns-status-danger-text: #b33a5e;
 
     --ns-home-background:
       linear-gradient(rgba(255, 255, 255, 0.55) 1px, transparent 1px),

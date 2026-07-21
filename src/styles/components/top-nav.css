@@ -36,6 +36,11 @@
   white-space: nowrap;
   box-shadow: var(--ns-pixel-button-shadow);
   cursor: pointer;
+  transition:
+    background var(--ns-transition-fast),
+    color var(--ns-transition-fast),
+    transform var(--ns-transition-fast),
+    box-shadow var(--ns-transition-fast);
 }
 
 .app-top-nav__brand {
@@ -80,6 +85,12 @@
   color: var(--ns-color-text);
   transform: translate(-1px, -1px);
   box-shadow: var(--ns-pixel-button-shadow-hover);
+}
+
+.app-top-nav__brand:active,
+.app-top-nav__config-button:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--ns-pixel-soft-shadow);
 }
 
 .app-top-nav__brand-command,
@@ -141,6 +152,11 @@
   color: var(--ns-color-accent-strong);
   transform: translate(-1px, -1px);
   box-shadow: var(--ns-pixel-button-shadow-hover);
+}
+
+.app-top-nav__nav-link:active {
+  transform: translate(1px, 1px);
+  box-shadow: var(--ns-pixel-soft-shadow);
 }
 
 .app-top-nav__nav-link--active {
@@ -415,7 +431,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-top-nav__icon {
+  .app-top-nav__theme-option,
+  .app-top-nav__locale-option {
+    animation: none;
+  }
+  .app-top-nav__theme-option::before,
+  .app-top-nav__locale-option::before {
+    animation: none;
+  }
+  .app-top-nav__theme-icon {
     animation: none;
   }
 }

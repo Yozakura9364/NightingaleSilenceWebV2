@@ -1,11 +1,21 @@
 <template>
+  <a href="#main-content" class="app-skip-link ns-sr-only ns-sr-only--focusable">
+    跳到主要内容
+  </a>
   <AppTopNav v-if="!isArmoireLocalApp" />
-  <router-view />
+  <div id="main-content">
+    <router-view v-slot="{ Component }">
+      <Transition name="page" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </router-view>
+  </div>
   <AppTaskbar v-if="!isArmoireLocalApp" />
   <AppDialog :state="dialog.state" @close="dialog.close" />
 </template>
 
 <script setup lang="ts">
+import { watch } from 'vue'
 import AppTopNav from '@/components/AppTopNav.vue'
 import AppTaskbar from '@/components/AppTaskbar.vue'
 import AppDialog from '@/components/AppDialog.vue'
@@ -19,6 +29,20 @@ const { initThemeMode, setThemeMode } = useTheme()
 const dialog = useDialog()
 
 document.documentElement.toggleAttribute('data-armoire-local-app', isArmoireLocalApp)
+
+// Hide page content from screen readers while dialog is open
+const appRoot = document.getElementById('app')
+watch(() => dialog.state.visible, (visible) => {
+  if (appRoot) {
+    if (visible) {
+      appRoot.setAttribute('aria-hidden', 'true')
+      appRoot.setAttribute('inert', '')
+    } else {
+      appRoot.removeAttribute('aria-hidden')
+      appRoot.removeAttribute('inert')
+    }
+  }
+})
 
 initLocale()
 if (isArmoireLocalApp) {
@@ -55,6 +79,49 @@ initThemeMode()
 .silence-group-page,
 .silence-character-page {
   padding-bottom: 0;
+}
+
+/* Page route transitions */
+.app-skip-link {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  z-index: 3000;
+  padding: 8px 16px;
+  background: var(--ns-color-surface-solid, #fff);
+  border: 2px solid var(--ns-pixel-border, #000);
+  font-family: var(--ns-font-decorative);
+  font-size: 14px;
+  font-weight: 800;
+}
+.app-skip-link:focus {
+  top: 8px;
+}
+
+.page-enter-active,
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active,
+  .page-leave-active {
+    transition: none;
+  }
+  .page-enter-from,
+  .page-leave-to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Adjust full-viewport pages for nav (56px) + bottom taskbar (46px) */

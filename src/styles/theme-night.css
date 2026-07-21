@@ -35,7 +35,7 @@
 
     --ns-shadow-soft: 6px 6px 0 rgba(0, 0, 0, 0.28);
     --ns-shadow-panel: 4px 4px 0 rgba(0, 0, 0, 0.24);
-    --ns-focus-ring: 0 0 0 3px rgba(127, 217, 227, 0.32);
+    --ns-focus-ring: 0 0 0 3px rgba(127, 217, 227, 0.68);
     --ns-control-inset-shadow: 2px 2px 0 rgba(0, 0, 0, 0.26) inset;
     --ns-control-primary-text-shadow: 0 1px 0 rgba(0, 0, 0, 0.34);
     --ns-heading-bloom-color: var(--ns-color-text);
@@ -49,6 +49,7 @@
     --ns-scroll-thumb: rgba(240, 128, 189, 0.34);
     --ns-scroll-thumb-hover: rgba(127, 217, 227, 0.38);
     --ns-scroll-border: rgba(245, 224, 246, 0.18);
+    --ns-scroll-thumb-highlight: inset 2px 2px 0 rgba(255, 255, 255, 0.12);
     --ns-scroll-arrow-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bdb3ca' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 6V5h1V4h1V2h2v2h1v1h1v1H1Z'/%3E%3C/svg%3E");
     --ns-scroll-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23bdb3ca' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 2h6v1H6v1H5v2H3V4H2V3H1V2Z'/%3E%3C/svg%3E");
 
@@ -98,6 +99,7 @@
     --ns-pixel-button-shadow: 3px 3px 0 rgba(0, 0, 0, 0.34);
     --ns-pixel-button-shadow-hover: 4px 4px 0 rgba(0, 0, 0, 0.4);
     --ns-pixel-soft-shadow: 2px 2px 0 rgba(0, 0, 0, 0.22);
+    --ns-pixel-shadow-active: 1px 1px 0 rgba(0, 0, 0, 0.34);
     --ns-pixel-window-shadow:
       6px 6px 0 rgba(0, 0, 0, 0.34),
       0 0 18px rgba(94, 234, 255, 0.08),
@@ -126,10 +128,13 @@
     --ns-status-info-text: #a9f1fa;
     --ns-status-success-border: rgba(123, 216, 188, 0.36);
     --ns-status-success-bg: rgba(123, 216, 188, 0.12);
+    --ns-status-success-text: #7bd8bc;
     --ns-status-warning-border: rgba(242, 200, 107, 0.42);
     --ns-status-warning-bg: rgba(242, 200, 107, 0.13);
+    --ns-status-warning-text: #f2c86b;
     --ns-status-danger-border: rgba(244, 124, 161, 0.46);
     --ns-status-danger-bg: rgba(244, 124, 161, 0.12);
+    --ns-status-danger-text: #f47ca1;
 
     --ns-home-background:
       linear-gradient(
