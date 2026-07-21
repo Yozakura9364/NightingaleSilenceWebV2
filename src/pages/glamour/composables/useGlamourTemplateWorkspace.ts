@@ -1,19 +1,23 @@
 import { computed, ref, watch } from 'vue'
 import type { GlamourDraft, GlamourLocale } from '@/lib/glamour/types'
 import {
-  applyGlamourTemplateImportedSource,
-  applyGlamourTemplateImportedTitle,
-  createGlamourTemplateRenderData,
+  createGlamourTemplateRenderData
+} from '@/lib/glamour/templates/renderData'
+import {
   getGlamourTemplateDefinition,
-  GLAMOUR_TEMPLATE_SETTINGS_STORAGE_KEY,
   GLAMOUR_TEMPLATE_SELECT_ORDER,
   normalizeGlamourTemplateId,
+  type GlamourTemplateId
+} from '@/lib/glamour/templates/definitions'
+import {
+  applyGlamourTemplateImportedSource,
+  applyGlamourTemplateImportedTitle,
+  GLAMOUR_TEMPLATE_SETTINGS_STORAGE_KEY,
   normalizeGlamourTemplateSettings,
   normalizeGlamourTemplateWorkspaceSettings,
-  type GlamourTemplateId,
   type GlamourTemplateSettings,
   type GlamourTemplateWorkspaceSettings
-} from '@/lib/glamour/templates'
+} from '@/lib/glamour/templates/settings'
 import { useLocale } from '@/stores/locale'
 
 function getTemplateLocaleForUiLanguage(language: string): GlamourLocale {
