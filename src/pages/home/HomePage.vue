@@ -362,54 +362,6 @@
         </aside>
       </div>
 
-      <nav class="home-taskbar" :aria-label="t(textKeys.menuTitle)">
-        <RouterLink class="home-taskbar__start" :to="siteRoutes.home">
-          <span class="home-taskbar__start-icon" :style="pixelIconStyle(pixelSparklesIcon)" aria-hidden="true"></span>
-          <span>{{ t(textKeys.homeDream) }}</span>
-        </RouterLink>
-
-        <span class="home-taskbar__separator home-taskbar__separator--start" aria-hidden="true"></span>
-
-        <div class="home-taskbar__windows home-taskbar__windows--day">
-          <a
-            v-for="link in homeSocialLinks"
-            :key="link.id"
-            class="home-taskbar__window home-taskbar__window--social"
-            :href="link.href"
-            target="_blank"
-            rel="noopener noreferrer"
-            :aria-label="t(link.labelKey)"
-            :title="t(link.labelKey)"
-          >
-            <img class="home-taskbar__social-icon" :src="link.icon" alt="" aria-hidden="true">
-            <span>{{ t(link.labelKey) }}</span>
-          </a>
-        </div>
-
-        <div class="home-taskbar__windows home-taskbar__windows--night">
-          <RouterLink
-            v-for="item in taskbarItems"
-            :key="item.id"
-            class="home-taskbar__window"
-            :class="{ 'home-taskbar__window--active': item.active }"
-            :to="item.route"
-          >
-            <span class="home-taskbar__dot" aria-hidden="true"></span>
-            <span>{{ t(item.labelKey) }}</span>
-          </RouterLink>
-        </div>
-
-        <span class="home-taskbar__separator home-taskbar__separator--clock" aria-hidden="true"></span>
-        <button
-          type="button"
-          class="home-taskbar__clock"
-          :aria-label="t(textKeys.homeDesktopClock)"
-          @click="toggleHomeTheme"
-        >
-          <span class="home-taskbar__mode" aria-hidden="true"></span>
-          <span>{{ homeClockLabel }}</span>
-        </button>
-      </nav>
     </section>
   </main>
 </template>
@@ -423,9 +375,9 @@ import pixelFolderIcon from '@/assets/icons/pixelarticons/folder.svg'
 import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
 import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
+import pixelStarIcon from '@/assets/icons/pixelarticons/star.svg'
 import { isSilenceEnabled } from '@/config/features'
 import { ffxivTools, siteMeta, siteRoutes } from '@/config/site'
-import { siteSocialLinks } from '@/config/socialLinks'
 import { homeTextKeys as textKeys } from '@/locales/keys/home'
 import { homeUiMessages } from '@/locales/modules/home'
 import { loadMessages, useLocale } from '@/stores/locale'
@@ -615,20 +567,12 @@ const desktopIcons = [
         { id: 'glitch', labelKey: textKeys.homeGlitch, route: siteRoutes.silenceGlitch, icon: pixelArchiveIcon, tone: 'violet' }
       ]
     : []),
-  { id: 'network', labelKey: textKeys.homeNetworkNeighbor, route: siteRoutes.about, icon: pixelFolderIcon, tone: 'mint' }
-] as const
-
-const taskbarItems = [
-  { id: 'profile', labelKey: textKeys.siteZhName, route: siteRoutes.home, active: true },
-  { id: 'ffxiv', labelKey: textKeys.ffxivWorkshop, route: siteRoutes.ffxiv, active: false },
-  ...(isSilenceEnabled ? [{ id: 'silence', labelKey: textKeys.silence, route: siteRoutes.silence, active: false }] : [])
+  { id: 'network', labelKey: textKeys.about, route: siteRoutes.about, icon: pixelStarIcon, tone: 'mint' }
 ] as const
 
 const homeWorkshopLinks = [
   ...ffxivTools.map((tool) => ({ id: tool.id, labelKey: tool.titleKey, route: tool.route, icon: workshopIconFor(tool.id) }))
 ] as const
-
-const homeSocialLinks = siteSocialLinks.map((link) => ({ ...link, labelKey: `home.social.${link.id}` }))
 
 // ---- Template helpers ----
 function workshopIconFor(id: string) {
@@ -651,10 +595,6 @@ function homeAvatarStyle(image: string): CSSProperties {
 function homeChatAvatarStyle(filename: string): CSSProperties | undefined {
   if (!isHomeCharacterArtPreview) return undefined
   return { '--home-chat-avatar-url': `url("${localAssetBase}/${encodeURIComponent(filename)}")` } as CSSProperties
-}
-
-function toggleHomeTheme() {
-  setThemeMode(themeMode.value === 'night' ? 'day' : 'night')
 }
 
 function handleHomeDesktopPointerMove(event: PointerEvent) {

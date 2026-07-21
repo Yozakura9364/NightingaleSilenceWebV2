@@ -77,8 +77,8 @@
     --ns-select-caret-right: 10.5px;
     --ns-select-padding-start: 10px;
     --ns-select-padding-end: 40px;
-    --ns-scrollbar-size: 16px;
-    --ns-scrollbar-compact-size: 12px;
+    --ns-scrollbar-size: 4px;
+    --ns-scrollbar-compact-size: 4px;
     --ns-scrollbar-arrow-size: 8px;
     --ns-scroll-track: var(--ns-pixel-surface);
     --ns-scroll-thumb: var(--ns-pixel-pink-surface);
