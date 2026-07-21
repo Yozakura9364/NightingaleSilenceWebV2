@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
+import { readJsonFile } from './lib/shared.mjs'
 
 const DEFAULT_ARMOIRE_CATALOG = 'public/data/armoire-catalog.json'
 const DEFAULT_OUTPUT = 'public/data/armoire-cabinet-catalog.json'
@@ -47,11 +48,6 @@ Options:
   --armoire-catalog <file>  Full Armoire item catalog. Default: ${DEFAULT_ARMOIRE_CATALOG}
   --output <file>           Output JSON path. Default: ${DEFAULT_OUTPUT}
 `)
-}
-
-async function readJsonFile(path) {
-  const text = await readFile(path, 'utf8')
-  return JSON.parse(text)
 }
 
 function isRecord(value) {
