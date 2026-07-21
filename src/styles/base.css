@@ -26,15 +26,16 @@
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-track {
-    background: transparent;
-    border: none;
+    background: var(--ns-scroll-track);
+    border: 1px solid var(--ns-pixel-border-soft);
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-thumb {
     min-height: 30px;
-    border: none;
+    border: 2px solid var(--ns-pixel-border);
     border-radius: 0;
     background: var(--ns-scroll-thumb);
+    box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.28);
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-thumb:hover {

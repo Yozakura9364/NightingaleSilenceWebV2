@@ -2,17 +2,21 @@
   <AppTopNav v-if="!isArmoireLocalApp" />
   <router-view />
   <AppTaskbar v-if="!isArmoireLocalApp" />
+  <AppDialog :state="dialog.state" @close="dialog.close" />
 </template>
 
 <script setup lang="ts">
 import AppTopNav from '@/components/AppTopNav.vue'
 import AppTaskbar from '@/components/AppTaskbar.vue'
+import AppDialog from '@/components/AppDialog.vue'
 import { isArmoireLocalApp } from '@/config/features'
 import { useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'
+import { useDialog } from '@/composables/useDialog'
 
 const { initLocale } = useLocale()
 const { initThemeMode, setThemeMode } = useTheme()
+const dialog = useDialog()
 
 document.documentElement.toggleAttribute('data-armoire-local-app', isArmoireLocalApp)
 

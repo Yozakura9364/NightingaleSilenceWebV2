@@ -56,6 +56,7 @@
 <script setup lang="ts">
 import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import { useLocale } from '@/stores/locale'
+import { useDialog } from '@/composables/useDialog'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -75,23 +76,31 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useLocale()
+const dialog = useDialog()
 const toolbarLabel = computed(
   () => `${t(textKeys.nsplateCanvasViewportToolbar)} / ${t(textKeys.nsplateCanvasClearToolbar)}`
 )
 
-function clearCustomPortrait() {
-  if (
-    !props.canClearCustomPortrait ||
-    !window.confirm(t(textKeys.nsplateCustomPortraitClearConfirm))
-  ) {
+async function clearCustomPortrait() {
+  if (!props.canClearCustomPortrait) {
+    return
+  }
+
+  const confirmed = await dialog.confirm(t(textKeys.nsplateCustomPortraitClearConfirm))
+  if (!confirmed) {
     return
   }
 
   emit('clear-custom-portrait')
 }
 
-function clearMaterials() {
-  if (!props.canClearMaterials || !window.confirm(t(textKeys.nsplateClearAllSelectionsConfirm))) {
+async function clearMaterials() {
+  if (!props.canClearMaterials) {
+    return
+  }
+
+  const confirmed = await dialog.confirm(t(textKeys.nsplateClearAllSelectionsConfirm))
+  if (!confirmed) {
     return
   }
 

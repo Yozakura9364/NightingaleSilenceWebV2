@@ -15,6 +15,8 @@ export const coreTextKeys = {
   nextPreset: 'common.nextPreset',
   check: 'common.check',
   checking: 'common.checking',
+  ok: 'common.ok',
+  cancel: 'common.cancel',
   api: 'common.api',
   project: 'common.project',
   port: 'common.port',

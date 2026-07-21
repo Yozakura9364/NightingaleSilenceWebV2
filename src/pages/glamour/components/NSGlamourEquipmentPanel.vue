@@ -91,6 +91,7 @@ import type {
   GlamourStainLoader
 } from '@/pages/glamour/types/equipmentEditor'
 import type { GlamourEquipmentEntryView } from '@/pages/glamour/types/equipmentPanel'
+import { useDialog } from '@/composables/useDialog'
 import { useLocale } from '@/stores/locale'
 
 const EQUIPINFO_LEFT_COLUMN_SLOTS = [
@@ -147,6 +148,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useLocale()
+const dialog = useDialog()
 const equipmentLayoutQuery = window.matchMedia('(max-width: 1080px)')
 const isMobileLayout = ref(equipmentLayoutQuery.matches)
 const editor = useGlamourEquipInfoEditor({
@@ -254,8 +256,8 @@ function formatDyeSummary(summary: GlamourDyeSummary): string {
   return summary.text
 }
 
-function saveConfig(): void {
-  const name = window.prompt(
+async function saveConfig(): Promise<void> {
+  const name = await dialog.prompt(
     t(textKeys.nsglamourConfigNamePrompt),
     normalizeGlamourConfigName(sourceDisplayName.value || t(textKeys.nsglamourRecentUnnamed))
   )
