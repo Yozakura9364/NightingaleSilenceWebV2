@@ -415,7 +415,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
+import { computed, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
 import { RouterLink } from 'vue-router'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
@@ -430,259 +430,43 @@ import { homeTextKeys as textKeys } from '@/locales/keys/home'
 import { homeUiMessages } from '@/locales/modules/home'
 import { loadMessages, useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'
+import { useHomeDragWindow } from './composables/useHomeDragWindow'
+import { useHomeEffects } from './composables/useHomeEffects'
+import { useHomeStatusPanel, type NightFragmentStabilityConfig } from './composables/useHomeStatusPanel'
 
 loadMessages(homeUiMessages)
 
 const { t } = useLocale()
 const { current: themeMode, setThemeMode } = useTheme()
-const desktopEl = ref<HTMLElement | null>(null)
-const isNightPortraitGlitching = ref(false)
-const isNightBackgroundGlitching = ref(false)
-const nightMetricTick = ref(0)
-
-type NightMetricTrend = 'rise' | 'fall'
-type DayWindowId = 'main' | 'links' | 'portrait'
-type NightWindowId = 'status' | 'dialogue' | 'chat' | 'assets' | 'control'
-type HomeThemeTransition = 'idle' | 'to-night' | 'to-day'
-type HomeWindowLayer = 'day' | 'night'
-type HomeWindowKey = `day:${DayWindowId}` | `night:${NightWindowId}`
-
-interface HomeWindowPosition {
-  x: number
-  y: number
-  zIndex: number
-}
-
-interface HomeWindowDragState {
-  key: HomeWindowKey
-  pointerId: number
-  startClientX: number
-  startClientY: number
-  originX: number
-  originY: number
-  windowElement: HTMLElement
-  barElement: HTMLElement
-}
-
-interface NightStabilityMotion {
-  base: number
-  amplitude: number
-  speed: number
-  phase: number
-}
-
-interface NightFragmentStabilityConfig {
-  id: string
-  nameKey: string
-  avatar: string
-  icon: string
-  side: 'left' | 'right'
-  dialoguePreviewKey?: string
-  dialogueUnread?: boolean
-  existence: NightStabilityMotion
-  mental: NightStabilityMotion
-}
-
-const HOME_THEME_TRANSITION_MS = 1060
-const hiddenDayWindowIds = ref<DayWindowId[]>([])
-const hiddenNightWindowIds = ref<NightWindowId[]>([])
-const homeThemeTransition = ref<HomeThemeTransition>('idle')
-const homeWindowPositions = ref<Partial<Record<HomeWindowKey, HomeWindowPosition>>>({})
-const draggedHomeWindowKey = ref<HomeWindowKey | null>(null)
-const dayWindowRespawnTimers = new Map<DayWindowId, number>()
-const nightWindowRespawnTimers = new Map<NightWindowId, number>()
-
-let pointerFrame = 0
-let pointerTargetX = 0
-let pointerTargetY = 0
-let pointerCurrentX = 0
-let pointerCurrentY = 0
-let nightPortraitGlitchTimer = 0
-let nightPortraitGlitchBurstTimer = 0
-let nightPortraitGlitchRepeatTimer = 0
-let nightBackgroundGlitchTimer = 0
-let nightBackgroundGlitchBurstTimer = 0
-let nightBackgroundGlitchRepeatTimer = 0
-let nightMetricTimer = 0
-let homeThemeTransitionTimer = 0
-let homeWindowTopZIndex = 20
-let activeHomeWindowDrag: HomeWindowDragState | null = null
-
 const isHomeCharacterArtPreview = import.meta.env.DEV
 const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE
-const homeCharacterArtStyle = computed(
-  () =>
-    ({
-      '--home-character-art-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/yoine-1.png")`
-        : 'none'
-    }) as CSSProperties
-)
-const homeLogoArtStyle = computed(
-  () =>
-    ({
-      '--home-logo-art-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/nightingale-logo-1.webp")`
-        : 'none'
-    }) as CSSProperties
-)
-const homeDayArtStyle = computed(
-  () =>
-    ({
-      '--home-day-art-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/yoine-6.webp")`
-        : 'none'
-    }) as CSSProperties
-)
-const homeDayPortraitStyle = computed(
-  () =>
-    ({
-      '--home-day-portrait-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/yoine-8.png")`
-        : 'none'
-    }) as CSSProperties
-)
-const homeNightArtStyle = computed(
-  () =>
-    ({
-      '--home-night-art-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/yoin-3.webp")`
-        : 'none'
-    }) as CSSProperties
-)
-const homeClockLabel = computed(() => (themeMode.value === 'night' ? '00:29' : '06:29'))
+const desktopEl = ref<HTMLElement | null>(null)
 
-const nightAvatarCards = [
-  {
-    id: 'yoine',
-    nameKey: textKeys.homeAvatarYoine,
-    stateKey: textKeys.homeArchiveStable,
-    image: `${localAssetBase}/yoine-avatar.webp`,
-    tone: 'stable'
-  },
-  {
-    id: 'yoin',
-    nameKey: textKeys.homeAvatarYoin,
-    stateKey: textKeys.homeArchiveCorrupt,
-    image: `${localAssetBase}/yoin-avatar.webp`,
-    tone: 'corrupt'
-  }
-] as const
+// ---- Composables ----
+const {
+  homeWindowPositions,
+  draggedHomeWindowKey,
+  homeWindowStyle,
+  handleHomeWindowPointerDown,
+  handleHomeWindowPointerMove,
+  finishHomeWindowDrag,
+  isDayWindowVisible,
+  isNightWindowVisible,
+  closeDayWindow,
+  closeNightWindow,
+  clearDayWindowRespawnTimers,
+  clearNightWindowRespawnTimers,
+} = useHomeDragWindow()
 
-const desktopIcons = [
-  ...(isSilenceEnabled
-    ? [
-        {
-          id: 'dream',
-          labelKey: textKeys.homeDream,
-          route: siteRoutes.silence,
-          icon: pixelSparklesIcon,
-          tone: 'pink'
-        },
-        {
-          id: 'angel',
-          labelKey: textKeys.homeAngel,
-          route: siteRoutes.silenceAngel,
-          icon: pixelAvatarCircleIcon,
-          tone: 'blue'
-        },
-        {
-          id: 'glitch',
-          labelKey: textKeys.homeGlitch,
-          route: siteRoutes.silenceGlitch,
-          icon: pixelArchiveIcon,
-          tone: 'violet'
-        }
-      ]
-    : []),
-  {
-    id: 'network',
-    labelKey: textKeys.homeNetworkNeighbor,
-    route: siteRoutes.about,
-    icon: pixelFolderIcon,
-    tone: 'mint'
-  }
-] as const
-
-const taskbarItems = [
-  {
-    id: 'profile',
-    labelKey: textKeys.siteZhName,
-    route: siteRoutes.home,
-    active: true
-  },
-  {
-    id: 'ffxiv',
-    labelKey: textKeys.ffxivWorkshop,
-    route: siteRoutes.ffxiv,
-    active: false
-  },
-  ...(isSilenceEnabled
-    ? [
-        {
-          id: 'silence',
-          labelKey: textKeys.silence,
-          route: siteRoutes.silence,
-          active: false
-        }
-      ]
-    : [])
-] as const
-
-const homeWorkshopLinks = [
-  ...ffxivTools.map((tool) => ({
-    id: tool.id,
-    labelKey: tool.titleKey,
-    route: tool.route,
-    icon: workshopIconFor(tool.id)
-  }))
-] as const
-
-const nightMetricBases = [
-  {
-    id: 'heart-rate',
-    labelKey: textKeys.homeNightHeartRate,
-    baseValue: 72,
-    baseSize: 64,
-    valueJitter: 3,
-    sizeJitter: 12
-  },
-  {
-    id: 'oxygen-saturation',
-    labelKey: textKeys.homeNightOxygenSaturation,
-    baseValue: 98,
-    baseSize: 77,
-    valueJitter: 1,
-    sizeJitter: 9
-  },
-  {
-    id: 'neural-activity',
-    labelKey: textKeys.homeNightNeuralActivity,
-    baseValue: 63,
-    baseSize: 42,
-    valueJitter: 4,
-    sizeJitter: 15
-  }
-] as const
-
-const nightMetrics = computed(() =>
-  nightMetricBases.map((metric, index) => {
-    const pulse = nightMetricTick.value
-    const wave = Math.sin(pulse * 0.86 + index * 1.75)
-    const counterWave = Math.cos(pulse * 0.47 + index * 2.35)
-    const valueOffset = Math.round(wave * metric.valueJitter + counterWave * metric.valueJitter * 0.36)
-    const size = clampNumber(metric.baseSize + wave * metric.sizeJitter + counterWave * 4, 18, 92)
-    const trend: NightMetricTrend = valueOffset >= 0 ? 'rise' : 'fall'
-
-    return {
-      id: metric.id,
-      labelKey: metric.labelKey,
-      value: formatNightVitalValue(metric.id, metric.baseValue + valueOffset),
-      size: `${Math.round(size)}%`,
-      trend
-    }
-  })
-)
+const {
+  isNightPortraitGlitching,
+  isNightBackgroundGlitching,
+  homeThemeTransition,
+  startHomeThemeTransition,
+  handleHomePointerMove,
+  resetHomePointer,
+  cleanupEffects,
+} = useHomeEffects()
 
 const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   {
@@ -745,60 +529,116 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   }
 ] as const
 
-const nightWorldStabilityMotion: NightStabilityMotion = {
-  base: 73,
-  amplitude: 10,
-  speed: 0.42,
-  phase: 0
-}
+const nightMetricBases = [
+  { id: 'heart-rate', labelKey: textKeys.homeNightHeartRate, baseValue: 72, baseSize: 64, valueJitter: 3, sizeJitter: 12 },
+  { id: 'oxygen-saturation', labelKey: textKeys.homeNightOxygenSaturation, baseValue: 98, baseSize: 77, valueJitter: 1, sizeJitter: 9 },
+  { id: 'neural-activity', labelKey: textKeys.homeNightNeuralActivity, baseValue: 63, baseSize: 42, valueJitter: 4, sizeJitter: 15 }
+] as const
 
-const nightFragmentRecords = computed(() =>
-  nightFragmentStabilityConfigs.map((message) => {
-    return {
-      ...message,
-      meters: [
-        { id: 'existence', labelKey: textKeys.homeNightExistenceStability, size: nightStabilitySize(message.existence) },
-        { id: 'mental', labelKey: textKeys.homeNightMentalStability, size: nightStabilitySize(message.mental) }
+const {
+  nightMetrics,
+  nightFragmentRecords,
+  nightWorldStability,
+  nightDialogueMessages,
+} = useHomeStatusPanel(nightFragmentStabilityConfigs, nightMetricBases, {
+  existenceStability: textKeys.homeNightExistenceStability,
+  mentalStability: textKeys.homeNightMentalStability,
+})
+
+// ---- Art style computed ----
+const homeCharacterArtStyle = computed(
+  () =>
+    ({
+      '--home-character-art-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/yoine-1.png")`
+        : 'none'
+    }) as CSSProperties
+)
+const homeLogoArtStyle = computed(
+  () =>
+    ({
+      '--home-logo-art-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/nightingale-logo-1.webp")`
+        : 'none'
+    }) as CSSProperties
+)
+const homeDayArtStyle = computed(
+  () =>
+    ({
+      '--home-day-art-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/yoine-6.webp")`
+        : 'none'
+    }) as CSSProperties
+)
+const homeDayPortraitStyle = computed(
+  () =>
+    ({
+      '--home-day-portrait-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/yoine-8.png")`
+        : 'none'
+    }) as CSSProperties
+)
+const homeNightArtStyle = computed(
+  () =>
+    ({
+      '--home-night-art-url': isHomeCharacterArtPreview
+        ? `url("${localAssetBase}/yoin-3.webp")`
+        : 'none'
+    }) as CSSProperties
+)
+const homeClockLabel = computed(() => (themeMode.value === 'night' ? '00:29' : '06:29'))
+
+// ---- Static data ----
+const nightAvatarCards = [
+  {
+    id: 'yoine',
+    nameKey: textKeys.homeAvatarYoine,
+    stateKey: textKeys.homeArchiveStable,
+    image: `${localAssetBase}/yoine-avatar.webp`,
+    tone: 'stable'
+  },
+  {
+    id: 'yoin',
+    nameKey: textKeys.homeAvatarYoin,
+    stateKey: textKeys.homeArchiveCorrupt,
+    image: `${localAssetBase}/yoin-avatar.webp`,
+    tone: 'corrupt'
+  }
+] as const
+
+const desktopIcons = [
+  ...(isSilenceEnabled
+    ? [
+        { id: 'dream', labelKey: textKeys.homeDream, route: siteRoutes.silence, icon: pixelSparklesIcon, tone: 'pink' },
+        { id: 'angel', labelKey: textKeys.homeAngel, route: siteRoutes.silenceAngel, icon: pixelAvatarCircleIcon, tone: 'blue' },
+        { id: 'glitch', labelKey: textKeys.homeGlitch, route: siteRoutes.silenceGlitch, icon: pixelArchiveIcon, tone: 'violet' }
       ]
-    }
-  })
-)
+    : []),
+  { id: 'network', labelKey: textKeys.homeNetworkNeighbor, route: siteRoutes.about, icon: pixelFolderIcon, tone: 'mint' }
+] as const
 
-const nightWorldStability = computed(() => ({ size: nightStabilitySize(nightWorldStabilityMotion) }))
+const taskbarItems = [
+  { id: 'profile', labelKey: textKeys.siteZhName, route: siteRoutes.home, active: true },
+  { id: 'ffxiv', labelKey: textKeys.ffxivWorkshop, route: siteRoutes.ffxiv, active: false },
+  ...(isSilenceEnabled ? [{ id: 'silence', labelKey: textKeys.silence, route: siteRoutes.silence, active: false }] : [])
+] as const
 
-const nightDialogueMessages = computed(() =>
-  nightFragmentStabilityConfigs.flatMap((message) =>
-    message.dialoguePreviewKey
-      ? [{ ...message, previewKey: message.dialoguePreviewKey, unread: message.dialogueUnread === true }]
-      : []
-  )
-)
+const homeWorkshopLinks = [
+  ...ffxivTools.map((tool) => ({ id: tool.id, labelKey: tool.titleKey, route: tool.route, icon: workshopIconFor(tool.id) }))
+] as const
 
-const homeSocialLinks = siteSocialLinks.map((link) => ({
-  ...link,
-  labelKey: `home.social.${link.id}`
-}))
+const homeSocialLinks = siteSocialLinks.map((link) => ({ ...link, labelKey: `home.social.${link.id}` }))
 
+// ---- Template helpers ----
 function workshopIconFor(id: string) {
-  if (id === 'itemCard') {
-    return pixelImageIcon
-  }
-
-  if (id === 'glamour') {
-    return pixelSparklesIcon
-  }
-
-  if (id === 'armoire') {
-    return pixelArchiveIcon
-  }
-
+  if (id === 'itemCard') return pixelImageIcon
+  if (id === 'glamour') return pixelSparklesIcon
+  if (id === 'armoire') return pixelArchiveIcon
   return pixelHomeIcon
 }
 
 function pixelIconStyle(icon: string): CSSProperties {
-  return {
-    '--home-icon-url': `url("${icon}")`
-  } as CSSProperties
+  return { '--home-icon-url': `url("${icon}")` } as CSSProperties
 }
 
 function homeAvatarStyle(image: string): CSSProperties {
@@ -808,163 +648,12 @@ function homeAvatarStyle(image: string): CSSProperties {
 }
 
 function homeChatAvatarStyle(filename: string): CSSProperties | undefined {
-  if (!isHomeCharacterArtPreview) {
-    return undefined
-  }
-
-  return {
-    '--home-chat-avatar-url': `url("${localAssetBase}/${encodeURIComponent(filename)}")`
-  } as CSSProperties
+  if (!isHomeCharacterArtPreview) return undefined
+  return { '--home-chat-avatar-url': `url("${localAssetBase}/${encodeURIComponent(filename)}")` } as CSSProperties
 }
 
 function toggleHomeTheme() {
   setThemeMode(themeMode.value === 'night' ? 'day' : 'night')
-}
-
-function clampNumber(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value))
-}
-
-function nightStabilitySize(motion: NightStabilityMotion) {
-  const value = motion.base + Math.sin(nightMetricTick.value * motion.speed + motion.phase) * motion.amplitude
-  return `${Math.round(clampNumber(value, 0, 100))}%`
-}
-
-function formatHomeMetricValue(value: number) {
-  return Math.max(0, Math.round(value)).toLocaleString('en-US')
-}
-
-function formatNightVitalValue(id: string, value: number) {
-  const formattedValue = formatHomeMetricValue(value)
-  return id === 'heart-rate' ? `${formattedValue} BPM` : `${formattedValue}%`
-}
-
-function randomHomeDelay(min: number, max: number) {
-  return Math.round(min + Math.random() * (max - min))
-}
-
-function homeWindowKey(layer: HomeWindowLayer, id: DayWindowId | NightWindowId): HomeWindowKey {
-  return `${layer}:${id}` as HomeWindowKey
-}
-
-function parseHomeWindowKey(value: string | undefined): HomeWindowKey | null {
-  if (!value) {
-    return null
-  }
-
-  const [layer, id] = value.split(':')
-  const isDayWindow = layer === 'day' && ['main', 'links', 'portrait'].includes(id)
-  const isNightWindow = layer === 'night' && ['status', 'dialogue', 'chat', 'assets', 'control'].includes(id)
-
-  return isDayWindow || isNightWindow ? (value as HomeWindowKey) : null
-}
-
-function homeWindowStyle(layer: HomeWindowLayer, id: DayWindowId | NightWindowId): CSSProperties {
-  const position = homeWindowPositions.value[homeWindowKey(layer, id)]
-
-  return {
-    '--home-window-offset-x': `${position?.x ?? 0}px`,
-    '--home-window-offset-y': `${position?.y ?? 0}px`,
-    zIndex: position?.zIndex
-  } as CSSProperties
-}
-
-function canDragHomeWindows() {
-  return window.innerWidth > 720
-}
-
-function handleHomeWindowPointerDown(event: PointerEvent) {
-  if (event.button !== 0 || !canDragHomeWindows()) {
-    return
-  }
-
-  const target = event.target
-  if (!(target instanceof Element) || target.closest('.home-window__controls')) {
-    return
-  }
-
-  const barElement = target.closest<HTMLElement>('.home-window__bar')
-  const windowElement = barElement?.closest<HTMLElement>('[data-home-window]')
-  const key = parseHomeWindowKey(windowElement?.dataset.homeWindow)
-
-  if (!barElement || !windowElement || !key) {
-    return
-  }
-
-  const position = homeWindowPositions.value[key] ?? { x: 0, y: 0, zIndex: 0 }
-  const nextPosition = {
-    x: position.x,
-    y: position.y,
-    zIndex: ++homeWindowTopZIndex
-  }
-
-  homeWindowPositions.value = {
-    ...homeWindowPositions.value,
-    [key]: nextPosition
-  }
-  activeHomeWindowDrag = {
-    key,
-    pointerId: event.pointerId,
-    startClientX: event.clientX,
-    startClientY: event.clientY,
-    originX: position.x,
-    originY: position.y,
-    windowElement,
-    barElement
-  }
-  draggedHomeWindowKey.value = key
-  barElement.setPointerCapture(event.pointerId)
-  event.preventDefault()
-}
-
-function handleHomeWindowPointerMove(event: PointerEvent) {
-  const drag = activeHomeWindowDrag
-  const desktop = desktopEl.value
-
-  if (!drag || drag.pointerId !== event.pointerId || !desktop) {
-    return false
-  }
-
-  const desktopRect = desktop.getBoundingClientRect()
-  const windowRect = drag.windowElement.getBoundingClientRect()
-  const taskbarTop = desktop.querySelector<HTMLElement>('.home-taskbar')?.getBoundingClientRect().top ?? desktopRect.bottom
-  const edgePadding = 10
-  const currentPosition = homeWindowPositions.value[drag.key] ?? {
-    x: drag.originX,
-    y: drag.originY,
-    zIndex: homeWindowTopZIndex
-  }
-  const minX = currentPosition.x + desktopRect.left + edgePadding - windowRect.left
-  const maxX = currentPosition.x + desktopRect.right - edgePadding - windowRect.right
-  const minY = currentPosition.y + desktopRect.top + edgePadding - windowRect.top
-  const maxY = currentPosition.y + taskbarTop - edgePadding - windowRect.bottom
-  const offsetX = clampNumber(drag.originX + event.clientX - drag.startClientX, minX, maxX)
-
-  homeWindowPositions.value = {
-    ...homeWindowPositions.value,
-    [drag.key]: {
-      x: offsetX,
-      y: clampNumber(drag.originY + event.clientY - drag.startClientY, minY, maxY),
-      zIndex: currentPosition.zIndex
-    }
-  }
-
-  return true
-}
-
-function finishHomeWindowDrag(event?: PointerEvent) {
-  const drag = activeHomeWindowDrag
-
-  if (!drag || (event && drag.pointerId !== event.pointerId)) {
-    return
-  }
-
-  if (drag.barElement.hasPointerCapture(drag.pointerId)) {
-    drag.barElement.releasePointerCapture(drag.pointerId)
-  }
-
-  activeHomeWindowDrag = null
-  draggedHomeWindowKey.value = null
 }
 
 function handleHomeDesktopPointerMove(event: PointerEvent) {
@@ -973,309 +662,7 @@ function handleHomeDesktopPointerMove(event: PointerEvent) {
   }
 }
 
-function isDayWindowVisible(id: DayWindowId) {
-  return !hiddenDayWindowIds.value.includes(id)
-}
-
-function isNightWindowVisible(id: NightWindowId) {
-  return !hiddenNightWindowIds.value.includes(id)
-}
-
-function closeDayWindow(id: DayWindowId) {
-  if (hiddenDayWindowIds.value.includes(id)) {
-    return
-  }
-
-  hiddenDayWindowIds.value = [...hiddenDayWindowIds.value, id]
-
-  const existingTimer = dayWindowRespawnTimers.get(id)
-  if (existingTimer) {
-    window.clearTimeout(existingTimer)
-  }
-
-  const timer = window.setTimeout(() => {
-    dayWindowRespawnTimers.delete(id)
-    hiddenDayWindowIds.value = hiddenDayWindowIds.value.filter((windowId) => windowId !== id)
-  }, randomHomeDelay(5200, 12800))
-
-  dayWindowRespawnTimers.set(id, timer)
-}
-
-function closeNightWindow(id: NightWindowId) {
-  if (hiddenNightWindowIds.value.includes(id)) {
-    return
-  }
-
-  hiddenNightWindowIds.value = [...hiddenNightWindowIds.value, id]
-
-  const existingTimer = nightWindowRespawnTimers.get(id)
-  if (existingTimer) {
-    window.clearTimeout(existingTimer)
-  }
-
-  const timer = window.setTimeout(() => {
-    nightWindowRespawnTimers.delete(id)
-    hiddenNightWindowIds.value = hiddenNightWindowIds.value.filter((windowId) => windowId !== id)
-  }, randomHomeDelay(5200, 12800))
-
-  nightWindowRespawnTimers.set(id, timer)
-}
-
-function clearDayWindowRespawnTimers() {
-  dayWindowRespawnTimers.forEach((timer) => window.clearTimeout(timer))
-  dayWindowRespawnTimers.clear()
-}
-
-function clearNightWindowRespawnTimers() {
-  nightWindowRespawnTimers.forEach((timer) => window.clearTimeout(timer))
-  nightWindowRespawnTimers.clear()
-}
-
-function clearNightMetricTimer() {
-  if (nightMetricTimer) {
-    window.clearTimeout(nightMetricTimer)
-    nightMetricTimer = 0
-  }
-}
-
-function scheduleNightMetricPulse() {
-  clearNightMetricTimer()
-
-  if (themeMode.value !== 'night' || shouldReduceHomeMotion()) {
-    return
-  }
-
-  nightMetricTimer = window.setTimeout(() => {
-    nightMetricTick.value += 1
-    scheduleNightMetricPulse()
-  }, randomHomeDelay(820, 1650))
-}
-
-function shouldReduceHomeMotion() {
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-}
-
-function applyHomePointerFrame() {
-  pointerCurrentX += (pointerTargetX - pointerCurrentX) * 0.14
-  pointerCurrentY += (pointerTargetY - pointerCurrentY) * 0.14
-
-  desktopEl.value?.style.setProperty('--home-pointer-x', pointerCurrentX.toFixed(3))
-  desktopEl.value?.style.setProperty('--home-pointer-y', pointerCurrentY.toFixed(3))
-
-  if (Math.abs(pointerTargetX - pointerCurrentX) > 0.002 || Math.abs(pointerTargetY - pointerCurrentY) > 0.002) {
-    pointerFrame = window.requestAnimationFrame(applyHomePointerFrame)
-    return
-  }
-
-  pointerFrame = 0
-}
-
-function scheduleHomePointerFrame() {
-  if (pointerFrame || shouldReduceHomeMotion()) {
-    return
-  }
-
-  pointerFrame = window.requestAnimationFrame(applyHomePointerFrame)
-}
-
-function handleHomePointerMove(event: PointerEvent) {
-  const desktop = desktopEl.value
-
-  if (!desktop || activeHomeWindowDrag || shouldReduceHomeMotion()) {
-    return
-  }
-
-  const rect = desktop.getBoundingClientRect()
-  pointerTargetX = ((event.clientX - rect.left) / rect.width - 0.5) * 2
-  pointerTargetY = ((event.clientY - rect.top) / rect.height - 0.5) * 2
-  scheduleHomePointerFrame()
-}
-
-function resetHomePointer() {
-  if (activeHomeWindowDrag) {
-    return
-  }
-
-  pointerTargetX = 0
-  pointerTargetY = 0
-  scheduleHomePointerFrame()
-}
-
-function clearNightPortraitGlitchTimers() {
-  if (nightPortraitGlitchTimer) {
-    window.clearTimeout(nightPortraitGlitchTimer)
-    nightPortraitGlitchTimer = 0
-  }
-
-  if (nightPortraitGlitchBurstTimer) {
-    window.clearTimeout(nightPortraitGlitchBurstTimer)
-    nightPortraitGlitchBurstTimer = 0
-  }
-
-  if (nightPortraitGlitchRepeatTimer) {
-    window.clearTimeout(nightPortraitGlitchRepeatTimer)
-    nightPortraitGlitchRepeatTimer = 0
-  }
-}
-
-function clearNightBackgroundGlitchTimers() {
-  if (nightBackgroundGlitchTimer) {
-    window.clearTimeout(nightBackgroundGlitchTimer)
-    nightBackgroundGlitchTimer = 0
-  }
-
-  if (nightBackgroundGlitchBurstTimer) {
-    window.clearTimeout(nightBackgroundGlitchBurstTimer)
-    nightBackgroundGlitchBurstTimer = 0
-  }
-
-  if (nightBackgroundGlitchRepeatTimer) {
-    window.clearTimeout(nightBackgroundGlitchRepeatTimer)
-    nightBackgroundGlitchRepeatTimer = 0
-  }
-}
-
-function clearHomeThemeTransitionTimer() {
-  if (homeThemeTransitionTimer) {
-    window.clearTimeout(homeThemeTransitionTimer)
-    homeThemeTransitionTimer = 0
-  }
-}
-
-function finishHomeThemeTransition() {
-  homeThemeTransition.value = 'idle'
-  homeThemeTransitionTimer = 0
-
-  if (themeMode.value !== 'night' || shouldReduceHomeMotion()) {
-    return
-  }
-
-  scheduleNightPortraitGlitch()
-  scheduleNightBackgroundGlitch()
-}
-
-function startHomeThemeTransition(mode: 'day' | 'night') {
-  clearHomeThemeTransitionTimer()
-  clearNightPortraitGlitchTimers()
-  clearNightBackgroundGlitchTimers()
-  isNightPortraitGlitching.value = false
-  isNightBackgroundGlitching.value = false
-  homeThemeTransition.value = mode === 'night' ? 'to-night' : 'to-day'
-
-  if (shouldReduceHomeMotion()) {
-    finishHomeThemeTransition()
-    return
-  }
-
-  homeThemeTransitionTimer = window.setTimeout(finishHomeThemeTransition, HOME_THEME_TRANSITION_MS)
-}
-
-function scheduleNightPortraitGlitch() {
-  clearNightPortraitGlitchTimers()
-  isNightPortraitGlitching.value = false
-
-  if (themeMode.value !== 'night' || shouldReduceHomeMotion()) {
-    return
-  }
-
-  runNightPortraitGlitchBurst(2)
-}
-
-function queueNightPortraitGlitch() {
-  if (nightPortraitGlitchTimer) {
-    window.clearTimeout(nightPortraitGlitchTimer)
-    nightPortraitGlitchTimer = 0
-  }
-
-  if (themeMode.value !== 'night' || shouldReduceHomeMotion()) {
-    return
-  }
-
-  nightPortraitGlitchTimer = window.setTimeout(() => {
-    nightPortraitGlitchTimer = 0
-    runNightPortraitGlitchBurst(Math.random() > 0.5 ? 2 : 1)
-  }, randomHomeDelay(3600, 9200))
-}
-
-function runNightPortraitGlitchBurst(remainingBursts: number) {
-  if (themeMode.value !== 'night' || shouldReduceHomeMotion()) {
-    isNightPortraitGlitching.value = false
-    return
-  }
-
-  isNightPortraitGlitching.value = true
-  nightPortraitGlitchBurstTimer = window.setTimeout(() => {
-    isNightPortraitGlitching.value = false
-    nightPortraitGlitchBurstTimer = 0
-
-    if (remainingBursts > 1) {
-      nightPortraitGlitchRepeatTimer = window.setTimeout(() => {
-        nightPortraitGlitchRepeatTimer = 0
-        runNightPortraitGlitchBurst(remainingBursts - 1)
-      }, 220 + Math.random() * 260)
-      return
-    }
-
-    queueNightPortraitGlitch()
-  }, 760)
-}
-
-function scheduleNightBackgroundGlitch() {
-  clearNightBackgroundGlitchTimers()
-  isNightBackgroundGlitching.value = false
-
-  if (themeMode.value !== 'night' || shouldReduceHomeMotion()) {
-    return
-  }
-
-  runNightBackgroundGlitchBurst(2)
-}
-
-function queueNightBackgroundGlitch() {
-  if (nightBackgroundGlitchTimer) {
-    window.clearTimeout(nightBackgroundGlitchTimer)
-    nightBackgroundGlitchTimer = 0
-  }
-
-  if (themeMode.value !== 'night' || shouldReduceHomeMotion()) {
-    return
-  }
-
-  nightBackgroundGlitchTimer = window.setTimeout(() => {
-    nightBackgroundGlitchTimer = 0
-    runNightBackgroundGlitchBurst(Math.random() > 0.55 ? 2 : 1)
-  }, randomHomeDelay(3200, 8500))
-}
-
-function runNightBackgroundGlitchBurst(remainingBursts: number) {
-  if (themeMode.value !== 'night' || shouldReduceHomeMotion()) {
-    isNightBackgroundGlitching.value = false
-    return
-  }
-
-  isNightBackgroundGlitching.value = true
-  nightBackgroundGlitchBurstTimer = window.setTimeout(() => {
-    isNightBackgroundGlitching.value = false
-    nightBackgroundGlitchBurstTimer = 0
-
-    if (remainingBursts > 1) {
-      nightBackgroundGlitchRepeatTimer = window.setTimeout(() => {
-        nightBackgroundGlitchRepeatTimer = 0
-        runNightBackgroundGlitchBurst(remainingBursts - 1)
-      }, randomHomeDelay(180, 440))
-      return
-    }
-
-    queueNightBackgroundGlitch()
-  }, 620)
-}
-
-onMounted(() => {
-  scheduleNightPortraitGlitch()
-  scheduleNightBackgroundGlitch()
-  scheduleNightMetricPulse()
-})
-
+// ---- Lifecycle ----
 watch(themeMode, (mode) => {
   startHomeThemeTransition(mode)
 
@@ -1288,21 +675,11 @@ watch(themeMode, (mode) => {
     hiddenNightWindowIds.value = []
     clearNightWindowRespawnTimers()
   }
-
-  scheduleNightMetricPulse()
 })
 
 onBeforeUnmount(() => {
   finishHomeWindowDrag()
-
-  if (pointerFrame) {
-    window.cancelAnimationFrame(pointerFrame)
-  }
-
-  clearHomeThemeTransitionTimer()
-  clearNightPortraitGlitchTimers()
-  clearNightBackgroundGlitchTimers()
-  clearNightMetricTimer()
+  cleanupEffects()
   clearDayWindowRespawnTimers()
   clearNightWindowRespawnTimers()
 })
