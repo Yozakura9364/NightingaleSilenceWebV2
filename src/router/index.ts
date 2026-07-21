@@ -227,4 +227,17 @@ watch([locale, messages], () => {
   )
 })
 
+// 阶段三：路由级 prefetch — 在空闲时预取高概率访问页面，减少导航延迟
+const PREFETCH_ROUTES = ['ffxiv-plate', 'ffxiv-glamour-template', 'ffxiv-armoire']
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(() => {
+    for (const routeName of PREFETCH_ROUTES) {
+      const route = router.resolve({ name: routeName })
+      if (typeof route.component === 'function') {
+        ;(route.component as () => Promise<unknown>)().catch(() => {})
+      }
+    }
+  })
+}
+
 export default router
