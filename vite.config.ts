@@ -73,6 +73,16 @@ export default defineConfig(({ command, mode }) => {
       )
     },
     plugins: [vue(), excludePublicArmoireDataPlugin(!isArmoireLocalBuild)],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-vue': ['vue', 'vue-router'],
+            'vendor-pinia': ['pinia']
+          }
+        }
+      }
+    },
     resolve: {
       alias: {
         '@': srcPath
