@@ -24,14 +24,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import { ffxivTools, getCategory } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
-import { useAnimateEntrance } from '@/composables/useAnimateEntrance'
 import { useLocale } from '@/stores/locale'
 
 const ffxivCategory = getCategory('ffxiv') ?? {
@@ -43,8 +42,32 @@ const { t } = useLocale()
 
 const titleRef = ref<HTMLHeadingElement | null>(null)
 const gridRef = ref<HTMLDivElement | null>(null)
-useAnimateEntrance(titleRef)
-useAnimateEntrance(gridRef, { staggerChildren: true })
+
+onMounted(() => {
+  // Entrance animations using inline styles (avoids scoped CSS cascade issues)
+  if (titleRef.value) {
+    const el = titleRef.value
+    el.style.opacity = '0'
+    el.style.transform = 'translateY(10px)'
+    requestAnimationFrame(() => {
+      el.style.transition = 'opacity 420ms cubic-bezier(0.22,1,0.36,1), transform 420ms cubic-bezier(0.22,1,0.36,1)'
+      el.style.opacity = '1'
+      el.style.transform = 'translateY(0)'
+    })
+  }
+  if (gridRef.value) {
+    Array.from(gridRef.value.children).forEach((child, i) => {
+      const el = child as HTMLElement
+      el.style.opacity = '0'
+      el.style.transform = 'translateY(16px)'
+      requestAnimationFrame(() => {
+        el.style.transition = `opacity 420ms cubic-bezier(0.22,1,0.36,1) ${40 + i * 80}ms, transform 420ms cubic-bezier(0.22,1,0.36,1) ${40 + i * 80}ms`
+        el.style.opacity = '1'
+        el.style.transform = 'translateY(0)'
+      })
+    })
+  }
+})
 
 const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,
