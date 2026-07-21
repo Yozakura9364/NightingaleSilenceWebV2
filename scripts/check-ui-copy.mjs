@@ -1,29 +1,31 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { readdir, readFile, stat } from 'node:fs/promises'
 import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const rootDir = dirname(dirname(fileURLToPath(import.meta.url)))
 const srcDir = join(rootDir, 'src')
 const visibleTextPattern =
-  /[\p{L}\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u
+  /[\p{L}\p{Script=Han}\p{Script=Hiragana}\p{Script=Hangul}]/u
 const staticAttributePattern = /\s(aria-label|title|placeholder|alt)="([^"]+)"/g
 const staticDialogPattern = /\bwindow\.(alert|confirm)\(\s*(['"`])([\s\S]*?)\2\s*\)/g
 const deprecatedConfigPattern = /\b(placeholderCopy|siteLabels)\b/g
 const issues = []
 
-for (const filePath of walk(srcDir)) {
+const allFiles = await walk(srcDir)
+
+for (const filePath of allFiles) {
   const relativePath = toRelativePath(filePath)
 
   if (filePath.endsWith('.vue')) {
-    checkVueTemplate(filePath)
+    await checkVueTemplate(filePath)
   }
 
   if (
     (filePath.endsWith('.vue') || filePath.endsWith('.ts')) &&
     relativePath !== 'src/config/site.ts'
   ) {
-    checkStaticDialogCopy(filePath)
-    checkDeprecatedConfigUsage(filePath)
+    await checkStaticDialogCopy(filePath)
+    await checkDeprecatedConfigUsage(filePath)
   }
 }
 
@@ -37,21 +39,26 @@ if (issues.length > 0) {
 
 console.log('UI copy check passed.')
 
-function walk(dirPath) {
-  return readdirSync(dirPath).flatMap((name) => {
+async function walk(dirPath) {
+  const entries = await readdir(dirPath)
+  const results = []
+
+  for (const name of entries) {
     const filePath = join(dirPath, name)
-    const stats = statSync(filePath)
+    const stats = await stat(filePath)
 
     if (stats.isDirectory()) {
-      return walk(filePath)
+      results.push(...await walk(filePath))
+    } else {
+      results.push(filePath)
     }
+  }
 
-    return [filePath]
-  })
+  return results
 }
 
-function checkVueTemplate(filePath) {
-  const source = readFileSync(filePath, 'utf8')
+async function checkVueTemplate(filePath) {
+  const source = await readFile(filePath, 'utf8')
   const templateMatch = source.match(/<template>([\s\S]*?)<\/template>/)
   const template = templateMatch?.[1]
 
@@ -164,8 +171,8 @@ function checkStaticAttributes(filePath, source, template, templateOffset) {
   }
 }
 
-function checkStaticDialogCopy(filePath) {
-  const source = readFileSync(filePath, 'utf8')
+async function checkStaticDialogCopy(filePath) {
+  const source = await readFile(filePath, 'utf8')
 
   for (const match of source.matchAll(staticDialogPattern)) {
     const [, name, quote, rawValue] = match
@@ -184,8 +191,8 @@ function checkStaticDialogCopy(filePath) {
   }
 }
 
-function checkDeprecatedConfigUsage(filePath) {
-  const source = readFileSync(filePath, 'utf8')
+async function checkDeprecatedConfigUsage(filePath) {
+  const source = await readFile(filePath, 'utf8')
 
   for (const match of source.matchAll(deprecatedConfigPattern)) {
     addIssue(filePath, source, match.index ?? 0, 'deprecated-config-copy', match[1])

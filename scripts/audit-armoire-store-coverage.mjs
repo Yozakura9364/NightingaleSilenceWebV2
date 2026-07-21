@@ -1,5 +1,12 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import {
+  loadSheetRows,
+  normalizeRow,
+  parseCsv,
+  parseInteger,
+  readJsonFile as readJson
+} from './lib/shared.mjs'
 
 const DEFAULT_ARMOIRE_CATALOG = 'public/data/armoire-catalog.json'
 const DEFAULT_STORE_CATALOG = 'public/data/armoire-store-catalog.json'
@@ -134,91 +141,12 @@ Options:
 `)
 }
 
-function parseCsv(text) {
-  const rows = []
-  let row = []
-  let field = ''
-  let inQuotes = false
-  const normalized = text
-    .replace(/^\uFEFF/, '')
-    .replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n')
-
-  for (let index = 0; index < normalized.length; index += 1) {
-    const char = normalized[index]
-
-    if (char === '"') {
-      if (inQuotes && normalized[index + 1] === '"') {
-        field += '"'
-        index += 1
-      } else {
-        inQuotes = !inQuotes
-      }
-      continue
-    }
-
-    if (char === ',' && !inQuotes) {
-      row.push(field)
-      field = ''
-      continue
-    }
-
-    if (char === '\n' && !inQuotes) {
-      row.push(field)
-      rows.push(row)
-      row = []
-      field = ''
-      continue
-    }
-
-    field += char
-  }
-
-  if (field || row.length > 0) {
-    row.push(field)
-    rows.push(row)
-  }
-
-  return rows.filter((csvRow) => csvRow.some((value) => value !== ''))
-}
-
-function normalizeRow(row, width) {
-  if (row.length < width) {
-    return [...row, ...Array.from({ length: width - row.length }, () => '')]
-  }
-
-  return row.length > width ? row.slice(0, width) : row
-}
-
-function loadSheetRows(text) {
-  const rows = parseCsv(text)
-
-  if (rows.length < 4) {
-    throw new Error('CSV content is too short')
-  }
-
-  const headers = rows[1].map((value) => value.replace(/^\uFEFF/, '').trim())
-  return rows.slice(3).map((row) => {
-    const normalized = normalizeRow(row, headers.length)
-    return Object.fromEntries(headers.map((header, index) => [header, normalized[index] ?? '']))
-  })
-}
-
-function parseInteger(value) {
-  const parsed = Number.parseInt(String(value ?? '').trim(), 10)
-  return Number.isFinite(parsed) ? parsed : 0
-}
-
 function cleanText(value) {
   return String(value ?? '')
     .replace(/<(?:SoftHyphen|Indent)\s*\/>/gi, '')
     .replace(/<[^>]+>/g, '')
     .replace(/\s+/g, ' ')
     .trim()
-}
-
-async function readJson(filePath) {
-  return JSON.parse(await readFile(resolve(filePath), 'utf8'))
 }
 
 async function fetchText(url) {

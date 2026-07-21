@@ -2,6 +2,14 @@ import { execFileSync } from 'node:child_process'
 import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
+import {
+  cleanText,
+  loadSheetRows,
+  normalizeRow,
+  parseCsv,
+  parseInteger,
+  readJsonFile
+} from './lib/shared.mjs'
 
 const DEFAULT_ARMOIRE_CATALOG = 'public/data/armoire-catalog.json'
 const DEFAULT_OUTPUT = 'public/data/armoire-store-catalog.json'
@@ -437,97 +445,6 @@ function stripHtml(value) {
     .replace(/<[^>]+>/g, '\n')
     .replace(/[\t\r]+/g, ' ')
     .replace(/\n{2,}/g, '\n')
-    .trim()
-}
-
-function parseCsv(text) {
-  const normalized = text
-    .replace(/^\uFEFF/, '')
-    .replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n')
-  const rows = []
-  let row = []
-  let field = ''
-  let inQuotes = false
-
-  for (let index = 0; index < normalized.length; index += 1) {
-    const char = normalized[index]
-
-    if (char === '"') {
-      if (inQuotes && normalized[index + 1] === '"') {
-        field += '"'
-        index += 1
-      } else {
-        inQuotes = !inQuotes
-      }
-      continue
-    }
-
-    if (char === ',' && !inQuotes) {
-      row.push(field)
-      field = ''
-      continue
-    }
-
-    if (char === '\n' && !inQuotes) {
-      row.push(field)
-      rows.push(row)
-      row = []
-      field = ''
-      continue
-    }
-
-    field += char
-  }
-
-  if (field || row.length > 0) {
-    row.push(field)
-    rows.push(row)
-  }
-
-  return rows.filter((csvRow) => csvRow.some((value) => value !== ''))
-}
-
-function normalizeRow(row, width) {
-  if (row.length < width) {
-    return [...row, ...Array.from({ length: width - row.length }, () => '')]
-  }
-
-  if (row.length > width) {
-    return row.slice(0, width)
-  }
-
-  return row
-}
-
-function loadSheetRows(text) {
-  const rows = parseCsv(text)
-
-  if (rows.length < 4) {
-    throw new Error('CSV content is too short')
-  }
-
-  const headers = rows[1].map((value) => value.replace(/^\uFEFF/, '').trim())
-  return rows.slice(3).map((row) => {
-    const normalized = normalizeRow(row, headers.length)
-    return Object.fromEntries(headers.map((header, index) => [header, normalized[index] ?? '']))
-  })
-}
-
-function parseInteger(value) {
-  const normalized = String(value ?? '').trim()
-
-  if (!normalized) {
-    return 0
-  }
-
-  const parsed = Number.parseInt(normalized, 10)
-  return Number.isFinite(parsed) ? parsed : 0
-}
-
-function cleanText(value) {
-  return String(value ?? '')
-    .replace(/<(?:SoftHyphen|Indent)\s*\/>/gi, '')
     .trim()
 }
 
