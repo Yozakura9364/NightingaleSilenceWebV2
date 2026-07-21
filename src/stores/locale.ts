@@ -3,6 +3,7 @@ import { coreUiMessages } from '@/locales/modules/core'
 import type { Locale, UiMessageMap } from '@/locales/types'
 
 export type { Locale } from '@/locales/types'
+export type LocaleFunction = (key: string) => string
 
 const LOCALE_KEY = 'ns-locale'
 const SUPPORTED_LOCALES: Locale[] = ['zh-CN', 'en', 'ja', 'ko', 'fr', 'de']

@@ -297,7 +297,7 @@ export function getCustomPortraitSourceDrawRect(
 }
 
 export function drawCustomPortraitFreeImage(
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   image: CanvasImageSource,
   sourceWidth: number,
   sourceHeight: number,
@@ -374,7 +374,7 @@ export function setCustomPortraitPopoutSplitAngle(
 }
 
 export function traceCustomPortraitInFrameClipPath(
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   source: NSPlateCustomPortraitSplitSource,
   originX = 0,
   originY = 0
@@ -389,7 +389,7 @@ export function traceCustomPortraitInFrameClipPath(
 }
 
 export function traceCustomPortraitPopoutClipPath(
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   source: NSPlateCustomPortraitSplitSource,
   canvasWidth: number,
   portraitOriginX = 0,
@@ -490,7 +490,7 @@ function getVisiblePopoutSourceRect(sourceRect: NSPlateCustomPortraitDrawRect) {
 }
 
 function drawCustomPortraitCropToContext(
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   cropState: NSPlateCustomPortraitCropState
 ) {
   const { width, height } = NSPLATE_CANVAS_DIMENSIONS.portrait
@@ -641,7 +641,7 @@ function drawCustomPortraitPopoutCropPreview(
   context.restore()
 }
 
-function setHighQualityImageSmoothing(context: CanvasRenderingContext2D) {
+function setHighQualityImageSmoothing(context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D) {
   context.imageSmoothingEnabled = true
 
   if ('imageSmoothingQuality' in context) {

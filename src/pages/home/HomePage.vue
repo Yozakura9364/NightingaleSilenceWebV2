@@ -444,7 +444,6 @@ const desktopEl = ref<HTMLElement | null>(null)
 
 // ---- Composables ----
 const {
-  homeWindowPositions,
   draggedHomeWindowKey,
   homeWindowStyle,
   handleHomeWindowPointerDown,
@@ -454,6 +453,8 @@ const {
   isNightWindowVisible,
   closeDayWindow,
   closeNightWindow,
+  hiddenDayWindowIds,
+  hiddenNightWindowIds,
   clearDayWindowRespawnTimers,
   clearNightWindowRespawnTimers,
 } = useHomeDragWindow()
@@ -1362,8 +1363,6 @@ button.home-window__control:focus-visible {
     animation: none;
   }
 }
-
-.home-night-status {
 
 .home-profile__command {
   margin: 0;

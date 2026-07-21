@@ -1,4 +1,4 @@
-import type { ArmoireStoreOutfit, ArmoireStoreLinkRegion, ArmoireStoreTag, ArmoireStoreDetailTag } from '@/lib/armoire/types'
+import type { ArmoireStoreOutfit, ArmoireStoreTag, ArmoireStoreDetailTag } from '@/lib/armoire/types'
 
 interface StoreReviewDraftEntry {
   regionalStoreUrls?: Record<string, string>

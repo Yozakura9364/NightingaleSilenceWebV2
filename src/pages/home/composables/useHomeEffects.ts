@@ -1,4 +1,4 @@
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useTheme } from '@/stores/theme'
 
 const HOME_THEME_TRANSITION_MS = 1060

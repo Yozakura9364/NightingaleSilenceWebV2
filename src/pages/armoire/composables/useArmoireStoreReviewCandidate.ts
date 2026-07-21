@@ -1,5 +1,4 @@
 export function useArmoireStoreReviewCandidate(
-  getMergedItemIds: (outfit: any) => number[],
   getUniqueItemIds: (itemIds: number[]) => number[],
 ) {
   const CANDIDATE_LIMIT = 12
@@ -54,7 +53,7 @@ export function useArmoireStoreReviewCandidate(
   function getCandidateViews(
     outfit: any,
     catalog: any,
-    visibleOutfits: any[],
+    _visibleOutfits: any[],
     existingItemIds: Set<number>,
   ): any[] | null {
     const searchKeys = buildCandidateSearchKeys(outfit)
@@ -91,7 +90,7 @@ export function useArmoireStoreReviewCandidate(
     return candidates.length > 0 ? candidates : null
   }
 
-  function resolveCatalogItemId(input: string, catalog: any): number | undefined {
+  function resolveCatalogItemId(input: string, catalog: { items: Record<number, { name?: string; itemId: number }> }): number | undefined {
     const query = input.trim()
     if (!query) return undefined
 

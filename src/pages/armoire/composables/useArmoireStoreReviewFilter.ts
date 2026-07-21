@@ -1,5 +1,5 @@
 import { computed, ref, watch, type Ref } from 'vue'
-import type { ArmoireStoreOutfit, ArmoireStoreLinkRegion, ArmoireStoreTag, ArmoireStoreDetailTag } from '@/lib/armoire/types'
+import type { ArmoireStoreOutfit, ArmoireStoreLinkRegion, ArmoireStoreTag, ArmoireStoreDetailTag, ArmoireCatalog, ArmoireStoreCatalog } from '@/lib/armoire/types'
 import {
   ARMOIRE_STORE_TAGS,
   ARMOIRE_STORE_DETAIL_TAGS,
@@ -9,10 +9,8 @@ import {
   ARMOIRE_STORE_DETAIL_TAG_LABEL_KEYS,
   getArmoireStoreTagLabels
 } from '@/pages/armoire/utils/storeTagDisplay'
-import { getArmoireItemName, getArmoireItemIconUrl } from '@/pages/armoire/utils/itemDisplay'
+import { getArmoireItemName } from '@/pages/armoire/utils/itemDisplay'
 import type { LocaleFunction } from '@/stores/locale'
-import type { ArmoireCatalog } from './useArmoireCatalog'
-import type { ArmoireStoreCatalog } from './useArmoireStoreCatalog'
 
 export type StoreReviewFilter =
   'all' | 'pendingCorrection' | 'corrected' | 'needsMapping' | 'missingLinks' | 'edited'
@@ -168,7 +166,7 @@ export function useArmoireStoreReviewFilter(
 
   const filteredOutfits = computed(() => {
     const query = searchQuery.value.trim().toLocaleLowerCase()
-    return storeCatalog.value.outfits.filter((outfit) => {
+    return storeCatalog.value.outfits.filter((outfit: ArmoireStoreOutfit) => {
       if (selectedFilter.value === 'needsMapping' && !isNeedsMapping(outfit)) return false
       if (selectedFilter.value === 'pendingCorrection' && isCorrected(outfit.id)) return false
       if (selectedFilter.value === 'corrected' && !isCorrected(outfit.id)) return false
