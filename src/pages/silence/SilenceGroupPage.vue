@@ -26,8 +26,8 @@
       />
     </section>
 
-    <section v-else class="silence-group-empty" :aria-labelledby="emptyTitleId">
-      <h1 :id="emptyTitleId" class="ns-title">{{ t(textKeys.silenceGroupEmpty) }}</h1>
+    <section v-else class="silence-group-empty" :aria-labelledby="EMPTY_TITLE_ID">
+      <h1 :id="EMPTY_TITLE_ID" class="ns-title">{{ t(textKeys.silenceGroupEmpty) }}</h1>
       <RouterLink class="ns-button" :to="siteRoutes.silence">
         {{ t(textKeys.silence) }}
       </RouterLink>
@@ -54,6 +54,8 @@ import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { loadMessages, useLocale } from '@/stores/locale'
 
 loadMessages(silenceUiMessages)
+
+const EMPTY_TITLE_ID = 'silence-group-empty-title'
 
 const route = useRoute()
 const router = useRouter()
