@@ -24,29 +24,31 @@
         <span class="app-top-nav__nav-arrow" aria-hidden="true">&#9660;</span>
       </RouterLink>
 
-      <div
-        v-if="ffxivOpen"
-        class="app-top-nav__dropdown"
-        role="menu"
-        @mouseenter="cancelFfxivClose"
-        @mouseleave="scheduleCloseFfxiv"
-      >
-        <RouterLink
-          v-for="tool in ffxivTools"
-          :key="tool.id"
-          role="menuitem"
-          class="app-top-nav__dropdown-link"
-          :class="{ 'app-top-nav__dropdown-link--active': isRouteUnder(tool.route) }"
-          :to="tool.route"
+      <Transition name="dropdown">
+        <div
+          v-if="ffxivOpen"
+          class="app-top-nav__dropdown"
+          role="menu"
+          @mouseenter="cancelFfxivClose"
+          @mouseleave="scheduleCloseFfxiv"
         >
-          <span
-            class="app-top-nav__dropdown-icon"
-            :style="toolIconStyle(toolIconMap[tool.id] ?? folderIcon)"
-            aria-hidden="true"
-          ></span>
-          <span>{{ t(tool.titleKey) }}</span>
-        </RouterLink>
-      </div>
+          <RouterLink
+            v-for="tool in ffxivTools"
+            :key="tool.id"
+            role="menuitem"
+            class="app-top-nav__dropdown-link"
+            :class="{ 'app-top-nav__dropdown-link--active': isRouteUnder(tool.route) }"
+            :to="tool.route"
+          >
+            <span
+              class="app-top-nav__dropdown-icon"
+              :style="toolIconStyle(toolIconMap[tool.id] ?? folderIcon)"
+              aria-hidden="true"
+            ></span>
+            <span>{{ t(tool.titleKey) }}</span>
+          </RouterLink>
+        </div>
+      </Transition>
     </div>
 
     <!-- Silence -->
@@ -74,32 +76,34 @@
         <span class="app-top-nav__nav-arrow" aria-hidden="true">&#9660;</span>
       </RouterLink>
 
-      <div
-        v-if="silenceOpen"
-        class="app-top-nav__dropdown"
-        role="menu"
-        @mouseenter="cancelSilenceClose"
-        @mouseleave="scheduleCloseSilence"
-      >
-        <RouterLink
-          v-for="group in silenceGroups"
-          :key="group.id"
-          role="menuitem"
-          class="app-top-nav__dropdown-link"
-          :class="{
-            'app-top-nav__dropdown-link--active':
-              route.path === group.route || route.path.startsWith(`${group.route}/`)
-          }"
-          :to="group.route"
+      <Transition name="dropdown">
+        <div
+          v-if="silenceOpen"
+          class="app-top-nav__dropdown"
+          role="menu"
+          @mouseenter="cancelSilenceClose"
+          @mouseleave="scheduleCloseSilence"
         >
-          <span
-            class="app-top-nav__dropdown-icon"
-            :style="toolIconStyle(groupIconMap[group.id] ?? imageIcon)"
-            aria-hidden="true"
-          ></span>
-          <span>{{ t(groupMenuTitleKeyMap[group.id]) }}</span>
-        </RouterLink>
-      </div>
+          <RouterLink
+            v-for="group in silenceGroups"
+            :key="group.id"
+            role="menuitem"
+            class="app-top-nav__dropdown-link"
+            :class="{
+              'app-top-nav__dropdown-link--active':
+                route.path === group.route || route.path.startsWith(`${group.route}/`)
+            }"
+            :to="group.route"
+          >
+            <span
+              class="app-top-nav__dropdown-icon"
+              :style="toolIconStyle(groupIconMap[group.id] ?? imageIcon)"
+              aria-hidden="true"
+            ></span>
+            <span>{{ t(groupMenuTitleKeyMap[group.id]) }}</span>
+          </RouterLink>
+        </div>
+      </Transition>
     </div>
 
     <!-- 关于 -->

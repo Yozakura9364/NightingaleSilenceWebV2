@@ -64,7 +64,11 @@ const brandIconStyle = {
 
 function closeConfig() {
   configOpen.value = false
+  previousActiveElement?.focus()
+  previousActiveElement = null
 }
+
+let previousActiveElement: HTMLElement | null = null
 
 function closePopovers() {
   closeConfig()
@@ -72,12 +76,15 @@ function closePopovers() {
 
 function toggleConfig() {
   if (!configOpen.value) {
+    previousActiveElement = document.activeElement as HTMLElement | null
     configOpen.value = true
     return
   }
 
   closeConfig()
 }
+
+const configTriggerRef = ref<HTMLButtonElement | null>(null)
 
 function handleDocumentPointerDown(event: PointerEvent) {
   if (!configOpen.value) {
