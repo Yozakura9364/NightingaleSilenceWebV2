@@ -794,14 +794,17 @@ async function createCustomPortraitPopoutLayer(
   } satisfies NSPlateLayeredExportLayer
 }
 
-function createLayerCanvas(width: number, height: number) {
+function createLayerCanvas(width: number, height: number): HTMLCanvasElement | OffscreenCanvas {
+  if (typeof OffscreenCanvas !== 'undefined') {
+    return new OffscreenCanvas(Math.max(1, width), Math.max(1, height))
+  }
   const canvas = document.createElement('canvas')
   canvas.width = Math.max(1, width)
   canvas.height = Math.max(1, height)
   return canvas
 }
 
-function getLayerContext(canvas: HTMLCanvasElement, smoothing: boolean) {
+function getLayerContext(canvas: HTMLCanvasElement | OffscreenCanvas, smoothing: boolean) {
   const context = canvas.getContext('2d')
 
   if (!context) {
@@ -827,7 +830,10 @@ function normalizeExportScale(scale: number) {
 }
 
 /** Create a Blob URL from a canvas, avoiding base64 data URL overhead. Free with revokeCanvasBlobUrl(). */
-function canvasToBlobUrl(canvas: HTMLCanvasElement): Promise<string> {
+function canvasToBlobUrl(canvas: HTMLCanvasElement | OffscreenCanvas): Promise<string> {
+  if (canvas instanceof OffscreenCanvas) {
+    return canvas.convertToBlob({ type: 'image/png' }).then((blob) => URL.createObjectURL(blob))
+  }
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
       if (!blob) {
@@ -887,7 +893,10 @@ async function placeLayerOnFullCanvas(
   return canvasToPngBlob(canvas)
 }
 
-function canvasToPngBlob(canvas: HTMLCanvasElement): Promise<Blob> {
+function canvasToPngBlob(canvas: HTMLCanvasElement | OffscreenCanvas): Promise<Blob> {
+  if (canvas instanceof OffscreenCanvas) {
+    return canvas.convertToBlob({ type: 'image/png' })
+  }
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
       if (blob) {

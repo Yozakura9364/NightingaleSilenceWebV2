@@ -94,7 +94,7 @@
             </span>
             <span class="about-friend-link__copy">
               <strong>{{ t(friend.labelKey) }}</strong>
-              <small>{{ friend.domain }}</small>
+              <small>{{ friend.description }}</small>
             </span>
           </a>
         </div>
@@ -138,7 +138,7 @@ const friendLinks = [
     id: 'flowersink',
     labelKey: textKeys.friendFlowersink,
     href: 'https://flowersink.com/',
-    domain: 'flowersink.com',
+    description: '好耶！是再花猫猫头ฅ•ω•ฅ',
     icon: 'https://api.flowersink.com/img/logo.png'
   }
 ] as const
