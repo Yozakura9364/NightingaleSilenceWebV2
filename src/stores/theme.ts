@@ -6,6 +6,7 @@ const THEME_KEY = 'ns-theme-mode'
 
 const current = ref<ThemeMode>(loadThemeMode())
 let isStorageSyncReady = false
+let nightThemeLoaded = false
 
 function isThemeMode(value: string | null): value is ThemeMode {
   return value === 'day' || value === 'night'
@@ -20,9 +21,23 @@ function loadThemeMode(): ThemeMode {
   return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'night' : 'day'
 }
 
+function ensureNightTheme() {
+  if (nightThemeLoaded) return
+  nightThemeLoaded = true
+
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = new URL('@/styles/theme-night.css', import.meta.url).href
+  document.head.appendChild(link)
+}
+
 function applyThemeMode(mode: ThemeMode) {
   document.documentElement.dataset.theme = mode
   document.documentElement.style.colorScheme = mode === 'night' ? 'dark' : 'light'
+
+  if (mode === 'night') {
+    ensureNightTheme()
+  }
 }
 
 function initThemeMode() {
