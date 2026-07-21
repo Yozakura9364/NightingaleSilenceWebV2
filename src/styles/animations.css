@@ -99,36 +99,50 @@
 
 /* ── Animation utility classes ── */
 
-/* Hidden until .ns-animate-visible is applied */
+/*
+ * .ns-animate — element starts invisible with animation paused at first frame.
+ * .ns-animate-visible — resumes animation to play forward.
+ *
+ * This way the animation doesn't "finish early" before the scroll trigger fires.
+ */
 .ns-animate {
-  opacity: 0;
-  pointer-events: none;
+  animation-fill-mode: both;
+  animation-play-state: paused;
 }
 
 .ns-animate-visible {
-  opacity: 1;
-  pointer-events: auto;
+  animation-play-state: running;
 }
 
 /* Named animation presets */
 .ns-animate--fade-in-up {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) both;
+  animation-name: ns-fade-in-up;
+  animation-duration: var(--ns-animation, 420ms);
+  animation-timing-function: var(--ns-animation-ease, ease);
 }
 
 .ns-animate--fade-in-down {
-  animation: ns-fade-in-down var(--ns-animation, 420ms) var(--ns-animation-ease, ease) both;
+  animation-name: ns-fade-in-down;
+  animation-duration: var(--ns-animation, 420ms);
+  animation-timing-function: var(--ns-animation-ease, ease);
 }
 
 .ns-animate--fade-in-scale {
-  animation: ns-fade-in-scale var(--ns-animation, 420ms) var(--ns-animation-ease, ease) both;
+  animation-name: ns-fade-in-scale;
+  animation-duration: var(--ns-animation, 420ms);
+  animation-timing-function: var(--ns-animation-ease, ease);
 }
 
 .ns-animate--slide-in-left {
-  animation: ns-slide-in-left var(--ns-animation, 420ms) var(--ns-animation-ease, ease) both;
+  animation-name: ns-slide-in-left;
+  animation-duration: var(--ns-animation, 420ms);
+  animation-timing-function: var(--ns-animation-ease, ease);
 }
 
 .ns-animate--slide-in-right {
-  animation: ns-slide-in-right var(--ns-animation, 420ms) var(--ns-animation-ease, ease) both;
+  animation-name: ns-slide-in-right;
+  animation-duration: var(--ns-animation, 420ms);
+  animation-timing-function: var(--ns-animation-ease, ease);
 }
 
 /* Duration presets */
@@ -144,51 +158,60 @@
   --ns-animation: 680ms;
 }
 
-/* Stagger: children fade in sequence (up to 12) */
+/* Stagger: children fade in sequence (up to 12) — also paused until .ns-animate-visible */
 .ns-stagger > * {
-  opacity: 0;
+  animation-name: ns-fade-in-up;
+  animation-duration: var(--ns-animation, 420ms);
+  animation-timing-function: var(--ns-animation-ease, ease);
+  animation-fill-mode: both;
+  animation-play-state: paused;
 }
 
-.ns-stagger.ns-animate-visible > *:nth-child(1) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 40ms both;
+.ns-stagger.ns-animate-visible > * {
+  animation-play-state: running;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(2) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 80ms both;
+
+.ns-stagger > *:nth-child(1) {
+  animation-delay: 40ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(3) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 120ms both;
+.ns-stagger > *:nth-child(2) {
+  animation-delay: 80ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(4) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 160ms both;
+.ns-stagger > *:nth-child(3) {
+  animation-delay: 120ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(5) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 200ms both;
+.ns-stagger > *:nth-child(4) {
+  animation-delay: 160ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(6) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 240ms both;
+.ns-stagger > *:nth-child(5) {
+  animation-delay: 200ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(7) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 280ms both;
+.ns-stagger > *:nth-child(6) {
+  animation-delay: 240ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(8) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 320ms both;
+.ns-stagger > *:nth-child(7) {
+  animation-delay: 280ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(9) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 360ms both;
+.ns-stagger > *:nth-child(8) {
+  animation-delay: 320ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(10) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 400ms both;
+.ns-stagger > *:nth-child(9) {
+  animation-delay: 360ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(11) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 440ms both;
+.ns-stagger > *:nth-child(10) {
+  animation-delay: 400ms;
 }
-.ns-stagger.ns-animate-visible > *:nth-child(12) {
-  animation: ns-fade-in-up var(--ns-animation, 420ms) var(--ns-animation-ease, ease) 480ms both;
+.ns-stagger > *:nth-child(11) {
+  animation-delay: 440ms;
+}
+.ns-stagger > *:nth-child(12) {
+  animation-delay: 480ms;
 }
 
 /* Reduce motion: disable all animations */
 @media (prefers-reduced-motion: reduce) {
   .ns-animate,
+  .ns-animate > *,
   .ns-animate-visible,
   .ns-stagger > * {
     opacity: 1;

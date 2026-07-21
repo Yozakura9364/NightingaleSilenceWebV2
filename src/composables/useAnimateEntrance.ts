@@ -1,4 +1,4 @@
-import { onBeforeUnmount, type Ref } from 'vue'
+import { onBeforeUnmount, watch, type Ref } from 'vue'
 
 export interface AnimateEntranceOptions {
   /** Intersection ratio threshold (0-1). Default 0.15 */
@@ -41,12 +41,10 @@ export function useAnimateEntrance(
   let observer: IntersectionObserver | null = null
   let hasTriggered = false
 
-  function observe() {
-    const el = target.value
-    if (!el || hasTriggered) return
+  function observe(el: Element) {
+    if (hasTriggered) return
 
-    if (typeof IntersectorObserver === 'undefined') {
-      // Fallback: show immediately
+    if (typeof IntersectionObserver === 'undefined') {
       el.classList.add(visibleClass)
       hasTriggered = true
       return
@@ -78,20 +76,14 @@ export function useAnimateEntrance(
     }
   }
 
-  // Observe on next tick to ensure ref is mounted
-  const checkAndObserve = () => {
-    // The composable is called during setup; we need to defer
-    // because the ref might not be populated yet.
-    setTimeout(() => {
-      observe()
-    }, 0)
-  }
-
-  checkAndObserve()
+  // Watch for the ref to be populated after mount
+  watch(target, (el) => {
+    if (el) observe(el)
+  })
 
   onBeforeUnmount(() => {
     disconnect()
   })
 
-  return { observe, disconnect }
+  return { observe: () => target.value && observe(target.value), disconnect }
 }
