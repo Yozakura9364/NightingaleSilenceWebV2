@@ -14,6 +14,7 @@ export type RoutePath =
   | '/ffxiv/armoire'
   | '/ffxiv/fashioncheck'
   | '/ffxiv/fashioncheck/gold-items'
+  | '/ffxiv/fashioncheck/tags'
   | '/ffxiv/fashioncheck/sources'
   | '/silence'
   | '/silence/angel'
@@ -111,6 +112,7 @@ export const siteRoutes = {
   armoire: '/ffxiv/armoire',
   fashionCheck: '/ffxiv/fashioncheck',
   fashionCheckGoldItems: '/ffxiv/fashioncheck/gold-items',
+  fashionCheckTags: '/ffxiv/fashioncheck/tags',
   fashionCheckSources: '/ffxiv/fashioncheck/sources',
   silence: '/silence',
   silenceAngel: '/silence/angel',

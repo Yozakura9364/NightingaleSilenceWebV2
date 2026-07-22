@@ -8,6 +8,8 @@
     "build:armoire-local": "vue-tsc -b && vite build --mode armoire-local",
     "build:fashion-check-history": "node scripts/fashion-check/build-history.mjs",
     "check:fashion-check-history": "node scripts/fashion-check/check-history.mjs",
+    "build:fashion-check-tags": "node scripts/fashion-check/build-tag-database.mjs",
+    "check:fashion-check-tags": "node scripts/fashion-check/check-tag-database.mjs",
     "build:armoire-catalog": "node scripts/build-armoire-catalog.mjs",
     "build:armoire-split-catalogs": "node scripts/build-armoire-split-catalogs.mjs",
     "build:armoire-cabinet-catalog": "node scripts/build-armoire-cabinet-catalog.mjs",

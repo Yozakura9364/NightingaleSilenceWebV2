@@ -19,6 +19,37 @@ export interface FashionCheckLocaleCatalog {
   dyeItems?: Record<string, FashionCheckDyeItem>
 }
 
+export interface FashionCheckTagDatabaseItem {
+  itemId: number
+  names: FashionCheckLocalizedNames
+  iconId: number
+  rarity: number
+}
+
+export interface FashionCheckTagDatabaseSlot {
+  slotId: string
+  goldPoints: number
+  itemIds: number[]
+}
+
+export interface FashionCheckTagDatabaseCategory {
+  categoryId: number
+  names: FashionCheckLocalizedNames
+  slots: FashionCheckTagDatabaseSlot[]
+}
+
+export interface FashionCheckTagDatabase {
+  schemaVersion: 'fashion-check.tag-database.v1'
+  generatedAt: string
+  summary: {
+    categories: number
+    categorySlotPairs: number
+    items: number
+  }
+  categories: FashionCheckTagDatabaseCategory[]
+  items: Record<string, FashionCheckTagDatabaseItem>
+}
+
 export interface FashionCheckDyeStep {
   slotId: string
   points: number

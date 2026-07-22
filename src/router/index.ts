@@ -189,6 +189,11 @@ const router = createRouter({
           component: () => import('@/pages/fashion-check/views/FashionCheckGoldItemsView.vue')
         },
         {
+          path: 'tags',
+          name: 'ffxiv-fashion-check-tags',
+          component: () => import('@/pages/fashion-check/views/FashionCheckTagDatabaseView.vue')
+        },
+        {
           path: 'sources',
           name: 'ffxiv-fashion-check-sources',
           component: () => import('@/pages/fashion-check/views/FashionCheckSourcesView.vue')
