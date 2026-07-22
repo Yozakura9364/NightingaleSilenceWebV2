@@ -2,7 +2,7 @@
 
 ## Scope
 
-This contract defines the generated local files consumed by later Fashion Check UI work. It does not authorize public redistribution and does not define the page layout.
+This contract defines the generated local files and the separately authorized compact public tag index consumed by Fashion Check UI work. Local evidence files remain outside the public redistribution boundary and this contract does not define page layout.
 
 ## Files
 
@@ -108,6 +108,49 @@ This contract defines the generated local files consumed by later Fashion Check 
 
 Local-only diagnostic output. It may contain raw source expressions but must not contain cookies, request tokens, QQ user/session fields or browser state.
 
+### `public/data/fashion-check/tag-database.json`
+
+```json
+{
+  "schemaVersion": "fashion-check.tag-database.v1",
+  "generatedAt": "2026-07-14T00:00:00.000Z",
+  "summary": {
+    "categories": 250,
+    "categorySlotPairs": 440,
+    "items": 3393
+  },
+  "categories": [
+    {
+      "categoryId": 4,
+      "names": {
+        "zh-CN": "野兽",
+        "en": "Animal Instincts",
+        "ja": "ケモノ",
+        "ko": "동물"
+      },
+      "slots": [
+        { "slotId": "head", "goldPoints": 8, "itemIds": [7360] }
+      ]
+    }
+  ],
+  "items": {
+    "7360": {
+      "itemId": 7360,
+      "names": {
+        "zh-CN": "狮鬃战盔",
+        "en": "Wolfram Helm",
+        "ja": "ウォルフラムヘルム",
+        "ko": "볼프람 투구"
+      },
+      "iconId": 41040,
+      "rarity": 2
+    }
+  }
+}
+```
+
+The public index is generated from reviewed category/slot answers and official locale CSVs. It must not contain evidence, locators, source IDs, source expressions, anomalies or local paths. Item locale names may omit a locale only when that regional client has an empty official Item row; the UI then uses the shared English/Chinese fallback order.
+
 ## Invariants
 
 1. `history.json` contains exactly global issues 16 through 441 with no duplicate or missing issue.
@@ -125,6 +168,9 @@ Local-only diagnostic output. It may contain raw source expressions but must not
 13. Registry-only related tools are not presented as supporting evidence.
 14. Every Item ID in `goldItemIdsBySlot` has a non-empty matching `evidenceByItemId` entry.
 15. Every `goldPointsBySlot` value is derived from the canonical slot: armor slots are 8 points and accessories are 6 points; the historical catalog does not infer silver grades.
+16. Every public tag has non-empty `zh-CN`, `en`, `ja` and `ko` names.
+17. Every public item reference resolves to one compact item entry with a valid icon, rarity and compatible equipment slot.
+18. Public tag data excludes all evidence and source-location fields.
 
 ## Compatibility
 

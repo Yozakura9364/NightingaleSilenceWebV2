@@ -51,6 +51,12 @@ export const fashionCheckUiMessages: UiMessageMap = {
   'fashionCheck.views': message('时尚品鉴视图', 'Fashion Check views'),
   'fashionCheck.tabSolutions': message('本周作业', 'Weekly solutions'),
   'fashionCheck.tabGoldItems': message('金牌物品', 'Gold items'),
+  'fashionCheck.tabTagDatabase': localizedMessage(
+    '标签数据库',
+    'Tag database',
+    'テーマデータベース',
+    '주제 데이터베이스'
+  ),
   'fashionCheck.tabSources': message('数据来源', 'Sources'),
   'fashionCheck.sources': message('数据来源', 'Sources'),
   'fashionCheck.sourcesUnavailable': message('数据来源暂不可用', 'Sources are unavailable'),
@@ -138,6 +144,52 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '灰機Wikiを開く',
     '회색기 Wiki 열기'
   ),
+  'fashionCheck.tagDatabase.search': localizedMessage(
+    '搜索标签',
+    'Search tags',
+    'テーマを検索',
+    '주제 검색'
+  ),
+  'fashionCheck.tagDatabase.allSlots': localizedMessage(
+    '全部部位',
+    'All slots',
+    '全部位',
+    '모든 부위'
+  ),
+  'fashionCheck.tagDatabase.loading': localizedMessage(
+    '正在读取标签数据库',
+    'Loading tag database',
+    'テーマデータベースを読み込み中',
+    '주제 데이터베이스 불러오는 중'
+  ),
+  'fashionCheck.tagDatabase.unavailable': localizedMessage(
+    '标签数据库暂不可用',
+    'Tag database is unavailable',
+    'テーマデータベースを利用できません',
+    '주제 데이터베이스를 사용할 수 없습니다'
+  ),
+  'fashionCheck.tagDatabase.noResults': localizedMessage(
+    '没有符合条件的标签',
+    'No matching tags',
+    '条件に一致するテーマがありません',
+    '조건에 맞는 주제가 없습니다'
+  ),
+  'fashionCheck.tagDatabase.selectTag': localizedMessage(
+    '选择标签',
+    'Select a tag',
+    'テーマを選択',
+    '주제 선택'
+  ),
+  'fashionCheck.tagDatabase.slotFilter': localizedMessage(
+    '筛选部位',
+    'Filter by slot',
+    '部位で絞り込み',
+    '부위 필터'
+  ),
+  'fashionCheck.slotEars': localizedMessage('耳部', 'Earrings', '耳飾り', '귀걸이'),
+  'fashionCheck.slotNeck': localizedMessage('颈部', 'Necklace', '首飾り', '목걸이'),
+  'fashionCheck.slotWrists': localizedMessage('手腕', 'Bracelets', '腕輪', '팔찌'),
+  'fashionCheck.slotRing': localizedMessage('戒指', 'Ring', '指輪', '반지'),
   'fashionCheck.faq': message('FAQ', 'FAQ'),
   'fashionCheck.faqPlaceholder': message('占位用，待编辑', 'Placeholder, pending editing'),
   'fashionCheck.awaitingData': message('\u7b49\u5f85\u6570\u636e', 'Awaiting data')

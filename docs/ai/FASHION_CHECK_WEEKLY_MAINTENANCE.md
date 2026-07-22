@@ -14,6 +14,7 @@ verify: '运行生成器、历史 checker，并检查公开页面与产物边界
 
 - `#/ffxiv/fashioncheck` 的 80 分、100 分和染色作业；
 - `#/ffxiv/fashioncheck/gold-items` 的当周金牌装备；
+- `#/ffxiv/fashioncheck/tags` 的历史标签金牌装备索引；
 - `/fc` 所使用的服务器私有 staging 与维护者通知。
 
 模块结构、历史数据规则和来源登记见 `docs/ai/MODULES/fashion-check.md`。本文不替代历史构建器的证据规则。
@@ -187,6 +188,22 @@ public/data/fashion-check/current-locales.json
 
 不要手工编辑该生成物，修改源数据后重新生成。
 
+## 历史标签索引维护
+
+标签数据库不需要随每周主题切换重建。只有历史金牌答案、标签名称、Item 名称、图标或品质发生变化时才执行：
+
+```powershell
+npm run build:fashion-check-history
+npm run check:fashion-check-history
+npm run build:fashion-check-tags
+npm run check:fashion-check-tags
+node --test tests/fashion-check/*.test.mjs
+```
+
+生成器需要 ignored 的 `local-assets/fashion-check/references/official/{chs,en,ja,ko}/FashionCheckThemeCategory.csv` 和 `Item.csv`。公开产物只保留标签、部位、金牌分值、物品 ID、图标、品质和可用的四语名称，不包含 evidence、locator、sourceId、原始答案或本地路径。
+
+物品 `15037`、`15075` 只在简中和韩文客户端有名称；日英界面按统一名称解析规则回退到简中名称。不得为缺失客户端数据手写或机翻一个“官方名称”。
+
 ## 标准发布流程
 
 ### 1. 收集并确认
@@ -234,9 +251,10 @@ node --test tests/fashion-check/*.test.mjs
 
 1. `#/ffxiv/fashioncheck`：80 分、100 分、六个染色槽的文案、图标、色块和分数无错位。
 2. `#/ffxiv/fashioncheck/gold-items`：每个部位的标签、金牌分值、装备图标与品质色正确。
-3. 右上角语言切换：中文、英文、日文、韩文下的装备名、染剂名、部位名、色系和泛用装备说明都变化；法德按英文回退。
-4. `#/ffxiv/fashioncheck/sources`：只显示用户确认的作者名与网址，不显示工具标题、内部说明或已移除来源。
-5. 旧周的主题、挑战日期、Item ID、染剂和截图不得残留。
+3. `#/ffxiv/fashioncheck/tags`：搜索可匹配任一语言标签，部位筛选正确，同一标签的不同部位不会合并物品；桌面、平板和手机均无横向溢出。
+4. 右上角语言切换：中文、英文、日文、韩文下的标签、装备名、染剂名、部位名、色系和泛用装备说明都变化；法德按英文回退。
+5. `#/ffxiv/fashioncheck/sources`：只显示用户确认的作者名与网址，不显示工具标题、内部说明或已移除来源。
+6. 旧周的主题、挑战日期、Item ID、染剂和截图不得残留。
 
 推荐截图命名：`fashion-check-zh.png`、`fashion-check-en.png`、`fashion-check-ja.png`、`fashion-check-ko.png`、`fashion-check-gold.png`、`fashion-check-sources.png`。
 

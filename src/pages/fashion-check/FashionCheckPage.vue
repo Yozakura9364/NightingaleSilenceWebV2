@@ -69,11 +69,13 @@ const FASHION_CATALOG_CACHE_KEY = 'ns_fashion_check_catalog'
 const tabRoutes = {
   solutions: siteRoutes.fashionCheck,
   gold: siteRoutes.fashionCheckGoldItems,
+  tags: siteRoutes.fashionCheckTags,
   sources: siteRoutes.fashionCheckSources
 }
 const tabItems = computed(() => [
   { value: 'solutions', label: t(keys.tabSolutions) },
   { value: 'gold', label: t(keys.tabGoldItems) },
+  { value: 'tags', label: t(keys.tabTagDatabase) },
   { value: 'sources', label: t(keys.tabSources) }
 ])
 const activeTab = computed(
