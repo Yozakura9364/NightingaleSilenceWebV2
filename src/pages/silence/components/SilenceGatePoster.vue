@@ -1,10 +1,14 @@
 <template>
   <div class="silence-gate">
-    <section class="silence-gate__intro" aria-labelledby="silence-title">
+    <section ref="introRef" class="silence-gate__intro" aria-labelledby="silence-title">
       <h1 id="silence-title" class="silence-gate__title">{{ t(textKeys.silence) }}</h1>
     </section>
 
-    <div class="silence-poster" :aria-label="t(textKeys.silence)">
+    <div
+      v-if="silenceGroups.length > 0"
+      ref="posterRef"
+      class="silence-poster"
+    >
       <div
         v-for="group in silenceGroups"
         :key="group.id"
@@ -55,6 +59,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { silenceGroups, siteRoutes } from '@/config/site'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import { getSilenceCharactersByGroup } from '@/data/silence/characters'
@@ -64,6 +69,8 @@ import { useLocale } from '@/stores/locale'
 const { t } = useLocale()
 const glitchGhostSlots = 2
 const angelPreviewCharacters = getSilenceCharactersByGroup('angel')
+const introRef = ref<HTMLElement | null>(null)
+const posterRef = ref<HTMLElement | null>(null)
 </script>
 
 <style scoped>
@@ -453,6 +460,15 @@ const angelPreviewCharacters = getSilenceCharactersByGroup('angel')
   .silence-poster__ghost {
     bottom: 41%;
     width: clamp(58px, 22vw, 86px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .silence-poster__entry {
+    transition: none;
+  }
+  .silence-poster__entry::before {
+    transition: none;
   }
 }
 </style>

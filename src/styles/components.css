@@ -86,7 +86,7 @@
     border: 2px solid var(--ns-pixel-border);
     border-radius: 0;
     background: var(--ns-scroll-thumb);
-    box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.28);
+    box-shadow: var(--ns-scroll-thumb-highlight);
   }
 
   .ns-scroll-area--compact:not(.ns-scroll-area--plain)::-webkit-scrollbar-thumb {
@@ -121,8 +121,8 @@
   }
 
   .ns-button:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 rgba(42, 33, 56, 0.16);
+    animation: ns-pixel-pop var(--ns-animation-fast, 260ms) var(--ns-animation-ease, ease);
+    box-shadow: var(--ns-pixel-shadow-active);
   }
 
   .ns-button:disabled,
@@ -133,14 +133,7 @@
     color: var(--ns-pixel-disabled);
     box-shadow: none;
     cursor: not-allowed;
-  }
-
-  .ns-button:disabled:hover,
-  .ns-button[aria-disabled='true']:hover {
-    transform: none;
-    border-color: var(--ns-pixel-border-soft);
-    background: var(--ns-color-surface-tint);
-    box-shadow: none;
+    pointer-events: none;
   }
 
   .ns-button--primary {
@@ -393,6 +386,10 @@
     box-shadow: var(--ns-shadow-soft);
   }
 
+  .ns-tool-card:hover .ns-tool-card__icon {
+    animation: ns-float 2.4s var(--ns-animation-ease, ease) infinite;
+  }
+
   .ns-tool-card__title {
     margin: 0;
     font-family: var(--ns-font-decorative);
@@ -416,6 +413,34 @@
     font-family: var(--ns-font-decorative);
     font-size: 12px;
     font-weight: 800;
+  }
+
+  .ns-icon-button:active {
+    animation: ns-pixel-pop var(--ns-animation-fast, 260ms) var(--ns-animation-ease, ease);
+  }
+
+  .ns-status--info {
+    border-color: var(--ns-status-info-border);
+    background: var(--ns-status-info-bg);
+    color: var(--ns-status-info-text);
+  }
+
+  .ns-status--success {
+    border-color: var(--ns-status-success-border);
+    background: var(--ns-status-success-bg);
+    color: var(--ns-status-success-text);
+  }
+
+  .ns-status--warning {
+    border-color: var(--ns-status-warning-border);
+    background: var(--ns-status-warning-bg);
+    color: var(--ns-status-warning-text);
+  }
+
+  .ns-status--danger {
+    border-color: var(--ns-status-danger-border);
+    background: var(--ns-status-danger-bg);
+    color: var(--ns-status-danger-text);
   }
 
   @media (max-width: 760px) {

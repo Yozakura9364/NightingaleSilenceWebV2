@@ -1,0 +1,194 @@
+/* ── Animation keyframes ── */
+
+/* Entrance: fade + vertical slide */
+@keyframes ns-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ns-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ns-fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ns-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ns-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ns-pixel-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.06);
+  }
+  70% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ns-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes ns-pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.12);
+  }
+}
+
+/* ── Animation utility classes ──
+ *
+ * IMPORTANT: Use !important to override Vue scoped CSS attribute selectors.
+ * Scoped styles add [data-v-xxx] which otherwise wins over global class selectors,
+ * causing animation-name to resolve to "none".
+ */
+
+/* Paused until .ns-animate-visible is applied */
+.ns-animate {
+  animation-play-state: paused !important;
+  animation-fill-mode: both !important;
+}
+
+.ns-animate-visible {
+  animation-play-state: running !important;
+}
+
+/* Named presets — !important ensures they work inside scoped components */
+.ns-animate--fade-in-up {
+  animation-name: ns-fade-in-up !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
+}
+
+.ns-animate--fade-in-down {
+  animation-name: ns-fade-in-down !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
+}
+
+.ns-animate--fade-in-scale {
+  animation-name: ns-fade-in-scale !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
+}
+
+.ns-animate--slide-in-left {
+  animation-name: ns-slide-in-left !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
+}
+
+.ns-animate--slide-in-right {
+  animation-name: ns-slide-in-right !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
+}
+
+/* Duration presets */
+.ns-animate--fast {
+  --ns-animation: 260ms;
+}
+.ns-animate--normal {
+  --ns-animation: 420ms;
+}
+.ns-animate--slow {
+  --ns-animation: 680ms;
+}
+
+/* Stagger */
+.ns-stagger > * {
+  animation-name: ns-fade-in-up !important;
+  animation-duration: 420ms !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
+  animation-fill-mode: both !important;
+  animation-play-state: paused !important;
+}
+
+.ns-stagger.ns-animate-visible > * {
+  animation-play-state: running !important;
+}
+
+.ns-stagger > *:nth-child(1)  { animation-delay: 40ms !important; }
+.ns-stagger > *:nth-child(2)  { animation-delay: 80ms !important; }
+.ns-stagger > *:nth-child(3)  { animation-delay: 120ms !important; }
+.ns-stagger > *:nth-child(4)  { animation-delay: 160ms !important; }
+.ns-stagger > *:nth-child(5)  { animation-delay: 200ms !important; }
+.ns-stagger > *:nth-child(6)  { animation-delay: 240ms !important; }
+.ns-stagger > *:nth-child(7)  { animation-delay: 280ms !important; }
+.ns-stagger > *:nth-child(8)  { animation-delay: 320ms !important; }
+.ns-stagger > *:nth-child(9)  { animation-delay: 360ms !important; }
+.ns-stagger > *:nth-child(10) { animation-delay: 400ms !important; }
+.ns-stagger > *:nth-child(11) { animation-delay: 440ms !important; }
+.ns-stagger > *:nth-child(12) { animation-delay: 480ms !important; }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .ns-animate,
+  .ns-animate > *,
+  .ns-animate-visible,
+  .ns-stagger > * {
+    opacity: 1 !important;
+    animation-name: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transition: none !important;
+    pointer-events: auto;
+  }
+}

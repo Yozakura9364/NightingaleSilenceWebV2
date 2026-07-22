@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
+import { access, constants as fsConstants, readdir, readFile, stat } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
 import { join, posix, relative, sep } from 'node:path'
 import { gzipSync } from 'node:zlib'
@@ -145,23 +145,30 @@ function toPosixPath(path) {
   return path.split(sep).join(posix.sep)
 }
 
-function pathExists(path) {
-  return existsSync(join(ROOT, path))
+async function pathExists(path) {
+  try {
+    await access(join(ROOT, path), fsConstants.F_OK)
+    return true
+  } catch {
+    return false
+  }
 }
 
-function walkFiles(dir) {
-  if (!existsSync(dir)) {
+async function walkFiles(dir) {
+  try {
+    await access(dir, fsConstants.F_OK)
+  } catch {
     return []
   }
 
-  const entries = readdirSync(dir, { withFileTypes: true })
+  const entries = await readdir(dir, { withFileTypes: true })
   const files = []
 
   for (const entry of entries) {
     const nextPath = join(dir, entry.name)
 
     if (entry.isDirectory()) {
-      files.push(...walkFiles(nextPath))
+      files.push(...await walkFiles(nextPath))
     } else if (entry.isFile()) {
       files.push(nextPath)
     }
@@ -170,8 +177,8 @@ function walkFiles(dir) {
   return files
 }
 
-function checkDistShape() {
-  if (!existsSync(DIST_DIR)) {
+async function checkDistShape() {
+  if (!await pathExists(DIST_DIR)) {
     fail('dist/ does not exist. Run npm run build before npm run check:release.')
     return
   }
@@ -179,15 +186,15 @@ function checkDistShape() {
   for (const requiredPath of REQUIRED_DIST_PATHS) {
     const absolutePath = join(DIST_DIR, ...requiredPath.split('/'))
 
-    if (!existsSync(absolutePath)) {
+    if (!await pathExists(absolutePath)) {
       fail(`Missing dist/${requiredPath}.`)
     }
   }
 
   const indexPath = join(DIST_DIR, 'index.html')
 
-  if (existsSync(indexPath)) {
-    const html = readFileSync(indexPath, 'utf8')
+  if (await pathExists(indexPath)) {
+    const html = await readFile(indexPath, 'utf8')
 
     if (!html.includes('type="module"')) {
       fail('dist/index.html does not contain a module script.')
@@ -199,8 +206,8 @@ function checkDistShape() {
   }
 }
 
-function checkGlamourAssets(baseDir, label) {
-  if (!existsSync(baseDir)) {
+async function checkGlamourAssets(baseDir, label) {
+  if (!await pathExists(baseDir)) {
     fail(`${label} does not exist.`)
     return
   }
@@ -208,20 +215,21 @@ function checkGlamourAssets(baseDir, label) {
   for (const requiredAsset of REQUIRED_GLAMOUR_ASSETS) {
     const assetPath = join(baseDir, ...requiredAsset.split('/'))
 
-    if (!existsSync(assetPath)) {
+    if (!await pathExists(assetPath)) {
       fail(`Missing ${label}/${requiredAsset}.`)
     }
   }
 
-  const files = walkFiles(baseDir)
+  const files = await walkFiles(baseDir)
   let totalBytes = 0
 
   for (const file of files) {
     const relativePath = toPosixPath(relative(baseDir, file))
     const lowerPath = relativePath.toLowerCase()
     const extension = lowerPath.slice(lowerPath.lastIndexOf('.'))
+    const stats = await stat(file)
 
-    totalBytes += statSync(file).size
+    totalBytes += stats.size
 
     if (
       FORBIDDEN_GLAMOUR_EXTENSIONS.has(extension) &&
@@ -248,12 +256,12 @@ function checkGlamourAssets(baseDir, label) {
   }
 }
 
-function checkDistForbiddenFiles() {
-  if (!existsSync(DIST_DIR)) {
+async function checkDistForbiddenFiles() {
+  if (!await pathExists(DIST_DIR)) {
     return
   }
 
-  for (const file of walkFiles(DIST_DIR)) {
+  for (const file of await walkFiles(DIST_DIR)) {
     const relativePath = toPosixPath(relative(DIST_DIR, file))
 
     if (FORBIDDEN_DIST_FILE_PATTERNS.some((pattern) => pattern.test(relativePath))) {
@@ -262,12 +270,14 @@ function checkDistForbiddenFiles() {
   }
 }
 
-function checkNoInternalChunks() {
-  if (!existsSync(DIST_ASSET_DIR)) {
+async function checkNoInternalChunks() {
+  if (!await pathExists(DIST_ASSET_DIR)) {
     return
   }
 
-  for (const entry of readdirSync(DIST_ASSET_DIR, { withFileTypes: true })) {
+  const entries = await readdir(DIST_ASSET_DIR, { withFileTypes: true })
+
+  for (const entry of entries) {
     if (!entry.isFile()) {
       continue
     }
@@ -280,36 +290,36 @@ function checkNoInternalChunks() {
   }
 }
 
-function fileSha256(file) {
-  return createHash('sha256').update(readFileSync(file)).digest('hex')
+async function fileSha256(file) {
+  return createHash('sha256').update(await readFile(file)).digest('hex')
 }
 
-function checkNoIgnoredLocalAssetCopies() {
-  if (!existsSync(LOCAL_ASSET_DIR) || !existsSync(DIST_DIR)) {
+async function checkNoIgnoredLocalAssetCopies() {
+  if (!await pathExists(LOCAL_ASSET_DIR) || !await pathExists(DIST_DIR)) {
     return
   }
 
   const distFilesBySize = new Map()
   const distHashes = new Map()
 
-  for (const file of walkFiles(DIST_DIR)) {
-    const size = statSync(file).size
+  for (const file of await walkFiles(DIST_DIR)) {
+    const size = (await stat(file)).size
     const files = distFilesBySize.get(size) ?? []
     files.push(file)
     distFilesBySize.set(size, files)
   }
 
-  for (const localFile of walkFiles(LOCAL_ASSET_DIR)) {
-    const candidates = distFilesBySize.get(statSync(localFile).size) ?? []
+  for (const localFile of await walkFiles(LOCAL_ASSET_DIR)) {
+    const candidates = distFilesBySize.get((await stat(localFile)).size) ?? []
 
     if (candidates.length === 0) {
       continue
     }
 
-    const localHash = fileSha256(localFile)
+    const localHash = await fileSha256(localFile)
 
     for (const distFile of candidates) {
-      const distHash = distHashes.get(distFile) ?? fileSha256(distFile)
+      const distHash = distHashes.get(distFile) ?? await fileSha256(distFile)
       distHashes.set(distFile, distHash)
 
       if (distHash !== localHash) {
@@ -325,12 +335,12 @@ function checkNoIgnoredLocalAssetCopies() {
   }
 }
 
-function checkDistTextLeaks() {
-  if (!existsSync(DIST_DIR)) {
+async function checkDistTextLeaks() {
+  if (!await pathExists(DIST_DIR)) {
     return
   }
 
-  for (const file of walkFiles(DIST_DIR)) {
+  for (const file of await walkFiles(DIST_DIR)) {
     const relativePath = toPosixPath(relative(DIST_DIR, file))
     const lowerPath = relativePath.toLowerCase()
     const extension = lowerPath.slice(lowerPath.lastIndexOf('.'))
@@ -339,7 +349,7 @@ function checkDistTextLeaks() {
       continue
     }
 
-    const text = readFileSync(file, 'utf8')
+    const text = await readFile(file, 'utf8')
 
     for (const { pattern, label, severity } of FORBIDDEN_DIST_TEXT_PATTERNS) {
       if (pattern.test(text)) {
@@ -362,13 +372,13 @@ function isNsglamourPublicRuntimePath(relativePath) {
   )
 }
 
-function checkNsglamourBundleBudget() {
-  if (!existsSync(DIST_ASSET_DIR)) {
+async function checkNsglamourBundleBudget() {
+  if (!await pathExists(DIST_ASSET_DIR)) {
     fail('dist/assets does not exist. Run npm run build before npm run check:release.')
     return
   }
 
-  const files = readdirSync(DIST_ASSET_DIR, { withFileTypes: true })
+  const files = (await readdir(DIST_ASSET_DIR, { withFileTypes: true }))
     .filter((entry) => entry.isFile() && /^NSGlamourPage-.*\.(?:js|css)$/.test(entry.name))
     .map((entry) => join(DIST_ASSET_DIR, entry.name))
 
@@ -384,7 +394,7 @@ function checkNsglamourBundleBudget() {
   }
 
   for (const file of jsFiles) {
-    checkFileBudget(
+    await checkFileBudget(
       file,
       'NSGlamour JS chunk',
       NSGLAMOUR_BUNDLE_BUDGETS.jsRawBytes,
@@ -393,7 +403,7 @@ function checkNsglamourBundleBudget() {
   }
 
   for (const file of cssFiles) {
-    checkFileBudget(
+    await checkFileBudget(
       file,
       'NSGlamour CSS chunk',
       NSGLAMOUR_BUNDLE_BUDGETS.cssRawBytes,
@@ -402,13 +412,13 @@ function checkNsglamourBundleBudget() {
   }
 }
 
-function checkSharedBundleBudget() {
-  if (!existsSync(DIST_ASSET_DIR)) {
+async function checkSharedBundleBudget() {
+  if (!await pathExists(DIST_ASSET_DIR)) {
     fail('dist/assets does not exist. Run npm run build before npm run check:release.')
     return
   }
 
-  const files = readdirSync(DIST_ASSET_DIR, { withFileTypes: true })
+  const files = (await readdir(DIST_ASSET_DIR, { withFileTypes: true }))
     .filter((entry) => entry.isFile() && /^index-.*\.js$/.test(entry.name))
     .map((entry) => join(DIST_ASSET_DIR, entry.name))
 
@@ -417,7 +427,7 @@ function checkSharedBundleBudget() {
     return
   }
 
-  checkFileBudget(
+  await checkFileBudget(
     files[0],
     'Shared index JS chunk',
     SHARED_BUNDLE_BUDGETS.jsRawBytes,
@@ -425,8 +435,8 @@ function checkSharedBundleBudget() {
   )
 }
 
-function checkFileBudget(file, label, rawBudget, gzipBudget) {
-  const bytes = readFileSync(file)
+async function checkFileBudget(file, label, rawBudget, gzipBudget) {
+  const bytes = await readFile(file)
   const gzipBytes = gzipSync(bytes).length
   const relativePath = toPosixPath(relative(DIST_DIR, file))
 
@@ -451,15 +461,15 @@ function formatBytes(bytes) {
   return `${(bytes / 1024).toFixed(1)} KiB`
 }
 
-function checkPublicPlaceholders() {
+async function checkPublicPlaceholders() {
   for (const sourceDir of PLACEHOLDER_SOURCE_DIRS) {
     const absoluteDir = join(ROOT, ...sourceDir.split('/'))
 
-    if (!existsSync(absoluteDir)) {
+    if (!await pathExists(absoluteDir)) {
       continue
     }
 
-    for (const file of walkFiles(absoluteDir)) {
+    for (const file of await walkFiles(absoluteDir)) {
       const relativePath = toPosixPath(relative(ROOT, file))
       const lowerPath = relativePath.toLowerCase()
 
@@ -467,7 +477,7 @@ function checkPublicPlaceholders() {
         continue
       }
 
-      const text = readFileSync(file, 'utf8')
+      const text = await readFile(file, 'utf8')
       const placeholderHits = (text.match(/textKeys\.placeholder|占位用，待编辑/gu) || []).length
 
       if (placeholderHits > 0) {
@@ -479,42 +489,51 @@ function checkPublicPlaceholders() {
   }
 }
 
-function checkNoPublicArmoireData() {
+async function checkNoPublicArmoireData() {
   const dataDir = join(DIST_DIR, 'data')
 
-  if (!existsSync(dataDir)) {
+  if (!await pathExists(dataDir)) {
     return
   }
 
-  for (const entry of readdirSync(dataDir)) {
+  const entries = await readdir(dataDir)
+
+  for (const entry of entries) {
     if (entry.startsWith('armoire-')) {
       fail(`dist/data/${entry} is local-only NSArmoire data and must not enter the public build.`)
     }
   }
 }
 
-checkDistShape()
-checkGlamourAssets(PUBLIC_GLAMOUR_DIR, 'public/data/glamour')
-checkGlamourAssets(DIST_GLAMOUR_DIR, 'dist/data/glamour')
-checkDistForbiddenFiles()
-checkNoInternalChunks()
-checkNoIgnoredLocalAssetCopies()
-checkDistTextLeaks()
-checkSharedBundleBudget()
-checkNsglamourBundleBudget()
-checkPublicPlaceholders()
-checkNoPublicArmoireData()
+async function main() {
+  await checkDistShape()
+  await checkGlamourAssets(PUBLIC_GLAMOUR_DIR, 'public/data/glamour')
+  await checkGlamourAssets(DIST_GLAMOUR_DIR, 'dist/data/glamour')
+  await checkDistForbiddenFiles()
+  await checkNoInternalChunks()
+  await checkNoIgnoredLocalAssetCopies()
+  await checkDistTextLeaks()
+  await checkSharedBundleBudget()
+  await checkNsglamourBundleBudget()
+  await checkPublicPlaceholders()
+  await checkNoPublicArmoireData()
 
-for (const message of warnings) {
-  console.warn(`[warn] ${message}`)
-}
-
-if (errors.length > 0) {
-  for (const message of errors) {
-    console.error(`[fail] ${message}`)
+  for (const message of warnings) {
+    console.warn(`[warn] ${message}`)
   }
 
-  process.exit(1)
+  if (errors.length > 0) {
+    for (const message of errors) {
+      console.error(`[fail] ${message}`)
+    }
+
+    process.exit(1)
+  }
+
+  console.log(`Release readiness check passed with ${warnings.length} warning(s).`)
 }
 
-console.log(`Release readiness check passed with ${warnings.length} warning(s).`)
+main().catch((error) => {
+  console.error(error)
+  process.exit(1)
+})

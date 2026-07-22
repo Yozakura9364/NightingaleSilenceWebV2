@@ -1,7 +1,14 @@
 <template>
-  <section class="nsplate-workspace" aria-live="polite">
+  <section class="nsplate-workspace">
     <p v-if="errorText" class="nsplate-workspace__status" data-state="error">
       {{ errorText }}
+      <button
+        class="nsplate-workspace__retry"
+        type="button"
+        @click="reload"
+      >
+        {{ t(textKeys.retry) }}
+      </button>
     </p>
 
     <AppLoading
@@ -138,6 +145,7 @@ const dataSource = useNSPlateDataSource(props.boundary.apiBase)
 const {
   isLoading,
   errorText,
+  reload,
   presetGroups,
   presets,
   assetGroups,

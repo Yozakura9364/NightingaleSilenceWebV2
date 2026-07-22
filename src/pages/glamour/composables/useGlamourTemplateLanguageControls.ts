@@ -2,7 +2,7 @@ import { computed, watch, type ComputedRef, type Ref } from 'vue'
 import type {
   GlamourTemplateDefinition,
   GlamourTemplateLanguageOption
-} from '@/lib/glamour/templates'
+} from '@/lib/glamour/templates/definitions'
 import type { GlamourLocale } from '@/lib/glamour/types'
 
 interface GlamourTemplateLanguageControlsOptions {

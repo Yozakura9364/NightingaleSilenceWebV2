@@ -14,5 +14,6 @@ export const aboutTextKeys = {
   socialXiaohongshu: 'about.social.xiaohongshu',
   socialWeibo: 'about.social.weibo',
   socialDouyin: 'about.social.douyin',
-  friendFlowersink: 'about.friend.flowersink'
+  friendFlowersink: 'about.friend.flowersink',
+  opensInNewTab: 'about.opensInNewTab'
 } as const

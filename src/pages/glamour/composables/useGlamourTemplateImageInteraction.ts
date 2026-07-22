@@ -2,20 +2,22 @@ import { computed, onBeforeUnmount, onMounted, ref, watch, type ComputedRef, typ
 import {
   GLAMOUR_TEMPLATE_RECENT_IMAGE_LIMIT,
   clearGlamourTemplateRecentImages as clearStoredGlamourTemplateRecentImages,
+  isGlamourTemplatePersistentImageUrl,
+  loadGlamourTemplateRecentImages,
+  saveGlamourTemplateRecentImage,
+  type GlamourTemplateRecentImageRecord
+} from '@/lib/glamour/templates/imageSlots'
+import type { GlamourTemplateImageSlot } from '@/lib/glamour/templates/definitions'
+import type { GlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
+import {
   createGlamourTemplateImageCoverDataUrl,
   getGlamourDraggedData,
   getGlamourDroppedImageUrl,
-  isGlamourTemplatePersistentImageUrl,
   loadGlamourTemplateImage,
-  loadGlamourTemplateRecentImages,
   normalizeGlamourDraggedImageUrl,
   readGlamourImageBlobAsDataUrl,
-  readGlamourImageFileAsDataUrl,
-  saveGlamourTemplateRecentImage,
-  type GlamourTemplateImageSlot,
-  type GlamourTemplateRecentImageRecord,
-  type GlamourTemplateRenderData
-} from '@/lib/glamour/templates'
+  readGlamourImageFileAsDataUrl
+} from '@/lib/glamour/templates/imageProcessing'
 import type { TemplateImageCropRequest } from '@/pages/glamour/types/templateWorkspace'
 
 interface TemplateImageData {

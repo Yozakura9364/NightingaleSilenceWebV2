@@ -88,7 +88,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
-import type { GlamourTemplateImageSlot } from '@/lib/glamour/templates'
+import type { GlamourTemplateImageSlot } from '@/lib/glamour/templates/definitions'
 import type { TemplateImageCropRequest } from '@/pages/glamour/types/templateWorkspace'
 import { useLocale } from '@/stores/locale'
 

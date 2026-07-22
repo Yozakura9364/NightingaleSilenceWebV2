@@ -1,5 +1,5 @@
 <template>
-  <header v-if="showNav" class="app-top-nav">
+  <header v-if="showNav" ref="navEl" class="app-top-nav">
     <nav class="app-top-nav__inner" :aria-label="t(textKeys.primaryNavigation)">
       <RouterLink
         class="app-top-nav__brand"
@@ -10,6 +10,12 @@
           v-if="isLocalBrandPreview"
           class="app-top-nav__brand-art"
           :style="topNavBrandArtStyle"
+          aria-hidden="true"
+        ></span>
+        <span
+          class="app-top-nav__brand-icon"
+          :class="{ 'ns-sr-only': isLocalBrandPreview }"
+          :style="brandIconStyle"
           aria-hidden="true"
         ></span>
         <span :class="{ 'ns-sr-only': isLocalBrandPreview }">{{ t(siteMeta.zhNameKey) }}</span>
@@ -23,7 +29,7 @@
       </RouterLink>
 
       <div ref="controlsRoot" class="app-top-nav__links">
-        <AppTopNavMenu :open="menuOpen" @toggle="toggleMenu" @close="closeMenu" />
+        <AppTopNavMenu />
         <AppTopNavSettings :open="configOpen" @toggle="toggleConfig" @close="closeConfig" />
       </div>
     </nav>
@@ -31,8 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
 import { useRoute } from 'vue-router'
+import homeIcon from '@/assets/icons/pixelarticons/home.svg'
 import AppTopNavMenu from '@/components/AppTopNavMenu.vue'
 import AppTopNavSettings from '@/components/AppTopNavSettings.vue'
 import { siteMeta, siteRoutes } from '@/config/site'
@@ -41,7 +48,6 @@ import { useLocale } from '@/stores/locale'
 
 const route = useRoute()
 const { t } = useLocale()
-const menuOpen = ref(false)
 const configOpen = ref(false)
 const controlsRoot = ref<HTMLElement | null>(null)
 const isLocalBrandPreview = import.meta.env.DEV
@@ -52,33 +58,43 @@ const topNavBrandArtStyle = {
     : 'none'
 } as CSSProperties
 const showNav = computed(() => route.path !== siteRoutes.home && route.meta.hideTopNav !== true)
+const navEl = ref<HTMLElement | null>(null)
 
-function closeMenu() {
-  menuOpen.value = false
-}
+onMounted(() => {
+  nextTick(() => {
+    if (navEl.value) {
+      const el = navEl.value
+      el.style.opacity = '0'
+      el.style.transform = 'translateY(-8px)'
+      requestAnimationFrame(() => {
+        el.style.transition =
+          'opacity 260ms cubic-bezier(0.22,1,0.36,1), transform 260ms cubic-bezier(0.22,1,0.36,1)'
+        el.style.opacity = '1'
+        el.style.transform = 'translateY(0)'
+      })
+    }
+  })
+})
+
+const brandIconStyle = {
+  '--ns-brand-icon-url': `url("${homeIcon}")`
+} as CSSProperties
 
 function closeConfig() {
   configOpen.value = false
+  previousActiveElement?.focus()
+  previousActiveElement = null
 }
+
+let previousActiveElement: HTMLElement | null = null
 
 function closePopovers() {
-  closeMenu()
   closeConfig()
-}
-
-function toggleMenu() {
-  if (!menuOpen.value) {
-    closeConfig()
-    menuOpen.value = true
-    return
-  }
-
-  closeMenu()
 }
 
 function toggleConfig() {
   if (!configOpen.value) {
-    closeMenu()
+    previousActiveElement = document.activeElement as HTMLElement | null
     configOpen.value = true
     return
   }
@@ -86,8 +102,10 @@ function toggleConfig() {
   closeConfig()
 }
 
+const configTriggerRef = ref<HTMLButtonElement | null>(null)
+
 function handleDocumentPointerDown(event: PointerEvent) {
-  if (!menuOpen.value && !configOpen.value) {
+  if (!configOpen.value) {
     return
   }
 

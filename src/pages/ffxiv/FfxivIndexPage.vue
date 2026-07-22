@@ -1,9 +1,11 @@
 <template>
   <main class="ns-page ffxiv-page">
     <div class="ns-page-shell">
-      <h1 class="ns-title ns-heading-bloom">{{ t(ffxivCategory.titleKey) }}</h1>
+      <h1 class="ns-title ns-heading-bloom ns-animate ns-animate--fade-in-down ns-animate-visible">
+        {{ t(ffxivCategory.titleKey) }}
+      </h1>
 
-      <div class="ns-tool-grid">
+      <div class="ns-tool-grid ns-stagger ns-animate-visible">
         <RouterLink
           v-for="tool in toolCards"
           :key="tool.id"
@@ -15,7 +17,6 @@
           <h2 class="ffxiv-tool-card__title ns-heading-bloom">
             {{ tool.title }}
           </h2>
-          <span class="ffxiv-tool-card__button">{{ actionLabel }}</span>
         </RouterLink>
       </div>
     </div>
@@ -39,7 +40,6 @@ const ffxivCategory = getCategory('ffxiv') ?? {
 }
 const { t } = useLocale()
 
-const actionLabel = computed(() => t(textKeys.open).trim())
 const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,
   glamour: pixelSparklesIcon,
@@ -86,27 +86,30 @@ const toolCards = computed(() =>
   --ffxiv-card-shadow-hover: var(--ns-pixel-button-shadow-hover);
   --ffxiv-card-shadow-active: var(--ns-pixel-soft-shadow);
   --ffxiv-card-surface: var(--ns-color-surface-solid);
-  --ffxiv-card-surface-pink: var(--ns-pixel-pink-surface);
-  --ffxiv-card-surface-blue: var(--ns-pixel-cyan-surface);
   --ffxiv-card-ink: var(--ns-color-text);
   position: relative;
   display: grid;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto;
   align-content: center;
   justify-items: center;
-  min-height: 240px;
-  gap: 14px;
+  min-height: 220px;
+  gap: 16px;
   padding: 18px;
   border: 2px solid var(--ffxiv-card-border);
   background: var(--ffxiv-card-surface);
   box-shadow: var(--ffxiv-card-shadow);
   color: var(--ffxiv-card-ink);
+  text-decoration: none;
   transition:
+    background var(--ns-transition-fast),
+    color var(--ns-transition-fast),
     transform var(--ns-transition-fast),
     box-shadow var(--ns-transition-fast);
 }
 
 .ffxiv-tool-card:hover {
+  background: var(--ns-pixel-cyan-surface);
+  color: var(--ns-color-accent-strong);
   transform: translate(-1px, -1px);
   box-shadow: var(--ffxiv-card-shadow-hover);
 }
@@ -133,31 +136,6 @@ const toolCards = computed(() =>
   letter-spacing: 0;
   text-align: center;
   overflow-wrap: anywhere;
-}
-
-.ffxiv-tool-card__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 54px;
-  margin-top: 14px;
-  padding: 0 16px;
-  border: 2px solid var(--ffxiv-card-border);
-  background: transparent;
-  box-shadow: var(--ffxiv-card-shadow);
-  color: var(--ffxiv-card-ink);
-  font-family: var(--ns-font-decorative);
-  font-size: 17px;
-  font-weight: 950;
-  transition:
-    transform var(--ns-transition-fast),
-    box-shadow var(--ns-transition-fast);
-}
-
-.ffxiv-tool-card:hover .ffxiv-tool-card__button {
-  transform: translate(-1px, -1px);
-  box-shadow: var(--ffxiv-card-shadow-hover);
 }
 
 @media (max-width: 860px) {

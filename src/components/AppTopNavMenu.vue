@@ -1,139 +1,117 @@
 <template>
-  <div class="app-top-nav__menu">
-    <button
-      class="app-top-nav__menu-button"
-      :class="{ 'app-top-nav__menu-button--active': isMenuRoute }"
-      type="button"
-      :aria-expanded="open"
-      aria-haspopup="menu"
-      @click="emit('toggle')"
-      @keydown.esc="emit('close')"
+  <div class="app-top-nav__nav">
+    <!-- 狒狒14工房 -->
+    <div
+      class="app-top-nav__dropdown-group"
+      @mouseenter="openFfxivDropdown"
+      @mouseleave="scheduleCloseFfxiv"
+      @focusin="onFfxivFocusIn"
     >
-      <span>{{ t(textKeys.menu) }}</span>
-      <span class="app-top-nav__menu-command" aria-hidden="true">
-        {{ t(textKeys.menuCommand) }}
-      </span>
-    </button>
+      <RouterLink
+        class="app-top-nav__nav-link"
+        :class="{
+          'app-top-nav__nav-link--active': isFfxivRoute,
+          'app-top-nav__nav-link--parent': true
+        }"
+        :to="siteRoutes.ffxiv"
+        :aria-haspopup="true"
+        :aria-expanded="ffxivOpen"
+        @keydown.enter.prevent="toggleFfxiv"
+        @keydown.space.prevent="toggleFfxiv"
+      >
+        <span>{{ t(textKeys.ffxivWorkshop) }}</span>
+        <span class="app-top-nav__nav-arrow" aria-hidden="true">&#9660;</span>
+      </RouterLink>
 
-    <AppPixelWindow
-      v-if="open"
-      class="app-top-nav__window"
-      :title="t(textKeys.menuTitle)"
-      :close-label="t(textKeys.closeMenu)"
-      role="menu"
-      @close="emit('close')"
-      @keydown.esc="emit('close')"
-    >
-      <div class="app-top-nav__launcher-tabs" :aria-label="t(textKeys.menuCategory)">
-        <RouterLink
-          class="app-top-nav__window-link app-top-nav__window-link--section"
-          :class="{
-            'app-top-nav__window-link--active': isFfxivRoute,
-            'app-top-nav__window-link--expanded': activeMenuSection === 'ffxiv'
-          }"
-          :to="siteRoutes.ffxiv"
-          role="menuitem"
-          @mouseenter="queueMenuSection('ffxiv')"
-          @mouseleave="cancelMenuSectionChange"
-          @focus="activeMenuSection = 'ffxiv'"
-          @click="emit('close')"
+      <Transition name="dropdown">
+        <div
+          v-if="ffxivOpen"
+          class="app-top-nav__dropdown"
+          role="menu"
+          @mouseenter="cancelCloseFfxiv"
+          @mouseleave="scheduleCloseFfxiv"
         >
-          <span class="app-top-nav__window-link-main">
-            <span
-              class="app-top-nav__icon"
-              :style="iconStyle(folderIcon)"
-              aria-hidden="true"
-            ></span>
-            <span class="app-top-nav__window-label">{{ t(textKeys.ffxivWorkshop) }}</span>
-          </span>
-          <small>{{ t(textKeys.statusOpen) }}</small>
-        </RouterLink>
-
-        <RouterLink
-          v-for="tool in ffxivTools"
-          v-show="activeMenuSection === 'ffxiv'"
-          :key="tool.id"
-          class="app-top-nav__window-child"
-          :class="{ 'app-top-nav__window-child--active': isRouteUnder(tool.route) }"
-          :to="tool.route"
-          role="menuitem"
-          @click="emit('close')"
-        >
-          <span class="app-top-nav__window-child-main">
-            <span
-              class="app-top-nav__icon app-top-nav__icon--child"
-              :style="iconStyle(toolIconMap[tool.id] ?? folderIcon)"
-              aria-hidden="true"
-            ></span>
-            <span class="app-top-nav__window-label">{{ t(tool.titleKey) }}</span>
-          </span>
-        </RouterLink>
-
-        <template v-if="isSilenceEnabled">
           <RouterLink
-            class="app-top-nav__window-link app-top-nav__window-link--section"
-            :class="{
-              'app-top-nav__window-link--active': isSilenceRoute,
-              'app-top-nav__window-link--expanded': activeMenuSection === 'silence'
-            }"
-            :to="siteRoutes.silence"
+            v-for="tool in ffxivTools"
+            :key="tool.id"
             role="menuitem"
-            @mouseenter="queueMenuSection('silence')"
-            @mouseleave="cancelMenuSectionChange"
-            @focus="activeMenuSection = 'silence'"
-            @click="emit('close')"
+            class="app-top-nav__dropdown-link"
+            :class="{ 'app-top-nav__dropdown-link--active': isRouteUnder(tool.route) }"
+            :to="tool.route"
           >
-            <span class="app-top-nav__window-link-main">
-              <span
-                class="app-top-nav__icon"
-                :style="iconStyle(imageIcon)"
-                aria-hidden="true"
-              ></span>
-              <span class="app-top-nav__window-label">{{ t(textKeys.silence) }}</span>
-            </span>
-            <small>{{ t(textKeys.silenceCommand) }}</small>
+            <span
+              class="app-top-nav__dropdown-icon"
+              :style="toolIconStyle(toolIconMap[tool.id] ?? folderIcon)"
+              aria-hidden="true"
+            ></span>
+            <span>{{ t(tool.titleKey) }}</span>
           </RouterLink>
+        </div>
+      </Transition>
+    </div>
 
+    <!-- Silence -->
+    <div
+      v-if="isSilenceEnabled"
+      class="app-top-nav__dropdown-group"
+      @mouseenter="openSilenceDropdown"
+      @mouseleave="scheduleCloseSilence"
+      @focusin="onSilenceFocusIn"
+    >
+      <RouterLink
+        class="app-top-nav__nav-link"
+        :class="{
+          'app-top-nav__nav-link--active': isSilenceRoute,
+          'app-top-nav__nav-link--parent': true
+        }"
+        :to="siteRoutes.silence"
+        :aria-haspopup="true"
+        :aria-expanded="silenceOpen"
+        @keydown.enter.prevent="toggleSilence"
+        @keydown.space.prevent="toggleSilence"
+      >
+        <span>{{ t(textKeys.silence) }}</span>
+        <span class="app-top-nav__nav-arrow" aria-hidden="true">&#9660;</span>
+      </RouterLink>
+
+      <Transition name="dropdown">
+        <div
+          v-if="silenceOpen"
+          class="app-top-nav__dropdown"
+          role="menu"
+          @mouseenter="cancelCloseSilence"
+          @mouseleave="scheduleCloseSilence"
+        >
           <RouterLink
             v-for="group in silenceGroups"
-            v-show="activeMenuSection === 'silence'"
             :key="group.id"
-            class="app-top-nav__window-child"
-            :class="{ 'app-top-nav__window-child--active': route.path === group.route }"
-            :to="group.route"
             role="menuitem"
-            @click="emit('close')"
+            class="app-top-nav__dropdown-link"
+            :class="{
+              'app-top-nav__dropdown-link--active':
+                route.path === group.route || route.path.startsWith(`${group.route}/`)
+            }"
+            :to="group.route"
           >
-            <span class="app-top-nav__window-child-main">
-              <span
-                class="app-top-nav__icon app-top-nav__icon--child"
-                :style="iconStyle(groupIconMap[group.id] ?? imageIcon)"
-                aria-hidden="true"
-              ></span>
-              <span class="app-top-nav__window-label">{{ t(groupMenuTitleKeyMap[group.id]) }}</span>
-            </span>
-          </RouterLink>
-        </template>
-
-        <RouterLink
-          class="app-top-nav__window-link"
-          :class="{ 'app-top-nav__window-link--active': route.path === siteRoutes.about }"
-          :to="siteRoutes.about"
-          role="menuitem"
-          @click="emit('close')"
-        >
-          <span class="app-top-nav__window-link-main">
             <span
-              class="app-top-nav__icon"
-              :style="iconStyle(starIcon)"
+              class="app-top-nav__dropdown-icon"
+              :style="toolIconStyle(groupIconMap[group.id] ?? imageIcon)"
               aria-hidden="true"
             ></span>
-            <span class="app-top-nav__window-label">{{ t(textKeys.about) }}</span>
-          </span>
-          <small>{{ t(textKeys.aboutCommand) }}</small>
-        </RouterLink>
-      </div>
-    </AppPixelWindow>
+            <span>{{ t(groupMenuTitleKeyMap[group.id]) }}</span>
+          </RouterLink>
+        </div>
+      </Transition>
+    </div>
+
+    <!-- 关于 -->
+    <RouterLink
+      class="app-top-nav__nav-link"
+      :class="{ 'app-top-nav__nav-link--active': isAboutRoute }"
+      :to="siteRoutes.about"
+    >
+      <span>{{ t(textKeys.about) }}</span>
+    </RouterLink>
   </div>
 </template>
 
@@ -147,43 +125,22 @@ import imageIcon from '@/assets/icons/pixelarticons/image.svg'
 import sparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import starIcon from '@/assets/icons/pixelarticons/star.svg'
 import userIcon from '@/assets/icons/pixelarticons/user.svg'
-import AppPixelWindow from '@/components/AppPixelWindow.vue'
 import { isSilenceEnabled } from '@/config/features'
 import { ffxivTools, silenceGroups, siteRoutes } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 
-type MenuSectionId = 'ffxiv' | 'silence' | 'about'
-
-const props = defineProps<{
-  open: boolean
-}>()
-
-const emit = defineEmits<{
-  toggle: []
-  close: []
-}>()
-
 const route = useRoute()
 const { t } = useLocale()
-const activeMenuSection = ref<MenuSectionId>('ffxiv')
-const menuSectionHoverDelay = 180
-let menuSectionHoverTimer: ReturnType<typeof setTimeout> | null = null
 
-const isFfxivRoute = computed(
-  () => route.path === siteRoutes.ffxiv || ffxivTools.some((tool) => isRouteUnder(tool.route))
-)
-const isSilenceRoute = computed(
-  () =>
-    isSilenceEnabled &&
-    (route.path === siteRoutes.silence ||
-      silenceGroups.some(
-        (group) => route.path === group.route || route.path.startsWith(`${group.route}/`)
-      ))
-)
-const isMenuRoute = computed(
-  () => isFfxivRoute.value || isSilenceRoute.value || route.path === siteRoutes.about
-)
+const ffxivOpen = ref(false)
+const silenceOpen = ref(false)
+const ffxivTimer: { value: ReturnType<typeof setTimeout> | null } = { value: null }
+const silenceTimer: { value: ReturnType<typeof setTimeout> | null } = { value: null }
+
+const HOVER_DELAY = 120
+const CLOSE_DELAY = 500
+
 const toolIconMap: Record<string, string> = {
   itemCard: imageIcon,
   glamour: sparklesIcon,
@@ -199,65 +156,117 @@ const groupMenuTitleKeyMap: Record<(typeof silenceGroups)[number]['id'], string>
   glitch: textKeys.menuSilenceGlitch
 }
 
-watch(
-  () => props.open,
-  (open) => {
-    cancelMenuSectionChange()
-
-    if (open) {
-      activeMenuSection.value = getMenuSectionForRoute()
-    }
-  },
-  { immediate: true }
+const isFfxivRoute = computed(
+  () => route.path === siteRoutes.ffxiv || ffxivTools.some((tool) => isRouteUnder(tool.route))
 )
+const isSilenceRoute = computed(
+  () =>
+    isSilenceEnabled &&
+    (route.path === siteRoutes.silence ||
+      silenceGroups.some(
+        (group) => route.path === group.route || route.path.startsWith(`${group.route}/`)
+      ))
+)
+const isAboutRoute = computed(() => route.path === siteRoutes.about)
 
-onBeforeUnmount(cancelMenuSectionChange)
+// Close all dropdowns on navigation
+watch(() => route.fullPath, () => {
+  ffxivOpen.value = false
+  silenceOpen.value = false
+})
 
-function queueMenuSection(section: MenuSectionId) {
-  cancelMenuSectionChange()
-
-  if (activeMenuSection.value === section) {
-    return
-  }
-
-  menuSectionHoverTimer = setTimeout(() => {
-    activeMenuSection.value = section
-    menuSectionHoverTimer = null
-  }, menuSectionHoverDelay)
+// --- shared dropdown helpers ---
+function scheduleOpen(timer: { value: ReturnType<typeof setTimeout> | null }, openRef: ReturnType<typeof ref<boolean>>, delay: number) {
+  if (timer.value) clearTimeout(timer.value)
+  timer.value = setTimeout(() => { openRef.value = true }, delay)
 }
 
-function cancelMenuSectionChange() {
-  if (menuSectionHoverTimer === null) {
-    return
-  }
-
-  clearTimeout(menuSectionHoverTimer)
-  menuSectionHoverTimer = null
+function scheduleClose(timer: { value: ReturnType<typeof setTimeout> | null }, openRef: ReturnType<typeof ref<boolean>>, delay: number) {
+  if (timer.value) clearTimeout(timer.value)
+  timer.value = setTimeout(() => { openRef.value = false }, delay)
 }
 
-function getMenuSectionForRoute(): MenuSectionId {
-  if (isFfxivRoute.value) {
-    return 'ffxiv'
-  }
+function cancelClose(timer: { value: ReturnType<typeof setTimeout> | null }) {
+  if (timer.value) clearTimeout(timer.value)
+  timer.value = null
+}
 
-  if (isSilenceRoute.value) {
-    return 'silence'
-  }
+// --- FFXIV dropdown ---
+function openFfxivDropdown() {
+  silenceOpen.value = false
+  cancelClose(silenceTimer)
+  scheduleOpen(ffxivTimer, ffxivOpen, HOVER_DELAY)
+}
 
-  if (route.path === siteRoutes.about) {
-    return 'about'
-  }
+function scheduleCloseFfxiv() {
+  scheduleClose(ffxivTimer, ffxivOpen, CLOSE_DELAY)
+}
 
-  return 'ffxiv'
+function cancelCloseFfxiv() {
+  cancelClose(ffxivTimer)
+}
+
+function toggleFfxiv() {
+  silenceOpen.value = false
+  ffxivOpen.value = !ffxivOpen.value
+}
+
+function onFfxivFocusIn() {
+  silenceOpen.value = false
+  cancelClose(ffxivTimer)
+  ffxivOpen.value = true
+}
+
+function onFfxivFocusOut(e: FocusEvent) {
+  const currentTarget = e.currentTarget as HTMLElement | null
+  const related = e.relatedTarget as Node | null
+  if (currentTarget && related && currentTarget.contains(related)) return
+}
+
+// --- Silence dropdown ---
+function openSilenceDropdown() {
+  ffxivOpen.value = false
+  cancelClose(ffxivTimer)
+  scheduleOpen(silenceTimer, silenceOpen, HOVER_DELAY)
+}
+
+function scheduleCloseSilence() {
+  scheduleClose(silenceTimer, silenceOpen, CLOSE_DELAY)
+}
+
+function cancelCloseSilence() {
+  cancelClose(silenceTimer)
+}
+
+function toggleSilence() {
+  ffxivOpen.value = false
+  silenceOpen.value = !silenceOpen.value
+}
+
+function onSilenceFocusIn() {
+  ffxivOpen.value = false
+  cancelClose(silenceTimer)
+  silenceOpen.value = true
+}
+
+function onSilenceFocusOut(e: FocusEvent) {
+  const currentTarget = e.currentTarget as HTMLElement | null
+  const related = e.relatedTarget as Node | null
+  if (currentTarget && related && currentTarget.contains(related)) return
 }
 
 function isRouteUnder(baseRoute: string): boolean {
   return route.path === baseRoute || route.path.startsWith(`${baseRoute}/`)
 }
 
-function iconStyle(icon: string): CSSProperties {
+function toolIconStyle(icon: string): CSSProperties {
   return {
-    '--app-top-nav-icon-url': `url("${icon}")`
+    '--app-top-nav-dropdown-icon-url': `url("${icon}")`
   } as CSSProperties
 }
+
+onBeforeUnmount(() => {
+  if (ffxivTimer.value) clearTimeout(ffxivTimer.value)
+  if (silenceTimer.value) clearTimeout(silenceTimer.value)
+})
 </script>

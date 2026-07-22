@@ -2,7 +2,7 @@
   <main class="ns-page ffxiv-tool-page" :class="`ffxiv-tool-page--${variant}`">
     <div class="ns-page-shell">
       <template v-if="variant === 'workspace'">
-        <section class="ffxiv-tool-workspace ffxiv-tool-workspace--wide">
+        <section class="ffxiv-tool-workspace ffxiv-tool-workspace--wide ns-animate ns-animate--fade-in-up ns-animate-visible">
           <slot>
             <div class="ffxiv-tool-placeholder" aria-hidden="true">
               <span />

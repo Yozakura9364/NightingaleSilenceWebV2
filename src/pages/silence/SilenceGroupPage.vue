@@ -1,6 +1,7 @@
 <template>
   <main class="ns-page silence-group-page" :class="`silence-group-page--${currentGroup.id}`">
     <section
+      v-if="visualItems.length > 0"
       class="silence-group-stage"
       :class="`silence-group-stage--${currentGroup.id}`"
       :aria-label="t(currentGroup.titleKey)"
@@ -24,13 +25,21 @@
         :right-label="rightTurnLabel"
       />
     </section>
+
+    <section v-else class="silence-group-empty" :aria-labelledby="EMPTY_TITLE_ID">
+      <h1 :id="EMPTY_TITLE_ID" class="ns-title">{{ t(textKeys.silenceGroupEmpty) }}</h1>
+      <RouterLink class="ns-button" :to="siteRoutes.silence">
+        {{ t(textKeys.silence) }}
+      </RouterLink>
+    </section>
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { silenceGroups } from '@/config/site'
+import { RouterLink } from 'vue-router'
+import { silenceGroups, siteRoutes } from '@/config/site'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import { silenceUiMessages } from '@/locales/modules/silence'
 import { silenceGlitchDuoMembers } from '@/data/silence/glitchDuo'
@@ -45,6 +54,8 @@ import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { loadMessages, useLocale } from '@/stores/locale'
 
 loadMessages(silenceUiMessages)
+
+const EMPTY_TITLE_ID = 'silence-group-empty-title'
 
 const route = useRoute()
 const router = useRouter()
@@ -324,5 +335,14 @@ watch(
     padding: 20px 14px 120px;
   }
 
+}
+
+.silence-group-empty {
+  display: grid;
+  min-height: calc(100vh - 58px);
+  place-content: center;
+  gap: 24px;
+  padding: 48px 24px;
+  text-align: center;
 }
 </style>

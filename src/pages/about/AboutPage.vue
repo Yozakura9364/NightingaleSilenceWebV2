@@ -1,6 +1,6 @@
 <template>
   <main class="ns-page about-page">
-    <div class="ns-page-shell about-page__shell">
+    <div class="ns-page-shell about-page__shell ns-animate ns-animate--fade-in-up ns-animate-visible">
       <section class="about-section">
         <header class="about-section__header">
           <h1 class="ns-title">{{ t(textKeys.siteInfo) }}</h1>
@@ -59,6 +59,7 @@
                   <img :src="link.icon" alt="" width="28" height="28" aria-hidden="true" />
                   <strong>{{ t(link.labelKey) }}</strong>
                   <span>{{ link.domain }}</span>
+                  <span class="ns-sr-only">{{ t(textKeys.opensInNewTab) }}</span>
                 </a>
               </div>
             </section>
@@ -94,7 +95,7 @@
             </span>
             <span class="about-friend-link__copy">
               <strong>{{ t(friend.labelKey) }}</strong>
-              <small>{{ friend.domain }}</small>
+              <small>{{ friend.description }}</small>
             </span>
           </a>
         </div>
@@ -138,7 +139,7 @@ const friendLinks = [
     id: 'flowersink',
     labelKey: textKeys.friendFlowersink,
     href: 'https://flowersink.com/',
-    domain: 'flowersink.com',
+    description: '好耶！是再花猫猫头ฅ•ω•ฅ',
     icon: 'https://api.flowersink.com/img/logo.png'
   }
 ] as const
@@ -242,7 +243,10 @@ function useFriendIconFallback(event: Event) {
   box-shadow: 3px 3px 0 var(--ns-pixel-shadow-color);
   color: var(--ns-color-text);
   text-decoration: none;
-  transition: none;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .about-profile__sns-link:hover {
@@ -367,7 +371,10 @@ function useFriendIconFallback(event: Event) {
   box-shadow: var(--ns-pixel-soft-shadow);
   color: var(--ns-color-text);
   text-decoration: none;
-  transition: none;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .about-friend-link:hover {
