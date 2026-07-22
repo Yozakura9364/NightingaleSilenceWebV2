@@ -88,6 +88,9 @@
 9. 普通增量推送必须扫描实际待推送范围（通常为 `origin/<branch>..HEAD`）的作者和提交者，并核对本次会更新的 refs；既有远端历史只记录为基线，不因旧身份阻塞无关增量推送。
 10. 重建仓库、迁移远端、force push、创建 tag 或 release 前，必须扫描完整历史和所有 refs：`git log --all --format="%an <%ae> %cn <%ce>"`、`git for-each-ref refs/heads refs/remotes refs/tags`。如果待公开的新历史或引用中出现错误项目账号，必须停止。
 11. 当我已经同意当前改动，并要求“继续”“继续推进”“继续向后推”或进入下一阶段时，必须先问我是否需要把当前改动提交 commit / 推送 GitHub；除非我已经明确说不要提交或只继续本地开发。
+12. `gh` 身份检查必须与实际 push 在同一执行边界中完成；沙箱内检查不能代表宿主机 keyring 或沙箱外状态。
+13. 账号不匹配或认证失败时，只能停止并报告。未经我针对凭据操作的明确授权，不得执行 `gh auth login`、`gh auth logout`、`gh auth switch`、读取凭据、删除凭据或自动重试认证。
+14. 经我明确要求启动认证时，只允许一个可见且可追踪的流程，必须记录 PID，并在成功、失败、超时或中止后清理本次启动的进程。事故复盘和完整规程见 `docs/ai/GIT_AUTH_INCIDENT_POSTMORTEM.md`。
 
 ## CSS 和组件规则
 

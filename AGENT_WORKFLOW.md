@@ -111,8 +111,13 @@ verify: "流程变更后核对 AGENTS.md 路由、文档契约和现有 npm scri
 
 ## 8. 提交与推送
 
+认证事故和强制防复发流程见 `docs/ai/GIT_AUTH_INCIDENT_POSTMORTEM.md`。
+
 1. 只暂存本任务文件或 hunk，检查 `git diff --cached --name-only` 和 staged diff。
 2. commit message 和交付说明使用中文并写明范围。
-3. 普通增量推送核对待推送 commit 的作者、提交者和 GitHub CLI 账号。
-4. 重建仓库、迁移远端、force push、tag 或 release 时，额外审计完整历史和所有 refs。
-5. 未经用户要求不自动提交或推送；长任务进入下一阶段前遵守 `AGENTS.md` 的确认规则。
+3. 身份检查、fetch、作者审计和 push 必须在同一个实际执行边界中完成；沙箱内结果不能代替宿主机或沙箱外结果。
+4. 普通增量推送核对待推送 commit 的作者、提交者和 GitHub CLI 账号。
+5. 身份不匹配时立即停止并报告；不得自动执行 `gh auth login`、`gh auth logout`、`gh auth switch`、凭据读取或凭据删除。
+6. 只有用户明确要求处理认证时，才允许启动一次可见、可追踪且记录 PID 的认证流程；失败、超时或中止后必须清理，不自动重试。
+7. 重建仓库、迁移远端、force push、tag 或 release 时，额外审计完整历史和所有 refs。
+8. 未经用户要求不自动提交或推送；长任务进入下一阶段前遵守 `AGENTS.md` 的确认规则。
