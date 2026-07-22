@@ -1,6 +1,6 @@
 <template>
   <main class="ns-page about-page">
-    <div class="ns-page-shell about-page__shell">
+    <div class="ns-page-shell about-page__shell ns-animate ns-animate--fade-in-up ns-animate-visible">
       <section class="about-section">
         <header class="about-section__header">
           <h1 class="ns-title">{{ t(textKeys.siteInfo) }}</h1>

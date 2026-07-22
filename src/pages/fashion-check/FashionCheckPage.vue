@@ -1,6 +1,6 @@
 <template>
   <main class="ns-page fashion-check-page">
-    <div class="ns-page-shell fashion-check-page__shell">
+    <div class="ns-page-shell fashion-check-page__shell ns-animate ns-animate--fade-in-up ns-animate-visible">
       <header ref="headerRef" class="fashion-check-page__header">
         <h1 class="ns-heading-bloom">{{ t(keys.title) }}</h1>
         <div v-if="week" class="fashion-check-page__week">
@@ -9,9 +9,13 @@
         </div>
       </header>
       <Transition name="fade" mode="out-in">
-        <AppStatus v-if="loading" key="loading" tone="info" :message="t(keys.loading)" />
-        <AppStatus v-else-if="!week" key="unavailable" tone="warning" :message="t(keys.unavailable)" />
-        <template v-else key="content">
+        <div v-if="loading" key="loading">
+          <AppStatus tone="info" :message="t(keys.loading)" />
+        </div>
+        <div v-else-if="!week" key="unavailable">
+          <AppStatus tone="warning" :message="t(keys.unavailable)" />
+        </div>
+        <div v-else key="content">
           <AppTabs
             :items="tabItems"
             :model-value="activeTab"
@@ -33,7 +37,7 @@
             />
             <component :is="Component" v-else :week="week" />
           </RouterView>
-        </template>
+        </div>
       </Transition>
     </div>
   </main>

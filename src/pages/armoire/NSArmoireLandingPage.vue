@@ -1,6 +1,6 @@
 <template>
   <main class="ns-page nsarmoire-landing">
-    <div class="ns-page-shell nsarmoire-landing__shell">
+    <div class="ns-page-shell nsarmoire-landing__shell ns-animate ns-animate--fade-in-up ns-animate-visible">
       <section class="ns-workbench-panel ns-workbench-panel--solid nsarmoire-landing__intro">
         <div class="nsarmoire-landing__intro-copy">
           <header class="ns-workbench-panel__header">

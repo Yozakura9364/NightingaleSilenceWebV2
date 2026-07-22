@@ -1,11 +1,11 @@
 <template>
   <main class="ns-page ffxiv-page">
     <div class="ns-page-shell">
-      <h1 ref="titleRef" class="ns-title ns-heading-bloom">
+      <h1 class="ns-title ns-heading-bloom ns-animate ns-animate--fade-in-down ns-animate-visible">
         {{ t(ffxivCategory.titleKey) }}
       </h1>
 
-      <div ref="gridRef" class="ns-tool-grid">
+      <div class="ns-tool-grid ns-stagger ns-animate-visible">
         <RouterLink
           v-for="tool in toolCards"
           :key="tool.id"
@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
@@ -39,31 +39,6 @@ const ffxivCategory = getCategory('ffxiv') ?? {
   descriptionKey: textKeys.placeholder
 }
 const { t } = useLocale()
-
-const titleRef = ref<HTMLHeadingElement | null>(null)
-const gridRef = ref<HTMLDivElement | null>(null)
-
-function animateIn(el: HTMLElement, delay = 0, fromY = 10) {
-  el.style.opacity = '0'
-  el.style.transform = `translateY(${fromY}px)`
-  // Use rAF to batch the transition setup after initial opacity
-  requestAnimationFrame(() => {
-    el.style.transition = `opacity 420ms cubic-bezier(0.22,1,0.36,1) ${delay}ms, transform 420ms cubic-bezier(0.22,1,0.36,1) ${delay}ms`
-    el.style.opacity = '1'
-    el.style.transform = 'translateY(0)'
-  })
-}
-
-onMounted(() => {
-  nextTick(() => {
-    if (titleRef.value) animateIn(titleRef.value, 0, 6)
-    if (gridRef.value) {
-      Array.from(gridRef.value.children).forEach((child, i) => {
-        animateIn(child as HTMLElement, 60 + i * 80, 14)
-      })
-    }
-  })
-})
 
 const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,

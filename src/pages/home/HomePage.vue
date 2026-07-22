@@ -27,7 +27,7 @@
         aria-hidden="true"
       ></div>
 
-      <nav class="home-desktop__icons" :aria-label="t(textKeys.primaryNavigation)">
+      <nav class="home-desktop__icons ns-stagger ns-animate-visible" :aria-label="t(textKeys.primaryNavigation)">
         <RouterLink
           v-for="item in desktopIcons"
           :key="item.id"
@@ -367,7 +367,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
 import { RouterLink } from 'vue-router'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'

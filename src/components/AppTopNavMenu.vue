@@ -6,7 +6,6 @@
       @mouseenter="openFfxivDropdown"
       @mouseleave="scheduleCloseFfxiv"
       @focusin="onFfxivFocusIn"
-      @focusout="onFfxivFocusOut"
     >
       <RouterLink
         class="app-top-nav__nav-link"
@@ -29,7 +28,7 @@
           v-if="ffxivOpen"
           class="app-top-nav__dropdown"
           role="menu"
-          @mouseenter="cancelFfxivClose"
+          @mouseenter="cancelCloseFfxiv"
           @mouseleave="scheduleCloseFfxiv"
         >
           <RouterLink
@@ -58,7 +57,6 @@
       @mouseenter="openSilenceDropdown"
       @mouseleave="scheduleCloseSilence"
       @focusin="onSilenceFocusIn"
-      @focusout="onSilenceFocusOut"
     >
       <RouterLink
         class="app-top-nav__nav-link"
@@ -81,7 +79,7 @@
           v-if="silenceOpen"
           class="app-top-nav__dropdown"
           role="menu"
-          @mouseenter="cancelSilenceClose"
+          @mouseenter="cancelCloseSilence"
           @mouseleave="scheduleCloseSilence"
         >
           <RouterLink
@@ -118,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, type CSSProperties } from 'vue'
+import { computed, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import archiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import avatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
@@ -137,13 +135,11 @@ const { t } = useLocale()
 
 const ffxivOpen = ref(false)
 const silenceOpen = ref(false)
-let ffxivTimer: ReturnType<typeof setTimeout> | null = null
-let silenceTimer: ReturnType<typeof setTimeout> | null = null
-let ffxivFocusWithin = false
-let silenceFocusWithin = false
+const ffxivTimer: { value: ReturnType<typeof setTimeout> | null } = { value: null }
+const silenceTimer: { value: ReturnType<typeof setTimeout> | null } = { value: null }
 
 const HOVER_DELAY = 120
-const CLOSE_DELAY = 300
+const CLOSE_DELAY = 500
 
 const toolIconMap: Record<string, string> = {
   itemCard: imageIcon,
@@ -173,43 +169,51 @@ const isSilenceRoute = computed(
 )
 const isAboutRoute = computed(() => route.path === siteRoutes.about)
 
+// Close all dropdowns on navigation
+watch(() => route.fullPath, () => {
+  ffxivOpen.value = false
+  silenceOpen.value = false
+})
+
 // --- shared dropdown helpers ---
 function scheduleOpen(timer: { value: ReturnType<typeof setTimeout> | null }, openRef: ReturnType<typeof ref<boolean>>, delay: number) {
-  clearTimer(timer)
+  if (timer.value) clearTimeout(timer.value)
   timer.value = setTimeout(() => { openRef.value = true }, delay)
 }
 
 function scheduleClose(timer: { value: ReturnType<typeof setTimeout> | null }, openRef: ReturnType<typeof ref<boolean>>, delay: number) {
-  clearTimer(timer)
+  if (timer.value) clearTimeout(timer.value)
   timer.value = setTimeout(() => { openRef.value = false }, delay)
 }
 
-function clearTimer(timer: { value: ReturnType<typeof setTimeout> | null }) {
+function cancelClose(timer: { value: ReturnType<typeof setTimeout> | null }) {
   if (timer.value) clearTimeout(timer.value)
   timer.value = null
 }
 
 // --- FFXIV dropdown ---
 function openFfxivDropdown() {
-  scheduleOpen({ value: ffxivTimer }, ffxivOpen, HOVER_DELAY)
+  silenceOpen.value = false
+  cancelClose(silenceTimer)
+  scheduleOpen(ffxivTimer, ffxivOpen, HOVER_DELAY)
 }
 
 function scheduleCloseFfxiv() {
-  if (ffxivFocusWithin) return
-  scheduleClose({ value: ffxivTimer }, ffxivOpen, CLOSE_DELAY)
+  scheduleClose(ffxivTimer, ffxivOpen, CLOSE_DELAY)
 }
 
-function cancelFfxivClose() {
-  clearTimer({ value: ffxivTimer })
+function cancelCloseFfxiv() {
+  cancelClose(ffxivTimer)
 }
 
 function toggleFfxiv() {
+  silenceOpen.value = false
   ffxivOpen.value = !ffxivOpen.value
 }
 
 function onFfxivFocusIn() {
-  ffxivFocusWithin = true
-  cancelFfxivClose()
+  silenceOpen.value = false
+  cancelClose(ffxivTimer)
   ffxivOpen.value = true
 }
 
@@ -217,31 +221,31 @@ function onFfxivFocusOut(e: FocusEvent) {
   const currentTarget = e.currentTarget as HTMLElement | null
   const related = e.relatedTarget as Node | null
   if (currentTarget && related && currentTarget.contains(related)) return
-  ffxivFocusWithin = false
-  scheduleCloseFfxiv()
 }
 
 // --- Silence dropdown ---
 function openSilenceDropdown() {
-  scheduleOpen({ value: silenceTimer }, silenceOpen, HOVER_DELAY)
+  ffxivOpen.value = false
+  cancelClose(ffxivTimer)
+  scheduleOpen(silenceTimer, silenceOpen, HOVER_DELAY)
 }
 
 function scheduleCloseSilence() {
-  if (silenceFocusWithin) return
-  scheduleClose({ value: silenceTimer }, silenceOpen, CLOSE_DELAY)
+  scheduleClose(silenceTimer, silenceOpen, CLOSE_DELAY)
 }
 
-function cancelSilenceClose() {
-  clearTimer({ value: silenceTimer })
+function cancelCloseSilence() {
+  cancelClose(silenceTimer)
 }
 
 function toggleSilence() {
+  ffxivOpen.value = false
   silenceOpen.value = !silenceOpen.value
 }
 
 function onSilenceFocusIn() {
-  silenceFocusWithin = true
-  cancelSilenceClose()
+  ffxivOpen.value = false
+  cancelClose(silenceTimer)
   silenceOpen.value = true
 }
 
@@ -249,8 +253,6 @@ function onSilenceFocusOut(e: FocusEvent) {
   const currentTarget = e.currentTarget as HTMLElement | null
   const related = e.relatedTarget as Node | null
   if (currentTarget && related && currentTarget.contains(related)) return
-  silenceFocusWithin = false
-  scheduleCloseSilence()
 }
 
 function isRouteUnder(baseRoute: string): boolean {
@@ -264,7 +266,7 @@ function toolIconStyle(icon: string): CSSProperties {
 }
 
 onBeforeUnmount(() => {
-  if (ffxivTimer) clearTimeout(ffxivTimer)
-  if (silenceTimer) clearTimeout(silenceTimer)
+  if (ffxivTimer.value) clearTimeout(ffxivTimer.value)
+  if (silenceTimer.value) clearTimeout(silenceTimer.value)
 })
 </script>
