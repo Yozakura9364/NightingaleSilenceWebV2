@@ -183,7 +183,8 @@ import type {
   GlamourRecentSnapshot,
   GlamourStain
 } from '@/lib/glamour/types'
-import { GLAMOUR_TEMPLATE_SLOT_ORDER, type GlamourTemplateId } from '@/lib/glamour/templates'
+import { GLAMOUR_TEMPLATE_SLOT_ORDER } from '@/lib/glamour/templates/rows'
+import type { GlamourTemplateId } from '@/lib/glamour/templates/definitions'
 import NSGlamourTemplateEquipmentPanel from '@/pages/glamour/components/NSGlamourTemplateEquipmentPanel.vue'
 import NSGlamourTemplateSettingsPanel from '@/pages/glamour/components/NSGlamourTemplateSettingsPanel.vue'
 import { useGlamourTemplateCanvas } from '@/pages/glamour/composables/useGlamourTemplateCanvas'

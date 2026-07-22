@@ -1,0 +1,53 @@
+.home-page {
+  --home-theme-duration: 1100ms;
+  --home-bg: #fff7fd;
+  --home-bg-blue: #e8fbff;
+  --home-surface: #ffffff;
+  --home-surface-soft: rgba(255, 255, 255, 0.82);
+  --home-pink-soft: #ffe4f4;
+  --home-blue-soft: #dffbff;
+  --home-mint-soft: #e3fff6;
+  --home-violet-soft: #eee6ff;
+  --home-ink: #2a2138;
+  --home-muted: #6f637a;
+  --home-pink: #ff7cc2;
+  --home-blue: #5edceb;
+  --home-border: #2a2138;
+  --home-shadow: rgba(42, 33, 56, 0.22);
+  --home-window-shadow:
+    6px 6px 0 var(--home-shadow),
+    0 0 22px rgba(94, 220, 235, 0.08);
+  --home-window-bar:
+    linear-gradient(90deg, rgba(255, 124, 194, 0.24), rgba(94, 220, 235, 0.22)),
+    var(--home-surface);
+  --home-wallpaper-day: linear-gradient(135deg, #fff7fd 0%, #e9fbff 52%, #fff1fa 100%);
+  --home-wallpaper-night: linear-gradient(135deg, #21172b 0%, #070911 54%, #10252c 100%);
+}
+
+:root[data-theme='night'] .home-page {
+  --home-bg: #030407;
+  --home-bg-blue: #071014;
+  --home-surface: #0d1018;
+  --home-surface-soft: rgba(13, 16, 24, 0.88);
+  --home-pink-soft: #241324;
+  --home-blue-soft: #102630;
+  --home-mint-soft: #102821;
+  --home-violet-soft: #201832;
+  --home-ink: #f5f1fb;
+  --home-muted: #cac2d0;
+  --home-pink: #ff5fb8;
+  --home-blue: #5eeaff;
+  --home-border: #cbc2d2;
+  --home-shadow: rgba(5, 9, 18, 0.66);
+  --home-window-shadow:
+    6px 6px 0 rgba(5, 9, 18, 0.78),
+    0 0 18px rgba(94, 234, 255, 0.1),
+    0 0 28px rgba(255, 95, 184, 0.08);
+  --home-window-bar:
+    linear-gradient(90deg, rgba(255, 95, 184, 0.18), rgba(94, 234, 255, 0.16)),
+    #10131d;
+}
+
+:root:not([data-theme='night']) .home-page {
+  --home-y2k-cyan: #63e7f7;
+}

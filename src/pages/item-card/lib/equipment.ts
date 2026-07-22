@@ -626,10 +626,14 @@ function mainHandBlocksOffHand(candidate: GlamourCandidate | undefined): boolean
   return toNumber(candidate?.equip_slot_category) === 13
 }
 
+let cachedIgnoreEmperor: boolean | null = null
+
 function shouldIgnoreEmperorItems(): boolean {
-  return (
-    typeof localStorage !== 'undefined' && localStorage.getItem('nsitemcard.ignoreEmperor') === '1'
-  )
+  if (cachedIgnoreEmperor === null) {
+    cachedIgnoreEmperor =
+      typeof localStorage !== 'undefined' && localStorage.getItem('nsitemcard.ignoreEmperor') === '1'
+  }
+  return cachedIgnoreEmperor
 }
 
 export function getVisibleEquipmentEntries(

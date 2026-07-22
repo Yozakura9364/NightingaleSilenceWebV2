@@ -157,44 +157,37 @@ async function drawLayers(
   layers: NSPlateRenderImageLayer[],
   options: NSPlateCanvasRenderOptions
 ) {
-  for (const layer of layers) {
-    await drawLayer(context, layer, options)
+  // Load all images in parallel for better performance
+  const entries = await Promise.all(
+    layers.map(async (layer) => {
+      const source = getPlateLayerImageUrl(layer)
+      if (!source) return { layer, image: null }
 
-    if (!isCurrentRender(options)) {
+      const image = await loadImage(source, options.imageCache)
+      return { layer, image }
+    })
+  )
+
+  for (const entry of entries) {
+    const { layer, image } = entry
+
+    if (!image || !isCurrentRender(options)) {
       return
     }
+
+    const width = Math.round(image.naturalWidth * (layer.position.scale ?? 1))
+    const height = Math.round(image.naturalHeight * (layer.position.scale ?? 1))
+    const x =
+      layer.placement === 'center' && width <= context.canvas.width
+        ? (context.canvas.width - width) / 2
+        : layer.position.x
+    const y =
+      layer.placement === 'center' && height <= context.canvas.height
+        ? (context.canvas.height - height) / 2
+        : layer.position.y
+
+    context.drawImage(image, x, y, width, height)
   }
-}
-
-async function drawLayer(
-  context: CanvasRenderingContext2D,
-  layer: NSPlateRenderImageLayer,
-  options: NSPlateCanvasRenderOptions
-) {
-  const source = getPlateLayerImageUrl(layer)
-
-  if (!source) {
-    return
-  }
-
-  const image = await loadImage(source, options.imageCache)
-
-  if (!image || !isCurrentRender(options)) {
-    return
-  }
-
-  const width = Math.round(image.naturalWidth * (layer.position.scale ?? 1))
-  const height = Math.round(image.naturalHeight * (layer.position.scale ?? 1))
-  const x =
-    layer.placement === 'center' && width <= context.canvas.width
-      ? (context.canvas.width - width) / 2
-      : layer.position.x
-  const y =
-    layer.placement === 'center' && height <= context.canvas.height
-      ? (context.canvas.height - height) / 2
-      : layer.position.y
-
-  context.drawImage(image, x, y, width, height)
 }
 
 async function drawCustomPortraitInFrame(

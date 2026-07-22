@@ -50,6 +50,7 @@ import {
 } from '@/pages/item-card/lib/recent'
 import type { GlamourRecentSnapshot } from '@/pages/item-card/lib/types'
 import { useLocale } from '@/stores/locale'
+import { useDialog } from '@/composables/useDialog'
 
 const props = withDefaults(
   defineProps<{
@@ -75,19 +76,20 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useLocale()
+const dialog = useDialog()
 
-function saveConfig() {
-  const name = window.prompt(
-    t(textKeys.nsglamourConfigNamePrompt),
-    normalizeGlamourConfigName(props.defaultName)
-  )
+async function saveConfig() {
+    const name = await dialog.prompt(
+      t(textKeys.nsglamourConfigNamePrompt),
+      normalizeGlamourConfigName(props.defaultName)
+    )
 
-  if (name === null) {
-    return
+    if (name === null) {
+      return
+    }
+
+    emit('save', normalizeGlamourConfigName(name))
   }
-
-  emit('save', normalizeGlamourConfigName(name))
-}
 
 function formatRecentMeta(item: GlamourRecentSnapshot): string {
   return formatGlamourText(t(textKeys.nsglamourRecentMeta), {

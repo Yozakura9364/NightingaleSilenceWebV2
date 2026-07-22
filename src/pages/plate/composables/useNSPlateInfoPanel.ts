@@ -1,4 +1,5 @@
 import { computed, ref, type Ref } from 'vue'
+import { useDialog } from '@/composables/useDialog'
 import { plateTextKeys as textKeys } from '@/locales/keys/plate'
 import {
   getNSPlateInfoAssetItemId,
@@ -38,6 +39,7 @@ import {
 import type { NSPlateAssetGroup, NSPlateAssetSummary } from '@/lib/plate/types'
 
 interface UseNSPlateInfoPanelOptions {
+  dialogLabels?: { ok?: string; cancel?: string }
   modelValue: Readonly<Ref<NSPlateInfoDraft>>
   assetGroups: Readonly<Ref<NSPlateAssetGroup[]>>
   t: (key: string) => string
@@ -113,6 +115,7 @@ const SPECIAL_MATERIAL_SECTIONS = [
 }[]
 
 export function useNSPlateInfoPanel(options: UseNSPlateInfoPanelOptions) {
+  const dialog = useDialog()
   const activeLayers = computed(() => getNSPlateInfoActiveLayers(options.modelValue.value))
   const openLayerIds = ref<Record<string, boolean>>({})
   const openIconMaterialSectionIds = ref<Record<string, boolean>>({})
@@ -192,8 +195,9 @@ export function useNSPlateInfoPanel(options: UseNSPlateInfoPanelOptions) {
     )
   }
 
-  function resetActivePreset() {
-    if (!window.confirm(options.t(ACTION_KEYS.resetConfirm))) {
+  async function resetActivePreset() {
+    const confirmed = await dialog.confirm(options.t(ACTION_KEYS.resetConfirm))
+    if (!confirmed) {
       return
     }
 

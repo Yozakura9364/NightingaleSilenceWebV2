@@ -92,12 +92,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { defineAsyncComponent, computed, ref, watch } from 'vue'
+
+const ItemCardImportDialog = defineAsyncComponent({
+  loader: () => import('@/pages/item-card/components/ItemCardImportDialog.vue'),
+  delay: 200
+})
+const ItemCardTextImportDialog = defineAsyncComponent({
+  loader: () => import('@/pages/item-card/components/ItemCardTextImportDialog.vue'),
+  delay: 200
+})
 import ItemCardEquipmentEditor from '@/pages/item-card/components/ItemCardEquipmentEditor.vue'
-import ItemCardImportDialog from '@/pages/item-card/components/ItemCardImportDialog.vue'
 import ItemCardPreview from '@/pages/item-card/components/ItemCardPreview.vue'
 import ItemCardRenderSettings from '@/pages/item-card/components/ItemCardRenderSettings.vue'
-import ItemCardTextImportDialog from '@/pages/item-card/components/ItemCardTextImportDialog.vue'
 import { useItemCardSettings } from '@/pages/item-card/composables/useItemCardSettings'
 import { getFilledGlamourDraftEntries } from '@/pages/item-card/lib/draft'
 import { getItemCardRowId } from '@/pages/item-card/lib/equipment'

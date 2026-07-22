@@ -26,8 +26,8 @@
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-track {
-    border: 2px solid var(--ns-pixel-border);
     background: var(--ns-scroll-track);
+    border: 1px solid var(--ns-pixel-border-soft);
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-thumb {
@@ -35,7 +35,7 @@
     border: 2px solid var(--ns-pixel-border);
     border-radius: 0;
     background: var(--ns-scroll-thumb);
-    box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.28);
+    box-shadow: var(--ns-scroll-thumb-highlight);
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-thumb:hover {
@@ -43,7 +43,7 @@
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-corner {
-    background: var(--ns-scroll-track);
+    background: transparent;
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-button:single-button {
@@ -133,6 +133,10 @@
 
     .ns-lead {
       font-size: 16px;
+    }
+
+    .ns-eyebrow {
+      font-size: 12px;
     }
   }
 }

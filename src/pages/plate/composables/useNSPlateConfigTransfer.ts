@@ -18,6 +18,7 @@ import type {
 } from '@/lib/plate/types'
 import { useLocale } from '@/stores/locale'
 import { readNSPlateDraft } from '@/pages/plate/composables/useNSPlateDraftPersistence'
+import { useDialog } from '@/composables/useDialog'
 
 interface UseNSPlateConfigTransferOptions {
   isLoading: Ref<boolean>
@@ -35,6 +36,7 @@ const LEGACY_CONFIG_STORAGE_KEY = 'iconComposer.ui.config.v1'
 
 export function useNSPlateConfigTransfer(options: UseNSPlateConfigTransferOptions) {
   const { t } = useLocale()
+  const dialog = useDialog()
   const configFileInputRef = ref<HTMLInputElement | null>(null)
   const isImportingConfig = ref(false)
   const canImportConfig = computed(() => !isImportingConfig.value)
@@ -75,7 +77,7 @@ export function useNSPlateConfigTransfer(options: UseNSPlateConfigTransferOption
     try {
       await importConfigText(await file.text(), { notify: true })
     } catch (error) {
-      window.alert(t(importConfigErrorKey(error)))
+      await dialog.alert(t(importConfigErrorKey(error)))
     } finally {
       isImportingConfig.value = false
     }
@@ -91,7 +93,7 @@ export function useNSPlateConfigTransfer(options: UseNSPlateConfigTransferOption
     try {
       await importConfigText(await readTextFromClipboard(), { notify: true })
     } catch (error) {
-      window.alert(t(pasteConfigErrorKey(error)))
+      await dialog.alert(t(pasteConfigErrorKey(error)))
     } finally {
       isImportingConfig.value = false
     }
@@ -100,9 +102,9 @@ export function useNSPlateConfigTransfer(options: UseNSPlateConfigTransferOption
   async function copyCurrentConfig() {
     try {
       await copyTextToClipboard(createCurrentConfigJson())
-      window.alert(t(textKeys.nsplateCopyConfigSuccess))
+      await dialog.alert(t(textKeys.nsplateCopyConfigSuccess))
     } catch {
-      window.alert(t(textKeys.nsplateCopyConfigError))
+      await dialog.alert(t(textKeys.nsplateCopyConfigError))
     }
   }
 
@@ -131,7 +133,7 @@ export function useNSPlateConfigTransfer(options: UseNSPlateConfigTransferOption
     }
 
     if (options_.notify) {
-      window.alert(
+      await dialog.alert(
         t(
           result.missingAssetCount > 0 || result.ignoredInfoLayerCount > 0
             ? textKeys.nsplateImportConfigPartial

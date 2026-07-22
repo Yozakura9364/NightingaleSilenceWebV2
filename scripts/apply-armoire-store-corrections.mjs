@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { readJson } from './lib/shared.mjs'
 
 const STORE_SCHEMA_VERSION = 'nsarmoire.storeCatalog.v1'
 const CORRECTION_SCHEMA_VERSION = 'nsarmoire.storeCatalogCorrections.v1'
@@ -181,10 +182,6 @@ function normalizeRegionalStoreUrl(region, value) {
   }
 
   return url
-}
-
-function readJson(filePath) {
-  return readFile(filePath, 'utf8').then((source) => JSON.parse(source))
 }
 
 function validateStoreCatalog(value) {

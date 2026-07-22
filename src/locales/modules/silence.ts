@@ -99,6 +99,12 @@ export const silenceUiMessages: UiMessageMap = {
     en: 'Form switcher',
     ja: '形態切替',
     ko: '형태 전환'
+  }),
+  'silence.group.empty': msg({
+    zh: '该群组暂无角色',
+    en: 'No characters in this group',
+    ja: 'このグループにキャラクターはいません',
+    ko: '이 그룹에 캐릭터가 없습니다'
   })
 }
 

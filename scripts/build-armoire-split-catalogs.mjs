@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, resolve } from 'node:path'
+import { readJsonFile } from './lib/shared.mjs'
 
 const DEFAULT_ARMOIRE_CATALOG = 'public/data/armoire-catalog.json'
 const DEFAULT_DISPLAY_OUTPUT = 'public/data/armoire-catalog-display-index.json'
@@ -109,11 +110,6 @@ Options:
                                  Output identical model catalog path. Default: ${DEFAULT_IDENTICAL_MODEL_OUTPUT}
   --dye-output <file>            Output dye catalog path. Default: ${DEFAULT_DYE_OUTPUT}
 `)
-}
-
-async function readJsonFile(path) {
-  const text = await readFile(path, 'utf8')
-  return JSON.parse(text)
 }
 
 async function writeJsonFile(path, payload) {

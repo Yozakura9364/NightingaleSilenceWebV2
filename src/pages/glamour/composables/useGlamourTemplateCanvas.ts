@@ -1,14 +1,18 @@
 import { computed, nextTick, onBeforeUnmount, ref, watch, type ComputedRef, type Ref } from 'vue'
 import { buildGlamourIconUrl } from '@/lib/glamour/equipment'
 import {
-  createGlamourTemplatePreviewRenderData,
-  loadGlamourTemplateRenderAssets,
+  createGlamourTemplatePreviewRenderData
+} from '@/lib/glamour/templates/renderData'
+import {
+  loadGlamourTemplateRenderAssets
+} from '@/lib/glamour/templates/assets'
+import {
   renderGlamourTemplateCanvas,
-  type GlamourTemplateCanvasImage,
-  type GlamourTemplateId,
-  type GlamourTemplateLoadedAssetMap,
-  type GlamourTemplateRenderData
-} from '@/lib/glamour/templates'
+  type GlamourTemplateCanvasImage
+} from '@/lib/glamour/templates/renderer'
+import type { GlamourTemplateId } from '@/lib/glamour/templates/definitions'
+import type { GlamourTemplateLoadedAssetMap } from '@/lib/glamour/templates/assets'
+import type { GlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
 import { useTheme } from '@/stores/theme'
 
 const fontLoadFallbackText = '幻化工房最终幻想14装备染色角色服务器NameServer日本語한국어123'

@@ -14,5 +14,6 @@ export const aboutUiMessages: UiMessageMap = {
   'about.social.xiaohongshu': same('小红书'),
   'about.social.weibo': same('微博'),
   'about.social.douyin': same('抖音'),
-  'about.friend.flowersink': same('花墨')
+  'about.friend.flowersink': same('花墨'),
+  'about.opensInNewTab': msg({ zh: '（在新标签页中打开）', en: '（opens in new tab）', ja: '（新しいタブで開く）', ko: '（새 탭에서 열기）' })
 }

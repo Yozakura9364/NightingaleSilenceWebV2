@@ -3,6 +3,7 @@ import type {
   NSPlateInfoTextRenderLayer
 } from '@/lib/plate/infoLayerRenderTypes'
 import { normalizeNSPlateResourcePath, resolveNSPlateImageUrl } from '@/lib/plate/assetUrls'
+import { createLruCache } from '@/lib/utils/lruCache'
 
 interface NSPlateInfoTextLayoutRow {
   text: string
@@ -58,7 +59,7 @@ const INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y = 351
 const TEXT_RENDER_EFFECT_SHADOW_GRAY = 'shadowGray'
 const TEXT_RENDER_EFFECT_EMBOSS_SOFT = 'embossSoft'
 
-const infoTextImageCache = new Map<string, Promise<HTMLImageElement | null>>()
+const infoTextImageCache = createLruCache<string, Promise<HTMLImageElement | null>>(50)
 
 export async function drawNSPlateInfoTextLayers(
   context: CanvasRenderingContext2D,

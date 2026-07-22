@@ -135,7 +135,8 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
-import type { GlamourTemplateDefinition, GlamourTemplateSettings } from '@/lib/glamour/templates'
+import type { GlamourTemplateDefinition } from '@/lib/glamour/templates/definitions'
+import type { GlamourTemplateSettings } from '@/lib/glamour/templates/settings'
 import { useLocale } from '@/stores/locale'
 
 defineProps<{

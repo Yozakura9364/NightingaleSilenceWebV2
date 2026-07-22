@@ -37,9 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent } from 'vue'
+import { computed, defineAsyncComponent, onUnmounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { silenceGroups, siteRoutes } from '@/config/site'
+import { silenceGroups, siteRoutes, siteMeta } from '@/config/site'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import { silenceUiMessages } from '@/locales/modules/silence'
 import {
@@ -53,11 +53,16 @@ import SilenceCharacterDetails from '@/pages/silence/components/SilenceCharacter
 import SilenceCharacterStage from '@/pages/silence/components/SilenceCharacterStage.vue'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { loadMessages, useLocale } from '@/stores/locale'
+import AppLoading from '@/components/AppLoading.vue'
 
 loadMessages(silenceUiMessages)
 
 const SilenceViiokoPrototype = import.meta.env.DEV
-  ? defineAsyncComponent(() => import('@/pages/silence/components/SilenceViiokoPrototype.vue'))
+  ? defineAsyncComponent({
+      loader: () => import('@/pages/silence/components/SilenceViiokoPrototype.vue'),
+      loadingComponent: AppLoading,
+      delay: 200
+    })
   : null
 const route = useRoute()
 const { t } = useLocale()
@@ -86,6 +91,24 @@ const pageStyle = computed(() => ({
 const showViiokoPrototype = computed(
   () => Boolean(SilenceViiokoPrototype) && character.value?.id === 'salvance'
 )
+
+// Dynamic document.title
+let previousTitle = ''
+watch(
+  () => character.value?.name,
+  (name) => {
+    if (!previousTitle) previousTitle = document.title
+    if (name) {
+      document.title = `${name} | ${t(siteMeta.zhNameKey)}`
+    } else {
+      document.title = previousTitle
+    }
+  },
+  { immediate: true }
+)
+onUnmounted(() => {
+  if (previousTitle) document.title = previousTitle
+})
 const detailNavItems = computed(() => {
   const baseId = character.value?.id ?? 'silence-character'
 

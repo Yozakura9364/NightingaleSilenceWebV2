@@ -95,7 +95,7 @@ import type {
   GlamourRecentSnapshot,
   GlamourStain
 } from '@/lib/glamour/types'
-import type { GlamourTemplateLanguageOption } from '@/lib/glamour/templates'
+import type { GlamourTemplateLanguageOption } from '@/lib/glamour/templates/definitions'
 import NSGlamourRecentPanel from '@/pages/glamour/components/NSGlamourRecentPanel.vue'
 import NSGlamourTemplateEquipmentEditor from '@/pages/glamour/components/NSGlamourTemplateEquipmentEditor.vue'
 import type {

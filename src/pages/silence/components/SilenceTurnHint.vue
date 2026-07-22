@@ -142,4 +142,11 @@ const resolvedRightLabel = computed(() => props.rightLabel ?? props.label)
     width: 46px;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .silence-turn-hint {
+    opacity: 0.6;
+    transition: none;
+  }
+}
 </style>

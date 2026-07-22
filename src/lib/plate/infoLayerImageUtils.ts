@@ -26,7 +26,7 @@ export function shouldSmoothWhenScaledDown(
 }
 
 export function setInfoCanvasImageSmoothing(
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   enabled: boolean
 ) {
   context.imageSmoothingEnabled = enabled

@@ -47,6 +47,7 @@ import {
   normalizeGlamourConfigName
 } from '@/lib/glamour/recent'
 import type { GlamourRecentSnapshot } from '@/lib/glamour/types'
+import { useDialog } from '@/composables/useDialog'
 import { useLocale } from '@/stores/locale'
 
 const props = withDefaults(
@@ -73,9 +74,10 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useLocale()
+const dialog = useDialog()
 
-function saveConfig() {
-  const name = window.prompt(
+async function saveConfig() {
+  const name = await dialog.prompt(
     t(textKeys.nsglamourConfigNamePrompt),
     normalizeGlamourConfigName(props.defaultName)
   )

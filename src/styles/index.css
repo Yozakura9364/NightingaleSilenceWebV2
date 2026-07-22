@@ -5,4 +5,5 @@
 @import './base.css' layer(base);
 @import './components.css' layer(components);
 @import './components/top-nav.css' layer(components);
+@import './animations.css';
 @import './utilities.css' layer(utilities);
