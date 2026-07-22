@@ -3,40 +3,42 @@
     <RouterLink class="app-taskbar__start" :to="siteRoutes.home">
       <span class="app-taskbar__start-icon" :style="pixelIconStyle(pixelSparklesIcon)" aria-hidden="true"></span>
       <span>{{ t(textKeys.homeDream) }}</span>
-      <span class="app-taskbar__command" aria-hidden="true">HOME</span>
+      <span class="app-taskbar__command" aria-hidden="true">{{ t(textKeys.homeCommand) }}</span>
     </RouterLink>
 
-    <div class="app-taskbar__windows app-taskbar__windows--day">
-      <a
-        v-for="link in homeSocialLinks"
-        :key="link.id"
-        class="app-taskbar__window"
-        :href="link.href"
-        target="_blank"
-        rel="noopener noreferrer"
-        :aria-label="t(link.labelKey)"
-        :title="t(link.labelKey)"
-      >
-        <img class="app-taskbar__social-icon" :src="link.icon" alt="" aria-hidden="true">
-        <span>{{ t(link.labelKey) }}</span>
-      </a>
-    </div>
+    <div class="app-taskbar__scroll-region">
+      <div class="app-taskbar__windows app-taskbar__windows--day">
+        <a
+          v-for="link in homeSocialLinks"
+          :key="link.id"
+          class="app-taskbar__window"
+          :href="link.href"
+          target="_blank"
+          rel="noopener noreferrer"
+          :aria-label="t(link.labelKey)"
+          :title="t(link.labelKey)"
+        >
+          <img class="app-taskbar__social-icon" :src="link.icon" alt="" aria-hidden="true">
+          <span>{{ t(link.labelKey) }}</span>
+        </a>
+      </div>
 
-    <div class="app-taskbar__windows app-taskbar__windows--night">
-      <RouterLink
-        v-for="item in taskbarItems"
-        :key="item.id"
-        class="app-taskbar__window"
-        :class="{ 'app-taskbar__window--active': item.active }"
-        :aria-current="item.active ? 'page' : undefined"
-        :to="item.route"
-      >
-        <span class="app-taskbar__dot" aria-hidden="true"></span>
-        <span>{{ t(item.labelKey) }}</span>
-      </RouterLink>
-    </div>
+      <div class="app-taskbar__windows app-taskbar__windows--night">
+        <RouterLink
+          v-for="item in taskbarItems"
+          :key="item.id"
+          class="app-taskbar__window"
+          :class="{ 'app-taskbar__window--active': item.active }"
+          :aria-current="item.active ? 'page' : undefined"
+          :to="item.route"
+        >
+          <span class="app-taskbar__dot" aria-hidden="true"></span>
+          <span>{{ t(item.labelKey) }}</span>
+        </RouterLink>
+      </div>
 
-    <span class="app-taskbar__icp">测试备案号：12345号</span>
+      <span class="app-taskbar__icp">{{ t(textKeys.homeIcpRecord) }}</span>
+    </div>
 
     <button
       type="button"
@@ -49,7 +51,7 @@
         <span class="app-taskbar__mode-icon app-taskbar__mode-icon--night" :style="modeIconStyle(moonIcon)"></span>
       </span>
       <span>{{ clockLabel }}</span>
-      <span class="app-taskbar__command" aria-hidden="true">TIME</span>
+      <span class="app-taskbar__command" aria-hidden="true">{{ t(textKeys.homeTimeCommand) }}</span>
     </button>
   </nav>
 </template>
@@ -191,6 +193,14 @@ function modeIconStyle(icon: string): CSSProperties {
 }
 
 /* ---- Windows area ---- */
+.app-taskbar__scroll-region {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
 .app-taskbar__windows {
   display: flex;
   flex: 1 1 auto;
@@ -322,7 +332,7 @@ function modeIconStyle(icon: string): CSSProperties {
     z-index: 30;
   }
 
-  .app-taskbar__windows {
+  .app-taskbar__scroll-region {
     display: flex;
     flex: 1 1 auto;
     min-width: 0;
@@ -335,13 +345,19 @@ function modeIconStyle(icon: string): CSSProperties {
     -webkit-overflow-scrolling: touch;
   }
 
-  .app-taskbar__windows::-webkit-scrollbar {
+  .app-taskbar__scroll-region::-webkit-scrollbar {
     display: none;
+  }
+
+  .app-taskbar__windows {
+    flex: 0 0 auto;
+    overflow: visible;
   }
 
   :root:not([data-theme='night']) .app-taskbar__windows--day,
   :root[data-theme='night'] .app-taskbar__windows--night {
     display: flex;
+    flex: 0 0 auto;
   }
 
   :root:not([data-theme='night']) .app-taskbar__windows--night,
@@ -351,6 +367,10 @@ function modeIconStyle(icon: string): CSSProperties {
 
   .app-taskbar__window {
     flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .app-taskbar__icp {
     scroll-snap-align: start;
   }
 

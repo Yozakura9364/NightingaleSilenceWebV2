@@ -32,6 +32,7 @@ export const coreTextKeys = {
   toolbar: 'common.toolbar',
   tabs: 'common.tabs',
   primaryNavigation: 'common.primaryNavigation',
+  skipToMainContent: 'common.skipToMainContent',
   siteZhName: 'site.name.zh',
   siteEnName: 'site.name.en',
   siteTitle: 'site.title',

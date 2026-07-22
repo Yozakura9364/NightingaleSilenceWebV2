@@ -102,8 +102,6 @@ function toggleConfig() {
   closeConfig()
 }
 
-const configTriggerRef = ref<HTMLButtonElement | null>(null)
-
 function handleDocumentPointerDown(event: PointerEvent) {
   if (!configOpen.value) {
     return

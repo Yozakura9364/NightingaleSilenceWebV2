@@ -90,6 +90,12 @@ export const coreUiMessages: UiMessageMap = {
     ja: 'メインナビゲーション',
     ko: '기본 탐색'
   }),
+  'common.skipToMainContent': msg({
+    zh: '跳到主要内容',
+    en: 'Skip to main content',
+    ja: 'メインコンテンツへ移動',
+    ko: '본문으로 건너뛰기'
+  }),
   'site.name.zh': same('夜莺不语'),
   'site.name.en': same('Nightingale Silence'),
   'site.title': same('夜莺不语 / Nightingale Silence'),

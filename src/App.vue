@@ -1,6 +1,6 @@
 <template>
   <a href="#main-content" class="app-skip-link ns-sr-only ns-sr-only--focusable">
-    跳到主要内容
+    {{ t(textKeys.skipToMainContent) }}
   </a>
   <AppTopNav v-if="!isArmoireLocalApp" />
   <div id="main-content">
@@ -18,11 +18,12 @@ import AppTopNav from '@/components/AppTopNav.vue'
 import AppTaskbar from '@/components/AppTaskbar.vue'
 import AppDialog from '@/components/AppDialog.vue'
 import { isArmoireLocalApp } from '@/config/features'
+import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'
 import { useDialog } from '@/composables/useDialog'
 
-const { initLocale } = useLocale()
+const { initLocale, t } = useLocale()
 const { initThemeMode, setThemeMode } = useTheme()
 const dialog = useDialog()
 

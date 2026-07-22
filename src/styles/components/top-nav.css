@@ -74,8 +74,8 @@
 }
 
 .app-top-nav__config-button {
-  width: var(--ns-top-nav-control-width);
-  justify-content: space-between;
+  width: auto;
+  justify-content: center;
 }
 
 .app-top-nav__brand:hover,
@@ -93,8 +93,7 @@
   box-shadow: var(--ns-pixel-soft-shadow);
 }
 
-.app-top-nav__brand-command,
-.app-top-nav__config-command {
+.app-top-nav__brand-command {
   padding: 3px 5px;
   border-left: 1px solid var(--ns-pixel-divider);
   color: var(--ns-color-text-muted);

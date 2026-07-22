@@ -10,6 +10,8 @@ export const homeTextKeys = {
   homeDesktopCommand: 'home.desktop.command',
   homeDesktopLinks: 'home.desktop.links',
   homeDesktopClock: 'home.desktop.clock',
+  homeIcpRecord: 'home.icpRecord',
+  homeTimeCommand: 'home.timeCommand',
   homeAvatarYoine: 'home.avatar.yoine',
   homeAvatarYoin: 'home.avatar.yoin',
   homeArchiveWindow: 'home.archive.window',
