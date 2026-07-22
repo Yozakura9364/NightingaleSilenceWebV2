@@ -217,12 +217,6 @@ function onFfxivFocusIn() {
   ffxivOpen.value = true
 }
 
-function onFfxivFocusOut(e: FocusEvent) {
-  const currentTarget = e.currentTarget as HTMLElement | null
-  const related = e.relatedTarget as Node | null
-  if (currentTarget && related && currentTarget.contains(related)) return
-}
-
 // --- Silence dropdown ---
 function openSilenceDropdown() {
   ffxivOpen.value = false
@@ -247,12 +241,6 @@ function onSilenceFocusIn() {
   ffxivOpen.value = false
   cancelClose(silenceTimer)
   silenceOpen.value = true
-}
-
-function onSilenceFocusOut(e: FocusEvent) {
-  const currentTarget = e.currentTarget as HTMLElement | null
-  const related = e.relatedTarget as Node | null
-  if (currentTarget && related && currentTarget.contains(related)) return
 }
 
 function isRouteUnder(baseRoute: string): boolean {

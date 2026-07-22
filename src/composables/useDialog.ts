@@ -1,4 +1,4 @@
-import { reactive, ref, type Ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 export type DialogMode = 'alert' | 'confirm' | 'prompt'
 
@@ -40,7 +40,7 @@ export function useDialog() {
       state.title = title ?? defaultTitle.value
       state.message = message
       state.value = ''
-      state.resolve = resolve as (value: string | boolean | null) => void
+      state.resolve = () => resolve(null)
       state.visible = true
     })
   }
@@ -51,7 +51,7 @@ export function useDialog() {
       state.title = title ?? defaultTitle.value
       state.message = message
       state.value = ''
-      state.resolve = resolve as (value: string | boolean | null) => void
+      state.resolve = (value) => resolve(value === true)
       state.visible = true
     })
   }
@@ -62,7 +62,7 @@ export function useDialog() {
       state.title = title ?? defaultTitle.value
       state.message = message
       state.value = defaultValue ?? ''
-      state.resolve = resolve
+      state.resolve = (value) => resolve(typeof value === 'string' ? value : null)
       state.visible = true
     })
   }

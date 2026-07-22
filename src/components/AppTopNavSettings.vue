@@ -9,9 +9,6 @@
       @keydown.esc="emit('close')"
     >
       <span>{{ t(textKeys.config) }}</span>
-      <span class="app-top-nav__config-command" aria-hidden="true">
-        {{ t(textKeys.configCommand) }}
-      </span>
     </button>
 
     <Transition name="panel">

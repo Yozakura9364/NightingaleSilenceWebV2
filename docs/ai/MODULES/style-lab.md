@@ -75,7 +75,7 @@ verify: "确认不进入公开导航且实验样式不污染正式页面。"
 
 - 当前试用字体：Fusion Pixel Font / 缝合像素字体。
 - 来源仓库：`https://github.com/TakWolf/fusion-pixel-font`。
-- 当前接入文件：`public/vendor/fonts/fusion-pixel-font/fusion-pixel-12px-proportional-zh_hans.otf.woff2`。
+- 当前接入文件：简中使用 `public/vendor/fonts/fusion-pixel-font/fusion-pixel-12px-proportional-zh_hans.otf.woff2`，韩文补充使用同目录的 `fusion-pixel-12px-proportional-ko.otf.woff2`。
 - 当前选择：`12px`、比例模式、`zh_hans` 语言特定字形、OTF WOFF2 构建。
 - 当前文件体积约 713KB，明显大于 Ark Pixel Font 的小字库版本，但更适合中文 UI 预览。
 - 授权：字体使用 SIL Open Font License 1.1；许可证文件保留在 `public/vendor/fonts/fusion-pixel-font/OFL.txt`。

@@ -367,7 +367,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
+import { computed, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
 import { RouterLink } from 'vue-router'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
@@ -389,7 +389,7 @@ import { useHomeStatusPanel, type NightFragmentStabilityConfig } from './composa
 loadMessages(homeUiMessages)
 
 const { t } = useLocale()
-const { current: themeMode, setThemeMode } = useTheme()
+const { current: themeMode } = useTheme()
 const isHomeCharacterArtPreview = import.meta.env.DEV
 const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE
 const desktopEl = ref<HTMLElement | null>(null)
@@ -539,8 +539,6 @@ const homeNightArtStyle = computed(
         : 'none'
     }) as CSSProperties
 )
-const homeClockLabel = computed(() => (themeMode.value === 'night' ? '00:29' : '06:29'))
-
 // ---- Static data ----
 const nightAvatarCards = [
   {
@@ -1129,6 +1127,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 7px;
   overflow: hidden;
+  font-family: var(--ns-font-decorative);
 }
 
 .home-window__title span:last-child {
@@ -1441,7 +1440,6 @@ button.home-window__control:focus-visible {
 .home-avatar-card__name {
   align-self: end;
   color: var(--home-ink);
-  font-family: var(--ns-font-sans);
   font-size: 13px;
   line-height: 1;
 }
@@ -1713,7 +1711,7 @@ button.home-window__control:focus-visible {
   grid-row: 1;
   align-self: end;
   color: var(--home-pink);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-decorative);
   font-size: 13px;
   line-height: 1;
 }
@@ -1773,7 +1771,7 @@ button.home-window__control:focus-visible {
   grid-column: 2 / -1;
   align-self: end;
   color: var(--home-pink);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-decorative);
   font-size: 13px;
   line-height: 1;
 }

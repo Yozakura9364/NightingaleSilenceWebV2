@@ -20,6 +20,8 @@ export const homeUiMessages: UiMessageMap = {
   'home.desktop.command': same('NIGHTINGALE.EXE'),
   'home.desktop.links': msg({ zh: '站外链接', en: 'Links', ja: '外部リンク', ko: '외부 링크' }),
   'home.desktop.clock': msg({ zh: '白昼 / 夜色', en: 'Day / Night', ja: '昼 / 夜', ko: '낮 / 밤' }),
+  'home.icpRecord': same('鄂ICP备2026019415号'),
+  'home.timeCommand': same('TIME'),
   'home.avatar.yoine': same('yoine'),
   'home.avatar.yoin': same('yoin'),
   'home.archive.window': msg({ zh: '状态', en: 'Status', ja: '状態', ko: '상태' }),
@@ -105,12 +107,22 @@ export const homeUiMessages: UiMessageMap = {
   'home.night.existenceStability': msg({ zh: '存在稳定度', en: 'Existence stability', ja: '存在安定度', ko: '존재 안정도' }),
   'home.night.mentalStability': msg({ zh: '精神稳定度', en: 'Mental stability', ja: '精神安定度', ko: '정신 안정도' }),
   'home.night.worldStability': msg({ zh: '世界稳定度', en: 'World stability', ja: '世界安定度', ko: '세계 안정도' }),
-  'home.night.fragment.qianzao': same('千早'),
-  'home.night.fragment.nightingale': same('南丁格尔'),
-  'home.night.fragment.naiyi': same('奈伊'),
-  'home.night.fragment.gelin': same('歌林'),
-  'home.night.fragment.geliya': same('歌莉亚'),
-  'home.night.fragment.shalewan': same('沙乐万'),
+  'home.night.fragment.qianzao': msg({ zh: '千早', en: 'Chihaya', ja: 'チハヤ', ko: '치하야' }),
+  'home.night.fragment.nightingale': msg({
+    zh: '南丁格尔',
+    en: 'Nightingale',
+    ja: 'ナイチンゲール',
+    ko: '나이팅게일'
+  }),
+  'home.night.fragment.naiyi': msg({ zh: '奈伊', en: 'Ney', ja: 'ネイ', ko: '네이' }),
+  'home.night.fragment.gelin': msg({ zh: '歌林', en: 'Glakja', ja: 'グラクッヤー', ko: '글라크야' }),
+  'home.night.fragment.geliya': msg({ zh: '歌莉亚', en: 'Gurakina', ja: 'グラキーナー', ko: '구라키나' }),
+  'home.night.fragment.shalewan': msg({
+    zh: '沙乐万',
+    en: 'Salvance',
+    ja: 'サラヴァンス',
+    ko: '살반스'
+  }),
   'home.social.title': msg({
     zh: '站外链接',
     en: 'Links',
