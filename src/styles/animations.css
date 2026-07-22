@@ -34,7 +34,6 @@
   }
 }
 
-/* Entrance: horizontal slide */
 @keyframes ns-slide-in-left {
   from {
     opacity: 0;
@@ -57,7 +56,6 @@
   }
 }
 
-/* Interaction: pixel-art style pop */
 @keyframes ns-pixel-pop {
   0% {
     transform: scale(1);
@@ -73,7 +71,6 @@
   }
 }
 
-/* Decorative: floating hover */
 @keyframes ns-float {
   0%,
   100% {
@@ -84,7 +81,6 @@
   }
 }
 
-/* Status: breathing glow */
 @keyframes ns-pulse-glow {
   0%,
   100% {
@@ -97,125 +93,101 @@
   }
 }
 
-/* ── Animation utility classes ── */
-
-/*
- * .ns-animate — element starts invisible with animation paused at first frame.
- * .ns-animate-visible — resumes animation to play forward.
+/* ── Animation utility classes ──
  *
- * This way the animation doesn't "finish early" before the scroll trigger fires.
+ * IMPORTANT: Use !important to override Vue scoped CSS attribute selectors.
+ * Scoped styles add [data-v-xxx] which otherwise wins over global class selectors,
+ * causing animation-name to resolve to "none".
  */
+
+/* Paused until .ns-animate-visible is applied */
 .ns-animate {
-  animation-fill-mode: both;
-  animation-play-state: paused;
+  animation-play-state: paused !important;
+  animation-fill-mode: both !important;
 }
 
 .ns-animate-visible {
-  animation-play-state: running;
+  animation-play-state: running !important;
 }
 
-/* Named animation presets */
+/* Named presets — !important ensures they work inside scoped components */
 .ns-animate--fade-in-up {
-  animation-name: ns-fade-in-up;
-  animation-duration: var(--ns-animation, 420ms);
-  animation-timing-function: var(--ns-animation-ease, ease);
+  animation-name: ns-fade-in-up !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
 }
 
 .ns-animate--fade-in-down {
-  animation-name: ns-fade-in-down;
-  animation-duration: var(--ns-animation, 420ms);
-  animation-timing-function: var(--ns-animation-ease, ease);
+  animation-name: ns-fade-in-down !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
 }
 
 .ns-animate--fade-in-scale {
-  animation-name: ns-fade-in-scale;
-  animation-duration: var(--ns-animation, 420ms);
-  animation-timing-function: var(--ns-animation-ease, ease);
+  animation-name: ns-fade-in-scale !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
 }
 
 .ns-animate--slide-in-left {
-  animation-name: ns-slide-in-left;
-  animation-duration: var(--ns-animation, 420ms);
-  animation-timing-function: var(--ns-animation-ease, ease);
+  animation-name: ns-slide-in-left !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
 }
 
 .ns-animate--slide-in-right {
-  animation-name: ns-slide-in-right;
-  animation-duration: var(--ns-animation, 420ms);
-  animation-timing-function: var(--ns-animation-ease, ease);
+  animation-name: ns-slide-in-right !important;
+  animation-duration: var(--ns-animation, 420ms) !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
 }
 
 /* Duration presets */
 .ns-animate--fast {
   --ns-animation: 260ms;
 }
-
 .ns-animate--normal {
   --ns-animation: 420ms;
 }
-
 .ns-animate--slow {
   --ns-animation: 680ms;
 }
 
-/* Stagger: children fade in sequence (up to 12) — also paused until .ns-animate-visible */
+/* Stagger */
 .ns-stagger > * {
-  animation-name: ns-fade-in-up;
-  animation-duration: var(--ns-animation, 420ms);
-  animation-timing-function: var(--ns-animation-ease, ease);
-  animation-fill-mode: both;
-  animation-play-state: paused;
+  animation-name: ns-fade-in-up !important;
+  animation-duration: 420ms !important;
+  animation-timing-function: var(--ns-animation-ease, ease) !important;
+  animation-fill-mode: both !important;
+  animation-play-state: paused !important;
 }
 
 .ns-stagger.ns-animate-visible > * {
-  animation-play-state: running;
+  animation-play-state: running !important;
 }
 
-.ns-stagger > *:nth-child(1) {
-  animation-delay: 40ms;
-}
-.ns-stagger > *:nth-child(2) {
-  animation-delay: 80ms;
-}
-.ns-stagger > *:nth-child(3) {
-  animation-delay: 120ms;
-}
-.ns-stagger > *:nth-child(4) {
-  animation-delay: 160ms;
-}
-.ns-stagger > *:nth-child(5) {
-  animation-delay: 200ms;
-}
-.ns-stagger > *:nth-child(6) {
-  animation-delay: 240ms;
-}
-.ns-stagger > *:nth-child(7) {
-  animation-delay: 280ms;
-}
-.ns-stagger > *:nth-child(8) {
-  animation-delay: 320ms;
-}
-.ns-stagger > *:nth-child(9) {
-  animation-delay: 360ms;
-}
-.ns-stagger > *:nth-child(10) {
-  animation-delay: 400ms;
-}
-.ns-stagger > *:nth-child(11) {
-  animation-delay: 440ms;
-}
-.ns-stagger > *:nth-child(12) {
-  animation-delay: 480ms;
-}
+.ns-stagger > *:nth-child(1)  { animation-delay: 40ms !important; }
+.ns-stagger > *:nth-child(2)  { animation-delay: 80ms !important; }
+.ns-stagger > *:nth-child(3)  { animation-delay: 120ms !important; }
+.ns-stagger > *:nth-child(4)  { animation-delay: 160ms !important; }
+.ns-stagger > *:nth-child(5)  { animation-delay: 200ms !important; }
+.ns-stagger > *:nth-child(6)  { animation-delay: 240ms !important; }
+.ns-stagger > *:nth-child(7)  { animation-delay: 280ms !important; }
+.ns-stagger > *:nth-child(8)  { animation-delay: 320ms !important; }
+.ns-stagger > *:nth-child(9)  { animation-delay: 360ms !important; }
+.ns-stagger > *:nth-child(10) { animation-delay: 400ms !important; }
+.ns-stagger > *:nth-child(11) { animation-delay: 440ms !important; }
+.ns-stagger > *:nth-child(12) { animation-delay: 480ms !important; }
 
-/* Reduce motion: disable all animations */
+/* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
   .ns-animate,
   .ns-animate > *,
   .ns-animate-visible,
   .ns-stagger > * {
-    opacity: 1;
-    animation: none !important;
+    opacity: 1 !important;
+    animation-name: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
     transition: none !important;
     pointer-events: auto;
   }

@@ -5,9 +5,7 @@
   <AppTopNav v-if="!isArmoireLocalApp" />
   <div id="main-content">
     <router-view v-slot="{ Component }">
-      <Transition name="page" mode="out-in">
-        <component :is="Component" />
-      </Transition>
+      <component :is="Component" />
     </router-view>
   </div>
   <AppTaskbar v-if="!isArmoireLocalApp" />
@@ -81,7 +79,7 @@ initThemeMode()
   padding-bottom: 0;
 }
 
-/* Page route transitions */
+/* Page route transitions — removed */
 .app-skip-link {
   position: absolute;
   top: -100%;
@@ -96,32 +94,6 @@ initThemeMode()
 }
 .app-skip-link:focus {
   top: 8px;
-}
-
-.page-enter-active,
-.page-enter-active,
-.page-leave-active {
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-.page-enter-from {
-  opacity: 0;
-  transform: translateY(6px);
-}
-.page-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-enter-active,
-  .page-leave-active {
-    transition: none;
-  }
-  .page-enter-from,
-  .page-leave-to {
-    opacity: 1;
-    transform: none;
-  }
 }
 
 /* Adjust full-viewport pages for nav (56px) + bottom taskbar (46px) */
