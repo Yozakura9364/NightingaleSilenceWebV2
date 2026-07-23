@@ -23,14 +23,14 @@ verify: "对照模块状态、路由、API 契约和真实回归结果。"
 | `NSHome` | `#/` 首页 | 迁入为个人站视觉入口，旧目录可暂时保留备份 |
 | V2 新增 | `#/ffxiv` FFXIV 分类导航页 | 只做工具导航，不承接旧项目业务逻辑 |
 | 旧 `NSPortable` / V2 `NSPlate` | `#/ffxiv/plate` 铭牌编辑器 | V2 默认静态 manifest + COS/CDN；旧 Node.js 后端端口 `3456` 仅作 legacy/dev fallback、manifest 生成源和旧导出接口参考 |
-| `NSGlamour` | `#/ffxiv/glamour` 幻化工具 | 旧 Flask 后端先继续独立运行，端口 `8765`，同时作为新后端契约参考 |
+| `NSGlamour` | `#/ffxiv/glamour` 幻化工具 | V2 自有 Flask API 位于 `server/glamour/`，端口 `8766`；旧 `8765` 仅保留为并行回滚和契约参考 |
 
 ## 总体顺序
 
 当前收口状态：
 
 - `NSPlate` 核心工作台已迁入，默认数据源已切到静态 manifest + COS/CDN；旧服务仅保留为 legacy/dev fallback、生成源和回归参考。
-- `NSGlamour` EquipInfo/Template 双工作台、共享草稿、六套 Canvas 模板、图片裁剪/暂存和 PNG 导出已迁入；当前重点是旧项目等价回归、生产后端边界和后续后端演进。
+- `NSGlamour` 前端与 API 已迁入 V2；映射、解析、EC/石之家 Reader 客户端、图标代理和测试由 `server/glamour/` 持有。当前只剩生产切流与旧 `8765` 回滚观察。
 - 物品卡片和时尚品鉴已经成为独立公开工具；`NSArmoire` 公网页与 Helper 内嵌本地工作台已经分离。
 - `Silence` 已有入口、分组和角色详情代码，但资料尚未填写完成，暂不纳入当前公开上线范围。
 
@@ -226,21 +226,21 @@ NSHome 完成后，由用户决定先迁移：
 
 ### 阶段 3B：NSGlamour 迁移
 
-状态：前端核心工作流已完成迁入，当前进入等价回归和生产边界收口。以下目标作为已完成范围和后续回归依据保留。
+状态：前端核心工作流和 Flask API 已完成迁入，`8765`/`8766` 并行对比通过，当前进入生产切流和回滚观察。
 
 目标：
 
 - 先抽取旧项目 API、装备解析、染剂规则、模板渲染和导入行为契约。
 - 将旧项目模板渲染器或等价新实现迁入 `src/lib/glamour/`。
 - 将 `/template` 和 `/equipinfo` 的核心交互拆到 `src/pages/glamour/`。
-- 使用 `/api/glamour` 接入旧 Flask 后端。
+- 使用 `/api/glamour` 接入 V2 自有 Flask API，并保持旧字段契约。
 - 保持装备、染剂、模板、导入、导出规则兼容。
 
 边界：
 
-- 初期旧 Flask 后端继续可用；最终后端可以按新规则重写，但必须先通过契约和回归验证。
+- 旧 Flask `8765` 在生产切流后继续保留一段时间，只作回滚，不再作为 V2 运行依赖。
 - 不改变本地角色配置解析、装备映射和染剂规则的 API 字段。
-- 不删除旧 `NSGlamour` 的 Jinja 页面，直到 V2 形成等价工作流。
+- 旧 `NSGlamour` 目录和 `8765` 在明确完成生产观察前不删除。
 
 验证：
 

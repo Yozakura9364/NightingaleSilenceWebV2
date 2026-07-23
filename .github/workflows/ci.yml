@@ -22,8 +22,19 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Install NSGlamour API dependencies
+        run: python -m pip install -r server/glamour/requirements.txt
+
+      - name: Test NSGlamour API
+        run: npm run test:glamour-api
 
       - name: Check
         run: npm run check

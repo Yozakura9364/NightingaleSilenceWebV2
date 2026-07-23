@@ -20,7 +20,7 @@ verify: "分别检查公网构建、本地构建、helper 状态和代表性 sna
 - 计划工具名：`衣柜管家`。
 - 计划形态：`NSArmoireButler` WPF/WebView2 桌面工具；公网 V2 不承载完整工作台。
 - 后续可选形态：独立卫月 / Dalamud 插件项目。该项目暂不放入 V2 仓库，真正启动前必须先阅读官方 Dalamud 开发者指南并单独规划。
-- 当前 V2 后端状态：V2 自身没有后端，现阶段通过 Vite proxy 接旧 `NSGlamour`、`NSPlate` 服务和本机 `NSArmoire` helper。
+- 当前 V2 服务状态：NSGlamour Flask API 已由本仓库 `server/glamour/` 提供；NSPlate 默认使用静态数据，旧服务只作显式 fallback；NSArmoire 完整工作台继续连接本机 helper。
 - 当前本地助手正式项目：仓库同级 `../NSArmoireButler`；V2 内 `tools/nsarmoire-helper` 只作为历史内置副本/开发参考。
 - 当前本地助手分发口径：公开页面跳转到 `NSArmoireButler` 仓库 GitHub Releases 最新页，由用户下载 zip；页面不直链 `.exe` 或 `.zip`。
 - 2026-07-16 完整工作台已改为 Helper 内嵌：`NSArmoireButler` 使用 WPF + WebView2 显示 V2 的 `armoire-local` 构建，Vue 页面、catalog 和 API 全部由 `127.0.0.1:8015` 同源提供，不再启动外部浏览器。公网生产构建会排除所有 `data/armoire-*`，但保留轻量教程下载页。

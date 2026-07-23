@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { basename, resolve } from 'node:path'
 import { TextEncoder } from 'node:util'
 
-const DEFAULT_BASE_URL = 'http://127.0.0.1:8765/api'
+const DEFAULT_BASE_URL = 'http://127.0.0.1:8766/api'
 const DEFAULT_TIMEOUT_MS = 15000
 const REQUIRED_STAIN_COUNT = 100
 const BODY_SLOT = 'Body'
@@ -15,7 +15,7 @@ const TEMPLATE_SOURCE_FILES = [
   'src/lib/glamour/templates/settings.ts',
   'src/lib/glamour/templates/rows.ts',
   'src/lib/glamour/templates/renderData.ts',
-  'src/lib/glamour/templates/renderer.ts',
+  'src/lib/glamour/templates/renderer/index.ts',
   'src/lib/glamour/templates/assets.ts',
   'src/pages/glamour/composables/useGlamourDraft.ts',
   'src/pages/glamour/composables/useGlamourTemplateWorkspace.ts',
@@ -46,6 +46,18 @@ const TEMPLATE_SOURCE_FILES = [
   'src/pages/glamour/components/NSGlamourTemplateSelectorDialog.vue',
   'src/pages/glamour/components/NSGlamourTemplateImportDialog.vue',
   'src/locales/modules/glamour.ts'
+]
+const TEMPLATE_RENDERER_SOURCE_FILES = [
+  'src/lib/glamour/templates/renderer/canvas.ts',
+  'src/lib/glamour/templates/renderer/layouts.ts',
+  'src/lib/glamour/templates/renderer/render-double-pic.ts',
+  'src/lib/glamour/templates/renderer/render-ec.ts',
+  'src/lib/glamour/templates/renderer/render-eorzea.ts',
+  'src/lib/glamour/templates/renderer/render-horizontal.ts',
+  'src/lib/glamour/templates/renderer/render-risingstones.ts',
+  'src/lib/glamour/templates/renderer/render-silence.ts',
+  'src/lib/glamour/templates/renderer/types.ts',
+  'src/lib/glamour/templates/renderer/utils.ts'
 ]
 const LEGACY_TEMPLATE_DEFINITIONS_FILE = resolve('..', 'NSGlamour', 'static', 'template-definitions.js')
 const LEGACY_TEMPLATE_RENDERERS_FILE = resolve('..', 'NSGlamour', 'static', 'template-renderers.js')
@@ -319,7 +331,7 @@ async function checkLocalTemplateDataLayer() {
     settings,
     rows,
     renderData,
-    renderer,
+    rendererIndex,
     assets,
     draftComposable,
     templateComposable,
@@ -363,6 +375,12 @@ async function checkLocalTemplateDataLayer() {
       (filePath) => readFile(filePath, 'utf8')
     )
   )
+  const renderer = [
+    rendererIndex,
+    ...(await Promise.all(
+      TEMPLATE_RENDERER_SOURCE_FILES.map((filePath) => readFile(resolve(filePath), 'utf8'))
+    ))
+  ].join('\n')
 
   const templateEditorSource = [
     templateWorkspace,
@@ -582,7 +600,7 @@ async function checkLocalTemplateDataLayer() {
       renderer.includes('layout.inkCenter') &&
       renderer.includes('getTextInkCenterBaseline(ctx, text, centerY)') &&
       renderer.includes('RISINGSTONES_TEMPLATE.copyright.lines') &&
-      renderer.includes('© 2010-${TEMPLATE_COPYRIGHT_END_YEAR} SQUARE ENIX CO., LTD. All Rights Reserved.') &&
+      renderer.includes('© 2010-${Math.max(2026, new Date().getFullYear())} SQUARE ENIX CO., LTD. All Rights Reserved.') &&
       renderer.includes("options.renderData.template.renderMode === 'ec'") &&
       renderer.includes('renderEcTemplateCanvas') &&
       renderer.includes('EC_TEMPLATE_LAYOUTS') &&

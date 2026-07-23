@@ -112,7 +112,7 @@ src/pages/
 | `home/`      | 首页占位视觉已接入；首页有页面专属舞台，不作为全站公共组件默认外观。 |
 | `ffxiv/`     | FFXIV 分类页已接入，读取 `site.ts` 中的工具列表。                    |
 | `fashion-check/` | 时尚品鉴当前周方案、金牌物品和来源页面已接入。                   |
-| `glamour/`   | NSGlamour EquipInfo/Template 双工作台已接入：共享草稿、导入/编辑、六套 Canvas 模板、图片裁剪/暂存和 PNG 导出均在模块内维护；仍通过旧 Flask API 提供数据与导入契约。 |
+| `glamour/`   | NSGlamour EquipInfo/Template 双工作台已接入：共享草稿、导入/编辑、六套 Canvas 模板、图片裁剪/暂存和 PNG 导出均在模块内维护；数据与导入契约由本仓库 `server/glamour/` 的 Flask API 提供。 |
 | `item-card/` | 独立物品卡片导入、编辑和多种导出工作台已接入。                     |
 | `plate/`     | 铭牌工房核心工作台已接入，包含静态 manifest 数据源、Canvas 预览、信息层、配置传输和 PNG/JPG/分层 ZIP。 |
 | `armoire/`   | 公网教程/下载页和 `armoire-local` 完整工作台共存，通过构建模式隔离。 |

@@ -30,6 +30,8 @@ npm run check:release
 如果只验证 NSGlamour 的 V2 代理链路，先启动 Vite，再运行：
 
 ```bash
+python -m pip install -r server/glamour/requirements.txt
+npm run test:glamour-api
 NSGLAMOUR_CONTRACT_BASE_URL=http://127.0.0.1:5175/api/glamour npm run check:nsglamour-contract
 ```
 
@@ -56,14 +58,14 @@ dist/data/glamour/templates/
 生产环境必须让前端访问稳定的同源路径：
 
 ```text
-/api/glamour/* -> NSGlamour 旧 Flask 服务 /api/*
+/api/glamour/* -> V2 server/glamour Flask 服务 /api/*
 ```
 
 Nginx 示例：
 
 ```nginx
 location ^~ /api/glamour/ {
-    proxy_pass http://127.0.0.1:8765/api/;
+    proxy_pass http://127.0.0.1:8766/api/;
     proxy_http_version 1.1;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
@@ -72,7 +74,7 @@ location ^~ /api/glamour/ {
 }
 
 location = /api/glamour {
-    proxy_pass http://127.0.0.1:8765/api;
+    proxy_pass http://127.0.0.1:8766/api;
     proxy_http_version 1.1;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
@@ -153,7 +155,7 @@ NSGlamour 必测流程：
 
 ## 当前上线风险
 
-- NSGlamour 仍依赖旧 Flask 服务；前端上线不等于后端已重写。
+- 切换 Nginx 前先同时运行旧 `8765` 和新 `8766`，执行 `python server/glamour/tests/compare_api.py`；切换后暂不停止旧服务，以便快速回滚。
 - 石之家 / Eorzea Collection 外部导入依赖对方接口与页面稳定性。
 - 模板 Canvas 已迁入主要 renderer，但仍不是全部旧项目像素级精校完成状态；上线前应以当前视觉样本为准接受。
 - `npm run check:release` 当前应保持 `0 warning(s)`；如果再次出现本机端点、未确认占位文案或源素材泄漏提示，先收口后再上线。

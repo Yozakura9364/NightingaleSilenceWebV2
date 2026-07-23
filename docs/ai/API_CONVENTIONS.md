@@ -43,7 +43,7 @@ server: {
       rewrite: (path) => path.replace(/^\/api\/plate(?=\/|$)/, '/api')
     },
     '/api/glamour': {
-      target: 'http://localhost:8765',         // NSGlamour
+      target: 'http://localhost:8766',         // V2-owned NSGlamour API
       changeOrigin: true,
       rewrite: (path) => path.replace(/^\/api\/glamour(?=\/|$)/, '/api')
     },
@@ -63,7 +63,7 @@ server: {
 | 服务 | 端口 | 说明 |
 |------|------|------|
 | `NSPlate` | `3456` | 仅 legacy/dev fallback、manifest 生成源和旧接口参考 |
-| `NSGlamour` | `8765` | 幻化后端，本机项目长期使用该端口 |
+| `NSGlamour` | `8766` | V2 自有幻化 API；旧 `8765` 仅作迁移回滚 |
 | `NSArmoire helper` | `8015` | 衣柜清理大师本地助手，只监听 `127.0.0.1` |
 
 ## 已实现：fetch 封装
@@ -98,12 +98,12 @@ server: {
 
 | id | API base | health/check path | dev port |
 |----|----------|-------------------|----------|
-| `itemCard` | `/api/glamour` | `/health` | `8765` |
-| `glamour` | `/api/glamour` | `/health` | `8765` |
+| `itemCard` | `/api/glamour` | `/health` | `8766` |
+| `glamour` | `/api/glamour` | `/health` | `8766` |
 | `plate` | `/api/plate` | `/presets` | `3456`，仅 legacy/dev fallback |
 | `armoire` | `/api/armoire` | `/health` | `8015` |
 
-`NSGlamour` 旧后端有 `/api/health`，因此 V2 通过 `/api/glamour/health` 检查连通性。
+V2 自有 `NSGlamour` API 提供 `/api/health`，前端通过 `/api/glamour/health` 检查连通性。
 旧 `NSPortable` 后端没有 `/api/health`；如果显式启用 `VITE_NSPLATE_DATA_SOURCE=legacy-api`，可用 `/api/plate/presets` 作为轻量连通性检查。默认静态模式不使用这个检查。
 `NSArmoire` 的 `/api/armoire/health` 只用于 Vite 开发代理。正式完整工作台由 Helper GUI 内嵌，页面与 API 同源运行在 `http://127.0.0.1:8015`；公网 V2 只提供教程和 Release 下载入口，不连接用户本机 Helper。
 
@@ -118,7 +118,7 @@ server: {
 - NSPlate 默认数据源：读取 `/data/plate/presets.json`、`/data/plate/files.json`，图片素材使用 manifest 中的 COS/CDN base。
 - NSPlate legacy API：只有显式 `VITE_NSPLATE_DATA_SOURCE=legacy-api` 或旧导出 fallback 时使用 `/api/plate/...`；代理到旧后端时 rewrite 为 `/api/...`。
 - NSPlate legacy 图片素材：`/img/...`、`/img-preview/...` 只作为旧服务 fallback，不作为生产默认路径。
-- NSGlamour 业务 API：V2 前端使用 `/api/glamour/...`，代理到旧后端时 rewrite 为 `/api/...`。
+- NSGlamour 业务 API：V2 前端使用 `/api/glamour/...`，代理到 `server/glamour` 时 rewrite 为 `/api/...`。
 - NSArmoire helper API：Vite 开发期使用 `/api/armoire/...`，代理到本机 Helper 时去掉 `/api/armoire` 前缀；正式本地工作台由 Helper 在 `http://127.0.0.1:8015` 同源提供页面和 API；公网页面不连接 Helper。
 - 不在页面组件中硬编码 `localhost`、端口号或生产域名。
 - 生产环境中 NSPlate 的素材/预设默认由静态文件和 COS/CDN 提供；仍需要后端的模块由 Nginx 反向代理处理同名路径，并保持与开发代理一致的 rewrite 规则。

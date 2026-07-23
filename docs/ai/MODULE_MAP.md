@@ -49,7 +49,7 @@ verify: "逐项对照 router、site config 和实际文件。"
 | `#/`                            | `src/pages/home/HomePage.vue`                | 已接入昼夜像素桌面视觉入口                  |
 | `#/ffxiv`                       | `src/pages/ffxiv/FfxivIndexPage.vue`         | 已接入分类导航骨架                          |
 | `#/ffxiv/plate`                 | `src/pages/plate/NSPlatePage.vue`            | 已接入 NSPlate 核心工作台、静态 manifest、Canvas 预览和主要导入导出 |
-| `#/ffxiv/glamour`               | `src/pages/glamour/NSGlamourPage.vue`        | 已接入 EquipInfo/Template 双工作台、共享草稿、导入/编辑、多语言、六套 Canvas 模板、图片裁剪/暂存和 PNG 导出；仍通过 `/api/glamour/*` 复用旧 Flask 契约 |
+| `#/ffxiv/glamour`               | `src/pages/glamour/NSGlamourPage.vue`        | 已接入 EquipInfo/Template 双工作台与 V2 自有 Flask API；共享草稿、导入/编辑、多语言、六套 Canvas 模板和 PNG 导出均由本仓库维护 |
 | `#/ffxiv/armoire`               | `src/pages/armoire/NSArmoireLandingPage.vue` | 公网教程和 Release 下载页；`armoire-local` 构建才加载 `NSArmoirePage.vue` 完整工作台 |
 | `#/ffxiv/fashioncheck`          | `src/pages/fashion-check/FashionCheckPage.vue` | 已接入当前周方案、金牌物品、标签数据库和来源页面 |
 | `#/ffxiv/item-card`             | `src/pages/item-card/ItemCardPage.vue`       | 已接入旧 `/card` 的链接/文本导入、装备和染剂编辑、多语言单张 PNG、批量 ZIP 和连续列表长图 |
@@ -62,7 +62,7 @@ verify: "逐项对照 router、site config 和实际文件。"
 | `#/silence/angel/:characterId`  | `src/pages/silence/SilenceCharacterPage.vue` | 动态路由和资料骨架已接入；普通生产构建排除   |
 | `#/silence/glitch/:characterId` | `src/pages/silence/SilenceCharacterPage.vue` | 预留内部路由形态；普通生产构建排除           |
 
-> 注意：各页面成熟度不同。`NSPlate` 已进入核心工作台收口；`NSGlamour` 已完成当前前端双工作台迁移但仍依赖旧 Flask 服务与后续等价回归；Silence 等内容模块仍有资料未完成，不能用同一句“占位页”概括全部模块。
+> 注意：各页面成熟度不同。`NSPlate` 已进入核心工作台收口；`NSGlamour` 前端与 API 已迁入，旧服务仅作回滚；Silence 等内容模块仍有资料未完成，不能用同一句“占位页”概括全部模块。
 
 当前导航行为：
 
@@ -115,7 +115,7 @@ verify: "逐项对照 router、site config 和实际文件。"
 - **页面入口**：`src/pages/item-card/ItemCardPage.vue`
 - **当前状态**：已按恢复代码重建网页链接和装备文本导入、装备与染剂编辑、文字样式、多语言、简易/完整版、左右排版、单张 PNG、批量 ZIP 和连续列表长图；草稿自动保存，最近记录仅保留兼容数据。不包含人物图片、图片裁剪或幻化模板。
 - **隔离边界**：源码、文案和浏览器存储均由 `src/pages/item-card/` 私有维护；不移动或改写旧 `NSGlamour` 文件，也不让 V2 glamour 页面引用物品卡片私有组件。
-- **后端**：开发阶段仅复用 `/api/glamour/*` 接口契约和端口 `8765`。
+- **后端**：与 NSGlamour 共用 V2 `/api/glamour/*`，目标端口 `8766`。
 - **模块文档**：`docs/ai/MODULES/item-card.md`。
 
 ## 时尚品鉴（当前周作业与标签数据库已接入）
@@ -145,11 +145,11 @@ verify: "逐项对照 router、site config 和实际文件。"
 ## NSGlamour 幻化工具（EquipInfo/Template 双工作台已接入）
 
 - **计划路由**：`#/ffxiv/glamour`
-- **来源项目路径**：`NSGlamour`
-- **后端**：Python Flask，开发端口 `8765`
+- **来源项目路径**：旧 `NSGlamour` 仅作行为参考
+- **后端**：`server/glamour/`，Python Flask，开发端口 `8766`
 - **核心能力**：本地角色配置解析、装备/染剂映射、石之家与 Eorzea Collection 导入、模板 Canvas 渲染、图片裁剪、PNG 导出、装备文案生成。
 - **当前状态**：已接入统一工具页外壳、共享 `GlamourDraft`、网页链接/文字/隐式本地配置导入、固定 14 装备槽、候选替换、染剂编辑、语言切换、复制与最近记录；Template 已接入六套 Canvas 模板、图片裁剪、最近图片 IndexedDB 暂存、跨模板继承与原尺寸 PNG 导出。预览画布最长边限制为 `1920px`，导出仍按模板原始尺寸重绘。
-- **当前 API 检查**：通过 `npm run check:nsglamour-contract` 检查旧后端轻量契约；私有本地配置 fixture 仅本机 ignored 回归使用。页面通过 V2 `/api/glamour/*` 代理 rewrite 到旧后端 `/api/*`。
+- **当前 API 检查**：`npm run test:glamour-api` 检查后端纯逻辑与路由，`npm run check:nsglamour-contract` 通过 `/api/glamour/*` 检查前后端契约；`compare_api.py` 可在迁移期对比旧 `8765` 与新 `8766`。
 - **迁移目标**：
   - 旧项目行为先抽取为 API/数据/视觉契约，最终后端可按 V2 新规则重写。
   - 模板渲染器已进入 `src/lib/glamour/templates/`，后续保持 Vue 与纯渲染逻辑边界。

@@ -147,7 +147,7 @@ function toPosixPath(path) {
 
 async function pathExists(path) {
   try {
-    await access(join(ROOT, path), fsConstants.F_OK)
+    await access(path, fsConstants.F_OK)
     return true
   } catch {
     return false
