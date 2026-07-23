@@ -7,7 +7,8 @@ import {
 import type {
   GlamourCandidate,
   GlamourImportPayload,
-  GlamourStain
+  GlamourStain,
+  ItemCardCatalogCategory
 } from '@/pages/item-card/lib/types'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 
@@ -30,6 +31,14 @@ export interface SearchGlamourItemsOptions {
 
 export interface SearchGlamourItemsResponse {
   results?: GlamourCandidate[]
+}
+
+export interface SearchCatalogItemsOptions {
+  query: string
+  locale: string
+  category: ItemCardCatalogCategory
+  limit?: number
+  signal?: AbortSignal
 }
 
 export interface LoadGlamourStainsResponse {
@@ -83,6 +92,23 @@ export function useItemCardApi(boundary: ApiBoundary) {
         limit: options.limit ?? 20
       },
       cache: 'no-store'
+    })
+
+    return Array.isArray(data.results) ? data.results : []
+  }
+
+  async function searchCatalogItems(
+    options: SearchCatalogItemsOptions
+  ): Promise<GlamourCandidate[]> {
+    const data = await client.api<SearchGlamourItemsResponse>('/search-catalog-items', {
+      query: {
+        q: options.query,
+        locale: options.locale,
+        category: options.category,
+        limit: options.limit ?? 20
+      },
+      cache: 'no-store',
+      signal: options.signal
     })
 
     return Array.isArray(data.results) ? data.results : []
@@ -151,6 +177,7 @@ export function useItemCardApi(boundary: ApiBoundary) {
     parseText,
     parseChara,
     searchItems,
+    searchCatalogItems,
     resolveNumericItemText,
     loadStains
   }

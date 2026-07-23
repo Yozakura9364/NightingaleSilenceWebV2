@@ -310,6 +310,9 @@ function drawIcon(
 
 function dyeRows(request: ItemCardRenderRequest, locale: GlamourLocale): ItemCardDyeRow[] {
   const candidate = getSelectedCandidate(request.entry)
+  if (candidate?.item_kind === 'item') {
+    return []
+  }
   const count = getCandidateDyeCount(candidate, request.entry.slot)
   if (count <= 0) {
     const text =

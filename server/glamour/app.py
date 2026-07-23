@@ -3,6 +3,7 @@ import json
 import os
 import re
 import secrets
+import sqlite3
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -14,6 +15,7 @@ from flask import Flask, abort, jsonify, request, send_file
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 try:
+    from .item_catalog import ItemCatalog
     from .resolve_chara import (
         DEFAULT_DYE_LABELS,
         DEFAULT_LOCALE,
@@ -26,6 +28,7 @@ try:
         resolve_chara,
     )
 except ImportError:
+    from item_catalog import ItemCatalog
     from resolve_chara import (
         DEFAULT_DYE_LABELS,
         DEFAULT_LOCALE,
@@ -67,6 +70,9 @@ load_local_env_file(BASE_DIR / ".env.local")
 
 DATA_DIR = BASE_DIR / "data"
 MAPPING_PATH = DATA_DIR / "item_model_mapping.json"
+ITEM_CATALOG_PATH = Path(
+    os.environ.get("NSGLAMOUR_ITEM_CATALOG_PATH", str(DATA_DIR / "item_catalog.sqlite3"))
+)
 UI_LOCALIZATION_PATH = DATA_DIR / "ui-localization.json"
 ICON_BASE_URL = os.environ.get(
     "NSGLAMOUR_ICON_BASE_URL",
@@ -195,6 +201,28 @@ EC_SLOT_TO_NS_SLOT = {
     "FASHION ACCESSORY": "FashionAccessory",
     "FASHION ACCESSORIES": "FashionAccessory",
     "FASHION": "FashionAccessory",
+}
+
+ITEM_CARD_SLOT_BY_EQUIP_CATEGORY = {
+    1: "MainHand",
+    2: "OffHand",
+    3: "HeadGear",
+    4: "Body",
+    5: "Hands",
+    7: "Legs",
+    8: "Feet",
+    9: "Ears",
+    10: "Neck",
+    11: "Wrists",
+    12: "LeftRing",
+    13: "MainHand",
+    15: "Body",
+    16: "Body",
+    18: "Legs",
+    19: "Body",
+    20: "Body",
+    22: "Body",
+    23: "Body",
 }
 
 EC_LEGACY_CSS_SLOT_TO_NS_SLOT = {
@@ -351,6 +379,7 @@ _mapping_data: Optional[Dict[str, Any]] = None
 _mapping_mtime_ns: Optional[int] = None
 _equipinfo_name_index: Dict[str, Any] = {}
 _equipinfo_name_index_mtime_ns: Optional[int] = None
+_item_catalog = ItemCatalog(ITEM_CATALOG_PATH)
 class BasePathMiddleware:
     def __init__(self, wsgi_app, base_path: str):
         self.wsgi_app = wsgi_app
@@ -2063,7 +2092,15 @@ def search_score(record: Dict[str, Any], query: str, locale: str) -> int:
     return 5
 
 
+def get_item_card_slot(record: Dict[str, Any]) -> str:
+    explicit_slot = str(record.get("_item_card_slot", "") or "")
+    if explicit_slot:
+        return explicit_slot
+    return ITEM_CARD_SLOT_BY_EQUIP_CATEGORY.get(get_equip_slot_category(record), "")
+
+
 def serialize_search_record(record: Dict[str, Any], locale: str, key_label: str = "物品ID") -> Dict[str, Any]:
+    item_card_slot = get_item_card_slot(record)
     return {
         "key": record.get("key", 0),
         "key_label": record.get("key_label") or key_label,
@@ -2083,6 +2120,8 @@ def serialize_search_record(record: Dict[str, Any], locale: str, key_label: str 
         "dye_display": "",
         "dye_entries": [],
         "is_emperor": record.get("is_emperor", False),
+        "item_kind": "equipment" if item_card_slot else record.get("item_kind", "item"),
+        "item_card_slot": item_card_slot,
     }
 
 
@@ -2090,6 +2129,24 @@ def search_records(records: List[Dict[str, Any]], query: str, locale: str, limit
     matched = [record for record in records if record_matches_query(record, query, locale)]
     matched.sort(key=lambda record: (search_score(record, query, locale), localized_name(record, locale), int(record.get("key", 0))))
     return [serialize_search_record(record, locale) for record in matched[:limit]]
+
+
+def get_item_card_equipment_records(mapping: Dict[str, Any]) -> List[Dict[str, Any]]:
+    return [
+        *mapping.get("items", []),
+        *(
+            {**record, "_item_card_slot": "Glasses", "slot_label": RESOLVER_SLOT_LABELS.get("Glasses", "")}
+            for record in (mapping.get("glasses") or {}).values()
+        ),
+        *(
+            {
+                **record,
+                "_item_card_slot": "FashionAccessory",
+                "slot_label": RESOLVER_SLOT_LABELS.get("FashionAccessory", ""),
+            }
+            for record in (mapping.get("ornaments") or {}).values()
+        ),
+    ]
 
 
 @app.get("/api/stains")
@@ -2178,6 +2235,34 @@ def search_items():
         if item_matches_equipment_slot(item, slot)
     ]
     return jsonify({"slot": slot, "results": search_records(records, query, locale, limit)})
+
+
+@app.get("/api/search-catalog-items")
+def search_catalog_items():
+    query = request.args.get("q", "").strip()
+    locale = request.args.get("locale", "zh").strip() or "zh"
+    category = request.args.get("category", "all").strip().lower() or "all"
+    try:
+        limit = max(1, min(int(request.args.get("limit", "20")), 40))
+    except ValueError:
+        limit = 20
+
+    if not query:
+        return jsonify({"results": []})
+
+    if category not in {"all", "equipment", "other"}:
+        return jsonify({"error": "invalid item category"}), 400
+
+    if category == "equipment":
+        mapping = get_mapping()
+        records = get_item_card_equipment_records(mapping)
+        return jsonify({"results": search_records(records, query.casefold(), locale, limit)})
+
+    try:
+        results = _item_catalog.search(query, locale, limit, category=category)
+    except (OSError, sqlite3.Error, ValueError):
+        return jsonify({"error": "item catalog unavailable"}), 503
+    return jsonify({"results": results})
 
 
 @app.post("/api/parse-chara")

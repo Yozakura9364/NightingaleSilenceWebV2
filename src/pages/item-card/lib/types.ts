@@ -15,6 +15,7 @@ export type GlamourSlotKey =
   | 'FashionAccessory'
 
 export type GlamourLocale = string
+export type ItemCardCatalogCategory = 'equipment' | 'other'
 
 export type LocalizedTextMap = Record<string, string | undefined>
 
@@ -76,11 +77,14 @@ export interface GlamourCandidate {
   dye_display_by_locale?: LocalizedTextMap
   dye_entries?: GlamourDyeEntry[]
   is_emperor?: boolean
+  item_kind?: 'equipment' | 'item'
+  item_card_slot?: GlamourSlotKey
   [key: string]: unknown
 }
 
 export interface GlamourEquipmentEntry {
   slot: GlamourSlotKey | string
+  cardKind?: 'equipment' | 'item'
   cardRowId?: string
   cardDuplicate?: boolean
   slot_label?: string

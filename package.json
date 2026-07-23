@@ -9,6 +9,7 @@
     "dev:glamour-api": "python server/glamour/app.py",
     "test:glamour-api": "python server/glamour/tests/run_tests.py",
     "build:glamour-mapping": "python server/glamour/tools/build_item_mapping.py",
+    "build:glamour-item-catalog": "python server/glamour/tools/build_item_catalog.py",
     "build:armoire-local": "vue-tsc -b && vite build --mode armoire-local",
     "build:fashion-check-history": "node scripts/fashion-check/build-history.mjs",
     "check:fashion-check-history": "node scripts/fashion-check/check-history.mjs",

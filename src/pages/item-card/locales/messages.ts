@@ -4,10 +4,10 @@ import type { UiMessageMap } from '@/locales/types'
 export const itemCardUiMessages: UiMessageMap = {
   'itemCard.workspace.title': same('物品卡片'),
   'itemCard.panel.equipment': msg({
-    zh: '装备信息',
-    en: 'Equipment',
-    ja: '装備情報',
-    ko: '장비 정보'
+    zh: '卡片内容',
+    en: 'Card contents',
+    ja: 'カード内容',
+    ko: '카드 내용'
   }),
   'itemCard.panel.recent': msg({
     zh: '最近记录',
@@ -122,12 +122,6 @@ export const itemCardUiMessages: UiMessageMap = {
     ja: '染色の読み込み失敗',
     ko: '염료 읽기 실패'
   }),
-  'itemCard.equipment.search.placeholder': msg({
-    zh: '搜索装备名',
-    en: 'Search item name',
-    ja: '装備名を検索',
-    ko: '장비 이름 검색'
-  }),
   'itemCard.equipment.search.empty': msg({
     zh: '无搜索结果',
     en: 'No results',
@@ -140,18 +134,53 @@ export const itemCardUiMessages: UiMessageMap = {
     ja: '検索失敗',
     ko: '검색 실패'
   }),
-  'itemCard.equipment.addSameSlot': msg({
-    zh: '在下方添加同部位物品',
-    en: 'Add same-slot item below',
-    ja: '同じ部位を下に追加',
-    ko: '같은 부위 아이템을 아래에 추가'
+  'itemCard.catalog.itemType': msg({
+    zh: '物品',
+    en: 'Item',
+    ja: 'アイテム',
+    ko: '아이템',
+    fr: 'Objet',
+    de: 'Gegenstand'
   }),
-  'itemCard.equipment.add.symbol': same('+'),
-  'itemCard.equipment.delete': msg({
-    zh: '清空当前装备',
-    en: 'Clear item',
-    ja: '装備をクリア',
-    ko: '장비 비우기'
+  'itemCard.catalog.category.label': msg({
+    zh: '物品分类',
+    en: 'Item category',
+    ja: 'アイテム分類',
+    ko: '아이템 분류',
+    fr: 'Catégorie',
+    de: 'Kategorie'
+  }),
+  'itemCard.catalog.category.equipment': msg({
+    zh: '装备',
+    en: 'Gear',
+    ja: '装備',
+    ko: '장비',
+    fr: 'Équipement',
+    de: 'Ausrüstung'
+  }),
+  'itemCard.catalog.category.other': msg({
+    zh: '其他物品',
+    en: 'Other items',
+    ja: 'その他',
+    ko: '기타 아이템',
+    fr: 'Autres objets',
+    de: 'Andere Gegenstände'
+  }),
+  'itemCard.catalog.search.label': msg({
+    zh: '添加物品',
+    en: 'Add item',
+    ja: 'アイテムを追加',
+    ko: '아이템 추가',
+    fr: 'Ajouter un objet',
+    de: 'Gegenstand hinzufügen'
+  }),
+  'itemCard.catalog.search.placeholder': msg({
+    zh: '搜索物品名或物品ID',
+    en: 'Search item name or ID',
+    ja: 'アイテム名またはアイテムIDを検索',
+    ko: '아이템 이름 또는 아이템 ID 검색',
+    fr: 'Rechercher par nom ou ID',
+    de: 'Gegenstandsname oder ID suchen'
   }),
   'itemCard.equipment.removeRow': msg({
     zh: '删除这一行',

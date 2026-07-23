@@ -13,6 +13,7 @@ import type {
 } from '@/pages/item-card/lib/types'
 
 export const GLAMOUR_DEFAULT_LOCALE = 'zh'
+export const ITEM_CARD_GENERIC_SLOT = 'Item'
 
 export const GLAMOUR_SLOT_DEFINITIONS: GlamourSlotDefinition[] = [
   {
@@ -594,6 +595,10 @@ export function makeEmptyEquipmentEntry(
   }
 }
 
+export function isItemCardPlainItem(entry: GlamourEquipmentEntry | undefined): boolean {
+  return entry?.cardKind === 'item' || entry?.slot === ITEM_CARD_GENERIC_SLOT
+}
+
 function normalizeEquipmentEntry(value: unknown): GlamourEquipmentEntry | undefined {
   if (!isRecord(value) || typeof value.slot !== 'string') {
     return undefined
@@ -608,6 +613,8 @@ function normalizeEquipmentEntry(value: unknown): GlamourEquipmentEntry | undefi
   return {
     ...value,
     slot: value.slot,
+    cardKind:
+      value.cardKind === 'item' || value.slot === ITEM_CARD_GENERIC_SLOT ? 'item' : 'equipment',
     cardRowId: typeof value.cardRowId === 'string' ? value.cardRowId.trim() : undefined,
     cardDuplicate: value.cardDuplicate === true,
     slot_label: typeof value.slot_label === 'string' ? value.slot_label : undefined,
@@ -641,6 +648,8 @@ export function getVisibleEquipmentEntries(
 ): GlamourEquipmentEntry[] {
   const entriesBySlot = new Map<string, GlamourEquipmentEntry>()
   const duplicateEntriesBySlot = new Map<string, GlamourEquipmentEntry[]>()
+  const plainItemEntries: GlamourEquipmentEntry[] = []
+  const storedEntries: GlamourEquipmentEntry[] = []
   const storedRows =
     payload?._itemCardRowsVersion === 1 && Array.isArray(payload._cardRows)
       ? payload._cardRows
@@ -655,11 +664,60 @@ export function getVisibleEquipmentEntries(
   for (const rawEntry of rawEntries) {
     const entry = normalizeEquipmentEntry(rawEntry)
 
-    if (!entry || !knownSlots.has(entry.slot)) {
+    if (!entry) {
+      continue
+    }
+
+    if (isItemCardPlainItem(entry)) {
+      if (!preserveDuplicateRows || !getSelectedCandidate(entry)) {
+        continue
+      }
+      const preferredRowId = entry.cardRowId
+      const cardRowId =
+        preferredRowId && !usedRowIds.has(preferredRowId)
+          ? preferredRowId
+          : createItemCardRowId(ITEM_CARD_GENERIC_SLOT)
+      usedRowIds.add(cardRowId)
+      plainItemEntries.push({
+        ...entry,
+        slot: ITEM_CARD_GENERIC_SLOT,
+        cardKind: 'item',
+        cardRowId,
+        cardDuplicate: true,
+        __emptySlot: false
+      })
+      if (preserveDuplicateRows) {
+        storedEntries.push(plainItemEntries[plainItemEntries.length - 1])
+      }
+      continue
+    }
+
+    if (!knownSlots.has(entry.slot)) {
+      continue
+    }
+
+    if (!getSelectedCandidate(entry)) {
       continue
     }
 
     if (ignoreEmperor && getSelectedCandidate(entry)?.is_emperor === true) {
+      continue
+    }
+
+    if (preserveDuplicateRows) {
+      const preferredRowId = entry.cardRowId
+      const cardRowId =
+        preferredRowId && !usedRowIds.has(preferredRowId)
+          ? preferredRowId
+          : createItemCardRowId(entry.slot)
+      usedRowIds.add(cardRowId)
+      storedEntries.push({
+        ...entry,
+        cardKind: 'equipment',
+        cardRowId,
+        cardDuplicate: true,
+        __emptySlot: false
+      })
       continue
     }
 
@@ -692,15 +750,22 @@ export function getVisibleEquipmentEntries(
     }
   }
 
+  if (preserveDuplicateRows) {
+    return storedEntries
+  }
+
   if (mainHandBlocksOffHand(getSelectedCandidate(entriesBySlot.get('MainHand')))) {
     entriesBySlot.delete('OffHand')
     duplicateEntriesBySlot.delete('OffHand')
   }
 
-  return GLAMOUR_SLOT_DEFINITIONS.flatMap((slot) => [
-    entriesBySlot.get(slot.key) ?? makeEmptyEquipmentEntry(slot.key, payload),
-    ...(duplicateEntriesBySlot.get(slot.key) || [])
-  ])
+  return [
+    ...GLAMOUR_SLOT_DEFINITIONS.flatMap((slot) => [
+      ...(entriesBySlot.has(slot.key) ? [entriesBySlot.get(slot.key)!] : []),
+      ...(duplicateEntriesBySlot.get(slot.key) || [])
+    ]),
+    ...plainItemEntries
+  ]
 }
 
 let itemCardRowSequence = 0

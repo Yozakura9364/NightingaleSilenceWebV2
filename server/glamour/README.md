@@ -11,6 +11,14 @@ npm run dev:glamour-api
 
 默认监听 `127.0.0.1:8766`。`npm run dev` 会同时启动该服务和 `127.0.0.1:5175` 的 Vite。
 
+物品卡片的“其他物品”搜索依赖服务端 SQLite 索引。刷新 Item.csv 后运行：
+
+```powershell
+npm run build:glamour-item-catalog
+```
+
+索引包含 `zh/en/ja/ko/tc/fr/de` 名称、物品 ID、图标、品质和 `EquipSlotCategory`，只随 Flask 服务部署，不进入 Vite `dist/`。`/api/search-catalog-items` 通过 `category=equipment|other|all` 区分现有装备映射、非装备物品和兼容全目录；可以用重复的 `--item-csv locale=path` 参数覆盖某个语言的 Item.csv 来源。
+
 ## 测试
 
 ```powershell

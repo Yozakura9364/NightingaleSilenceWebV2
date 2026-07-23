@@ -5,15 +5,14 @@
       :api-base="boundary.apiBase"
       :busy="importing"
       :load-stains="api.loadStains"
-      :search-items="api.searchItems"
+      :search-catalog-items="api.searchCatalogItems"
       :status-message="statusMessage"
       :status-tone="statusTone"
       @clear-draft="clear"
       @import-link="importLink"
       @import-text="importText"
       @import-chara="importChara"
-      @add-entry-after="addEntryAfter"
-      @replace-entry="replaceEntry"
+      @add-catalog-item="addCatalogItem"
       @select-entry-candidate="selectEntryCandidate"
       @clear-entry="clearEntry"
       @set-entry-dye="setEntryDye"
@@ -55,8 +54,7 @@ const {
   acceptPayload,
   clearDraft,
   setLocale,
-  addEntryAfter,
-  replaceEntry,
+  addCatalogItem,
   selectEntryCandidate,
   clearEntry,
   setEntryDye,
