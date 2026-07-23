@@ -89,6 +89,9 @@ export default defineConfig(({ command, mode }) => {
       }
     },
     server: {
+      host: '127.0.0.1',
+      port: 5175,
+      strictPort: true,
       proxy: {
         '/api/plate': {
           target: 'http://localhost:3456',
@@ -108,7 +111,7 @@ export default defineConfig(({ command, mode }) => {
           rewrite: (path) => path.replace(/^\/api\/plate(?=\/|$)/, '/api')
         },
         '/api/glamour': {
-          target: 'http://localhost:8765',
+          target: 'http://localhost:8766',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/glamour(?=\/|$)/, '/api')
         },

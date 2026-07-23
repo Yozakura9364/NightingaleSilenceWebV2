@@ -72,7 +72,7 @@ src/
 ## 数据服务
 
 - NSPlate：静态数据源（COS/CDN），`/data/plate/*`
-- NSGlamour：V2 API `/api/glamour/*`，兼容旧 Flask 后端
+- NSGlamour：V2 自有 Flask API `/api/glamour/*`，本地端口 `8766`
 - NSArmoire：本地 GUI（8015 端口），公网页仅展示教程与下载
 
 ## 许可证与素材

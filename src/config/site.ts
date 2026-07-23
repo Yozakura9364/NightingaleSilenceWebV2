@@ -212,9 +212,9 @@ export const ffxivTools: ToolEntry[] = [
     projectName: 'NSGlamour',
     route: siteRoutes.glamour,
     summaryKey: textKeys.placeholder,
-    sourcePath: '../NSGlamour',
+    sourcePath: 'server/glamour',
     apiBase: '/api/glamour',
-    devPort: 8765,
+    devPort: 8766,
     statusLabelKey: textKeys.placeholder
   },
   {
@@ -243,9 +243,9 @@ export const ffxivTools: ToolEntry[] = [
     projectName: '物品卡片',
     route: siteRoutes.itemCard,
     summaryKey: textKeys.placeholder,
-    sourcePath: '../NSGlamour',
+    sourcePath: 'server/glamour',
     apiBase: '/api/glamour',
-    devPort: 8765,
+    devPort: 8766,
     statusLabelKey: textKeys.placeholder
   }
 ]

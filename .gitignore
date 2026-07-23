@@ -7,6 +7,9 @@ dist/
 test-results/
 **/bin/
 **/obj/
+**/__pycache__/
+*.py[cod]
+/server/glamour/.runtime/
 
 # logs
 *.log
