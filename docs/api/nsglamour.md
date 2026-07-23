@@ -58,6 +58,7 @@ python server/glamour/tests/compare_api.py
 | 资源 | 当前体积/数量 | 迁移约束 |
 |------|---------------|----------|
 | `server/glamour/data/item_model_mapping.json` | `47,699,612 B` raw，`4,358,245 B` gzip，`28,935` 条 items | 不进入 V2 前端 bundle，只由 Flask 持有。 |
+| `server/glamour/data/item_catalog.sqlite3` | `25,358,336 B`，`50,705` 条 Item.csv 物品，7 种语言 | 仅由 `/search-catalog-items` 按请求读取，不进入 V2 前端 bundle，也不并入装备映射。 |
 | `font/` | 约 `81.6 MB` | 不整目录迁入；模板字体后续按模板/语言懒加载，并单独确认授权和缓存。 |
 | `static/templates/` | 约 `4.5 MB` | 只迁运行时需要的模板资源；按选中模板加载。 |
 | `templates/` 源/参考文件 | 约 `327.6 MB` | 不进入 V2 构建产物；PSD/SVG 等只作为校准参考。 |
@@ -274,6 +275,42 @@ interface NSGlamourSearchItem {
 
 - 候选排序规则的完整说明。
 - 前端防抖、取消和最小输入长度策略。
+
+### `GET /api/glamour/search-catalog-items`
+
+用途：
+
+- 为物品卡片统一搜索装备或普通物品。
+- 与按单个装备槽过滤的 `/search-items` 分离，不改变幻化装备搜索契约。
+
+查询参数：
+
+| 参数 | 类型 | 说明 |
+|------|------|------|
+| `q` | string | 物品名或精确物品 ID；为空时返回空数组，最长按 100 字符处理。 |
+| `locale` | string | 当前显示语言，默认 `zh`；拉丁字母查询允许英文名称 fallback。 |
+| `limit` | number | 默认 `20`，后端限制到 `1..40`；物品卡片当前请求 `12` 条。 |
+| `category` | `equipment \| other \| all` | 默认 `all` 以兼容旧调用；`equipment` 搜索装备、面部配饰和时尚配饰，`other` 仅搜索 `EquipSlotCategory = 0`。非法值返回 `400`。 |
+
+响应沿用 `NSGlamourSearchItem` 的名称、图标和品质字段，并按分类返回：
+
+```ts
+interface NSGlamourCatalogItem extends NSGlamourSearchItem {
+  item_kind: 'equipment' | 'item'
+  item_card_slot?: string
+}
+```
+
+- `equipment` 结果保留 `equip_slot_category`、`item_card_slot`、模型和 `dye_count`，供前端沿用现有装备及染色规则。
+- `other` 结果固定 `item_kind: 'item'`、`equip_slot_category: 0`、`dye_count: 0`、`dye_entries: []`。
+- `all` 目前返回 Item.csv 全目录结果，保留给既有调用；物品卡片界面只请求 `equipment` 或 `other`。
+
+运行时边界：
+
+- 数据来自服务端 `server/glamour/data/item_catalog.sqlite3`，由 `npm run build:glamour-item-catalog` 生成。
+- 装备分类复用服务端现有 glamour 映射，不向前端下发完整映射文件；普通物品分类查询 SQLite。
+- SQLite 按请求只读连接，不把完整目录加载进 Flask 常驻内存。
+- 索引缺失时返回 `503` 和 `{ error: "item catalog unavailable" }`，不暴露服务器路径。
 
 ### `GET /api/glamour/stains`
 

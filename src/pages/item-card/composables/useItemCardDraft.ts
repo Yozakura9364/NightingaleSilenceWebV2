@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 import {
-  addGlamourDraftEntryAfter,
+  addItemCardCatalogItem,
   clearGlamourDraftEntry,
   createEmptyGlamourDraft,
   createGlamourDraftFromPayload,
@@ -8,7 +8,6 @@ import {
   getFilledGlamourDraftEntries,
   GLAMOUR_CARD_DRAFT_STORAGE_KEY,
   GLAMOUR_STORE_EQUIPMENT_STORAGE_KEY,
-  replaceGlamourDraftEntryCandidate,
   selectGlamourDraftEntryCandidate,
   setGlamourDraftEntryDye,
   setGlamourDraftLocale,
@@ -162,14 +161,8 @@ export function useItemCardDraft() {
     syncSharedDraftStorage(sharedDraft.value)
   }
 
-  function addEntryAfter(rowId: string) {
-    sharedDraft.value = addGlamourDraftEntryAfter(sharedDraft.value, rowId)
-    updatedAt.value = new Date().toISOString()
-    syncSharedDraftStorage(sharedDraft.value)
-  }
-
-  function replaceEntry(rowId: string, candidate: GlamourCandidate) {
-    sharedDraft.value = replaceGlamourDraftEntryCandidate(sharedDraft.value, rowId, candidate)
+  function addCatalogItem(candidate: GlamourCandidate) {
+    sharedDraft.value = addItemCardCatalogItem(sharedDraft.value, candidate)
     updatedAt.value = new Date().toISOString()
     syncSharedDraftStorage(sharedDraft.value)
   }
@@ -235,8 +228,7 @@ export function useItemCardDraft() {
     acceptPayload,
     clearDraft,
     setLocale,
-    addEntryAfter,
-    replaceEntry,
+    addCatalogItem,
     clearEntry,
     selectEntryCandidate,
     setEntryDye,

@@ -1,12 +1,12 @@
 import {
   GLAMOUR_DEFAULT_LOCALE,
   GLAMOUR_SLOT_DEFINITIONS,
+  ITEM_CARD_GENERIC_SLOT,
   createItemCardRowId,
   createDyeEntryFromStain,
   getCandidateDyeCount,
   getDisplayDyeEntries,
   getItemCardRowId,
-  getSelectedCandidate,
   getVisibleEquipmentEntries,
   makeEmptyEquipmentEntry,
   normalizeGlamourLocale,
@@ -92,11 +92,6 @@ export function storedGlamourValueToPayload(value: unknown): GlamourImportPayloa
 
 export function createEmptyGlamourDraft(preferredLocale = GLAMOUR_DEFAULT_LOCALE): GlamourDraft {
   const locale = normalizeGlamourLocale(preferredLocale)
-  const payload: GlamourImportPayload = {
-    source_locale: locale,
-    default_locale: locale,
-    locales: [locale]
-  }
 
   return {
     version: 1,
@@ -108,13 +103,13 @@ export function createEmptyGlamourDraft(preferredLocale = GLAMOUR_DEFAULT_LOCALE
       importedAt: ''
     },
     locale,
-    locales: [locale],
+    locales: [...GLAMOUR_LOCALE_ORDER],
     localeLabels: {},
     slotNames: {},
     dyeLabels: {},
     noDyeLabels: {},
     warnings: [],
-    entries: getVisibleEquipmentEntries(payload)
+    entries: []
   }
 }
 
@@ -207,29 +202,74 @@ function createDraftSlotEntry(
   }
 }
 
-function normalizeDraftSlotList(
+export function addItemCardCatalogItem(
   draft: GlamourDraft,
-  entries: GlamourEquipmentEntry[]
-): GlamourEquipmentEntry[] {
-  const mainHand = entries.find((entry) => entry.slot === 'MainHand')
-  const mainHandCandidate = getSelectedCandidate(mainHand)
+  candidate: GlamourCandidate
+): GlamourDraft {
+  const candidateLocales = Object.keys(candidate.names || {}).map(normalizeGlamourLocale)
+  const slot = candidate.item_card_slot
 
-  if (Number(mainHandCandidate?.equip_slot_category || 0) !== 13) {
-    return entries
+  if (candidate.item_kind === 'equipment' && slot && isKnownGlamourSlot(slot)) {
+    const equipmentCandidate: GlamourCandidate = {
+      ...candidate,
+      item_kind: 'equipment'
+    }
+    const dyeEntries = getDisplayDyeEntries(
+      equipmentCandidate,
+      slot,
+      draft.noDyeLabels,
+      draft.locale
+    )
+    const normalizedCandidate = updateCandidateDyeDisplay(
+      equipmentCandidate,
+      dyeEntries,
+      draft.locale,
+      draft.noDyeLabels
+    )
+    const entry = {
+      ...createDraftSlotEntry(draft, slot, normalizedCandidate, {
+        cardRowId: createItemCardRowId(slot),
+        cardDuplicate: true
+      }),
+      cardKind: 'equipment' as const
+    }
+
+    return {
+      ...draft,
+      locales: orderGlamourLocales(Array.from(new Set([...draft.locales, ...candidateLocales]))),
+      entries: [...draft.entries, entry]
+    }
   }
 
-  return entries.map((entry) =>
-    entry.slot === 'OffHand'
-      ? makeEmptyEquipmentEntry(
-          'OffHand',
-          { slot_names: draft.slotNames },
-          {
-            cardRowId: getItemCardRowId(entry),
-            cardDuplicate: entry.cardDuplicate === true
-          }
-        )
-      : entry
-  )
+  const normalizedCandidate: GlamourCandidate = {
+    ...candidate,
+    item_kind: 'item',
+    dye_count: 0,
+    dye_display: '',
+    dye_display_by_locale: {},
+    dye_entries: []
+  }
+  const entry: GlamourEquipmentEntry = {
+    slot: ITEM_CARD_GENERIC_SLOT,
+    cardKind: 'item',
+    cardRowId: createItemCardRowId(ITEM_CARD_GENERIC_SLOT),
+    cardDuplicate: true,
+    slot_label: '',
+    slot_names: {},
+    slot_display: '',
+    lookup_key: `ITEM|${candidate.key ?? ''}`,
+    model: {},
+    dye_id: 0,
+    dye_id_2: 0,
+    candidate_count: 1,
+    candidates: [normalizedCandidate],
+    __emptySlot: false
+  }
+  return {
+    ...draft,
+    locales: orderGlamourLocales(Array.from(new Set([...draft.locales, ...candidateLocales]))),
+    entries: [...draft.entries, entry]
+  }
 }
 
 function getCandidateSwitchDyeEntries(
@@ -292,27 +332,6 @@ function updateEntryDyeIds(
   }
 }
 
-export function replaceGlamourDraftEntryCandidate(
-  draft: GlamourDraft,
-  rowId: string,
-  candidate: GlamourCandidate
-): GlamourDraft {
-  const target = draft.entries.find((entry) => getItemCardRowId(entry) === rowId)
-  if (!target || !isKnownGlamourSlot(target.slot)) {
-    return draft
-  }
-  const slot = target.slot
-
-  const nextEntries = draft.entries.map((entry) =>
-    getItemCardRowId(entry) === rowId ? createDraftSlotEntry(draft, slot, candidate, target) : entry
-  )
-
-  return {
-    ...draft,
-    entries: normalizeDraftSlotList(draft, nextEntries)
-  }
-}
-
 export function selectGlamourDraftEntryCandidate(
   draft: GlamourDraft,
   rowId: string,
@@ -365,7 +384,7 @@ export function selectGlamourDraftEntryCandidate(
 
   return {
     ...draft,
-    entries: normalizeDraftSlotList(draft, nextEntries)
+    entries: nextEntries
   }
 }
 
@@ -413,58 +432,19 @@ export function setGlamourDraftEntryDye(
 
   return {
     ...draft,
-    entries: normalizeDraftSlotList(draft, nextEntries)
+    entries: nextEntries
   }
-}
-
-export function addGlamourDraftEntryAfter(draft: GlamourDraft, rowId: string): GlamourDraft {
-  const index = draft.entries.findIndex((entry) => getItemCardRowId(entry) === rowId)
-  const target = draft.entries[index]
-
-  if (index < 0 || !target || !isKnownGlamourSlot(target.slot)) {
-    return draft
-  }
-
-  const duplicate = makeEmptyEquipmentEntry(
-    target.slot,
-    { slot_names: draft.slotNames },
-    { cardRowId: createItemCardRowId(target.slot), cardDuplicate: true }
-  )
-  const entries = [...draft.entries]
-  entries.splice(index + 1, 0, duplicate)
-
-  return { ...draft, entries }
 }
 
 export function clearGlamourDraftEntry(draft: GlamourDraft, rowId: string): GlamourDraft {
   const target = draft.entries.find((entry) => getItemCardRowId(entry) === rowId)
 
-  if (!target || !isKnownGlamourSlot(target.slot)) {
+  if (!target) {
     return draft
   }
-  const slot = target.slot
-
-  if (target.cardDuplicate === true) {
-    return {
-      ...draft,
-      entries: draft.entries.filter((entry) => getItemCardRowId(entry) !== rowId)
-    }
-  }
-
   return {
     ...draft,
-    entries: draft.entries.map((entry) =>
-      getItemCardRowId(entry) === rowId
-        ? makeEmptyEquipmentEntry(
-            slot,
-            { slot_names: draft.slotNames },
-            {
-              cardRowId: rowId,
-              cardDuplicate: false
-            }
-          )
-        : entry
-    )
+    entries: draft.entries.filter((entry) => getItemCardRowId(entry) !== rowId)
   }
 }
 

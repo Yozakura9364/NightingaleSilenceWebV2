@@ -27,11 +27,10 @@
           v-show="activeTab === 'equipment'"
           :draft="draft"
           :api-base="apiBase"
-          :search-items="searchItems"
+          :search-catalog-items="searchCatalogItems"
           :load-stains="loadStains"
           @update-locale="selectEquipmentLocale"
-          @add-entry-after="emit('add-entry-after', $event)"
-          @replace-entry="forwardReplaceEntry"
+          @add-catalog-item="emit('add-catalog-item', $event)"
           @select-entry-candidate="forwardCandidateSelection"
           @clear-entry="emit('clear-entry', $event)"
           @set-entry-dye="forwardDyeSelection"
@@ -112,7 +111,8 @@ import type {
   GlamourCandidate,
   GlamourDraft,
   GlamourLocale,
-  GlamourStain
+  GlamourStain,
+  ItemCardCatalogCategory
 } from '@/pages/item-card/lib/types'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
 import { useLocale } from '@/stores/locale'
@@ -123,11 +123,12 @@ const props = defineProps<{
   busy: boolean
   statusMessage: string
   statusTone: 'neutral' | 'info' | 'success' | 'warning' | 'danger' | 'loading'
-  searchItems: (options: {
-    slot: string
+  searchCatalogItems: (options: {
     query: string
     locale: string
+    category: ItemCardCatalogCategory
     limit?: number
+    signal?: AbortSignal
   }) => Promise<GlamourCandidate[]>
   loadStains: (locale: string) => Promise<GlamourStain[]>
 }>()
@@ -137,8 +138,7 @@ const emit = defineEmits<{
   'import-link': [payload: { url: string; preferredLocale?: string }]
   'import-text': [payload: { text: string; sourceLocale: string }]
   'import-chara': [file: File]
-  'add-entry-after': [rowId: string]
-  'replace-entry': [rowId: string, candidate: GlamourCandidate]
+  'add-catalog-item': [candidate: GlamourCandidate]
   'select-entry-candidate': [rowId: string, candidateKey: string | number | undefined]
   'clear-entry': [rowId: string]
   'set-entry-dye': [rowId: string, dyeIndex: number, stain: GlamourStain]
@@ -176,10 +176,6 @@ watch(
     }
   }
 )
-
-function forwardReplaceEntry(rowId: string, candidate: GlamourCandidate) {
-  emit('replace-entry', rowId, candidate)
-}
 
 function selectEquipmentLocale(locale: string) {
   const selectedLocale = props.draft.locales.includes(locale as GlamourLocale)
@@ -287,10 +283,12 @@ function submitTextImport() {
 
   .item-card-workspace__body {
     grid-template-columns: 1fr;
+    height: auto;
   }
 
   .item-card-workspace__sidebar {
     max-height: none;
+    overflow: visible;
     border-right: 0;
     border-bottom: 2px solid var(--ns-pixel-border);
   }

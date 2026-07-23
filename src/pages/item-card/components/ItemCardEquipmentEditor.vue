@@ -16,14 +16,23 @@
     </header>
 
     <div class="equipment-editor__rows">
+      <ItemCardCatalogSearch
+        :api-base="apiBase"
+        :locale="draft.locale"
+        :search-items="searchCatalogItems"
+        @select="emit('add-catalog-item', $event)"
+      />
       <article
         v-for="entry in draft.entries"
         :key="rowId(entry)"
         class="equipment-row"
-        :class="{ 'equipment-row--duplicate': entry.cardDuplicate }"
+        :class="{
+          'equipment-row--duplicate': entry.cardDuplicate,
+          'equipment-row--plain-item': isPlainItem(entry)
+        }"
       >
         <div class="equipment-row__slot">
-          {{ slotTitle(entry) }}
+          {{ rowTypeTitle(entry) }}
         </div>
 
         <div class="equipment-row__body">
@@ -99,7 +108,10 @@
                   </div>
                 </div>
               </div>
-              <span v-else-if="selectedCandidate(entry)" class="equipment-row__undyeable">
+              <span
+                v-else-if="selectedCandidate(entry) && !isPlainItem(entry)"
+                class="equipment-row__undyeable"
+              >
                 {{ t(textKeys.nsglamourEquipmentUndyeable) }}
               </span>
             </div>
@@ -107,72 +119,14 @@
 
           <div class="equipment-row__controls">
             <button
-              v-if="selectedCandidate(entry)"
-              type="button"
-              class="equipment-row__add"
-              :title="t(textKeys.nsglamourEquipmentAddSameSlot)"
-              :aria-label="t(textKeys.nsglamourEquipmentAddSameSlot)"
-              @click="emit('add-entry-after', rowId(entry))"
-            >
-              {{ t(textKeys.nsglamourEquipmentAddSymbol) }}
-            </button>
-            <button
-              v-if="entry.cardDuplicate || selectedCandidate(entry)"
               type="button"
               class="equipment-row__remove"
-              :title="
-                t(
-                  entry.cardDuplicate
-                    ? textKeys.nsglamourEquipmentRemoveRow
-                    : textKeys.nsglamourEquipmentDelete
-                )
-              "
-              :aria-label="
-                t(
-                  entry.cardDuplicate
-                    ? textKeys.nsglamourEquipmentRemoveRow
-                    : textKeys.nsglamourEquipmentDelete
-                )
-              "
+              :title="t(textKeys.nsglamourEquipmentRemoveRow)"
+              :aria-label="t(textKeys.nsglamourEquipmentRemoveRow)"
               @click="emit('clear-entry', rowId(entry))"
             >
               {{ t(textKeys.nsglamourEquipmentDeleteSymbol) }}
             </button>
-          </div>
-
-          <div v-if="!selectedCandidate(entry)" class="equipment-search">
-            <input
-              type="search"
-              autocomplete="off"
-              :value="searchQueries[rowId(entry)] || ''"
-              :placeholder="t(textKeys.nsglamourEquipmentSearchPlaceholder)"
-              @input="updateSearch(entry, $event)"
-            />
-            <div
-              v-if="searchQueries[rowId(entry)] && searchOpenRow === rowId(entry)"
-              class="equipment-search__results"
-            >
-              <button
-                v-for="candidate in searchResults[rowId(entry)] || []"
-                :key="String(candidate.key || candidate.name)"
-                type="button"
-                @click="chooseSearchResult(entry, candidate)"
-              >
-                <img
-                  v-if="candidate.icon"
-                  :src="buildGlamourIconUrl(apiBase, candidate.icon)"
-                  alt=""
-                  loading="lazy"
-                />
-                <span>{{ candidateName(candidate) }}</span>
-              </button>
-              <p v-if="searchStates[rowId(entry)] === 'empty'">
-                {{ t(textKeys.nsglamourEquipmentSearchEmpty) }}
-              </p>
-              <p v-if="searchStates[rowId(entry)] === 'error'">
-                {{ t(textKeys.nsglamourEquipmentSearchError) }}
-              </p>
-            </div>
           </div>
         </div>
       </article>
@@ -181,7 +135,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import ItemCardCatalogSearch from '@/pages/item-card/components/ItemCardCatalogSearch.vue'
 import {
   buildGlamourIconUrl,
   getCandidateDyeCount,
@@ -192,46 +147,45 @@ import {
   getSelectedCandidate,
   getSlotTitle,
   groupGlamourStains,
-  stainMatchesQuery
+  stainMatchesQuery,
+  isItemCardPlainItem
 } from '@/pages/item-card/lib/equipment'
 import type {
   GlamourCandidate,
   GlamourDraft,
   GlamourDyeEntry,
   GlamourEquipmentEntry,
+  ItemCardCatalogCategory,
   GlamourStain,
   GlamourStainGroup
 } from '@/pages/item-card/lib/types'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
+import { itemCardUiMessages } from '@/pages/item-card/locales/messages'
+import type { Locale } from '@/locales/types'
 import { useLocale } from '@/stores/locale'
 
 const props = defineProps<{
   draft: GlamourDraft
   apiBase: string
-  searchItems: (options: {
-    slot: string
+  searchCatalogItems: (options: {
     query: string
     locale: string
+    category: ItemCardCatalogCategory
     limit?: number
+    signal?: AbortSignal
   }) => Promise<GlamourCandidate[]>
   loadStains: (locale: string) => Promise<GlamourStain[]>
 }>()
 
 const emit = defineEmits<{
   'update-locale': [locale: string]
-  'add-entry-after': [rowId: string]
-  'replace-entry': [rowId: string, candidate: GlamourCandidate]
+  'add-catalog-item': [candidate: GlamourCandidate]
   'select-entry-candidate': [rowId: string, candidateKey: string | number | undefined]
   'clear-entry': [rowId: string]
   'set-entry-dye': [rowId: string, dyeIndex: number, stain: GlamourStain]
 }>()
 
 const { t } = useLocale()
-const searchQueries = reactive<Record<string, string>>({})
-const searchResults = reactive<Record<string, GlamourCandidate[]>>({})
-const searchStates = reactive<Record<string, 'idle' | 'loading' | 'empty' | 'error'>>({})
-const searchTimers = new Map<string, number>()
-const searchOpenRow = ref('')
 const stains = ref<GlamourStain[]>([])
 const dyeLoading = ref(false)
 const dyeError = ref(false)
@@ -243,10 +197,7 @@ const filteredDyeGroups = computed<GlamourStainGroup[]>(() =>
 )
 
 onMounted(() => document.addEventListener('click', closePickers))
-onBeforeUnmount(() => {
-  document.removeEventListener('click', closePickers)
-  searchTimers.forEach((timer) => window.clearTimeout(timer))
-})
+onBeforeUnmount(() => document.removeEventListener('click', closePickers))
 
 function localeLabel(locale: string): string {
   return (
@@ -271,6 +222,26 @@ function slotTitle(entry: GlamourEquipmentEntry): string {
     slot_names: props.draft.slotNames,
     default_locale: props.draft.source.locale
   })
+}
+
+function rowTypeTitle(entry: GlamourEquipmentEntry): string {
+  if (!isPlainItem(entry)) {
+    return slotTitle(entry)
+  }
+
+  const message = itemCardUiMessages[textKeys.catalogItemType]
+  return message?.[itemCardUiLocale(props.draft.locale)] ?? message?.['zh-CN'] ?? ''
+}
+
+function itemCardUiLocale(locale: string): Locale {
+  if (locale === 'zh' || locale === 'tc') {
+    return 'zh-CN'
+  }
+  return ['en', 'ja', 'ko', 'fr', 'de'].includes(locale) ? (locale as Locale) : 'en'
+}
+
+function isPlainItem(entry: GlamourEquipmentEntry): boolean {
+  return isItemCardPlainItem(entry)
 }
 
 function selectedCandidate(entry: GlamourEquipmentEntry): GlamourCandidate | undefined {
@@ -314,56 +285,6 @@ function selectCandidate(entry: GlamourEquipmentEntry, event: Event) {
   emit('select-entry-candidate', rowId(entry), (event.currentTarget as HTMLSelectElement).value)
 }
 
-function updateSearch(entry: GlamourEquipmentEntry, event: Event) {
-  const key = rowId(entry)
-  const query = (event.currentTarget as HTMLInputElement).value
-  searchQueries[key] = query
-  searchOpenRow.value = key
-  const previous = searchTimers.get(key)
-  if (previous) {
-    window.clearTimeout(previous)
-  }
-  if (!query.trim()) {
-    searchResults[key] = []
-    searchStates[key] = 'idle'
-    return
-  }
-  searchStates[key] = 'loading'
-  searchTimers.set(
-    key,
-    window.setTimeout(() => {
-      void runSearch(key, entry.slot, query.trim())
-    }, 140)
-  )
-}
-
-async function runSearch(rowId: string, slot: string, query: string) {
-  try {
-    const results = await props.searchItems({
-      slot,
-      query,
-      locale: props.draft.locale,
-      limit: 20
-    })
-    if ((searchQueries[rowId] || '').trim() !== query) {
-      return
-    }
-    searchResults[rowId] = results
-    searchStates[rowId] = results.length ? 'idle' : 'empty'
-  } catch {
-    searchResults[rowId] = []
-    searchStates[rowId] = 'error'
-  }
-}
-
-function chooseSearchResult(entry: GlamourEquipmentEntry, candidate: GlamourCandidate) {
-  const key = rowId(entry)
-  emit('replace-entry', key, candidate)
-  searchQueries[key] = ''
-  searchResults[key] = []
-  searchOpenRow.value = ''
-}
-
 function dyeKey(slot: string, index: number): string {
   return `${slot}:${index}`
 }
@@ -397,7 +318,6 @@ function chooseDye(entry: GlamourEquipmentEntry, index: number, stain: GlamourSt
 
 function closePickers() {
   activeDyeKey.value = ''
-  searchOpenRow.value = ''
 }
 </script>
 
@@ -478,11 +398,16 @@ function closePickers() {
   display: grid;
   gap: 7px;
   min-width: 0;
-  padding: 8px 64px 8px 8px;
+  padding: 8px 36px 8px 8px;
 }
 
 .equipment-row--duplicate .equipment-row__slot {
   box-shadow: inset 3px 0 0 var(--ns-color-accent);
+}
+
+.equipment-row--plain-item .equipment-row__slot {
+  background: var(--ns-pixel-hover-surface);
+  color: var(--ns-color-text);
 }
 
 .equipment-row__selected {
@@ -514,7 +439,6 @@ function closePickers() {
 }
 
 .equipment-row__item select,
-.equipment-search input,
 .dye-picker input {
   min-width: 0;
   height: 27px;
@@ -534,7 +458,6 @@ function closePickers() {
   gap: 2px;
 }
 
-.equipment-row__add,
 .equipment-row__remove {
   display: grid;
   place-items: center;
@@ -550,7 +473,6 @@ function closePickers() {
   cursor: pointer;
 }
 
-.equipment-row__add:hover,
 .equipment-row__remove:hover {
   background: var(--ns-pixel-hover-surface);
   color: var(--ns-color-accent-strong);
@@ -596,8 +518,7 @@ function closePickers() {
   font-size: 10px;
 }
 
-.dye-picker,
-.equipment-search__results {
+.dye-picker {
   position: absolute;
   z-index: 30;
   display: grid;
@@ -623,48 +544,10 @@ function closePickers() {
   font-size: 10px;
 }
 
-.dye-picker p,
-.equipment-search__results p {
+.dye-picker p {
   margin: 0;
   color: var(--ns-color-text-muted);
   font-size: 11px;
 }
 
-.equipment-search {
-  position: relative;
-  min-width: 0;
-}
-
-.equipment-search > input {
-  width: 100%;
-}
-
-.equipment-search__results {
-  inset: 31px 0 auto 0;
-  width: auto;
-}
-
-.equipment-search__results button {
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
-  align-items: center;
-  gap: 7px;
-  padding: 4px;
-  border: 0;
-  background: transparent;
-  color: var(--ns-color-text);
-  font: 11px var(--ns-font-sans);
-  text-align: left;
-  cursor: pointer;
-}
-
-.equipment-search__results button:hover {
-  background: var(--ns-pixel-hover-surface);
-}
-
-.equipment-search__results img {
-  width: 30px;
-  height: 30px;
-  border-radius: 3px;
-}
 </style>
