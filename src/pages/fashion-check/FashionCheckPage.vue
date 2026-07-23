@@ -1,6 +1,8 @@
 <template>
   <main class="ns-page fashion-check-page">
-    <div class="ns-page-shell fashion-check-page__shell ns-animate ns-animate--fade-in-up ns-animate-visible">
+    <div
+      class="ns-page-shell fashion-check-page__shell ns-animate ns-animate--fade-in-up ns-animate-visible"
+    >
       <header ref="headerRef" class="fashion-check-page__header">
         <h1 class="ns-heading-bloom">{{ t(keys.title) }}</h1>
         <div v-if="week" class="fashion-check-page__week">
@@ -30,11 +32,6 @@
               :showcase="week.referenceShowcase"
               :locale-catalog="localeCatalog"
             />
-            <FashionCheckGoldItemsView
-              v-else-if="activeTab === 'gold'"
-              :week="week"
-              :locale-catalog="localeCatalog"
-            />
             <component :is="Component" v-else :week="week" />
           </RouterView>
         </div>
@@ -53,7 +50,6 @@ import { siteRoutes } from '@/config/site'
 import type { FashionCheckLocaleCatalog, FashionCheckWeek } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
 import FashionCheckSolutionsView from '@/pages/fashion-check/views/FashionCheckSolutionsView.vue'
-import FashionCheckGoldItemsView from '@/pages/fashion-check/views/FashionCheckGoldItemsView.vue'
 import { useLocale } from '@/stores/locale'
 
 const { t } = useLocale()
@@ -68,14 +64,12 @@ const FASHION_CACHE_KEY = 'ns_fashion_check_week'
 const FASHION_CATALOG_CACHE_KEY = 'ns_fashion_check_catalog'
 const tabRoutes = {
   solutions: siteRoutes.fashionCheck,
-  gold: siteRoutes.fashionCheckGoldItems,
   tags: siteRoutes.fashionCheckTags,
   sources: siteRoutes.fashionCheckSources
 }
 const tabItems = computed(() => [
   { value: 'solutions', label: t(keys.tabSolutions) },
-  { value: 'gold', label: t(keys.tabGoldItems) },
-  { value: 'tags', label: t(keys.tabTagDatabase) },
+  { value: 'tags', label: t(keys.tabGoldSearch) },
   { value: 'sources', label: t(keys.tabSources) }
 ])
 const activeTab = computed(
@@ -109,40 +103,51 @@ function formatChallengeDate(value: string) {
 }
 
 onMounted(async () => {
+  let hasCachedData = false
   try {
     const cached = sessionStorage.getItem(FASHION_CACHE_KEY)
     const cachedCatalog = sessionStorage.getItem(FASHION_CATALOG_CACHE_KEY)
     const now = Date.now()
-    let skipFetch = false
 
     if (cached && cachedCatalog) {
       try {
-        const { data, timestamp } = JSON.parse(cached) as { data: FashionCheckWeek; timestamp: number }
+        const { data, timestamp } = JSON.parse(cached) as {
+          data: FashionCheckWeek
+          timestamp: number
+        }
         const { data: catData } = JSON.parse(cachedCatalog) as { data: FashionCheckLocaleCatalog }
         if (now - timestamp < 30 * 60 * 1000) {
           week.value = data
           localeCatalog.value = catData
-          skipFetch = true
+          hasCachedData = true
+          loading.value = false
         }
-      } catch { /* invalid cache */ }
+      } catch {
+        /* invalid cache */
+      }
     }
 
-    if (!skipFetch) {
-      const dataVersion = now
-      const [currentWeek, currentLocaleCatalog] = await Promise.all([
-        api<FashionCheckWeek>('/data/fashion-check/current.json', {
-          cache: 'no-store',
-          query: { v: dataVersion }
-        }),
-        api<FashionCheckLocaleCatalog>('/data/fashion-check/current-locales.json', {
-          cache: 'no-store',
-          query: { v: dataVersion }
-        })
-      ])
-      week.value = currentWeek
-      localeCatalog.value = currentLocaleCatalog
-      sessionStorage.setItem(FASHION_CACHE_KEY, JSON.stringify({ data: currentWeek, timestamp: now }))
-      sessionStorage.setItem(FASHION_CATALOG_CACHE_KEY, JSON.stringify({ data: currentLocaleCatalog }))
+    const dataVersion = now
+    const [currentWeek, currentLocaleCatalog] = await Promise.all([
+      api<FashionCheckWeek>('/data/fashion-check/current.json', {
+        cache: 'no-store',
+        query: { v: dataVersion }
+      }),
+      api<FashionCheckLocaleCatalog>('/data/fashion-check/current-locales.json', {
+        cache: 'no-store',
+        query: { v: dataVersion }
+      })
+    ])
+    week.value = currentWeek
+    localeCatalog.value = currentLocaleCatalog
+    sessionStorage.setItem(FASHION_CACHE_KEY, JSON.stringify({ data: currentWeek, timestamp: now }))
+    sessionStorage.setItem(
+      FASHION_CATALOG_CACHE_KEY,
+      JSON.stringify({ data: currentLocaleCatalog })
+    )
+  } catch {
+    if (!hasCachedData) {
+      week.value = null
     }
   } finally {
     loading.value = false

@@ -17,6 +17,7 @@ export interface FashionCheckLocaleCatalog {
   items: Record<string, FashionCheckLocalizedNames>
   dyes: Record<string, FashionCheckLocalizedNames>
   dyeItems?: Record<string, FashionCheckDyeItem>
+  tags?: Record<string, FashionCheckLocalizedNames>
 }
 
 export interface FashionCheckTagDatabaseItem {
@@ -120,6 +121,7 @@ export interface FashionCheckWeek {
     slotId: string
     label: string
     tag: string
+    categoryId?: number
     gold: { points: number; items: FashionCheckItem[] }
   }>
 }

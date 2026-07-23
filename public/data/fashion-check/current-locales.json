@@ -1,6 +1,201 @@
 {
-  "schemaVersion": "fashion-check.current-locales.v2",
-  "items": {},
+  "schemaVersion": "fashion-check.current-locales.v3",
+  "items": {
+    "3321": {
+      "zh-CN": "棉布垮裤",
+      "en": "Cotton Sarouel",
+      "ja": "コットンサルエル",
+      "ko": "무명 면직 헐렁바지"
+    },
+    "3349": {
+      "zh-CN": "棉绒垮裤",
+      "en": "Velveteen Sarouel",
+      "ja": "ベルベティーンサルエル",
+      "ko": "우단 헐렁바지"
+    },
+    "3351": {
+      "zh-CN": "棉绒大地垮裤",
+      "en": "Velveteen Sarouel of Gathering",
+      "ja": "ベルベティーンギャザラーサルエル",
+      "ko": "채집가용 우단 헐렁바지"
+    },
+    "3383": {
+      "zh-CN": "亚麻垮裤",
+      "en": "Linen Sarouel",
+      "ja": "リネンサルエル",
+      "ko": "아마포 헐렁바지"
+    },
+    "3385": {
+      "zh-CN": "亚麻大地垮裤",
+      "en": "Linen Sarouel of Gathering",
+      "ja": "リネンギャザラーサルエル",
+      "ko": "채집가용 아마포 헐렁바지"
+    },
+    "3408": {
+      "zh-CN": "呢绒垮裤",
+      "en": "Woolen Sarouel",
+      "ja": "ウールサルエル",
+      "ko": "양털 헐렁바지"
+    },
+    "3410": {
+      "zh-CN": "呢绒大地垮裤",
+      "en": "Woolen Sarouel of Gathering",
+      "ja": "ウールギャザラーサルエル",
+      "ko": "채집가용 양털 헐렁바지"
+    },
+    "3533": {
+      "zh-CN": "草布短手套",
+      "en": "Hempen Shortgloves",
+      "ja": "ショーティ",
+      "ko": "단장갑"
+    },
+    "3538": {
+      "zh-CN": "草布礼服手套",
+      "en": "Hempen Dress Gloves",
+      "ja": "ドレスグローブ",
+      "ko": "예식장갑"
+    },
+    "3640": {
+      "zh-CN": "呢绒礼服手套",
+      "en": "Woolen Dress Gloves",
+      "ja": "ウールドレスグローブ",
+      "ko": "양털 예식장갑"
+    },
+    "7360": {
+      "zh-CN": "狮鬃战盔",
+      "en": "Lionsmane Armet",
+      "ja": "ライオンズメイン・アーメット",
+      "ko": "사자 갈기 철갑투구"
+    },
+    "7372": {
+      "zh-CN": "熊口战盔",
+      "en": "Bearsmaw Armet",
+      "ja": "ベアズモウ・アーメット",
+      "ko": "곰 아가리 철갑투구"
+    },
+    "8672": {
+      "zh-CN": "纯情永结手套",
+      "en": "Gloves of Eternal Innocence",
+      "ja": "イノセントグローブ",
+      "ko": "순수의 장갑"
+    },
+    "8673": {
+      "zh-CN": "激情永结手套",
+      "en": "Gloves of Eternal Passion",
+      "ja": "パッショングローブ",
+      "ko": "정열의 장갑"
+    },
+    "8674": {
+      "zh-CN": "钟情永结手套",
+      "en": "Gloves of Eternal Devotion",
+      "ja": "エターナルグローブ",
+      "ko": "영원의 장갑"
+    },
+    "10390": {
+      "zh-CN": "萨维奈垮裤",
+      "en": "Thavnairian Sarouel",
+      "ja": "サベネアンサルエル",
+      "ko": "사베네어 헐렁바지"
+    },
+    "10671": {
+      "zh-CN": "飞龙革御敌鬃盔",
+      "en": "Wyvernskin Mane of Fending",
+      "ja": "ワイバーンディフェンダーメイン",
+      "ko": "와이번 수호자 갈기투구"
+    },
+    "13193": {
+      "zh-CN": "瘟疫医生手套",
+      "en": "Plague Doctor's Gloves",
+      "ja": "プレイグドクターグローブ",
+      "ko": "역병 의사 장갑"
+    },
+    "15478": {
+      "zh-CN": "波奇头套",
+      "en": "Swine Head",
+      "ja": "ポーキーヘッド",
+      "ko": "아기돼지 머리"
+    },
+    "20679": {
+      "zh-CN": "黑漆忠犬武士盔",
+      "en": "Black Inu Kabuto",
+      "ja": "黒漆塗戌形兜",
+      "ko": "누렁이의 검은 투구"
+    },
+    "21017": {
+      "zh-CN": "人狼耳朵",
+      "en": "Werewolf Head",
+      "ja": "ウェアウルフヘッド",
+      "ko": "늑대인간 머리"
+    },
+    "21712": {
+      "zh-CN": "夜钢御敌战甲",
+      "en": "Nightsteel Armor of Fending",
+      "ja": "ナイトスチール・ディフェンダーアーマー",
+      "ko": "야철 수호자 갑옷"
+    },
+    "21718": {
+      "zh-CN": "夜钢制敌战铠",
+      "en": "Nightsteel Mail of Maiming",
+      "ja": "ナイトスチール・スレイヤーメイル",
+      "ko": "야철 학살자 갑옷"
+    },
+    "21724": {
+      "zh-CN": "真麻强袭长衣",
+      "en": "True Linen Coat of Striking",
+      "ja": "トゥルーリネン・ストライカーコート",
+      "ko": "진마 타격대 외투"
+    },
+    "21730": {
+      "zh-CN": "真麻精准外套",
+      "en": "True Linen Jacket of Aiming",
+      "ja": "トゥルーリネン・レンジャージャケット",
+      "ko": "진마 유격대 재킷"
+    },
+    "21736": {
+      "zh-CN": "真麻游击外套",
+      "en": "True Linen Jacket of Scouting",
+      "ja": "トゥルーリネン・スカウトジャケット",
+      "ko": "진마 정찰대 재킷"
+    },
+    "21742": {
+      "zh-CN": "真麻治愈长袍",
+      "en": "True Linen Robe of Healing",
+      "ja": "トゥルーリネン・ヒーラーローブ",
+      "ko": "진마 치유사 로브"
+    },
+    "21748": {
+      "zh-CN": "真麻咏咒长袍",
+      "en": "True Linen Robe of Casting",
+      "ja": "トゥルーリネン・キャスターローブ",
+      "ko": "진마 마술사 로브"
+    }
+  },
   "dyes": {},
-  "dyeItems": {}
+  "dyeItems": {},
+  "tags": {
+    "4": {
+      "zh-CN": "野兽",
+      "en": "Animal Instincts",
+      "ja": "ケモノ",
+      "ko": "동물"
+    },
+    "20": {
+      "zh-CN": "正式",
+      "en": "Fresh and Formal",
+      "ja": "フォーマル",
+      "ko": "양복"
+    },
+    "97": {
+      "zh-CN": "真麻",
+      "en": "True Linen",
+      "ja": "トゥルーリネン",
+      "ko": "진마"
+    },
+    "124": {
+      "zh-CN": "垮裆",
+      "en": "Suddenly Sarouels",
+      "ja": "サルエル",
+      "ko": "헐렁바지"
+    }
+  }
 }

@@ -1,13 +1,18 @@
 <template>
-  <section class="fashion-check-tag-database" :aria-label="t(keys.tabTagDatabase)">
+  <section class="fashion-check-tag-database" :aria-label="t(keys.tabGoldSearch)">
     <div class="fashion-check-tag-database__controls">
       <label>
-        <span>{{ t(keys.tagDatabaseSearch) }}</span>
+        <span class="ns-sr-only">{{ t(keys.tagDatabaseSearch) }}</span>
         <input v-model.trim="searchQuery" type="search" :placeholder="t(keys.tagDatabaseSearch)" />
       </label>
       <label>
-        <span>{{ t(keys.tagDatabaseSlotFilter) }}</span>
-        <select v-model="selectedSlotId">
+        <span class="ns-sr-only">{{ t(keys.tagDatabaseSlotFilter) }}</span>
+        <select
+          v-model="selectedSlotId"
+          :class="{
+            'fashion-check-tag-database__select--placeholder': selectedSlotId === 'all'
+          }"
+        >
           <option value="all">{{ t(keys.tagDatabaseAllSlots) }}</option>
           <option v-for="slotId in availableSlotIds" :key="slotId" :value="slotId">
             {{ slotLabel(slotId) }}
@@ -192,6 +197,7 @@ onMounted(async () => {
 .fashion-check-tag-database {
   display: grid;
   gap: 16px;
+  margin-top: 16px;
 }
 
 .fashion-check-tag-database__controls {
@@ -211,7 +217,7 @@ onMounted(async () => {
 .fashion-check-tag-database__controls select {
   width: 100%;
   min-height: 40px;
-  border: 1px solid var(--ns-pixel-border);
+  border: 2px solid var(--ns-pixel-border);
   border-radius: 0;
   background: var(--ns-color-bg-surface);
   color: var(--ns-color-text);
@@ -221,9 +227,20 @@ onMounted(async () => {
 .fashion-check-tag-database__controls input {
   padding: 8px 10px;
 }
+.fashion-check-tag-database__controls input::placeholder {
+  color: var(--ns-color-text-muted);
+  opacity: 1;
+}
 
 .fashion-check-tag-database__controls select {
   padding: 8px;
+}
+.fashion-check-tag-database__controls select.fashion-check-tag-database__select--placeholder,
+.fashion-check-tag-database__controls select option[value='all'] {
+  color: var(--ns-color-text-muted);
+}
+.fashion-check-tag-database__controls select option:not([value='all']) {
+  color: var(--ns-color-text);
 }
 
 .fashion-check-tag-database__layout {
@@ -236,7 +253,7 @@ onMounted(async () => {
 .fashion-check-tag-database__tag-list {
   display: grid;
   max-height: min(680px, calc(100vh - 260px));
-  border: 1px solid var(--ns-pixel-border);
+  border: 2px solid var(--ns-pixel-border);
   overflow-y: auto;
 }
 
@@ -247,7 +264,7 @@ onMounted(async () => {
   min-height: 48px;
   padding: 8px 10px;
   border: 0;
-  border-bottom: 1px solid var(--ns-pixel-border);
+  border-bottom: 2px solid var(--ns-pixel-border);
   background: var(--ns-color-bg-surface);
   color: var(--ns-color-text);
   font: inherit;
@@ -304,7 +321,7 @@ onMounted(async () => {
 .fashion-check-tag-database__item {
   min-width: 0;
   padding: 8px;
-  border: 1px solid var(--ns-pixel-border);
+  border: 2px solid var(--ns-pixel-border);
 }
 
 @media (max-width: 760px) {
