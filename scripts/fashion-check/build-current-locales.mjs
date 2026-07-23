@@ -19,6 +19,12 @@ const itemPaths = {
   ja: path.join(referenceRoot, 'official/ja/Item.csv'),
   ko: path.join(referenceRoot, 'official/ko/Item.csv')
 }
+const categoryPaths = {
+  'zh-CN': path.join(referenceRoot, 'official/chs/FashionCheckThemeCategory.csv'),
+  en: path.join(referenceRoot, 'official/en/FashionCheckThemeCategory.csv'),
+  ja: path.join(referenceRoot, 'official/ja/FashionCheckThemeCategory.csv'),
+  ko: path.join(referenceRoot, 'official/ko/FashionCheckThemeCategory.csv')
+}
 const mergedDyeItemIds = {
   general: 52254,
   extra1: 52255,
@@ -33,8 +39,7 @@ function collectIds(value, key, result) {
   if (!value || typeof value !== 'object') return
 
   const record = value
-  if (key === 'itemId' && Number.isInteger(record.itemId)) result.add(record.itemId)
-  if (key === 'dyeId' && Number.isInteger(record.dyeId)) result.add(record.dyeId)
+  if (Number.isInteger(record[key])) result.add(record[key])
   Object.entries(record).forEach(([childKey, child]) => collectIds(child, key, result))
 }
 
@@ -47,6 +52,25 @@ function loadNames(rows, ids) {
     if (name) names.set(itemId, name)
   }
   return names
+}
+
+function buildLocalizedNames(ids, rowsByLocale, label) {
+  const namesByLocale = new Map(
+    Object.entries(rowsByLocale).map(([locale, rows]) => [locale, loadNames(rows, ids)])
+  )
+  const result = new Map()
+
+  for (const id of ids) {
+    const names = Object.fromEntries(
+      [...namesByLocale.entries()].map(([locale, values]) => [locale, values.get(id) ?? ''])
+    )
+    if (Object.values(names).some((name) => !name)) {
+      throw new Error(`Missing localized ${label} name for ID ${id}`)
+    }
+    result.set(String(id), names)
+  }
+
+  return { namesByLocale, result }
 }
 
 function findStoreDyeItemId(dyeId, dyeDocument, rows) {
@@ -87,21 +111,30 @@ function sortedRecord(values) {
 }
 
 async function main() {
-  const [current, dyeDocument, armoireDyeCatalog, localeRowsEntries] = await Promise.all([
-    readFile(currentPath, 'utf8').then(JSON.parse),
-    readFile(dyePath, 'utf8').then(JSON.parse),
-    readFile(armoireDyePath, 'utf8').then(JSON.parse),
-    Promise.all(
-      Object.entries(itemPaths).map(async ([locale, filePath]) => [
-        locale,
-        await readSaintCoinachCsv(filePath)
-      ])
-    )
-  ])
+  const [current, dyeDocument, armoireDyeCatalog, localeRowsEntries, categoryRowsEntries] =
+    await Promise.all([
+      readFile(currentPath, 'utf8').then(JSON.parse),
+      readFile(dyePath, 'utf8').then(JSON.parse),
+      readFile(armoireDyePath, 'utf8').then(JSON.parse),
+      Promise.all(
+        Object.entries(itemPaths).map(async ([locale, filePath]) => [
+          locale,
+          await readSaintCoinachCsv(filePath)
+        ])
+      ),
+      Promise.all(
+        Object.entries(categoryPaths).map(async ([locale, filePath]) => [
+          locale,
+          await readSaintCoinachCsv(filePath)
+        ])
+      )
+    ])
   const itemIds = new Set()
   const dyeIds = new Set()
+  const categoryIds = new Set()
   collectIds(current, 'itemId', itemIds)
   collectIds(current, 'dyeId', dyeIds)
+  collectIds(current, 'categoryId', categoryIds)
   const localeRows = new Map(localeRowsEntries)
   const dyeItemIds = getDyeItemIds(
     dyeIds,
@@ -111,22 +144,19 @@ async function main() {
   )
   const allItemIds = new Set([...itemIds, ...dyeItemIds.values()])
 
-  const entries = Object.entries(itemPaths).map(([locale]) => [
-    locale,
-    loadNames(localeRows.get(locale) ?? [], allItemIds)
-  ])
-  const itemNamesByLocale = new Map(entries)
-  const items = new Map()
-
-  for (const itemId of itemIds) {
-    const names = Object.fromEntries(
-      [...itemNamesByLocale.entries()].map(([locale, values]) => [locale, values.get(itemId) ?? ''])
-    )
-    if (Object.values(names).some((name) => !name)) {
-      throw new Error(`Missing localized item name for Item ID ${itemId}`)
-    }
-    items.set(String(itemId), names)
-  }
+  const { namesByLocale: itemNamesByLocale, result: allItems } = buildLocalizedNames(
+    allItemIds,
+    Object.fromEntries(
+      Object.entries(itemPaths).map(([locale]) => [locale, localeRows.get(locale) ?? []])
+    ),
+    'item'
+  )
+  const items = new Map([...allItems].filter(([itemId]) => itemIds.has(Number(itemId))))
+  const { result: tags } = buildLocalizedNames(
+    categoryIds,
+    Object.fromEntries(categoryRowsEntries),
+    'tag'
+  )
 
   const dyes = new Map()
   for (const dyeId of dyeIds) {
@@ -157,14 +187,15 @@ async function main() {
   }
 
   const output = {
-    schemaVersion: 'fashion-check.current-locales.v2',
+    schemaVersion: 'fashion-check.current-locales.v3',
     items: sortedRecord(items),
     dyes: sortedRecord(dyes),
-    dyeItems: sortedRecord(dyeItems)
+    dyeItems: sortedRecord(dyeItems),
+    tags: sortedRecord(tags)
   }
   await writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8')
   console.log(
-    `Fashion Check current locales: ${items.size} items, ${dyes.size} dyes, ${dyeItems.size} dye items`
+    `Fashion Check current locales: ${items.size} items, ${dyes.size} dyes, ${dyeItems.size} dye items, ${tags.size} tags`
   )
 }
 

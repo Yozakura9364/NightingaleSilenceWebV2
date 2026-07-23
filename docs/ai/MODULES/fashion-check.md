@@ -5,19 +5,19 @@ scope: 'fashion-check 页面、数据、生成器、来源和维护流程。'
 source_of_truth: 'src/pages/fashion-check、data/public 数据、scripts 和 checker。'
 read_when: '修改时尚品鉴页面、周数据、来源、多语言或自动采集。'
 update_when: '路由、数据格式、来源、页面能力或发布边界改变时。'
-verify: '运行历史/标签 checker、生成器并检查四个公开路由。'
+verify: '运行历史/标签 checker、生成器并检查三个公开路由。'
 ---
 
 # 时尚品鉴助手模块
 
 ## 当前状态
 
-- 页面路由：`#/ffxiv/fashioncheck`、`#/ffxiv/fashioncheck/gold-items`、`#/ffxiv/fashioncheck/tags`、`#/ffxiv/fashioncheck/sources`。
-- 已完成：历史周次与金牌装备答案的数据底座；当前周 Vue 页面、80/100 作业、金牌物品一览、标签数据库和数据来源展示。
+- 页面路由：`#/ffxiv/fashioncheck`、`#/ffxiv/fashioncheck/tags`、`#/ffxiv/fashioncheck/sources`。
+- 已完成：历史周次与金牌装备答案的数据底座；当前周 Vue 页面、80/100 作业、作业下方的当周金牌物品、金牌查询和数据来源展示。
 - 已实现并部署：服务器私有自动采集、两个北京时间窗口、持久 QQ 通知队列。
-- 当前页面数据：`public/data/fashion-check/current.json` 仅包含用户确认可公开的当前周切片，含所需物品 ID、图标 ID、品质和金牌分值；`public/data/fashion-check/current-locales.json` 按同一批 ID 提供中英日韩装备名、染剂名，以及根据染剂分类自动解析的实际消耗物品与图标，跟随全局语言状态切换。页面进入时以无缓存请求读取这两个文件；展示结构不变的每周更新可以只替换生产静态目录中的语言索引和当前周 JSON，不需要重启静态服务。
-- 标签数据库：`public/data/fashion-check/tag-database.json` 是用户确认可公开的聚合索引，包含 250 个标签、440 个标签/部位组合和 3393 件金牌物品；页面仅在进入 `tags` 路由时加载，不公开历史原文、证据和来源定位。
-- 未实现：低贴合分档、历史染色、按周浏览历史答案和公开自动发布。
+- 当前页面数据：`public/data/fashion-check/current.json` 仅包含用户确认可公开的当前周切片，含标签分类 ID、所需物品 ID、图标 ID、品质和金牌分值；`public/data/fashion-check/current-locales.json` 按同一批 ID 提供中英日韩标签名、装备名、染剂名，以及根据染剂分类自动解析的实际消耗物品与图标，跟随全局语言状态切换。页面会先显示短期会话缓存，再以无缓存请求重新读取这两个文件；展示结构不变的每周更新可以只替换生产静态目录中的语言索引和当前周 JSON，不需要重启静态服务。
+- 金牌查询数据源：`public/data/fashion-check/tag-database.json` 是用户确认可公开的聚合索引，包含 250 个标签、440 个标签/部位组合和 3393 件金牌物品；页面仅在进入 `tags` 路由时加载，不公开历史原文、证据和来源定位。
+- 未实现：低贴合分档、历史染色、按周浏览历史答案和公开自动发布。低贴合档位目前只保留内部候选，分值实测和未来接入方案见 `docs/ai/FASHION_CHECK_LOWER_TIER_PLAN.md`；在实测完成前不得进入公开页面或金牌统计。
 - 未公开：原始参考和生成物位于 ignored `local-assets/fashion-check/`。
 
 Spec Kit 设计文档位于 `specs/001-fashion-check-assistant/`。
@@ -45,6 +45,8 @@ Spec Kit 设计文档位于 `specs/001-fashion-check-assistant/`。
 本切片只声称“社区已验证/已报告的金牌装备”。不根据装备名相似度推断低贴合分档，不从金牌答案反推历史染色。
 
 `data/fashion-check/lower-tier-candidates.json` 仅保存已审阅来源中明确标注的低分档候选，例如 Gottesstrafe Reddit `1 Star` 装备；它不是公开页面数据，也不参与当前金牌答案构建。
+
+`1 Star`、`one-star`、`partial match`、`light-blue stamp`、`Low` 和国内俗称“银牌”不能视为已经证明彼此等价。当前只把来源明确写出的 `1 Star` / `one-star` 标准化为内部候选档，并保留原始措辞；没有对照实测分值时，不得在数据或页面中标记 `+N`。具体实测字段、独立公开数据方案和上线门禁见 `docs/ai/FASHION_CHECK_LOWER_TIER_PLAN.md`。
 
 服务器当前周采集也遵循相同证据规则：QQ 表中的平铺装备文本默认是“待核验档位”；只有来源明确的 Gold/Silver 分数表或维护者人工确认才会写入分档与分值。80/100 方案会保留基础分、装备和染色的逐项审计；缺少任一可靠分值时只保留来源方案，不能宣称精确得分。
 
@@ -123,7 +125,7 @@ npm run build:fashion-check-tags
 npm run check:fashion-check-tags
 ```
 
-`build-current-locales.mjs` 只提取当前公开切片引用的 Item ID 和 Dye ID，产物不包含完整官方 CSV。它同时读取轻量 `armoire-dye-catalog.json` 的染剂分类，自动把普通色、追加染剂 1、追加染剂 2 和独立商城染剂解析为实际消耗物品，并写入 `dyeItems`。脚本需要 ignored 的 `local-assets/fashion-check/references/official/{chs,en,ja,ko}/Item.csv`；中英文源与历史构建器共用，日文和韩文源只用于当前公开名称索引。法德不在此契约内，前端按英文回退。
+`populate-current-gold-items.mjs` 按当前中文标签完全匹配公开标签数据库，并用 `slotId` 二次约束；只有唯一匹配时才把 `categoryId`、金牌分值和 Item 列表写回当前公开切片，不进行模糊推断。`build-current-locales.mjs` 提取当前切片引用的 Category ID、Item ID 和 Dye ID，产物不包含完整官方 CSV。它从四语 `FashionCheckThemeCategory.csv` 生成标签名，并读取轻量 `armoire-dye-catalog.json` 的染剂分类，自动把普通色、追加染剂 1、追加染剂 2 和独立商城染剂解析为实际消耗物品，写入 `dyeItems`。脚本需要 ignored 的 `local-assets/fashion-check/references/official/{chs,en,ja,ko}/FashionCheckThemeCategory.csv` 和 `Item.csv`；中英文源与历史构建器共用，日文和韩文源只用于当前公开名称索引。法德不在此契约内，前端按英文回退。
 
 `build-tag-database.mjs` 从 ignored 的 `generated/answers.json` 与四语 `FashionCheckThemeCategory.csv` / `Item.csv` 生成紧凑公开索引。日文来源为 `InfSein/ffxiv-datamining-mixed`，韩文来源为 `Ra-Workspace/ffxiv-datamining-ko`；二者只提供显示名称，不作为金牌答案 evidence。`check-tag-database.mjs` 会拒绝缺失标签语言、未知物品引用、错部位，以及 `evidence`、`locator`、`sourceId` 等内部字段。
 

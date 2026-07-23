@@ -51,7 +51,7 @@ verify: "逐项对照 router、site config 和实际文件。"
 | `#/ffxiv/plate`                 | `src/pages/plate/NSPlatePage.vue`            | 已接入 NSPlate 核心工作台、静态 manifest、Canvas 预览和主要导入导出 |
 | `#/ffxiv/glamour`               | `src/pages/glamour/NSGlamourPage.vue`        | 已接入 EquipInfo/Template 双工作台与 V2 自有 Flask API；共享草稿、导入/编辑、多语言、六套 Canvas 模板和 PNG 导出均由本仓库维护 |
 | `#/ffxiv/armoire`               | `src/pages/armoire/NSArmoireLandingPage.vue` | 公网教程和 Release 下载页；`armoire-local` 构建才加载 `NSArmoirePage.vue` 完整工作台 |
-| `#/ffxiv/fashioncheck`          | `src/pages/fashion-check/FashionCheckPage.vue` | 已接入当前周方案、金牌物品、标签数据库和来源页面 |
+| `#/ffxiv/fashioncheck`          | `src/pages/fashion-check/FashionCheckPage.vue` | 已接入当前周方案、当周金牌物品、金牌查询和来源页面 |
 | `#/ffxiv/item-card`             | `src/pages/item-card/ItemCardPage.vue`       | 已接入旧 `/card` 的链接/文本导入、装备和染剂编辑、多语言单张 PNG、批量 ZIP 和连续列表长图 |
 | `#/ffxiv/term-review`           | `src/pages/ffxiv/FfxivTermReviewPage.vue`    | 内部 FFXIV 术语校对页；仅开发/显式内部构建注册 |
 | `#/about`                       | `src/pages/about/AboutPage.vue`              | 已接入像素头像、SNS、本站信息和静态友链列表 |
@@ -118,11 +118,11 @@ verify: "逐项对照 router、site config 和实际文件。"
 - **后端**：与 NSGlamour 共用 V2 `/api/glamour/*`，目标端口 `8766`。
 - **模块文档**：`docs/ai/MODULES/item-card.md`。
 
-## 时尚品鉴（当前周作业与标签数据库已接入）
+## 时尚品鉴（当前周作业与金牌查询已接入）
 
-- **路由**：`#/ffxiv/fashioncheck`、`#/ffxiv/fashioncheck/gold-items`、`#/ffxiv/fashioncheck/tags`、`#/ffxiv/fashioncheck/sources`
+- **路由**：`#/ffxiv/fashioncheck`、`#/ffxiv/fashioncheck/tags`、`#/ffxiv/fashioncheck/sources`
 - **页面入口**：`src/pages/fashion-check/FashionCheckPage.vue`
-- **当前状态**：已接入当前周 80/100 作业、金牌物品、标签数据库、来源展示和中英日韩名称索引；原始历史、逐条证据和参考文件不向公开页面发布。
+- **当前状态**：已接入当前周 80/100 作业、作业下方的当周金牌物品、金牌查询、来源展示和中英日韩名称索引；原始历史、逐条证据和参考文件不向公开页面发布。
 - **数据边界**：公开页面只读取 `public/data/fashion-check/` 下经确认的当前周切片、名称索引、聚合标签索引和来源清单。
 - **模块文档**：`docs/ai/MODULES/fashion-check.md`。
 

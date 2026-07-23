@@ -24,6 +24,7 @@ export const SOURCE_ROLES = new Set([
   "gold-answers",
   "current-week",
   "dyes",
+  "score-plans",
   "mechanics",
   "item-acquisition",
   "related-tool",

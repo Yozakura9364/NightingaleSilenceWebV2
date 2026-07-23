@@ -6,7 +6,9 @@
       class="fashion-check-gold-items__slot ns-workbench-panel ns-workbench-panel--solid ns-workbench-panel--compact"
     >
       <header class="ns-workbench-panel__header">
-        <h2 class="ns-workbench-panel__title">{{ slotLabel(slot.slotId) }} | {{ slot.tag }}</h2>
+        <h2 class="ns-workbench-panel__title">
+          {{ slotLabel(slot.slotId) }} | {{ tagName(slot.categoryId, slot.tag) }}
+        </h2>
         <strong>{{ t(keys.gold) }} +{{ slot.gold.points }}</strong>
       </header>
       <div class="fashion-check-gold-items__list">
@@ -36,6 +38,16 @@ function itemName(itemId: number, fallback: string) {
   return resolveFashionCheckName(props.localeCatalog.items[String(itemId)], current.value, fallback)
 }
 
+function tagName(categoryId: number | undefined, fallback: string) {
+  return categoryId === undefined
+    ? fallback
+    : resolveFashionCheckName(
+        props.localeCatalog.tags?.[String(categoryId)],
+        current.value,
+        fallback
+      )
+}
+
 const slotLabelKeys = {
   weapon: keys.dyeWeapon,
   head: keys.dyeHead,
@@ -55,6 +67,9 @@ function slotLabel(slotId: string) {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+}
+.fashion-check-gold-items__slot {
+  align-content: start;
 }
 .fashion-check-gold-items__slot header {
   align-items: baseline;

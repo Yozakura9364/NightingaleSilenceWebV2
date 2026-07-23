@@ -133,7 +133,7 @@ src/pages/
 #/ffxiv/plate
 #/ffxiv/armoire
 #/ffxiv/fashioncheck
-#/ffxiv/fashioncheck/gold-items
+#/ffxiv/fashioncheck/tags
 #/ffxiv/fashioncheck/sources
 #/ffxiv/item-card
 #/silence

@@ -18,7 +18,7 @@ Represents the complete ordered history available to the first data slice.
 | `sourceId` | string | Stable project-local identifier |
 | `name` | string | Human-readable source name |
 | `url` | absolute URL | Public source or project repository URL |
-| `roles` | enum[] | `canonical`, `history`, `gold-answers`, `current-week`, `dyes`, `mechanics`, `item-acquisition`, `related-tool`, `validation-only` |
+| `roles` | enum[] | `canonical`, `history`, `gold-answers`, `current-week`, `dyes`, `score-plans`, `mechanics`, `item-acquisition`, `related-tool`, `validation-only` |
 | `retrievedAt` | ISO timestamp or null | Required when content was fetched |
 | `licenseStatus` | enum | `official-game-data`, `declared`, `unspecified`, `not-applicable` |
 | `license` | string or null | SPDX or source-provided label when known |

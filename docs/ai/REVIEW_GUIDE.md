@@ -26,7 +26,7 @@ V2 已形成统一 Vue 站点外壳和五个公开 FFXIV 工具入口。`NSPlate
 - `#/ffxiv/glamour`
 - `#/ffxiv/armoire`
 - `#/ffxiv/fashioncheck`
-- `#/ffxiv/fashioncheck/gold-items`
+- `#/ffxiv/fashioncheck/tags`
 - `#/ffxiv/fashioncheck/sources`
 - `#/ffxiv/item-card`
 - `#/about`

@@ -12,9 +12,8 @@ verify: '运行生成器、历史 checker，并检查公开页面与产物边界
 
 本文是时尚品鉴助手的操作手册。目标是在不把未核验社区信息、私有会话数据或第三方原始文件公开的前提下，更新：
 
-- `#/ffxiv/fashioncheck` 的 80 分、100 分和染色作业；
-- `#/ffxiv/fashioncheck/gold-items` 的当周金牌装备；
-- `#/ffxiv/fashioncheck/tags` 的历史标签金牌装备索引；
+- `#/ffxiv/fashioncheck` 的 80 分、100 分、染色作业和当周金牌装备；
+- `#/ffxiv/fashioncheck/tags` 的金牌查询；
 - `/fc` 所使用的服务器私有 staging 与维护者通知。
 
 模块结构、历史数据规则和来源登记见 `docs/ai/MODULES/fashion-check.md`。本文不替代历史构建器的证据规则。
@@ -27,6 +26,7 @@ verify: '运行生成器、历史 checker，并检查公开页面与产物边界
 4. **服务器采集不等于可公开。** 自动采集产物只进入私有 staging，人工确认后才修改 `public/data/fashion-check/`。
 5. **不以翻译文本作为数据键。** 新增物品或染剂时必须有 ID，随后生成中英日韩名称索引。
 6. **不公开敏感或原始内容。** 不提交 cookie、token、QQ `opendoc` 原始响应、浏览器状态、私有 staging、完整第三方 CSV 或未授权图片。
+7. **低贴合候选暂不发布。** `1 Star`、`one-star`、`partial match`、浅蓝印章或“银牌”等表述不能自动换算分值；在完成对照实测并通过 `docs/ai/FASHION_CHECK_LOWER_TIER_PLAN.md` 的门禁前，只保留内部候选，不写入公开页面、金牌统计或 80/100 分方案。
 
 ## 每周时间线
 
@@ -61,6 +61,13 @@ verify: '运行生成器、历史 checker，并检查公开页面与产物边界
 - 社区来源的部位与官方 `Item.EquipSlotCategory` 冲突时，以官方槽位为准，并在审计数据中记录差异。
 - 名称中出现 `XX`、职能组、同模或集合表达式时，只使用已审阅的 `data/fashion-check/item-expression-overrides.json`；不得现场添加宽泛正则或模糊匹配。
 
+### 低贴合档位暂停规则
+
+- 当前周来源在金牌清单之外列出的 `1 Star` / `one-star` 装备，只能追加到内部候选并保留原始证据，不能公开显示。
+- `partial match`、`light-blue stamp` 和 `Low` 只作为检索或实测字段，不能在没有分值对照的情况下自动合并成“一星”或“银牌”。
+- 维护者提供实测结果后，先按 `docs/ai/FASHION_CHECK_LOWER_TIER_PLAN.md` 核对基准分、候选分、装备槽位、染色情况、外观层 Item ID 和印章原始值，再决定是否进入已核验数据。
+- 低贴合数据未来使用独立公开文件和独立页面板块；不得把候选追加到当前 `slots[].gold.items` 或 `tag-database.json` 的金牌 Item 列表。
+
 ## 服务器私有采集
 
 服务器采集由 NightingaleOpsBot 承担，生产数据在其私有 `.local/fashion-check/` staging 中。V2 网页不直接读取该目录。
@@ -91,13 +98,13 @@ public/data/fashion-check/current-locales.json
 
 | 字段                      | 说明                                                                                         |
 | ------------------------- | -------------------------------------------------------------------------------------------- |
-| `schemaVersion`           | 当前使用 `fashion-check.public-current.v4`。结构调整时升级版本。                             |
+| `schemaVersion`           | 当前使用 `fashion-check.public-current.v5`。结构调整时升级版本。                             |
 | `globalIssue` / `cnIssue` | 国际服和国服周次，必须与本周主题一致。                                                       |
 | `theme`                   | 已确认的当前主题展示名。                                                                     |
 | `challengeWindow`         | `+08:00` 的可挑战起止时间。                                                                  |
 | `referenceShowcase`       | 用户可见的 80 分、100 分与全部位染色展示；本周染色攻略有公开提供者时一并填写 `dyeProvider`。 |
 | `solutions`               | 备用结构化分数方案；当前展示优先使用 `referenceShowcase`。                                   |
-| `slots`                   | 金牌物品页的部位、标签、金牌分值与 Item 列表。                                               |
+| `slots`                   | 金牌物品页的部位、标签、`categoryId`、金牌分值与 Item 列表。                                  |
 
 `referenceShowcase.solutions[]` 继续兼容单个方案直接填写 `entries`。同一分数存在多种完成方式时，改用 `variants`；每个 variant 必须有稳定 `id`、本地化 `labelKey` / `descriptionKey` 和自己的 `entries`，避免用重复的 `80` ID 生成重复 Vue key。
 
@@ -166,6 +173,10 @@ local-assets/fashion-check/references/official/chs/Item.csv
 local-assets/fashion-check/references/official/en/Item.csv
 local-assets/fashion-check/references/official/ja/Item.csv
 local-assets/fashion-check/references/official/ko/Item.csv
+local-assets/fashion-check/references/official/chs/FashionCheckThemeCategory.csv
+local-assets/fashion-check/references/official/en/FashionCheckThemeCategory.csv
+local-assets/fashion-check/references/official/ja/FashionCheckThemeCategory.csv
+local-assets/fashion-check/references/official/ko/FashionCheckThemeCategory.csv
 ```
 
 染剂中英日韩名称维护在受跟踪的小型配置中：
@@ -180,13 +191,13 @@ data/fashion-check/current-dye-locales.json
 node scripts/fashion-check/build-current-locales.mjs
 ```
 
-生成器会从 `current.json` 收集所有 `itemId` 与 `dyeId`，并结合轻量衣柜染剂分类和官方 Item.csv 解析实际染剂物品；缺任一语言名称、物品 ID 或图标 ID 即失败。成功后才会覆写：
+生成器会从 `current.json` 收集所有 `categoryId`、`itemId` 与 `dyeId`，从四语 `FashionCheckThemeCategory.csv` 生成标签名，并结合轻量衣柜染剂分类和官方 Item.csv 解析实际染剂物品；缺任一语言名称、物品 ID 或图标 ID 即失败。成功后才会覆写：
 
 ```text
 public/data/fashion-check/current-locales.json
 ```
 
-不要手工编辑该生成物，修改源数据后重新生成。
+该生成物当前使用 `fashion-check.current-locales.v3`；不要手工编辑，修改源数据后重新生成。
 
 ## 历史标签索引维护
 
@@ -216,10 +227,11 @@ node --test tests/fashion-check/*.test.mjs
 ### 2. 更新公开切片
 
 1. 只编辑 `public/data/fashion-check/current.json` 中本周相关字段。
-2. 所有新装备写入 `itemId`、`name`、`iconId`、`rarity`。
-3. 所有精确染剂写入 `dyeId`。
-4. 有泛用装备说明时使用已有 `labelKey`；新增 key 必须同时补齐中英日韩消息。
-5. 必要时更新 `public/data/fashion-check/sources.json`，但只改用户确认的公开署名与网址。
+2. 当前标签已存在于公开标签数据库时，运行 `node scripts/fashion-check/populate-current-gold-items.mjs`，按中文标签和部位精确生成 `categoryId` 与金牌 Item 列表；匹配不唯一或缺失时必须停止并人工核对。
+3. 标签数据库尚未包含本周答案时，所有新装备写入 `itemId`、`name`、`iconId`、`rarity`，并补充可靠证据后重建标签数据库。
+4. 所有精确染剂写入 `dyeId`。
+5. 有泛用装备说明时使用已有 `labelKey`；新增 key 必须同时补齐中英日韩消息。
+6. 必要时更新 `public/data/fashion-check/sources.json`，但只改用户确认的公开署名与网址。
 
 ### 3. 重建语言索引
 
@@ -249,14 +261,13 @@ node --test tests/fashion-check/*.test.mjs
 
 逐项检查：
 
-1. `#/ffxiv/fashioncheck`：80 分、100 分、六个染色槽的文案、图标、色块和分数无错位。
-2. `#/ffxiv/fashioncheck/gold-items`：每个部位的标签、金牌分值、装备图标与品质色正确。
-3. `#/ffxiv/fashioncheck/tags`：搜索可匹配任一语言标签，部位筛选正确，同一标签的不同部位不会合并物品；桌面、平板和手机均无横向溢出。
-4. 右上角语言切换：中文、英文、日文、韩文下的标签、装备名、染剂名、部位名、色系和泛用装备说明都变化；法德按英文回退。
-5. `#/ffxiv/fashioncheck/sources`：只显示用户确认的作者名与网址，不显示工具标题、内部说明或已移除来源。
-6. 旧周的主题、挑战日期、Item ID、染剂和截图不得残留。
+1. `#/ffxiv/fashioncheck`：80 分、100 分、六个染色槽和下方当周金牌装备的文案、图标、色块、标签与分数无错位。
+2. `#/ffxiv/fashioncheck/tags`：金牌查询可匹配任一语言标签，部位筛选正确，同一标签的不同部位不会合并物品；桌面、平板和手机均无横向溢出。
+3. 右上角语言切换：中文、英文、日文、韩文下的标签、装备名、染剂名、部位名、色系和泛用装备说明都变化；法德按英文回退。
+4. `#/ffxiv/fashioncheck/sources`：只显示用户确认的作者名与网址，不显示工具标题、内部说明或已移除来源。
+5. 旧周的主题、挑战日期、Item ID、染剂和截图不得残留。
 
-推荐截图命名：`fashion-check-zh.png`、`fashion-check-en.png`、`fashion-check-ja.png`、`fashion-check-ko.png`、`fashion-check-gold.png`、`fashion-check-sources.png`。
+推荐截图命名：`fashion-check-zh.png`、`fashion-check-en.png`、`fashion-check-ja.png`、`fashion-check-ko.png`、`fashion-check-search.png`、`fashion-check-sources.png`。
 
 ### 6. 当前周数据热更新
 

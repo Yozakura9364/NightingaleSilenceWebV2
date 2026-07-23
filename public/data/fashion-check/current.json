@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "fashion-check.public-current.v4",
+  "schemaVersion": "fashion-check.public-current.v5",
   "globalIssue": 443,
   "cnIssue": 428,
   "theme": "真麻正式装",
@@ -15,8 +15,46 @@
       "tag": "野兽",
       "gold": {
         "points": 8,
-        "items": []
-      }
+        "items": [
+          {
+            "itemId": 7360,
+            "name": "狮鬃战盔",
+            "iconId": 40148,
+            "rarity": 2
+          },
+          {
+            "itemId": 7372,
+            "name": "熊口战盔",
+            "iconId": 40151,
+            "rarity": 2
+          },
+          {
+            "itemId": 10671,
+            "name": "飞龙革御敌鬃盔",
+            "iconId": 40214,
+            "rarity": 1
+          },
+          {
+            "itemId": 15478,
+            "name": "波奇头套",
+            "iconId": 41657,
+            "rarity": 1
+          },
+          {
+            "itemId": 20679,
+            "name": "黑漆忠犬武士盔",
+            "iconId": 40283,
+            "rarity": 1
+          },
+          {
+            "itemId": 21017,
+            "name": "人狼耳朵",
+            "iconId": 40785,
+            "rarity": 1
+          }
+        ]
+      },
+      "categoryId": 4
     },
     {
       "slotId": "body",
@@ -24,8 +62,52 @@
       "tag": "真麻",
       "gold": {
         "points": 8,
-        "items": []
-      }
+        "items": [
+          {
+            "itemId": 21712,
+            "name": "夜钢御敌战甲",
+            "iconId": 48165,
+            "rarity": 2
+          },
+          {
+            "itemId": 21718,
+            "name": "夜钢制敌战铠",
+            "iconId": 48166,
+            "rarity": 2
+          },
+          {
+            "itemId": 21724,
+            "name": "真麻强袭长衣",
+            "iconId": 42589,
+            "rarity": 2
+          },
+          {
+            "itemId": 21730,
+            "name": "真麻精准外套",
+            "iconId": 42590,
+            "rarity": 2
+          },
+          {
+            "itemId": 21736,
+            "name": "真麻游击外套",
+            "iconId": 42591,
+            "rarity": 2
+          },
+          {
+            "itemId": 21742,
+            "name": "真麻治愈长袍",
+            "iconId": 43819,
+            "rarity": 2
+          },
+          {
+            "itemId": 21748,
+            "name": "真麻咏咒长袍",
+            "iconId": 43818,
+            "rarity": 2
+          }
+        ]
+      },
+      "categoryId": 97
     },
     {
       "slotId": "hands",
@@ -33,8 +115,52 @@
       "tag": "正式",
       "gold": {
         "points": 8,
-        "items": []
-      }
+        "items": [
+          {
+            "itemId": 3533,
+            "name": "草布短手套",
+            "iconId": 44159,
+            "rarity": 1
+          },
+          {
+            "itemId": 3538,
+            "name": "草布礼服手套",
+            "iconId": 44159,
+            "rarity": 1
+          },
+          {
+            "itemId": 3640,
+            "name": "呢绒礼服手套",
+            "iconId": 44198,
+            "rarity": 1
+          },
+          {
+            "itemId": 8672,
+            "name": "纯情永结手套",
+            "iconId": 44292,
+            "rarity": 1
+          },
+          {
+            "itemId": 8673,
+            "name": "激情永结手套",
+            "iconId": 44293,
+            "rarity": 2
+          },
+          {
+            "itemId": 8674,
+            "name": "钟情永结手套",
+            "iconId": 44294,
+            "rarity": 3
+          },
+          {
+            "itemId": 13193,
+            "name": "瘟疫医生手套",
+            "iconId": 44412,
+            "rarity": 2
+          }
+        ]
+      },
+      "categoryId": 20
     },
     {
       "slotId": "legs",
@@ -42,8 +168,58 @@
       "tag": "垮裆",
       "gold": {
         "points": 8,
-        "items": []
-      }
+        "items": [
+          {
+            "itemId": 3321,
+            "name": "棉布垮裤",
+            "iconId": 45107,
+            "rarity": 1
+          },
+          {
+            "itemId": 3349,
+            "name": "棉绒垮裤",
+            "iconId": 45178,
+            "rarity": 1
+          },
+          {
+            "itemId": 3351,
+            "name": "棉绒大地垮裤",
+            "iconId": 45178,
+            "rarity": 1
+          },
+          {
+            "itemId": 3383,
+            "name": "亚麻垮裤",
+            "iconId": 45179,
+            "rarity": 1
+          },
+          {
+            "itemId": 3385,
+            "name": "亚麻大地垮裤",
+            "iconId": 45179,
+            "rarity": 1
+          },
+          {
+            "itemId": 3408,
+            "name": "呢绒垮裤",
+            "iconId": 45180,
+            "rarity": 1
+          },
+          {
+            "itemId": 3410,
+            "name": "呢绒大地垮裤",
+            "iconId": 45180,
+            "rarity": 1
+          },
+          {
+            "itemId": 10390,
+            "name": "萨维奈垮裤",
+            "iconId": 45596,
+            "rarity": 1
+          }
+        ]
+      },
+      "categoryId": 124
     }
   ]
 }

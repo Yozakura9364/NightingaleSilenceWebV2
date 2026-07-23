@@ -1,5 +1,9 @@
 <template>
-  <section v-if="showcase" class="fashion-check-showcase" :aria-label="t(keys.solutions)">
+  <section
+    v-if="showcase"
+    class="fashion-check-weekly__top fashion-check-showcase"
+    :aria-label="t(keys.solutions)"
+  >
     <div class="fashion-check-showcase__overview">
       <article
         v-for="solution in showcase.solutions"
@@ -96,18 +100,12 @@
         </article>
       </section>
     </div>
-    <section
-      class="fashion-check-showcase__faq ns-workbench-panel ns-workbench-panel--soft ns-workbench-panel--compact"
-      :aria-label="t(keys.faq)"
-    >
-      <h2 class="ns-workbench-panel__title">{{ t(keys.faq) }}</h2>
-      <p>{{ t(keys.faqPlaceholder) }}</p>
-    </section>
+    <FashionCheckGoldItemsView :week="week" :locale-catalog="localeCatalog" />
   </section>
 
   <section
     v-else-if="week.solutions.length > 0"
-    class="fashion-check-solutions"
+    class="fashion-check-weekly__top fashion-check-solutions"
     :aria-label="t(keys.solutions)"
   >
     <article
@@ -137,18 +135,57 @@
     </article>
   </section>
 
-  <section v-else class="fashion-check-solutions" :aria-label="t(keys.solutions)">
-    <p
-      class="fashion-check-solutions__pending ns-workbench-panel ns-workbench-panel--solid ns-workbench-panel--compact"
+  <section
+    v-else
+    class="fashion-check-weekly__top fashion-check-showcase__overview"
+    :aria-label="t(keys.solutions)"
+  >
+    <article
+      class="fashion-check-showcase__solution fashion-check-showcase__pending-card ns-workbench-panel ns-workbench-panel--solid"
     >
-      {{ t(keys.awaitingData) }}
-    </p>
+      <h2 class="ns-workbench-panel__title">{{ t(keys.solution80Title) }}</h2>
+      <p class="fashion-check-showcase__pending">{{ t(keys.awaitingData) }}</p>
+    </article>
+    <article
+      class="fashion-check-showcase__solution fashion-check-showcase__pending-card ns-workbench-panel ns-workbench-panel--solid"
+    >
+      <h2 class="ns-workbench-panel__title">{{ t(keys.solution100Title) }}</h2>
+      <p class="fashion-check-showcase__pending">{{ t(keys.awaitingData) }}</p>
+    </article>
+    <section
+      class="fashion-check-showcase__dyes fashion-check-showcase__pending-card ns-workbench-panel ns-workbench-panel--solid"
+      :aria-label="t(keys.dyeGuide)"
+    >
+      <h2 class="ns-workbench-panel__title">{{ t(keys.dyeGuide) }}</h2>
+      <p class="fashion-check-showcase__pending">{{ t(keys.awaitingData) }}</p>
+    </section>
+  </section>
+
+  <FashionCheckGoldItemsView
+    v-if="!showcase"
+    class="fashion-check-weekly__gold"
+    :week="week"
+    :locale-catalog="localeCatalog"
+  />
+
+  <section
+    class="fashion-check-showcase__faq ns-workbench-panel ns-workbench-panel--soft ns-workbench-panel--compact"
+    :aria-label="t(keys.faq)"
+  >
+    <h2 class="ns-workbench-panel__title">{{ t(keys.faq) }}</h2>
+    <dl class="fashion-check-showcase__faq-list">
+      <div v-for="entry in faqEntries" :key="entry.question">
+        <dt>{{ t(entry.question) }}</dt>
+        <dd>{{ t(entry.answer) }}</dd>
+      </div>
+    </dl>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import FashionCheckItemLine from '@/pages/fashion-check/components/FashionCheckItemLine.vue'
+import FashionCheckGoldItemsView from '@/pages/fashion-check/views/FashionCheckGoldItemsView.vue'
 import { getArmoireIconUrl } from '@/lib/armoire/catalog'
 import { resolveFashionCheckName } from '@/lib/fashion-check/localization'
 import type {
@@ -169,6 +206,19 @@ const props = defineProps<{
   localeCatalog: FashionCheckLocaleCatalog
 }>()
 const { current, t } = useLocale()
+const faqEntries = [
+  { question: keys.faqAttemptsQuestion, answer: keys.faqAttemptsAnswer },
+  {
+    question: keys.faqParticipationRewardQuestion,
+    answer: keys.faqParticipationRewardAnswer
+  },
+  { question: keys.faq80RewardQuestion, answer: keys.faq80RewardAnswer },
+  { question: keys.faq80RequirementsQuestion, answer: keys.faq80RequirementsAnswer },
+  { question: keys.faq100RewardQuestion, answer: keys.faq100RewardAnswer },
+  { question: keys.faqCumulativeQuestion, answer: keys.faqCumulativeAnswer },
+  { question: keys.faqBonusQuestion, answer: keys.faqBonusAnswer },
+  { question: keys.faqFacewearQuestion, answer: keys.faqFacewearAnswer }
+] as const
 const itemById = computed(
   () =>
     new Map(props.week.slots.flatMap((slot) => slot.gold.items).map((item) => [item.itemId, item]))
@@ -235,6 +285,12 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
 </script>
 
 <style scoped>
+.fashion-check-weekly__top {
+  margin-top: 16px;
+}
+.fashion-check-weekly__gold {
+  margin-top: 16px;
+}
 .fashion-check-showcase {
   display: grid;
 }
@@ -374,23 +430,54 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
 .fashion-check-showcase__dye-provider {
   margin-top: -4px;
 }
-.fashion-check-showcase__faq p {
-  margin: 0;
-}
 .fashion-check-showcase__faq h2 {
   font-size: 16px;
 }
-.fashion-check-showcase__faq p {
-  font-size: 14px;
+.fashion-check-showcase__faq {
+  margin-top: 16px;
+}
+.fashion-check-showcase__faq-list {
+  display: grid;
+  margin: 0;
+}
+.fashion-check-showcase__faq-list > div {
+  display: grid;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ns-pixel-border);
+}
+.fashion-check-showcase__faq-list > div:first-child {
+  padding-top: 0;
+}
+.fashion-check-showcase__faq-list > div:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.fashion-check-showcase__faq-list dt,
+.fashion-check-showcase__faq-list dd {
+  margin: 0;
   overflow-wrap: anywhere;
+}
+.fashion-check-showcase__faq-list dt {
+  font-weight: 700;
+}
+.fashion-check-showcase__faq-list dd {
+  color: var(--ns-color-text-muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
 .fashion-check-solutions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
-.fashion-check-solutions__pending {
+.fashion-check-showcase__pending-card {
+  align-content: start;
+}
+.fashion-check-showcase__pending {
   margin: 0;
+  color: var(--ns-color-text-muted);
+  font-size: 13px;
 }
 .fashion-check-solution {
   display: flex;
