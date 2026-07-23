@@ -376,6 +376,7 @@ import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
 import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import pixelStarIcon from '@/assets/icons/pixelarticons/star.svg'
+import glamourPrismMonoIcon from '@/assets/icons/glamour/prism-mono.svg'
 import { isSilenceEnabled } from '@/config/features'
 import { ffxivTools, siteMeta, siteRoutes } from '@/config/site'
 import { homeTextKeys as textKeys } from '@/locales/keys/home'
@@ -575,7 +576,7 @@ const homeWorkshopLinks = [
 // ---- Template helpers ----
 function workshopIconFor(id: string) {
   if (id === 'itemCard') return pixelImageIcon
-  if (id === 'glamour') return pixelSparklesIcon
+  if (id === 'glamour') return glamourPrismMonoIcon
   if (id === 'armoire') return pixelArchiveIcon
   return pixelHomeIcon
 }
