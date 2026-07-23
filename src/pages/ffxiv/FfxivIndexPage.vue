@@ -29,6 +29,7 @@ import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
+import glamourPrismIcon from '@/assets/icons/glamour/prism-64.svg'
 import { ffxivTools, getCategory } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
@@ -42,7 +43,7 @@ const { t } = useLocale()
 
 const toolIcons: Record<string, string> = {
   itemCard: pixelImageIcon,
-  glamour: pixelSparklesIcon,
+  glamour: glamourPrismIcon,
   plate: pixelAvatarCircleIcon,
   armoire: pixelArchiveIcon,
   fashionCheck: pixelSparklesIcon
@@ -124,6 +125,12 @@ const toolCards = computed(() =>
   height: 48px;
   filter: var(--ns-pixel-icon-filter);
   image-rendering: pixelated;
+}
+
+.ffxiv-tool-card--glamour .ffxiv-tool-card__icon {
+  width: 64px;
+  height: 64px;
+  filter: none;
 }
 
 .ffxiv-tool-card__title {

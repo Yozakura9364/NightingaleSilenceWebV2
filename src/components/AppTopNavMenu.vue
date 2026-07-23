@@ -122,9 +122,9 @@ import archiveIcon from '@/assets/icons/pixelarticons/archive.svg'
 import avatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import folderIcon from '@/assets/icons/pixelarticons/folder.svg'
 import imageIcon from '@/assets/icons/pixelarticons/image.svg'
-import sparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import starIcon from '@/assets/icons/pixelarticons/star.svg'
 import userIcon from '@/assets/icons/pixelarticons/user.svg'
+import glamourPrismMonoIcon from '@/assets/icons/glamour/prism-mono.svg'
 import { isSilenceEnabled } from '@/config/features'
 import { ffxivTools, silenceGroups, siteRoutes } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
@@ -143,7 +143,7 @@ const CLOSE_DELAY = 500
 
 const toolIconMap: Record<string, string> = {
   itemCard: imageIcon,
-  glamour: sparklesIcon,
+  glamour: glamourPrismMonoIcon,
   plate: avatarCircleIcon,
   armoire: archiveIcon
 }
