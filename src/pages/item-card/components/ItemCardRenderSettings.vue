@@ -263,7 +263,7 @@ async function loadLocalFonts() {
 
 .card-settings h2 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 15px;
 }
 
@@ -326,7 +326,7 @@ async function loadLocalFonts() {
   border-radius: 3px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: 12px var(--ns-font-sans);
+  font: 12px var(--ns-font-ui);
 }
 
 .card-settings__font-row {
@@ -343,7 +343,7 @@ async function loadLocalFonts() {
   border-radius: 3px;
   background: var(--ns-color-surface);
   color: var(--ns-color-text);
-  font: 700 11px var(--ns-font-sans);
+  font: 700 11px var(--ns-font-ui);
   cursor: pointer;
 }
 

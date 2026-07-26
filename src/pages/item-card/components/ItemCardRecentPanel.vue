@@ -121,7 +121,7 @@ function formatDeleteLabel(item: GlamourRecentSnapshot): string {
 }
 
 .nsitemcard-recent--popover .nsitemcard-panel-header h2 {
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
 }
 
@@ -136,7 +136,7 @@ function formatDeleteLabel(item: GlamourRecentSnapshot): string {
 
 .nsitemcard-panel-header h2 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 16px;
   font-weight: 950;
 }

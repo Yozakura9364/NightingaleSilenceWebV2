@@ -123,7 +123,7 @@ onMounted(() => void nextTick(() => textInput.value?.focus()))
 
 .item-card-text-import h2 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 16px;
 }
 
@@ -143,7 +143,7 @@ onMounted(() => void nextTick(() => textInput.value?.focus()))
   border-radius: 3px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: 13px var(--ns-font-sans);
+  font: 13px var(--ns-font-ui);
 }
 
 .item-card-text-import select {
@@ -162,7 +162,7 @@ onMounted(() => void nextTick(() => textInput.value?.focus()))
   border-radius: 3px;
   background: var(--ns-color-surface);
   color: var(--ns-color-text);
-  font: 800 11px var(--ns-font-sans);
+  font: 800 11px var(--ns-font-ui);
   cursor: pointer;
 }
 

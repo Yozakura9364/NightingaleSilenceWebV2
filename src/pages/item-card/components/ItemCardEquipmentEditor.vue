@@ -338,7 +338,7 @@ function closePickers() {
 
 .equipment-editor__head h2 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 15px;
 }
 
@@ -356,7 +356,7 @@ function closePickers() {
   border-radius: 0;
   background: var(--ns-color-surface);
   color: var(--ns-color-text-muted);
-  font: 700 10px var(--ns-font-sans);
+  font: 700 10px var(--ns-font-ui);
   white-space: nowrap;
   cursor: pointer;
 }
@@ -401,10 +401,6 @@ function closePickers() {
   padding: 8px 36px 8px 8px;
 }
 
-.equipment-row--duplicate .equipment-row__slot {
-  box-shadow: inset 3px 0 0 var(--ns-color-accent);
-}
-
 .equipment-row--plain-item .equipment-row__slot {
   background: var(--ns-pixel-hover-surface);
   color: var(--ns-color-text);
@@ -447,7 +443,7 @@ function closePickers() {
   border-radius: 3px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: 11px var(--ns-font-sans);
+  font: 11px var(--ns-font-ui);
 }
 
 .equipment-row__controls {
@@ -469,7 +465,7 @@ function closePickers() {
   border: 0;
   background: transparent;
   color: var(--ns-color-text-muted);
-  font: 18px/1 var(--ns-font-sans);
+  font: 18px/1 var(--ns-font-ui);
   cursor: pointer;
 }
 
@@ -499,7 +495,7 @@ function closePickers() {
   border-radius: 3px;
   background: var(--ns-color-surface);
   color: var(--ns-color-text);
-  font: 11px var(--ns-font-sans);
+  font: 11px var(--ns-font-ui);
   cursor: pointer;
 }
 

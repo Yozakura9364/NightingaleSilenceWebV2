@@ -153,7 +153,7 @@ async function download() {
   border-radius: 3px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: 700 10px var(--ns-font-sans);
+  font: 700 10px var(--ns-font-ui);
   cursor: pointer;
 }
 

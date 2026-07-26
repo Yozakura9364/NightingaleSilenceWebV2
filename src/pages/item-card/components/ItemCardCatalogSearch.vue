@@ -220,7 +220,7 @@ function handleFocusOut() {
   border-radius: 0;
   background: var(--ns-color-surface);
   color: var(--ns-color-text-muted);
-  font: 700 11px var(--ns-font-sans);
+  font: 700 11px var(--ns-font-ui);
   white-space: nowrap;
   cursor: pointer;
 }
@@ -243,7 +243,7 @@ function handleFocusOut() {
   border-radius: 0 3px 3px 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: 11px var(--ns-font-sans);
+  font: 11px var(--ns-font-ui);
 }
 
 .catalog-search-row__results {
@@ -270,7 +270,7 @@ function handleFocusOut() {
   border: 0;
   background: transparent;
   color: var(--ns-color-text);
-  font: 12px var(--ns-font-sans);
+  font: 12px var(--ns-font-ui);
   text-align: left;
   cursor: pointer;
 }

@@ -233,7 +233,7 @@ async function downloadZip() {
 
 .card-preview h3 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
 }
 
 .card-preview h3 {
@@ -253,7 +253,7 @@ async function downloadZip() {
   border-radius: 3px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: 800 11px var(--ns-font-sans);
+  font: 800 11px var(--ns-font-ui);
   cursor: pointer;
 }
 

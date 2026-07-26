@@ -262,7 +262,7 @@ function submitTextImport() {
   border-bottom: 2px solid var(--ns-color-border);
   background: transparent;
   color: var(--ns-color-text-muted);
-  font: 900 12px var(--ns-font-decorative);
+  font: 900 12px var(--ns-font-pixel);
   cursor: pointer;
 }
 
