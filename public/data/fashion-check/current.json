@@ -7,7 +7,139 @@
     "startsAt": "2026-07-24T16:00:00+08:00",
     "endsAt": "2026-07-28T16:00:00+08:00"
   },
-  "solutions": [],
+  "referenceShowcase": {
+    "globalIssue": 443,
+    "theme": "真麻正式装",
+    "dyeProvider": "AllGameStaff",
+    "solutions": [
+      {
+        "id": "80",
+        "score": 80,
+        "entries": [
+          {
+            "slotId": "head",
+            "iconId": 41227,
+            "label": "任意可染色头部装备",
+            "labelKey": "fashionCheck.anyDyeableHead",
+            "dye": { "dyeId": 42, "name": "萄干棕", "points": 2 }
+          },
+          {
+            "slotId": "body",
+            "iconId": 42422,
+            "label": "任意可染色身体装备",
+            "labelKey": "fashionCheck.anyDyeableBody",
+            "dye": { "dyeId": 32, "name": "鼹鼠棕", "points": 2 }
+          },
+          {
+            "slotId": "hands",
+            "item": {
+              "itemId": 3533,
+              "name": "草布短手套",
+              "iconId": 44159,
+              "rarity": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "100",
+        "score": 100,
+        "entries": [
+          {
+            "slotId": "head",
+            "item": {
+              "itemId": 10671,
+              "name": "飞龙革御敌鬃盔",
+              "iconId": 40214,
+              "rarity": 1
+            },
+            "dye": { "dyeId": 42, "name": "萄干棕" }
+          },
+          {
+            "slotId": "body",
+            "iconId": 42422,
+            "label": "任意可染色身体装备",
+            "labelKey": "fashionCheck.anyDyeableBody",
+            "dye": { "dyeId": 32, "name": "鼹鼠棕" }
+          },
+          {
+            "slotId": "hands",
+            "item": {
+              "itemId": 3533,
+              "name": "草布短手套",
+              "iconId": 44159,
+              "rarity": 1
+            }
+          },
+          {
+            "slotId": "legs",
+            "item": {
+              "itemId": 3321,
+              "name": "棉布垮裤",
+              "iconId": 45107,
+              "rarity": 1
+            },
+            "dye": { "dyeId": 70, "name": "东洲蓝" }
+          },
+          {
+            "slotId": "feet",
+            "iconId": 46446,
+            "label": "任意可染色脚部装备",
+            "labelKey": "fashionCheck.anyDyeableFeet",
+            "dye": { "dyeId": 70, "name": "东洲蓝" }
+          }
+        ]
+      }
+    ],
+    "dyes": [
+      {
+        "slotId": "head",
+        "family": { "id": "brown", "name": "棕色系", "color": "#B9A489", "points": 1 },
+        "exact": { "dyeId": 42, "name": "萄干棕", "color": "#403311", "points": 2 }
+      },
+      {
+        "slotId": "body",
+        "family": { "id": "brown", "name": "棕色系", "color": "#B9A489", "points": 1 },
+        "exact": { "dyeId": 32, "name": "鼹鼠棕", "color": "#615245", "points": 2 }
+      },
+      {
+        "slotId": "legs",
+        "family": { "id": "blue", "name": "蓝色系", "color": "#5B7FC0", "points": 1 },
+        "exact": { "dyeId": 70, "name": "东洲蓝", "color": "#2F5889", "points": 2 }
+      },
+      {
+        "slotId": "feet",
+        "family": { "id": "blue", "name": "蓝色系", "color": "#5B7FC0", "points": 1 },
+        "exact": { "dyeId": 70, "name": "东洲蓝", "color": "#2F5889", "points": 2 }
+      }
+    ]
+  },
+  "solutions": [
+    {
+      "id": "80",
+      "score": 80,
+      "items": [{ "slotId": "hands", "itemId": 3533, "points": 8 }],
+      "dyes": [
+        { "slotId": "head", "points": 2 },
+        { "slotId": "body", "points": 2 }
+      ]
+    },
+    {
+      "id": "100",
+      "score": 100,
+      "items": [
+        { "slotId": "head", "itemId": 10671, "points": 8 },
+        { "slotId": "hands", "itemId": 3533, "points": 8 },
+        { "slotId": "legs", "itemId": 3321, "points": 8 }
+      ],
+      "dyes": [
+        { "slotId": "head", "points": 2 },
+        { "slotId": "body", "points": 2 },
+        { "slotId": "legs", "points": 2 },
+        { "slotId": "feet", "points": 2 }
+      ]
+    }
+  ],
   "slots": [
     {
       "slotId": "head",

@@ -4,6 +4,7 @@
     :class="{
       'fashion-check-item-line--has-slot': slotLabel,
       'fashion-check-item-line--has-secondary': secondaryText,
+      'fashion-check-item-line--stacked-slot': stackedSlot,
       'fashion-check-item-line--actionable': item
     }"
     @contextmenu="openItemMenu"
@@ -26,25 +27,33 @@
       displayName ?? item?.name ?? label
     }}</span>
     <small v-if="points !== undefined">+{{ points }}</small>
-    <small v-if="secondaryText" class="fashion-check-item-line__secondary">{{
-      secondaryText
-    }}</small>
-    <div
-      v-if="itemActionMenu"
-      class="fashion-check-item-line__menu ns-workbench-panel ns-workbench-panel--solid"
-      :style="{ left: `${itemActionMenu.x}px`, top: `${itemActionMenu.y}px` }"
-      role="menu"
-      @click.stop
-    >
-      <button
-        type="button"
-        class="ns-compact-action ns-compact-action--flush"
-        role="menuitem"
-        @click="openHuijiWiki"
+    <small v-if="secondaryText" class="fashion-check-item-line__secondary">
+      <span
+        v-if="secondaryColor"
+        class="fashion-check-item-line__swatch"
+        :style="{ backgroundColor: secondaryColor }"
+        aria-hidden="true"
+      />
+      <span>{{ secondaryText }}</span>
+    </small>
+    <Teleport to="body">
+      <div
+        v-if="itemActionMenu"
+        class="fashion-check-item-line__menu ns-workbench-panel ns-workbench-panel--solid"
+        :style="{ left: `${itemActionMenu.x}px`, top: `${itemActionMenu.y}px` }"
+        role="menu"
+        @click.stop
       >
-        {{ t(keys.openHuijiWiki) }}
-      </button>
-    </div>
+        <button
+          type="button"
+          class="ns-compact-action ns-compact-action--flush"
+          role="menuitem"
+          @click="openHuijiWiki"
+        >
+          {{ t(keys.openHuijiWiki) }}
+        </button>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -75,6 +84,8 @@ const props = defineProps<{
   label?: string
   points?: number
   secondaryText?: string
+  secondaryColor?: string
+  stackedSlot?: boolean
 }>()
 
 const resolvedIconId = computed(() => props.item?.iconId ?? props.iconId)
@@ -189,7 +200,53 @@ onBeforeUnmount(() => {
 }
 
 .fashion-check-item-line__secondary {
+  display: flex;
   grid-column: 2 / -1;
+  gap: 8px;
+  align-items: center;
+}
+
+.fashion-check-item-line__swatch {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border: 1px solid var(--ns-pixel-border);
+}
+
+.fashion-check-item-line--stacked-slot {
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  row-gap: 5px;
+}
+
+.fashion-check-item-line--stacked-slot .fashion-check-item-line__slot {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  font-size: 12px;
+}
+
+.fashion-check-item-line--stacked-slot .fashion-check-item-line__icon {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.fashion-check-item-line--stacked-slot > span:not(.fashion-check-item-line__swatch) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.fashion-check-item-line--stacked-slot.fashion-check-item-line--has-secondary {
+  grid-template-rows: auto auto auto;
+}
+
+.fashion-check-item-line--stacked-slot.fashion-check-item-line--has-secondary
+  .fashion-check-item-line__icon {
+  grid-row: 2 / span 2;
+}
+
+.fashion-check-item-line--stacked-slot .fashion-check-item-line__secondary {
+  grid-column: 2 / -1;
+  grid-row: 3;
 }
 
 .fashion-check-item-line > span {

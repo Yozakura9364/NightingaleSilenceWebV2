@@ -39,6 +39,8 @@
                   :slot-label="slotLabel(entry.slotId)"
                   :label="entryLabel(entry)"
                   :secondary-text="entry.dye ? dyeName(entry.dye.dyeId, entry.dye.name) : undefined"
+                  :secondary-color="entry.dye ? entryDyeColor(entry) : undefined"
+                  stacked-slot
                 />
                 <p v-else>
                   <b>{{ slotLabel(entry.slotId) }}</b
@@ -257,8 +259,19 @@ function dyeItemName(dyeId: number | undefined) {
 function dyeItemIconUrl(dyeId: number | undefined) {
   return getArmoireIconUrl(dyeItem(dyeId)?.iconId)
 }
+function entryDyeColor(entry: FashionCheckReferenceEntry) {
+  const dye = props.showcase?.dyes.find(
+    (candidate) =>
+      candidate.slotId === entry.slotId && candidate.exact.dyeId === entry.dye?.dyeId
+  )
+  return dye?.exact.color
+}
 function entryLabel(entry: FashionCheckReferenceEntry) {
   return entry.labelKey ? t(entry.labelKey) : entry.label
+}
+function isRelevantSolutionEntry(entry: FashionCheckReferenceEntry) {
+  const isDyeablePlaceholder = entry.labelKey?.startsWith('fashionCheck.anyDyeable')
+  return Boolean(entry.item || entry.dye || !isDyeablePlaceholder)
 }
 function solutionSections(solution: FashionCheckReferenceSolution) {
   if (solution.variants?.length) {
@@ -266,12 +279,17 @@ function solutionSections(solution: FashionCheckReferenceSolution) {
       id: variant.id,
       label: variant.labelKey ? t(variant.labelKey) : variant.label,
       description: variant.descriptionKey ? t(variant.descriptionKey) : variant.description,
-      entries: variant.entries
+      entries: variant.entries.filter(isRelevantSolutionEntry)
     }))
   }
 
   return [
-    { id: 'default', label: undefined, description: undefined, entries: solution.entries ?? [] }
+    {
+      id: 'default',
+      label: undefined,
+      description: undefined,
+      entries: (solution.entries ?? []).filter(isRelevantSolutionEntry)
+    }
   ]
 }
 function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: string) {
@@ -301,7 +319,7 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  align-items: start;
+  align-items: stretch;
 }
 .fashion-check-showcase__solution {
   align-content: start;
@@ -361,6 +379,7 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
 .fashion-check-showcase__dyes {
   grid-template-columns: 1fr;
   gap: 8px;
+  align-content: start;
 }
 .fashion-check-showcase__dyes article {
   display: grid;

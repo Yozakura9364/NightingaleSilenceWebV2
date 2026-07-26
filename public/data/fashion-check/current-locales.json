@@ -170,8 +170,58 @@
       "ko": "진마 마술사 로브"
     }
   },
-  "dyes": {},
-  "dyeItems": {},
+  "dyes": {
+    "32": {
+      "zh-CN": "鼹鼠棕",
+      "en": "Mole Brown",
+      "ja": "モールブラウン",
+      "ko": "두더지색"
+    },
+    "42": {
+      "zh-CN": "萄干棕",
+      "en": "Raisin Brown",
+      "ja": "レーズンブラウン",
+      "ko": "건포도색"
+    },
+    "70": {
+      "zh-CN": "东洲蓝",
+      "en": "Othard Blue",
+      "ja": "オサードブルー",
+      "ko": "오사드 바다색"
+    }
+  },
+  "dyeItems": {
+    "32": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "42": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "70": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    }
+  },
   "tags": {
     "4": {
       "zh-CN": "野兽",

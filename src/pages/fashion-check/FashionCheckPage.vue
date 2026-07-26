@@ -163,7 +163,7 @@ onMounted(async () => {
   padding-block: 16px 48px;
 }
 .fashion-check-page {
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
 }
 .fashion-check-page__header {
   display: grid;
@@ -171,7 +171,7 @@ onMounted(async () => {
 }
 .fashion-check-page__header h1 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 28px;
 }
 .fashion-check-page__week {

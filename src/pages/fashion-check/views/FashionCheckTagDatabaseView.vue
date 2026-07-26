@@ -283,7 +283,6 @@ onMounted(async () => {
 
 .fashion-check-tag-database__tag-list .fashion-check-tag-database__tag--active {
   background: var(--ns-color-accent-soft);
-  box-shadow: inset 3px 0 0 var(--ns-color-accent);
 }
 
 .fashion-check-tag-database__tag-list small {
@@ -298,7 +297,7 @@ onMounted(async () => {
 
 .fashion-check-tag-database__detail > h2 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 22px;
 }
 
