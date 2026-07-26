@@ -240,7 +240,7 @@ onBeforeUnmount(() => {
 
 .nsglamour-panel-header h2 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 16px;
   font-weight: 950;
 }

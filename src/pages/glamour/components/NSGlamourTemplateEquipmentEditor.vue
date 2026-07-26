@@ -466,7 +466,7 @@ onBeforeUnmount(() => {
   border-radius: 4px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 400;
 }

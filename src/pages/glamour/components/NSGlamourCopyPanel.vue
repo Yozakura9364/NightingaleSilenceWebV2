@@ -137,7 +137,7 @@ async function copyOutput() {
 
 .nsglamour-panel-header h2 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 16px;
   font-weight: 950;
 }
@@ -221,7 +221,7 @@ async function copyOutput() {
   background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
   color: var(--ns-pixel-ink, var(--ns-color-text));
   font: inherit;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   resize: vertical;
   box-shadow: var(--ns-control-inset-shadow);
@@ -243,7 +243,7 @@ async function copyOutput() {
   background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
   color: var(--ns-pixel-ink, var(--ns-color-text));
   font: inherit;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 14px;
   resize: vertical;
   box-shadow: var(--ns-control-inset-shadow);

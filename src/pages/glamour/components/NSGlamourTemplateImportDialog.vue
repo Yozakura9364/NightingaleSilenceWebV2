@@ -126,7 +126,7 @@ onMounted(() => {
   gap: 6px;
   min-width: 0;
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 700;
 }
@@ -140,7 +140,7 @@ onMounted(() => {
   border-radius: 4px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 400;
 }
@@ -171,7 +171,7 @@ onMounted(() => {
   border-radius: 0;
   background: var(--ns-color-accent);
   color: var(--ns-color-on-accent);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
   box-shadow: var(--ns-pixel-button-shadow);

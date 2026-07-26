@@ -121,6 +121,7 @@ async function main() {
   await check('GET /search-items English fallback query', () =>
     checkBodySearch(['robe', 'coat'], 'zh')
   )
+  await check('GET /search-catalog-items item ID query', checkCatalogItemSearch)
   await check('POST /equipinfo/parse-text valid sample', checkEquipinfoParseText)
   await check('POST /equipinfo/parse-text empty text error', checkEquipinfoEmptyText)
   await check('local /template data layer', checkLocalTemplateDataLayer)
@@ -228,6 +229,20 @@ async function checkBodySearch(queries, locale) {
   }
 
   throw new Error(`no search results for ${attempts.join(', ')}`)
+}
+
+async function checkCatalogItemSearch() {
+  const response = await requestJson('/search-catalog-items', {
+    query: { q: 2, locale: 'zh', limit: 12 }
+  })
+  expectStatus(response, [200])
+  assertPlainObject(response.data, 'catalog search response must be an object')
+  assert(Array.isArray(response.data.results), 'catalog search results must be an array')
+  const item = response.data.results.find((entry) => Number(entry?.key) === 2)
+  assertPlainObject(item, 'catalog search must resolve Item.csv row 2')
+  assert(item.item_kind === 'item', 'catalog search result must be marked as a plain item')
+  assert(Number(item.icon) > 0, 'catalog search result must include an icon')
+  return `results=${response.data.results.length} bytes=${response.bytes}`
 }
 
 async function checkEquipinfoParseText() {

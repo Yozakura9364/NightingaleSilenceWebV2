@@ -93,7 +93,7 @@ const turnIconStyle = computed(
   border: 2px solid transparent;
   background: transparent;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-weight: 900;
   box-shadow: none;
   text-decoration: none;

@@ -340,7 +340,7 @@ function updateViewportSize() {
 .nsglamour-template-crop__head h2 {
   margin: 0;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 18px;
   font-weight: 950;
   line-height: 1.15;
@@ -411,7 +411,7 @@ function updateViewportSize() {
 
 .nsglamour-template-crop__zoom label {
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-weight: 950;
 }
 
@@ -449,7 +449,7 @@ function updateViewportSize() {
   border-radius: 0;
   background: var(--ns-color-accent);
   color: var(--ns-color-on-accent);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
   box-shadow: var(--ns-pixel-button-shadow);
@@ -462,7 +462,7 @@ function updateViewportSize() {
   min-height: 34px;
   border-width: 2px;
   border-radius: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
   box-shadow: var(--ns-pixel-button-shadow);
