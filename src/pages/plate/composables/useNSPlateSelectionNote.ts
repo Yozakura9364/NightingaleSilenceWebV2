@@ -61,6 +61,16 @@ export function useNSPlateSelectionNote(options: UseNSPlateSelectionNoteOptions)
         continue
       }
 
+      if (slot.type === 'customPortraitPairedBase') {
+        items.push(createCustomPortraitPairedBaseItem())
+        continue
+      }
+
+      if (slot.type === 'customPortraitPairedPopout') {
+        items.push(createCustomPortraitPairedPopoutItem())
+        continue
+      }
+
       items.push(createInfoLayerOrderItem())
     }
 
@@ -127,12 +137,12 @@ export function useNSPlateSelectionNote(options: UseNSPlateSelectionNoteOptions)
 
   function createCustomPortraitPopoutItem(): NSPlateSelectionNoteItem {
     const portrait = options.customPortrait.value
-    const isFree = portrait?.mode === 'free'
-    const isEnabled = portrait?.mode === 'popout' || isFree
-    const currentAnchor = isFree
+    const usesFreeAnchor = portrait?.mode === 'free'
+    const isEnabled = portrait?.mode === 'popout' || usesFreeAnchor
+    const currentAnchor = usesFreeAnchor
       ? normalizeNSPlateCustomPortraitFreeLayerAnchor(portrait.freeLayerAnchor)
       : normalizeNSPlateCustomPortraitPopoutLayerAnchor(portrait?.popoutLayerAnchor)
-    const layerAnchors: readonly NSPlateCustomPortraitFreeLayerAnchor[] = isFree
+    const layerAnchors: readonly NSPlateCustomPortraitFreeLayerAnchor[] = usesFreeAnchor
       ? (['portraitBase', ...NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS] as const)
       : NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS
     const anchorIndex = layerAnchors.indexOf(currentAnchor)
@@ -142,11 +152,49 @@ export function useNSPlateSelectionNote(options: UseNSPlateSelectionNoteOptions)
       target: 'customPortrait',
       label: t(textKeys.nsplateLayerOrderCustomPortraitPopout),
       valueLabel: isEnabled
-        ? (portrait?.fileName ?? t(textKeys.notSelected))
+        ? (portrait?.overlayFileName ?? portrait?.fileName ?? t(textKeys.notSelected))
         : t(textKeys.nsplateLayerOrderNotEnabled),
       selected: isEnabled,
       movable: isEnabled,
       canMoveUp: isEnabled && anchorIndex >= 0 && anchorIndex < layerAnchors.length - 1,
+      canMoveDown: isEnabled && anchorIndex > 0
+    }
+  }
+
+  function createCustomPortraitPairedBaseItem(): NSPlateSelectionNoteItem {
+    const portrait = options.customPortrait.value
+    const isEnabled = portrait?.mode === 'paired'
+
+    return {
+      id: 'customPortrait:pairedBase',
+      target: 'customPortrait',
+      label: t(textKeys.nsplateCustomPortraitCropPairedBase),
+      valueLabel: isEnabled ? portrait.fileName : t(textKeys.nsplateLayerOrderNotEnabled),
+      selected: isEnabled
+    }
+  }
+
+  function createCustomPortraitPairedPopoutItem(): NSPlateSelectionNoteItem {
+    const portrait = options.customPortrait.value
+    const isEnabled = portrait?.mode === 'paired'
+    const currentAnchor = normalizeNSPlateCustomPortraitPopoutLayerAnchor(
+      portrait?.pairedPopoutLayerAnchor
+    )
+    const anchorIndex = NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.indexOf(currentAnchor)
+
+    return {
+      id: 'customPortrait:pairedPopout',
+      target: 'customPortrait',
+      label: t(textKeys.nsplateCustomPortraitCropPairedOverlay),
+      valueLabel: isEnabled
+        ? (portrait.overlayFileName ?? t(textKeys.notSelected))
+        : t(textKeys.nsplateLayerOrderNotEnabled),
+      selected: isEnabled,
+      movable: isEnabled,
+      canMoveUp:
+        isEnabled &&
+        anchorIndex >= 0 &&
+        anchorIndex < NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS.length - 1,
       canMoveDown: isEnabled && anchorIndex > 0
     }
   }

@@ -1,7 +1,7 @@
 import {
   NSPLATE_CANVAS_DIMENSIONS,
   getNameplateRenderSegments,
-  getPlateLayerImageUrl,
+  getPlateLayerImageUrls,
   type NSPlateLayerPosition,
   type NSPlateNameplateRenderSegment,
   type NSPlateNameplateRenderPlan,
@@ -81,6 +81,21 @@ async function drawNameplateSegment(
     return
   }
 
+  if (segment.type === 'customPortraitPairedBase') {
+    await drawCustomPortraitPairedBase(
+      context,
+      segment.customPortrait,
+      segment.portraitEmbed,
+      options
+    )
+    return
+  }
+
+  if (segment.type === 'customPortraitPairedPopout') {
+    await drawCustomPortraitPairedPopout(context, segment.customPortrait, options)
+    return
+  }
+
   if (segment.type === 'infoLayers') {
     await drawNSPlateInfoGraphicLayers(context, segment.graphicLayers, {
       imageCache: options.imageCache,
@@ -118,7 +133,12 @@ async function drawPortraitBaseComposite(
     return
   }
 
-  await drawCustomPortraitInFrame(portraitContext, segment.customPortrait, options)
+  await drawCustomPortraitInFrame(
+    portraitContext,
+    segment.customPortrait,
+    segment.portraitEmbed,
+    options
+  )
 
   if (!isCurrentRender(options)) {
     return
@@ -160,10 +180,10 @@ async function drawLayers(
   // Load all images in parallel for better performance
   const entries = await Promise.all(
     layers.map(async (layer) => {
-      const source = getPlateLayerImageUrl(layer)
-      if (!source) return { layer, image: null }
+      const sources = getPlateLayerImageUrls(layer)
+      if (!sources.length) return { layer, image: null }
 
-      const image = await loadImage(source, options.imageCache)
+      const image = await loadImageWithFallback(sources, options.imageCache)
       return { layer, image }
     })
   )
@@ -193,6 +213,7 @@ async function drawLayers(
 async function drawCustomPortraitInFrame(
   context: CanvasRenderingContext2D,
   customPortrait: NSPlateCustomPortraitImage | null,
+  portraitEmbed: NSPlateLayerPosition,
   options: NSPlateCanvasRenderOptions
 ) {
   if (!customPortrait) {
@@ -205,7 +226,7 @@ async function drawCustomPortraitInFrame(
 
   const source =
     customPortrait.mode === 'popout'
-      ? (customPortrait.sourceDataUrl ?? customPortrait.dataUrl)
+      ? (customPortrait.renderDataUrl ?? customPortrait.sourceDataUrl ?? customPortrait.dataUrl)
       : customPortrait.dataUrl
   const image = await loadImage(source, options.imageCache)
 
@@ -226,10 +247,74 @@ async function drawCustomPortraitInFrame(
     return
   }
 
+  if (customPortrait.mode === 'paired') {
+    context.save()
+    context.translate(-portraitEmbed.x, -portraitEmbed.y)
+    drawCustomPortraitFreeImage(
+      context,
+      image,
+      customPortrait.sourceWidth ?? image.naturalWidth,
+      customPortrait.sourceHeight ?? image.naturalHeight,
+      customPortrait
+    )
+    context.restore()
+    return
+  }
+
   context.save()
   setHighQualityImageSmoothing(context)
   context.drawImage(image, 0, 0, context.canvas.width, context.canvas.height)
   context.restore()
+}
+
+async function drawCustomPortraitPairedBase(
+  context: CanvasRenderingContext2D,
+  customPortrait: NSPlateCustomPortraitImage,
+  portraitEmbed: NSPlateLayerPosition,
+  options: NSPlateCanvasRenderOptions
+) {
+  const portraitCanvas = document.createElement('canvas')
+  const portraitContext = prepareCanvas(
+    portraitCanvas,
+    NSPLATE_CANVAS_DIMENSIONS.portrait.width,
+    NSPLATE_CANVAS_DIMENSIONS.portrait.height
+  )
+
+  if (!portraitContext) {
+    return
+  }
+
+  await drawCustomPortraitInFrame(portraitContext, customPortrait, portraitEmbed, options)
+
+  if (isCurrentRender(options)) {
+    context.drawImage(portraitCanvas, portraitEmbed.x, portraitEmbed.y)
+  }
+}
+
+async function drawCustomPortraitPairedPopout(
+  context: CanvasRenderingContext2D,
+  customPortrait: NSPlateCustomPortraitImage,
+  options: NSPlateCanvasRenderOptions
+) {
+  const source = customPortrait.overlayDataUrl
+
+  if (!source) {
+    return
+  }
+
+  const image = await loadImage(source, options.imageCache)
+
+  if (!image || !isCurrentRender(options)) {
+    return
+  }
+
+  drawCustomPortraitFreeImage(
+    context,
+    image,
+    customPortrait.sourceWidth ?? image.naturalWidth,
+    customPortrait.sourceHeight ?? image.naturalHeight,
+    customPortrait
+  )
 }
 
 async function drawCustomPortraitPopout(
@@ -242,7 +327,12 @@ async function drawCustomPortraitPopout(
     return
   }
 
-  const source = customPortrait.sourceDataUrl ?? customPortrait.dataUrl
+  const source =
+    customPortrait.renderDataUrl ?? customPortrait.sourceDataUrl ?? customPortrait.dataUrl
+
+  if (!source) {
+    return
+  }
   const image = await loadImage(source, options.imageCache)
 
   if (!image || !isCurrentRender(options)) {
@@ -336,4 +426,16 @@ function loadImage(source: string, imageCache: NSPlateImageCache = new Map()) {
 
   imageCache.set(source, promise)
   return promise
+}
+
+async function loadImageWithFallback(sources: string[], imageCache: NSPlateImageCache = new Map()) {
+  for (const source of sources) {
+    const image = await loadImage(source, imageCache)
+
+    if (image) {
+      return image
+    }
+  }
+
+  return null
 }

@@ -48881,6 +48881,8 @@
     "imgBase": "https://img.nightingalesilence.com",
     "previewImgBase": "https://img.nightingalesilence.com/plate-preview-webp/256",
     "previewMaxEdge": 256,
-    "previewFormat": "webp"
+    "previewFormat": "webp",
+    "renderImgBase": "https://img.nightingalesilence.com/plate-render-webp/full",
+    "renderFormat": "webp"
   }
 }

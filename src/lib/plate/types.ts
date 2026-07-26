@@ -3,7 +3,7 @@ export type NSPlateAssetScope = 'portrait' | 'nameplate'
 export type NSPlateCanvasMode = 'portrait' | 'nameplate'
 export type NSPlatePanelTab = 'portrait' | 'nameplate' | 'info'
 export type NSPlatePortraitSide = 'left' | 'right'
-export type NSPlateCustomPortraitMode = 'standard' | 'popout' | 'free'
+export type NSPlateCustomPortraitMode = 'standard' | 'popout' | 'paired' | 'free'
 export type NSPlateCustomPortraitPopoutLayerAnchor =
   | 'aboveCustomPortrait'
   | 'belowNameplateFrame'
@@ -16,8 +16,7 @@ export type NSPlateCustomPortraitPopoutLayerAnchor =
   | 'aboveInfoText'
 
 export type NSPlateCustomPortraitFreeLayerAnchor =
-  | 'portraitBase'
-  | NSPlateCustomPortraitPopoutLayerAnchor
+  'portraitBase' | NSPlateCustomPortraitPopoutLayerAnchor
 
 type NSPlateLegacyCustomPortraitPopoutLayerAnchor =
   'behindFrames' | 'aboveFrames' | 'aboveDecorations' | 'front'
@@ -82,6 +81,7 @@ export interface NSPlateCustomPortraitImage {
   id: string
   mode: NSPlateCustomPortraitMode
   popoutLayerAnchor?: NSPlateCustomPortraitPopoutLayerAnchor
+  pairedPopoutLayerAnchor?: NSPlateCustomPortraitPopoutLayerAnchor
   freeLayerAnchor?: NSPlateCustomPortraitFreeLayerAnchor
   fileName: string
   dataUrl: string
@@ -89,12 +89,23 @@ export interface NSPlateCustomPortraitImage {
   height: number
   scale: number
   sourceDataUrl?: string
+  renderDataUrl?: string
+  renderWidth?: number
+  renderHeight?: number
+  renderOffsetX?: number
+  renderOffsetY?: number
+  overlayFileName?: string
+  overlayDataUrl?: string
+  overlayWidth?: number
+  overlayHeight?: number
+  storageKey?: string
   sourceWidth?: number
   sourceHeight?: number
   baseScale?: number
   scaleMultiplier?: number
   offsetX?: number
   offsetY?: number
+  rotation?: number
   splitY?: number
   splitLeftY?: number
   splitRightY?: number
@@ -109,15 +120,20 @@ export interface NSPlateCustomPortraitCropState {
   fileName: string
   sourceDataUrl: string
   image: HTMLImageElement
+  overlayFileName?: string
+  overlayDataUrl?: string
+  overlayImage?: HTMLImageElement
   sourceWidth: number
   sourceHeight: number
   baseScale: number
   mode: NSPlateCustomPortraitMode
   popoutLayerAnchor?: NSPlateCustomPortraitPopoutLayerAnchor
+  pairedPopoutLayerAnchor?: NSPlateCustomPortraitPopoutLayerAnchor
   freeLayerAnchor?: NSPlateCustomPortraitFreeLayerAnchor
   scaleMultiplier: number
   offsetX: number
   offsetY: number
+  rotation: number
   splitY: number
   splitLeftY: number
   splitRightY: number
@@ -162,6 +178,8 @@ export interface NSPlateFilesResponse {
     previewImgBase?: string | null
     previewMaxEdge?: number | null
     previewFormat?: 'png' | 'webp' | 'avif' | null
+    renderImgBase?: string | null
+    renderFormat?: 'png' | 'webp' | 'avif' | null
     [key: string]: unknown
   }
 }
@@ -191,6 +209,7 @@ export interface NSPlateAssetSummary {
   path: string
   imageUrl?: string
   previewUrl?: string
+  renderUrl?: string
   raw: NSPlateAsset
 }
 

@@ -28,7 +28,7 @@ import { renderNSPlateInfoTextLayersToCanvas } from '@/lib/plate/infoLayerTextRe
 import {
   NSPLATE_CANVAS_DIMENSIONS,
   getNameplateRenderSegments,
-  getPlateLayerImageUrl,
+  getPlateLayerImageUrls,
   type NSPlateCanvasDimensions,
   type NSPlateLayerPosition,
   type NSPlateNameplateRenderSegment,
@@ -45,6 +45,7 @@ import { createStoredZipBlob, type StoredZipFileEntry } from '@/lib/plate/zipArc
 
 const CUSTOM_PORTRAIT_LAYER_NAME = '自定义图片'
 const CUSTOM_PORTRAIT_POPOUT_LAYER_NAME = '自定义图片（出框）'
+const CUSTOM_PORTRAIT_PAIRED_BASE_LAYER_NAME = '自定义图片（底图）'
 const INFO_LAYER_NAME = '信息层'
 const LAYERED_ZIP_TEXT_ENCODER = new TextEncoder()
 
@@ -110,6 +111,33 @@ async function pushSegmentLayers(
       segment.portraitEmbed,
       scale
     )
+    return
+  }
+
+  if (segment.type === 'customPortraitPairedBase') {
+    const pairedBaseLayer = await createCustomPortraitInFrameLayer(
+      segment.customPortrait,
+      segment.portraitEmbed,
+      scale
+    )
+
+    if (pairedBaseLayer) {
+      output.push(pairedBaseLayer)
+    }
+    return
+  }
+
+  if (segment.type === 'customPortraitPairedPopout') {
+    const pairedPopoutLayer = await createCustomPortraitPopoutLayer(
+      segment.customPortrait,
+      segment.portraitEmbed,
+      segment.dimensions,
+      scale
+    )
+
+    if (pairedPopoutLayer) {
+      output.push(pairedPopoutLayer)
+    }
     return
   }
 
@@ -591,7 +619,7 @@ async function createSystemLayerData(
   position: NSPlateLayerPosition,
   exportScale: number
 ) {
-  const image = await loadLayerImage(getPlateLayerImageUrl(layer))
+  const image = await loadLayerImageWithFallback(getPlateLayerImageUrls(layer))
 
   if (!image) {
     return null
@@ -621,7 +649,7 @@ async function createPortraitSystemLayerData(
   portraitEmbed: NSPlateLayerPosition,
   exportScale: number
 ) {
-  const image = await loadLayerImage(getPlateLayerImageUrl(layer))
+  const image = await loadLayerImageWithFallback(getPlateLayerImageUrls(layer))
 
   if (!image) {
     return null
@@ -674,7 +702,9 @@ async function createCustomPortraitInFrameLayer(
   const context = getLayerContext(canvas, true)
 
   if (customPortrait.mode === 'popout') {
-    const image = await loadLayerImage(customPortrait.sourceDataUrl ?? customPortrait.dataUrl)
+    const image = await loadLayerImage(
+      customPortrait.renderDataUrl ?? customPortrait.sourceDataUrl ?? customPortrait.dataUrl
+    )
 
     if (!image) {
       return null
@@ -696,6 +726,27 @@ async function createCustomPortraitInFrameLayer(
       rect.height * exportScale
     )
     context.restore()
+  } else if (customPortrait.mode === 'paired') {
+    const image = await loadLayerImage(customPortrait.dataUrl)
+
+    if (!image) {
+      return null
+    }
+
+    context.save()
+    context.scale(exportScale, exportScale)
+    drawCustomPortraitFreeImage(
+      context,
+      image,
+      customPortrait.sourceWidth ?? image.naturalWidth,
+      customPortrait.sourceHeight ?? image.naturalHeight,
+      {
+        ...customPortrait,
+        freeX: (customPortrait.freeX ?? 0) - portraitEmbed.x,
+        freeY: (customPortrait.freeY ?? 0) - portraitEmbed.y
+      }
+    )
+    context.restore()
   } else {
     const image = await loadLayerImage(customPortrait.dataUrl)
 
@@ -707,7 +758,10 @@ async function createCustomPortraitInFrameLayer(
   }
 
   return {
-    name: CUSTOM_PORTRAIT_LAYER_NAME,
+    name:
+      customPortrait.mode === 'paired'
+        ? CUSTOM_PORTRAIT_PAIRED_BASE_LAYER_NAME
+        : CUSTOM_PORTRAIT_LAYER_NAME,
     x: Math.round(portraitEmbed.x * exportScale),
     y: Math.round(portraitEmbed.y * exportScale),
     width: canvas.width,
@@ -723,11 +777,20 @@ async function createCustomPortraitPopoutLayer(
   dimensions: { width: number; height: number },
   exportScale: number
 ) {
-  if (!customPortrait || (customPortrait.mode !== 'popout' && customPortrait.mode !== 'free')) {
+  if (
+    !customPortrait ||
+    (customPortrait.mode !== 'popout' &&
+      customPortrait.mode !== 'free' &&
+      customPortrait.mode !== 'paired')
+  ) {
     return null
   }
 
-  const image = await loadLayerImage(customPortrait.sourceDataUrl ?? customPortrait.dataUrl)
+  const source =
+    customPortrait.mode === 'paired'
+      ? customPortrait.overlayDataUrl
+      : (customPortrait.renderDataUrl ?? customPortrait.sourceDataUrl ?? customPortrait.dataUrl)
+  const image = source ? await loadLayerImage(source) : null
 
   if (!image) {
     return null
@@ -740,7 +803,7 @@ async function createCustomPortraitPopoutLayer(
   )
   const context = getLayerContext(canvas, true)
 
-  if (customPortrait.mode === 'free') {
+  if (customPortrait.mode === 'free' || customPortrait.mode === 'paired') {
     context.save()
     context.scale(exportScale, exportScale)
     drawCustomPortraitFreeImage(
@@ -752,7 +815,10 @@ async function createCustomPortraitPopoutLayer(
     )
     context.restore()
     return {
-      name: '自定义图片（全出框）',
+      name:
+        customPortrait.mode === 'paired'
+          ? CUSTOM_PORTRAIT_POPOUT_LAYER_NAME
+          : '自定义图片（全出框）',
       x: 0,
       y: 0,
       width: canvas.width,
@@ -873,6 +939,18 @@ function loadLayerImage(source: string) {
     image.onerror = () => resolve(null)
     image.src = source
   })
+}
+
+async function loadLayerImageWithFallback(sources: string[]) {
+  for (const source of sources) {
+    const image = await loadLayerImage(source)
+
+    if (image) {
+      return image
+    }
+  }
+
+  return null
 }
 
 async function placeLayerOnFullCanvas(

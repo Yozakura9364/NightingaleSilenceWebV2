@@ -110,15 +110,25 @@ const renderSignature = computed(() =>
     props.customPortrait?.id ?? '',
     props.customPortrait?.mode ?? '',
     props.customPortrait?.popoutLayerAnchor ?? '',
+    props.customPortrait?.pairedPopoutLayerAnchor ?? '',
     props.customPortrait?.freeLayerAnchor ?? '',
     props.customPortrait?.dataUrl ?? '',
     props.customPortrait?.sourceDataUrl ?? '',
+    props.customPortrait?.renderDataUrl ?? '',
+    props.customPortrait?.overlayDataUrl ?? '',
+    props.customPortrait?.rotation ?? '',
     props.customPortrait?.splitY ?? '',
     props.customPortrait?.splitLeftY ?? '',
     props.customPortrait?.splitRightY ?? '',
     props.selectedAssets
       .map((asset) =>
-        [asset.id, asset.category, asset.imageUrl ?? '', asset.previewUrl ?? ''].join(':')
+        [
+          asset.id,
+          asset.category,
+          asset.renderUrl ?? '',
+          asset.imageUrl ?? '',
+          asset.previewUrl ?? ''
+        ].join(':')
       )
       .join('|'),
     getNSPlateInfoGraphicAssetSignature(props.assetGroups),

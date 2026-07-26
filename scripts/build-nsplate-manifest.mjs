@@ -26,6 +26,12 @@ function parseArgs(argv) {
       process.env.NSPLATE_STATIC_PREVIEW_FORMAT,
       DEFAULT_PREVIEW_FORMAT
     ),
+    renderImgBase: process.env.NSPLATE_STATIC_RENDER_IMG_BASE,
+    renderImgBaseExplicit: process.env.NSPLATE_STATIC_RENDER_IMG_BASE !== undefined,
+    renderFormat: normalizePreviewFormat(
+      process.env.NSPLATE_STATIC_RENDER_FORMAT,
+      'webp'
+    ),
     includeUnreleased: parseBooleanEnv(process.env.NSPLATE_INCLUDE_UNRELEASED, true)
   }
 
@@ -74,6 +80,19 @@ function parseArgs(argv) {
       continue
     }
 
+    if (arg === '--render-img-base') {
+      args.renderImgBase = argv[index + 1] ?? ''
+      args.renderImgBaseExplicit = true
+      index += 1
+      continue
+    }
+
+    if (arg === '--render-format') {
+      args.renderFormat = normalizePreviewFormat(argv[index + 1], 'webp')
+      index += 1
+      continue
+    }
+
     if (arg === '--include-unreleased') {
       args.includeUnreleased = true
       continue
@@ -94,6 +113,11 @@ function parseArgs(argv) {
         .trim()
         .replace(/\/+$/, '')
     : undefined
+  args.renderImgBase = args.renderImgBaseExplicit
+    ? String(args.renderImgBase ?? '')
+        .trim()
+        .replace(/\/+$/, '')
+    : undefined
   return args
 }
 
@@ -111,6 +135,8 @@ Options:
   --preview-img-base <url> Override files._meta.previewImgBase. Omitted by default.
   --preview-max-edge <px> Set files._meta.previewMaxEdge when preview base is provided. Default: ${DEFAULT_PREVIEW_MAX_EDGE}
   --preview-format <format> Preview file format: png, webp, or avif. Default: ${DEFAULT_PREVIEW_FORMAT}
+  --render-img-base <url> Override files._meta.renderImgBase. Omitted unless uploaded.
+  --render-format <format> Full-size render format. Default: webp
   --include-unreleased    Keep materials marked as unreleased by the source API. This is the default.
   --exclude-unreleased    Remove materials marked as unreleased by the source API.
 
@@ -121,6 +147,8 @@ Environment:
   NSPLATE_STATIC_PREVIEW_IMG_BASE
   NSPLATE_STATIC_PREVIEW_MAX_EDGE
   NSPLATE_STATIC_PREVIEW_FORMAT
+  NSPLATE_STATIC_RENDER_IMG_BASE
+  NSPLATE_STATIC_RENDER_FORMAT
   NSPLATE_INCLUDE_UNRELEASED (defaults to true; set to 0 only for a separate non-public manifest)
 `)
 }
@@ -200,6 +228,14 @@ function applyStaticManifestRules(files, args) {
     delete nextFiles._meta.previewImgBase
     delete nextFiles._meta.previewMaxEdge
     delete nextFiles._meta.previewFormat
+  }
+
+  if (args.renderImgBaseExplicit && args.renderImgBase) {
+    nextFiles._meta.renderImgBase = args.renderImgBase
+    nextFiles._meta.renderFormat = args.renderFormat
+  } else {
+    delete nextFiles._meta.renderImgBase
+    delete nextFiles._meta.renderFormat
   }
 
   const stats = createEmptyFileStats()
@@ -360,6 +396,8 @@ function createManifestMeta({ args, presets, files, fileStats }) {
     previewImgBase: files?._meta?.previewImgBase ?? null,
     previewMaxEdge: files?._meta?.previewMaxEdge ?? null,
     previewFormat: files?._meta?.previewFormat ?? null,
+    renderImgBase: files?._meta?.renderImgBase ?? null,
+    renderFormat: files?._meta?.renderFormat ?? null,
     includeUnreleased: args.includeUnreleased,
     presets: {
       banner: Array.isArray(presets?.banner) ? presets.banner.length : 0,

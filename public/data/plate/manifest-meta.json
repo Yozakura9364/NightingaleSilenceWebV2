@@ -5,6 +5,8 @@
   "previewImgBase": "https://img.nightingalesilence.com/plate-preview-webp/256",
   "previewMaxEdge": 256,
   "previewFormat": "webp",
+  "renderImgBase": "https://img.nightingalesilence.com/plate-render-webp/full",
+  "renderFormat": "webp",
   "includeUnreleased": true,
   "presets": {
     "banner": 421,

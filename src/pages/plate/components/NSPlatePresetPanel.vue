@@ -255,7 +255,7 @@ onBeforeUnmount(() => {
   border-radius: var(--ns-radius-xs);
   background-color: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 850;
 }
@@ -392,7 +392,7 @@ onBeforeUnmount(() => {
   border-radius: var(--ns-radius-xs);
   background: color-mix(in srgb, var(--ns-color-bg) 52%, var(--ns-color-surface-solid));
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 760;
 }
@@ -453,7 +453,7 @@ onBeforeUnmount(() => {
   background: transparent;
   color: var(--ns-color-text);
   font: inherit;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 800;
   text-align: left;

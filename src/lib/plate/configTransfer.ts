@@ -247,28 +247,52 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
   const width = normalizeFiniteNumber(value.width)
   const height = normalizeFiniteNumber(value.height)
   const scale = normalizeFiniteNumber(value.scale)
+  const overlayDataUrl = normalizeString(value.overlayDataUrl)
+  const pairedPopoutLayerAnchor = normalizeCustomPortraitPopoutLayerAnchor(
+    value.pairedPopoutLayerAnchor
+  )
 
-  if (!id || !mode || !fileName || !dataUrl || !width || !height || !scale) {
+  if (
+    !id ||
+    !mode ||
+    !fileName ||
+    !dataUrl ||
+    !width ||
+    !height ||
+    !scale ||
+    (mode === 'paired' && (!overlayDataUrl || !pairedPopoutLayerAnchor))
+  ) {
     return null
   }
 
   return {
     id,
     mode,
-    ...pickOptionalPopoutLayerAnchor(value),
-    ...pickOptionalFreeLayerAnchor(value),
+    ...(mode === 'popout' ? pickOptionalPopoutLayerAnchor(value) : {}),
+    ...(mode === 'paired' ? { pairedPopoutLayerAnchor: pairedPopoutLayerAnchor! } : {}),
+    ...(mode === 'free' ? pickOptionalFreeLayerAnchor(value) : {}),
     fileName,
     dataUrl,
     width,
     height,
     scale,
     ...pickOptionalString(value, 'sourceDataUrl'),
+    ...pickOptionalString(value, 'renderDataUrl'),
+    ...pickOptionalString(value, 'overlayFileName'),
+    ...(overlayDataUrl ? { overlayDataUrl } : {}),
+    ...pickOptionalNumber(value, 'overlayWidth'),
+    ...pickOptionalNumber(value, 'overlayHeight'),
     ...pickOptionalNumber(value, 'sourceWidth'),
     ...pickOptionalNumber(value, 'sourceHeight'),
+    ...pickOptionalNumber(value, 'renderWidth'),
+    ...pickOptionalNumber(value, 'renderHeight'),
+    ...pickOptionalNumber(value, 'renderOffsetX'),
+    ...pickOptionalNumber(value, 'renderOffsetY'),
     ...pickOptionalNumber(value, 'baseScale'),
     ...pickOptionalNumber(value, 'scaleMultiplier'),
     ...pickOptionalNumber(value, 'offsetX'),
     ...pickOptionalNumber(value, 'offsetY'),
+    ...pickOptionalNumber(value, 'rotation'),
     ...pickOptionalNumber(value, 'splitY'),
     ...pickOptionalNumber(value, 'splitLeftY'),
     ...pickOptionalNumber(value, 'splitRightY'),
@@ -280,7 +304,9 @@ function normalizeCustomPortrait(value: unknown): NSPlateCustomPortraitImage | n
 }
 
 function normalizeCustomPortraitMode(value: unknown): NSPlateCustomPortraitMode | null {
-  return value === 'standard' || value === 'popout' || value === 'free' ? value : null
+  return value === 'standard' || value === 'popout' || value === 'paired' || value === 'free'
+    ? value
+    : null
 }
 
 function normalizeCustomPortraitPopoutLayerAnchor(

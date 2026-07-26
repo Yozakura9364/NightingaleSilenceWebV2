@@ -3,10 +3,12 @@ import {
   clampCustomPortraitCropState,
   drawCustomPortraitCropPreview,
   getCustomPortraitCropLimits,
+  getCustomPortraitCropMinZoom,
   getCustomPortraitCropPreviewDimensions,
   getCustomPortraitPopoutSplitAngle,
   getCustomPortraitPopoutSplitLine,
   moveCustomPortraitPopoutSplitLine,
+  setCustomPortraitPairedOverlayFromFile,
   setCustomPortraitPopoutSplitAngle,
   setCustomPortraitCropMode
 } from '@/lib/plate/customPortrait'
@@ -18,7 +20,7 @@ import type {
 } from '@/lib/plate/types'
 
 export function useNSPlateCropInteraction(
-  cropState: Readonly<Ref<NSPlateCustomPortraitCropState>>,
+  cropState: Readonly<Ref<NSPlateCustomPortraitCropState | null>>,
   portraitSide: Readonly<Ref<NSPlatePortraitSide>>
 ) {
   const cropLimits = getCustomPortraitCropLimits()
@@ -47,21 +49,34 @@ export function useNSPlateCropInteraction(
       : 0
   })
 
-  const freeScaleLabel = computed(() =>
-    `${Math.round((localCropState.value?.freeScale ?? 1) * 100)}%`
+  const freeScaleLabel = computed(
+    () => `${Math.round((localCropState.value?.freeScale ?? 1) * 100)}%`
   )
+
+  const cropMinZoom = computed(() => {
+    const currentCropState = localCropState.value
+    return currentCropState ? getCustomPortraitCropMinZoom(currentCropState) : cropLimits.minZoom
+  })
+
+  const rotation = computed(() => {
+    const currentCropState = localCropState.value
+    if (!currentCropState) return 0
+    return isFreeTransformMode(currentCropState.mode)
+      ? currentCropState.freeRotation
+      : currentCropState.rotation
+  })
 
   const previewDimensions = computed(() => {
     const currentCropState = localCropState.value
     return currentCropState
-      ? getCustomPortraitCropPreviewDimensions(currentCropState)
-      : NSPLATE_CANVAS_DIMENSIONS.portrait
+      ? getCustomPortraitCropPreviewDimensions()
+      : NSPLATE_CANVAS_DIMENSIONS.nameplate
   })
 
   watch(
     cropState,
     (nextCropState) => {
-      localCropState.value = cloneCropState(nextCropState)
+      localCropState.value = nextCropState ? cloneCropState(nextCropState) : null
       void nextTick(renderPreview)
     },
     { immediate: true }
@@ -69,6 +84,12 @@ export function useNSPlateCropInteraction(
 
   watch(portraitSide, () => {
     void nextTick(renderPreview)
+  })
+
+  watch(canvasRef, (canvas) => {
+    if (canvas) {
+      void nextTick(renderPreview)
+    }
   })
 
   function renderPreview() {
@@ -89,7 +110,7 @@ export function useNSPlateCropInteraction(
       return
     }
 
-    if (currentCropState.mode === 'free') {
+    if (isFreeTransformMode(currentCropState.mode)) {
       updateFreeScale(Number((event.target as HTMLInputElement).value))
       return
     }
@@ -97,28 +118,28 @@ export function useNSPlateCropInteraction(
     updateZoom(Number((event.target as HTMLInputElement).value))
   }
 
-  function onFreeRotationInput(event: Event) {
+  function onRotationInput(event: Event) {
     const currentCropState = localCropState.value
     const value = (event.target as HTMLInputElement).valueAsNumber
     if (!currentCropState || !Number.isFinite(value)) return
-    currentCropState.freeRotation = value
+
+    if (isFreeTransformMode(currentCropState.mode)) {
+      currentCropState.freeRotation = value
+    } else {
+      currentCropState.rotation = value
+    }
     clampCustomPortraitCropState(currentCropState)
     renderPreview()
   }
 
-  function resetFreeTransform() {
+  function resetRotation() {
     const currentCropState = localCropState.value
     if (!currentCropState) return
-    currentCropState.freeX = NSPLATE_CANVAS_DIMENSIONS.nameplate.width / 2
-    currentCropState.freeY = NSPLATE_CANVAS_DIMENSIONS.nameplate.height / 2
-    currentCropState.freeScale = Math.min(
-      1,
-      Math.min(
-        NSPLATE_CANVAS_DIMENSIONS.nameplate.width / currentCropState.sourceWidth,
-        NSPLATE_CANVAS_DIMENSIONS.nameplate.height / currentCropState.sourceHeight
-      )
-    )
-    currentCropState.freeRotation = 0
+    if (isFreeTransformMode(currentCropState.mode)) {
+      currentCropState.freeRotation = 0
+    } else {
+      currentCropState.rotation = 0
+    }
     renderPreview()
   }
 
@@ -168,12 +189,15 @@ export function useNSPlateCropInteraction(
     }
 
     event.preventDefault()
-    if (currentCropState.mode === 'free') {
+    if (isFreeTransformMode(currentCropState.mode)) {
       updateFreeScale(currentCropState.freeScale + (event.deltaY > 0 ? -0.06 : 0.06))
       return
     }
 
-    updateZoom(currentCropState.scaleMultiplier + (event.deltaY > 0 ? -0.06 : 0.06), getPortraitPointerPosition(event, canvasRef.value, currentCropState))
+    updateZoom(
+      currentCropState.scaleMultiplier + (event.deltaY > 0 ? -0.06 : 0.06),
+      getPortraitPointerPosition(event, canvasRef.value, currentCropState)
+    )
   }
 
   function onPointerDown(event: PointerEvent) {
@@ -225,7 +249,7 @@ export function useNSPlateCropInteraction(
     const dimensions = previewDimensions.value
     const scaleX = dimensions.width / rect.width
     const scaleY = dimensions.height / rect.height
-    if (currentCropState.mode === 'free') {
+    if (isFreeTransformMode(currentCropState.mode)) {
       currentCropState.freeX += (event.clientX - lastPointerX) * scaleX
       currentCropState.freeY += (event.clientY - lastPointerY) * scaleY
     } else {
@@ -256,8 +280,19 @@ export function useNSPlateCropInteraction(
       return
     }
 
-    setCustomPortraitCropMode(currentCropState, mode)
+    setCustomPortraitCropMode(currentCropState, mode, portraitSide.value)
     void nextTick(renderPreview)
+  }
+
+  async function setPairedOverlayFile(file: File) {
+    const currentCropState = localCropState.value
+
+    if (!currentCropState) {
+      return
+    }
+
+    await setCustomPortraitPairedOverlayFromFile(currentCropState, file)
+    renderPreview()
   }
 
   function cloneCurrentCropState() {
@@ -273,7 +308,7 @@ export function useNSPlateCropInteraction(
     }
 
     const previousZoom = currentCropState.scaleMultiplier
-    const clampedZoom = Math.max(cropLimits.minZoom, Math.min(cropLimits.maxZoom, nextZoom))
+    const clampedZoom = Math.max(cropMinZoom.value, Math.min(cropLimits.maxZoom, nextZoom))
 
     if (pointer && previousZoom > 0 && clampedZoom !== previousZoom) {
       const ratio = clampedZoom / previousZoom
@@ -318,7 +353,7 @@ export function useNSPlateCropInteraction(
     }
 
     const pointer = getPreviewPointerPosition(event, canvas)
-    if (currentCropState.mode !== 'popout') {
+    if (currentCropState.mode === 'free' || currentCropState.mode === 'paired') {
       return pointer
     }
 
@@ -329,23 +364,26 @@ export function useNSPlateCropInteraction(
   return {
     canvasRef,
     cloneCurrentCropState,
+    cropMinZoom,
     cropLimits,
     localCropState,
     onPointerDown,
     onPointerMove,
     onPointerUp,
-    onFreeRotationInput,
+    onRotationInput,
     onSplitAngleInput,
     onSplitInput,
     onWheel,
     onZoomInput,
     previewDimensions,
     resetSplitAngle,
-    resetFreeTransform,
+    resetRotation,
+    setPairedOverlayFile,
     setCropMode,
     splitAngle,
     splitLabel,
     freeScaleLabel,
+    rotation,
     zoomLabel
   }
 }
@@ -373,4 +411,8 @@ function getSplitDragTarget(
 
 function cloneCropState(cropState: NSPlateCustomPortraitCropState) {
   return { ...cropState }
+}
+
+function isFreeTransformMode(mode: NSPlateCustomPortraitMode) {
+  return mode === 'free' || mode === 'paired'
 }

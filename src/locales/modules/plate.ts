@@ -509,16 +509,37 @@ export const plateUiMessages: UiMessageMap = {
     ko: '이 이미지를 읽을 수 없습니다'
   }),
   'nsplate.customPortrait.crop.title': msg({
-    zh: '裁切自定义肖像',
-    en: 'Crop custom portrait',
-    ja: 'カスタムポートレートをトリミング',
-    ko: '사용자 초상화 자르기'
+    zh: '编辑自定义图片',
+    en: 'Edit custom image',
+    ja: 'カスタム画像を編集',
+    ko: '사용자 이미지 편집'
   }),
   'nsplate.customPortrait.crop.canvas': msg({
     zh: '自定义肖像裁切预览',
     en: 'Custom portrait crop preview',
     ja: 'カスタムポートレートのトリミングプレビュー',
     ko: '사용자 초상화 자르기 미리보기'
+  }),
+  'nsplate.customPortrait.crop.workflow': msg({
+    zh: '自定义图片流程',
+    en: 'Custom image workflow',
+    ja: 'カスタム画像の手順',
+    ko: '사용자 이미지 단계'
+  }),
+  'nsplate.customPortrait.crop.step.mode': msg({
+    zh: '模式', en: 'Mode', ja: 'モード', ko: '모드'
+  }),
+  'nsplate.customPortrait.crop.step.files': msg({
+    zh: '图片', en: 'Images', ja: '画像', ko: '이미지'
+  }),
+  'nsplate.customPortrait.crop.step.edit': msg({
+    zh: '调整', en: 'Adjust', ja: '調整', ko: '조정'
+  }),
+  'nsplate.customPortrait.crop.loading': msg({
+    zh: '正在读取图片',
+    en: 'Loading image',
+    ja: '画像を読み込み中',
+    ko: '이미지 불러오는 중'
   }),
   'nsplate.customPortrait.crop.mode': msg({
     zh: '裁切模式',
@@ -532,17 +553,74 @@ export const plateUiMessages: UiMessageMap = {
     ja: '通常画像',
     ko: '일반 이미지'
   }),
+  'nsplate.customPortrait.crop.mode.standardDetail': msg({
+    zh: '框内裁切',
+    en: 'Crop inside frame',
+    ja: '枠内でトリミング',
+    ko: '프레임 안쪽 자르기'
+  }),
   'nsplate.customPortrait.crop.mode.popout': msg({
     zh: '半出框图片',
     en: 'Partial popout',
     ja: '半分はみ出し画像',
     ko: '반 프레임 밖 이미지'
   }),
+  'nsplate.customPortrait.crop.mode.popoutDetail': msg({
+    zh: '单图 + 分界线',
+    en: 'One image + split line',
+    ja: '1枚画像 + 境界線',
+    ko: '단일 이미지 + 경계선'
+  }),
   'nsplate.customPortrait.crop.mode.free': msg({
     zh: '全出框图片',
     en: 'Full popout',
     ja: '全枠外画像',
     ko: '전체 프레임 밖 이미지'
+  }),
+  'nsplate.customPortrait.crop.mode.freeDetail': msg({
+    zh: '底图 + 出框图',
+    en: 'Base + popout images',
+    ja: 'ベース + 枠外画像',
+    ko: '기본 + 프레임 밖 이미지'
+  }),
+  'nsplate.customPortrait.crop.image': msg({
+    zh: '图片', en: 'Image', ja: '画像', ko: '이미지'
+  }),
+  'nsplate.customPortrait.crop.paired.base': msg({
+    zh: '底图',
+    en: 'Base image',
+    ja: 'ベース画像',
+    ko: '기본 이미지'
+  }),
+  'nsplate.customPortrait.crop.paired.overlay': msg({
+    zh: '出框图',
+    en: 'Popout image',
+    ja: '枠外画像',
+    ko: '프레임 밖 이미지'
+  }),
+  'nsplate.customPortrait.crop.paired.upload': msg({
+    zh: '上传出框图',
+    en: 'Upload popout image',
+    ja: '枠外画像をアップロード',
+    ko: '프레임 밖 이미지 업로드'
+  }),
+  'nsplate.customPortrait.crop.paired.input': msg({
+    zh: '选择与底图尺寸相同的透明出框图',
+    en: 'Choose a transparent popout image with the same dimensions as the base image',
+    ja: 'ベース画像と同じサイズの透明な枠外画像を選択',
+    ko: '기본 이미지와 같은 크기의 투명한 프레임 밖 이미지 선택'
+  }),
+  'nsplate.customPortrait.crop.paired.required': msg({
+    zh: '请上传与底图尺寸相同的出框图',
+    en: 'Upload a popout image with the same dimensions as the base image',
+    ja: 'ベース画像と同じサイズの枠外画像をアップロードしてください',
+    ko: '기본 이미지와 같은 크기의 프레임 밖 이미지를 업로드하세요'
+  }),
+  'nsplate.customPortrait.crop.paired.mismatch': msg({
+    zh: '出框图尺寸必须与底图完全相同',
+    en: 'The popout image dimensions must exactly match the base image',
+    ja: '枠外画像のサイズはベース画像と完全に一致する必要があります',
+    ko: '프레임 밖 이미지 크기는 기본 이미지와 정확히 같아야 합니다'
   }),
   'nsplate.customPortrait.crop.zoom': msg({
     zh: '缩放',

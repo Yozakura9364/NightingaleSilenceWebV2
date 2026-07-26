@@ -147,7 +147,7 @@ const summaryIconStyle = computed(
   border: 2px solid var(--ns-notebook-border);
   background: var(--ns-notebook-paper);
   color: var(--ns-notebook-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 950;
   text-align: left;
@@ -181,7 +181,7 @@ const summaryIconStyle = computed(
 
 .nsplate-selection-note__count {
   color: var(--ns-notebook-muted);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 11px;
 }
 
@@ -213,7 +213,7 @@ const summaryIconStyle = computed(
   border: 2px solid var(--app-notebook-border);
   background: var(--app-notebook-paper);
   color: var(--app-notebook-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   box-shadow: var(--ns-notebook-shadow, 4px 4px 0 rgba(0, 0, 0, 0.18));
 }
 

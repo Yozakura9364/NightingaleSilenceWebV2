@@ -141,7 +141,7 @@ async function clearMaterials() {
   border: 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 11px;
   font-weight: 950;
   text-overflow: ellipsis;
@@ -172,7 +172,7 @@ async function clearMaterials() {
   border-left: 2px solid var(--ns-pixel-border);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-data);
   font-size: 11px;
   font-weight: 950;
   white-space: nowrap;

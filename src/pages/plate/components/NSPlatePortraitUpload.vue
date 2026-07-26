@@ -1,41 +1,38 @@
 <template>
   <NSPlatePanel :title="t(textKeys.nsplateCustomPortrait)">
     <div class="nsplate-portrait-upload" :data-has-image="modelValue !== null">
-      <label class="nsplate-portrait-upload__pick">
+      <button type="button" class="nsplate-portrait-upload__pick" @click="isDialogOpen = true">
         <span class="nsplate-portrait-upload__thumb" aria-hidden="true">
           <img v-if="modelValue" :src="modelValue.dataUrl" :alt="modelValue.fileName" />
           <span v-else class="nsplate-portrait-upload__empty-icon" :style="emptyIconStyle" />
         </span>
         <span class="nsplate-portrait-upload__text">
-          <strong>{{ t(textKeys.nsplateCustomPortraitUpload) }}</strong>
+          <strong>
+            {{
+              t(
+                modelValue
+                  ? textKeys.nsplateCustomPortraitAdjust
+                  : textKeys.nsplateCustomPortraitUpload
+              )
+            }}
+          </strong>
           <small v-if="modelValue">{{ modelValue.fileName }}</small>
         </span>
-        <input
-          type="file"
-          accept="image/png,image/jpeg"
-          :aria-label="t(textKeys.nsplateCustomPortraitInput)"
-          @change="onFileChange"
-        />
-      </label>
+      </button>
     </div>
 
     <p v-if="errorText" class="nsplate-portrait-upload__error">
       {{ errorText }}
     </p>
 
-    <div v-if="modelValue" class="nsplate-portrait-upload__actions">
-      <button type="button" @click="adjustCurrentImage">
-        {{ t(textKeys.nsplateCustomPortraitAdjust) }}
-      </button>
-    </div>
   </NSPlatePanel>
 
   <NSPlateCropDialog
-    v-if="cropState"
-    :crop-state="cropState"
+    v-if="isDialogOpen"
+    :initial-image="modelValue"
     :portrait-side="portraitSide"
     @apply="applyCrop"
-    @cancel="cropState = null"
+    @cancel="isDialogOpen = false"
   />
 </template>
 
@@ -47,11 +44,7 @@ const NSPlateCropDialog = defineAsyncComponent(
 )
 import image2PlusIcon from '@/assets/icons/image-2-plus.svg'
 import { plateTextKeys as textKeys } from '@/locales/keys/plate'
-import {
-  createCustomPortraitCropStateFromFile,
-  createCustomPortraitCropStateFromImage,
-  createCustomPortraitImageFromCropState
-} from '@/lib/plate/customPortrait'
+import { createCustomPortraitImageFromCropState } from '@/lib/plate/customPortrait'
 import type {
   NSPlateCustomPortraitCropState,
   NSPlateCustomPortraitImage,
@@ -60,7 +53,7 @@ import type {
 import { useLocale } from '@/stores/locale'
 import NSPlatePanel from '@/pages/plate/components/NSPlatePanel.vue'
 
-const props = defineProps<{
+defineProps<{
   modelValue: NSPlateCustomPortraitImage | null
   portraitSide: NSPlatePortraitSide
 }>()
@@ -71,48 +64,16 @@ const emit = defineEmits<{
 
 const { t } = useLocale()
 const errorText = ref('')
-const cropState = ref<NSPlateCustomPortraitCropState | null>(null)
+const isDialogOpen = ref(false)
 const emptyIconStyle = {
   '--nsplate-portrait-upload-empty-icon': `url("${image2PlusIcon}")`
 } as CSSProperties
-async function onFileChange(event: Event) {
-  const input = event.target as HTMLInputElement
-  const file = input.files?.[0] ?? null
-  input.value = ''
-
-  if (!file) {
-    return
-  }
-
-  errorText.value = ''
-
-  try {
-    cropState.value = await createCustomPortraitCropStateFromFile(file)
-  } catch {
-    errorText.value = t(textKeys.nsplateCustomPortraitError)
-  }
-}
-
-async function adjustCurrentImage() {
-  if (!props.modelValue) {
-    return
-  }
-
-  errorText.value = ''
-
-  try {
-    cropState.value = await createCustomPortraitCropStateFromImage(props.modelValue)
-  } catch {
-    errorText.value = t(textKeys.nsplateCustomPortraitError)
-  }
-}
-
 async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
   errorText.value = ''
 
   try {
     emit('update:modelValue', await createCustomPortraitImageFromCropState(nextCropState))
-    cropState.value = null
+    isDialogOpen.value = false
   } catch {
     errorText.value = t(textKeys.nsplateCustomPortraitError)
   }
@@ -129,6 +90,7 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
 .nsplate-portrait-upload__pick {
   position: relative;
   display: grid;
+  width: 100%;
   grid-template-columns: 48px minmax(0, 1fr);
   align-items: center;
   gap: 10px;
@@ -136,6 +98,8 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
   padding: 8px;
   border: 1px solid var(--ns-color-border);
   background: color-mix(in srgb, var(--ns-color-surface-solid) 78%, transparent);
+  color: inherit;
+  text-align: left;
   cursor: pointer;
 }
 
@@ -182,7 +146,7 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
   display: grid;
   min-width: 0;
   gap: 2px;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
 }
 
 .nsplate-portrait-upload__text strong,
@@ -205,17 +169,6 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
   font-weight: 700;
 }
 
-.nsplate-portrait-upload__pick input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .nsplate-portrait-upload__error {
   margin: 0;
   color: var(--ns-color-danger);
@@ -223,23 +176,4 @@ async function applyCrop(nextCropState: NSPlateCustomPortraitCropState) {
   font-weight: 800;
 }
 
-.nsplate-portrait-upload__actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.nsplate-portrait-upload__actions button {
-  min-height: 32px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 850;
-}
-
-.nsplate-portrait-upload__actions button {
-  padding: 0 10px;
-  cursor: pointer;
-}
 </style>

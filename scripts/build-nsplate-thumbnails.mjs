@@ -12,6 +12,7 @@ const DEFAULT_MAX_EDGE = 256
 const DEFAULT_CONCURRENCY = 4
 const DEFAULT_FORMAT = 'png'
 const DEFAULT_WEBP_QUALITY = 82
+const DEFAULT_RENDER_OUTPUT_ROOT = '../.cache/nsplate-render-webp/full'
 
 function parseArgs(argv) {
   const maxEdge = parsePositiveInt(
@@ -33,6 +34,12 @@ function parseArgs(argv) {
     force: parseBooleanEnv(process.env.NSPLATE_THUMBNAIL_FORCE),
     dryRun: false,
     format: normalizeOutputFormat(process.env.NSPLATE_THUMBNAIL_FORMAT, DEFAULT_FORMAT),
+    renderOutputDir:
+      process.env.NSPLATE_RENDER_OUTPUT_DIR ?? DEFAULT_RENDER_OUTPUT_ROOT,
+    render: false,
+    verifyExact: false,
+    lossless: false,
+    nextToSource: false,
     quality: parsePositiveInt(
       process.env.NSPLATE_THUMBNAIL_QUALITY,
       DEFAULT_WEBP_QUALITY
@@ -106,6 +113,32 @@ function parseArgs(argv) {
       continue
     }
 
+    if (arg === '--render-output-dir') {
+      args.renderOutputDir = argv[index + 1] ?? DEFAULT_RENDER_OUTPUT_ROOT
+      index += 1
+      continue
+    }
+
+    if (arg === '--full-size' || arg === '--render') {
+      args.render = true
+      continue
+    }
+
+    if (arg === '--verify-exact') {
+      args.verifyExact = true
+      continue
+    }
+
+    if (arg === '--lossless') {
+      args.lossless = true
+      continue
+    }
+
+    if (arg === '--next-to-source') {
+      args.nextToSource = true
+      continue
+    }
+
     if (arg === '--magick-bin') {
       args.magickBin = argv[index + 1] ?? 'magick'
       index += 1
@@ -117,7 +150,12 @@ function parseArgs(argv) {
 
   args.manifestDir = resolve(args.manifestDir)
   args.sourceDir = args.sourceDir ? resolve(args.sourceDir) : ''
-  args.outputDir = resolve(args.outputDir)
+  args.outputDir = args.nextToSource
+    ? resolve(args.sourceDir, 'plate-preview-webp', String(args.maxEdge))
+    : resolve(args.outputDir)
+  args.renderOutputDir = args.nextToSource
+    ? resolve(args.sourceDir, 'plate-render-webp', 'full')
+    : resolve(args.renderOutputDir)
   return args
 }
 
@@ -139,6 +177,11 @@ Options:
   --dry-run             Only report source/output paths.
   --format <format>     Output format: png or webp. Default: ${DEFAULT_FORMAT}
   --quality <n>         WebP quality. Default: ${DEFAULT_WEBP_QUALITY}
+  --render-output-dir <dir> Full-size render WebP output. Default: ${DEFAULT_RENDER_OUTPUT_ROOT}
+  --full-size           Also generate full-size WebP render assets.
+  --verify-exact        Verify full-size WebP is pixel-identical to source PNG.
+  --lossless            Encode WebP losslessly (required for --full-size).
+  --next-to-source      Write both output trees beside ui/ in the source directory.
   --magick-bin <path>   ImageMagick executable. Default: magick
 
 Environment:
@@ -150,6 +193,7 @@ Environment:
   NSPLATE_THUMBNAIL_FORCE
   NSPLATE_THUMBNAIL_FORMAT
   NSPLATE_THUMBNAIL_QUALITY
+  NSPLATE_RENDER_OUTPUT_DIR
   MAGICK_PATH / NSPLATE_MAGICK_PATH
 `)
 }
@@ -185,6 +229,14 @@ async function main() {
     throw new Error('Missing --source-dir. Provide the extracted material root that contains ui/icon.')
   }
 
+  if (args.render && !args.lossless) {
+    throw new Error('--full-size requires --lossless.')
+  }
+
+  if (args.verifyExact && !args.render) {
+    throw new Error('--verify-exact requires --full-size and --lossless.')
+  }
+
   await ensureReadableDirectory(args.sourceDir, 'source directory')
   await ensureMagickAvailable(args.magickBin)
 
@@ -197,7 +249,7 @@ async function main() {
   }
 
   console.log(
-    `NSPlate thumbnails: ${selectedPaths.length}/${paths.length} image(s), maxEdge=${args.maxEdge}, format=${args.format}, output=${args.outputDir}`
+    `NSPlate assets: ${selectedPaths.length}/${paths.length} image(s), thumbnail=${args.format} ${args.outputDir}, render=${args.render ? args.renderOutputDir : 'disabled'}`
   )
 
   const jobs = []
@@ -220,7 +272,10 @@ async function main() {
     jobs.push({
       relativePath,
       sourcePath,
-      outputPath: resolveOutputPath(args.outputDir, relativePath, args.format)
+      outputPath: resolveOutputPath(args.outputDir, relativePath, args.format),
+      renderOutputPath: args.render
+        ? resolveOutputPath(args.renderOutputDir, relativePath, 'webp')
+        : undefined
     })
   }
 
@@ -229,6 +284,7 @@ async function main() {
       path: job.relativePath,
       source: job.sourcePath ?? null,
       output: job.outputPath ?? null,
+      renderOutput: job.renderOutputPath ?? null,
       missing: Boolean(job.missing)
     }))
     console.log(JSON.stringify({ total: jobs.length, missing, preview }, null, 2))
@@ -240,13 +296,23 @@ async function main() {
     skipped: 0,
     missing,
     failed: 0,
-    completed: 0
+    completed: 0,
+    renderGenerated: 0,
+    renderSkipped: 0,
+    exactVerified: 0,
+    exactFailed: 0,
+    sourceBytes: 0,
+    thumbnailBytes: 0,
+    renderBytes: 0
   }
 
   await runQueue(jobs, Math.max(1, args.concurrency), async (job) => {
     try {
       if (!job.missing) {
-        if (!args.force && (await fileExists(job.outputPath))) {
+        const sourceBytes = (await stat(job.sourcePath)).size
+        stats.sourceBytes += sourceBytes
+
+        if (!args.force && (await isOutputCurrent(job.sourcePath, job.outputPath))) {
           stats.skipped += 1
         } else {
           await createThumbnail(
@@ -258,6 +324,45 @@ async function main() {
             args.magickBin
           )
           stats.generated += 1
+        }
+
+        if (await fileExists(job.outputPath)) {
+          stats.thumbnailBytes += (await stat(job.outputPath)).size
+        }
+
+        if (args.render) {
+          let renderGenerated = false
+
+          if (!args.force && (await isOutputCurrent(job.sourcePath, job.renderOutputPath))) {
+            stats.renderSkipped += 1
+          } else {
+            await createRenderWebp(
+              job.sourcePath,
+              job.renderOutputPath,
+              args.magickBin
+            )
+            stats.renderGenerated += 1
+            renderGenerated = true
+          }
+
+          if (await fileExists(job.renderOutputPath)) {
+            stats.renderBytes += (await stat(job.renderOutputPath)).size
+          }
+
+          if (args.verifyExact && renderGenerated) {
+            const exact = await verifyExactPixels(
+              job.sourcePath,
+              job.renderOutputPath,
+              args.magickBin
+            )
+
+            if (!exact) {
+              stats.exactFailed += 1
+              throw new Error('full-size WebP is not pixel-identical to source PNG')
+            }
+
+            stats.exactVerified += 1
+          }
         }
       }
     } catch (error) {
@@ -277,8 +382,36 @@ async function main() {
   })
 
   console.log(
-    `NSPlate thumbnails done: generated=${stats.generated}, skipped=${stats.skipped}, missing=${stats.missing}, failed=${stats.failed}`
+    `NSPlate assets done: thumbnails generated=${stats.generated}, skipped=${stats.skipped}, render generated=${stats.renderGenerated}, skipped=${stats.renderSkipped}, exact=${stats.exactVerified}, missing=${stats.missing}, failed=${stats.failed}`
   )
+
+  const reportPath = args.nextToSource
+    ? join(args.sourceDir, 'asset-build-report.json')
+    : join(args.render ? args.renderOutputDir : args.outputDir, 'asset-build-report.json')
+  const renderSavedBytes = args.render ? stats.sourceBytes - stats.renderBytes : 0
+  const renderReductionPercent =
+    args.render && stats.sourceBytes > 0
+      ? Math.round((renderSavedBytes / stats.sourceBytes) * 10000) / 100
+      : null
+  await mkdir(dirname(reportPath), { recursive: true })
+  await writeFile(
+    reportPath,
+    `${JSON.stringify({
+      sourceDir: args.sourceDir,
+      generatedAt: new Date().toISOString(),
+      totalManifestPaths: paths.length,
+      selectedPaths: selectedPaths.length,
+      thumbnail: { format: args.format, maxEdge: args.maxEdge, quality: args.quality },
+      render: args.render ? { format: 'webp', lossless: args.lossless, verifyExact: args.verifyExact } : null,
+      stats: {
+        ...stats,
+        renderSavedBytes,
+        renderReductionPercent
+      }
+    }, null, 2)}\n`,
+    'utf8'
+  )
+  console.log(`Asset build report: ${reportPath}`)
 
   if (missingPaths.length > 0) {
     await mkdir(args.outputDir, { recursive: true })
@@ -287,7 +420,7 @@ async function main() {
     console.log(`Missing thumbnail source list: ${missingFilePath}`)
   }
 
-  if (stats.missing > 0 || stats.failed > 0) {
+  if (stats.missing > 0 || stats.failed > 0 || stats.exactFailed > 0) {
     process.exitCode = 1
   }
 }
@@ -407,6 +540,35 @@ async function createThumbnail(sourcePath, outputPath, maxEdge, format, quality,
   )
 }
 
+async function createRenderWebp(sourcePath, outputPath, magickBin) {
+  await mkdir(dirname(outputPath), { recursive: true })
+  await execFileAsync(
+    magickBin,
+    [
+      sourcePath,
+      '-define',
+      'webp:lossless=true',
+      '-define',
+      'webp:method=6',
+      '-define',
+      'webp:exact=true',
+      outputPath
+    ],
+    { windowsHide: true, maxBuffer: 1024 * 1024 }
+  )
+}
+
+async function verifyExactPixels(sourcePath, outputPath, magickBin) {
+  const result = await execFileAsync(
+    magickBin,
+    ['compare', '-metric', 'AE', sourcePath, outputPath, 'null:'],
+    { windowsHide: true, maxBuffer: 1024 * 1024 }
+  ).catch((error) => ({ stdout: error.stdout ?? '', stderr: error.stderr ?? '' }))
+
+  const metric = `${result.stdout ?? ''} ${result.stderr ?? ''}`.trim()
+  return metric.split(/\s+/)[0] === '0'
+}
+
 async function runQueue(items, concurrency, worker) {
   let nextIndex = 0
 
@@ -453,6 +615,15 @@ async function fileExists(filePath) {
   } catch {
     return false
   }
+}
+
+async function isOutputCurrent(sourcePath, outputPath) {
+  const [sourceInfo, outputInfo] = await Promise.all([
+    stat(sourcePath),
+    stat(outputPath).catch(() => null)
+  ])
+
+  return Boolean(outputInfo?.isFile() && outputInfo.mtimeMs >= sourceInfo.mtimeMs)
 }
 
 main().catch((error) => {

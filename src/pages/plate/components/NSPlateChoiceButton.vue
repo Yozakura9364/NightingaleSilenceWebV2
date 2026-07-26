@@ -82,7 +82,7 @@ withDefaults(
 
 .nsplate-choice-button__meta {
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 11px;
   font-weight: 900;
 }

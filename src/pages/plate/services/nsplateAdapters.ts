@@ -138,6 +138,10 @@ function normalizeAssetList(
             meta?.previewImgBase,
             normalizeNSPlatePreviewPath(path, meta?.previewFormat)
           ),
+          renderUrl: joinNSPlateResourceUrl(
+            meta?.renderImgBase,
+            normalizeNSPlatePreviewPath(path, meta?.renderFormat)
+          ),
           raw: asset
         },
         index

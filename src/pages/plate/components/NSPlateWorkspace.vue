@@ -2,11 +2,7 @@
   <section class="nsplate-workspace">
     <p v-if="errorText" class="nsplate-workspace__status" data-state="error">
       {{ errorText }}
-      <button
-        class="nsplate-workspace__retry"
-        type="button"
-        @click="reload"
-      >
+      <button class="nsplate-workspace__retry" type="button" @click="reload">
         {{ t(textKeys.retry) }}
       </button>
     </p>
@@ -268,18 +264,27 @@ function clearCustomPortrait() {
 function moveCustomPortraitPopoutLayer(direction: 'up' | 'down') {
   const currentPortrait = customPortrait.value
 
-  if (!currentPortrait || (currentPortrait.mode !== 'popout' && currentPortrait.mode !== 'free')) {
+  if (
+    !currentPortrait ||
+    (currentPortrait.mode !== 'popout' &&
+      currentPortrait.mode !== 'free' &&
+      currentPortrait.mode !== 'paired')
+  ) {
     return
   }
 
-  const currentAnchor =
-    currentPortrait.mode === 'free'
-      ? normalizeNSPlateCustomPortraitFreeLayerAnchor(currentPortrait.freeLayerAnchor)
-      : normalizeNSPlateCustomPortraitPopoutLayerAnchor(currentPortrait.popoutLayerAnchor)
-  const layerAnchors: readonly NSPlateCustomPortraitFreeLayerAnchor[] =
-    currentPortrait.mode === 'free'
-      ? (['portraitBase', ...NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS] as const)
-      : NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS
+  const usesFreeAnchor = currentPortrait.mode === 'free'
+  const usesPairedAnchor = currentPortrait.mode === 'paired'
+  const currentAnchor = usesFreeAnchor
+    ? normalizeNSPlateCustomPortraitFreeLayerAnchor(currentPortrait.freeLayerAnchor)
+    : normalizeNSPlateCustomPortraitPopoutLayerAnchor(
+        usesPairedAnchor
+          ? currentPortrait.pairedPopoutLayerAnchor
+          : currentPortrait.popoutLayerAnchor
+      )
+  const layerAnchors: readonly NSPlateCustomPortraitFreeLayerAnchor[] = usesFreeAnchor
+    ? (['portraitBase', ...NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS] as const)
+    : NSPLATE_CUSTOM_PORTRAIT_POPOUT_LAYER_ANCHORS
   const currentIndex = layerAnchors.indexOf(currentAnchor)
   const nextIndex =
     direction === 'up'
@@ -293,9 +298,11 @@ function moveCustomPortraitPopoutLayer(direction: 'up' | 'down') {
 
   customPortrait.value = {
     ...currentPortrait,
-    ...(currentPortrait.mode === 'free'
+    ...(usesFreeAnchor
       ? { freeLayerAnchor: nextAnchor }
-      : { popoutLayerAnchor: nextAnchor as NSPlateCustomPortraitPopoutLayerAnchor })
+      : usesPairedAnchor
+        ? { pairedPopoutLayerAnchor: nextAnchor as NSPlateCustomPortraitPopoutLayerAnchor }
+        : { popoutLayerAnchor: nextAnchor as NSPlateCustomPortraitPopoutLayerAnchor })
   }
 }
 

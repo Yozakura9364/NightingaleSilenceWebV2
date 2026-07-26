@@ -335,7 +335,7 @@ function normalizeSearchText(value: unknown) {
   border-radius: var(--ns-radius-xs);
   background: color-mix(in srgb, var(--ns-color-bg) 52%, var(--ns-color-surface-solid));
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 760;
 }

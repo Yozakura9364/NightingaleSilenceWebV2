@@ -6,6 +6,9 @@ const DEFAULT_EXPECTED_IMG_BASE = 'https://img.nightingalesilence.com'
 const DEFAULT_EXPECTED_PREVIEW_BASE = 'https://img.nightingalesilence.com/plate-preview-webp/256'
 const DEFAULT_EXPECTED_PREVIEW_MAX_EDGE = 256
 const DEFAULT_EXPECTED_PREVIEW_FORMAT = 'webp'
+const DEFAULT_EXPECTED_RENDER_BASE = 'https://img.nightingalesilence.com/plate-render-webp/full'
+const DEFAULT_EXPECTED_RENDER_FORMAT = 'webp'
+const DEFAULT_CORS_ORIGIN = 'https://n9s.site'
 const UNRELEASED_MATERIAL_RANGES = [
   [190000, 199999],
   [230000, 239999]
@@ -29,10 +32,20 @@ function parseArgs(argv) {
       process.env.NSPLATE_STATIC_PREVIEW_FORMAT,
       DEFAULT_EXPECTED_PREVIEW_FORMAT
     ),
+    expectedRenderImgBase:
+      process.env.NSPLATE_STATIC_RENDER_IMG_BASE ?? DEFAULT_EXPECTED_RENDER_BASE,
+    expectedRenderFormat: normalizePreviewFormat(
+      process.env.NSPLATE_STATIC_RENDER_FORMAT,
+      DEFAULT_EXPECTED_RENDER_FORMAT
+    ),
     allowUnreleased: parseBooleanEnv(process.env.NSPLATE_INCLUDE_UNRELEASED, true),
     checkRemote: parseBooleanEnv(process.env.NSPLATE_CHECK_REMOTE),
     checkPreviewRemote: parseBooleanEnv(process.env.NSPLATE_CHECK_PREVIEW_REMOTE),
+    checkRenderRemote: parseBooleanEnv(process.env.NSPLATE_CHECK_RENDER_REMOTE),
+    checkCors: parseBooleanEnv(process.env.NSPLATE_CHECK_CORS),
+    corsOrigin: process.env.NSPLATE_CHECK_CORS_ORIGIN ?? DEFAULT_CORS_ORIGIN,
     expectPreview: parseBooleanEnv(process.env.NSPLATE_EXPECT_PREVIEW),
+    expectRender: parseBooleanEnv(process.env.NSPLATE_EXPECT_RENDER),
     remoteSamples: 5
   }
 
@@ -80,6 +93,21 @@ function parseArgs(argv) {
       continue
     }
 
+    if (arg === '--expected-render-img-base') {
+      args.expectedRenderImgBase = argv[index + 1] ?? DEFAULT_EXPECTED_RENDER_BASE
+      index += 1
+      continue
+    }
+
+    if (arg === '--expected-render-format') {
+      args.expectedRenderFormat = normalizePreviewFormat(
+        argv[index + 1],
+        DEFAULT_EXPECTED_RENDER_FORMAT
+      )
+      index += 1
+      continue
+    }
+
     if (arg === '--allow-unreleased') {
       args.allowUnreleased = true
       continue
@@ -95,6 +123,11 @@ function parseArgs(argv) {
       continue
     }
 
+    if (arg === '--expect-render') {
+      args.expectRender = true
+      continue
+    }
+
     if (arg === '--check-remote') {
       args.checkRemote = true
       continue
@@ -102,6 +135,22 @@ function parseArgs(argv) {
 
     if (arg === '--check-preview-remote') {
       args.checkPreviewRemote = true
+      continue
+    }
+
+    if (arg === '--check-render-remote') {
+      args.checkRenderRemote = true
+      continue
+    }
+
+    if (arg === '--check-cors') {
+      args.checkCors = true
+      continue
+    }
+
+    if (arg === '--cors-origin') {
+      args.corsOrigin = argv[index + 1] ?? DEFAULT_CORS_ORIGIN
+      index += 1
       continue
     }
 
@@ -117,6 +166,7 @@ function parseArgs(argv) {
   args.manifestDir = resolve(args.manifestDir)
   args.expectedImgBase = normalizeBase(args.expectedImgBase)
   args.expectedPreviewImgBase = normalizeBase(args.expectedPreviewImgBase)
+  args.expectedRenderImgBase = normalizeBase(args.expectedRenderImgBase)
   return args
 }
 
@@ -133,11 +183,17 @@ Options:
   --expected-preview-img-base <url> Expected files._meta.previewImgBase. Default: ${DEFAULT_EXPECTED_PREVIEW_BASE}
   --expected-preview-max-edge <px>  Expected files._meta.previewMaxEdge. Default: ${DEFAULT_EXPECTED_PREVIEW_MAX_EDGE}
   --expected-preview-format <format> Expected files._meta.previewFormat. Default: ${DEFAULT_EXPECTED_PREVIEW_FORMAT}
+  --expected-render-img-base <url> Expected files._meta.renderImgBase. Default: ${DEFAULT_EXPECTED_RENDER_BASE}
+  --expected-render-format <format> Expected files._meta.renderFormat. Default: ${DEFAULT_EXPECTED_RENDER_FORMAT}
   --allow-unreleased         Allow assets marked as unreleased. This is the default.
   --disallow-unreleased      Fail if assets marked as unreleased are present.
   --expect-preview           Require previewImgBase and previewMaxEdge.
+  --expect-render            Require renderImgBase and renderFormat.
   --check-remote             Probe a few generated COS URLs.
   --check-preview-remote     Probe a few generated preview COS URLs.
+  --check-render-remote      Probe a few generated full-size render COS URLs.
+  --check-cors               Require sampled remote responses to allow the configured Origin.
+  --cors-origin <origin>     Origin used for CORS checks. Default: ${DEFAULT_CORS_ORIGIN}
   --remote-samples <count>   Remote URLs to probe. Default: 5
 
 Environment:
@@ -146,10 +202,16 @@ Environment:
   NSPLATE_STATIC_PREVIEW_IMG_BASE
   NSPLATE_STATIC_PREVIEW_MAX_EDGE
   NSPLATE_STATIC_PREVIEW_FORMAT
+  NSPLATE_STATIC_RENDER_IMG_BASE
+  NSPLATE_STATIC_RENDER_FORMAT
   NSPLATE_INCLUDE_UNRELEASED (defaults to true)
   NSPLATE_CHECK_REMOTE
   NSPLATE_CHECK_PREVIEW_REMOTE
+  NSPLATE_CHECK_RENDER_REMOTE
+  NSPLATE_CHECK_CORS
+  NSPLATE_CHECK_CORS_ORIGIN
   NSPLATE_EXPECT_PREVIEW
+  NSPLATE_EXPECT_RENDER
 `)
 }
 
@@ -213,7 +275,7 @@ async function main() {
 
   validatePresets(presets, errors)
   const assetStats = validateFiles(files, args, errors, warnings)
-  validateManifestMeta(manifestMeta, args, assetStats, errors, warnings)
+  validateManifestMeta(manifestMeta, files, args, assetStats, errors, warnings)
 
   if (JSON.stringify(files).includes('/portable')) {
     errors.push('files.json still contains /portable paths; static manifest must not depend on old service paths.')
@@ -234,6 +296,16 @@ async function main() {
       base: files?._meta?.previewImgBase,
       format: files?._meta?.previewFormat,
       label: 'preview asset',
+      errors,
+      warnings
+    })
+  }
+
+  if (args.checkRenderRemote) {
+    await validateRemoteSamples(files, args, {
+      base: files?._meta?.renderImgBase,
+      format: files?._meta?.renderFormat,
+      label: 'render asset',
       errors,
       warnings
     })
@@ -261,8 +333,12 @@ async function main() {
       `imgBase: ${files?._meta?.imgBase ?? '(missing)'}`,
       `previewImgBase: ${files?._meta?.previewImgBase ?? '(missing)'}`,
       `previewFormat: ${files?._meta?.previewFormat ?? '(source)'}`,
+      `renderImgBase: ${files?._meta?.renderImgBase ?? '(missing)'}`,
+      `renderFormat: ${files?._meta?.renderFormat ?? '(source)'}`,
       `remote: ${args.checkRemote ? 'checked' : 'skipped'}`,
-      `previewRemote: ${args.checkPreviewRemote ? 'checked' : 'skipped'}`
+      `previewRemote: ${args.checkPreviewRemote ? 'checked' : 'skipped'}`,
+      `renderRemote: ${args.checkRenderRemote ? 'checked' : 'skipped'}`,
+      `cors: ${args.checkCors ? `checked(${args.corsOrigin})` : 'skipped'}`
     ].join(' ')
   )
 }
@@ -330,6 +406,26 @@ function validateFiles(files, args, errors, warnings) {
     } else if (args.expectPreview) {
       errors.push('files._meta.previewImgBase is required when --expect-preview is used.')
     }
+
+    if (files._meta.renderImgBase) {
+      const renderImgBase = normalizeBase(files._meta.renderImgBase)
+
+      if (renderImgBase !== args.expectedRenderImgBase) {
+        errors.push(
+          `files._meta.renderImgBase must be ${args.expectedRenderImgBase}, got ${renderImgBase}.`
+        )
+      }
+
+      if (normalizePreviewFormat(files._meta.renderFormat, '') !== args.expectedRenderFormat) {
+        errors.push(
+          `files._meta.renderFormat must be ${args.expectedRenderFormat}, got ${
+            files._meta.renderFormat || '(missing)'
+          }.`
+        )
+      }
+    } else if (args.expectRender) {
+      errors.push('files._meta.renderImgBase is required when --expect-render is used.')
+    }
   }
 
   for (const scope of ['portrait', 'nameplate']) {
@@ -390,7 +486,7 @@ function validateAsset(asset, location, args, stats, errors) {
   }
 }
 
-function validateManifestMeta(manifestMeta, args, assetStats, errors, warnings) {
+function validateManifestMeta(manifestMeta, files, args, assetStats, errors, warnings) {
   if (!manifestMeta || typeof manifestMeta !== 'object' || Array.isArray(manifestMeta)) {
     errors.push('manifest-meta.json must be an object.')
     return
@@ -426,6 +522,24 @@ function validateManifestMeta(manifestMeta, args, assetStats, errors, warnings) 
     }
   }
 
+  if (files?._meta?.renderImgBase || args.expectRender) {
+    if (normalizeBase(manifestMeta.renderImgBase) !== args.expectedRenderImgBase) {
+      errors.push(
+        `manifest-meta.renderImgBase must be ${args.expectedRenderImgBase}, got ${
+          normalizeBase(manifestMeta.renderImgBase) || '(missing)'
+        }.`
+      )
+    }
+
+    if (normalizePreviewFormat(manifestMeta.renderFormat, '') !== args.expectedRenderFormat) {
+      errors.push(
+        `manifest-meta.renderFormat must be ${args.expectedRenderFormat}, got ${
+          manifestMeta.renderFormat || '(missing)'
+        }.`
+      )
+    }
+  }
+
   if (manifestMeta.includeUnreleased && !args.allowUnreleased) {
     errors.push('manifest-meta.includeUnreleased is true, but this check disallows unreleased assets.')
   }
@@ -456,7 +570,7 @@ async function validateRemoteSamples(files, args, options) {
   }
 
   for (const url of urls) {
-    const result = await probeRemoteUrl(url)
+    const result = await probeRemoteUrl(url, args.checkCors ? args.corsOrigin : null)
 
     if (!result.ok) {
       errors.push(`Remote ${options.label} check failed: ${url} (${result.message})`)
@@ -509,29 +623,45 @@ function replaceAssetExtension(path, format) {
   return format ? path.replace(/\.[^./]+$/, `.${format}`) : path
 }
 
-async function probeRemoteUrl(url) {
+async function probeRemoteUrl(url, corsOrigin = null) {
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 10000)
 
   try {
+    const initialMethod = corsOrigin ? 'GET' : 'HEAD'
     let response = await fetch(url, {
-      method: 'HEAD',
+      method: initialMethod,
       signal: controller.signal,
       headers: {
+        ...(initialMethod === 'GET' ? { Range: 'bytes=0-0' } : {}),
+        ...(corsOrigin ? { Origin: corsOrigin } : {}),
         'User-Agent': 'NightingaleSilence NSPlate static manifest checker'
       }
     })
 
-    if (response.status === 405 || response.status === 403) {
+    if (initialMethod === 'GET') {
+      await response.body?.cancel()
+    }
+
+    if (!corsOrigin && (response.status === 405 || response.status === 403)) {
       response = await fetch(url, {
         method: 'GET',
         signal: controller.signal,
         headers: {
           Range: 'bytes=0-0',
+          ...(corsOrigin ? { Origin: corsOrigin } : {}),
           'User-Agent': 'NightingaleSilence NSPlate static manifest checker'
         }
       })
       await response.body?.cancel()
+    }
+
+    if (response.ok && corsOrigin && !isCorsAllowed(response, corsOrigin)) {
+      const allowedOrigin = response.headers.get('access-control-allow-origin')
+      return {
+        ok: false,
+        message: `${response.status} ${response.statusText}; Access-Control-Allow-Origin is ${allowedOrigin ?? 'missing'} for ${corsOrigin}`
+      }
     }
 
     return {
@@ -546,6 +676,11 @@ async function probeRemoteUrl(url) {
   } finally {
     clearTimeout(timeout)
   }
+}
+
+function isCorsAllowed(response, origin) {
+  const allowedOrigin = response.headers.get('access-control-allow-origin')
+  return allowedOrigin === '*' || allowedOrigin === origin
 }
 
 function getAssetNumericId(asset) {
