@@ -1,5 +1,5 @@
 <template>
-  <main class="style-lab-page" :style="styleLabLocalArtStyle">
+  <main class="style-lab-page" :style="styleLabCharacterArtStyle">
     <section class="style-formal-sample" :aria-label="t(textKeys.styleLabFormalComponents)">
       <div class="style-formal-sample__shell">
         <AppPixelWindow :title="t(textKeys.styleLabFormalComponents)" :closable="false">
@@ -97,6 +97,8 @@
         </AppPixelWindow>
       </div>
     </section>
+
+    <StyleLabTimelinePrototype />
 
     <section
       class="style-lab-experiment"
@@ -1150,6 +1152,7 @@
 <script setup lang="ts">
 import '@/styles/experiments/pixel-soft.css'
 import { computed, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
+import yoineCharacterArt from '@/assets/home/yoine-1.webp'
 import pixelChevronLeftIcon from '@/assets/icons/chevron-left.svg'
 import pixelChevronRightIcon from '@/assets/icons/chevron-right.svg'
 import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
@@ -1176,13 +1179,14 @@ import AppTabs from '@/components/AppTabs.vue'
 import AppToolbar from '@/components/AppToolbar.vue'
 import { ffxivTools, siteLocaleOptions } from '@/config/site'
 import { allTextKeys as textKeys } from '@/locales/keys/all'
+import StyleLabTimelinePrototype from '@/pages/style-lab/components/StyleLabTimelinePrototype.vue'
 import { useLocale } from '@/stores/locale'
 import { useTheme, type ThemeMode } from '@/stores/theme'
 
 const pixelPlaceholderMenuIcon =
   'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 8 8%22 fill=%22%23000%22 shape-rendering=%22crispEdges%22%3E%3Cpath d=%22M1 0h6v1H1zM0 1h1v5H0zM7 1h1v5H7zM1 6h6v1H1zM2 2h1v1H2zM5 2h1v1H5zM3 3h2v1H3zM2 4h4v1H2z%22/%3E%3C/svg%3E'
 
-type FontMode = 'decorative' | 'all-pixel'
+type FontMode = 'decorative' | 'all-pixel' | 'millennium-ui'
 type PixelTone = 'classic' | 'light' | 'cyber-night'
 type PixelIconVariant = 'plain' | 'pink' | 'blue'
 type StyleLabModuleOption = { id: string; label?: string; labelKey?: string }
@@ -1211,11 +1215,8 @@ type PixelIconBarAction = PixelIconAction & {
 
 const { t } = useLocale()
 const { current: themeMode } = useTheme()
-const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE
-const styleLabLocalArtStyle = {
-  '--style-lab-character-art-url': import.meta.env.DEV
-    ? `url("${localAssetBase}/yoine-1.png")`
-    : 'none'
+const styleLabCharacterArtStyle = {
+  '--style-lab-character-art-url': `url("${yoineCharacterArt}")`
 } as CSSProperties
 const fontMode = ref<FontMode>('decorative')
 const pixelTone = ref<PixelTone>(defaultPixelTone(themeMode.value))
@@ -1231,7 +1232,8 @@ const styleLabModuleOptions: StyleLabModuleOption[] = [
 
 const fontModeOptions: Array<{ labelKey: string; value: FontMode }> = [
   { labelKey: textKeys.styleLabDecorativePixels, value: 'decorative' },
-  { labelKey: textKeys.styleLabAllPixels, value: 'all-pixel' }
+  { labelKey: textKeys.styleLabAllPixels, value: 'all-pixel' },
+  { labelKey: textKeys.styleLabMillenniumUi, value: 'millennium-ui' }
 ]
 
 const pixelToneOptions: Array<{ labelKey: string; value: PixelTone }> = [
@@ -2487,7 +2489,7 @@ function setStyleLabIconMenuSection(section: 'ffxiv' | 'silence' | undefined) {
 .ns-pixel-desktop-copy h2 {
   margin: 0;
   color: var(--ns-pixel-ink);
-  font-family: var(--ns-font-display);
+  font-family: var(--ns-font-pixel);
   font-size: clamp(28px, 4vw, 52px);
   line-height: 1;
   letter-spacing: 0;

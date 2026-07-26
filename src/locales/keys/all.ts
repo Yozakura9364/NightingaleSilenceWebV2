@@ -1,4 +1,5 @@
 import { coreTextKeys } from '@/locales/keys/core'
+import { ffxivTextKeys } from '@/locales/keys/ffxiv'
 import { homeTextKeys } from '@/locales/keys/home'
 import { plateTextKeys } from '@/locales/keys/plate'
 import { glamourTextKeys } from '@/locales/keys/glamour'
@@ -8,6 +9,7 @@ import { styleLabTextKeys } from '@/locales/keys/styleLab'
 
 export const allTextKeys = {
   ...coreTextKeys,
+  ...ffxivTextKeys,
   ...homeTextKeys,
   ...plateTextKeys,
   ...glamourTextKeys,

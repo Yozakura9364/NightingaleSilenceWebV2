@@ -139,6 +139,73 @@ export const styleLabUiMessages: UiMessageMap = {
     ja: '状態フィードバック基準',
     ko: '상태 피드백 기준'
   }),
+  'styleLab.timeline.title': msg({
+    zh: '活动时间轴实验',
+    en: 'Event timeline prototype',
+    ja: 'イベントタイムライン実験',
+    ko: '이벤트 타임라인 실험'
+  }),
+  'styleLab.timeline.aria': msg({
+    zh: '共同活动和区服专属活动区间时间轴',
+    en: 'Shared and region-exclusive event range timeline',
+    ja: '共通イベントと地域限定イベントの期間タイムライン',
+    ko: '공통 이벤트와 지역 전용 이벤트 기간 타임라인'
+  }),
+  'styleLab.timeline.source': same('vis-timeline 8.5.2 / MIT OR Apache-2.0'),
+  'styleLab.timeline.group.common': msg({
+    zh: '共同活动',
+    en: 'Shared',
+    ja: '共通',
+    ko: '공통'
+  }),
+  'styleLab.timeline.group.cn': msg({
+    zh: '国服专属',
+    en: 'CN only',
+    ja: '中国版限定',
+    ko: '중국 서버 전용'
+  }),
+  'styleLab.timeline.group.global': msg({
+    zh: '国际服专属',
+    en: 'Global only',
+    ja: 'グローバル版限定',
+    ko: '글로벌 서버 전용'
+  }),
+  'styleLab.timeline.sample.commonA': msg({
+    zh: '共同占位活动 A',
+    en: 'Shared sample event A',
+    ja: '共通サンプルイベント A',
+    ko: '공통 샘플 이벤트 A'
+  }),
+  'styleLab.timeline.sample.commonB': msg({
+    zh: '共同占位活动 B',
+    en: 'Shared sample event B',
+    ja: '共通サンプルイベント B',
+    ko: '공통 샘플 이벤트 B'
+  }),
+  'styleLab.timeline.sample.cnA': msg({
+    zh: '国服专属占位活动 A',
+    en: 'CN-exclusive sample event A',
+    ja: '中国版限定サンプルイベント A',
+    ko: '중국 서버 전용 샘플 이벤트 A'
+  }),
+  'styleLab.timeline.sample.cnB': msg({
+    zh: '国服专属占位活动 B',
+    en: 'CN-exclusive sample event B',
+    ja: '中国版限定サンプルイベント B',
+    ko: '중국 서버 전용 샘플 이벤트 B'
+  }),
+  'styleLab.timeline.sample.globalA': msg({
+    zh: '国际服专属占位活动 A',
+    en: 'Global-exclusive sample event A',
+    ja: 'グローバル版限定サンプルイベント A',
+    ko: '글로벌 서버 전용 샘플 이벤트 A'
+  }),
+  'styleLab.timeline.sample.globalB': msg({
+    zh: '国际服专属占位活动 B',
+    en: 'Global-exclusive sample event B',
+    ja: 'グローバル版限定サンプルイベント B',
+    ko: '글로벌 서버 전용 샘플 이벤트 B'
+  }),
   'styleLab.loadingPreview': msg({
     zh: '加载预览',
     en: 'Loading preview',
@@ -174,6 +241,12 @@ export const styleLabUiMessages: UiMessageMap = {
     en: 'All pixels',
     ja: '全ピクセル',
     ko: '전체 픽셀'
+  }),
+  'styleLab.millenniumUi': msg({
+    zh: '千禧 UI',
+    en: 'Millennium UI',
+    ja: 'ミレニアム UI',
+    ko: '밀레니엄 UI'
   }),
   'styleLab.currentPixel': msg({
     zh: '当前像素',

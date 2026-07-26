@@ -6,6 +6,7 @@ type UiMessageLoader = () => Promise<UiMessageMap>
 
 const messageLoaders: Partial<Record<UiMessageModuleName, UiMessageLoader>> = {
   home: () => import('@/locales/modules/home').then((module) => module.homeUiMessages),
+  ffxiv: () => import('@/locales/modules/ffxiv').then((module) => module.ffxivUiMessages),
   about: () => import('@/locales/modules/about').then((module) => module.aboutUiMessages),
   plate: () => import('@/locales/modules/plate').then((module) => module.plateUiMessages),
   glamour: () => import('@/locales/modules/glamour').then((module) => module.glamourUiMessages),

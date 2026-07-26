@@ -94,7 +94,7 @@ withDefaults(
 
 .ffxiv-tool-panel h2 {
   margin: 0 0 16px;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 18px;
   font-weight: 900;
 }
@@ -120,12 +120,12 @@ withDefaults(
 
 .ffxiv-tool-meta dt {
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-weight: 900;
 }
 
 .ffxiv-tool-meta dd {
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   overflow-wrap: anywhere;
 }
 

@@ -138,7 +138,7 @@ const router = createRouter({
       path: siteRoutes.ffxiv,
       name: 'ffxiv',
       meta: { titleKey: ffxivCategory?.titleKey ?? textKeys.ffxivWorkshop },
-      component: () => import('@/pages/ffxiv/FfxivIndexPage.vue')
+      component: loadLocalizedPage(['ffxiv'], () => import('@/pages/ffxiv/FfxivIndexPage.vue'))
     },
     {
       path: siteRoutes.itemCard,

@@ -26,10 +26,13 @@
     "check:armoire-store-catalog:quiet": "node scripts/check-armoire-store-catalog.mjs --pending-limit 0",
     "audit:armoire-store-coverage": "node scripts/audit-armoire-store-coverage.mjs",
     "build:plate-manifest": "node scripts/build-nsplate-manifest.mjs --preview-img-base https://img.nightingalesilence.com/plate-preview-webp/256 --preview-max-edge 256 --preview-format webp",
+    "build:plate-manifest:render": "node scripts/build-nsplate-manifest.mjs --preview-img-base https://img.nightingalesilence.com/plate-preview-webp/256 --preview-max-edge 256 --preview-format webp --render-img-base https://img.nightingalesilence.com/plate-render-webp/full --render-format webp",
     "build:plate-manifest:no-preview": "node scripts/build-nsplate-manifest.mjs",
     "build:plate-thumbnails": "node scripts/build-nsplate-thumbnails.mjs --format webp --quality 82",
+    "refresh:plate-assets": "node scripts/build-nsplate-thumbnails.mjs --format webp --quality 82 --full-size --lossless --verify-exact --next-to-source",
     "check:plate-static": "node scripts/check-nsplate-static-manifest.mjs",
     "check:plate-static:preview": "node scripts/check-nsplate-static-manifest.mjs --expect-preview --check-preview-remote",
+    "check:plate-static:render": "node scripts/check-nsplate-static-manifest.mjs --expect-preview --expect-render --check-remote --check-preview-remote --check-render-remote --check-cors",
     "check:plate-regression": "node scripts/check-nsplate-regression.mjs",
     "check:nsglamour-contract": "node scripts/check-nsglamour-contract.mjs",
     "check:release": "node scripts/check-release-readiness.mjs",
@@ -43,6 +46,7 @@
   },
   "dependencies": {
     "pinia": "^2.1.7",
+    "vis-timeline": "^8.5.2",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },

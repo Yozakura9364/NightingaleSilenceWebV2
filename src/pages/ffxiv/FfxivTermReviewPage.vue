@@ -276,7 +276,7 @@ function uniqueOptions<T extends string>(values: T[]) {
   gap: 6px;
   min-width: 0;
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 900;
 }
@@ -289,7 +289,7 @@ function uniqueOptions<T extends string>(values: T[]) {
   border: 2px solid var(--ns-pixel-border-soft);
   background-color: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font: 700 14px/1.3 var(--ns-font-sans);
+  font: 700 14px/1.3 var(--ns-font-ui);
 }
 
 .ffxiv-term-review-page__field input {
@@ -303,7 +303,7 @@ function uniqueOptions<T extends string>(values: T[]) {
   margin-top: 12px;
   padding: 10px 14px;
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 900;
 }
@@ -343,7 +343,7 @@ function uniqueOptions<T extends string>(values: T[]) {
   z-index: 1;
   background: var(--ns-pixel-window-title-bg);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 950;
 }
@@ -384,7 +384,7 @@ function uniqueOptions<T extends string>(values: T[]) {
 .ffxiv-term-review-page__table code {
   margin-top: 6px;
   color: var(--ns-color-accent-strong);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 11px;
 }
 
@@ -395,7 +395,7 @@ function uniqueOptions<T extends string>(values: T[]) {
   background: var(--ns-color-surface);
   padding: 4px 6px;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 11px;
   font-weight: 900;
 }
@@ -421,7 +421,7 @@ tr[data-status='layout'] .ffxiv-term-review-page__badge {
 
 .ffxiv-term-review-page__values dt {
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-ui);
   font-size: 11px;
   font-weight: 900;
 }

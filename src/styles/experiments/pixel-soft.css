@@ -17,8 +17,8 @@
   --ns-pixel-shadow: rgba(42, 33, 56, 0.24);
   --ns-pixel-shadow-soft: rgba(255, 124, 194, 0.28);
   --ns-pixel-unit: 4px;
-  --ns-pixel-font: var(--ns-font-decorative);
-  --ns-readable-font: var(--ns-font-sans);
+  --ns-pixel-font: var(--ns-font-pixel);
+  --ns-readable-font: var(--ns-font-ui);
   --ns-pixel-window-icon-bg: var(--ns-pixel-ink);
   --ns-pixel-window-icon-border: 0 solid transparent;
   --ns-pixel-window-control-bg: transparent;
@@ -168,6 +168,11 @@
 
 [data-style-preview='pixel-soft'][data-font-mode='all-pixel'] {
   font-family: var(--ns-pixel-font);
+}
+
+[data-style-preview='pixel-soft'][data-font-mode='millennium-ui'] {
+  --ns-pixel-font: 'Trebuchet MS', Tahoma, 'Microsoft YaHei', sans-serif;
+  --ns-readable-font: 'Trebuchet MS', Tahoma, 'Microsoft YaHei', sans-serif;
 }
 
 [data-style-preview='pixel-soft'] .ns-pixel-stage {

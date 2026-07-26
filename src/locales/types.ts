@@ -6,6 +6,7 @@ export type UiMessageMap = Record<string, UiMessage>
 
 export type UiMessageModuleName =
   | 'home'
+  | 'ffxiv'
   | 'about'
   | 'plate'
   | 'glamour'

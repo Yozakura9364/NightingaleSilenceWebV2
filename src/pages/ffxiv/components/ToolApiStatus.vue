@@ -139,7 +139,7 @@ onMounted(() => {
 .tool-api-status__endpoint {
   margin: 0;
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 13px;
   overflow-wrap: anywhere;
 }
