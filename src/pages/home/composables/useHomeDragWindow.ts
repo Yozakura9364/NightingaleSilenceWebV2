@@ -1,7 +1,7 @@
 import { ref, type CSSProperties } from 'vue'
 
 type HomeWindowLayer = 'day' | 'night'
-export type DayWindowId = 'main' | 'links' | 'portrait'
+export type DayWindowId = 'main' | 'clock' | 'portrait'
 export type NightWindowId = 'status' | 'dialogue' | 'chat' | 'assets' | 'control'
 export type HomeWindowKey = `day:${DayWindowId}` | `night:${NightWindowId}`
 
@@ -49,7 +49,7 @@ export function useHomeDragWindow() {
   function parseHomeWindowKey(value: string | undefined): HomeWindowKey | null {
     if (!value) return null
     const [layer, id] = value.split(':')
-    const isDayWindow = layer === 'day' && ['main', 'links', 'portrait'].includes(id)
+    const isDayWindow = layer === 'day' && ['main', 'clock', 'portrait'].includes(id)
     const isNightWindow = layer === 'night' && ['status', 'dialogue', 'chat', 'assets', 'control'].includes(id)
     return isDayWindow || isNightWindow ? (value as HomeWindowKey) : null
   }

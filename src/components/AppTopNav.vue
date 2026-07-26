@@ -2,26 +2,24 @@
   <header v-if="showNav" ref="navEl" class="app-top-nav">
     <nav class="app-top-nav__inner" :aria-label="t(textKeys.primaryNavigation)">
       <RouterLink
-        class="app-top-nav__brand"
-        :class="{ 'app-top-nav__brand--art': isLocalBrandPreview }"
+        class="app-top-nav__brand app-top-nav__brand--art"
         :to="siteRoutes.home"
       >
         <span
-          v-if="isLocalBrandPreview"
           class="app-top-nav__brand-art"
           :style="topNavBrandArtStyle"
           aria-hidden="true"
         ></span>
         <span
           class="app-top-nav__brand-icon"
-          :class="{ 'ns-sr-only': isLocalBrandPreview }"
           :style="brandIconStyle"
           aria-hidden="true"
         ></span>
-        <span :class="{ 'ns-sr-only': isLocalBrandPreview }">{{ t(siteMeta.zhNameKey) }}</span>
+        <span class="app-top-nav__brand-name ns-sr-only">
+          {{ t(siteMeta.zhNameKey) }}
+        </span>
         <span
-          class="app-top-nav__brand-command"
-          :class="{ 'ns-sr-only': isLocalBrandPreview }"
+          class="app-top-nav__brand-command ns-sr-only"
           aria-hidden="true"
         >
           {{ t(textKeys.homeCommand) }}
@@ -30,7 +28,13 @@
 
       <div ref="controlsRoot" class="app-top-nav__links">
         <AppTopNavMenu />
-        <AppTopNavSettings :open="configOpen" @toggle="toggleConfig" @close="closeConfig" />
+        <AppTopNavSettings
+          :open="configOpen"
+          @open="openConfig"
+          @toggle="toggleConfig"
+          @close="closeConfig"
+          @hover-close="closeConfig(false)"
+        />
       </div>
     </nav>
   </header>
@@ -39,6 +43,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch, type CSSProperties } from 'vue'
 import { useRoute } from 'vue-router'
+import nightingaleTitleArt from '@/assets/home/nightingale-title-2.webp'
 import homeIcon from '@/assets/icons/pixelarticons/home.svg'
 import AppTopNavMenu from '@/components/AppTopNavMenu.vue'
 import AppTopNavSettings from '@/components/AppTopNavSettings.vue'
@@ -50,12 +55,8 @@ const route = useRoute()
 const { t } = useLocale()
 const configOpen = ref(false)
 const controlsRoot = ref<HTMLElement | null>(null)
-const isLocalBrandPreview = import.meta.env.DEV
-const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE
 const topNavBrandArtStyle = {
-  '--ns-top-nav-brand-art-url': isLocalBrandPreview
-    ? `url("${localAssetBase}/nightingale-title-2.webp")`
-    : 'none'
+  '--ns-top-nav-brand-art-url': `url("${nightingaleTitleArt}")`
 } as CSSProperties
 const showNav = computed(() => route.path !== siteRoutes.home && route.meta.hideTopNav !== true)
 const navEl = ref<HTMLElement | null>(null)
@@ -80,9 +81,11 @@ const brandIconStyle = {
   '--ns-brand-icon-url': `url("${homeIcon}")`
 } as CSSProperties
 
-function closeConfig() {
+function closeConfig(restoreFocus = true) {
   configOpen.value = false
-  previousActiveElement?.focus()
+  if (restoreFocus) {
+    previousActiveElement?.focus()
+  }
   previousActiveElement = null
 }
 
@@ -90,6 +93,10 @@ let previousActiveElement: HTMLElement | null = null
 
 function closePopovers() {
   closeConfig()
+}
+
+function openConfig() {
+  configOpen.value = true
 }
 
 function toggleConfig() {

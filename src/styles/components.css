@@ -10,7 +10,7 @@
     border-radius: var(--ns-radius-pill);
     background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
-    font-family: var(--ns-font-decorative);
+    font-family: var(--ns-font-ui);
     font-size: 14px;
     font-weight: 800;
     line-height: 1;
@@ -77,21 +77,21 @@
   }
 
   .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-track {
-    border: 2px solid var(--ns-pixel-border);
+    border: 0;
     background: var(--ns-scroll-track);
   }
 
   .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-thumb {
+    min-width: 30px;
     min-height: 30px;
-    border: 2px solid var(--ns-pixel-border);
+    border: 0;
     border-radius: 0;
     background: var(--ns-scroll-thumb);
-    box-shadow: var(--ns-scroll-thumb-highlight);
+    box-shadow: none;
   }
 
   .ns-scroll-area--compact:not(.ns-scroll-area--plain)::-webkit-scrollbar-thumb {
     min-height: 24px;
-    border-width: 2px;
   }
 
   .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-thumb:hover {
@@ -102,7 +102,7 @@
     background: var(--ns-scroll-track);
   }
 
-  .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-button:single-button {
+  .ns-scroll-area:not(.ns-scroll-area--plain)::-webkit-scrollbar-button {
     display: none;
     width: 0;
     height: 0;
@@ -267,7 +267,7 @@
     border-radius: 0;
     background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
-    font-family: var(--ns-font-decorative);
+    font-family: var(--ns-font-ui);
     font-size: 12px;
     font-weight: 900;
     line-height: 1.15;
@@ -340,7 +340,7 @@
     min-width: 0;
     margin: 0;
     color: var(--ns-heading-bloom-color);
-    font-family: var(--ns-font-decorative);
+    font-family: var(--ns-font-pixel);
     font-size: 16px;
     font-weight: 950;
     line-height: 1.35;
@@ -349,6 +349,7 @@
 
   .ns-heading-bloom {
     color: var(--ns-heading-bloom-color);
+    font-family: var(--ns-font-pixel);
     text-shadow: var(--ns-heading-bloom-shadow);
   }
 
@@ -392,7 +393,7 @@
 
   .ns-tool-card__title {
     margin: 0;
-    font-family: var(--ns-font-decorative);
+    font-family: var(--ns-font-pixel);
     font-size: 24px;
     font-weight: 900;
   }
@@ -410,7 +411,7 @@
     border: 2px solid var(--ns-pixel-border-soft);
     background: var(--ns-color-cyan-soft);
     color: var(--ns-status-info-text);
-    font-family: var(--ns-font-decorative);
+    font-family: var(--ns-font-ui);
     font-size: 12px;
     font-weight: 800;
   }

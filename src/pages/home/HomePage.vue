@@ -33,7 +33,10 @@
           :key="item.id"
           class="home-desktop-icon"
           :to="item.route"
-          :class="`home-desktop-icon--${item.tone}`"
+          :class="[
+            `home-desktop-icon--${item.tone}`,
+            { 'home-desktop-icon--full-color': item.iconMode === 'image' }
+          ]"
         >
           <span class="home-desktop-icon__image" :style="pixelIconStyle(item.icon)" aria-hidden="true"></span>
           <span class="home-desktop-icon__label">{{ t(item.labelKey) }}</span>
@@ -50,7 +53,7 @@
         >
           <div class="home-window__bar">
             <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelHomeIcon)" aria-hidden="true"></span>
+              <span class="home-window__icon" aria-hidden="true"></span>
               <span>{{ t(siteMeta.enNameKey) }}</span>
             </span>
             <span class="home-window__controls">
@@ -71,12 +74,11 @@
               <div class="home-profile__copy">
                 <h1 id="home-title">
                   <span
-                    v-if="isHomeCharacterArtPreview"
                     class="home-profile__logo"
                     :style="homeLogoArtStyle"
                     aria-hidden="true"
                   ></span>
-                  <span :class="{ 'ns-sr-only': isHomeCharacterArtPreview }">{{ t(siteMeta.zhNameKey) }}</span>
+                  <span class="ns-sr-only">{{ t(siteMeta.zhNameKey) }}</span>
                 </h1>
                 <p>{{ t(textKeys.placeholder) }}</p>
               </div>
@@ -85,16 +87,16 @@
         </article>
 
         <aside
-          v-show="isDayWindowVisible('links')"
-          class="home-window home-day-window home-window--links"
-          data-home-window="day:links"
-          :style="homeWindowStyle('day', 'links')"
-          :aria-label="t(textKeys.ffxivWorkshop)"
+          v-show="isDayWindowVisible('clock')"
+          class="home-window home-day-window home-window--adventure-clock"
+          data-home-window="day:clock"
+          :style="homeWindowStyle('day', 'clock')"
+          :aria-label="t(textKeys.homeAdventureClockWindow)"
         >
           <div class="home-window__bar home-window__bar--blue">
             <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelFolderIcon)" aria-hidden="true"></span>
-              <span>{{ t(textKeys.ffxivWorkshop) }}</span>
+              <span class="home-window__icon" aria-hidden="true"></span>
+              <span>{{ t(textKeys.homeAdventureClockWindow) }}</span>
             </span>
             <span class="home-window__controls">
               <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
@@ -102,21 +104,28 @@
                 type="button"
                 class="home-window__control home-window__control--close"
                 :aria-label="t(textKeys.closeWindow)"
-                @click="closeDayWindow('links')"
+                @click="closeDayWindow('clock')"
               ></button>
             </span>
           </div>
 
-          <div class="home-window__body home-link-list">
-            <RouterLink
-              v-for="link in homeWorkshopLinks"
-              :key="link.id"
-              class="home-link-list__item"
-              :to="link.route"
-            >
-              <span class="home-link-list__icon" :style="pixelIconStyle(link.icon)" aria-hidden="true"></span>
-              <span>{{ t(link.labelKey) }}</span>
-            </RouterLink>
+          <div class="home-window__body home-adventure-clock">
+            <div class="home-adventure-clock__eorzea">
+              <span>{{ t(textKeys.homeAdventureClockEorzeaTime) }}</span>
+              <strong><small>{{ t(textKeys.homeAdventureClockEtLabel) }}</small>{{ eorzeaTime }}</strong>
+            </div>
+            <dl class="home-adventure-clock__details">
+              <div>
+                <dt>{{ t(textKeys.homeAdventureClockDailyReset) }}</dt>
+                <dd>{{ dailyReset }}</dd>
+              </div>
+              <div>
+                <dt>{{ t(textKeys.homeAdventureClockWeeklyReset) }}</dt>
+                <dd>
+                  <span v-if="weeklyReset.days">{{ weeklyReset.days }}{{ t(textKeys.homeAdventureClockDayUnit) }} </span>{{ weeklyReset.clock }}
+                </dd>
+              </div>
+            </dl>
           </div>
         </aside>
 
@@ -129,7 +138,7 @@
         >
           <div class="home-window__bar home-window__bar--blue">
             <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelImageIcon)" aria-hidden="true"></span>
+              <span class="home-window__icon" aria-hidden="true"></span>
               <span>{{ t(textKeys.homeAvatarYoine) }}</span>
             </span>
             <span class="home-window__controls">
@@ -156,7 +165,7 @@
         >
           <div class="home-window__bar home-window__bar--violet">
             <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelSparklesIcon)" aria-hidden="true"></span>
+              <span class="home-window__icon" aria-hidden="true"></span>
               <span>{{ t(textKeys.homeNightStatusWindow) }}</span>
             </span>
             <span class="home-window__controls">
@@ -187,7 +196,7 @@
         >
           <div class="home-window__bar home-window__bar--violet">
             <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelAvatarCircleIcon)" aria-hidden="true"></span>
+              <span class="home-window__icon" aria-hidden="true"></span>
               <span>{{ t(textKeys.homeNightDialogueWindow) }}</span>
             </span>
             <span class="home-window__controls">
@@ -203,11 +212,10 @@
           <div class="home-night-dialogue">
             <p v-for="message in nightDialogueMessages" :key="message.id">
               <span
-                class="home-night-dialogue__avatar"
-                :class="{ 'home-night-dialogue__avatar--portrait': isHomeCharacterArtPreview }"
+                class="home-night-dialogue__avatar home-night-dialogue__avatar--portrait"
                 :style="homeChatAvatarStyle(message.avatar)"
                 aria-hidden="true"
-              >{{ isHomeCharacterArtPreview ? '' : message.icon }}</span>
+              ></span>
               <strong>{{ t(message.nameKey) }}</strong>
               <span class="home-night-dialogue__preview">{{ t(message.previewKey) }}</span>
               <span
@@ -228,7 +236,7 @@
         >
           <div class="home-window__bar home-window__bar--pink">
             <span class="home-window__title">
-              <span aria-hidden="true">💬</span>
+              <span class="home-window__icon" aria-hidden="true"></span>
               <span>{{ t(textKeys.homeNightChatWindow) }}</span>
             </span>
             <span class="home-window__controls">
@@ -244,11 +252,10 @@
           <div class="home-night-chat">
             <p v-for="message in nightFragmentRecords" :key="message.id" :class="`home-night-chat__message--${message.side}`">
               <span
-                class="home-night-chat__avatar"
-                :class="{ 'home-night-chat__avatar--portrait': isHomeCharacterArtPreview }"
+                class="home-night-chat__avatar home-night-chat__avatar--portrait"
                 :style="homeChatAvatarStyle(message.avatar)"
                 aria-hidden="true"
-              >{{ isHomeCharacterArtPreview ? '' : message.icon }}</span>
+              ></span>
               <strong>{{ t(message.nameKey) }}</strong>
               <span class="home-night-fragment-stability" v-for="meter in message.meters" :key="meter.id">
                 <span>{{ t(meter.labelKey) }}</span>
@@ -271,7 +278,7 @@
         >
           <div class="home-window__bar home-window__bar--hot">
             <span class="home-window__title">
-              <span class="home-window__icon" :style="pixelIconStyle(pixelArchiveIcon)" aria-hidden="true"></span>
+              <span class="home-window__icon" aria-hidden="true"></span>
               <span>{{ t(textKeys.homeArchiveWindow) }}</span>
             </span>
             <span class="home-window__controls">
@@ -307,7 +314,7 @@
         >
           <div class="home-window__bar home-window__bar--cyan">
             <span class="home-window__title">
-              <span aria-hidden="true">♫</span>
+              <span class="home-window__icon" aria-hidden="true"></span>
               <span>{{ t(textKeys.homeNightControlWindow) }}</span>
             </span>
             <span class="home-window__controls">
@@ -369,15 +376,26 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
 import { RouterLink } from 'vue-router'
-import pixelArchiveIcon from '@/assets/icons/pixelarticons/archive.svg'
-import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
-import pixelFolderIcon from '@/assets/icons/pixelarticons/folder.svg'
-import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
-import pixelImageIcon from '@/assets/icons/pixelarticons/image.svg'
-import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
-import pixelStarIcon from '@/assets/icons/pixelarticons/star.svg'
-import glamourPrismMonoIcon from '@/assets/icons/glamour/prism-mono.svg'
-import { isSilenceEnabled } from '@/config/features'
+import nightingaleLogoArt from '@/assets/home/nightingale-logo-1.webp'
+import chihayaPixelAvatar from '@/assets/home/千早-像素小人.webp'
+import gelinPixelAvatar from '@/assets/home/歌林-像素小人.webp'
+import geliyaPixelAvatar from '@/assets/home/歌莉亚-像素小人.webp'
+import naiyiPixelAvatar from '@/assets/home/奈伊-像素小人.webp'
+import nightingalePixelAvatar from '@/assets/home/南丁格尔-像素小人.webp'
+import shalewanPixelAvatar from '@/assets/home/沙乐万-像素小人.webp'
+import yoinArt from '@/assets/home/yoin-3.webp'
+import yoinAvatar from '@/assets/home/yoin-avatar.webp'
+import yoineCharacterArt from '@/assets/home/yoine-1.webp'
+import yoineArt from '@/assets/home/yoine-6.webp'
+import yoinePortraitArt from '@/assets/home/yoine-8.webp'
+import yoineAvatar from '@/assets/home/yoine-avatar.webp'
+import platePortraitIcon from '@/assets/icons/plate/portrait-64.webp'
+import aboutIcon from '@/assets/icons/site/about-64.png'
+import armoireIcon from '@/assets/icons/site/armoire-64.png'
+import fashionCheckIcon from '@/assets/icons/site/fashion-check-64.png'
+import ffxivWorkshopIcon from '@/assets/icons/site/ffxiv-workshop-64.png'
+import glamourIcon from '@/assets/icons/site/glamour-64.png'
+import itemCardIcon from '@/assets/icons/site/item-card-64.png'
 import { ffxivTools, siteMeta, siteRoutes } from '@/config/site'
 import { homeTextKeys as textKeys } from '@/locales/keys/home'
 import { homeUiMessages } from '@/locales/modules/home'
@@ -385,14 +403,13 @@ import { loadMessages, useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'
 import { useHomeDragWindow } from './composables/useHomeDragWindow'
 import { useHomeEffects } from './composables/useHomeEffects'
+import { useHomeAdventureClock } from './composables/useHomeAdventureClock'
 import { useHomeStatusPanel, type NightFragmentStabilityConfig } from './composables/useHomeStatusPanel'
 
 loadMessages(homeUiMessages)
 
 const { t } = useLocale()
 const { current: themeMode } = useTheme()
-const isHomeCharacterArtPreview = import.meta.env.DEV
-const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE
 const desktopEl = ref<HTMLElement | null>(null)
 
 // ---- Composables ----
@@ -422,12 +439,13 @@ const {
   cleanupEffects,
 } = useHomeEffects()
 
+const { eorzeaTime, dailyReset, weeklyReset } = useHomeAdventureClock()
+
 const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   {
     id: 'geliya',
     nameKey: textKeys.homeNightFragmentGeliya,
-    avatar: '歌莉亚-像素小人.png',
-    icon: '◇',
+    avatar: geliyaPixelAvatar,
     side: 'left',
     dialoguePreviewKey: textKeys.homeNightDialogueGeliya,
     existence: { base: 100, amplitude: 0, speed: 0, phase: 0 },
@@ -436,8 +454,7 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   {
     id: 'gelin',
     nameKey: textKeys.homeNightFragmentGelin,
-    avatar: '歌林-像素小人.png',
-    icon: '◈',
+    avatar: gelinPixelAvatar,
     side: 'right',
     existence: { base: 95, amplitude: 5, speed: 0.42, phase: 4.1 },
     mental: { base: 80, amplitude: 10, speed: 0.68, phase: 5.7 }
@@ -445,8 +462,7 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   {
     id: 'qianzao',
     nameKey: textKeys.homeNightFragmentQianzao,
-    avatar: '千早-像素小人.png',
-    icon: '🌸',
+    avatar: chihayaPixelAvatar,
     side: 'left',
     existence: { base: 90, amplitude: 10, speed: 0.66, phase: 0 },
     mental: { base: 55, amplitude: 15, speed: 0.74, phase: 0 }
@@ -454,8 +470,7 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   {
     id: 'naiyi',
     nameKey: textKeys.homeNightFragmentNaiyi,
-    avatar: '奈伊-像素小人.png',
-    icon: '👻',
+    avatar: naiyiPixelAvatar,
     side: 'right',
     dialoguePreviewKey: textKeys.homeNightDialogueNaiyi,
     existence: { base: 70, amplitude: 10, speed: 0.84, phase: 2.6 },
@@ -464,8 +479,7 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   {
     id: 'nightingale',
     nameKey: textKeys.homeNightFragmentNightingale,
-    avatar: '南丁格尔-像素小人.png',
-    icon: '🧸',
+    avatar: nightingalePixelAvatar,
     side: 'left',
     existence: { base: 40, amplitude: 40, speed: 2.4, phase: 1.3 },
     mental: { base: 40, amplitude: 40, speed: 3.1, phase: 1.9 }
@@ -473,8 +487,7 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
   {
     id: 'shalewan',
     nameKey: textKeys.homeNightFragmentShalewan,
-    avatar: '沙乐万-像素小人.png',
-    icon: '○',
+    avatar: shalewanPixelAvatar,
     side: 'right',
     dialoguePreviewKey: textKeys.homeNightDialogueShalewan,
     dialogueUnread: true,
@@ -503,41 +516,31 @@ const {
 const homeCharacterArtStyle = computed(
   () =>
     ({
-      '--home-character-art-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/yoine-1.png")`
-        : 'none'
+      '--home-character-art-url': `url("${yoineCharacterArt}")`
     }) as CSSProperties
 )
 const homeLogoArtStyle = computed(
   () =>
     ({
-      '--home-logo-art-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/nightingale-logo-1.webp")`
-        : 'none'
+      '--home-logo-art-url': `url("${nightingaleLogoArt}")`
     }) as CSSProperties
 )
 const homeDayArtStyle = computed(
   () =>
     ({
-      '--home-day-art-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/yoine-6.webp")`
-        : 'none'
+      '--home-day-art-url': `url("${yoineArt}")`
     }) as CSSProperties
 )
 const homeDayPortraitStyle = computed(
   () =>
     ({
-      '--home-day-portrait-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/yoine-8.png")`
-        : 'none'
+      '--home-day-portrait-url': `url("${yoinePortraitArt}")`
     }) as CSSProperties
 )
 const homeNightArtStyle = computed(
   () =>
     ({
-      '--home-night-art-url': isHomeCharacterArtPreview
-        ? `url("${localAssetBase}/yoin-3.webp")`
-        : 'none'
+      '--home-night-art-url': `url("${yoinArt}")`
     }) as CSSProperties
 )
 // ---- Static data ----
@@ -546,39 +549,60 @@ const nightAvatarCards = [
     id: 'yoine',
     nameKey: textKeys.homeAvatarYoine,
     stateKey: textKeys.homeArchiveStable,
-    image: `${localAssetBase}/yoine-avatar.webp`,
+    image: yoineAvatar,
     tone: 'stable'
   },
   {
     id: 'yoin',
     nameKey: textKeys.homeAvatarYoin,
     stateKey: textKeys.homeArchiveCorrupt,
-    image: `${localAssetBase}/yoin-avatar.webp`,
+    image: yoinAvatar,
     tone: 'corrupt'
   }
 ] as const
 
 const desktopIcons = [
-  ...(isSilenceEnabled
-    ? [
-        { id: 'dream', labelKey: textKeys.homeDream, route: siteRoutes.silence, icon: pixelSparklesIcon, tone: 'pink' },
-        { id: 'angel', labelKey: textKeys.homeAngel, route: siteRoutes.silenceAngel, icon: pixelAvatarCircleIcon, tone: 'blue' },
-        { id: 'glitch', labelKey: textKeys.homeGlitch, route: siteRoutes.silenceGlitch, icon: pixelArchiveIcon, tone: 'violet' }
-      ]
-    : []),
-  { id: 'network', labelKey: textKeys.about, route: siteRoutes.about, icon: pixelStarIcon, tone: 'mint' }
-] as const
-
-const homeWorkshopLinks = [
-  ...ffxivTools.map((tool) => ({ id: tool.id, labelKey: tool.titleKey, route: tool.route, icon: workshopIconFor(tool.id) }))
+  {
+    id: 'ffxiv',
+    labelKey: textKeys.ffxivWorkshop,
+    route: siteRoutes.ffxiv,
+    icon: ffxivWorkshopIcon,
+    iconMode: 'image',
+    tone: 'blue'
+  },
+  ...ffxivTools.map((tool) => ({
+    id: tool.id,
+    labelKey: tool.titleKey,
+    route: tool.route,
+    icon: workshopIconFor(tool.id),
+    iconMode: 'image',
+    tone: workshopToneFor(tool.id)
+  })),
+  {
+    id: 'about',
+    labelKey: textKeys.about,
+    route: siteRoutes.about,
+    icon: aboutIcon,
+    iconMode: 'image',
+    tone: 'mint'
+  }
 ] as const
 
 // ---- Template helpers ----
 function workshopIconFor(id: string) {
-  if (id === 'itemCard') return pixelImageIcon
-  if (id === 'glamour') return glamourPrismMonoIcon
-  if (id === 'armoire') return pixelArchiveIcon
-  return pixelHomeIcon
+  if (id === 'itemCard') return itemCardIcon
+  if (id === 'glamour') return glamourIcon
+  if (id === 'plate') return platePortraitIcon
+  if (id === 'armoire') return armoireIcon
+  if (id === 'fashionCheck') return fashionCheckIcon
+  return ffxivWorkshopIcon
+}
+
+function workshopToneFor(id: string) {
+  if (id === 'glamour') return 'violet'
+  if (id === 'armoire') return 'pink'
+  if (id === 'fashionCheck') return 'mint'
+  return 'blue'
 }
 
 function pixelIconStyle(icon: string): CSSProperties {
@@ -587,13 +611,12 @@ function pixelIconStyle(icon: string): CSSProperties {
 
 function homeAvatarStyle(image: string): CSSProperties {
   return {
-    '--home-avatar-url': isHomeCharacterArtPreview ? `url("${image}")` : `url("${pixelAvatarCircleIcon}")`
+    '--home-avatar-url': `url("${image}")`
   } as CSSProperties
 }
 
-function homeChatAvatarStyle(filename: string): CSSProperties | undefined {
-  if (!isHomeCharacterArtPreview) return undefined
-  return { '--home-chat-avatar-url': `url("${localAssetBase}/${encodeURIComponent(filename)}")` } as CSSProperties
+function homeChatAvatarStyle(image: string): CSSProperties {
+  return { '--home-chat-avatar-url': `url("${image}")` } as CSSProperties
 }
 
 function handleHomeDesktopPointerMove(event: PointerEvent) {
@@ -630,10 +653,14 @@ onBeforeUnmount(() => {
 @import './styles/animations.css';
 
 .home-page {
+  --ns-font-ui: var(--ns-font-pixel);
+  --ns-font-data: var(--ns-font-pixel);
+  --ns-font-display: var(--ns-font-pixel);
   min-height: 100svh;
   overflow: hidden;
   background: #fdf6ff;
   color: var(--home-ink);
+  font-family: var(--ns-font-pixel);
 }
 
 .home-desktop {
@@ -848,7 +875,10 @@ onBeforeUnmount(() => {
   position: relative;
   z-index: 3;
   display: grid;
-  width: 92px;
+  grid-template-columns: repeat(2, 92px);
+  grid-template-rows: repeat(6, auto);
+  grid-auto-flow: column;
+  width: 196px;
   gap: 12px;
 }
 
@@ -860,7 +890,7 @@ onBeforeUnmount(() => {
   padding: 7px 4px;
   border: 2px solid transparent;
   color: var(--home-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 950;
   line-height: 1.2;
@@ -875,7 +905,6 @@ onBeforeUnmount(() => {
   outline: 0;
 }
 
-.home-window__icon,
 .home-taskbar__start-icon {
   display: inline-block;
   background: currentColor;
@@ -888,37 +917,29 @@ onBeforeUnmount(() => {
   width: 46px;
   height: 46px;
   place-items: center;
-  padding: 9px;
-  border: 2px solid var(--home-border);
-  background-color: var(--home-ink);
-  box-shadow: 3px 3px 0 var(--home-shadow);
-}
-
-.home-desktop-icon--pink .home-desktop-icon__image {
-  color: var(--home-ink);
-  background-color: var(--home-pink-soft);
-}
-
-.home-desktop-icon--blue .home-desktop-icon__image {
-  background-color: var(--home-blue-soft);
-}
-
-.home-desktop-icon--violet .home-desktop-icon__image {
-  background-color: var(--home-violet-soft);
-}
-
-.home-desktop-icon--mint .home-desktop-icon__image {
-  background-color: var(--home-mint-soft);
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .home-desktop-icon__image::before {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 100%;
+  height: 100%;
   background: currentColor;
   content: '';
   mask: var(--home-icon-url) center / 100% 100% no-repeat;
   -webkit-mask: var(--home-icon-url) center / 100% 100% no-repeat;
+}
+
+.home-desktop-icon--full-color .home-desktop-icon__image::before {
+  width: 100%;
+  height: 100%;
+  background: var(--home-icon-url) center / 100% 100% no-repeat;
+  image-rendering: pixelated;
+  mask: none;
+  -webkit-mask: none;
 }
 
 .home-desktop-icon__label {
@@ -1000,14 +1021,14 @@ onBeforeUnmount(() => {
 
 .home-window--main {
   top: 64px;
-  right: 28%;
+  right: calc(28% - 90px);
   bottom: 82px;
-  left: 150px;
+  left: 240px;
   grid-template-rows: auto minmax(0, 1fr);
   min-height: 460px;
 }
 
-.home-window--links {
+.home-window--adventure-clock {
   top: 64px;
   right: 34px;
   width: min(300px, 22vw);
@@ -1058,14 +1079,14 @@ onBeforeUnmount(() => {
 
 .home-night-window--status {
   top: 54px;
-  left: 154px;
+  left: 244px;
   z-index: 6;
   width: 292px;
 }
 
 .home-night-window--dialogue {
   bottom: 74px;
-  left: 146px;
+  left: 236px;
   z-index: 7;
   width: min(380px, 28vw);
 }
@@ -1080,7 +1101,7 @@ onBeforeUnmount(() => {
 
 .home-night-window--assets {
   top: 326px;
-  left: 470px;
+  left: 560px;
   z-index: 13;
   width: 270px;
 }
@@ -1102,7 +1123,7 @@ onBeforeUnmount(() => {
   border-bottom: 2px solid var(--home-border);
   background: var(--home-window-bar);
   color: var(--home-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 12px;
   font-weight: 950;
   cursor: grab;
@@ -1128,7 +1149,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 7px;
   overflow: hidden;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
 }
 
 .home-window__title span:last-child {
@@ -1138,9 +1159,11 @@ onBeforeUnmount(() => {
 }
 
 .home-window__icon {
+  display: inline-block;
   flex: 0 0 auto;
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
+  background: currentColor;
 }
 
 .home-window__controls {
@@ -1307,7 +1330,7 @@ button.home-window__control:focus-visible {
 .home-profile__command {
   margin: 0;
   color: var(--home-pink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 11px;
   font-weight: 950;
 }
@@ -1348,52 +1371,94 @@ button.home-window__control:focus-visible {
   line-height: 1.7;
 }
 
-.home-link-list {
+.home-adventure-clock {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-auto-rows: 46px;
-  gap: 8px;
+  gap: 10px;
 }
 
-.home-link-list__item {
+.home-adventure-clock__eorzea {
   display: grid;
-  grid-template-columns: 20px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   min-width: 0;
-  align-items: center;
-  gap: 9px;
-  height: 46px;
-  padding: 0 9px;
+  align-items: end;
+  gap: 6px 12px;
+  min-height: 72px;
+  padding: 10px;
   border: 2px solid var(--home-border);
-  background: var(--home-surface);
+  background: color-mix(in srgb, var(--home-blue-soft) 72%, var(--home-surface));
   color: var(--home-ink);
-  font-family: var(--ns-font-decorative);
-  font-size: 12px;
-  font-weight: 950;
-  text-decoration: none;
+  font-family: var(--ns-font-ui);
   box-shadow: 2px 2px 0 color-mix(in srgb, var(--home-shadow) 70%, transparent);
 }
 
-.home-link-list__item:hover,
-.home-link-list__item:focus-visible {
-  background: var(--home-blue-soft);
-  outline: 0;
-  transform: translate(-1px, -1px);
+.home-adventure-clock__eorzea > span {
+  align-self: start;
+  color: var(--home-muted);
+  font-size: 11px;
+  font-weight: 900;
 }
 
-.home-link-list__item img {
-  display: block;
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
+.home-adventure-clock__eorzea strong {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--ns-font-data);
+  font-size: 28px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
-.home-link-list__icon {
-  display: block;
-  width: 20px;
-  height: 20px;
-  background: currentColor;
-  mask: var(--home-icon-url) center / 100% 100% no-repeat;
-  -webkit-mask: var(--home-icon-url) center / 100% 100% no-repeat;
+.home-adventure-clock__eorzea small {
+  color: var(--home-pink);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.home-adventure-clock__details {
+  display: grid;
+  margin: 0;
+  border: 2px solid var(--home-border);
+  background: var(--home-surface);
+  box-shadow: 2px 2px 0 color-mix(in srgb, var(--home-shadow) 70%, transparent);
+}
+
+.home-adventure-clock__details > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  min-height: 38px;
+  padding: 0 9px;
+  border-bottom: 2px solid color-mix(in srgb, var(--home-border) 36%, transparent);
+}
+
+.home-adventure-clock__details > div:last-child {
+  border-bottom: 0;
+}
+
+.home-adventure-clock__details dt,
+.home-adventure-clock__details dd {
+  min-width: 0;
+  margin: 0;
+}
+
+.home-adventure-clock__details dt {
+  color: var(--home-muted);
+  font-family: var(--ns-font-ui);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.home-adventure-clock__details dd {
+  color: var(--home-ink);
+  font-family: var(--ns-font-data);
+  font-size: 12px;
+  font-weight: 950;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .home-avatar-list {
@@ -1432,7 +1497,7 @@ button.home-window__control:focus-visible {
 .home-avatar-card__state {
   min-width: 0;
   overflow: hidden;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-weight: 950;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1609,7 +1674,7 @@ button.home-window__control:focus-visible {
   border: 2px solid var(--home-border);
   background: var(--home-surface-soft);
   color: var(--home-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 950;
   box-shadow: 2px 2px 0 color-mix(in srgb, var(--home-shadow) 64%, transparent);
@@ -1618,6 +1683,7 @@ button.home-window__control:focus-visible {
 .home-night-status__item strong {
   display: inline-block;
   min-width: 64px;
+  font-family: var(--ns-font-data);
   text-align: right;
   animation: home-night-metric-float 620ms steps(4, end) both;
 }
@@ -1712,7 +1778,7 @@ button.home-window__control:focus-visible {
   grid-row: 1;
   align-self: end;
   color: var(--home-pink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   line-height: 1;
 }
@@ -1772,7 +1838,7 @@ button.home-window__control:focus-visible {
   grid-column: 2 / -1;
   align-self: end;
   color: var(--home-pink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   line-height: 1;
 }
@@ -1789,7 +1855,7 @@ button.home-window__control:focus-visible {
   align-items: center;
   min-width: 0;
   color: var(--home-muted);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 9px;
   font-weight: 950;
 }
@@ -1848,7 +1914,7 @@ button.home-window__control:focus-visible {
     linear-gradient(135deg, rgba(94, 234, 255, 0.16), transparent 28%),
     linear-gradient(180deg, #1d1730 0%, #121827 48%, #090d18 100%);
   color: var(--home-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   box-shadow:
     inset 3px 3px 0 rgba(255, 255, 255, 0.08),
     inset -3px -3px 0 rgba(2, 4, 9, 0.72),
@@ -2112,7 +2178,7 @@ button.home-window__control:focus-visible {
     linear-gradient(135deg, rgba(94, 234, 255, 0.14), transparent 45%),
     #1b2233;
   color: var(--home-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 11px;
   font-weight: 950;
   box-shadow:
@@ -2240,7 +2306,7 @@ button.home-window__control:focus-visible {
   border: 2px solid var(--home-border);
   background: var(--home-surface);
   color: var(--home-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 950;
   text-decoration: none;
@@ -2382,6 +2448,7 @@ button.home-window__control:focus-visible {
   justify-content: flex-start;
   min-width: 96px;
   background: var(--home-blue-soft);
+  font-family: var(--ns-font-data);
   cursor: pointer;
 }
 
@@ -2392,7 +2459,7 @@ button.home-window__control:focus-visible {
   height: 18px;
   place-items: center;
   color: #ffcf4a;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 17px;
   line-height: 1;
   text-shadow:
@@ -2423,16 +2490,16 @@ button.home-window__control:focus-visible {
 @media (max-width: 1080px) {
   .home-window--main {
     right: 24px;
-    left: 132px;
+    left: 240px;
   }
 
   .home-night-window--status {
-    left: 132px;
+    left: 244px;
     width: 252px;
   }
 
   .home-night-window--dialogue {
-    left: 132px;
+    left: 236px;
     width: min(320px, 34vw);
   }
 
@@ -2444,7 +2511,7 @@ button.home-window__control:focus-visible {
 
   .home-night-window--assets {
     top: 338px;
-    left: 386px;
+    left: 476px;
     width: 240px;
   }
 
@@ -2453,7 +2520,7 @@ button.home-window__control:focus-visible {
     width: min(330px, 32vw);
   }
 
-  .home-window--links,
+  .home-window--adventure-clock,
   .home-window--portrait {
     display: none;
   }
@@ -2478,6 +2545,9 @@ button.home-window__control:focus-visible {
   .home-desktop__icons {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
     width: 100%;
     gap: 8px;
   }
@@ -2509,7 +2579,7 @@ button.home-window__control:focus-visible {
     min-height: min(62svh, 520px);
   }
 
-  .home-window--links {
+  .home-window--adventure-clock {
     display: grid;
   }
 

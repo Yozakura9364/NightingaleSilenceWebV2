@@ -106,6 +106,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import yoineAvatar from '@/assets/home/yoine-avatar.webp'
 import pixelAvatarCircleIcon from '@/assets/icons/pixelarticons/avatar-circle.svg'
 import pixelHomeIcon from '@/assets/icons/pixelarticons/home.svg'
 import { siteMeta } from '@/config/site'
@@ -116,10 +117,7 @@ import { useLocale } from '@/stores/locale'
 const { t } = useLocale()
 const snsHeadingId = 'about-sns-heading'
 const friendsHeadingId = 'about-friends-heading'
-const localAssetBase = import.meta.env.VITE_LOCAL_ASSET_BASE ?? '/local-assets'
-const profileAvatarSrc = ref(
-  import.meta.env.DEV ? `${localAssetBase}/yoine-avatar.webp` : pixelAvatarCircleIcon
-)
+const profileAvatarSrc = ref(yoineAvatar)
 
 const socialLabelKeys: Record<SiteSocialLinkId, string> = {
   huiji: textKeys.socialHuiji,
@@ -218,7 +216,7 @@ function useFriendIconFallback(event: Event) {
 
 .about-profile__sns h3 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 18px;
   letter-spacing: 0;
 }
@@ -279,7 +277,7 @@ function useFriendIconFallback(event: Event) {
 
 .about-profile__sns-link strong {
   align-self: end;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
 }
 
@@ -334,13 +332,13 @@ function useFriendIconFallback(event: Event) {
 .about-site-info a {
   min-width: 0;
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   letter-spacing: 0;
 }
 
 .about-site-info dt {
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 900;
 }
@@ -412,7 +410,7 @@ function useFriendIconFallback(event: Event) {
 }
 
 .about-friend-link__copy strong {
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 14px;
 }
 

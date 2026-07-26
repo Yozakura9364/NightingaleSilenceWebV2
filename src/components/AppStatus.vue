@@ -85,7 +85,7 @@ const resolvedAriaLive = computed(
 
 .app-status__title {
   min-width: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 950;
   line-height: 1.2;

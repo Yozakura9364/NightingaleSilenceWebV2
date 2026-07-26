@@ -94,7 +94,7 @@ const resolvedAriaLabel = computed(() => props.ariaLabel || props.title || t(tex
 .app-toolbar__title {
   min-width: 0;
   color: var(--ns-pixel-ink, var(--ns-color-text));
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 13px;
   font-weight: 950;
   line-height: 1;

@@ -57,7 +57,7 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
   const isArmoireLocalBuild = mode === 'armoire-local'
   const enableDevelopmentRoutesByDefault = command === 'serve'
-  const enableSilence = readBooleanEnv(env.VITE_ENABLE_SILENCE, enableDevelopmentRoutesByDefault)
+  const enableSilence = readBooleanEnv(env.VITE_ENABLE_SILENCE, false)
   const enableInternalRoutes = readBooleanEnv(
     env.VITE_ENABLE_INTERNAL_ROUTES,
     enableDevelopmentRoutesByDefault

@@ -22,6 +22,32 @@ export const homeUiMessages: UiMessageMap = {
   'home.desktop.clock': msg({ zh: '白昼 / 夜色', en: 'Day / Night', ja: '昼 / 夜', ko: '낮 / 밤' }),
   'home.icpRecord': same('鄂ICP备2026019415号'),
   'home.timeCommand': same('TIME'),
+  'home.adventureClock.window': msg({
+    zh: '冒险时钟',
+    en: 'Adventure clock',
+    ja: '冒険時計',
+    ko: '모험 시계'
+  }),
+  'home.adventureClock.etLabel': same('ET'),
+  'home.adventureClock.eorzeaTime': msg({
+    zh: '艾欧泽亚时间',
+    en: 'Eorzea time',
+    ja: 'エオルゼア時間',
+    ko: '에오르제아 시간'
+  }),
+  'home.adventureClock.dailyReset': msg({
+    zh: '日常重置',
+    en: 'Daily reset',
+    ja: 'デイリーリセット',
+    ko: '일일 초기화'
+  }),
+  'home.adventureClock.weeklyReset': msg({
+    zh: '周常重置',
+    en: 'Weekly reset',
+    ja: 'ウィークリーリセット',
+    ko: '주간 초기화'
+  }),
+  'home.adventureClock.dayUnit': msg({ zh: '天', en: 'd', ja: '日', ko: '일' }),
   'home.avatar.yoine': same('yoine'),
   'home.avatar.yoin': same('yoin'),
   'home.archive.window': msg({ zh: '状态', en: 'Status', ja: '状態', ko: '상태' }),
@@ -65,10 +91,10 @@ export const homeUiMessages: UiMessageMap = {
   }),
   'home.night.dialogue.unread': msg({ zh: '未读', en: 'Unread', ja: '未読', ko: '읽지 않음' }),
   'home.night.chatWindow': msg({
-    zh: '残片记录',
-    en: 'Fragment log',
-    ja: '断片ログ',
-    ko: '파편 기록'
+    zh: '角色监控',
+    en: 'Character monitor',
+    ja: 'キャラクター監視',
+    ko: '캐릭터 모니터링'
   }),
   'home.night.assetsWindow': msg({
     zh: '损坏相册',

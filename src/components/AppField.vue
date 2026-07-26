@@ -63,7 +63,7 @@ const labelFor = computed(() => props.forId || undefined)
   align-items: center;
   gap: 5px;
   color: var(--ns-pixel-ink, var(--ns-color-text));
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 950;
   line-height: 1.2;
@@ -96,7 +96,7 @@ const labelFor = computed(() => props.forId || undefined)
   background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
   color: var(--ns-pixel-ink, var(--ns-color-text));
   font: inherit;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 14px;
   box-shadow: var(--ns-control-inset-shadow);
   transition:

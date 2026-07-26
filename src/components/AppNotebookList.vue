@@ -100,7 +100,7 @@ const notebookStyle = computed(
   border: 2px solid var(--app-notebook-border);
   background: var(--app-notebook-paper);
   color: var(--app-notebook-ink);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   box-shadow: var(--ns-notebook-shadow, 4px 4px 0 rgba(0, 0, 0, 0.18));
 }
 

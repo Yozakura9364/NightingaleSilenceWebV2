@@ -153,7 +153,7 @@ function handleKeydown(event: KeyboardEvent, index: number) {
   border-right: 2px solid var(--ns-pixel-border);
   background: transparent;
   color: var(--ns-pixel-muted, var(--ns-color-text-muted));
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 950;
   cursor: pointer;

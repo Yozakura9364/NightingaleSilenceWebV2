@@ -14,7 +14,6 @@ export interface NightFragmentStabilityConfig {
   id: string
   nameKey: string
   avatar: string
-  icon: string
   side: 'left' | 'right'
   dialoguePreviewKey?: string
   dialogueUnread?: boolean

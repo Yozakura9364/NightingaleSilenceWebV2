@@ -7,7 +7,7 @@
     </RouterLink>
 
     <div class="app-taskbar__scroll-region">
-      <div class="app-taskbar__windows app-taskbar__windows--day">
+      <div class="app-taskbar__windows">
         <a
           v-for="link in homeSocialLinks"
           :key="link.id"
@@ -21,20 +21,6 @@
           <img class="app-taskbar__social-icon" :src="link.icon" alt="" aria-hidden="true">
           <span>{{ t(link.labelKey) }}</span>
         </a>
-      </div>
-
-      <div class="app-taskbar__windows app-taskbar__windows--night">
-        <RouterLink
-          v-for="item in taskbarItems"
-          :key="item.id"
-          class="app-taskbar__window"
-          :class="{ 'app-taskbar__window--active': item.active }"
-          :aria-current="item.active ? 'page' : undefined"
-          :to="item.route"
-        >
-          <span class="app-taskbar__dot" aria-hidden="true"></span>
-          <span>{{ t(item.labelKey) }}</span>
-        </RouterLink>
       </div>
 
       <span class="app-taskbar__icp">{{ t(textKeys.homeIcpRecord) }}</span>
@@ -62,7 +48,6 @@ import { RouterLink } from 'vue-router'
 import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import moonIcon from '@/assets/icons/moon.svg'
 import sunIcon from '@/assets/icons/sun-alt.svg'
-import { isSilenceEnabled } from '@/config/features'
 import { siteRoutes } from '@/config/site'
 import { siteSocialLinks } from '@/config/socialLinks'
 import { homeTextKeys as textKeys } from '@/locales/keys/home'
@@ -76,12 +61,6 @@ const { t } = useLocale()
 const { current: themeMode, setThemeMode } = useTheme()
 
 const clockLabel = computed(() => (themeMode.value === 'night' ? '00:29' : '06:29'))
-
-const taskbarItems = [
-  { id: 'profile', labelKey: textKeys.siteZhName, route: siteRoutes.home, active: false },
-  { id: 'ffxiv', labelKey: textKeys.ffxivWorkshop, route: siteRoutes.ffxiv, active: false },
-  ...(isSilenceEnabled ? [{ id: 'silence', labelKey: textKeys.silence, route: siteRoutes.silence, active: false }] : [])
-] as const
 
 const homeSocialLinks = siteSocialLinks.map((link) => ({
   ...link,
@@ -104,11 +83,13 @@ function modeIconStyle(icon: string): CSSProperties {
 <style scoped>
 /* ---- Taskbar Container ---- */
 .app-taskbar {
+  --ns-font-ui: var(--ns-font-pixel);
+  --ns-font-data: var(--ns-font-pixel);
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 8;
+  z-index: 100;
   display: flex;
   min-width: 0;
   align-items: center;
@@ -118,7 +99,7 @@ function modeIconStyle(icon: string): CSSProperties {
   border-top: 2px solid var(--ns-pixel-border);
   background: var(--ns-top-nav-bg);
   box-shadow: var(--ns-pixel-nav-shadow);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
 }
 
 /* ---- Base button / link style (matching top nav) ---- */
@@ -134,7 +115,7 @@ function modeIconStyle(icon: string): CSSProperties {
   border-radius: 0;
   background: var(--ns-pixel-surface);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 900;
   line-height: 1;
@@ -209,19 +190,6 @@ function modeIconStyle(icon: string): CSSProperties {
   gap: 6px;
 }
 
-.app-taskbar__windows--day {
-  display: none;
-}
-
-:root:not([data-theme='night']) .app-taskbar__windows--day {
-  display: flex;
-  flex: 1 1 auto;
-}
-
-:root:not([data-theme='night']) .app-taskbar__windows--night {
-  display: none;
-}
-
 .app-taskbar__window {
   flex: 0 1 auto;
   max-width: 200px;
@@ -242,24 +210,6 @@ function modeIconStyle(icon: string): CSSProperties {
   image-rendering: pixelated;
 }
 
-.app-taskbar__window--active {
-  background: var(--ns-pixel-cyan-surface);
-  color: var(--ns-color-accent-strong);
-}
-
-.app-taskbar__dot {
-  flex: 0 0 auto;
-  width: 8px;
-  height: 8px;
-  border: 2px solid var(--ns-color-accent);
-  background: var(--ns-color-accent);
-}
-
-.app-taskbar__window:nth-child(even) .app-taskbar__dot {
-  border-color: var(--ns-color-cyan);
-  background: var(--ns-color-cyan);
-}
-
 .app-taskbar__window span:last-child {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -271,7 +221,7 @@ function modeIconStyle(icon: string): CSSProperties {
   flex: 0 0 auto;
   padding: 0 6px;
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 11px;
   font-weight: 900;
   line-height: 1;
@@ -283,6 +233,7 @@ function modeIconStyle(icon: string): CSSProperties {
   flex: 0 0 auto;
   min-width: auto;
   justify-content: center;
+  font-family: var(--ns-font-data);
   cursor: pointer;
 }
 
@@ -328,10 +279,6 @@ function modeIconStyle(icon: string): CSSProperties {
 
 /* ---- Responsive ---- */
 @media (max-width: 640px) {
-  .app-taskbar {
-    z-index: 30;
-  }
-
   .app-taskbar__scroll-region {
     display: flex;
     flex: 1 1 auto;
@@ -354,17 +301,6 @@ function modeIconStyle(icon: string): CSSProperties {
     overflow: visible;
   }
 
-  :root:not([data-theme='night']) .app-taskbar__windows--day,
-  :root[data-theme='night'] .app-taskbar__windows--night {
-    display: flex;
-    flex: 0 0 auto;
-  }
-
-  :root:not([data-theme='night']) .app-taskbar__windows--night,
-  :root[data-theme='night'] .app-taskbar__windows--day {
-    display: none;
-  }
-
   .app-taskbar__window {
     flex: 0 0 auto;
     scroll-snap-align: start;
@@ -372,12 +308,6 @@ function modeIconStyle(icon: string): CSSProperties {
 
   .app-taskbar__icp {
     scroll-snap-align: start;
-  }
-
-  .app-taskbar__windows--night .app-taskbar__window {
-    width: auto;
-    min-width: 112px;
-    max-width: 150px;
   }
 
   .app-taskbar__clock {

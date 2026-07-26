@@ -2,7 +2,7 @@
   body {
     background: var(--ns-body-background);
     color: var(--ns-color-text);
-    font-family: var(--ns-font-sans);
+    font-family: var(--ns-font-ui);
     line-height: 1.5;
   }
 
@@ -10,14 +10,16 @@
     min-height: 100vh;
   }
 
-  * {
-    scrollbar-color: var(--ns-scroll-thumb) var(--ns-scroll-track);
-    scrollbar-width: auto;
-  }
+  @supports (-moz-appearance: none) {
+    * {
+      scrollbar-color: var(--ns-scroll-thumb) var(--ns-scroll-track);
+      scrollbar-width: auto;
+    }
 
-  .ns-scroll-area--plain {
-    scrollbar-color: auto;
-    scrollbar-width: auto;
+    .ns-scroll-area--plain {
+      scrollbar-color: auto;
+      scrollbar-width: auto;
+    }
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar {
@@ -27,15 +29,16 @@
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-track {
     background: var(--ns-scroll-track);
-    border: 1px solid var(--ns-pixel-border-soft);
+    border: 0;
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-thumb {
+    min-width: 30px;
     min-height: 30px;
-    border: 2px solid var(--ns-pixel-border);
+    border: 0;
     border-radius: 0;
     background: var(--ns-scroll-thumb);
-    box-shadow: var(--ns-scroll-thumb-highlight);
+    box-shadow: none;
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-thumb:hover {
@@ -43,10 +46,10 @@
   }
 
   :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-corner {
-    background: transparent;
+    background: var(--ns-scroll-track);
   }
 
-  :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-button:single-button {
+  :where(*:not(.ns-scroll-area--plain))::-webkit-scrollbar-button {
     display: none;
     width: 0;
     height: 0;
@@ -59,24 +62,24 @@
 
   button {
     color: inherit;
-    font-family: var(--ns-font-decorative);
+    font-family: var(--ns-font-ui);
   }
 
   input,
   select,
   textarea {
-    font-family: var(--ns-font-sans);
+    font-family: var(--ns-font-ui);
   }
 
   label {
-    font-family: var(--ns-font-decorative);
+    font-family: var(--ns-font-ui);
   }
 
   code,
   kbd,
   pre,
   samp {
-    font-family: var(--ns-font-mono);
+    font-family: var(--ns-font-data);
   }
 
   :focus-visible {
@@ -97,7 +100,7 @@
   .ns-eyebrow {
     margin: 0 0 8px;
     color: var(--ns-color-accent-strong);
-    font-family: var(--ns-font-decorative);
+    font-family: var(--ns-font-pixel);
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 0;
@@ -106,7 +109,7 @@
   .ns-title {
     margin: 0;
     color: var(--ns-heading-bloom-color);
-    font-family: var(--ns-font-display);
+    font-family: var(--ns-font-pixel);
     font-size: 64px;
     font-weight: 900;
     line-height: 1.02;

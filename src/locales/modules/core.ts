@@ -151,14 +151,29 @@ export const coreUiMessages: UiMessageMap = {
     ko: 'FFXIV 도구'
   }),
   'ffxiv.tool.badge': msg({ zh: '工具', en: 'Tool', ja: 'ツール', ko: '도구' }),
-  'ffxiv.tool.itemCard.title': same('物品卡片'),
-  'ffxiv.tool.glamour.title': same('幻化工房'),
-  'ffxiv.tool.plate.title': same('铭牌工房'),
+  'ffxiv.tool.itemCard.title': msg({
+    zh: '物品卡片',
+    en: 'Item Card',
+    ja: 'アイテムカード',
+    ko: '아이템 카드'
+  }),
+  'ffxiv.tool.glamour.title': msg({
+    zh: '幻化工房',
+    en: 'Glamour Studio',
+    ja: 'ミラプリスタジオ',
+    ko: '투영 스튜디오'
+  }),
+  'ffxiv.tool.plate.title': msg({
+    zh: '铭牌工房',
+    en: 'Plate Studio',
+    ja: 'プレートスタジオ',
+    ko: '플레이트 스튜디오'
+  }),
   'ffxiv.tool.fashionCheck.title': msg({
     zh: '时尚品鉴',
     en: 'Fashion Check',
-    ja: '时尚品鉴',
-    ko: '时尚品鉴'
+    ja: 'ファッションチェック',
+    ko: '패션 체크'
   }),
   'ffxiv.tool.fashionCheck.summary': msg({
     zh: '本周方案',
@@ -166,7 +181,12 @@ export const coreUiMessages: UiMessageMap = {
     ja: '本周方案',
     ko: '本周方案'
   }),
-  'ffxiv.tool.armoire.title': same('衣柜管家'),
+  'ffxiv.tool.armoire.title': msg({
+    zh: '衣柜管家',
+    en: 'Armoire Butler',
+    ja: 'ミラプリ執事',
+    ko: '옷장 집사'
+  }),
   'ffxiv.termReview.title': msg({
     zh: 'FFXIV 术语校对',
     en: 'FFXIV term review',

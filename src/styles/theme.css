@@ -48,11 +48,14 @@
     --ns-glamour-template-canvas-bg: #ffffff;
     --ns-glamour-template-canvas-border: rgba(42, 33, 56, 0.16);
 
-    --ns-font-sans: 'Inter', 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+    --ns-font-sans: 'Trebuchet MS', Tahoma, 'Microsoft YaHei', 'PingFang SC', sans-serif;
     --ns-font-decorative:
       'NS Fusion Pixel Korean', 'NS Fusion Pixel Trial', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
-    --ns-font-display: var(--ns-font-decorative);
     --ns-font-mono: 'Cascadia Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+    --ns-font-ui: var(--ns-font-sans);
+    --ns-font-pixel: var(--ns-font-decorative);
+    --ns-font-data: var(--ns-font-ui);
+    --ns-font-display: var(--ns-font-pixel);
 
     --ns-radius-xs: 0;
     --ns-radius-sm: 0;
@@ -85,14 +88,14 @@
     --ns-select-caret-right: 10.5px;
     --ns-select-padding-start: 10px;
     --ns-select-padding-end: 40px;
-    --ns-scrollbar-size: 4px;
-    --ns-scrollbar-compact-size: 2px;
+    --ns-scrollbar-size: 12px;
+    --ns-scrollbar-compact-size: 8px;
     --ns-scrollbar-arrow-size: 8px;
-    --ns-scroll-track: var(--ns-pixel-surface);
-    --ns-scroll-thumb: var(--ns-pixel-pink-surface);
-    --ns-scroll-thumb-hover: var(--ns-pixel-cyan-surface);
-    --ns-scroll-border: rgba(42, 33, 56, 0.24);
-    --ns-scroll-thumb-highlight: inset 2px 2px 0 rgba(255, 255, 255, 0.28);
+    --ns-scroll-track: #b8d5df;
+    --ns-scroll-thumb: #d88bd8;
+    --ns-scroll-thumb-hover: #c875cf;
+    --ns-scroll-border: transparent;
+    --ns-scroll-thumb-highlight: none;
     --ns-scroll-arrow-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%238f8a96' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 6V5h1V4h1V2h2v2h1v1h1v1H1Z'/%3E%3C/svg%3E");
     --ns-scroll-arrow-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%238f8a96' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M1 2h6v1H6v1H5v2H3V4H2V3H1V2Z'/%3E%3C/svg%3E");
 
@@ -194,6 +197,15 @@
     --ns-animation-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ns-transition-fast: 140ms ease;
     --ns-transition: 220ms ease;
+  }
+
+  :root:lang(ja) {
+    --ns-font-sans: 'Trebuchet MS', Tahoma, 'Yu Gothic UI', Meiryo, 'Hiragino Sans', sans-serif;
+  }
+
+  :root:lang(ko) {
+    --ns-font-sans:
+      'Trebuchet MS', Tahoma, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   }
 
 }

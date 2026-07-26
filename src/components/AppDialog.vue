@@ -194,7 +194,7 @@ function onOverlayClick() {
   align-items: center;
   gap: 8px;
   color: var(--ns-pixel-window-title-color);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 13px;
   font-weight: 950;
   overflow: hidden;
@@ -221,7 +221,7 @@ function onOverlayClick() {
 .app-dialog-window__message {
   margin: 0;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 14px;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -235,7 +235,7 @@ function onOverlayClick() {
   border-radius: 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 14px;
   box-sizing: border-box;
   outline: none;
@@ -269,7 +269,7 @@ function onOverlayClick() {
   border-radius: 0;
   background: var(--ns-pixel-surface);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 800;
   line-height: 1;

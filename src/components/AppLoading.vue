@@ -121,7 +121,7 @@ const resolvedAriaLabel = computed(() => props.ariaLabel || props.title || props
 .app-loading__title {
   min-width: 0;
   color: var(--ns-heading-bloom-color, var(--ns-color-text));
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 13px;
   font-weight: 950;
   line-height: 1.2;
