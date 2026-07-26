@@ -56,7 +56,7 @@ const { t } = useLocale()
   border: 2px solid rgba(42, 33, 56, 0.36);
   background: rgba(255, 252, 255, 0.72);
   color: #2c2338;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 12px;
   font-weight: 900;
 }

@@ -319,7 +319,7 @@ function isEmptyProfileValue(value: string) {
 .silence-character-section__header h2 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-pixel);
   font-size: clamp(26px, 3.4vw, 42px);
   font-weight: 850;
   line-height: 1.08;
@@ -361,7 +361,7 @@ function isEmptyProfileValue(value: string) {
 .silence-character-note h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-pixel);
   font-size: 20px;
   font-weight: 820;
   line-height: 1.2;
@@ -379,8 +379,7 @@ function isEmptyProfileValue(value: string) {
 .silence-character-story {
   display: grid;
   gap: 12px;
-  padding: 2px 0 2px 18px;
-  border-left: 2px solid color-mix(in srgb, var(--silence-character-color), #2c2338 18%);
+  padding: 2px 0;
   background: transparent;
 }
 
@@ -431,7 +430,7 @@ function isEmptyProfileValue(value: string) {
 
 .silence-character-profile-sheet dt {
   color: color-mix(in srgb, var(--silence-character-color), #2c2338 38%);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 760;
 }
@@ -463,7 +462,7 @@ function isEmptyProfileValue(value: string) {
 .silence-character-lore-block h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-pixel);
   font-size: 18px;
   font-weight: 820;
   line-height: 1.25;
@@ -499,8 +498,7 @@ function isEmptyProfileValue(value: string) {
 }
 
 .silence-character-point-list--wide {
-  padding: 2px 0 2px 18px;
-  border-left: 2px solid color-mix(in srgb, var(--silence-character-color), #2c2338 18%);
+  padding: 2px 0;
 }
 
 .silence-character-outfit-list {
@@ -539,7 +537,7 @@ function isEmptyProfileValue(value: string) {
 
 .silence-character-story summary {
   color: #2c2338;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 20px;
   font-weight: 820;
   cursor: pointer;

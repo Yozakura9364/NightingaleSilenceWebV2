@@ -167,7 +167,7 @@ function createFormRoute(formId: string): RouteLocationRaw {
   border-radius: 0;
   background: transparent;
   color: rgba(49, 40, 63, 0.6);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 760;
   text-decoration: none;
@@ -200,7 +200,7 @@ function createFormRoute(formId: string): RouteLocationRaw {
 
 .silence-form-outfit__form-tab small {
   color: rgba(49, 40, 63, 0.58);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 700;
 }
@@ -249,7 +249,7 @@ function createFormRoute(formId: string): RouteLocationRaw {
 .silence-form-outfit__outfit-card h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-pixel);
   font-size: 22px;
   font-weight: 820;
   line-height: 1.2;
@@ -282,7 +282,7 @@ function createFormRoute(formId: string): RouteLocationRaw {
 
 .silence-form-outfit__preview span {
   color: #2c2338;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-display);
   font-size: clamp(24px, 3vw, 34px);
   font-weight: 820;
   line-height: 1.12;
@@ -290,7 +290,7 @@ function createFormRoute(formId: string): RouteLocationRaw {
 
 .silence-form-outfit__preview small {
   color: rgba(49, 40, 63, 0.48);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 760;
 }

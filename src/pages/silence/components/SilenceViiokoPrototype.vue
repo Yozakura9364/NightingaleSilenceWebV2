@@ -1115,8 +1115,7 @@ const {
 
 .silence-viioko__overview {
   margin: 0;
-  padding: 8px 0 8px 14px;
-  border-left: 2px solid var(--silence-viioko-accent);
+  padding: 8px 0;
   color: rgba(36, 27, 47, 0.68);
   font-size: 0.875rem;
   line-height: 1.55;
@@ -1190,8 +1189,7 @@ const {
 
 .silence-viioko__sample-copy {
   min-width: 0;
-  padding: 12px 0 12px 14px;
-  border-left: 2px solid var(--silence-viioko-accent);
+  padding: 12px 0;
 }
 
 .silence-viioko__layout--framed .silence-viioko__sample-copy {

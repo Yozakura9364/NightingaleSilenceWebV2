@@ -60,7 +60,7 @@ const { t } = useLocale()
 
 .silence-character-fact-grid dt {
   color: color-mix(in srgb, var(--silence-character-color), #2c2338 42%);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 900;
 }
@@ -93,14 +93,14 @@ const { t } = useLocale()
 
 .silence-character-color-chip strong {
   color: color-mix(in srgb, var(--silence-character-color), #2c2338 44%);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 900;
 }
 
 .silence-character-color-chip code {
   color: rgba(49, 40, 63, 0.72);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-data);
   font-size: 13px;
 }
 

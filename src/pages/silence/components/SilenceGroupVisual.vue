@@ -433,7 +433,7 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
   min-width: 240px;
   gap: 5px;
   color: #ffffff;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   line-height: 1;
   opacity: 0;
   pointer-events: none;
@@ -474,6 +474,7 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
 }
 
 .silence-group-stage__nameplate strong {
+  font-family: var(--ns-font-display);
   font-size: 28px;
   font-style: italic;
   font-weight: 900;

@@ -265,7 +265,7 @@ async function handlePortraitLoad(event: Event) {
 .silence-character-stage__name {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-display);
   font-size: clamp(56px, 8vw, 112px);
   font-weight: 880;
   line-height: 0.94;
@@ -284,7 +284,7 @@ async function handlePortraitLoad(event: Event) {
 .silence-character-stage__aliases {
   margin: -10px 0 0;
   color: color-mix(in srgb, var(--silence-character-color), #2c2338 36%);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: clamp(14px, 1.8vw, 18px);
   font-weight: 760;
   overflow-wrap: anywhere;
@@ -303,7 +303,7 @@ async function handlePortraitLoad(event: Event) {
 .silence-character-stage__section-links button {
   border-radius: 0;
   color: #2c2338;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 780;
   text-decoration: none;
@@ -398,7 +398,7 @@ async function handlePortraitLoad(event: Event) {
 
 .silence-character-stage__facts dt {
   color: color-mix(in srgb, var(--silence-character-color), #2c2338 42%);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 780;
 }

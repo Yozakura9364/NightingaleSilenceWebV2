@@ -134,7 +134,7 @@ const panelStyle = computed(() => ({
   border-radius: 0;
   background: rgba(248, 241, 255, 0.06);
   color: #f8f1ff;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   text-align: left;
   cursor: pointer;
 }
@@ -185,7 +185,7 @@ const panelStyle = computed(() => ({
 
 .silence-glitch-duo__notes dt {
   color: color-mix(in srgb, var(--silence-glitch-accent), #f8f1ff 26%);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 800;
 }

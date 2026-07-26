@@ -61,7 +61,7 @@ const { t } = useLocale()
 
 .silence-character-card span {
   color: color-mix(in srgb, var(--silence-character-color), #2c2338 44%);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 900;
 }
