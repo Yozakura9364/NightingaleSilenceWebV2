@@ -543,7 +543,7 @@ function reloadStoreCatalog(): void {
   overflow: auto;
   padding: 16px;
   background: var(--ns-color-bg);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
 }
 
 .nsarmoire-store-review__header {
@@ -559,13 +559,17 @@ function reloadStoreCatalog(): void {
 .nsarmoire-store-review__header h1,
 .nsarmoire-store-review__outfit h2 {
   margin: 0;
-  font-family: var(--ns-font-sans);
   letter-spacing: 0;
 }
 
 .nsarmoire-store-review__header h1 {
+  font-family: var(--ns-font-pixel);
   font-size: 18px;
   font-weight: 850;
+}
+
+.nsarmoire-store-review__outfit h2 {
+  font-family: var(--ns-font-ui);
 }
 
 .nsarmoire-store-review__header p {
@@ -632,10 +636,6 @@ function reloadStoreCatalog(): void {
 .nsarmoire-store-review__row--excluded {
   border-color: var(--ns-status-danger-border);
   background: var(--ns-status-danger-bg);
-}
-
-.nsarmoire-store-review__row--needs-mapping {
-  box-shadow: inset 4px 0 0 var(--ns-status-danger-border);
 }
 
 .nsarmoire-store-review__outfit {

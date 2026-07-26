@@ -581,8 +581,8 @@ function handleFileChange(event: Event) {
 .nsarmoire-panel h2,
 .nsarmoire-character-panel h3 {
   margin: 0;
-  font-family: var(--ns-font-sans);
-  font-weight: 800;
+  font-family: var(--ns-font-pixel);
+  font-weight: 950;
   letter-spacing: 0;
 }
 

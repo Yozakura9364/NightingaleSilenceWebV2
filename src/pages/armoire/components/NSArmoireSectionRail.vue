@@ -73,8 +73,7 @@ function selectSection(sectionId: string, event: MouseEvent): void {
 
 <style scoped>
 .nsarmoire-section-rail {
-  --nsarmoire-section-rail-font:
-    'NS Fusion Pixel Trial', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+  --nsarmoire-section-rail-font: var(--ns-font-ui);
 
   display: grid;
   grid-template-rows: 1fr;
@@ -114,20 +113,6 @@ function selectSection(sectionId: string, event: MouseEvent): void {
   transition: none;
 }
 
-.nsarmoire-section-rail__item::after {
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: -2px;
-  width: 3px;
-  background: var(--ns-color-accent);
-  box-shadow: 2px 0 0 var(--ns-color-cyan);
-  content: '';
-  opacity: 0;
-  transform: none;
-  transition: none;
-}
-
 .nsarmoire-section-rail__item:hover,
 .nsarmoire-section-rail__item--active {
   border-color: var(--ns-pixel-border);
@@ -142,12 +127,6 @@ function selectSection(sectionId: string, event: MouseEvent): void {
 .nsarmoire-section-rail__item--active {
   background: var(--ns-pixel-cyan-surface);
   box-shadow: var(--ns-pixel-button-shadow);
-}
-
-.nsarmoire-section-rail__item:hover::after,
-.nsarmoire-section-rail__item--active::after {
-  opacity: 1;
-  transform: none;
 }
 
 .nsarmoire-section-rail__item:active {
@@ -278,7 +257,6 @@ function selectSection(sectionId: string, event: MouseEvent): void {
 @media (prefers-reduced-motion: reduce) {
   .nsarmoire-section-rail,
   .nsarmoire-section-rail__item,
-  .nsarmoire-section-rail__item::after,
   .nsarmoire-section-rail__icon,
   .nsarmoire-section-rail__label {
     transition: none;

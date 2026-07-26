@@ -108,7 +108,7 @@ watch(
   border: 2px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-bg-soft);
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 11px;
   font-weight: 850;
   overflow: hidden;
@@ -134,7 +134,7 @@ watch(
 }
 
 .nsarmoire-catalog-card h3 {
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-ui);
   font-size: 14px;
   font-weight: 950;
   line-height: 1.35;
@@ -143,7 +143,7 @@ watch(
 
 .nsarmoire-catalog-card p {
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 11px;
 }
 

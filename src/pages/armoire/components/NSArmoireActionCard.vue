@@ -91,7 +91,7 @@ defineEmits<{
 
 .nsarmoire-action-card h3 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 14px;
   font-weight: 950;
   line-height: 1.35;
@@ -119,7 +119,7 @@ defineEmits<{
   border: 1px solid var(--ns-pixel-border-soft);
   background: var(--ns-color-bg-soft);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 12px;
   font-weight: 800;
   line-height: 1.2;

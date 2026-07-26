@@ -170,7 +170,7 @@ const metrics = computed(() => [
 }
 
 .nsarmoire-catalog-status__summary dd {
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 13px;
   font-weight: 850;
 }

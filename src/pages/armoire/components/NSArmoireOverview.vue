@@ -289,7 +289,7 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-panel h2,
 .nsarmoire-distribution h3 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-weight: 950;
 }
 
@@ -367,7 +367,7 @@ function hideBrokenImage(event: Event): void {
 }
 
 .nsarmoire-distribution__row summary strong {
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
 }
 
 .nsarmoire-distribution__items {
@@ -411,7 +411,7 @@ function hideBrokenImage(event: Event): void {
   border: 1px solid var(--ns-pixel-border);
   background: var(--ns-color-surface);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 10px;
   line-height: 1.2;
   text-align: center;

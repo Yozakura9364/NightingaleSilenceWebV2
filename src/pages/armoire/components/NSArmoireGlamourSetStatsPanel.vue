@@ -516,13 +516,15 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-set-panel h2,
 .nsarmoire-set-panel h3 {
   margin: 0;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-weight: 800;
   letter-spacing: 0;
 }
 
 .nsarmoire-set-panel h2 {
+  font-family: var(--ns-font-pixel);
   font-size: 16px;
+  font-weight: 950;
 }
 
 .nsarmoire-set-panel__groups {

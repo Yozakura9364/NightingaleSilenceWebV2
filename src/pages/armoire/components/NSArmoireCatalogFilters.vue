@@ -44,6 +44,6 @@ defineEmits<{
 }
 
 .nsarmoire-catalog-filters strong {
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
 }
 </style>

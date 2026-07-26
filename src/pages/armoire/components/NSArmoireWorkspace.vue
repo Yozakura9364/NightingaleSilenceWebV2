@@ -553,14 +553,11 @@ onMounted(() => {
 
 <style scoped>
 .nsarmoire-workspace {
-  --ns-font-decorative: var(--ns-font-sans);
-  --ns-font-mono: var(--ns-font-sans);
-
   display: flex;
   flex: 1;
   min-height: 0;
   background: var(--ns-color-bg);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   overflow: auto;
 }
 
@@ -638,29 +635,10 @@ onMounted(() => {
 
 .nsarmoire-workspace__section-header h2 {
   margin: 0;
+  font-family: var(--ns-font-pixel);
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 950;
   letter-spacing: 0;
-}
-
-.nsarmoire-workspace :deep(.ns-button),
-.nsarmoire-workspace :deep(.app-tabs__tab),
-.nsarmoire-workspace :deep(.app-status__title),
-.nsarmoire-workspace :deep(h2),
-.nsarmoire-workspace :deep(h3),
-.nsarmoire-workspace :deep(strong),
-.nsarmoire-workspace :deep(dt),
-.nsarmoire-workspace :deep(dd) {
-  font-family: var(--ns-font-sans);
-  letter-spacing: 0;
-}
-
-.nsarmoire-workspace :deep(.ns-button),
-.nsarmoire-workspace :deep(.app-tabs__tab),
-.nsarmoire-workspace :deep(.app-status__title),
-.nsarmoire-workspace :deep(h2),
-.nsarmoire-workspace :deep(h3) {
-  font-weight: 800;
 }
 
 .nsarmoire-workspace__section-header--tabs {

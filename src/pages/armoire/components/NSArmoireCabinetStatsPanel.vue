@@ -654,8 +654,8 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-collection-panel h2 {
   margin: 0;
-  font-family: var(--ns-font-sans);
-  font-weight: 800;
+  font-family: var(--ns-font-pixel);
+  font-weight: 950;
   letter-spacing: 0;
 }
 
@@ -686,10 +686,9 @@ function hideBrokenImage(event: Event): void {
   margin: 0;
   padding: 7px 10px;
   border: 1px solid var(--ns-color-border);
-  border-left: 4px solid var(--ns-pixel-border);
   background: var(--ns-color-bg-soft);
   color: var(--ns-color-text);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 15px;
   font-weight: 900;
   line-height: 1.25;
@@ -748,7 +747,7 @@ function hideBrokenImage(event: Event): void {
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 850;
   line-height: 1.25;
@@ -813,7 +812,6 @@ function hideBrokenImage(event: Event): void {
 .nsarmoire-collection-panel__item--owned {
   border-color: var(--ns-status-info-border);
   background: var(--ns-status-info-bg);
-  box-shadow: inset 4px 0 0 var(--ns-status-info-border);
 }
 
 .nsarmoire-collection-panel__item--owned .nsarmoire-collection-panel__name {

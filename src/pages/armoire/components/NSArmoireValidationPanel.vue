@@ -135,7 +135,7 @@ const { validationCases } = useArmoireValidationViewModels(props, t)
 }
 
 .nsarmoire-validation-card h3 {
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 14px;
   font-weight: 950;
   line-height: 1.35;
@@ -176,7 +176,7 @@ const { validationCases } = useArmoireValidationViewModels(props, t)
 }
 
 .nsarmoire-validation-card__code {
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 12px;
 }
 

@@ -375,7 +375,7 @@ function hideBrokenIcon(event: Event): void {
   display: -webkit-box;
   overflow: hidden;
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   font-size: 11px;
   line-height: 1.35;
   -webkit-box-orient: vertical;
@@ -387,7 +387,7 @@ function hideBrokenIcon(event: Event): void {
   gap: 5px;
   margin: 2px 0 0;
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 11px;
   line-height: 1.35;
 }
@@ -547,7 +547,7 @@ function hideBrokenIcon(event: Event): void {
   height: 36px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-pixel-surface);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-data);
   font-size: 13px;
   font-weight: 950;
 }

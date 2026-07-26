@@ -1052,6 +1052,11 @@ function hideBrokenImage(event: Event): void {
   letter-spacing: 0;
 }
 
+.nsarmoire-store-panel h2 {
+  font-family: var(--ns-font-pixel);
+  font-weight: 950;
+}
+
 .nsarmoire-store-panel__controls {
   display: grid;
   grid-template-columns: minmax(220px, 1fr) minmax(160px, 220px);
@@ -1075,7 +1080,7 @@ function hideBrokenImage(event: Event): void {
   background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
   color: var(--ns-pixel-ink, var(--ns-color-text));
   font: inherit;
-  font-family: var(--ns-font-sans);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   box-shadow: var(--ns-control-inset-shadow);
 }
@@ -1284,7 +1289,7 @@ function hideBrokenImage(event: Event): void {
 
 .nsarmoire-store-card__progress {
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-data);
   font-weight: 750;
 }
 

@@ -454,7 +454,7 @@ const compactSummaryAriaLabel = computed(() =>
 
 .nsarmoire-panel h2 {
   margin: 0;
-  font-family: var(--ns-font-decorative);
+  font-family: var(--ns-font-pixel);
   font-size: 14px;
   font-weight: 950;
   white-space: nowrap;
@@ -732,7 +732,7 @@ const compactSummaryAriaLabel = computed(() =>
 }
 
 .nsarmoire-snapshot-meta dd {
-  font-family: var(--ns-font-mono);
+  font-family: var(--ns-font-data);
   overflow-wrap: anywhere;
 }
 
