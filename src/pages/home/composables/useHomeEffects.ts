@@ -22,9 +22,15 @@ export function useHomeEffects() {
   let nightBackgroundGlitchBurstTimer = 0
   let nightBackgroundGlitchRepeatTimer = 0
   let homeThemeTransitionTimer = 0
+  let compactViewportQuery: MediaQueryList | null = null
 
   function shouldReduceHomeMotion() {
     return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  }
+
+  function shouldRunHomeGlitches() {
+    const isCompactViewport = compactViewportQuery?.matches ?? window.innerWidth <= 720
+    return !isCompactViewport && !document.hidden && !shouldReduceHomeMotion()
   }
 
   function randomHomeDelay(min: number, max: number) {
@@ -84,7 +90,7 @@ export function useHomeEffects() {
   function finishHomeThemeTransition() {
     homeThemeTransition.value = 'idle'
     homeThemeTransitionTimer = 0
-    if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
+    if (themeMode.value !== 'night' || !shouldRunHomeGlitches()) return
     scheduleNightPortraitGlitch()
     scheduleNightBackgroundGlitch()
   }
@@ -103,22 +109,22 @@ export function useHomeEffects() {
   function scheduleNightPortraitGlitch() {
     clearNightPortraitGlitchTimers()
     isNightPortraitGlitching.value = false
-    if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
+    if (themeMode.value !== 'night' || !shouldRunHomeGlitches()) return
     runNightPortraitGlitchBurst(2)
   }
 
   function queueNightPortraitGlitch() {
     if (nightPortraitGlitchTimer) { window.clearTimeout(nightPortraitGlitchTimer); nightPortraitGlitchTimer = 0 }
-    if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
+    if (themeMode.value !== 'night' || !shouldRunHomeGlitches()) return
     nightPortraitGlitchTimer = window.setTimeout(() => {
       nightPortraitGlitchTimer = 0
-      if (document.hidden) { queueNightPortraitGlitch(); return }
+      if (!shouldRunHomeGlitches()) return
       runNightPortraitGlitchBurst(Math.random() > 0.5 ? 2 : 1)
     }, randomHomeDelay(3600, 9200))
   }
 
   function runNightPortraitGlitchBurst(remainingBursts: number) {
-    if (themeMode.value !== 'night' || shouldReduceHomeMotion()) { isNightPortraitGlitching.value = false; return }
+    if (themeMode.value !== 'night' || !shouldRunHomeGlitches()) { isNightPortraitGlitching.value = false; return }
     isNightPortraitGlitching.value = true
     nightPortraitGlitchBurstTimer = window.setTimeout(() => {
       isNightPortraitGlitching.value = false
@@ -137,22 +143,22 @@ export function useHomeEffects() {
   function scheduleNightBackgroundGlitch() {
     clearNightBackgroundGlitchTimers()
     isNightBackgroundGlitching.value = false
-    if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
+    if (themeMode.value !== 'night' || !shouldRunHomeGlitches()) return
     runNightBackgroundGlitchBurst(2)
   }
 
   function queueNightBackgroundGlitch() {
     if (nightBackgroundGlitchTimer) { window.clearTimeout(nightBackgroundGlitchTimer); nightBackgroundGlitchTimer = 0 }
-    if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
+    if (themeMode.value !== 'night' || !shouldRunHomeGlitches()) return
     nightBackgroundGlitchTimer = window.setTimeout(() => {
       nightBackgroundGlitchTimer = 0
-      if (document.hidden) { queueNightBackgroundGlitch(); return }
+      if (!shouldRunHomeGlitches()) return
       runNightBackgroundGlitchBurst(Math.random() > 0.55 ? 2 : 1)
     }, randomHomeDelay(3200, 8500))
   }
 
   function runNightBackgroundGlitchBurst(remainingBursts: number) {
-    if (themeMode.value !== 'night' || shouldReduceHomeMotion()) { isNightBackgroundGlitching.value = false; return }
+    if (themeMode.value !== 'night' || !shouldRunHomeGlitches()) { isNightBackgroundGlitching.value = false; return }
     isNightBackgroundGlitching.value = true
     nightBackgroundGlitchBurstTimer = window.setTimeout(() => {
       isNightBackgroundGlitching.value = false
@@ -168,12 +174,27 @@ export function useHomeEffects() {
     }, 620)
   }
 
+  function restartHomeGlitches() {
+    clearNightPortraitGlitchTimers()
+    clearNightBackgroundGlitchTimers()
+    isNightPortraitGlitching.value = false
+    isNightBackgroundGlitching.value = false
+    if (themeMode.value !== 'night' || !shouldRunHomeGlitches()) return
+    scheduleNightPortraitGlitch()
+    scheduleNightBackgroundGlitch()
+  }
+
   onMounted(() => {
+    compactViewportQuery = window.matchMedia('(max-width: 720px)')
+    compactViewportQuery.addEventListener('change', restartHomeGlitches)
+    document.addEventListener('visibilitychange', restartHomeGlitches)
     scheduleNightPortraitGlitch()
     scheduleNightBackgroundGlitch()
   })
 
   onBeforeUnmount(() => {
+    compactViewportQuery?.removeEventListener('change', restartHomeGlitches)
+    document.removeEventListener('visibilitychange', restartHomeGlitches)
     if (pointerFrame) window.cancelAnimationFrame(pointerFrame)
     clearHomeThemeTransitionTimer()
     clearNightPortraitGlitchTimers()

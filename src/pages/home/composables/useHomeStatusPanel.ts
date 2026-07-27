@@ -56,13 +56,20 @@ export function useHomeStatusPanel(
   const { current: themeMode } = useTheme()
   const nightMetricTick = ref(0)
   let nightMetricTimer = 0
+  let compactViewportQuery: MediaQueryList | null = null
+  let reducedMotionQuery: MediaQueryList | null = null
 
   function randomHomeDelay(min: number, max: number) {
     return Math.round(min + Math.random() * (max - min))
   }
 
   function shouldReduceHomeMotion() {
-    return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    return reducedMotionQuery?.matches ?? window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  }
+
+  function shouldAnimateNightMetrics() {
+    const isCompactViewport = compactViewportQuery?.matches ?? window.innerWidth <= 720
+    return themeMode.value === 'night' && !isCompactViewport && !document.hidden && !shouldReduceHomeMotion()
   }
 
   function nightStabilitySize(motion: NightStabilityMotion) {
@@ -122,20 +129,28 @@ export function useHomeStatusPanel(
 
   function scheduleNightMetricPulse() {
     clearNightMetricTimer()
-    if (themeMode.value !== 'night' || shouldReduceHomeMotion()) return
-    if (document.hidden) {
-      nightMetricTimer = window.setTimeout(scheduleNightMetricPulse, 500)
-      return
-    }
+    if (!shouldAnimateNightMetrics()) return
     nightMetricTimer = window.setTimeout(() => {
       nightMetricTick.value += 1
       scheduleNightMetricPulse()
     }, randomHomeDelay(820, 1650))
   }
 
-  onMounted(() => { scheduleNightMetricPulse() })
+  onMounted(() => {
+    compactViewportQuery = window.matchMedia('(max-width: 720px)')
+    reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    compactViewportQuery.addEventListener('change', scheduleNightMetricPulse)
+    reducedMotionQuery.addEventListener('change', scheduleNightMetricPulse)
+    document.addEventListener('visibilitychange', scheduleNightMetricPulse)
+    scheduleNightMetricPulse()
+  })
   watch(themeMode, () => { scheduleNightMetricPulse() })
-  onBeforeUnmount(() => { clearNightMetricTimer() })
+  onBeforeUnmount(() => {
+    compactViewportQuery?.removeEventListener('change', scheduleNightMetricPulse)
+    reducedMotionQuery?.removeEventListener('change', scheduleNightMetricPulse)
+    document.removeEventListener('visibilitychange', scheduleNightMetricPulse)
+    clearNightMetricTimer()
+  })
 
   return {
     nightMetrics,

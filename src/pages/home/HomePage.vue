@@ -33,15 +33,25 @@
           :key="item.id"
           class="home-desktop-icon"
           :to="item.route"
-          :class="[
-            `home-desktop-icon--${item.tone}`,
-            { 'home-desktop-icon--full-color': item.iconMode === 'image' }
-          ]"
+          :class="`home-desktop-icon--${item.tone}`"
         >
-          <span class="home-desktop-icon__image" :style="pixelIconStyle(item.icon)" aria-hidden="true"></span>
+          <img
+            class="home-desktop-icon__image"
+            :src="item.icon"
+            alt=""
+            width="46"
+            height="46"
+            draggable="false"
+          />
           <span class="home-desktop-icon__label">{{ t(item.labelKey) }}</span>
         </RouterLink>
       </nav>
+
+      <div
+        class="home-mobile-night-portrait"
+        :style="homeMobileNightArtStyle"
+        aria-hidden="true"
+      ></div>
 
       <div class="home-day-windows">
         <article
@@ -384,6 +394,7 @@ import naiyiPixelAvatar from '@/assets/home/奈伊-像素小人.webp'
 import nightingalePixelAvatar from '@/assets/home/南丁格尔-像素小人.webp'
 import shalewanPixelAvatar from '@/assets/home/沙乐万-像素小人.webp'
 import yoinArt from '@/assets/home/yoin-3.webp'
+import yoinMobileArt from '@/assets/home/yoin-1.webp'
 import yoinAvatar from '@/assets/home/yoin-avatar.webp'
 import yoineCharacterArt from '@/assets/home/yoine-1.webp'
 import yoineArt from '@/assets/home/yoine-6.webp'
@@ -411,6 +422,9 @@ loadMessages(homeUiMessages)
 const { t } = useLocale()
 const { current: themeMode } = useTheme()
 const desktopEl = ref<HTMLElement | null>(null)
+const homeMobileNightArtStyle = {
+  '--home-mobile-night-art-url': `url("${yoinMobileArt}")`
+} as CSSProperties
 
 // ---- Composables ----
 const {
@@ -567,7 +581,6 @@ const desktopIcons = [
     labelKey: textKeys.ffxivWorkshop,
     route: siteRoutes.ffxiv,
     icon: ffxivWorkshopIcon,
-    iconMode: 'image',
     tone: 'blue'
   },
   ...ffxivTools.map((tool) => ({
@@ -575,7 +588,6 @@ const desktopIcons = [
     labelKey: tool.titleKey,
     route: tool.route,
     icon: workshopIconFor(tool.id),
-    iconMode: 'image',
     tone: workshopToneFor(tool.id)
   })),
   {
@@ -583,7 +595,6 @@ const desktopIcons = [
     labelKey: textKeys.about,
     route: siteRoutes.about,
     icon: aboutIcon,
-    iconMode: 'image',
     tone: 'mint'
   }
 ] as const
@@ -603,10 +614,6 @@ function workshopToneFor(id: string) {
   if (id === 'armoire') return 'pink'
   if (id === 'fashionCheck') return 'mint'
   return 'blue'
-}
-
-function pixelIconStyle(icon: string): CSSProperties {
-  return { '--home-icon-url': `url("${icon}")` } as CSSProperties
 }
 
 function homeAvatarStyle(image: string): CSSProperties {
@@ -913,33 +920,18 @@ onBeforeUnmount(() => {
 }
 
 .home-desktop-icon__image {
-  display: grid;
+  display: block;
   width: 46px;
   height: 46px;
-  place-items: center;
   padding: 0;
   border: 0;
-  background-color: transparent;
+  object-fit: contain;
   box-shadow: none;
-}
-
-.home-desktop-icon__image::before {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: currentColor;
-  content: '';
-  mask: var(--home-icon-url) center / 100% 100% no-repeat;
-  -webkit-mask: var(--home-icon-url) center / 100% 100% no-repeat;
-}
-
-.home-desktop-icon--full-color .home-desktop-icon__image::before {
-  width: 100%;
-  height: 100%;
-  background: var(--home-icon-url) center / 100% 100% no-repeat;
   image-rendering: pixelated;
-  mask: none;
-  -webkit-mask: none;
+}
+
+.home-mobile-night-portrait {
+  display: none;
 }
 
 .home-desktop-icon__label {
@@ -2559,7 +2551,24 @@ button.home-window__control:focus-visible {
   .home-desktop-icon__image {
     width: 44px;
     height: 44px;
-    padding: 8px;
+  }
+
+  .home-mobile-night-portrait {
+    position: relative;
+    z-index: 2;
+    display: none;
+    width: 100%;
+    height: clamp(230px, 36svh, 310px);
+    background: var(--home-mobile-night-art-url, none) center bottom / contain no-repeat;
+    filter:
+      drop-shadow(7px 7px 0 rgba(5, 9, 18, 0.5))
+      drop-shadow(-2px 0 0 rgba(255, 95, 184, 0.16))
+      drop-shadow(2px 0 0 rgba(94, 234, 255, 0.18));
+    pointer-events: none;
+  }
+
+  :global(:root[data-theme='night'] .home-mobile-night-portrait) {
+    display: block;
   }
 
   .home-window {
@@ -2639,6 +2648,18 @@ button.home-window__control:focus-visible {
 
   .home-day-foreground,
   .home-night-foreground {
+    display: none;
+  }
+
+  .home-night-ambient--stardust,
+  .home-night-player__equalizer i,
+  .home-night-player__progress i,
+  .home-avatar-card--corrupt .home-avatar-card__portrait::before,
+  .home-avatar-card--corrupt .home-avatar-card__portrait::after {
+    animation: none !important;
+  }
+
+  .home-desktop::after {
     display: none;
   }
 
