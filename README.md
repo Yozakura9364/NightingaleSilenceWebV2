@@ -79,6 +79,10 @@ src/
 
 代码及文档采用 MIT 协议。FFXIV 相关数据、素材、字体的授权与分发边界需在正式部署时另行确认。
 
+铭牌工房使用 HarmonyOS Sans SC，其版权归 Huawei Device Co., Ltd. 所有，并按
+[HarmonyOS Sans Fonts License Agreement](public/vendor/fonts/harmonyos-sans-sc/LICENSE.txt)
+随软件分发。铭牌工房的其他字体资产沿用 NSPortable 的原始未修改文件。
+
 ## 鸣谢
 
 感谢以下开发者对本项目作出的贡献：

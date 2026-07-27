@@ -54,17 +54,20 @@ export interface NSPlateInfoTextLayerCanvas {
 }
 
 const INFO_TEXT_AUTO_WRAP_MAX_WIDTH = 810
-const INFO_TEXT_FONT_LOAD_TIMEOUT_MS = 160
+const INFO_TEXT_FONT_LOAD_TIMEOUT_MS = 30_000
 const INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y = 351
 const TEXT_RENDER_EFFECT_SHADOW_GRAY = 'shadowGray'
 const TEXT_RENDER_EFFECT_EMBOSS_SOFT = 'embossSoft'
 
 const infoTextImageCache = createLruCache<string, Promise<HTMLImageElement | null>>(50)
+const infoTextFontLoadCache = new Map<string, Promise<void>>()
 
 export async function drawNSPlateInfoTextLayers(
   context: CanvasRenderingContext2D,
   layers: NSPlateInfoTextRenderLayer[]
 ) {
+  await ensureInfoTextLayersFontsReady(layers)
+
   const resolvedLayouts = new Map<string, NSPlateInfoTextLayout>()
   const resolvedLayers = new Map<string, NSPlateInfoTextRenderLayer>()
 
@@ -130,6 +133,8 @@ export async function renderNSPlateInfoTextLayersToLayerCanvases(
   const resolvedLayouts = new Map<string, NSPlateInfoTextLayout>()
   const resolvedLayers = new Map<string, NSPlateInfoTextRenderLayer>()
   const exportScale = normalizeLayerExportScale(scale)
+
+  await ensureInfoTextLayersFontsReady(layers)
 
   for (const layer of layers) {
     const targetLayer = resolveFollowLayerPosition(
@@ -225,15 +230,41 @@ async function ensureInfoTextLayerFontReady(layer: NSPlateInfoTextRenderLayer) {
     return
   }
 
+  const fontSpec = buildInfoTextLayerFontSpec(layer)
   const sample = layer.text || layer.defaultText || 'Aa'
+  let loadPromise = infoTextFontLoadCache.get(fontSpec)
+
+  if (!loadPromise) {
+    loadPromise = document.fonts.load(fontSpec, sample).then(() => undefined)
+    infoTextFontLoadCache.set(fontSpec, loadPromise)
+    void loadPromise.catch(() => infoTextFontLoadCache.delete(fontSpec))
+  }
+
+  try {
+    await waitForInfoTextFont(loadPromise)
+  } catch {
+    // Keep the editor usable when a font asset is unavailable or the request fails.
+  }
+}
+
+async function ensureInfoTextLayersFontsReady(layers: NSPlateInfoTextRenderLayer[]) {
+  await Promise.all(layers.map((layer) => ensureInfoTextLayerFontReady(layer)))
+}
+
+async function waitForInfoTextFont(loadPromise: Promise<void>) {
+  let timeoutId: number | undefined
 
   try {
     await Promise.race([
-      document.fonts.load(buildInfoTextLayerFontSpec(layer), sample),
-      new Promise((resolve) => window.setTimeout(resolve, INFO_TEXT_FONT_LOAD_TIMEOUT_MS))
+      loadPromise,
+      new Promise<void>((resolve) => {
+        timeoutId = window.setTimeout(resolve, INFO_TEXT_FONT_LOAD_TIMEOUT_MS)
+      })
     ])
-  } catch {
-    // Canvas fallback font is acceptable until old NSPortable font assets are migrated.
+  } finally {
+    if (timeoutId !== undefined) {
+      window.clearTimeout(timeoutId)
+    }
   }
 }
 
