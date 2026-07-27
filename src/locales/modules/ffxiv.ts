@@ -80,6 +80,12 @@ export const ffxivUiMessages: UiMessageMap = {
     ja: '応募締切まで',
     ko: '응모 마감까지'
   }),
+  'ffxiv.clocks.housing.entryClosesAt': msg({
+    zh: '本轮抽选截止',
+    en: 'Current entry period closes',
+    ja: '今回の応募締切',
+    ko: '현재 응모 마감'
+  }),
   'ffxiv.clocks.housing.entryAvailableIn': msg({
     zh: '距离开放抽选',
     en: 'Entry opens in',

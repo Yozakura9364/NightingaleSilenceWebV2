@@ -12,6 +12,7 @@ export const ffxivTextKeys = {
   housingEntryCallout: 'ffxiv.clocks.housing.callout.entry',
   housingResultsCallout: 'ffxiv.clocks.housing.callout.results',
   housingEntryClosesIn: 'ffxiv.clocks.housing.entryClosesIn',
+  housingEntryClosesAt: 'ffxiv.clocks.housing.entryClosesAt',
   housingEntryAvailableIn: 'ffxiv.clocks.housing.entryAvailableIn',
   housingNextEntryOpens: 'ffxiv.clocks.housing.nextEntryOpens',
   frontlineTitle: 'ffxiv.clocks.frontline.title',

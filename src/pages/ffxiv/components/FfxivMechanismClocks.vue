@@ -54,7 +54,15 @@
 
           <dl class="ffxiv-clock-card__facts">
             <div>
-              <dt>{{ t(textKeys.housingNextEntryOpens) }}</dt>
+              <dt>
+                {{
+                  t(
+                    housingStatus.phase === 'entry'
+                      ? textKeys.housingEntryClosesAt
+                      : textKeys.housingNextEntryOpens
+                  )
+                }}
+              </dt>
               <dd>
                 <time :datetime="isoTime(housingStatus.nextTransitionAt)">
                   {{ formatTime(housingStatus.nextTransitionAt) }}
