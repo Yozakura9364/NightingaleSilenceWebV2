@@ -53,7 +53,7 @@
 .app-top-nav__brand--art {
   height: 34px;
   min-height: 34px;
-  padding: 2px 7px;
+  padding: 0 7px 1px;
 }
 
 .app-top-nav__brand--art .app-top-nav__brand-icon {
@@ -62,8 +62,8 @@
 
 .app-top-nav__brand-art {
   display: block;
-  width: 108px;
-  height: 24px;
+  width: 130px;
+  height: 29px;
   background: var(--ns-top-nav-brand-art-url, none) center / contain no-repeat;
   image-rendering: pixelated;
 }
@@ -144,6 +144,7 @@
   line-height: 1;
   white-space: nowrap;
   text-decoration: none;
+  appearance: none;
   box-shadow: var(--ns-pixel-soft-shadow);
   cursor: pointer;
   transition:
@@ -184,46 +185,20 @@
   pointer-events: none;
 }
 
+.app-top-nav__mobile-mask-icon {
+  display: none;
+}
+
 /* ---- Dropdown Groups ---- */
 
 .app-top-nav__dropdown-group {
   position: relative;
 }
 
-.app-top-nav__nav-toggle {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  width: 32px;
-  height: 100%;
-  min-height: 30px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.app-top-nav__nav-toggle:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: -4px;
-}
-
 .app-top-nav__dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  z-index: 40;
   display: grid;
   gap: 4px;
-  min-width: 160px;
-  padding: 8px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-pixel-window-bg);
-  box-shadow: var(--ns-pixel-window-shadow);
+  min-width: 0;
 }
 
 .app-top-nav__dropdown-link {
@@ -274,7 +249,20 @@
   -webkit-mask: var(--app-top-nav-dropdown-icon-url) center / 16px 16px no-repeat;
 }
 
-/* ---- Config Window ---- */
+/* ---- Menu and Config Windows ---- */
+
+.app-top-nav__window--menu {
+  position: absolute;
+  top: calc(100% + var(--ns-top-nav-popup-gap));
+  right: 0;
+  z-index: 40;
+  width: min(280px, calc(100vw - 28px));
+}
+
+.app-top-nav__window--menu .app-pixel-window__body {
+  gap: 0;
+  padding: 8px;
+}
 
 .app-top-nav__window--config {
   position: absolute;
@@ -547,11 +535,15 @@
   }
 
   .app-top-nav__dropdown {
+    width: 100%;
+  }
+
+  .app-top-nav__window--menu {
     position: fixed;
-    top: auto;
-    left: 12px;
+    top: 58px;
     right: 12px;
-    width: auto;
+    left: auto;
+    width: min(272px, calc(100vw - 24px));
   }
 
   .app-top-nav__window--config {
@@ -570,9 +562,30 @@
 
   .app-top-nav__nav-link,
   .app-top-nav__config-button {
-    padding: 0 6px;
-    font-size: 11px;
-    min-height: 30px;
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .app-top-nav__nav-label,
+  .app-top-nav__nav-arrow,
+  .app-top-nav__config-label {
+    display: none;
+  }
+
+  .app-top-nav__mobile-mask-icon {
+    display: block;
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+  }
+
+  .app-top-nav__mobile-mask-icon {
+    background: currentColor;
+    mask: var(--app-top-nav-mobile-mask-url) center / 32px 32px no-repeat;
+    -webkit-mask: var(--app-top-nav-mobile-mask-url) center / 32px 32px no-repeat;
   }
 
   .app-top-nav__brand-command {
@@ -580,7 +593,9 @@
   }
 
   .app-top-nav__brand {
-    width: 34px;
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
     padding: 0;
     justify-content: center;
   }
@@ -592,5 +607,9 @@
 
   .app-top-nav__brand--art .app-top-nav__brand-icon {
     display: block;
+    width: 32px;
+    height: 32px;
+    mask-size: 32px 32px;
+    -webkit-mask-size: 32px 32px;
   }
 }

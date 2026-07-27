@@ -27,7 +27,7 @@
       </RouterLink>
 
       <div ref="controlsRoot" class="app-top-nav__links">
-        <AppTopNavMenu />
+        <AppTopNavMenu ref="navMenu" @open="closeConfig(false)" />
         <AppTopNavSettings
           :open="configOpen"
           @open="openConfig"
@@ -54,6 +54,7 @@ import { useLocale } from '@/stores/locale'
 const route = useRoute()
 const { t } = useLocale()
 const configOpen = ref(false)
+const navMenu = ref<{ closeDropdowns: () => void } | null>(null)
 const controlsRoot = ref<HTMLElement | null>(null)
 const topNavBrandArtStyle = {
   '--ns-top-nav-brand-art-url': `url("${nightingaleTitleArt}")`
@@ -92,15 +93,18 @@ function closeConfig(restoreFocus = true) {
 let previousActiveElement: HTMLElement | null = null
 
 function closePopovers() {
+  navMenu.value?.closeDropdowns()
   closeConfig()
 }
 
 function openConfig() {
+  navMenu.value?.closeDropdowns()
   configOpen.value = true
 }
 
 function toggleConfig() {
   if (!configOpen.value) {
+    navMenu.value?.closeDropdowns()
     previousActiveElement = document.activeElement as HTMLElement | null
     configOpen.value = true
     return
