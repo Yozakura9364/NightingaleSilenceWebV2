@@ -19,7 +19,7 @@
 
       <SilenceTurnHint
         :label="t(textKeys.silenceCharacterNavigation)"
-        :left-to="turnNeighbors.left?.route"
+        :left-to="currentGroup.id === 'angel' ? undefined : turnNeighbors.left?.route"
         :left-label="leftTurnLabel"
         :right-to="turnNeighbors.right?.route"
         :right-label="rightTurnLabel"

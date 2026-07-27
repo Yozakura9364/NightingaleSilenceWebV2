@@ -1,9 +1,5 @@
 <template>
-  <section
-    class="silence-viioko"
-    :aria-labelledby="titleId"
-    :style="prototypeStyle"
-  >
+  <section class="silence-viioko" :aria-labelledby="titleId" :style="prototypeStyle">
     <div class="silence-viioko__sheet">
       <div class="silence-viioko__backdrop" aria-hidden="true">
         <img
@@ -17,20 +13,27 @@
       <div class="silence-viioko__cutouts" aria-hidden="true"></div>
       <div class="silence-viioko__debug-boundaries" aria-hidden="true"></div>
 
-      <div class="silence-viioko__page silence-viioko__page--profile">
+      <div
+        class="silence-viioko__page silence-viioko__page--profile"
+        :style="getPageGridStyle('profile')"
+      >
         <header class="silence-viioko__identity">
           <p class="silence-viioko__kicker">{{ profileKicker }}</p>
           <h2 :id="titleId">{{ titleLinePrimary }}</h2>
           <p>{{ titleLineSecondary }}</p>
         </header>
 
-        <div class="silence-viioko__layout silence-viioko__layout--two-one silence-viioko__portrait-grid">
+        <div
+          class="silence-viioko__layout silence-viioko__portrait-grid"
+          :class="getRowLayoutClass('profile', 'portrait', 'two-one')"
+        >
           <figure class="silence-viioko__portrait-card silence-viioko__portrait-card--hero">
             <img
               v-if="character.portraitSrc"
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle('profile', 'portrait', 'hero')"
             />
             <figcaption>{{ overviewTitle }}</figcaption>
           </figure>
@@ -40,23 +43,33 @@
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle('profile', 'portrait', 'crop')"
             />
             <figcaption>{{ basicTitle }}</figcaption>
           </figure>
         </div>
 
-        <div class="silence-viioko__layout silence-viioko__layout--full">
+        <div
+          class="silence-viioko__layout"
+          :class="getRowLayoutClass('profile', 'overview', 'full')"
+        >
           <p class="silence-viioko__overview">{{ overviewText }}</p>
         </div>
 
-        <dl class="silence-viioko__layout silence-viioko__layout--thirds silence-viioko__facts">
+        <dl
+          class="silence-viioko__layout silence-viioko__facts"
+          :class="getRowLayoutClass('profile', 'facts', 'thirds')"
+        >
           <div v-for="fact in visibleFacts" :key="fact.id">
             <dt>{{ fact.label }}</dt>
             <dd>{{ fact.value }}</dd>
           </div>
         </dl>
 
-        <div class="silence-viioko__layout silence-viioko__layout--thirds silence-viioko__detail-strip">
+        <div
+          class="silence-viioko__layout silence-viioko__detail-strip"
+          :class="getRowLayoutClass('profile', 'appearance', 'thirds')"
+        >
           <article v-for="block in visibleAppearance" :key="block.id">
             <h3>{{ block.title }}</h3>
             <p>{{ block.points[0] ?? emptyText }}</p>
@@ -81,6 +94,7 @@
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle('profile', 'appearance', 'standee-front')"
             />
             <figcaption>{{ primaryOutfit?.label ?? outfitTitle }}</figcaption>
           </figure>
@@ -91,6 +105,7 @@
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle('profile', 'appearance', 'standee-back')"
             />
             <figcaption>{{ secondaryOutfit?.label ?? formTitle }}</figcaption>
           </figure>
@@ -112,6 +127,7 @@
                 :src="character.portraitSrc"
                 alt=""
                 decoding="async"
+                :style="getCellImageStyle('profile', 'appearance', `specimen-${index}`)"
               />
             </figure>
           </div>
@@ -137,20 +153,27 @@
       <div class="silence-viioko__cutouts" aria-hidden="true"></div>
       <div class="silence-viioko__debug-boundaries" aria-hidden="true"></div>
 
-      <div class="silence-viioko__page silence-viioko__page--profile">
+      <div
+        class="silence-viioko__page silence-viioko__page--profile"
+        :style="getPageGridStyle('followup')"
+      >
         <header class="silence-viioko__identity">
           <p class="silence-viioko__kicker">{{ formTitle }}</p>
           <h2 :id="secondTitleId">{{ titleLinePrimary }}</h2>
           <p>{{ railTitle }}</p>
         </header>
 
-        <div class="silence-viioko__layout silence-viioko__layout--two-one silence-viioko__portrait-grid">
+        <div
+          class="silence-viioko__layout silence-viioko__portrait-grid"
+          :class="getRowLayoutClass('followup', 'portrait', 'two-one')"
+        >
           <figure class="silence-viioko__portrait-card silence-viioko__portrait-card--hero">
             <img
               v-if="character.portraitSrc"
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle('followup', 'portrait', 'hero')"
             />
             <figcaption>{{ formTitle }}</figcaption>
           </figure>
@@ -160,23 +183,33 @@
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle('followup', 'portrait', 'crop')"
             />
             <figcaption>{{ combatTitle }}</figcaption>
           </figure>
         </div>
 
-        <div class="silence-viioko__layout silence-viioko__layout--full">
+        <div
+          class="silence-viioko__layout"
+          :class="getRowLayoutClass('followup', 'overview', 'full')"
+        >
           <p class="silence-viioko__overview">{{ combatLead }}</p>
         </div>
 
-        <dl class="silence-viioko__layout silence-viioko__layout--thirds silence-viioko__facts">
+        <dl
+          class="silence-viioko__layout silence-viioko__facts"
+          :class="getRowLayoutClass('followup', 'facts', 'thirds')"
+        >
           <div v-for="form in visibleFormFacts" :key="form.id">
             <dt>{{ form.label }}</dt>
             <dd>{{ form.value }}</dd>
           </div>
         </dl>
 
-        <div class="silence-viioko__layout silence-viioko__layout--one-two silence-viioko__detail-strip">
+        <div
+          class="silence-viioko__layout silence-viioko__detail-strip"
+          :class="getRowLayoutClass('followup', 'details', 'one-two')"
+        >
           <article>
             <h3>{{ combatTitle }}</h3>
             <p>{{ combatPreview[0] ?? emptyText }}</p>
@@ -205,6 +238,7 @@
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle('followup', 'details', 'standee-front')"
             />
             <figcaption>{{ visibleForms[0]?.label ?? formTitle }}</figcaption>
           </figure>
@@ -215,6 +249,7 @@
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle('followup', 'details', 'standee-back')"
             />
             <figcaption>{{ visibleForms[1]?.label ?? storyTitle }}</figcaption>
           </figure>
@@ -240,6 +275,7 @@
                 :src="character.portraitSrc"
                 alt=""
                 decoding="async"
+                :style="getCellImageStyle('followup', 'details', `specimen-${index}`)"
               />
             </figure>
           </div>
@@ -270,7 +306,10 @@
       <div class="silence-viioko__cutouts" aria-hidden="true"></div>
       <div class="silence-viioko__debug-boundaries" aria-hidden="true"></div>
 
-      <div class="silence-viioko__page silence-viioko__page--profile silence-viioko__page--sample-profile">
+      <div
+        class="silence-viioko__page silence-viioko__page--profile silence-viioko__page--sample-profile"
+        :style="getPageGridStyle(sample.id)"
+      >
         <header class="silence-viioko__identity">
           <p class="silence-viioko__kicker">{{ sample.kicker }}</p>
           <h2>{{ sample.title }}</h2>
@@ -279,7 +318,7 @@
 
         <div
           class="silence-viioko__layout silence-viioko__layout--framed silence-viioko__sample-lead"
-          :class="sample.leadLayoutClass"
+          :class="getRowLayoutClass(sample.id, 'lead', 'full')"
         >
           <figure class="silence-viioko__portrait-card silence-viioko__portrait-card--sample">
             <img
@@ -287,6 +326,7 @@
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle(sample.id, 'lead', 'hero')"
             />
             <figcaption>{{ sample.heroCaption }}</figcaption>
           </figure>
@@ -307,7 +347,7 @@
 
         <div
           class="silence-viioko__layout silence-viioko__layout--framed silence-viioko__detail-strip silence-viioko__sample-strip"
-          :class="sample.stripLayoutClass"
+          :class="getRowLayoutClass(sample.id, 'strip', 'full')"
         >
           <article v-for="block in sample.blocks" :key="block.id">
             <h3>{{ block.title }}</h3>
@@ -341,6 +381,7 @@
               :src="character.portraitSrc"
               alt=""
               decoding="async"
+              :style="getCellImageStyle(sample.id, 'strip', `board-${slot.id}`)"
             />
             <figcaption>{{ slot.caption }}</figcaption>
           </figure>
@@ -395,6 +436,9 @@ const {
   combatPreview,
   combatTitle,
   formTitle,
+  getCellImageStyle,
+  getPageGridStyle,
+  getRowLayoutClass,
   outfitTitle,
   overviewText,
   overviewTitle,
@@ -452,8 +496,13 @@ const {
   --silence-viioko-primary-divider-end: var(--silence-viioko-divider-a-end);
   --silence-viioko-line-extend-left: var(--silence-viioko-frame-left);
   --silence-viioko-line-extend-right: var(--silence-viioko-frame-right);
-  --silence-viioko-line-horizontal-left: calc(var(--silence-viioko-frame-left) - var(--silence-viioko-line-extend-left));
-  --silence-viioko-line-horizontal-width: calc(100% - var(--silence-viioko-frame-left) - var(--silence-viioko-frame-right) + var(--silence-viioko-line-extend-left) + var(--silence-viioko-line-extend-right));
+  --silence-viioko-line-horizontal-left: calc(
+    var(--silence-viioko-frame-left) - var(--silence-viioko-line-extend-left)
+  );
+  --silence-viioko-line-horizontal-width: calc(
+    100% - var(--silence-viioko-frame-left) - var(--silence-viioko-frame-right) +
+      var(--silence-viioko-line-extend-left) + var(--silence-viioko-line-extend-right)
+  );
   --silence-viioko-line-horizontal-bottom: calc(100% - var(--silence-viioko-frame-bottom) - 1px);
   --silence-viioko-frame-right-line: calc(100% - var(--silence-viioko-frame-right) - 1px);
   --silence-viioko-divider-a-end-line: var(--silence-viioko-divider-a-end);
@@ -475,12 +524,21 @@ const {
   --silence-viioko-frame-bottom-length: clamp(30px, 3.2095vw, 54px);
   --silence-viioko-sheet-stack-overlap: calc(var(--silence-viioko-frame-bottom-length) + 1px);
   --silence-viioko-line-overhang-top: var(--silence-viioko-frame-top);
-  --silence-viioko-line-overhang-bottom: clamp(14px, 1.4286vw, 24px);
-  --silence-viioko-line-vertical-top: calc(var(--silence-viioko-frame-top) - var(--silence-viioko-line-overhang-top));
-  --silence-viioko-line-vertical-height: calc(100% - var(--silence-viioko-frame-top) - var(--silence-viioko-frame-bottom) + var(--silence-viioko-line-overhang-top) + var(--silence-viioko-line-overhang-bottom));
+  --silence-viioko-line-overhang-bottom: calc(var(--silence-viioko-frame-top) - 1px);
+  --silence-viioko-line-vertical-top: calc(
+    var(--silence-viioko-frame-top) - var(--silence-viioko-line-overhang-top)
+  );
+  --silence-viioko-line-vertical-height: calc(
+    100% - var(--silence-viioko-frame-top) - var(--silence-viioko-frame-bottom) +
+      var(--silence-viioko-line-overhang-top) + var(--silence-viioko-line-overhang-bottom)
+  );
   --silence-viioko-frame-inner-gap: clamp(8px, 0.7vw, 12px);
-  --silence-viioko-content-top-length: calc(var(--silence-viioko-frame-top-length) + var(--silence-viioko-frame-inner-gap));
-  --silence-viioko-content-bottom-length: calc(var(--silence-viioko-frame-bottom-length) + var(--silence-viioko-frame-inner-gap));
+  --silence-viioko-content-top-length: calc(
+    var(--silence-viioko-frame-top-length) + var(--silence-viioko-frame-inner-gap)
+  );
+  --silence-viioko-content-bottom-length: calc(
+    var(--silence-viioko-frame-bottom-length) + var(--silence-viioko-frame-inner-gap)
+  );
   --silence-viioko-page-safe-x: clamp(22px, 2.15vw, 38px);
   --silence-viioko-cell-safe-x: clamp(12px, 1vw, 18px);
   --silence-viioko-cell-safe-y: clamp(10px, 0.85vw, 16px);
@@ -513,14 +571,33 @@ const {
   inset: 0;
   z-index: 3;
   background:
-    linear-gradient(var(--silence-viioko-frame-line-strong-color), var(--silence-viioko-frame-line-strong-color)) var(--silence-viioko-line-horizontal-left) var(--silence-viioko-frame-top) / var(--silence-viioko-line-horizontal-width) 1px no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-line-horizontal-left) var(--silence-viioko-line-horizontal-bottom) / var(--silence-viioko-line-horizontal-width) 1px no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-frame-left) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-frame-right-line) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-divider-a-start) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-divider-a-end-line) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-divider-b-start) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-divider-b-end-line) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat;
+    linear-gradient(
+        var(--silence-viioko-frame-line-strong-color),
+        var(--silence-viioko-frame-line-strong-color)
+      )
+      var(--silence-viioko-line-horizontal-left) var(--silence-viioko-frame-top) /
+      var(--silence-viioko-line-horizontal-width) 1px no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-line-horizontal-left) var(--silence-viioko-line-horizontal-bottom) /
+      var(--silence-viioko-line-horizontal-width) 1px no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-frame-left) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-frame-right-line) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-divider-a-start) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-divider-a-end-line) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-divider-b-start) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-divider-b-end-line) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat;
   content: '';
   pointer-events: none;
 }
@@ -529,12 +606,15 @@ const {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background:
-    linear-gradient(135deg, transparent calc(50% - 0.5px), var(--silence-viioko-corner-line-color) 50%, transparent calc(50% + 0.5px))
+  background: linear-gradient(
+      135deg,
+      transparent calc(50% - 0.5px),
+      var(--silence-viioko-corner-line-color) 50%,
+      transparent calc(50% + 0.5px)
+    )
     calc(var(--silence-viioko-corner-diagonal-left) - var(--silence-viioko-corner-diagonal-offset))
-    calc(var(--silence-viioko-corner-diagonal-top) - var(--silence-viioko-corner-diagonal-offset))
-    / var(--silence-viioko-corner-diagonal-size) var(--silence-viioko-corner-diagonal-size)
-    no-repeat;
+    calc(var(--silence-viioko-corner-diagonal-top) - var(--silence-viioko-corner-diagonal-offset)) /
+    var(--silence-viioko-corner-diagonal-size) var(--silence-viioko-corner-diagonal-size) no-repeat;
   content: '';
   mask:
     linear-gradient(#000 0 0) 0 0 / 100% var(--silence-viioko-corner-diagonal-top) no-repeat,
@@ -553,14 +633,30 @@ const {
   z-index: 6;
   opacity: 0;
   background:
-    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line)) var(--silence-viioko-line-horizontal-left) var(--silence-viioko-frame-top) / var(--silence-viioko-line-horizontal-width) var(--silence-viioko-debug-line-size) no-repeat,
-    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line)) var(--silence-viioko-line-horizontal-left) var(--silence-viioko-line-horizontal-bottom) / var(--silence-viioko-line-horizontal-width) var(--silence-viioko-debug-line-size) no-repeat,
-    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line)) var(--silence-viioko-frame-left) var(--silence-viioko-line-vertical-top) / var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line)) var(--silence-viioko-frame-right-line) var(--silence-viioko-line-vertical-top) / var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line)) var(--silence-viioko-divider-a-start) var(--silence-viioko-line-vertical-top) / var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line)) var(--silence-viioko-divider-a-end-line) var(--silence-viioko-line-vertical-top) / var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line)) var(--silence-viioko-divider-b-start) var(--silence-viioko-line-vertical-top) / var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line)) var(--silence-viioko-divider-b-end-line) var(--silence-viioko-line-vertical-top) / var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat;
+    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
+      var(--silence-viioko-line-horizontal-left) var(--silence-viioko-frame-top) /
+      var(--silence-viioko-line-horizontal-width) var(--silence-viioko-debug-line-size) no-repeat,
+    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
+      var(--silence-viioko-line-horizontal-left) var(--silence-viioko-line-horizontal-bottom) /
+      var(--silence-viioko-line-horizontal-width) var(--silence-viioko-debug-line-size) no-repeat,
+    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
+      var(--silence-viioko-frame-left) var(--silence-viioko-line-vertical-top) /
+      var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
+      var(--silence-viioko-frame-right-line) var(--silence-viioko-line-vertical-top) /
+      var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
+      var(--silence-viioko-divider-a-start) var(--silence-viioko-line-vertical-top) /
+      var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
+      var(--silence-viioko-divider-a-end-line) var(--silence-viioko-line-vertical-top) /
+      var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
+      var(--silence-viioko-divider-b-start) var(--silence-viioko-line-vertical-top) /
+      var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
+      var(--silence-viioko-divider-b-end-line) var(--silence-viioko-line-vertical-top) /
+      var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat;
   filter: drop-shadow(0 0 4px rgba(255, 0, 214, 0.8));
   pointer-events: none;
   transition: opacity 140ms ease;
@@ -569,12 +665,15 @@ const {
 .silence-viioko__debug-boundaries::after {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(135deg, transparent calc(50% - var(--silence-viioko-debug-line-size) / 2), var(--silence-viioko-debug-line) 50%, transparent calc(50% + var(--silence-viioko-debug-line-size) / 2))
+  background: linear-gradient(
+      135deg,
+      transparent calc(50% - var(--silence-viioko-debug-line-size) / 2),
+      var(--silence-viioko-debug-line) 50%,
+      transparent calc(50% + var(--silence-viioko-debug-line-size) / 2)
+    )
     calc(var(--silence-viioko-corner-diagonal-left) - var(--silence-viioko-corner-diagonal-offset))
-    calc(var(--silence-viioko-corner-diagonal-top) - var(--silence-viioko-corner-diagonal-offset))
-    / var(--silence-viioko-corner-diagonal-size) var(--silence-viioko-corner-diagonal-size)
-    no-repeat;
+    calc(var(--silence-viioko-corner-diagonal-top) - var(--silence-viioko-corner-diagonal-offset)) /
+    var(--silence-viioko-corner-diagonal-size) var(--silence-viioko-corner-diagonal-size) no-repeat;
   content: '';
   mask:
     linear-gradient(#000 0 0) 0 0 / 100% var(--silence-viioko-corner-diagonal-top) no-repeat,
@@ -610,12 +709,18 @@ const {
 
 .silence-viioko__cutouts::before {
   left: var(--silence-viioko-divider-a-start);
-  width: calc(var(--silence-viioko-divider-a-end) - var(--silence-viioko-divider-a-start) + var(--silence-viioko-divider-a-cutout-extra));
+  width: calc(
+    var(--silence-viioko-divider-a-end) - var(--silence-viioko-divider-a-start) +
+      var(--silence-viioko-divider-a-cutout-extra)
+  );
 }
 
 .silence-viioko__cutouts::after {
   left: var(--silence-viioko-divider-b-start);
-  width: calc(var(--silence-viioko-divider-b-end) - var(--silence-viioko-divider-b-start) + var(--silence-viioko-divider-b-cutout-extra));
+  width: calc(
+    var(--silence-viioko-divider-b-end) - var(--silence-viioko-divider-b-start) +
+      var(--silence-viioko-divider-b-cutout-extra)
+  );
 }
 
 .silence-viioko__sheet + .silence-viioko__sheet {
@@ -681,14 +786,33 @@ const {
   inset: 0;
   z-index: 3;
   background:
-    linear-gradient(var(--silence-viioko-frame-line-strong-color), var(--silence-viioko-frame-line-strong-color)) var(--silence-viioko-line-horizontal-left) var(--silence-viioko-frame-top) / var(--silence-viioko-line-horizontal-width) 1px no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-line-horizontal-left) var(--silence-viioko-line-horizontal-bottom) / var(--silence-viioko-line-horizontal-width) 1px no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-frame-left) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-frame-right-line) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-divider-a-start) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-divider-a-end-line) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-divider-b-start) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat,
-    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-divider-b-end-line) var(--silence-viioko-line-vertical-top) / 1px var(--silence-viioko-line-vertical-height) no-repeat;
+    linear-gradient(
+        var(--silence-viioko-frame-line-strong-color),
+        var(--silence-viioko-frame-line-strong-color)
+      )
+      var(--silence-viioko-line-horizontal-left) var(--silence-viioko-frame-top) /
+      var(--silence-viioko-line-horizontal-width) 1px no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-line-horizontal-left) var(--silence-viioko-line-horizontal-bottom) /
+      var(--silence-viioko-line-horizontal-width) 1px no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-frame-left) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-frame-right-line) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-divider-a-start) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-divider-a-end-line) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-divider-b-start) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat,
+    linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color))
+      var(--silence-viioko-divider-b-end-line) var(--silence-viioko-line-vertical-top) / 1px
+      var(--silence-viioko-line-vertical-height) no-repeat;
   content: '';
   pointer-events: none;
 }
@@ -697,12 +821,15 @@ const {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background:
-    linear-gradient(135deg, transparent calc(50% - 0.5px), var(--silence-viioko-corner-line-color) 50%, transparent calc(50% + 0.5px))
+  background: linear-gradient(
+      135deg,
+      transparent calc(50% - 0.5px),
+      var(--silence-viioko-corner-line-color) 50%,
+      transparent calc(50% + 0.5px)
+    )
     calc(var(--silence-viioko-corner-diagonal-left) - var(--silence-viioko-corner-diagonal-offset))
-    calc(var(--silence-viioko-corner-diagonal-top) - var(--silence-viioko-corner-diagonal-offset))
-    / var(--silence-viioko-corner-diagonal-size) var(--silence-viioko-corner-diagonal-size)
-    no-repeat;
+    calc(var(--silence-viioko-corner-diagonal-top) - var(--silence-viioko-corner-diagonal-offset)) /
+    var(--silence-viioko-corner-diagonal-size) var(--silence-viioko-corner-diagonal-size) no-repeat;
   content: '';
   mask:
     linear-gradient(#000 0 0) 0 0 / 100% var(--silence-viioko-corner-diagonal-top) no-repeat,
@@ -762,7 +889,8 @@ const {
 
 .silence-viioko__backdrop {
   position: absolute;
-  inset: var(--silence-viioko-backdrop-top) var(--silence-viioko-backdrop-right) var(--silence-viioko-backdrop-bottom) var(--silence-viioko-backdrop-left);
+  inset: var(--silence-viioko-backdrop-top) var(--silence-viioko-backdrop-right)
+    var(--silence-viioko-backdrop-bottom) var(--silence-viioko-backdrop-left);
   z-index: 0;
   overflow: hidden;
   overflow: clip;
@@ -852,9 +980,9 @@ const {
   contain: paint;
   clip-path: inset(
     var(--silence-viioko-page-clip-top, var(--silence-viioko-frame-top))
-    var(--silence-viioko-page-clip-right, 0%)
-    var(--silence-viioko-page-clip-bottom, var(--silence-viioko-frame-bottom))
-    var(--silence-viioko-page-clip-left, 0%)
+      var(--silence-viioko-page-clip-right, 0%)
+      var(--silence-viioko-page-clip-bottom, var(--silence-viioko-frame-bottom))
+      var(--silence-viioko-page-clip-left, 0%)
   );
 }
 
@@ -865,9 +993,7 @@ const {
   grid-column: 1 / 2;
   grid-template-rows: auto auto auto 1fr auto;
   gap: var(--silence-viioko-panel-gap);
-  padding:
-    var(--silence-viioko-content-top-length)
-    max(6.3%, var(--silence-viioko-page-safe-x))
+  padding: var(--silence-viioko-content-top-length) max(6.3%, var(--silence-viioko-page-safe-x))
     var(--silence-viioko-content-bottom-length);
   border-right: 0;
 }
@@ -879,11 +1005,8 @@ const {
   grid-column: 3 / 4;
   grid-template-rows: auto minmax(0, 1fr);
   gap: var(--silence-viioko-panel-gap);
-  padding:
-    var(--silence-viioko-content-top-length)
-    max(7.1%, var(--silence-viioko-page-safe-x))
-    var(--silence-viioko-content-bottom-length)
-    max(2.8%, var(--silence-viioko-page-safe-x));
+  padding: var(--silence-viioko-content-top-length) max(7.1%, var(--silence-viioko-page-safe-x))
+    var(--silence-viioko-content-bottom-length) max(2.8%, var(--silence-viioko-page-safe-x));
 }
 
 .silence-viioko__page--sample-profile {
@@ -901,11 +1024,8 @@ const {
   grid-column: 5 / 6;
   grid-template-rows: auto minmax(0, 1fr);
   gap: var(--silence-viioko-panel-gap);
-  padding:
-    var(--silence-viioko-content-top-length)
-    max(11%, var(--silence-viioko-page-safe-x))
-    var(--silence-viioko-content-bottom-length)
-    max(7%, var(--silence-viioko-page-safe-x));
+  padding: var(--silence-viioko-content-top-length) max(11%, var(--silence-viioko-page-safe-x))
+    var(--silence-viioko-content-bottom-length) max(7%, var(--silence-viioko-page-safe-x));
 }
 
 .silence-viioko__sheet--sample-full .silence-viioko__page--sample-profile {
@@ -971,15 +1091,21 @@ const {
   min-width: 0;
 }
 
-.silence-viioko__layout--one-two:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child),
-.silence-viioko__layout--two-one:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child),
-.silence-viioko__layout--thirds:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child) {
+.silence-viioko__layout--one-two:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+  > :not(:first-child),
+.silence-viioko__layout--two-one:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+  > :not(:first-child),
+.silence-viioko__layout--thirds:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+  > :not(:first-child) {
   position: relative;
 }
 
-.silence-viioko__layout--one-two:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child)::before,
-.silence-viioko__layout--two-one:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child)::before,
-.silence-viioko__layout--thirds:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child)::before {
+.silence-viioko__layout--one-two:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+  > :not(:first-child)::before,
+.silence-viioko__layout--two-one:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+  > :not(:first-child)::before,
+.silence-viioko__layout--thirds:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+  > :not(:first-child)::before {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1199,9 +1325,12 @@ const {
   border-left: 0;
 }
 
-.silence-viioko__layout--framed.silence-viioko__layout--one-two > .silence-viioko__sample-copy:not(:first-child),
-.silence-viioko__layout--framed.silence-viioko__layout--two-one > .silence-viioko__sample-copy:not(:first-child),
-.silence-viioko__layout--framed.silence-viioko__layout--thirds > .silence-viioko__sample-copy:not(:first-child) {
+.silence-viioko__layout--framed.silence-viioko__layout--one-two
+  > .silence-viioko__sample-copy:not(:first-child),
+.silence-viioko__layout--framed.silence-viioko__layout--two-one
+  > .silence-viioko__sample-copy:not(:first-child),
+.silence-viioko__layout--framed.silence-viioko__layout--thirds
+  > .silence-viioko__sample-copy:not(:first-child) {
   border-left: 1px solid var(--silence-viioko-frame-line-color);
 }
 
@@ -1552,10 +1681,26 @@ const {
     inset: 0;
     z-index: 3;
     background:
-      linear-gradient(var(--silence-viioko-frame-line-strong-color), var(--silence-viioko-frame-line-strong-color)) 0 var(--silence-viioko-frame-top) / 100% 1px no-repeat,
-      linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) 0 var(--silence-viioko-line-horizontal-bottom) / 100% 1px no-repeat,
-      linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-frame-left) 0 / 1px 100% no-repeat,
-      linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-frame-right-line) 0 / 1px 100% no-repeat;
+      linear-gradient(
+          var(--silence-viioko-frame-line-strong-color),
+          var(--silence-viioko-frame-line-strong-color)
+        )
+        0 var(--silence-viioko-frame-top) / 100% 1px no-repeat,
+      linear-gradient(
+          var(--silence-viioko-frame-line-color),
+          var(--silence-viioko-frame-line-color)
+        )
+        0 var(--silence-viioko-line-horizontal-bottom) / 100% 1px no-repeat,
+      linear-gradient(
+          var(--silence-viioko-frame-line-color),
+          var(--silence-viioko-frame-line-color)
+        )
+        var(--silence-viioko-frame-left) 0 / 1px 100% no-repeat,
+      linear-gradient(
+          var(--silence-viioko-frame-line-color),
+          var(--silence-viioko-frame-line-color)
+        )
+        var(--silence-viioko-frame-right-line) 0 / 1px 100% no-repeat;
     content: '';
     pointer-events: none;
   }
@@ -1565,10 +1710,26 @@ const {
     inset: 0;
     z-index: 3;
     background:
-      linear-gradient(var(--silence-viioko-frame-line-strong-color), var(--silence-viioko-frame-line-strong-color)) 0 var(--silence-viioko-frame-top) / 100% 1px no-repeat,
-      linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) 0 var(--silence-viioko-line-horizontal-bottom) / 100% 1px no-repeat,
-      linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-frame-left) 0 / 1px 100% no-repeat,
-      linear-gradient(var(--silence-viioko-frame-line-color), var(--silence-viioko-frame-line-color)) var(--silence-viioko-frame-right-line) 0 / 1px 100% no-repeat;
+      linear-gradient(
+          var(--silence-viioko-frame-line-strong-color),
+          var(--silence-viioko-frame-line-strong-color)
+        )
+        0 var(--silence-viioko-frame-top) / 100% 1px no-repeat,
+      linear-gradient(
+          var(--silence-viioko-frame-line-color),
+          var(--silence-viioko-frame-line-color)
+        )
+        0 var(--silence-viioko-line-horizontal-bottom) / 100% 1px no-repeat,
+      linear-gradient(
+          var(--silence-viioko-frame-line-color),
+          var(--silence-viioko-frame-line-color)
+        )
+        var(--silence-viioko-frame-left) 0 / 1px 100% no-repeat,
+      linear-gradient(
+          var(--silence-viioko-frame-line-color),
+          var(--silence-viioko-frame-line-color)
+        )
+        var(--silence-viioko-frame-right-line) 0 / 1px 100% no-repeat;
     content: '';
     pointer-events: none;
   }
@@ -1577,8 +1738,7 @@ const {
   .silence-viioko__page--materials,
   .silence-viioko__page--sample-tertiary {
     grid-column: auto;
-    padding:
-      calc(var(--silence-viioko-frame-top) + var(--silence-viioko-cell-safe-y))
+    padding: calc(var(--silence-viioko-frame-top) + var(--silence-viioko-cell-safe-y))
       calc(var(--silence-viioko-frame-right) + var(--silence-viioko-cell-safe-x))
       calc(var(--silence-viioko-frame-bottom) + var(--silence-viioko-cell-safe-y))
       calc(var(--silence-viioko-frame-left) + var(--silence-viioko-cell-safe-x));
@@ -1608,9 +1768,12 @@ const {
     grid-template-columns: 1fr;
   }
 
-  .silence-viioko__layout--one-two:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child)::before,
-  .silence-viioko__layout--two-one:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child)::before,
-  .silence-viioko__layout--thirds:not(.silence-viioko__facts):not(.silence-viioko__layout--framed) > :not(:first-child)::before {
+  .silence-viioko__layout--one-two:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+    > :not(:first-child)::before,
+  .silence-viioko__layout--two-one:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+    > :not(:first-child)::before,
+  .silence-viioko__layout--thirds:not(.silence-viioko__facts):not(.silence-viioko__layout--framed)
+    > :not(:first-child)::before {
     top: -6.5px;
     right: 0;
     bottom: auto;
@@ -1626,9 +1789,12 @@ const {
     border-left: 0;
   }
 
-  .silence-viioko__layout--framed.silence-viioko__layout--one-two > .silence-viioko__sample-copy:not(:first-child),
-  .silence-viioko__layout--framed.silence-viioko__layout--two-one > .silence-viioko__sample-copy:not(:first-child),
-  .silence-viioko__layout--framed.silence-viioko__layout--thirds > .silence-viioko__sample-copy:not(:first-child) {
+  .silence-viioko__layout--framed.silence-viioko__layout--one-two
+    > .silence-viioko__sample-copy:not(:first-child),
+  .silence-viioko__layout--framed.silence-viioko__layout--two-one
+    > .silence-viioko__sample-copy:not(:first-child),
+  .silence-viioko__layout--framed.silence-viioko__layout--thirds
+    > .silence-viioko__sample-copy:not(:first-child) {
     border-top: 1px solid var(--silence-viioko-frame-line-color);
     border-left: 0;
   }
@@ -1728,8 +1894,7 @@ const {
   .silence-viioko__page--profile,
   .silence-viioko__page--materials,
   .silence-viioko__page--sample-tertiary {
-    padding:
-      calc(var(--silence-viioko-frame-top) + var(--silence-viioko-cell-safe-y))
+    padding: calc(var(--silence-viioko-frame-top) + var(--silence-viioko-cell-safe-y))
       calc(var(--silence-viioko-frame-right) + var(--silence-viioko-cell-safe-x))
       calc(var(--silence-viioko-frame-bottom) + var(--silence-viioko-cell-safe-y))
       calc(var(--silence-viioko-frame-left) + var(--silence-viioko-cell-safe-x));

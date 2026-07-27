@@ -45,7 +45,6 @@
 
         <span class="silence-poster__label">{{ t(group.titleKey) }}</span>
       </div>
-      <span class="silence-poster__rift" aria-hidden="true"></span>
     </div>
 
     <SilenceTurnHint
@@ -78,7 +77,7 @@ const posterRef = ref<HTMLElement | null>(null)
   position: relative;
   z-index: 1;
   width: 100%;
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 58px);
 }
 
 .silence-gate__intro {
@@ -114,9 +113,17 @@ const posterRef = ref<HTMLElement | null>(null)
   z-index: 1;
   display: grid;
   min-height: 100%;
-  grid-template-columns: minmax(0, 2.15fr) minmax(300px, 0.85fr);
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
   background:
-    linear-gradient(90deg, rgba(255, 248, 253, 0.82), rgba(220, 248, 250, 0.22) 62%),
+    linear-gradient(
+      90deg,
+      #fff9fd 0%,
+      #fff0f8 62%,
+      #dff6f8 72%,
+      #6c7783 78%,
+      #172331 84%,
+      #0c1322 100%
+    ),
     var(--ns-color-surface);
   overflow: hidden;
 }
@@ -146,7 +153,7 @@ const posterRef = ref<HTMLElement | null>(null)
 
 .silence-poster__entry--angel {
   background:
-    linear-gradient(90deg, rgba(255, 250, 253, 0.94), rgba(255, 240, 249, 0.8) 72%, transparent),
+    linear-gradient(90deg, rgba(255, 250, 253, 0.94), rgba(255, 240, 249, 0.7) 70%, transparent),
     repeating-linear-gradient(90deg, rgba(239, 111, 178, 0.08) 0 1px, transparent 1px 26px),
     repeating-linear-gradient(0deg, rgba(99, 217, 220, 0.08) 0 1px, transparent 1px 26px);
 }
@@ -160,7 +167,13 @@ const posterRef = ref<HTMLElement | null>(null)
   background:
     repeating-linear-gradient(0deg, rgba(127, 217, 227, 0.1) 0 1px, transparent 1px 8px),
     repeating-linear-gradient(90deg, rgba(240, 128, 189, 0.08) 0 1px, transparent 1px 22px),
-    linear-gradient(135deg, #16182a, #0c1322 52%, #152f35);
+    linear-gradient(
+      90deg,
+      rgba(12, 19, 34, 0) 0%,
+      rgba(12, 19, 34, 0.76) 28%,
+      #0c1322 62%,
+      #152f35 100%
+    );
   color: #f8f1ff;
 }
 
@@ -336,46 +349,6 @@ const posterRef = ref<HTMLElement | null>(null)
     0 20px 0 rgba(127, 217, 227, 0.72);
 }
 
-.silence-poster__rift {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(100% * 2.15 / 3);
-  z-index: 4;
-  width: clamp(88px, 12vw, 170px);
-  background:
-    linear-gradient(90deg, transparent, rgba(220, 248, 250, 0.58) 42%, rgba(9, 15, 28, 0.52)),
-    repeating-linear-gradient(0deg, transparent 0 24px, rgba(127, 217, 227, 0.18) 24px 26px);
-  pointer-events: none;
-  transform: translateX(-50%);
-}
-
-.silence-poster__rift::before,
-.silence-poster__rift::after {
-  position: absolute;
-  content: '';
-  pointer-events: none;
-}
-
-.silence-poster__rift::before {
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  background: rgba(42, 33, 56, 0.34);
-  box-shadow:
-    -18px 0 0 rgba(239, 111, 178, 0.14),
-    18px 0 0 rgba(127, 217, 227, 0.24);
-}
-
-.silence-poster__rift::after {
-  inset: 16% 28% 18%;
-  background:
-    linear-gradient(90deg, rgba(239, 111, 178, 0.28), rgba(127, 217, 227, 0.34)),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.2) 0 2px, transparent 2px 10px);
-  opacity: 0.68;
-}
-
 @media (max-width: 920px) {
   .silence-gate {
     min-height: auto;
@@ -400,30 +373,10 @@ const posterRef = ref<HTMLElement | null>(null)
 
   .silence-poster__entry--glitch {
     min-height: 380px;
-  }
-
-  .silence-poster__rift {
-    inset: calc(460px - 48px) 0 auto;
-    width: 100%;
-    height: 96px;
     background:
-      linear-gradient(180deg, transparent, rgba(220, 248, 250, 0.58) 45%, rgba(9, 15, 28, 0.48)),
-      repeating-linear-gradient(90deg, transparent 0 24px, rgba(127, 217, 227, 0.16) 24px 26px);
-    transform: none;
-  }
-
-  .silence-poster__rift::before {
-    inset: 50% 0 auto;
-    width: auto;
-    height: 2px;
-    background: rgba(42, 33, 56, 0.34);
-    box-shadow:
-      0 -18px 0 rgba(239, 111, 178, 0.14),
-      0 18px 0 rgba(127, 217, 227, 0.24);
-  }
-
-  .silence-poster__rift::after {
-    inset: 28% 18% 28%;
+      repeating-linear-gradient(0deg, rgba(127, 217, 227, 0.1) 0 1px, transparent 1px 8px),
+      repeating-linear-gradient(90deg, rgba(240, 128, 189, 0.08) 0 1px, transparent 1px 22px),
+      linear-gradient(180deg, #16182a, #0c1322 52%, #152f35);
   }
 }
 

@@ -1,5 +1,15 @@
-import { computed, type Ref } from 'vue'
+import { computed, shallowRef, watch, type CSSProperties, type Ref } from 'vue'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
+import {
+  getSilenceViiokoLayoutClass,
+  getSilenceViiokoPageLayouts,
+  mergeSilenceViiokoPageLayouts,
+  parseSilenceViiokoPageLayouts,
+  type SilenceViiokoImageLayout,
+  type SilenceViiokoLayoutPreset,
+  type SilenceViiokoPageLayout,
+  type SilenceViiokoRowLayout
+} from '@/data/silence/viiokoPageLayouts'
 import type {
   SilenceCharacter,
   SilenceCharacterForm,
@@ -15,6 +25,41 @@ interface UseSilenceViiokoPrototypeModelOptions {
 export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototypeModelOptions) {
   const character = options.character
   const content = computed(() => character.value.content)
+  const localPageLayouts = shallowRef<SilenceViiokoPageLayout[]>()
+  const defaultPageLayouts = computed(() => getSilenceViiokoPageLayouts(character.value.id))
+  const pageLayouts = computed(() =>
+    localPageLayouts.value
+      ? mergeSilenceViiokoPageLayouts(defaultPageLayouts.value, localPageLayouts.value)
+      : defaultPageLayouts.value
+  )
+  const pageLayoutById = computed(
+    () => new Map(pageLayouts.value.map((page) => [page.id, page] as const))
+  )
+
+  watch(
+    () => character.value.id,
+    (characterId, _previousCharacterId, onCleanup) => {
+      localPageLayouts.value = undefined
+
+      const localLayoutBase = import.meta.env.DEV
+        ? import.meta.env.VITE_SILENCE_LAYOUT_BASE?.trim()
+        : ''
+
+      if (!localLayoutBase) {
+        return
+      }
+
+      const controller = new AbortController()
+      onCleanup(() => controller.abort())
+
+      void loadLocalPageLayouts(localLayoutBase, characterId, controller.signal).then((layouts) => {
+        if (!controller.signal.aborted) {
+          localPageLayouts.value = layouts
+        }
+      })
+    },
+    { immediate: true }
+  )
   const emptyText = computed(() => '')
   const titleId = computed(() => `${character.value.id}-viioko-prototype-title`)
   const secondTitleId = computed(() => `${character.value.id}-viioko-prototype-followup-title`)
@@ -52,9 +97,7 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
   )
   const visibleAppearance = computed(() => (content.value?.appearance ?? []).slice(0, 3))
   const visibleOutfits = computed<SilenceCharacterOutfit[]>(() =>
-    (content.value?.outfits ?? [])
-      .filter((outfit) => outfit.visibility === 'public')
-      .slice(0, 4)
+    (content.value?.outfits ?? []).filter((outfit) => outfit.visibility === 'public').slice(0, 4)
   )
   const visibleForms = computed<SilenceCharacterForm[]>(() =>
     character.value.forms.filter((form) => form.visibility === 'public').slice(0, 3)
@@ -130,21 +173,11 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
       title: combatTitle.value,
       body: point
     }))
-    const baseBlocks = appearanceBlocks.length
-      ? appearanceBlocks
-      : []
-    const baseOutfits = outfitBlocks.length
-      ? outfitBlocks
-      : []
-    const baseForms = formBlocks.length
-      ? formBlocks
-      : []
-    const baseStory = storyBlocks.length
-      ? storyBlocks
-      : []
-    const baseCombat = combatBlocks.length
-      ? combatBlocks
-      : []
+    const baseBlocks = appearanceBlocks.length ? appearanceBlocks : []
+    const baseOutfits = outfitBlocks.length ? outfitBlocks : []
+    const baseForms = formBlocks.length ? formBlocks : []
+    const baseStory = storyBlocks.length ? storyBlocks : []
+    const baseCombat = combatBlocks.length ? combatBlocks : []
 
     return [
       {
@@ -154,8 +187,6 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
         kicker: overviewTitle.value,
         title: titleLinePrimary.value,
         subtitle: titleLineSecondary.value,
-        leadLayoutClass: 'silence-viioko__layout--full',
-        stripLayoutClass: 'silence-viioko__layout--full',
         heroCaption: profileKicker.value,
         copyTitle: overviewTitle.value,
         copy: overviewText.value,
@@ -174,8 +205,6 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
         kicker: basicTitle.value,
         title: profileKicker.value,
         subtitle: railTitle.value,
-        leadLayoutClass: 'silence-viioko__layout--one-two',
-        stripLayoutClass: 'silence-viioko__layout--one-two',
         heroCaption: basicTitle.value,
         copyTitle: combatTitle.value,
         copy: combatLead.value,
@@ -195,8 +224,6 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
         kicker: outfitTitle.value,
         title: titleLinePrimary.value,
         subtitle: primaryOutfit.value?.label ?? outfitTitle.value,
-        leadLayoutClass: 'silence-viioko__layout--two-one',
-        stripLayoutClass: 'silence-viioko__layout--two-one',
         heroCaption: secondaryOutfit.value?.label ?? outfitTitle.value,
         copyTitle: primaryOutfit.value?.label ?? outfitTitle.value,
         copy: primaryOutfit.value?.description ?? overviewText.value,
@@ -215,8 +242,6 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
         kicker: storyTitle.value,
         title: railTitle.value,
         subtitle: titleLineSecondary.value,
-        leadLayoutClass: 'silence-viioko__layout--thirds',
-        stripLayoutClass: 'silence-viioko__layout--thirds',
         heroCaption: storyTitle.value,
         copyTitle: combatTitle.value,
         copy: combatLead.value,
@@ -237,12 +262,49 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
     '--silence-viioko-accent': character.value.color
   }))
 
+  function getRowLayoutClass(
+    pageId: string,
+    rowId: string,
+    fallback: SilenceViiokoLayoutPreset
+  ): string {
+    return getSilenceViiokoLayoutClass(getRowLayout(pageId, rowId)?.preset ?? fallback)
+  }
+
+  function getPageGridStyle(pageId: string): CSSProperties | undefined {
+    const page = pageLayoutById.value.get(pageId)
+
+    if (!page) {
+      return undefined
+    }
+
+    return {
+      gridTemplateRows: `auto ${page.rows.map((row) => toGridTrack(row)).join(' ')}`
+    }
+  }
+
+  function getCellImageStyle(
+    pageId: string,
+    rowId: string,
+    cellId: string
+  ): CSSProperties | undefined {
+    const image = getRowLayout(pageId, rowId)?.cells?.find((cell) => cell.id === cellId)?.image
+
+    return image ? toImageStyle(image) : undefined
+  }
+
+  function getRowLayout(pageId: string, rowId: string): SilenceViiokoRowLayout | undefined {
+    return pageLayoutById.value.get(pageId)?.rows.find((row) => row.id === rowId)
+  }
+
   return {
     basicTitle,
     combatLead,
     combatPreview,
     combatTitle,
     formTitle,
+    getCellImageStyle,
+    getPageGridStyle,
+    getRowLayoutClass,
     outfitTitle,
     overviewText,
     overviewTitle,
@@ -265,6 +327,54 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
     visibleForms,
     visibleOutfits,
     visibleStoryCards
+  }
+}
+
+function toGridTrack(row: SilenceViiokoRowLayout): string {
+  return row.track === 'auto' ? 'auto' : `minmax(0, ${Math.max(0.01, row.track)}fr)`
+}
+
+function toImageStyle(image: SilenceViiokoImageLayout): CSSProperties {
+  const transforms = [
+    image.flipX ? 'scaleX(-1)' : '',
+    image.scale === undefined ? '' : `scale(${Math.max(0.01, image.scale)})`
+  ].filter(Boolean)
+
+  return {
+    objectFit: image.fit,
+    objectPosition:
+      image.positionX === undefined && image.positionY === undefined
+        ? undefined
+        : `${image.positionX ?? 50}% ${image.positionY ?? 50}%`,
+    transform: transforms.length > 0 ? transforms.join(' ') : undefined
+  }
+}
+
+async function loadLocalPageLayouts(
+  baseUrl: string,
+  characterId: string,
+  signal: AbortSignal
+): Promise<SilenceViiokoPageLayout[] | undefined> {
+  const normalizedBase = baseUrl.replace(/\/$/, '')
+
+  try {
+    const response = await fetch(
+      `${normalizedBase}/${encodeURIComponent(characterId)}.json?t=${Date.now()}`,
+      { signal }
+    )
+
+    if (!response.ok) {
+      return undefined
+    }
+
+    return parseSilenceViiokoPageLayouts(await response.json())
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return undefined
+    }
+
+    console.warn('[silence-layout] Failed to load local page layout.', error)
+    return undefined
   }
 }
 

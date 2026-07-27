@@ -5,17 +5,13 @@
       class="silence-turn-hint silence-turn-hint--left"
       :to="leftTo"
       :aria-label="resolvedLeftLabel"
-    >
-      <span class="silence-turn-hint__arrow" aria-hidden="true"></span>
-    </RouterLink>
+    />
     <RouterLink
       v-if="rightTo"
       class="silence-turn-hint silence-turn-hint--right"
       :to="rightTo"
       :aria-label="resolvedRightLabel"
-    >
-      <span class="silence-turn-hint__arrow" aria-hidden="true"></span>
-    </RouterLink>
+    />
   </nav>
 </template>
 
@@ -76,70 +72,9 @@ const resolvedRightLabel = computed(() => props.rightLabel ?? props.label)
   background: linear-gradient(270deg, rgba(99, 217, 220, 0.48), transparent);
 }
 
-.silence-turn-hint__arrow {
-  position: absolute;
-  top: 50%;
-  display: block;
-  width: clamp(52px, 7vw, 112px);
-  height: 3px;
-  background: currentColor;
-  opacity: 0.74;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.72));
-  transform: translateY(-50%);
-}
-
-.silence-turn-hint__arrow::before,
-.silence-turn-hint__arrow::after {
-  position: absolute;
-  width: 18px;
-  height: 3px;
-  background: currentColor;
-  content: '';
-}
-
-.silence-turn-hint--left .silence-turn-hint__arrow {
-  left: clamp(18px, 4vw, 56px);
-}
-
-.silence-turn-hint--left .silence-turn-hint__arrow::before {
-  left: 0;
-  top: -6px;
-  transform: rotate(-35deg);
-  transform-origin: left center;
-}
-
-.silence-turn-hint--left .silence-turn-hint__arrow::after {
-  left: 0;
-  top: 6px;
-  transform: rotate(35deg);
-  transform-origin: left center;
-}
-
-.silence-turn-hint--right .silence-turn-hint__arrow {
-  right: clamp(18px, 4vw, 56px);
-}
-
-.silence-turn-hint--right .silence-turn-hint__arrow::before {
-  right: 0;
-  top: -6px;
-  transform: rotate(35deg);
-  transform-origin: right center;
-}
-
-.silence-turn-hint--right .silence-turn-hint__arrow::after {
-  right: 0;
-  top: 6px;
-  transform: rotate(-35deg);
-  transform-origin: right center;
-}
-
 @media (max-width: 640px) {
   .silence-turn-hint {
     width: 86px;
-  }
-
-  .silence-turn-hint__arrow {
-    width: 46px;
   }
 }
 
