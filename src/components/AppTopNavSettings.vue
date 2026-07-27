@@ -3,12 +3,18 @@
     <button
       class="app-top-nav__config-button"
       type="button"
+      :aria-label="t(textKeys.config)"
       :aria-expanded="open"
       aria-haspopup="dialog"
       @click="togglePanel"
       @keydown.esc="closePanel"
     >
-      <span>{{ t(textKeys.config) }}</span>
+      <span
+        class="app-top-nav__mobile-mask-icon"
+        :style="settingsIconStyle"
+        aria-hidden="true"
+      ></span>
+      <span class="app-top-nav__config-label">{{ t(textKeys.config) }}</span>
     </button>
 
     <Transition name="panel">
@@ -88,6 +94,7 @@
 
 <script setup lang="ts">
 import { onBeforeUnmount, type CSSProperties } from 'vue'
+import settingsIcon from '@/assets/icons/pixelarticons/settings-2.svg'
 import themeMoonIcon from '@/assets/icons/moon.svg'
 import themeSunIcon from '@/assets/icons/sun-alt.svg'
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
@@ -163,6 +170,9 @@ const themeSunIconStyle = {
 } as CSSProperties
 const themeMoonIconStyle = {
   '--app-theme-icon-url': `url("${themeMoonIcon}")`
+} as CSSProperties
+const settingsIconStyle = {
+  '--app-top-nav-mobile-mask-url': `url("${settingsIcon}")`
 } as CSSProperties
 
 onBeforeUnmount(clearHoverTimer)

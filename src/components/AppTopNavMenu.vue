@@ -98,7 +98,12 @@
         @click="toggleSilence"
         @keydown.esc="closeDropdowns"
       >
-        <span>{{ t(textKeys.silence) }}</span>
+        <span
+          class="app-top-nav__mobile-mask-icon"
+          :style="mobileIconStyle(imageIcon)"
+          aria-hidden="true"
+        ></span>
+        <span class="app-top-nav__nav-label">{{ t(textKeys.silence) }}</span>
         <span class="app-top-nav__nav-arrow" aria-hidden="true">&#9660;</span>
       </button>
 
@@ -161,7 +166,7 @@
       :aria-label="t(textKeys.about)"
     >
       <span
-        class="app-top-nav__mobile-mask-icon"
+        class="app-top-nav__mobile-mask-icon app-top-nav__mobile-mask-icon--about"
         :style="mobileIconStyle(aboutMonoIcon)"
         aria-hidden="true"
       ></span>

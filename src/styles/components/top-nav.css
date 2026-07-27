@@ -588,6 +588,11 @@
     -webkit-mask: var(--app-top-nav-mobile-mask-url) center / 32px 32px no-repeat;
   }
 
+  .app-top-nav__mobile-mask-icon--about {
+    mask-size: 36px 36px;
+    -webkit-mask-size: 36px 36px;
+  }
+
   .app-top-nav__brand-command {
     display: none;
   }
