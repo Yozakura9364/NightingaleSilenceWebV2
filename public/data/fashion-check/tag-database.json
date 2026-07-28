@@ -1,6 +1,6 @@
 {
   "schemaVersion": "fashion-check.tag-database.v1",
-  "generatedAt": "2026-07-14T00:00:00.000Z",
+  "generatedAt": "2026-07-28T08:12:00.000Z",
   "summary": {
     "categories": 250,
     "categorySlotPairs": 440,
@@ -4625,7 +4625,7 @@
       "names": {
         "zh-CN": "龙堡项环",
         "en": "Dravanian Choker",
-        "ja": "ドラヴァニアン\nチョーカー",
+        "ja": "ドラヴァニアン\r\nチョーカー",
         "ko": "드라바니아 목장식"
       },
       "slots": [
@@ -8527,7 +8527,7 @@
       "names": {
         "zh-CN": "怪物猎人",
         "en": "Monster Hunt",
-        "ja": "モンスター\nハンティング",
+        "ja": "モンスター\r\nハンティング",
         "ko": "몬스터 헌터"
       },
       "slots": [
@@ -32259,7 +32259,7 @@
       "itemId": 18381,
       "names": {
         "zh-CN": "猛虎革精准护手",
-        "en": "Tigerskin Gloves of Aiming",
+        "en": "Tigerskin Wristgloves of Aiming",
         "ja": "タイガー・レンジャーリストグローブ",
         "ko": "호랑이 유격대 손목장갑"
       },
@@ -32270,7 +32270,7 @@
       "itemId": 18387,
       "names": {
         "zh-CN": "猛虎革游击护手",
-        "en": "Tigerskin Gloves of Scouting",
+        "en": "Tigerskin Wristgloves of Scouting",
         "ja": "タイガー・スカウトリストグローブ",
         "ko": "호랑이 정찰대 손목장갑"
       },

@@ -395,6 +395,18 @@ function parseBoolean(value) {
 }
 
 function parseModelTuple(value) {
+  const parts = String(value ?? '')
+    .split(',')
+    .map((part) => parseInteger(part))
+
+  if (parts.length < 4) {
+    return [0, 0, 0, 0]
+  }
+
+  return [parts[0], parts[1], parts[2], parts[3]]
+}
+
+function isEmptyModelTuple(model) {
   return model.every((value) => value === 0)
 }
 
