@@ -16,6 +16,7 @@
 
 - 每次新会话先读 `docs/OWNER_VISION.md` 和 `docs/ai/PROJECT_CONTEXT.md`。
 - 任何实现、修复、重构、迁移、提交或发布任务都按 `AGENT_WORKFLOW.md` 执行。
+- 任何编程工作开始时先按 `docs/ai/AGENT_SESSION_PROTOCOL.md` 建立独立日志并检查并发文件声明。
 - skills 只作为专项能力入口；如果当前环境没有对应 skill，必须回退到仓库内文档和现有脚本，不能因此跳过验证。
 
 | 任务信号 | 必读文档 | 优先工具 / skill | 最低验证 |
@@ -29,6 +30,7 @@
 | 衣柜管家 | `docs/ai/MODULES/nsarmoire.md`、`docs/api/nsarmoire.md` | helper / catalog scripts | 对应构建模式 + 页面/helper 状态 |
 | 首页、Silence、视觉与响应式 | 对应 `docs/ai/MODULES/` 文档、`docs/ai/STYLE_AUDIT.md` | Playwright + 系统浏览器 | 桌面实测；涉及响应式时增加移动端 |
 | 公共样式、组件、路由、架构 | `docs/ai/ARCHITECTURE_PLAN.md`、`docs/ai/CODE_STRUCTURE_RULES.md`、`docs/ai/MODULE_MAP.md` | `rg`、类型检查、页面回归 | 所有受影响入口 |
+| 会话恢复、并发修改、文件冲突 | `docs/ai/AGENT_SESSION_PROTOCOL.md` | `scripts/agent-session.mjs` | 日志状态、文件声明和实际 Git diff |
 | 文档、review、提交、发布 | `AGENT_WORKFLOW.md`、文档契约、评估/部署指南 | `rg`、git staged audit、现有 npm scripts | 文档一致性或完整发布检查 |
 
 ## 工作流程
@@ -44,6 +46,17 @@
 7. 不要格式化无关文件。
 8. 不要引入新依赖，除非先说明原因、影响、替代方案，并得到我确认。
 9. 修改完成后必须总结：改了哪些文件、为什么这样改、是否影响现有功能、运行了哪些验证、是否还有风险。
+
+## 会话日志和并发声明
+
+1. 实现、修复、重构、review、测试、构建、提交或部署任务必须建立独立 Agent session 日志；纯只读问答可以豁免。
+2. 新会话先扫描未完成日志。用户说明上一会话中断时，必须核对旧日志和实际 Git diff，并通过恢复流程补写上一会话记录。
+3. 修改文件前必须取得该文件的本地声明。其他活跃会话已经声明的文件不得修改、覆盖、回退或强制解锁。
+4. 已有未提交修改但没有锁的文件仍视为未知所有权；审查 diff 后才可显式接手，不能直接覆盖。
+5. 每个关键实现和验证步骤完成后立即更新日志；长时间命令前后更新心跳。
+6. 正常结束必须记录改动、验证和风险，标记完成并释放锁。意外中断由下一会话按协议恢复。
+7. 日志和锁保存在 ignored `.codex/agent-sessions/` 与 `.codex/agent-locks/`，不得提交、公开或写入敏感信息。
+8. 完整命令、TTL、恢复条件和冲突处理以 `docs/ai/AGENT_SESSION_PROTOCOL.md` 为单一来源。
 
 ## 文档规则
 

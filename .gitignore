@@ -42,6 +42,8 @@ Thumbs.db
 # local AI / IDE settings
 .claude/settings.local.json
 /.codex-tmp/
+/.codex/agent-sessions/
+/.codex/agent-locks/
 
 # local-only git identity mapping
 /docs/ai/LOCAL_GIT_IDENTITIES.md
