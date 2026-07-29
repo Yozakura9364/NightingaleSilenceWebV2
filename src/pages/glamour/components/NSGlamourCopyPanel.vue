@@ -120,11 +120,12 @@ async function copyOutput() {
 <style scoped>
 .nsglamour-copy {
   display: grid;
-  gap: 12px;
-  padding: 14px;
-  border-color: var(--ns-pixel-border);
-  background: var(--ns-pixel-surface, var(--ns-color-surface));
-  box-shadow: var(--ns-pixel-soft-shadow);
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--ns-color-border, #d8d8d8);
+  border-radius: 8px;
+  background: var(--ns-color-surface-solid, #fff);
+  box-shadow: 0 6px 18px rgb(20 28 45 / 6%);
 }
 
 .nsglamour-panel-header {
@@ -133,30 +134,33 @@ async function copyOutput() {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
 }
 
 .nsglamour-panel-header h2 {
   margin: 0;
-  font-family: var(--ns-font-pixel);
-  font-size: 16px;
-  font-weight: 950;
+  font-family: var(--ns-font-ui);
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .nsglamour-copy__formats {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
-  box-shadow: var(--ns-pixel-soft-shadow);
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  gap: 14px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
 }
 
 .nsglamour-copy__format {
   min-width: 0;
-  min-height: 34px;
-  padding: 5px 6px;
+  flex: 0 0 auto;
+  min-height: 30px;
+  padding: 0 0 7px;
   border: 0;
-  border-right: 2px solid var(--ns-pixel-border);
+  border-bottom: 2px solid transparent;
   border-radius: 0;
   background: transparent;
   color: var(--ns-pixel-muted, var(--ns-color-text-muted));
@@ -167,31 +171,24 @@ async function copyOutput() {
   box-shadow: none;
   cursor: pointer;
   white-space: nowrap;
-  transition:
-    background var(--ns-transition-fast),
-    color var(--ns-transition-fast),
-    box-shadow var(--ns-transition-fast);
-}
-
-.nsglamour-copy__format:last-child {
-  border-right: 0;
+  transition: color var(--ns-transition-fast), border-color var(--ns-transition-fast);
 }
 
 .nsglamour-copy__format:hover {
-  background: var(--ns-pixel-cyan-surface);
+  border-bottom-color: var(--ns-color-accent, #d97706);
+  background: transparent;
   color: var(--ns-color-accent-strong);
 }
 
 .nsglamour-copy__format:focus-visible {
-  z-index: 1;
-  outline: 0;
-  box-shadow: inset 0 0 0 2px var(--ns-color-cyan), var(--ns-focus-ring);
+  outline: none;
 }
 
 .nsglamour-copy__format--active {
-  background: var(--ns-pixel-cyan-surface);
+  border-bottom-color: var(--ns-color-accent, #d97706);
+  background: transparent;
   color: var(--ns-color-accent-strong);
-  box-shadow: inset 0 -3px 0 var(--ns-color-accent);
+  box-shadow: none;
 }
 
 .nsglamour-copy__template {
@@ -215,43 +212,46 @@ async function copyOutput() {
   box-sizing: border-box;
   width: 100%;
   min-height: 120px;
-  padding: 8px;
-  border: 2px solid var(--ns-pixel-border);
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
   border-radius: 0;
-  background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
-  color: var(--ns-pixel-ink, var(--ns-color-text));
+  background: transparent;
+  color: var(--ns-color-text);
   font: inherit;
   font-family: var(--ns-font-ui);
   font-size: 13px;
   resize: vertical;
-  box-shadow: var(--ns-control-inset-shadow);
+  box-shadow: none;
 }
 
 .nsglamour-copy__template-input:focus {
   outline: 0;
-  border-color: var(--ns-pixel-border-cyan);
-  box-shadow: var(--ns-control-inset-shadow), var(--ns-focus-ring);
+  border-bottom-color: var(--ns-color-accent, #d97706);
+  box-shadow: none;
 }
 
 .nsglamour-copy__output {
   box-sizing: border-box;
   width: 100%;
-  min-height: 160px;
-  padding: 9px 10px;
-  border: 2px solid var(--ns-pixel-border);
+  min-height: 240px;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
   border-radius: 0;
-  background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
-  color: var(--ns-pixel-ink, var(--ns-color-text));
+  background: transparent;
+  color: var(--ns-color-text);
   font: inherit;
   font-family: var(--ns-font-ui);
   font-size: 14px;
   resize: vertical;
-  box-shadow: var(--ns-control-inset-shadow);
+  line-height: 1.7;
+  box-shadow: none;
 }
 
 .nsglamour-copy__output:focus {
   outline: 0;
-  border-color: var(--ns-pixel-border-cyan);
-  box-shadow: var(--ns-control-inset-shadow), var(--ns-focus-ring);
+  border-bottom-color: var(--ns-color-accent, #d97706);
+  box-shadow: none;
 }
 </style>

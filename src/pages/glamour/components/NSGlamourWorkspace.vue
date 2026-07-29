@@ -4,7 +4,7 @@
     class="nsglamour-workspace"
     :aria-label="t(textKeys.nsglamourWorkspace)"
   >
-    <aside class="nsglamour-workspace__side ns-scroll-area ns-scroll-area--compact">
+    <main class="nsglamour-workspace__main">
       <NSGlamourImportPanel
         :busy="importing"
         :status-message="statusMessage"
@@ -21,18 +21,6 @@
         @clear="clear"
       />
 
-      <NSGlamourCopyPanel
-        :copy-text="copyText"
-        :copy-format="copyFormat"
-        :custom-template="customCopyTemplate"
-        :disabled="importing || !hasEquipment"
-        @update-copy-format="setCopyFormat"
-        @update-custom-template="setCustomCopyTemplate"
-        @reset-custom-template="resetCustomCopyTemplate"
-      />
-    </aside>
-
-    <main class="nsglamour-workspace__main ns-scroll-area ns-scroll-area--compact">
       <NSGlamourEquipmentPanel
         :draft="draft"
         :api-base="boundary.apiBase"
@@ -44,6 +32,16 @@
         @select-entry-candidate="selectEntryCandidate"
         @set-entry-dye="setEntryDye"
         @save-config="saveConfig"
+      />
+
+      <NSGlamourCopyPanel
+        :copy-text="copyText"
+        :copy-format="copyFormat"
+        :custom-template="customCopyTemplate"
+        :disabled="importing || !hasEquipment"
+        @update-copy-format="setCopyFormat"
+        @update-custom-template="setCustomCopyTemplate"
+        @reset-custom-template="resetCustomCopyTemplate"
       />
     </main>
   </div>
@@ -326,38 +324,34 @@ function getImportErrorMessage(error: unknown): string {
 
 <style scoped>
 .nsglamour-workspace {
-  display: grid;
-  grid-template-columns: clamp(400px, 25vw, 520px) minmax(0, 1fr);
-  gap: 16px;
+  box-sizing: border-box;
+  width: calc(100% + 92px);
   height: 100%;
   min-height: 0;
-  padding: 14px;
+  margin-left: -46px;
+  padding: 14px 60px;
+  overflow: auto;
   background: #fff;
 }
 
-.nsglamour-workspace__side,
 .nsglamour-workspace__main {
   display: grid;
   align-content: start;
+  width: min(1280px, 100%);
+  margin: 0 auto;
   gap: 12px;
   min-height: 0;
-  overflow: auto;
 }
 
-.nsglamour-workspace__main {
-  align-content: stretch;
+:global(:root[data-theme='night'] .nsglamour-workspace) {
+  background: var(--ns-glamour-workspace-bg);
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 640px) {
   .nsglamour-workspace {
-    grid-template-columns: 1fr;
-    height: auto;
-    overflow: visible;
-  }
-
-  .nsglamour-workspace__side,
-  .nsglamour-workspace__main {
-    overflow: visible;
+    width: calc(100% + 84px);
+    margin-left: -42px;
+    padding: 10px 52px;
   }
 }
 </style>

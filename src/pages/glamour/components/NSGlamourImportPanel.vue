@@ -30,59 +30,68 @@
       </div>
     </header>
 
-    <div class="nsglamour-import__form">
-      <AppField :label="t(textKeys.nsglamourImportLinkLabel)" for-id="nsglamour-import-url">
-        <form
-          class="nsglamour-import__link-row"
-          @submit.prevent="submitLink"
-          @dragover="handleDragOver"
-          @drop="handleDrop"
-        >
-          <input
-            id="nsglamour-import-url"
-            v-model="url"
-            type="text"
-            inputmode="url"
-            autocomplete="url"
-            :disabled="props.busy"
-            :placeholder="t(textKeys.nsglamourImportLinkPlaceholder)"
-            spellcheck="false"
-          />
-          <AppButton :disabled="props.busy" @click="submitLink">
-            {{ t(textKeys.nsglamourImportReadLink) }}
-          </AppButton>
-        </form>
-      </AppField>
+    <form
+      v-if="linkImportVisible"
+      class="nsglamour-import__link-row"
+      @submit.prevent="submitLink"
+    >
+      <input
+        v-model="url"
+        type="text"
+        inputmode="url"
+        autocomplete="url"
+        :disabled="props.busy"
+        :placeholder="t(textKeys.nsglamourImportLinkPlaceholder)"
+        spellcheck="false"
+      />
+      <AppButton size="compact" :disabled="props.busy" @click="submitLink">
+        {{ t(textKeys.nsglamourImportReadLink) }}
+      </AppButton>
+    </form>
 
-      <form class="nsglamour-import__text-form" @submit.prevent="submitText">
-        <AppField :label="t(textKeys.nsglamourImportSourceLocale)" for-id="nsglamour-source-locale">
+    <form
+      class="nsglamour-import__text-form"
+      :class="{ 'is-dragover': charaDragover }"
+      @submit.prevent="submitText"
+      @dragenter="handleDragOver"
+      @dragover="handleDragOver"
+      @dragleave="handleDragLeave"
+      @drop="handleDrop"
+    >
+      <div class="nsglamour-import__controls">
+        <label class="nsglamour-import__locale" for="nsglamour-source-locale">
+          <span>{{ t(textKeys.nsglamourImportSourceLocale) }}</span>
           <select id="nsglamour-source-locale" v-model="sourceLocale" :disabled="props.busy">
             <option v-for="option in sourceLocaleOptions" :key="option.value" :value="option.value">
               {{ t(option.labelKey) }}
             </option>
           </select>
-        </AppField>
-
-        <AppField :label="t(textKeys.nsglamourImportTextLabel)" for-id="nsglamour-import-text">
-          <textarea
-            id="nsglamour-import-text"
-            v-model="text"
-            :disabled="props.busy"
-            :placeholder="t(textKeys.nsglamourImportTextPlaceholder)"
-            rows="7"
-          />
-        </AppField>
-
-        <AppToolbar :aria-label="t(textKeys.nsglamourImportPanel)" density="compact">
-          <AppButton variant="primary" :disabled="props.busy" @click="submitText">
-            {{ t(textKeys.nsglamourImportParseText) }}
-          </AppButton>
-          <AppButton variant="ghost" :disabled="props.busy" @click="$emit('clear')">
+        </label>
+        <div class="nsglamour-import__actions">
+          <AppButton size="compact" variant="ghost" :disabled="props.busy" @click="$emit('clear')">
             {{ t(textKeys.nsglamourClearDraft) }}
           </AppButton>
-        </AppToolbar>
-      </form>
-    </div>
+          <AppButton size="compact" variant="primary" :disabled="props.busy" @click="submitText">
+            {{ t(textKeys.nsglamourImportParseText) }}
+          </AppButton>
+        </div>
+      </div>
+
+      <label class="nsglamour-import__editor-label" for="nsglamour-import-text">
+        {{ t(textKeys.nsglamourImportTextLabel) }}
+      </label>
+      <div class="nsglamour-import__editor">
+        <pre ref="lineNumbersEl" class="nsglamour-import__line-numbers" aria-hidden="true">{{ lineNumbers }}</pre>
+        <textarea
+          id="nsglamour-import-text"
+          v-model="text"
+          :disabled="props.busy"
+          :placeholder="t(textKeys.nsglamourImportTextPlaceholder)"
+          rows="7"
+          @scroll="syncLineNumbers"
+        />
+      </div>
+    </form>
 
     <AppStatus
       v-if="props.statusMessage"
@@ -95,11 +104,9 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
-import AppField from '@/components/AppField.vue'
 import AppStatus from '@/components/AppStatus.vue'
-import AppToolbar from '@/components/AppToolbar.vue'
 import recentIconUrl from '@/assets/icons/pixelarticons/clock.svg'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import { normalizeGlamourLinkUrl } from '@/lib/glamour/links'
@@ -136,25 +143,33 @@ const emit = defineEmits<{
 
 const { t } = useLocale()
 const rootEl = ref<HTMLElement | null>(null)
+const lineNumbersEl = ref<HTMLElement | null>(null)
+const linkImportVisible = false
 const recentOpen = ref(false)
 const url = ref('')
 const text = ref('')
 const sourceLocale = ref('zh')
+const charaDragover = ref(false)
+const lineNumbers = computed(() => {
+  const count = Math.max(1, text.value.split('\n').length)
+  return Array.from({ length: count }, (_, index) => index + 1).join('\n')
+})
 
 const sourceLocaleOptions = [
-  { value: 'zh', labelKey: textKeys.nsglamourLocaleZh },
-  { value: 'en', labelKey: textKeys.nsglamourLocaleEn },
   { value: 'ja', labelKey: textKeys.nsglamourLocaleJa },
-  { value: 'ko', labelKey: textKeys.nsglamourLocaleKo },
-  { value: 'tc', labelKey: textKeys.nsglamourLocaleTc },
+  { value: 'en', labelKey: textKeys.nsglamourLocaleEn },
   { value: 'fr', labelKey: textKeys.nsglamourLocaleFr },
-  { value: 'de', labelKey: textKeys.nsglamourLocaleDe }
+  { value: 'de', labelKey: textKeys.nsglamourLocaleDe },
+  { value: 'zh', labelKey: textKeys.nsglamourLocaleZh },
+  { value: 'tc', labelKey: textKeys.nsglamourLocaleTc },
+  { value: 'ko', labelKey: textKeys.nsglamourLocaleKo }
 ] as const
 
 function submitText() {
   emit('parse-text', { text: text.value, sourceLocale: sourceLocale.value })
 }
 
+// Kept for restoring the external-link UI after the upstream access issue is resolved.
 function submitLink() {
   emit('import-link', { url: normalizeGlamourLinkUrl(url.value) })
 }
@@ -165,9 +180,16 @@ function handleDragOver(event: DragEvent) {
   }
 
   event.preventDefault()
+  charaDragover.value = !props.busy
 
   if (event.dataTransfer) {
     event.dataTransfer.dropEffect = props.busy ? 'none' : 'copy'
+  }
+}
+
+function handleDragLeave(event: DragEvent) {
+  if (event.currentTarget === event.target) {
+    charaDragover.value = false
   }
 }
 
@@ -177,6 +199,7 @@ function handleDrop(event: DragEvent) {
   }
 
   event.preventDefault()
+  charaDragover.value = false
 
   if (props.busy) {
     return
@@ -186,6 +209,12 @@ function handleDrop(event: DragEvent) {
 
   if (file) {
     emit('parse-chara', file)
+  }
+}
+
+function syncLineNumbers(event: Event) {
+  if (lineNumbersEl.value) {
+    lineNumbersEl.value.scrollTop = (event.currentTarget as HTMLTextAreaElement).scrollTop
   }
 }
 
@@ -227,7 +256,11 @@ onBeforeUnmount(() => {
 .nsglamour-import {
   display: grid;
   gap: 12px;
-  padding: 14px;
+  padding: 12px;
+  border: 1px solid var(--ns-color-border, #d8d8d8);
+  border-radius: 8px;
+  background: var(--ns-color-surface-solid, #fff);
+  box-shadow: 0 6px 18px rgb(20 28 45 / 6%);
 }
 
 .nsglamour-panel-header {
@@ -240,9 +273,14 @@ onBeforeUnmount(() => {
 
 .nsglamour-panel-header h2 {
   margin: 0;
-  font-family: var(--ns-font-pixel);
-  font-size: 16px;
-  font-weight: 950;
+  font-family: var(--ns-font-ui);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.nsglamour-panel-header {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
 }
 
 .nsglamour-import__recent {
@@ -273,10 +311,10 @@ onBeforeUnmount(() => {
   z-index: 9;
 }
 
-.nsglamour-import__form,
 .nsglamour-import__text-form {
   display: grid;
-  gap: 12px;
+  gap: 8px;
+  position: relative;
 }
 
 .nsglamour-import__status {
@@ -297,11 +335,91 @@ onBeforeUnmount(() => {
   font-size: 12px;
 }
 
+.nsglamour-import__controls,
+.nsglamour-import__actions,
+.nsglamour-import__locale {
+  display: flex;
+  align-items: center;
+}
+
 .nsglamour-import__link-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px;
-  align-items: end;
+}
+
+.nsglamour-import__controls {
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.nsglamour-import__actions,
+.nsglamour-import__locale {
+  gap: 8px;
+}
+
+.nsglamour-import__locale span,
+.nsglamour-import__editor-label {
+  color: var(--ns-color-text-muted, #777);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.nsglamour-import__locale select {
+  min-width: 92px;
+  height: 30px;
+  border: 0;
+  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: 12px/1.35 var(--ns-font-ui);
+}
+
+.nsglamour-import__editor {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  min-height: clamp(180px, 26vh, 270px);
+  overflow: hidden;
+  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
+}
+
+.nsglamour-import__line-numbers {
+  min-width: 44px;
+  height: 100%;
+  margin: 0;
+  padding: 9px 8px 9px 10px;
+  overflow: hidden;
+  border-right: 1px solid var(--ns-color-border, #d8d8d8);
+  color: var(--ns-color-text-muted, #777);
+  font: 12px/1.35 var(--ns-font-mono, monospace);
+  text-align: right;
+  user-select: none;
+}
+
+.nsglamour-import__editor textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: clamp(180px, 26vh, 270px);
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: 12px/1.35 var(--ns-font-mono, monospace);
+  outline: none;
+  resize: vertical;
+  white-space: pre;
+}
+
+.nsglamour-import__editor:focus-within {
+  border-bottom-color: var(--ns-color-accent, #d97706);
+}
+
+.nsglamour-import__text-form.is-dragover .nsglamour-import__editor {
+  outline: 1px dashed var(--ns-color-accent, #d97706);
+  outline-offset: -2px;
+  background: color-mix(in srgb, var(--ns-color-accent, #d97706) 7%, transparent);
 }
 
 @media (max-width: 640px) {
@@ -309,8 +427,14 @@ onBeforeUnmount(() => {
     right: -2px;
   }
 
-  .nsglamour-import__link-row {
-    grid-template-columns: 1fr;
+  .nsglamour-import__controls {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .nsglamour-import__locale,
+  .nsglamour-import__actions {
+    justify-content: flex-end;
   }
 }
 </style>
