@@ -243,7 +243,7 @@ function submitTextImport() {
 .item-card-workspace__sidebar {
   min-width: 0;
   overflow-y: auto;
-  border-right: 2px solid var(--ns-pixel-border);
+  border-right: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
   background: var(--ns-color-surface);
 }
 
@@ -290,7 +290,7 @@ function submitTextImport() {
     max-height: none;
     overflow: visible;
     border-right: 0;
-    border-bottom: 2px solid var(--ns-pixel-border);
+    border-bottom: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
   }
 
   .item-card-workspace__preview {

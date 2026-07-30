@@ -11,7 +11,7 @@ export const ITEM_CARD_DEFAULT_FONT = 'HarmonyOS Sans SC'
 const DEFAULT_LOCALE_STYLE: ItemCardLocaleStyle = {
   fontFamily: ITEM_CARD_DEFAULT_FONT,
   titleSize: 25,
-  titleWeight: 800,
+  titleWeight: 600,
   dyeSize: 16
 }
 

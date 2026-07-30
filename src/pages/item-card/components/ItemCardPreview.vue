@@ -1,6 +1,6 @@
 <template>
   <section class="card-preview">
-    <header class="card-preview__toolbar">
+    <header class="card-preview__toolbar ns-panel">
       <div class="card-preview__actions">
         <button type="button" @click="emit('open-import')">
           {{ t(textKeys.importAction) }}
@@ -226,9 +226,6 @@ async function downloadZip() {
   top: 0;
   justify-content: flex-end;
   padding: 10px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-window-bg);
-  box-shadow: var(--ns-pixel-soft-shadow);
 }
 
 .card-preview h3 {
