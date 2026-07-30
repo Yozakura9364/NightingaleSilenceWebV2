@@ -10,7 +10,7 @@ Group=www
 WorkingDirectory=/www/wwwroot/NightingaleSilenceWeb/NightingaleSilenceWebV2/current
 Environment=PYTHONUNBUFFERED=1
 Environment=NS_SHORTLINK_DB_PATH=/var/lib/nightingalesilence-v2/shortlinks/shortlinks.sqlite3
-Environment=NS_SHORTLINK_PUBLIC_BASE_URL=https://nightingalesilence.com
+Environment=NS_SHORTLINK_PUBLIC_BASE_URL=https://nsffxiv.com
 Environment=NS_SHORTLINK_API_TOKEN_FILE=/run/credentials/nightingale-shortlinks.service/api-token
 LoadCredential=api-token:/etc/nightingale-shortlinks/api-token
 ExecStart=/www/wwwroot/NightingaleSilenceWeb/NightingaleSilenceWebV2/.venv/bin/gunicorn --workers 2 --bind 172.17.0.1:18768 --access-logfile - --error-logfile - 'server.shortlinks.app:create_app()'

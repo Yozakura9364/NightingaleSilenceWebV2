@@ -15,8 +15,13 @@ from .storage import ShortLink, ShortLinkConflictError, ShortLinkStore
 
 CODE_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_-]{0,31}$")
 DEFAULT_DB_PATH = "/var/lib/nightingalesilence-v2/shortlinks/shortlinks.sqlite3"
-DEFAULT_PUBLIC_BASE_URL = "https://nightingalesilence.com"
-DEFAULT_BLOCKED_HOSTS = {"nightingalesilence.com", "www.nightingalesilence.com"}
+DEFAULT_PUBLIC_BASE_URL = "https://nsffxiv.com"
+DEFAULT_BLOCKED_HOSTS = {
+    "nsffxiv.com",
+    "www.nsffxiv.com",
+    "nightingalesilence.com",
+    "www.nightingalesilence.com",
+}
 
 
 def normalize_code(value: object) -> str:
@@ -47,7 +52,7 @@ def validate_target_url(value: object, *, blocked_hosts: set[str]) -> str:
         raise ValueError("invalid target URL") from error
     if parsed.username is not None or parsed.password is not None:
         raise ValueError("target URL must not contain credentials")
-    if hostname in blocked_hosts and parsed.path.startswith("/go/"):
+    if hostname in blocked_hosts and parsed.path.startswith("/s/"):
         raise ValueError("short links cannot redirect to another local short link")
     return target_url
 
@@ -64,7 +69,7 @@ def _serialize_link(link: ShortLink, public_base_url: str) -> dict[str, object]:
     return {
         "code": link.code,
         "target_url": link.target_url,
-        "short_url": f"{public_base_url.rstrip('/')}/go/{link.code}",
+        "short_url": f"{public_base_url.rstrip('/')}/s/{link.code}",
         "enabled": link.enabled,
         "created_at": link.created_at,
         "updated_at": link.updated_at,
@@ -124,7 +129,7 @@ def create_app(config: dict[str, object] | None = None) -> Flask:
     def health():
         return jsonify({"ok": True})
 
-    @app.get("/go/<code>")
+    @app.get("/s/<code>")
     def follow_short_link(code: str):
         try:
             normalized_code = normalize_code(code)

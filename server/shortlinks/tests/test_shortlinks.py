@@ -17,7 +17,7 @@ class ShortLinkApiTests(unittest.TestCase):
                 "SHORTLINK_DB_PATH": str(Path(self.temp_dir.name) / "shortlinks.sqlite3"),
                 "SHORTLINK_API_TOKEN": self.token,
                 "SHORTLINK_API_TOKEN_FILE": "",
-                "SHORTLINK_PUBLIC_BASE_URL": "https://nightingalesilence.com",
+                "SHORTLINK_PUBLIC_BASE_URL": "https://nsffxiv.com",
             }
         )
         self.client = self.app.test_client()
@@ -40,9 +40,9 @@ class ShortLinkApiTests(unittest.TestCase):
     def test_create_and_redirect_preserve_exact_target(self):
         response = self.create_link()
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.get_json()["short_url"], "https://nightingalesilence.com/go/demo")
+        self.assertEqual(response.get_json()["short_url"], "https://nsffxiv.com/s/demo")
 
-        redirect_response = self.client.get("/go/demo?ignored=1")
+        redirect_response = self.client.get("/s/demo?ignored=1")
         self.assertEqual(redirect_response.status_code, 302)
         self.assertEqual(redirect_response.headers["Location"], "https://example.com/path#section")
         self.assertEqual(redirect_response.headers["Cache-Control"], "no-store")
@@ -69,7 +69,7 @@ class ShortLinkApiTests(unittest.TestCase):
         for target_url in (
             "javascript:alert(1)",
             "https://user:pass@example.com/private",
-            "https://nightingalesilence.com/go/other",
+            "https://nsffxiv.com/s/other",
             "https://example.com:invalid/path",
             "https://example.com/path\x00suffix",
         ):
@@ -86,7 +86,7 @@ class ShortLinkApiTests(unittest.TestCase):
         )
         self.assertEqual(update_response.status_code, 200)
         self.assertFalse(update_response.get_json()["enabled"])
-        self.assertEqual(self.client.get("/go/demo").status_code, 404)
+        self.assertEqual(self.client.get("/s/demo").status_code, 404)
 
         enable_response = self.client.patch(
             "/internal/short-links/demo",
@@ -94,20 +94,24 @@ class ShortLinkApiTests(unittest.TestCase):
             json={"enabled": True},
         )
         self.assertEqual(enable_response.status_code, 200)
-        self.assertEqual(self.client.get("/go/demo").status_code, 302)
+        self.assertEqual(self.client.get("/s/demo").status_code, 302)
 
         delete_response = self.client.delete(
             "/internal/short-links/demo",
             headers=self.auth,
         )
         self.assertEqual(delete_response.status_code, 204)
-        self.assertEqual(self.client.get("/go/demo").status_code, 404)
+        self.assertEqual(self.client.get("/s/demo").status_code, 404)
 
     def test_list_does_not_expose_without_auth(self):
         self.assertEqual(self.create_link().status_code, 201)
         response = self.client.get("/internal/short-links", headers=self.auth)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get_json()["links"][0]["code"], "demo")
+
+    def test_legacy_go_route_is_not_available(self):
+        self.assertEqual(self.create_link().status_code, 201)
+        self.assertEqual(self.client.get("/go/demo").status_code, 404)
 
 
 if __name__ == "__main__":
