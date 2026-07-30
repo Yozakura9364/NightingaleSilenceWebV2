@@ -663,7 +663,8 @@ onBeforeUnmount(() => {
   --ns-font-ui: var(--ns-font-pixel);
   --ns-font-data: var(--ns-font-pixel);
   --ns-font-display: var(--ns-font-pixel);
-  min-height: 100svh;
+  height: 100dvh;
+  min-height: 0;
   overflow: hidden;
   background: #fdf6ff;
   color: var(--home-ink);
@@ -673,7 +674,9 @@ onBeforeUnmount(() => {
 .home-desktop {
   position: relative;
   isolation: isolate;
-  min-height: 100svh;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
   padding: 26px 28px 58px;
   --home-pointer-x: 0;
   --home-pointer-y: 0;
@@ -879,7 +882,9 @@ onBeforeUnmount(() => {
 }
 
 .home-desktop__icons {
-  position: relative;
+  position: absolute;
+  top: 26px;
+  left: 28px;
   z-index: 3;
   display: grid;
   grid-template-columns: repeat(2, 92px);
@@ -2524,17 +2529,24 @@ button.home-window__control:focus-visible {
 
 @media (max-width: 720px) {
   .home-page {
+    height: auto;
+    min-height: 100svh;
     overflow-y: auto;
   }
 
   .home-desktop {
     display: grid;
+    height: auto;
     gap: 14px;
     min-height: 100svh;
+    overflow: visible;
     padding: 14px 14px 58px;
   }
 
   .home-desktop__icons {
+    position: relative;
+    top: auto;
+    left: auto;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     grid-template-rows: none;

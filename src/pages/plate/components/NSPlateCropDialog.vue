@@ -712,6 +712,30 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
   gap: 8px;
 }
 
+@media (min-width: 701px) and (max-height: 900px) {
+  .nsplate-crop-dialog {
+    padding: 8px;
+  }
+
+  .nsplate-crop-dialog__window {
+    max-height: calc(100dvh - 16px);
+  }
+
+  .nsplate-crop-dialog__body {
+    max-height: calc(100dvh - 64px);
+    gap: 6px;
+  }
+
+  .nsplate-crop-dialog__canvas-shell {
+    width: min(100%, 960px, calc((100dvh - 276px) * 16 / 9));
+  }
+
+  .nsplate-crop-dialog__controls {
+    gap: 6px 14px;
+    padding-block: 6px;
+  }
+}
+
 @media (max-width: 700px) {
   .nsplate-crop-dialog {
     padding: 8px;
