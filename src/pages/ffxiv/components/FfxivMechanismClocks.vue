@@ -309,7 +309,7 @@ function isoTime(timestamp: number): string {
 .ffxiv-clock-card__primary-value {
   margin: 0;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-data);
+  font-family: var(--ns-font-pixel);
   font-size: 26px;
   font-weight: 950;
   line-height: 1.2;
@@ -337,7 +337,7 @@ function isoTime(timestamp: number): string {
   min-width: 0;
   margin: 0;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-data);
+  font-family: var(--ns-font-pixel);
   font-size: 13px;
   font-weight: 800;
   overflow-wrap: anywhere;

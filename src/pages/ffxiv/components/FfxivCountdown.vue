@@ -45,7 +45,7 @@ function padded(value: number): string {
   justify-content: start;
   gap: 12px;
   min-width: 0;
-  font-family: var(--ns-font-data);
+  font-family: var(--ns-font-pixel);
   font-variant-numeric: tabular-nums;
 }
 
@@ -66,7 +66,7 @@ function padded(value: number): string {
 
 .ffxiv-countdown__part small {
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-ui);
+  font-family: var(--ns-font-pixel);
   font-size: 11px;
   font-weight: 800;
 }
