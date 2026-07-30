@@ -48,6 +48,8 @@ export const fashionCheckTextKeys = {
   dyeFamilyGreen: 'fashionCheck.dyeFamilyGreen',
   dyeFamilyBlue: 'fashionCheck.dyeFamilyBlue',
   openHuijiWiki: 'fashionCheck.openHuijiWiki',
+  openLodestone: 'fashionCheck.openLodestone',
+  openGarland: 'fashionCheck.openGarland',
   tagDatabaseSearch: 'fashionCheck.tagDatabase.search',
   tagDatabaseAllSlots: 'fashionCheck.tagDatabase.allSlots',
   tagDatabaseLoading: 'fashionCheck.tagDatabase.loading',
@@ -63,9 +65,9 @@ export const fashionCheckTextKeys = {
   faqAttemptsQuestion: 'fashionCheck.faqAttemptsQuestion',
   faqAttemptsAnswer: 'fashionCheck.faqAttemptsAnswer',
   faqParticipationRewardQuestion: 'fashionCheck.faqParticipationRewardQuestion',
-  faqParticipationRewardAnswer: 'fashionCheck.faqParticipationRewardAnswer',
-  faq80RewardQuestion: 'fashionCheck.faq80RewardQuestion',
-  faq80RewardAnswer: 'fashionCheck.faq80RewardAnswer',
+  faqParticipationRewardBeforeFirstAmount: 'fashionCheck.faqParticipationRewardBeforeFirstAmount',
+  faqParticipationRewardBetweenAmounts: 'fashionCheck.faqParticipationRewardBetweenAmounts',
+  faqParticipationRewardAfterSecondAmount: 'fashionCheck.faqParticipationRewardAfterSecondAmount',
   faq80RequirementsQuestion: 'fashionCheck.faq80RequirementsQuestion',
   faq80RequirementsAnswer: 'fashionCheck.faq80RequirementsAnswer',
   faq100RewardQuestion: 'fashionCheck.faq100RewardQuestion',
@@ -75,5 +77,7 @@ export const fashionCheckTextKeys = {
   faqBonusQuestion: 'fashionCheck.faqBonusQuestion',
   faqBonusAnswer: 'fashionCheck.faqBonusAnswer',
   faqFacewearQuestion: 'fashionCheck.faqFacewearQuestion',
-  faqFacewearAnswer: 'fashionCheck.faqFacewearAnswer'
+  faqFacewearAnswer: 'fashionCheck.faqFacewearAnswer',
+  faqDualDyeQuestion: 'fashionCheck.faqDualDyeQuestion',
+  faqDualDyeAnswer: 'fashionCheck.faqDualDyeAnswer'
 } as const

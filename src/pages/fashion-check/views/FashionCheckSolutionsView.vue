@@ -178,7 +178,24 @@
     <dl class="fashion-check-showcase__faq-list">
       <div v-for="entry in faqEntries" :key="entry.question">
         <dt>{{ t(entry.question) }}</dt>
-        <dd>{{ t(entry.answer) }}</dd>
+        <dd v-if="entry.kind === 'mgp-reward'">
+          <span>{{ t(keys.faqParticipationRewardBeforeFirstAmount) }}</span>
+          {{ ' ' }}
+          <span class="fashion-check-showcase__mgp-amount">
+            <img :src="mgpIconUrl" alt="" aria-hidden="true" />
+            <span>10,000</span>
+          </span>
+          {{ ' ' }}
+          <span>{{ t(keys.faqParticipationRewardBetweenAmounts) }}</span>
+          {{ ' ' }}
+          <span class="fashion-check-showcase__mgp-amount">
+            <img :src="mgpIconUrl" alt="" aria-hidden="true" />
+            <span>50,000</span>
+          </span>
+          {{ ' ' }}
+          <span>{{ t(keys.faqParticipationRewardAfterSecondAmount) }}</span>
+        </dd>
+        <dd v-else>{{ t(entry.answer) }}</dd>
       </div>
     </dl>
   </section>
@@ -209,18 +226,23 @@ const props = defineProps<{
 }>()
 const { current, t } = useLocale()
 const faqEntries = [
-  { question: keys.faqAttemptsQuestion, answer: keys.faqAttemptsAnswer },
+  { kind: 'text', question: keys.faqAttemptsQuestion, answer: keys.faqAttemptsAnswer },
   {
-    question: keys.faqParticipationRewardQuestion,
-    answer: keys.faqParticipationRewardAnswer
+    kind: 'mgp-reward',
+    question: keys.faqParticipationRewardQuestion
   },
-  { question: keys.faq80RewardQuestion, answer: keys.faq80RewardAnswer },
-  { question: keys.faq80RequirementsQuestion, answer: keys.faq80RequirementsAnswer },
-  { question: keys.faq100RewardQuestion, answer: keys.faq100RewardAnswer },
-  { question: keys.faqCumulativeQuestion, answer: keys.faqCumulativeAnswer },
-  { question: keys.faqBonusQuestion, answer: keys.faqBonusAnswer },
-  { question: keys.faqFacewearQuestion, answer: keys.faqFacewearAnswer }
+  {
+    kind: 'text',
+    question: keys.faq80RequirementsQuestion,
+    answer: keys.faq80RequirementsAnswer
+  },
+  { kind: 'text', question: keys.faq100RewardQuestion, answer: keys.faq100RewardAnswer },
+  { kind: 'text', question: keys.faqCumulativeQuestion, answer: keys.faqCumulativeAnswer },
+  { kind: 'text', question: keys.faqBonusQuestion, answer: keys.faqBonusAnswer },
+  { kind: 'text', question: keys.faqFacewearQuestion, answer: keys.faqFacewearAnswer },
+  { kind: 'text', question: keys.faqDualDyeQuestion, answer: keys.faqDualDyeAnswer }
 ] as const
+const mgpIconUrl = getArmoireIconUrl(65025)
 const itemById = computed(
   () =>
     new Map(props.week.slots.flatMap((slot) => slot.gold.items).map((item) => [item.itemId, item]))
@@ -261,8 +283,7 @@ function dyeItemIconUrl(dyeId: number | undefined) {
 }
 function entryDyeColor(entry: FashionCheckReferenceEntry) {
   const dye = props.showcase?.dyes.find(
-    (candidate) =>
-      candidate.slotId === entry.slotId && candidate.exact.dyeId === entry.dye?.dyeId
+    (candidate) => candidate.slotId === entry.slotId && candidate.exact.dyeId === entry.dye?.dyeId
   )
   return dye?.exact.color
 }
@@ -484,6 +505,19 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   color: var(--ns-color-text-muted);
   font-size: 14px;
   line-height: 1.6;
+}
+.fashion-check-showcase__mgp-amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: inherit;
+  vertical-align: -4px;
+  white-space: nowrap;
+}
+.fashion-check-showcase__mgp-amount img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
 }
 .fashion-check-solutions {
   display: grid;

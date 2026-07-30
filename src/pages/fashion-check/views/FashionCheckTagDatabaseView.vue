@@ -219,7 +219,7 @@ onMounted(async () => {
   min-height: 40px;
   border: 2px solid var(--ns-pixel-border);
   border-radius: 0;
-  background: var(--ns-color-bg-surface);
+  background-color: var(--ns-color-bg-surface);
   color: var(--ns-color-text);
   font: inherit;
 }
@@ -233,7 +233,9 @@ onMounted(async () => {
 }
 
 .fashion-check-tag-database__controls select {
-  padding: 8px;
+  padding-block: 8px;
+  padding-inline-start: 8px;
+  padding-inline-end: var(--ns-select-padding-end);
 }
 .fashion-check-tag-database__controls select.fashion-check-tag-database__select--placeholder,
 .fashion-check-tag-database__controls select option[value='all'] {

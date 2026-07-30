@@ -143,6 +143,18 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '灰機Wikiを開く',
     '회색기 Wiki 열기'
   ),
+  'fashionCheck.openLodestone': localizedMessage(
+    '打开 Lodestone',
+    'Open Lodestone',
+    'Lodestoneを開く',
+    'Lodestone 열기'
+  ),
+  'fashionCheck.openGarland': localizedMessage(
+    '打开 Garland Data',
+    'Open Garland Data',
+    'Garland Dataを開く',
+    'Garland Data 열기'
+  ),
   'fashionCheck.tagDatabase.search': localizedMessage(
     '搜索标签',
     'Search tags',
@@ -203,28 +215,28 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '매주 최대 4회 심사를 받을 수 있습니다.'
   ),
   'fashionCheck.faqParticipationRewardQuestion': localizedMessage(
-    '参加评审有什么基础奖励？',
-    'What is the participation reward?',
-    '参加報酬は何ですか？',
-    '참가 보상은 무엇인가요?'
+    '参加时尚品鉴有什么奖励？',
+    'What rewards can I receive from participating in the Fashion Report?',
+    'ファッションチェックに参加すると、どんな報酬を獲得できますか？',
+    '패션 체크에 참가하면 어떤 보상을 받을 수 있나요?'
   ),
-  'fashionCheck.faqParticipationRewardAnswer': localizedMessage(
-    '每周首次参加可获得 10,000 金碟币。',
-    'Your first judging each week awards 10,000 MGP.',
-    '毎週初回の参加で10,000 MGPを獲得できます。',
-    '매주 첫 심사 참가 시 10,000 MGP를 받을 수 있습니다.'
+  'fashionCheck.faqParticipationRewardBeforeFirstAmount': localizedMessage(
+    '每周首次参加可获得',
+    'Your first participation each week awards',
+    '毎週初回の参加で',
+    '매주 첫 참가 시'
   ),
-  'fashionCheck.faq80RewardQuestion': localizedMessage(
-    '达到 80 分有什么奖励？',
-    'What do I receive for scoring 80 points?',
-    '80点を取ると何がもらえますか？',
-    '80점을 달성하면 무엇을 받나요?'
+  'fashionCheck.faqParticipationRewardBetweenAmounts': localizedMessage(
+    '金碟币，达到80分后可额外获得',
+    'MGP. Scoring 80 points awards an additional',
+    'MGPを獲得でき、80点に到達すると追加で',
+    'MGP를 받을 수 있으며, 80점을 달성하면'
   ),
-  'fashionCheck.faq80RewardAnswer': localizedMessage(
-    '达到 80 分可额外获得 50,000 金碟币。参加奖励和 80 分奖励每周各领取一次。',
-    'Scoring 80 points awards an additional 50,000 MGP. The participation and 80-point rewards can each be claimed once per week.',
-    '80点を取ると、追加で50,000 MGPを獲得できます。参加報酬と80点報酬は、それぞれ週に1回だけ受け取れます。',
-    '80점을 달성하면 50,000 MGP를 추가로 받을 수 있습니다. 참가 보상과 80점 보상은 각각 주 1회만 받을 수 있습니다.'
+  'fashionCheck.faqParticipationRewardAfterSecondAmount': localizedMessage(
+    '金碟币，每周可获取一次。',
+    'MGP; each reward can be obtained once per week.',
+    'MGPを獲得できます。各報酬は週に1回獲得できます。',
+    'MGP를 추가로 받을 수 있습니다. 각 보상은 매주 한 번씩 획득할 수 있습니다.'
   ),
   'fashionCheck.faq80RequirementsQuestion': localizedMessage(
     '怎样比较容易达到 80 分？',
@@ -275,16 +287,28 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '자유부대 MGP 보너스와 골드 소서 VIP 카드는 보상을 늘릴 수 있지만, 두 효과는 중첩되지 않습니다.'
   ),
   'fashionCheck.faqFacewearQuestion': localizedMessage(
-    '脸饰或眼镜会参与判定吗？',
-    'Do facewear or glasses count toward judging?',
-    'フェイスアクセサリーや眼鏡は採点対象ですか？',
-    '얼굴 장식이나 안경도 심사 대상인가요?'
+    '面部配饰会参与判定吗？',
+    'Does facewear count toward judging?',
+    'フェイスアクセサリーは採点対象ですか？',
+    '얼굴 장식도 심사 대상인가요?'
   ),
   'fashionCheck.faqFacewearAnswer': localizedMessage(
-    '会，但必须实际应用为角色当前的脸饰外观后才参与判定。',
-    'Yes, but they count only when actually applied as the character\'s current facewear appearance.',
-    '対象になりますが、キャラクターの現在のフェイスアクセサリーとして実際に適用されている必要があります。',
-    '네. 단, 캐릭터의 현재 얼굴 장식 외형으로 실제 적용된 상태여야 심사에 반영됩니다.'
+    '不会，只有头部装备才能得分。',
+    'No. Only head gear can score points.',
+    'いいえ。得点対象になるのは頭装備だけです。',
+    '아니요. 머리 방어구만 점수를 받을 수 있습니다.'
+  ),
+  'fashionCheck.faqDualDyeQuestion': localizedMessage(
+    '现在有了双染色系统，染色加分是怎么算的？',
+    'How are dye bonuses calculated now that dual-channel dyeing is available?',
+    '2か所染色に対応した現在、染色の加点はどのように判定されますか？',
+    '2부위 염색 시스템에서는 염색 가산점을 어떻게 판정하나요?'
+  ),
+  'fashionCheck.faqDualDyeAnswer': localizedMessage(
+    '目前时尚品鉴只识别第一个染色槽的数据，第二个染色槽不会有判定。',
+    'The Fashion Report currently checks only the first dye channel. The second dye channel is not judged.',
+    '現在のファッションチェックでは1つ目の染色枠だけが判定され、2つ目の染色枠は判定対象になりません。',
+    '현재 패션 체크는 첫 번째 염색 슬롯만 판정하며, 두 번째 염색 슬롯은 판정하지 않습니다.'
   ),
   'fashionCheck.awaitingData': message('\u7b49\u5f85\u6570\u636e', 'Awaiting data')
 }

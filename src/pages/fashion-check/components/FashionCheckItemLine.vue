@@ -52,6 +52,22 @@
         >
           {{ t(keys.openHuijiWiki) }}
         </button>
+        <button
+          type="button"
+          class="ns-compact-action ns-compact-action--flush"
+          role="menuitem"
+          @click="openLodestone"
+        >
+          {{ t(keys.openLodestone) }}
+        </button>
+        <button
+          type="button"
+          class="ns-compact-action ns-compact-action--flush"
+          role="menuitem"
+          @click="openGarland"
+        >
+          {{ t(keys.openGarland) }}
+        </button>
       </div>
     </Teleport>
   </div>
@@ -60,7 +76,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { getArmoireIconUrl } from '@/lib/armoire/catalog'
-import { getHuijiWikiItemUrl } from '@/lib/ffxiv/huijiWiki'
+import { getGarlandItemUrl, getHuijiWikiItemUrl, getLodestoneItemUrl } from '@/lib/ffxiv/huijiWiki'
 import type { FashionCheckItem } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
 import { useLocale } from '@/stores/locale'
@@ -149,6 +165,22 @@ function openHuijiWiki() {
   const itemName = props.item?.name.trim()
   if (itemName) {
     window.open(getHuijiWikiItemUrl(itemName), '_blank', 'noopener,noreferrer')
+  }
+  closeItemMenu()
+}
+
+function openLodestone() {
+  const itemId = props.item?.itemId
+  if (itemId) {
+    window.open(getLodestoneItemUrl(itemId), '_blank', 'noopener,noreferrer')
+  }
+  closeItemMenu()
+}
+
+function openGarland() {
+  const itemId = props.item?.itemId
+  if (itemId) {
+    window.open(getGarlandItemUrl(itemId), '_blank', 'noopener,noreferrer')
   }
   closeItemMenu()
 }
