@@ -1,5 +1,42 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-07-26T20:00:00+08:00",
-  "events": []
+  "updatedAt": "2026-07-28T17:52:00+08:00",
+  "events": [
+    {
+      "id": "fanfestival-2026-store-sale",
+      "title": "粉丝节商品九折活动",
+      "url": "https://ff.web.sdo.com/web8/index.html#/newstab/newscont/390816",
+      "startsAt": "2026-07-17T00:00:00+08:00",
+      "endsAt": "2026-08-12T14:59:00+08:00",
+      "timezone": "Asia/Shanghai",
+      "region": "common"
+    },
+    {
+      "id": "cn-card-bill-portrait-gift-2026",
+      "title": "充月卡送神典石肖像教材",
+      "url": "https://actff1.web.sdo.com/20260704_CardBill/gift/index.html#/index",
+      "startsAt": "2026-07-25T18:00:00+08:00",
+      "endsAt": "2026-11-20T23:59:00+08:00",
+      "timezone": "Asia/Shanghai",
+      "region": "cn"
+    },
+    {
+      "id": "cn-card-bill-launch-plan-2026",
+      "title": "月卡启航计划",
+      "url": "https://actff1.web.sdo.com/20260704_CardBill/index.html#/index",
+      "startsAt": "2026-07-25T18:00:00+08:00",
+      "endsAt": "2027-02-01T14:00:00+08:00",
+      "timezone": "Asia/Shanghai",
+      "region": "cn"
+    },
+    {
+      "id": "youkai-watch-crossover-2026",
+      "title": "妖怪手表 艾欧泽亚大集合啦喵！ 2026",
+      "url": "https://actff1.web.sdo.com/project/20260715youkai-watch/vaz1gqm16a3h/index.html",
+      "startsAt": "2026-08-04T16:00:00+08:00",
+      "endsAt": "2026-10-05T22:59:00+08:00",
+      "timezone": "Asia/Shanghai",
+      "region": "common"
+    }
+  ]
 }

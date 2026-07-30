@@ -172,7 +172,6 @@ function renderTimelineItem(item: CommunityTimelineItem) {
   link.href = item.event.url
   link.target = '_blank'
   link.rel = 'noopener noreferrer'
-  link.title = tooltip
   link.ariaLabel = `${t(textKeys.communityOpenLink)} ${tooltip}`
   link.draggable = false
   title.className = 'timeline-event-copy__title'
@@ -466,11 +465,20 @@ onBeforeUnmount(() => {
 }
 
 .ffxiv-calendar-section :deep(.vis-timeline) {
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
+  border-radius: var(--ns-large-panel-border-radius);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
   box-shadow: var(--ns-pixel-soft-shadow);
+}
+
+.ffxiv-calendar-section :deep(.vis-loading-screen) {
+  pointer-events: none;
+}
+
+.ffxiv-calendar-section :deep(.vis-panel.vis-background) {
+  pointer-events: none;
 }
 
 .ffxiv-calendar-section :deep(.vis-panel) {
@@ -533,6 +541,7 @@ onBeforeUnmount(() => {
 }
 
 .ffxiv-calendar-section :deep(.vis-item) {
+  z-index: 2;
   min-height: 3.2rem;
   border-width: 2px;
   border-radius: 0;
@@ -545,12 +554,12 @@ onBeforeUnmount(() => {
   position: static !important;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   box-sizing: border-box;
   width: var(--timeline-copy-width, 100%);
   height: 100%;
   padding: 0;
-  text-align: center;
+  text-align: left;
   transform: translateX(var(--timeline-copy-offset, 0)) !important;
 }
 
@@ -563,7 +572,7 @@ onBeforeUnmount(() => {
 .ffxiv-calendar-section :deep(.timeline-event-copy) {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   box-sizing: border-box;
   width: 100%;
@@ -571,6 +580,7 @@ onBeforeUnmount(() => {
   height: 100%;
   padding: var(--ns-space-1) var(--ns-space-2);
   color: inherit;
+  text-align: left;
   text-decoration: none;
 }
 
@@ -638,7 +648,7 @@ onBeforeUnmount(() => {
 }
 
 .ffxiv-calendar-section :deep(.vis-current-time) {
-  z-index: 5;
+  z-index: 1;
   width: 2px;
   background-color: var(--ns-color-danger);
 }

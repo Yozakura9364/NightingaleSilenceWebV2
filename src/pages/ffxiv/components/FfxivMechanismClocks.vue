@@ -5,7 +5,7 @@
     </h2>
 
     <div class="ffxiv-mechanism-grid">
-      <article class="ffxiv-clock-card">
+      <article class="ffxiv-clock-card ns-workbench-panel ns-workbench-panel--solid">
         <header class="ffxiv-clock-card__header">
           <div>
             <h3>{{ t(textKeys.housingTitle) }}</h3>
@@ -73,7 +73,7 @@
         </div>
       </article>
 
-      <article class="ffxiv-clock-card">
+      <article class="ffxiv-clock-card ns-workbench-panel ns-workbench-panel--solid">
         <header class="ffxiv-clock-card__header">
           <div>
             <h3>{{ t(textKeys.frontlineTitle) }}</h3>
@@ -212,9 +212,6 @@ function isoTime(timestamp: number): string {
   min-width: 0;
   gap: 16px;
   padding: 18px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
 }
 
 .ffxiv-clock-card__header {
