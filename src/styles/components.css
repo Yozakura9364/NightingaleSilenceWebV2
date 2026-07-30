@@ -1,5 +1,7 @@
 @layer components {
   .ns-button {
+    --ns-button-interactive-color: var(--ns-color-accent-strong);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -18,11 +20,7 @@
     cursor: pointer;
     text-decoration: none;
     user-select: none;
-    transition:
-      transform var(--ns-transition-fast),
-      border-color var(--ns-transition-fast),
-      background var(--ns-transition-fast),
-      box-shadow var(--ns-transition-fast);
+    transition: color var(--ns-transition-fast);
   }
 
   select {
@@ -108,21 +106,16 @@
     height: 0;
   }
 
-  .ns-button:hover {
-    transform: translate(-1px, -1px);
-    border-color: var(--ns-pixel-border-accent);
-    background: var(--ns-pixel-hover-surface);
-    box-shadow: var(--ns-pixel-button-shadow-hover);
+  .ns-button:hover,
+  .ns-button:active,
+  .ns-button[aria-pressed='true'],
+  .ns-button[aria-current='page'] {
+    color: var(--ns-button-interactive-color);
   }
 
   .ns-button:focus-visible {
     outline: 0;
     box-shadow: var(--ns-pixel-button-shadow-hover), var(--ns-focus-ring);
-  }
-
-  .ns-button:active {
-    animation: ns-pixel-pop var(--ns-animation-fast, 260ms) var(--ns-animation-ease, ease);
-    box-shadow: var(--ns-pixel-shadow-active);
   }
 
   .ns-button:disabled,
@@ -137,6 +130,8 @@
   }
 
   .ns-button--primary {
+    --ns-button-interactive-color: var(--ns-color-text);
+
     border-color: var(--ns-pixel-border);
     background: linear-gradient(135deg, var(--ns-color-accent), var(--ns-color-cyan));
     color: var(--ns-color-on-accent);
@@ -155,6 +150,8 @@
   }
 
   .ns-button--danger {
+    --ns-button-interactive-color: var(--ns-color-text);
+
     border-color: var(--ns-color-danger);
     background: var(--ns-status-danger-bg);
     color: var(--ns-color-danger);
@@ -307,15 +304,15 @@
     min-width: 0;
     gap: 14px;
     padding: 16px;
-    border: 2px solid var(--ns-pixel-border);
-    border-radius: 0;
+    border: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
+    border-radius: var(--ns-large-panel-border-radius);
     background: var(--ns-pixel-surface);
     color: var(--ns-color-text);
     box-shadow: var(--ns-pixel-soft-shadow);
   }
 
   .ns-workbench-panel--soft {
-    border-color: var(--ns-pixel-border-soft);
+    border-color: var(--ns-large-panel-border-color);
     background: var(--ns-color-surface);
   }
 
@@ -354,8 +351,8 @@
   }
 
   .ns-panel {
-    border: 2px solid var(--ns-pixel-border-soft);
-    border-radius: var(--ns-radius-lg);
+    border: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
+    border-radius: var(--ns-large-panel-border-radius);
     background: var(--ns-color-surface);
     box-shadow: var(--ns-shadow-panel);
     backdrop-filter: blur(14px);

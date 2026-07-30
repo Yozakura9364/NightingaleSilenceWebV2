@@ -257,10 +257,6 @@ onBeforeUnmount(() => {
   display: grid;
   gap: 12px;
   padding: 12px;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 8px;
-  background: var(--ns-color-surface-solid, #fff);
-  box-shadow: 0 6px 18px rgb(20 28 45 / 6%);
 }
 
 .nsglamour-panel-header {

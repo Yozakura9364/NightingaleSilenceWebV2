@@ -71,13 +71,7 @@ const downloadIconStyle = {
 
 <style scoped>
 .nsarmoire-landing {
-  --nsarmoire-landing-frame: #000;
-
   background: var(--ns-body-background);
-}
-
-:global(:root[data-theme='night']) .nsarmoire-landing {
-  --nsarmoire-landing-frame: var(--ns-pixel-border);
 }
 
 .nsarmoire-landing__shell {
@@ -88,7 +82,6 @@ const downloadIconStyle = {
 .nsarmoire-landing__intro,
 .nsarmoire-landing__guide {
   margin-top: 18px;
-  border-color: var(--nsarmoire-landing-frame);
 }
 
 .nsarmoire-landing__intro {

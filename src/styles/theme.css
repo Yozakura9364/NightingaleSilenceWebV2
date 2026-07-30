@@ -34,6 +34,9 @@
     --ns-color-text-muted: #584b66;
     --ns-color-border: rgba(88, 68, 105, 0.18);
     --ns-color-border-strong: rgba(88, 68, 105, 0.32);
+    --ns-large-panel-border-width: 1px;
+    --ns-large-panel-border-color: var(--ns-color-border);
+    --ns-large-panel-border-radius: 0;
     --ns-color-accent: #ef6fb2;
     --ns-color-accent-strong: #d94d9d;
     --ns-color-accent-soft: #ffe1f1;
