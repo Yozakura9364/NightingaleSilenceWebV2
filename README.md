@@ -51,10 +51,13 @@ src/
 ├── assets/           # 图标、图片等静态资源
 ├── components/       # 公共 UI 组件
 ├── composables/      # 组合式函数（useFetch 等）
+├── config/           # 站点信息与功能开关配置
+├── lib/              # 与 Vue 解耦的业务纯逻辑（plate/glamour/content 等）
 ├── locales/          # 多语言文案
 ├── pages/            # 页面级组件
 │   ├── about/
 │   ├── armoire/
+│   ├── content-studio/
 │   ├── fashion-check/
 │   ├── ffxiv/
 │   ├── glamour/
@@ -64,9 +67,9 @@ src/
 │   ├── silence/
 │   └── style-lab/
 ├── router/           # 路由配置
+├── services/         # API 边界封装
 ├── stores/           # Pinia 状态管理
-├── styles/           # 全局样式与 CSS 动画
-└── utils/            # 工具函数
+└── styles/           # 全局样式与 CSS 动画
 ```
 
 ## 数据服务

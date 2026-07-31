@@ -163,6 +163,7 @@ const router = createRouter({
     },
     {
       path: siteRoutes.fashionCheck,
+      alias: '/ffxiv/fashion-check',
       meta: { titleKey: fashionCheckTool?.titleKey ?? 'fashionCheck.title' },
       component: loadLocalizedPage(
         ['fashionCheck'],

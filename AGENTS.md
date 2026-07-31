@@ -27,7 +27,7 @@
 | FFXIV CSV、映射、静态数据部署 | `docs/ai/MODULES/ffxiv.md`、`docs/ai/data/ffxiv/README.md` 和目标模块文档 | 映射/CSV deploy skills（若可用）和现有生成器 | 生成器 + checker + 页面实际读取 |
 | 物品卡片 | `docs/ai/MODULES/item-card.md`、`docs/ai/API_CONVENTIONS.md` | 现有 item-card / glamour API 边界 | 导入、编辑和导出实测 |
 | 时尚品鉴 | `docs/ai/MODULES/fashion-check.md`、`docs/ai/FASHION_CHECK_WEEKLY_MAINTENANCE.md` | fashion-check 生成器与 checker | 历史检查 + 当前公开页面 |
-| 衣柜管家 | `docs/ai/MODULES/nsarmoire.md`、`docs/api/nsarmoire.md` | helper / catalog scripts | 对应构建模式 + 页面/helper 状态 |
+| 衣柜管家 | `docs/ai/MODULES/nsarmoire.md`、`docs/api/nsarmoire.md` | 独立 `NSArmoireButler` 仓库工具链 | 公网落地页与下载链接状态 |
 | 首页、Silence、视觉与响应式 | 对应 `docs/ai/MODULES/` 文档、`docs/ai/STYLE_AUDIT.md` | Playwright + 系统浏览器 | 桌面实测；涉及响应式时增加移动端 |
 | 公共样式、组件、路由、架构 | `docs/ai/ARCHITECTURE_PLAN.md`、`docs/ai/CODE_STRUCTURE_RULES.md`、`docs/ai/MODULE_MAP.md` | `rg`、类型检查、页面回归 | 所有受影响入口 |
 | 会话恢复、并发修改、文件冲突 | `docs/ai/AGENT_SESSION_PROTOCOL.md` | `scripts/agent-session.mjs` | 日志状态、文件声明和实际 Git diff |
@@ -137,24 +137,13 @@ ECC 的 rules / skills / hooks / agents 思路已吸收为长期参考，但本�
 
 ## AI 文档库
 
-每次开始任务前，必须读取以下文档（按需，不必全读）：
-
+每次开始任务前，按需读取对应文档：
 
 | 文档                                  | 何时读                                                  |
 | ------------------------------------- | ------------------------------------------------------- |
 | `AGENT_WORKFLOW.md`                   | 每次实现、修复、重构、迁移、提交或发布任务              |
 | `docs/OWNER_VISION.md`                | 每次新会话必读，确认用户手写的站点愿景和范围            |
 | `docs/ai/PROJECT_CONTEXT.md`          | 每次新会话必读                                          |
-| `docs/ai/DOCUMENTATION_CONTRACT.md`   | 新增、重写或发现项目文档与代码不一致                    |
-| `docs/ai/ARCHITECTURE_PLAN.md`        | 涉及架构、路由、样式体系、后端集成策略                  |
-| `docs/ai/STYLE_AUDIT.md`              | 涉及全站样式审计、公共 token、顶栏弹窗和 Style Lab 边界 |
-| `docs/ai/CODE_STRUCTURE_RULES.md`     | 涉及复杂业务拆分、模块边界、重构、防止单文件膨胀        |
-| `docs/ai/WORKBENCH_STYLE_CONTRACT.md` | 涉及 NSPlate、NSGlamour 等工房类复杂工具页工作台样式    |
-| `docs/ai/MIGRATION_PLAN.md`           | 涉及 NSHome、NSPortable、NSGlamour 迁移顺序和边界       |
-| `docs/ai/MODULE_MAP.md`               | 涉及跨页面/跨模块修改                                   |
-| `docs/ai/API_CONVENTIONS.md`          | 涉及 API 调用                                           |
-| `docs/ai/REVIEW_GUIDE.md`             | 涉及项目评估、外部 review、当前状态说明                 |
-| `docs/ai/PAGE_DEVELOPMENT_GUIDE.md`   | 新增页面或组件                                          |
-| `docs/ai/MODULES/*.md`                | 涉及对应模块的深度修改                                  |
+| `docs/ai/README.md`                   | 全部 AI 文档按主题分组索引；按任务查对应分组            |
 
 如果发现文档与代码不一致，优先以代码为准，并在总结中提出文档更新建议。
