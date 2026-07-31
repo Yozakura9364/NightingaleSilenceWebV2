@@ -4,6 +4,7 @@ import type {
   ItemCardRenderSettings,
   ItemCardStoredSettings
 } from '@/pages/item-card/lib/types'
+import { safeSetLocalItem } from '@/services/browserStorage'
 
 export const ITEM_CARD_SETTINGS_KEY = 'nsitemcard.pngSettings.v1'
 export const ITEM_CARD_DEFAULT_FONT = 'HarmonyOS Sans SC'
@@ -116,5 +117,5 @@ export function readItemCardSettings(): ItemCardStoredSettings {
 }
 
 export function writeItemCardSettings(settings: ItemCardStoredSettings) {
-  localStorage.setItem(ITEM_CARD_SETTINGS_KEY, JSON.stringify(settings))
+  safeSetLocalItem(ITEM_CARD_SETTINGS_KEY, JSON.stringify(settings))
 }

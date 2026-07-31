@@ -46,6 +46,7 @@ import { useRoute, useRouter } from 'vue-router'
 import AppStatus from '@/components/AppStatus.vue'
 import AppTabs from '@/components/AppTabs.vue'
 import { useFetch } from '@/composables/useFetch'
+import { safeSetSessionItem } from '@/services/browserStorage'
 import { siteRoutes } from '@/config/site'
 import type { FashionCheckLocaleCatalog, FashionCheckWeek } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
@@ -140,8 +141,8 @@ onMounted(async () => {
     ])
     week.value = currentWeek
     localeCatalog.value = currentLocaleCatalog
-    sessionStorage.setItem(FASHION_CACHE_KEY, JSON.stringify({ data: currentWeek, timestamp: now }))
-    sessionStorage.setItem(
+    safeSetSessionItem(FASHION_CACHE_KEY, JSON.stringify({ data: currentWeek, timestamp: now }))
+    safeSetSessionItem(
       FASHION_CATALOG_CACHE_KEY,
       JSON.stringify({ data: currentLocaleCatalog })
     )

@@ -1,4 +1,5 @@
 import { computed, onBeforeUnmount, ref, type CSSProperties } from 'vue'
+import { safeSetLocalItem } from '@/services/browserStorage'
 
 const PANEL_WIDTH_STORAGE_KEY = 'nsplate.configPanelWidthPx.v1'
 const DEFAULT_PANEL_WIDTH = 420
@@ -88,7 +89,7 @@ function persistPanelWidth(width: number) {
     return
   }
 
-  window.localStorage.setItem(PANEL_WIDTH_STORAGE_KEY, String(clampPanelWidth(width)))
+  safeSetLocalItem(PANEL_WIDTH_STORAGE_KEY, String(clampPanelWidth(width)))
 }
 
 function clampPanelWidth(width: number) {

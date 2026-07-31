@@ -8,6 +8,7 @@ export interface ApiRequestOptions extends RequestInit {
   json?: unknown
   query?: Record<string, QueryValue | QueryValue[]>
   responseType?: ApiResponseType
+  timeoutMs?: number
 }
 
 export class ApiError extends Error {
@@ -23,6 +24,18 @@ export class ApiError extends Error {
     this.statusText = response.statusText
     this.url = response.url
     this.bodyText = bodyText
+  }
+}
+
+export class ApiTimeoutError extends Error {
+  readonly url: string
+  readonly timeoutMs: number
+
+  constructor(url: string, timeoutMs: number) {
+    super(`API timeout after ${timeoutMs}ms: ${url}`)
+    this.name = 'ApiTimeoutError'
+    this.url = url
+    this.timeoutMs = timeoutMs
   }
 }
 
@@ -129,6 +142,8 @@ export function useFetch() {
       query,
       responseType = 'json',
       body: requestBody,
+      timeoutMs,
+      signal: callerSignal,
       ...requestInit
     } = options
     const hasJsonBody = json !== undefined
@@ -140,17 +155,57 @@ export function useFetch() {
       hasJsonBody
     })
 
-    const response = await fetch(appendQuery(url, query), {
-      ...requestInit,
-      body,
-      headers
-    })
+    const fullUrl = appendQuery(url, query)
+    let signal = callerSignal ?? null
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
+    let timeoutController: AbortController | undefined
+    const onCallerAbort = () => timeoutController?.abort(callerSignal?.reason)
 
-    if (!response.ok) {
-      throw new ApiError(response, await readErrorBody(response))
+    if (timeoutMs !== undefined) {
+      timeoutController = new AbortController()
+      timeoutId = setTimeout(
+        () => timeoutController?.abort(new ApiTimeoutError(fullUrl, timeoutMs)),
+        timeoutMs
+      )
+      if (callerSignal) {
+        if (callerSignal.aborted) {
+          timeoutController.abort(callerSignal.reason)
+        } else {
+          callerSignal.addEventListener('abort', onCallerAbort, { once: true })
+        }
+      }
+      signal = timeoutController.signal
     }
 
-    return parseResponse<T>(response, responseType)
+    try {
+      const response = await fetch(fullUrl, {
+        ...requestInit,
+        body,
+        headers,
+        signal
+      })
+
+      if (!response.ok) {
+        throw new ApiError(response, await readErrorBody(response))
+      }
+
+      return await parseResponse<T>(response, responseType)
+    } catch (error) {
+      if (
+        timeoutController?.signal.aborted &&
+        timeoutController.signal.reason instanceof ApiTimeoutError
+      ) {
+        throw timeoutController.signal.reason
+      }
+      throw error
+    } finally {
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId)
+      }
+      if (callerSignal && timeoutController) {
+        callerSignal.removeEventListener('abort', onCallerAbort)
+      }
+    }
   }
 
   function api<T = unknown>(url: string, options: ApiRequestOptions = {}): Promise<T> {

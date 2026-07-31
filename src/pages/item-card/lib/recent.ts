@@ -1,6 +1,7 @@
 import { draftToGlamourPayload, getFilledGlamourDraftEntries } from '@/pages/item-card/lib/draft'
 import { GLAMOUR_DEFAULT_LOCALE } from '@/pages/item-card/lib/equipment'
 import type { GlamourDraft, GlamourRecentSnapshot } from '@/pages/item-card/lib/types'
+import { safeSetLocalItem } from '@/services/browserStorage'
 
 export const GLAMOUR_RECENT_STORAGE_KEY = 'nsitemcard.recentLoadouts'
 export const GLAMOUR_RECENT_LIMIT = 10
@@ -67,7 +68,7 @@ export function readGlamourRecentSnapshots(): GlamourRecentSnapshot[] {
 }
 
 export function writeGlamourRecentSnapshots(items: GlamourRecentSnapshot[]) {
-  localStorage.setItem(
+  safeSetLocalItem(
     GLAMOUR_RECENT_STORAGE_KEY,
     JSON.stringify((Array.isArray(items) ? items : []).slice(0, GLAMOUR_RECENT_LIMIT))
   )

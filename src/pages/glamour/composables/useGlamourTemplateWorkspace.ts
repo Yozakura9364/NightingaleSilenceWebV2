@@ -1,4 +1,5 @@
 import { computed, ref, watch } from 'vue'
+import { safeSetJsonLocalItem } from '@/services/browserStorage'
 import type { GlamourDraft, GlamourLocale } from '@/lib/glamour/types'
 import { createGlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
 import {
@@ -50,7 +51,7 @@ function readTemplateWorkspaceSettings(): GlamourTemplateWorkspaceSettings {
 }
 
 function writeTemplateWorkspaceSettings(settings: GlamourTemplateWorkspaceSettings) {
-  localStorage.setItem(GLAMOUR_TEMPLATE_SETTINGS_STORAGE_KEY, JSON.stringify(settings))
+  safeSetJsonLocalItem(GLAMOUR_TEMPLATE_SETTINGS_STORAGE_KEY, settings)
 }
 
 function areSameLocales(current: GlamourLocale[], next: GlamourLocale[]): boolean {

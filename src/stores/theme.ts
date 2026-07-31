@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { safeSetLocalItem } from '@/services/browserStorage'
 
 export type ThemeMode = 'day' | 'night'
 
@@ -63,7 +64,7 @@ function initStorageSync() {
 
 function setThemeMode(mode: ThemeMode) {
   current.value = mode
-  localStorage.setItem(THEME_KEY, mode)
+  safeSetLocalItem(THEME_KEY, mode)
   applyThemeMode(mode)
 }
 

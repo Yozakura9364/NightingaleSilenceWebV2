@@ -30,13 +30,3 @@ export function clearPreviews() {
   for (const url of cache.values()) URL.revokeObjectURL(url)
   cache.clear()
 }
-
-export async function fetchAndPreview(mediaId: string) {
-  const token = import.meta.env.VITE_CONTENT_STUDIO_TOKEN || ''
-  const resp = await fetch(`/api/content-studio/media/${mediaId}/raw`, {
-    headers: { 'X-Content-Studio-Token': token }
-  })
-  if (!resp.ok) throw new Error(`Preview fetch failed: ${resp.status}`)
-  const blob = await resp.blob()
-  setPreviewUrl(mediaId, URL.createObjectURL(blob))
-}

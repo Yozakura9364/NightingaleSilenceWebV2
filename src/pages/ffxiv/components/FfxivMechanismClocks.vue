@@ -121,6 +121,7 @@ import {
   type HousingRegion
 } from '@/lib/ffxiv/time/housingCycle'
 import { ffxivTextKeys as textKeys } from '@/locales/keys/ffxiv'
+import { safeSetLocalItem } from '@/services/browserStorage'
 import { useLocale } from '@/stores/locale'
 import FfxivCountdown from './FfxivCountdown.vue'
 
@@ -175,7 +176,7 @@ function readStoredRegion(): HousingRegion {
 
 function setRegion(value: HousingRegion) {
   region.value = value
-  localStorage.setItem(REGION_STORAGE_KEY, value)
+  safeSetLocalItem(REGION_STORAGE_KEY, value)
 }
 
 function formatTime(timestamp: number): string {

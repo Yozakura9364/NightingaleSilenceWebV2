@@ -106,11 +106,11 @@ import {
   getSelectedCandidate,
   getSlotTitle
 } from '@/lib/glamour/equipment'
+import { normalizeGlamourConfigName } from '@/lib/glamour/recent'
 import {
   findGlamourRecentSnapshotLink,
-  normalizeGlamourConfigName,
   recordGlamourRecentSnapshotLink
-} from '@/lib/glamour/recent'
+} from '@/pages/glamour/services/glamourRecentStorage'
 import type {
   GlamourCandidate,
   GlamourDraft,

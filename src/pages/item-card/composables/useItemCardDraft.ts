@@ -1,4 +1,5 @@
 import { computed, ref } from 'vue'
+import { safeSetJsonLocalItem } from '@/services/browserStorage'
 import {
   addItemCardCatalogItem,
   clearGlamourDraftEntry,
@@ -78,7 +79,7 @@ function getStoredImportedAt(payload: GlamourImportPayload): string {
 }
 
 function writeJsonStorage(key: string, value: unknown) {
-  localStorage.setItem(key, JSON.stringify(value))
+  safeSetJsonLocalItem(key, value)
 }
 
 function syncSharedDraftStorage(draft: GlamourDraft) {

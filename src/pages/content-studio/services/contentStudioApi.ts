@@ -1,5 +1,6 @@
 // Content studio API client — typed fetch wrapper for the loopback helper.
 
+import { ApiError, ApiTimeoutError, useFetch, type ApiRequestOptions } from '@/composables/useFetch'
 import type {
   ApiResult,
   ContentStudioError,
@@ -11,6 +12,7 @@ import type {
 } from './contentStudioTypes'
 
 const DEFAULT_BASE_URL = '/api/content-studio'
+const DEFAULT_TIMEOUT_MS = 15000
 
 export class ContentStudioApi {
   private baseUrl: string
@@ -21,7 +23,7 @@ export class ContentStudioApi {
     this.baseUrl = baseUrl
   }
 
-  private async request<T>(path: string, options: RequestInit = {}): Promise<ApiResult<T>> {
+  private async request<T>(path: string, options: ApiRequestOptions = {}): Promise<ApiResult<T>> {
     const url = `${this.baseUrl}${path}`
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -30,16 +32,22 @@ export class ContentStudioApi {
     }
 
     try {
-      const response = await fetch(url, { ...options, headers })
-      if (response.ok) {
-        const data = await response.json() as T
-        return { ok: true, data }
-      }
-      let error: ContentStudioError
-      try { error = await response.json() as ContentStudioError }
-      catch { error = { error: { code: 'PARSE_ERROR', message: `HTTP ${response.status}` } } }
-      return { ok: false, error, status: response.status }
+      const data = await useFetch().request<T>(url, {
+        ...options,
+        headers,
+        timeoutMs: options.timeoutMs ?? DEFAULT_TIMEOUT_MS
+      })
+      return { ok: true, data }
     } catch (err) {
+      if (err instanceof ApiError) {
+        let error: ContentStudioError
+        try { error = JSON.parse(err.bodyText) as ContentStudioError }
+        catch { error = { error: { code: 'PARSE_ERROR', message: `HTTP ${err.status}` } } }
+        return { ok: false, error, status: err.status }
+      }
+      if (err instanceof ApiTimeoutError) {
+        return { ok: false, error: { error: { code: 'TIMEOUT', message: err.message } }, status: 0 }
+      }
       return { ok: false, error: { error: { code: 'NETWORK_ERROR', message: err instanceof Error ? err.message : 'Network error' } }, status: 0 }
     }
   }

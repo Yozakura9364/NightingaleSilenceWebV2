@@ -21,14 +21,14 @@ import {
   storedGlamourValueToPayload
 } from '@/lib/glamour/draft'
 import { normalizeGlamourLocale } from '@/lib/glamour/equipment'
+import { createGlamourRecentSnapshot } from '@/lib/glamour/recent'
 import {
   GLAMOUR_RECENT_STORAGE_KEY,
   clearGlamourRecentSnapshots,
-  createGlamourRecentSnapshot,
   readGlamourRecentSnapshots,
   removeGlamourRecentSnapshot,
   upsertGlamourRecentSnapshot
-} from '@/lib/glamour/recent'
+} from '@/pages/glamour/services/glamourRecentStorage'
 import type {
   GlamourCandidate,
   GlamourDraft,
@@ -37,6 +37,7 @@ import type {
   GlamourStain
 } from '@/lib/glamour/types'
 import { useLocale } from '@/stores/locale'
+import { safeSetJsonLocalItem, safeSetLocalItem } from '@/services/browserStorage'
 
 const COPY_FORMAT_KEY = 'nsglamour.copyFormat'
 const CUSTOM_TEMPLATE_KEY = 'nsglamour.copyTemplate'
@@ -94,7 +95,7 @@ function loadCustomCopyTemplate(): string {
 }
 
 function writeJsonStorage(key: string, value: unknown) {
-  localStorage.setItem(key, JSON.stringify(value))
+  safeSetJsonLocalItem(key, value)
 }
 
 function syncSharedDraftStorage(draft: GlamourDraft) {
@@ -214,12 +215,12 @@ export function useGlamourDraft() {
 
   function setCopyFormat(format: string) {
     copyFormat.value = normalizeGlamourCopyFormat(format)
-    localStorage.setItem(COPY_FORMAT_KEY, copyFormat.value)
+    safeSetLocalItem(COPY_FORMAT_KEY, copyFormat.value)
   }
 
   function setCustomCopyTemplate(template: string) {
     customCopyTemplate.value = template
-    localStorage.setItem(CUSTOM_TEMPLATE_KEY, template)
+    safeSetLocalItem(CUSTOM_TEMPLATE_KEY, template)
   }
 
   function resetCustomCopyTemplate() {
@@ -275,8 +276,8 @@ export function useGlamourDraft() {
     }
 
     localStorage.removeItem(GLAMOUR_CARD_DRAFT_STORAGE_KEY)
-    localStorage.setItem(COPY_FORMAT_KEY, copyFormat.value)
-    localStorage.setItem(CUSTOM_TEMPLATE_KEY, customCopyTemplate.value)
+    safeSetLocalItem(COPY_FORMAT_KEY, copyFormat.value)
+    safeSetLocalItem(CUSTOM_TEMPLATE_KEY, customCopyTemplate.value)
     updatedAt.value = new Date().toISOString()
     syncSharedDraftStorage(sharedDraft.value)
   }

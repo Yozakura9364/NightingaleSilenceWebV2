@@ -2,9 +2,6 @@ import { draftToGlamourPayload, getFilledGlamourDraftEntries } from '@/lib/glamo
 import { GLAMOUR_DEFAULT_LOCALE } from '@/lib/glamour/equipment'
 import type { GlamourDraft, GlamourRecentSnapshot } from '@/lib/glamour/types'
 
-export const GLAMOUR_RECENT_STORAGE_KEY = 'nsglamour.recentLoadouts'
-export const GLAMOUR_RECENT_LIMIT = 10
-
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value && typeof value === 'object' && !Array.isArray(value))
 }
@@ -13,7 +10,7 @@ function cloneJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
 }
 
-function normalizeRecentSnapshot(value: unknown, index: number): GlamourRecentSnapshot | undefined {
+export function normalizeRecentSnapshot(value: unknown, index: number): GlamourRecentSnapshot | undefined {
   if (!isRecord(value) || !isRecord(value.parsed) || !Array.isArray(value.parsed.resolved_equipment)) {
     return undefined
   }
@@ -45,29 +42,6 @@ function normalizeRecentSnapshot(value: unknown, index: number): GlamourRecentSn
 export function normalizeGlamourConfigName(value: unknown): string {
   const text = String(value || '').trim()
   return text || '未命名'
-}
-
-export function readGlamourRecentSnapshots(): GlamourRecentSnapshot[] {
-  try {
-    const data = JSON.parse(localStorage.getItem(GLAMOUR_RECENT_STORAGE_KEY) || '[]')
-
-    if (!Array.isArray(data)) {
-      return []
-    }
-
-    return data
-      .map((item, index) => normalizeRecentSnapshot(item, index))
-      .filter((item): item is GlamourRecentSnapshot => Boolean(item))
-  } catch {
-    return []
-  }
-}
-
-export function writeGlamourRecentSnapshots(items: GlamourRecentSnapshot[]) {
-  localStorage.setItem(
-    GLAMOUR_RECENT_STORAGE_KEY,
-    JSON.stringify((Array.isArray(items) ? items : []).slice(0, GLAMOUR_RECENT_LIMIT))
-  )
 }
 
 export function formatGlamourRecentTime(value: string): string {
@@ -115,50 +89,4 @@ export function createGlamourRecentSnapshot(
     copyFormat: options.copyFormat,
     customTemplate: options.customTemplate
   }
-}
-
-export function upsertGlamourRecentSnapshot(snapshot: GlamourRecentSnapshot) {
-  const snapshotKey = snapshot.sourceName
-  const existing = readGlamourRecentSnapshots().filter((item) => item.sourceName !== snapshotKey)
-  writeGlamourRecentSnapshots([snapshot, ...existing])
-}
-
-export function findGlamourRecentSnapshotLink(snapshotKey: string):
-  | Pick<GlamourRecentSnapshot, 'snapshotId' | 'snapshotUrl' | 'snapshotKey'>
-  | undefined {
-  const item = readGlamourRecentSnapshots().find((snapshot) => (
-    snapshot.snapshotKey === snapshotKey && Boolean(snapshot.snapshotId)
-  ))
-  return item
-    ? {
-        snapshotId: item.snapshotId,
-        snapshotUrl: item.snapshotUrl,
-        snapshotKey: item.snapshotKey
-      }
-    : undefined
-}
-
-export function recordGlamourRecentSnapshotLink(
-  name: string,
-  link: { snapshotId: string; snapshotUrl: string; snapshotKey: string }
-): boolean {
-  const normalizedName = normalizeGlamourConfigName(name)
-  const items = readGlamourRecentSnapshots()
-  const index = items.findIndex((item) => item.sourceName === normalizedName)
-  if (index < 0) {
-    return false
-  }
-
-  items[index] = { ...items[index], ...link }
-  writeGlamourRecentSnapshots(items)
-  window.dispatchEvent(new StorageEvent('storage', { key: GLAMOUR_RECENT_STORAGE_KEY }))
-  return true
-}
-
-export function removeGlamourRecentSnapshot(id: string) {
-  writeGlamourRecentSnapshots(readGlamourRecentSnapshots().filter((item) => item.id !== id))
-}
-
-export function clearGlamourRecentSnapshots() {
-  writeGlamourRecentSnapshots([])
 }

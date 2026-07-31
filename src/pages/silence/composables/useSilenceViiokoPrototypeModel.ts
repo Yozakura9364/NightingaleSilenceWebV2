@@ -1,4 +1,5 @@
 import { computed, shallowRef, watch, type CSSProperties, type Ref } from 'vue'
+import { ApiError, useFetch } from '@/composables/useFetch'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import {
   getSilenceViiokoLayoutClass,
@@ -358,18 +359,18 @@ async function loadLocalPageLayouts(
   const normalizedBase = baseUrl.replace(/\/$/, '')
 
   try {
-    const response = await fetch(
+    const data = await useFetch().request<unknown>(
       `${normalizedBase}/${encodeURIComponent(characterId)}.json?t=${Date.now()}`,
       { signal }
     )
 
-    if (!response.ok) {
+    return parseSilenceViiokoPageLayouts(data)
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
       return undefined
     }
 
-    return parseSilenceViiokoPageLayouts(await response.json())
-  } catch (error) {
-    if (error instanceof DOMException && error.name === 'AbortError') {
+    if (error instanceof ApiError) {
       return undefined
     }
 

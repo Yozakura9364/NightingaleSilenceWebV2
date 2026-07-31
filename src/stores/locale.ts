@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { coreUiMessages } from '@/locales/modules/core'
+import { safeSetLocalItem } from '@/services/browserStorage'
 import type { Locale, UiMessageMap } from '@/locales/types'
 
 export type { Locale } from '@/locales/types'
@@ -29,7 +30,7 @@ function initLocale() {
 
 function setLocale(locale: Locale) {
   current.value = locale
-  localStorage.setItem(LOCALE_KEY, locale)
+  safeSetLocalItem(LOCALE_KEY, locale)
   applyLocale(locale)
 }
 

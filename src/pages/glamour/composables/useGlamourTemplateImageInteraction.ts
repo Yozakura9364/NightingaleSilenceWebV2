@@ -1,12 +1,14 @@
 import { computed, onBeforeUnmount, onMounted, ref, watch, type ComputedRef, type Ref } from 'vue'
 import {
-  GLAMOUR_TEMPLATE_RECENT_IMAGE_LIMIT,
-  clearGlamourTemplateRecentImages as clearStoredGlamourTemplateRecentImages,
   isGlamourTemplatePersistentImageUrl,
-  loadGlamourTemplateRecentImages,
-  saveGlamourTemplateRecentImage,
   type GlamourTemplateRecentImageRecord
 } from '@/lib/glamour/templates/imageSlots'
+import {
+  GLAMOUR_TEMPLATE_RECENT_IMAGE_LIMIT,
+  clearGlamourTemplateRecentImages as clearStoredGlamourTemplateRecentImages,
+  loadGlamourTemplateRecentImages,
+  saveGlamourTemplateRecentImage
+} from '@/pages/glamour/services/glamourTemplateImageStorage'
 import type { GlamourTemplateImageSlot } from '@/lib/glamour/templates/definitions'
 import type { GlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
 import {

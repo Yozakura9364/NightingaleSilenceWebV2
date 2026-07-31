@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useLocale } from '@/stores/locale'
+import { ApiError, useFetch } from '@/composables/useFetch'
 import { contentStudioKeys } from '@/locales/keys/content'
 
 const { t } = useLocale()
@@ -81,28 +82,32 @@ async function uploadFile(file: File) {
   error.value = ''
   try {
     const data = await file.arrayBuffer()
-    const resp = await fetch('/api/content-studio/media', {
+    const obj = await useFetch().request<any>('/api/content-studio/media', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/octet-stream',
         'X-File-Name': file.name,
         'X-Content-Studio-Token': token
       },
-      body: data
+      body: data,
+      timeoutMs: 30000
     })
-    if (!resp.ok) {
-      const err = await resp.json()
-      error.value = err?.error?.message || t(keys.retry)
-      return
-    }
-    const obj = await resp.json()
     uploadedMedia.value = obj
     imageAlt.value = obj.publicObjectKey || ''
     imageCaption.value = ''
     imageAlign.value = 'center'
     imageWidth.value = 75
   } catch (e: any) {
-    error.value = e?.message || t(keys.retry)
+    if (e instanceof ApiError) {
+      try {
+        const errBody = JSON.parse(e.bodyText)
+        error.value = errBody?.error?.message || t(keys.retry)
+      } catch {
+        error.value = t(keys.retry)
+      }
+    } else {
+      error.value = e?.message || t(keys.retry)
+    }
   } finally {
     uploading.value = false
   }

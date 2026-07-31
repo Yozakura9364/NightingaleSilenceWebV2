@@ -1,11 +1,11 @@
 import { onBeforeUnmount, reactive, ref, watch, type ComputedRef, type Ref } from 'vue'
+import { getGlamourTemplateEquivalentImageSlotIds } from '@/lib/glamour/templates/imageSlots'
 import {
   findGlamourTemplateImageSessionRecord,
-  getGlamourTemplateEquivalentImageSlotIds,
   loadGlamourTemplateImageStoreRecords,
   saveGlamourTemplateImageStoreSlot,
   writeGlamourTemplateImageSessionSlot
-} from '@/lib/glamour/templates/imageSlots'
+} from '@/pages/glamour/services/glamourTemplateImageStorage'
 import {
   createGlamourTemplateImageCoverDataUrl,
   loadGlamourTemplateImage,

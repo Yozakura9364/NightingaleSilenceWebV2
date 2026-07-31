@@ -43,7 +43,8 @@ import { useDraftAutosave } from './composables/useDraftAutosave'
 import type { AutosaveState } from './composables/useDraftAutosave'
 import { extractEditorDoc, buildSaveDraftBody } from './helpers/contentDocumentHelpers'
 import type { BareDoc } from './helpers/contentDocumentHelpers'
-import { fetchAndPreview, clearPreviews, hasPreviewUrl } from '@/lib/content/editor/imagePreviewCache'
+import { clearPreviews, hasPreviewUrl } from '@/lib/content/editor/imagePreviewCache'
+import { fetchAndPreview } from './services/contentMediaPreview'
 import {
   addImage, removeImage, moveImage, setLayout, findFirstGalleryGid,
   deriveGalleryState, deriveGalleryOnLoad,
