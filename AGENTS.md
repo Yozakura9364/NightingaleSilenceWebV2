@@ -26,7 +26,7 @@
 | NSGlamour、幻化、装备、染剂、模板 | `docs/ai/MODULES/nsglamour.md`、`docs/ai/API_CONVENTIONS.md`、`docs/ai/WORKBENCH_STYLE_CONTRACT.md` | `nsglamour-*` skills（若可用） | 契约检查 + 对应工作台实测 |
 | FFXIV CSV、映射、静态数据部署 | `docs/ai/MODULES/ffxiv.md`、`docs/ai/data/ffxiv/README.md` 和目标模块文档 | 映射/CSV deploy skills（若可用）和现有生成器 | 生成器 + checker + 页面实际读取 |
 | 物品卡片 | `docs/ai/MODULES/item-card.md`、`docs/ai/API_CONVENTIONS.md` | 现有 item-card / glamour API 边界 | 导入、编辑和导出实测 |
-| 时尚品鉴 | `docs/ai/MODULES/fashion-check.md`、`docs/ai/FASHION_CHECK_WEEKLY_MAINTENANCE.md` | fashion-check 生成器与 checker | 历史检查 + 当前公开页面 |
+| 时尚品鉴 | `docs/ai/FASHION_CHECK_DATA_PIPELINE.md`、`docs/ai/MODULES/fashion-check.md`、`docs/ai/FASHION_CHECK_WEEKLY_MAINTENANCE.md` | fashion-check 生成器与 checker | 历史检查 + 当前公开页面 |
 | 衣柜管家 | `docs/ai/MODULES/nsarmoire.md`、`docs/api/nsarmoire.md` | 独立 `NSArmoireButler` 仓库工具链 | 公网落地页与下载链接状态 |
 | 首页、Silence、视觉与响应式 | 对应 `docs/ai/MODULES/` 文档、`docs/ai/STYLE_AUDIT.md` | Playwright + 系统浏览器 | 桌面实测；涉及响应式时增加移动端 |
 | 公共样式、组件、路由、架构 | `docs/ai/ARCHITECTURE_PLAN.md`、`docs/ai/CODE_STRUCTURE_RULES.md`、`docs/ai/MODULE_MAP.md` | `rg`、类型检查、页面回归 | 所有受影响入口 |
