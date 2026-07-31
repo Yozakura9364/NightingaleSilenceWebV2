@@ -154,4 +154,37 @@ export interface GlamourRecentSnapshot {
   locale: GlamourLocale
   copyFormat?: string
   customTemplate?: string
+  snapshotId?: string
+  snapshotUrl?: string
+  snapshotKey?: string
+}
+
+export interface GlamourSnapshotDye {
+  id: number
+  name: string
+  names: LocalizedTextMap
+  hex: string
+  isEmpty: boolean
+}
+
+export interface GlamourSnapshotItem {
+  key: string
+  name: string
+  names: LocalizedTextMap
+  icon: number
+  dyes: GlamourSnapshotDye[]
+}
+
+export interface GlamourSnapshotEntry {
+  slot: string
+  slot_names: LocalizedTextMap
+  item: GlamourSnapshotItem
+}
+
+export interface GlamourSnapshot {
+  version: number
+  locales: GlamourLocale[]
+  slot_names: Record<string, LocalizedTextMap>
+  no_dye_labels: LocalizedTextMap
+  entries: GlamourSnapshotEntry[]
 }

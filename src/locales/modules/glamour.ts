@@ -27,6 +27,90 @@ export const glamourUiMessages: UiMessageMap = {
     ja: '装備',
     ko: '장비'
   }),
+  'nsglamour.snapshot.create': msg({
+    zh: '生成快照',
+    en: 'Create snapshot',
+    ja: 'スナップショットを作成',
+    ko: '스냅샷 만들기'
+  }),
+  'nsglamour.snapshot.creating': msg({
+    zh: '正在生成',
+    en: 'Creating',
+    ja: '作成中',
+    ko: '생성 중'
+  }),
+  'nsglamour.snapshot.loading': msg({
+    zh: '正在读取',
+    en: 'Loading',
+    ja: '読み込み中',
+    ko: '불러오는 중'
+  }),
+  'nsglamour.snapshot.copied': msg({
+    zh: '已复制链接',
+    en: 'Link copied',
+    ja: 'リンクをコピーしました',
+    ko: '링크를 복사했습니다'
+  }),
+  'nsglamour.snapshot.manualCopy': msg({
+    zh: '快照已生成，请复制链接',
+    en: 'Snapshot created. Copy the link',
+    ja: 'スナップショットを作成しました。リンクをコピーしてください',
+    ko: '스냅샷이 생성되었습니다. 링크를 복사해 주세요'
+  }),
+  'nsglamour.snapshot.createError': msg({
+    zh: '快照生成失败',
+    en: 'Could not create snapshot',
+    ja: 'スナップショットを作成できませんでした',
+    ko: '스냅샷을 만들 수 없습니다'
+  }),
+  'nsglamour.snapshot.loadError': msg({
+    zh: '快照读取失败',
+    en: 'Could not load snapshot',
+    ja: 'スナップショットを読み込めませんでした',
+    ko: '스냅샷을 불러올 수 없습니다'
+  }),
+  'nsglamour.snapshot.notFound': msg({
+    zh: '没有找到该快照',
+    en: 'Snapshot not found',
+    ja: 'スナップショットが見つかりません',
+    ko: '스냅샷을 찾을 수 없습니다'
+  }),
+  'nsglamour.snapshot.layout.compact': msg({
+    zh: '紧凑布局',
+    en: 'Compact layout',
+    ja: 'コンパクト表示',
+    ko: '간격 좁게'
+  }),
+  'nsglamour.snapshot.layout.spacious': msg({
+    zh: '宽松布局',
+    en: 'Spacious layout',
+    ja: 'ゆったり表示',
+    ko: '간격 넓게'
+  }),
+  'nsglamour.reference.huijiWiki': msg({
+    zh: '最终幻想14中文维基',
+    en: '最终幻想14中文维基',
+    ja: '最终幻想14中文维基',
+    ko: '最终幻想14中文维基'
+  }),
+  'nsglamour.reference.lodestone': msg({
+    zh: 'Lodestone',
+    en: 'Lodestone',
+    ja: 'Lodestone',
+    ko: 'Lodestone'
+  }),
+  'nsglamour.reference.garlandData': msg({
+    zh: 'Garland Data',
+    en: 'Garland Data',
+    ja: 'Garland Data',
+    ko: 'Garland Data'
+  }),
+  'nsglamour.reference.krGuide': msg({
+    zh: '파이널판타지14 공식 가이드',
+    en: '파이널판타지14 공식 가이드',
+    ja: '파이널판타지14 공식 가이드',
+    ko: '파이널판타지14 공식 가이드'
+  }),
   'nsglamour.template.settings': msg({
     zh: '模板设置',
     en: 'Template settings',
@@ -194,6 +278,38 @@ export const glamourUiMessages: UiMessageMap = {
     ja: 'レイアウト言語',
     ko: '배치 언어'
   }),
+  'nsglamour.template.language.custom': msg({
+    zh: '自定义',
+    en: 'Custom',
+    ja: 'カスタム',
+    ko: '사용자 지정',
+    fr: 'Personnalisé',
+    de: 'Benutzerdefiniert'
+  }),
+  'nsglamour.template.language.itemNames': msg({
+    zh: '装备名',
+    en: 'Item names',
+    ja: '装備名',
+    ko: '장비명',
+    fr: "Noms d'objet",
+    de: 'Gegenstandsnamen'
+  }),
+  'nsglamour.template.language.dyes': msg({
+    zh: '染剂',
+    en: 'Dyes',
+    ja: '染料',
+    ko: '염료',
+    fr: 'Teintures',
+    de: 'Farbstoffe'
+  }),
+  'nsglamour.template.language.none': msg({
+    zh: '不显示',
+    en: 'None',
+    ja: '表示しない',
+    ko: '표시 안 함',
+    fr: 'Aucun',
+    de: 'Ausblenden'
+  }),
   'nsglamour.template.language.currentEdit': msg({
     zh: '当前编辑',
     en: 'Current edit',
@@ -309,10 +425,10 @@ export const glamourUiMessages: UiMessageMap = {
     ko: '복사 문구'
   }),
   'nsglamour.panel.recent': msg({
-    zh: '最近载入',
-    en: 'Recent',
-    ja: '最近の読み込み',
-    ko: '최근 불러오기'
+    zh: '最近保存',
+    en: 'Recent saves',
+    ja: '最近の保存',
+    ko: '최근 저장'
   }),
   'nsglamour.import.link.label': msg({
     zh: '网页链接',

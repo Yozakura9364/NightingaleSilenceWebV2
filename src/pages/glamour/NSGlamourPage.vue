@@ -1,6 +1,12 @@
 <template>
   <FfxivToolShell :tool="tool" :boundary="boundary" variant="workspace">
-    <div class="nsglamour-page">
+    <NSGlamourSnapshotPage
+      v-if="snapshotId"
+      :snapshot-id="snapshotId"
+      :boundary="boundary"
+    />
+
+    <div v-else class="nsglamour-page">
       <RouterLink
         class="nsglamour-page-turn"
         :class="turnButtonClass"
@@ -30,6 +36,7 @@ import { getRequiredFfxivTool, siteRoutes } from '@/config/site'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import { glamourUiMessages } from '@/locales/modules/glamour'
 import FfxivToolShell from '@/pages/ffxiv/components/FfxivToolShell.vue'
+import NSGlamourSnapshotPage from '@/pages/glamour/components/NSGlamourSnapshotPage.vue'
 import NSGlamourWorkspace from '@/pages/glamour/components/NSGlamourWorkspace.vue'
 import { getApiBoundary } from '@/services/apiBoundaries'
 import { loadMessages, useLocale } from '@/stores/locale'
@@ -40,6 +47,10 @@ const tool = getRequiredFfxivTool('glamour')
 const boundary = getApiBoundary('glamour')
 const route = useRoute()
 const { t } = useLocale()
+
+const snapshotId = computed(() =>
+  typeof route.params.snapshotId === 'string' ? route.params.snapshotId : ''
+)
 
 const mode = computed(() =>
   route.path === siteRoutes.glamourEquipInfo ? 'equipinfo' : 'template'

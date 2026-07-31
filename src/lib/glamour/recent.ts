@@ -35,7 +35,10 @@ function normalizeRecentSnapshot(value: unknown, index: number): GlamourRecentSn
     parsed: value.parsed,
     locale: typeof value.locale === 'string' && value.locale ? value.locale : GLAMOUR_DEFAULT_LOCALE,
     copyFormat: typeof value.copyFormat === 'string' ? value.copyFormat : undefined,
-    customTemplate: typeof value.customTemplate === 'string' ? value.customTemplate : undefined
+    customTemplate: typeof value.customTemplate === 'string' ? value.customTemplate : undefined,
+    snapshotId: typeof value.snapshotId === 'string' ? value.snapshotId : undefined,
+    snapshotUrl: typeof value.snapshotUrl === 'string' ? value.snapshotUrl : undefined,
+    snapshotKey: typeof value.snapshotKey === 'string' ? value.snapshotKey : undefined
   }
 }
 
@@ -118,6 +121,38 @@ export function upsertGlamourRecentSnapshot(snapshot: GlamourRecentSnapshot) {
   const snapshotKey = snapshot.sourceName
   const existing = readGlamourRecentSnapshots().filter((item) => item.sourceName !== snapshotKey)
   writeGlamourRecentSnapshots([snapshot, ...existing])
+}
+
+export function findGlamourRecentSnapshotLink(snapshotKey: string):
+  | Pick<GlamourRecentSnapshot, 'snapshotId' | 'snapshotUrl' | 'snapshotKey'>
+  | undefined {
+  const item = readGlamourRecentSnapshots().find((snapshot) => (
+    snapshot.snapshotKey === snapshotKey && Boolean(snapshot.snapshotId)
+  ))
+  return item
+    ? {
+        snapshotId: item.snapshotId,
+        snapshotUrl: item.snapshotUrl,
+        snapshotKey: item.snapshotKey
+      }
+    : undefined
+}
+
+export function recordGlamourRecentSnapshotLink(
+  name: string,
+  link: { snapshotId: string; snapshotUrl: string; snapshotKey: string }
+): boolean {
+  const normalizedName = normalizeGlamourConfigName(name)
+  const items = readGlamourRecentSnapshots()
+  const index = items.findIndex((item) => item.sourceName === normalizedName)
+  if (index < 0) {
+    return false
+  }
+
+  items[index] = { ...items[index], ...link }
+  writeGlamourRecentSnapshots(items)
+  window.dispatchEvent(new StorageEvent('storage', { key: GLAMOUR_RECENT_STORAGE_KEY }))
+  return true
 }
 
 export function removeGlamourRecentSnapshot(id: string) {

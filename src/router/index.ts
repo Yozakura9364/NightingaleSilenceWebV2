@@ -165,6 +165,12 @@ const router = createRouter({
       component: loadLocalizedPage(['glamour'], () => import('@/pages/glamour/NSGlamourPage.vue'))
     },
     {
+      path: `${siteRoutes.glamourEquipInfo}/:snapshotId`,
+      name: 'ffxiv-glamour-equipinfo-snapshot',
+      meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle },
+      component: loadLocalizedPage(['glamour'], () => import('@/pages/glamour/NSGlamourPage.vue'))
+    },
+    {
       path: siteRoutes.plate,
       name: 'ffxiv-plate',
       meta: { titleKey: plateTool?.titleKey ?? textKeys.plateTitle },

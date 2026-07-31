@@ -10,17 +10,31 @@
       </div>
 
       <div class="nsglamour-equipment__actions">
-        <select
-          id="nsglamour-equipment-locale"
-          class="nsglamour-equipment__locale"
+        <div
+          class="nsglamour-equipment__locale-tabs"
           :aria-label="t(textKeys.nsglamourEquipmentLanguage)"
-          :value="draft.locale"
-          @change="emitLocale"
         >
-          <option v-for="option in localeOptions" :key="option.value" :value="option.value">
+          <button
+            v-for="option in localeOptions"
+            :key="option.value"
+            type="button"
+            :class="{ active: option.value === draft.locale }"
+            :aria-pressed="option.value === draft.locale"
+            :aria-label="option.accessibleLabel"
+            :title="option.accessibleLabel"
+            @click="emit('update-locale', option.value)"
+          >
             {{ option.label }}
-          </option>
-        </select>
+          </button>
+        </div>
+
+        <AppButton
+          size="compact"
+          :disabled="!hasEquipment || snapshotCreating"
+          @click="createSnapshot"
+        >
+          {{ snapshotActionLabel }}
+        </AppButton>
 
         <AppButton size="compact" :disabled="!hasEquipment" @click="saveConfig">
           {{ t(textKeys.nsglamourSaveConfig) }}
@@ -77,7 +91,11 @@ import {
   getSelectedCandidate,
   getSlotTitle
 } from '@/lib/glamour/equipment'
-import { normalizeGlamourConfigName } from '@/lib/glamour/recent'
+import {
+  findGlamourRecentSnapshotLink,
+  normalizeGlamourConfigName,
+  recordGlamourRecentSnapshotLink
+} from '@/lib/glamour/recent'
 import type {
   GlamourCandidate,
   GlamourDraft,
@@ -86,6 +104,11 @@ import type {
 } from '@/lib/glamour/types'
 import NSGlamourEquipmentSlot from '@/pages/glamour/components/NSGlamourEquipmentSlot.vue'
 import { useGlamourEquipInfoEditor } from '@/pages/glamour/composables/useGlamourEquipInfoEditor'
+import {
+  createGlamourSnapshotKey,
+  useNSGlamourSnapshotApi
+} from '@/pages/glamour/services/nsglamourSnapshots'
+import { createGlamourSnapshotUrl } from '@/lib/glamour/snapshotLinks'
 import type {
   GlamourEquipmentSearch,
   GlamourStainLoader
@@ -149,8 +172,11 @@ const emit = defineEmits<{
 
 const { t } = useLocale()
 const dialog = useDialog()
+const snapshotApi = useNSGlamourSnapshotApi()
 const equipmentLayoutQuery = window.matchMedia('(max-width: 1080px)')
 const isMobileLayout = ref(equipmentLayoutQuery.matches)
+const snapshotCreating = ref(false)
+const snapshotCopied = ref(false)
 const editor = useGlamourEquipInfoEditor({
   apiBase: computed(() => props.apiBase),
   draft: computed(() => props.draft),
@@ -174,11 +200,33 @@ const localeLabelKeys: Record<string, string> = {
   de: textKeys.nsglamourLocaleDe
 }
 
+const LOCALE_ORDER = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']
+const COMPACT_LOCALE_LABELS: Record<string, string> = {
+  ja: 'ja',
+  en: 'en',
+  fr: 'fr',
+  de: 'de',
+  zh: 'chs',
+  tc: 'tc',
+  ko: 'ko'
+}
+
 const localeOptions = computed(() =>
-  props.draft.locales.map((locale) => ({
-    value: locale,
-    label: t(localeLabelKeys[locale] ?? '') || props.draft.localeLabels[locale] || locale
-  }))
+  [...props.draft.locales]
+    .sort((left, right) => {
+      const leftIndex = LOCALE_ORDER.indexOf(left)
+      const rightIndex = LOCALE_ORDER.indexOf(right)
+      return (
+        (leftIndex < 0 ? LOCALE_ORDER.length : leftIndex) -
+        (rightIndex < 0 ? LOCALE_ORDER.length : rightIndex)
+      )
+    })
+    .map((locale) => ({
+      value: locale,
+      label: COMPACT_LOCALE_LABELS[locale] || locale,
+      accessibleLabel:
+        t(localeLabelKeys[locale] ?? '') || props.draft.localeLabels[locale] || locale
+    }))
 )
 
 const entryViews = computed<GlamourEquipmentEntryView[]>(() =>
@@ -227,6 +275,14 @@ const sourceMetaText = computed(() => {
   return title && title !== sourceDisplayName.value ? title : ''
 })
 const hasEquipment = computed(() => entryViews.value.some((entry) => Boolean(entry.itemName)))
+const snapshotActionLabel = computed(() => {
+  if (snapshotCreating.value) {
+    return t(textKeys.nsglamourSnapshotCreating)
+  }
+  return snapshotCopied.value
+    ? t(textKeys.nsglamourSnapshotCopied)
+    : t(textKeys.nsglamourCreateSnapshot)
+})
 
 onMounted(() => {
   equipmentLayoutQuery.addEventListener('change', updateEquipmentLayout)
@@ -267,8 +323,90 @@ async function saveConfig(): Promise<void> {
   }
 }
 
-function emitLocale(event: Event): void {
-  emit('update-locale', (event.currentTarget as HTMLSelectElement).value)
+async function createSnapshot(): Promise<void> {
+  if (!hasEquipment.value || snapshotCreating.value) {
+    return
+  }
+
+  const snapshotWindow = window.open('about:blank', '_blank')
+  if (snapshotWindow) {
+    snapshotWindow.opener = null
+  }
+  snapshotCreating.value = true
+  snapshotCopied.value = false
+
+  try {
+    const snapshotKey = await createGlamourSnapshotKey(props.draft)
+    const cachedSnapshot = findGlamourRecentSnapshotLink(snapshotKey)
+    let snapshotId = cachedSnapshot?.snapshotId || ''
+
+    if (!snapshotId) {
+      const response = await snapshotApi.createSnapshot(props.draft)
+      snapshotId = response.id
+    }
+
+    const shareUrl = createGlamourSnapshotUrl(snapshotId, props.draft.locale)
+    saveSnapshotConfig(snapshotId, shareUrl, snapshotKey)
+    if (snapshotWindow && !snapshotWindow.closed) {
+      snapshotWindow.location.replace(shareUrl)
+    }
+    const copied = await copySnapshotUrl(shareUrl)
+    if (!copied) {
+      await dialog.prompt(
+        t(textKeys.nsglamourSnapshotManualCopy),
+        shareUrl,
+        t(textKeys.nsglamourEquipmentPanel)
+      )
+      return
+    }
+
+    snapshotCopied.value = true
+  } catch {
+    if (snapshotWindow && !snapshotWindow.closed) {
+      snapshotWindow.close()
+    }
+    await dialog.alert(
+      t(textKeys.nsglamourSnapshotCreateError),
+      t(textKeys.nsglamourEquipmentPanel)
+    )
+  } finally {
+    snapshotCreating.value = false
+  }
+}
+
+function saveSnapshotConfig(snapshotId: string, snapshotUrl: string, snapshotKey: string): void {
+  const name = normalizeGlamourConfigName(
+    sourceDisplayName.value || t(textKeys.nsglamourRecentUnnamed)
+  )
+  emit('save-config', name)
+  recordGlamourRecentSnapshotLink(name, { snapshotId, snapshotUrl, snapshotKey })
+}
+
+async function copySnapshotUrl(value: string): Promise<boolean> {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(value)
+      return true
+    } catch {
+      // Fall through to the synchronous browser copy command.
+    }
+  }
+
+  const input = document.createElement('textarea')
+  input.value = value
+  input.setAttribute('readonly', '')
+  input.style.position = 'fixed'
+  input.style.opacity = '0'
+  document.body.appendChild(input)
+  input.select()
+
+  try {
+    return document.execCommand('copy')
+  } catch {
+    return false
+  } finally {
+    input.remove()
+  }
 }
 </script>
 

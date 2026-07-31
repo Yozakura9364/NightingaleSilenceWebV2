@@ -26,6 +26,7 @@ write_item_catalog(
     {"zh": "fixture:zh", "en": "fixture:en"},
 )
 os.environ["NSGLAMOUR_ITEM_CATALOG_PATH"] = str(catalog_path)
+os.environ["NSGLAMOUR_SNAPSHOT_DB_PATH"] = str(Path(catalog_directory.name) / "snapshots.sqlite3")
 
 spec = importlib.util.spec_from_file_location("nsglamour_app", app_path)
 module = importlib.util.module_from_spec(spec)
@@ -137,9 +138,52 @@ def test_input_errors_are_stable():
     assert invalid_file.get_json() == {"error": "invalid file type"}
 
 
+def test_equipment_snapshot_api_contract():
+    create = client.post(
+        "/api/equipinfo/snapshots",
+        json={
+            "locales": ["zh", "en"],
+            "slot_names": {"Body": {"zh": "身体", "en": "Body"}},
+            "no_dye_labels": {"zh": "无染色", "en": "No Dye"},
+            "source": {"url": "https://must-not-be-stored.example"},
+            "entries": [
+                {
+                    "slot": "Body",
+                    "candidate": {
+                        "key": "fixture-body",
+                        "name": "试验装备",
+                        "names": {"zh": "试验装备", "en": "Fixture Gear"},
+                        "icon": 20001,
+                        "model_main": {"raw": "must-not-be-stored"},
+                        "dye_entries": [
+                            {
+                                "id": 7,
+                                "name": "煤烟黑",
+                                "names": {"zh": "煤烟黑", "en": "Soot Black"},
+                                "hex": "#1F1F1F",
+                            }
+                        ],
+                    },
+                }
+            ],
+        },
+    )
+    assert create.status_code == 201
+    created = create.get_json()
+    assert len(created["id"]) == 10
+    assert "source" not in created["snapshot"]
+    assert "model_main" not in created["snapshot"]["entries"][0]["item"]
+
+    loaded = client.get(f"/api/equipinfo/snapshots/{created['id']}")
+    assert loaded.status_code == 200
+    assert loaded.get_json()["snapshot"] == created["snapshot"]
+    assert client.get("/api/equipinfo/snapshots/not-a-valid-id").status_code == 404
+
+
 test_health_and_reference_data()
 test_search_text_and_chara_parsing()
 test_catalog_search_reports_unavailable_index()
 test_input_errors_are_stable()
+test_equipment_snapshot_api_contract()
 
 print("api contract ok")
