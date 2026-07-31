@@ -21,6 +21,8 @@
     "check:fashion-check-history": "node scripts/fashion-check/check-history.mjs",
     "build:fashion-check-tags": "node scripts/fashion-check/build-tag-database.mjs",
     "check:fashion-check-tags": "node scripts/fashion-check/check-tag-database.mjs",
+    "check:fashion-check-current": "node scripts/fashion-check/check-current.mjs",
+    "check:deploy-completeness": "node scripts/check-deploy-completeness.mjs",
     "build:plate-manifest": "node scripts/build-nsplate-manifest.mjs --preview-img-base https://img.nightingalesilence.com/plate-preview-webp/256 --preview-max-edge 256 --preview-format webp",
     "build:plate-manifest:render": "node scripts/build-nsplate-manifest.mjs --preview-img-base https://img.nightingalesilence.com/plate-preview-webp/256 --preview-max-edge 256 --preview-format webp --render-img-base https://img.nightingalesilence.com/plate-render-webp/full --render-format webp",
     "build:plate-manifest:no-preview": "node scripts/build-nsplate-manifest.mjs",
