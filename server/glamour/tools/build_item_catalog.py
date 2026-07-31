@@ -13,6 +13,7 @@ from build_item_mapping import (  # noqa: E402
     DEFAULT_LOCALES,
     LANGUAGE_SOURCES,
     PRIMARY_LOCALE,
+    build_language_sources,
     clean_text,
     load_sheet_rows,
     parse_int,
@@ -96,6 +97,11 @@ def main() -> int:
         help="Override one locale Item.csv source; may be repeated",
     )
     parser.add_argument(
+        "--source-root",
+        default="",
+        help="Local root containing chs/en/ja/ko/tc/fr/de Item.csv files; disables remote fallback",
+    )
+    parser.add_argument(
         "--output",
         default=str(SERVER_DIR / "data" / "item_catalog.sqlite3"),
     )
@@ -104,8 +110,15 @@ def main() -> int:
     try:
         locales = parse_locale_list(args.locales)
         overrides = parse_item_overrides(args.item_csv)
+        language_sources = build_language_sources(
+            "",
+            "",
+            "",
+            source_root=args.source_root,
+            locales=locales,
+        )
         sources = {
-            locale: overrides.get(locale, LANGUAGE_SOURCES[locale]["item"])
+            locale: overrides.get(locale, language_sources[locale]["item"])
             for locale in locales
         }
         items = build_catalog_items(locales, sources)

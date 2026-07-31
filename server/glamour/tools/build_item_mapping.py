@@ -75,6 +75,24 @@ LANGUAGE_SOURCES = {
     },
 }
 
+LOCAL_SOURCE_FOLDERS = {
+    "zh": "chs",
+    "en": "en",
+    "ja": "ja",
+    "ko": "ko",
+    "tc": "tc",
+    "fr": "fr",
+    "de": "de",
+}
+
+LOCAL_SOURCE_FILES = {
+    "item": "Item.csv",
+    "stain": "Stain.csv",
+    "addon": "Addon.csv",
+    "glasses": "Glasses.csv",
+    "ornament": "Ornament.csv",
+}
+
 SLOT_LABELS = {
     1: "武器",
     2: "武器",
@@ -560,8 +578,36 @@ def parse_locale_list(value: str) -> List[str]:
     return locales
 
 
-def build_language_sources(item_csv: str, stain_csv: str, addon_csv: str) -> Dict[str, Dict[str, str]]:
+def build_language_sources(
+    item_csv: str,
+    stain_csv: str,
+    addon_csv: str,
+    source_root: str = "",
+    locales: Optional[List[str]] = None,
+) -> Dict[str, Dict[str, str]]:
+    selected_locales = locales or DEFAULT_LOCALES
     language_sources = copy.deepcopy(LANGUAGE_SOURCES)
+
+    if source_root:
+        root = Path(source_root).expanduser().resolve()
+        if not root.is_dir():
+            raise ValueError(f"Source root is not a directory: {source_root}")
+
+        for locale in selected_locales:
+            folder_name = LOCAL_SOURCE_FOLDERS.get(locale)
+            if not folder_name:
+                raise ValueError(f"Unknown locale: {locale}")
+
+            locale_root = root / folder_name
+            if not locale_root.is_dir():
+                raise ValueError(f"Missing local locale directory: {locale_root}")
+
+            for source_kind, file_name in LOCAL_SOURCE_FILES.items():
+                source_path = locale_root / file_name
+                if not source_path.is_file():
+                    raise ValueError(f"Missing local {locale} {file_name}: {source_path}")
+                language_sources[locale][source_kind] = str(source_path)
+
     if item_csv:
         language_sources[PRIMARY_LOCALE]["item"] = item_csv
     if stain_csv:
@@ -571,8 +617,14 @@ def build_language_sources(item_csv: str, stain_csv: str, addon_csv: str) -> Dic
     return language_sources
 
 
-def build_mapping(item_csv: str, stain_csv: str, addon_csv: str, locales: List[str]) -> Dict[str, object]:
-    language_sources = build_language_sources(item_csv, stain_csv, addon_csv)
+def build_mapping(
+    item_csv: str,
+    stain_csv: str,
+    addon_csv: str,
+    locales: List[str],
+    source_root: str = "",
+) -> Dict[str, object]:
+    language_sources = build_language_sources(item_csv, stain_csv, addon_csv, source_root, locales)
     unknown = [locale for locale in locales if locale not in language_sources]
     if unknown:
         raise ValueError(f"Unknown locale(s): {', '.join(unknown)}")
@@ -626,11 +678,12 @@ def build_mapping(item_csv: str, stain_csv: str, addon_csv: str, locales: List[s
             "default_locale": PRIMARY_LOCALE,
             "locales": locales,
             "locale_labels": locale_labels,
-            "item_sources": {locale: language_sources[locale]["item"] for locale in locales},
-            "stain_sources": {locale: language_sources[locale]["stain"] for locale in locales},
-            "addon_sources": {locale: language_sources[locale]["addon"] for locale in locales},
-            "glasses_sources": {locale: language_sources[locale]["glasses"] for locale in locales},
-            "ornament_sources": {locale: language_sources[locale]["ornament"] for locale in locales},
+            "source_mode": "local-root" if source_root else "remote-default",
+            "item_sources": {locale: LANGUAGE_SOURCES[locale]["item"] for locale in locales},
+            "stain_sources": {locale: LANGUAGE_SOURCES[locale]["stain"] for locale in locales},
+            "addon_sources": {locale: LANGUAGE_SOURCES[locale]["addon"] for locale in locales},
+            "glasses_sources": {locale: LANGUAGE_SOURCES[locale]["glasses"] for locale in locales},
+            "ornament_sources": {locale: LANGUAGE_SOURCES[locale]["ornament"] for locale in locales},
         },
         "stains": stains_by_locale.get(PRIMARY_LOCALE, {}),
         "stains_by_locale": stains_by_locale,
@@ -656,6 +709,11 @@ def main() -> int:
     parser.add_argument("--item-csv", default="", help="Optional zh Item.csv override")
     parser.add_argument("--stain-csv", default="", help="Optional zh Stain.csv override")
     parser.add_argument("--addon-csv", default="", help="Optional zh Addon.csv override")
+    parser.add_argument(
+        "--source-root",
+        default="",
+        help="Local root containing chs/en/ja/ko/tc/fr/de CSV directories; disables remote fallback",
+    )
     parser.add_argument("--locales", default=",".join(DEFAULT_LOCALES), help="Comma-separated locale list")
     parser.add_argument(
         "--output",
@@ -666,7 +724,7 @@ def main() -> int:
 
     locales = parse_locale_list(args.locales)
     try:
-        mapping = build_mapping(args.item_csv, args.stain_csv, args.addon_csv, locales)
+        mapping = build_mapping(args.item_csv, args.stain_csv, args.addon_csv, locales, args.source_root)
     except Exception as error:
         print(f"Error building mapping: {error}", file=sys.stderr)
         return 1
