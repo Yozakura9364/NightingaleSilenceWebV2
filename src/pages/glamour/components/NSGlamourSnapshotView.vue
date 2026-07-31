@@ -1,7 +1,6 @@
 <template>
   <section class="nsglamour-snapshot">
     <header class="nsglamour-snapshot__header">
-      <h2 class="ns-heading-bloom">{{ t(textKeys.nsglamourEquipmentPanel) }}</h2>
       <div class="nsglamour-snapshot__toolbar">
         <button
           type="button"
@@ -13,8 +12,8 @@
           @click="toggleLayout"
         >
           <span
-            class="nsglamour-snapshot__layout-icon"
-            :class="{ 'is-spacious': layoutMode === 'spacious' }"
+            class="nsglamour-snapshot__tool-icon"
+            :style="listIconStyle"
             aria-hidden="true"
           ></span>
         </button>
@@ -29,7 +28,11 @@
             :aria-expanded="languageMenuOpen"
             @click.stop="languageMenuOpen = !languageMenuOpen"
           >
-            <img :src="languagesIcon" alt="" aria-hidden="true" />
+            <span
+              class="nsglamour-snapshot__tool-icon"
+              :style="languagesIconStyle"
+              aria-hidden="true"
+            ></span>
           </button>
           <div
             v-if="languageMenuOpen"
@@ -58,7 +61,11 @@
           :title="themeToggleLabel"
           @click="toggleTheme"
         >
-          <img :src="themeMode === 'night' ? sunIcon : moonIcon" alt="" aria-hidden="true" />
+          <span
+            class="nsglamour-snapshot__tool-icon"
+            :style="themeIconStyle"
+            aria-hidden="true"
+          ></span>
         </button>
       </div>
     </header>
@@ -73,7 +80,7 @@
           :key="entry.slot"
           class="nsglamour-snapshot__item"
           :class="{
-            'nsglamour-snapshot__item--actionable': entry.itemId > 0,
+            'nsglamour-snapshot__item--actionable': entry.itemName,
             'nsglamour-snapshot__item--empty': !entry.itemName
           }"
           @contextmenu="openItemMenu($event, entry)"
@@ -107,6 +114,14 @@
       </div>
     </div>
 
+    <footer class="nsglamour-snapshot__footer">
+      <span>{{ t(textKeys.nsglamourSnapshotCopyright) }}</span>
+      <span>
+        {{ t(textKeys.nsglamourSnapshotGeneratedBy) }}
+        <a :href="editorUrl">{{ t(textKeys.nsglamourSnapshotSite) }}</a>
+      </span>
+    </footer>
+
     <FfxivItemReferenceMenu
       :position="itemActionMenu?.position ?? null"
       :item-id="itemActionMenu?.itemId ?? 0"
@@ -114,6 +129,7 @@
       :lodestone-name="itemActionMenu?.lodestoneName ?? ''"
       :ko-name="itemActionMenu?.koName ?? ''"
       :labels="referenceLabels"
+      variant="legacy"
       @close="closeItemMenu"
     />
   </section>
@@ -122,9 +138,10 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import languagesIcon from '@/assets/icons/pixelarticons/languages.svg'
-import moonIcon from '@/assets/icons/moon.svg'
-import sunIcon from '@/assets/icons/sun-alt.svg'
+import languagesIcon from '@/assets/icons/languages-regular.svg'
+import listIcon from '@/assets/icons/list-regular.svg'
+import moonIcon from '@/assets/icons/moon-regular.svg'
+import sunIcon from '@/assets/icons/sun-regular.svg'
 import FfxivItemReferenceMenu from '@/components/FfxivItemReferenceMenu.vue'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import {
@@ -158,6 +175,9 @@ const LAYOUT_STORAGE_KEY = 'nsglamour.snapshotLayout'
 const LONG_PRESS_MS = 650
 const LONG_PRESS_MOVE_TOLERANCE = 12
 const ITEM_MENU_OPEN_EVENT = 'ffxiv-item-reference-menu-open'
+const editorUrl = import.meta.env.DEV
+  ? 'http://127.0.0.1:5175/#/ffxiv/glamour/equipinfo'
+  : '/#/ffxiv/glamour/equipinfo'
 const localeLabelKeys: Record<string, string> = {
   zh: textKeys.nsglamourLocaleZh,
   en: textKeys.nsglamourLocaleEn,
@@ -241,6 +261,11 @@ const layoutToggleLabel = computed(() =>
 const themeToggleLabel = computed(() =>
   t(themeMode.value === 'night' ? textKeys.day : textKeys.night)
 )
+const listIconStyle = { '--nsglamour-snapshot-icon': `url("${listIcon}")` }
+const languagesIconStyle = { '--nsglamour-snapshot-icon': `url("${languagesIcon}")` }
+const themeIconStyle = computed(() => ({
+  '--nsglamour-snapshot-icon': `url("${themeMode.value === 'night' ? sunIcon : moonIcon}")`
+}))
 
 const entries = computed<SnapshotDisplayEntry[]>(() => {
   const entriesBySlot = new Map(props.snapshot.entries.map((entry) => [entry.slot, entry]))
@@ -364,7 +389,7 @@ function cancelItemLongPress(): void {
 }
 
 function openItemMenu(event: MouseEvent | PointerEvent, entry: SnapshotDisplayEntry): void {
-  if (entry.itemId <= 0) return
+  if (!entry.itemName) return
 
   event.preventDefault()
   cancelItemLongPress()
@@ -379,7 +404,7 @@ function openItemMenu(event: MouseEvent | PointerEvent, entry: SnapshotDisplayEn
 }
 
 function startItemLongPress(event: PointerEvent, entry: SnapshotDisplayEntry): void {
-  if (entry.itemId <= 0 || event.pointerType === 'mouse') return
+  if (!entry.itemName || event.pointerType === 'mouse') return
 
   cancelItemLongPress()
   longPressState = {
@@ -446,22 +471,21 @@ onBeforeUnmount(() => {
 <style scoped>
 .nsglamour-snapshot {
   display: grid;
-  gap: 16px;
-  padding: 18px;
+  width: min(860px, 100%);
+  margin: auto;
+  padding: 16px 20px 20px;
   border: 1px solid var(--ns-color-border);
+  border-radius: 8px;
   background: var(--ns-color-surface-solid, #fff);
   color: var(--ns-color-text);
-  box-shadow: 0 6px 18px rgb(20 28 45 / 6%);
 }
 
 .nsglamour-snapshot__header {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--ns-color-border);
+  justify-content: flex-end;
+  min-height: 32px;
+  margin-bottom: 4px;
 }
 
 .nsglamour-snapshot__toolbar {
@@ -471,56 +495,33 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-snapshot__tool-button {
-  display: inline-grid;
-  width: 34px;
-  height: 34px;
-  padding: 6px;
-  place-items: center;
-  border: 2px solid var(--ns-pixel-border);
+  display: inline-flex;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
   border-radius: 0;
-  background: var(--ns-pixel-surface);
+  background: transparent;
   color: var(--ns-color-text);
-  box-shadow: var(--ns-pixel-button-shadow);
   cursor: pointer;
 }
 
 .nsglamour-snapshot__tool-button:hover,
 .nsglamour-snapshot__tool-button.active {
-  background: var(--ns-pixel-cyan-surface);
+  background: transparent;
   color: var(--ns-color-accent-strong);
 }
 
-.nsglamour-snapshot__tool-button img {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-}
-
-.nsglamour-snapshot__layout-icon {
-  position: relative;
+.nsglamour-snapshot__tool-icon {
   display: block;
   width: 16px;
-  height: 14px;
-}
-
-.nsglamour-snapshot__layout-icon::before {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 1px;
-  width: 14px;
-  height: 2px;
+  height: 16px;
   background: currentColor;
-  box-shadow:
-    0 3px currentColor,
-    0 6px currentColor;
-}
-
-.nsglamour-snapshot__layout-icon.is-spacious::before {
-  top: 1px;
-  box-shadow:
-    0 5px currentColor,
-    0 10px currentColor;
+  mask: var(--nsglamour-snapshot-icon) center / contain no-repeat;
+  -webkit-mask: var(--nsglamour-snapshot-icon) center / contain no-repeat;
 }
 
 .nsglamour-snapshot__language-control {
@@ -534,37 +535,38 @@ onBeforeUnmount(() => {
   z-index: 20;
   display: grid;
   width: max-content;
-  min-width: 132px;
-  padding: 4px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-surface);
-  box-shadow: var(--ns-pixel-panel-shadow);
+  min-width: 150px;
+  gap: 2px;
+  padding: 6px;
+  border: 1px solid var(--ns-color-border);
+  border-radius: 8px;
+  background: var(--ns-color-surface-solid);
+  box-shadow: 0 8px 24px rgb(20 28 45 / 12%);
 }
 
 .nsglamour-snapshot__language-menu button {
-  padding: 7px 10px;
+  width: 100%;
+  padding: 7px 0 6px;
   border: 0;
   border-radius: 0;
   background: transparent;
   color: var(--ns-color-text);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
   text-align: left;
   cursor: pointer;
 }
 
 .nsglamour-snapshot__language-menu button:hover,
 .nsglamour-snapshot__language-menu button.active {
-  background: var(--ns-pixel-cyan-surface);
+  background: transparent;
   color: var(--ns-color-accent-strong);
 }
 
-.nsglamour-snapshot__header h2,
 .nsglamour-snapshot__body h3,
 .nsglamour-snapshot__body strong {
   margin: 0;
-}
-
-.nsglamour-snapshot__header h2 {
-  font-size: 16px;
 }
 
 .nsglamour-snapshot__grid {
@@ -578,12 +580,13 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-snapshot__item {
+  position: relative;
   display: flex;
-  min-height: 72px;
+  min-height: 78px;
   min-width: 0;
-  gap: 10px;
-  padding: 11px 0;
-  border-bottom: 1px solid var(--ns-color-border);
+  align-items: center;
+  gap: 8px;
+  padding: 19px 0 7px;
 }
 
 .nsglamour-snapshot__item--empty {
@@ -595,36 +598,46 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-snapshot__icon {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   flex: 0 0 auto;
-  object-fit: contain;
+  border-radius: 7px;
+  object-fit: cover;
   image-rendering: auto;
 }
 
 .nsglamour-snapshot__body {
   display: grid;
+  flex: 1;
   min-width: 0;
-  gap: 4px;
+  gap: 2px;
 }
 
 .nsglamour-snapshot__body h3 {
+  position: absolute;
+  top: 5px;
+  left: 0;
   color: var(--ns-color-text-muted);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
+  line-height: 1;
 }
 
 .nsglamour-snapshot__body strong {
-  overflow-wrap: anywhere;
   font-size: 14px;
+  font-weight: 800;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .nsglamour-snapshot__dyes {
   display: flex;
   flex-wrap: wrap;
+  min-height: 22px;
+  align-items: center;
   gap: 4px 8px;
   color: var(--ns-color-text-muted);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .nsglamour-snapshot__dye {
@@ -640,9 +653,33 @@ onBeforeUnmount(() => {
   border: 1px solid var(--ns-color-border-strong, #777);
 }
 
+.nsglamour-snapshot__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding-top: 12px;
+  border-top: 1px solid var(--ns-color-border);
+  color: var(--ns-color-text-muted);
+  font: 600 11px/1.45 var(--ns-font-ui);
+}
+
+.nsglamour-snapshot__footer a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nsglamour-snapshot__footer a:hover,
+.nsglamour-snapshot__footer a:focus-visible {
+  color: var(--ns-color-accent-strong);
+}
+
 @media (max-width: 720px) {
-  .nsglamour-snapshot__header {
-    align-items: flex-start;
+  .nsglamour-snapshot {
+    width: 100%;
+    padding: 12px;
   }
 
   .nsglamour-snapshot__grid {

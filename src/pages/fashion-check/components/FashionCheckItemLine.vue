@@ -36,48 +36,23 @@
       />
       <span>{{ secondaryText }}</span>
     </small>
-    <Teleport to="body">
-      <div
-        v-if="itemActionMenu"
-        class="fashion-check-item-line__menu ns-workbench-panel ns-workbench-panel--solid"
-        :style="{ left: `${itemActionMenu.x}px`, top: `${itemActionMenu.y}px` }"
-        role="menu"
-        @click.stop
-      >
-        <button
-          type="button"
-          class="ns-compact-action ns-compact-action--flush"
-          role="menuitem"
-          @click="openHuijiWiki"
-        >
-          {{ t(keys.openHuijiWiki) }}
-        </button>
-        <button
-          type="button"
-          class="ns-compact-action ns-compact-action--flush"
-          role="menuitem"
-          @click="openLodestone"
-        >
-          {{ t(keys.openLodestone) }}
-        </button>
-        <button
-          type="button"
-          class="ns-compact-action ns-compact-action--flush"
-          role="menuitem"
-          @click="openGarland"
-        >
-          {{ t(keys.openGarland) }}
-        </button>
-      </div>
-    </Teleport>
+    <FfxivItemReferenceMenu
+      :position="itemActionMenu"
+      :item-id="item?.itemId ?? 0"
+      :huiji-name="item?.name ?? ''"
+      :lodestone-name="item?.name ?? ''"
+      :ko-name="koItemName"
+      :labels="referenceLabels"
+      @close="closeItemMenu"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { getArmoireIconUrl } from '@/lib/armoire/catalog'
-import { getGarlandItemUrl, getHuijiWikiItemUrl, getLodestoneItemUrl } from '@/lib/ffxiv/huijiWiki'
-import type { FashionCheckItem } from '@/lib/fashion-check/types'
+import FfxivItemReferenceMenu from '@/components/FfxivItemReferenceMenu.vue'
+import { getFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
+import type { FashionCheckItem, FashionCheckLocaleCatalog } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
 import { useLocale } from '@/stores/locale'
 
@@ -102,14 +77,25 @@ const props = defineProps<{
   secondaryText?: string
   secondaryColor?: string
   stackedSlot?: boolean
+  localeCatalog?: FashionCheckLocaleCatalog
 }>()
 
 const resolvedIconId = computed(() => props.item?.iconId ?? props.iconId)
-const iconUrl = computed(() => getArmoireIconUrl(resolvedIconId.value))
+const iconUrl = computed(() => getFfxivItemIconUrl(resolvedIconId.value))
 const imageFailed = ref(false)
 const itemActionMenu = ref<{ x: number; y: number } | null>(null)
 let longPressState: LongPressState | null = null
 const { t } = useLocale()
+const koItemName = computed(() => {
+  const itemId = props.item?.itemId
+  return itemId ? props.localeCatalog?.items[String(itemId)]?.ko || '' : ''
+})
+const referenceLabels = computed(() => ({
+  huijiWiki: t(keys.referenceHuijiWiki),
+  lodestone: t(keys.referenceLodestone),
+  garlandData: t(keys.referenceGarlandData),
+  krGuide: t(keys.referenceKrGuide)
+}))
 
 watch(resolvedIconId, () => {
   imageFailed.value = false
@@ -159,30 +145,6 @@ function moveItemLongPress(event: PointerEvent) {
     event.clientY - longPressState.startY
   )
   if (distance > LONG_PRESS_MOVE_TOLERANCE) cancelItemLongPress()
-}
-
-function openHuijiWiki() {
-  const itemName = props.item?.name.trim()
-  if (itemName) {
-    window.open(getHuijiWikiItemUrl(itemName), '_blank', 'noopener,noreferrer')
-  }
-  closeItemMenu()
-}
-
-function openLodestone() {
-  const itemId = props.item?.itemId
-  if (itemId) {
-    window.open(getLodestoneItemUrl(itemId), '_blank', 'noopener,noreferrer')
-  }
-  closeItemMenu()
-}
-
-function openGarland() {
-  const itemId = props.item?.itemId
-  if (itemId) {
-    window.open(getGarlandItemUrl(itemId), '_blank', 'noopener,noreferrer')
-  }
-  closeItemMenu()
 }
 
 function closeItemMenuByKeyboard(event: KeyboardEvent) {
@@ -324,18 +286,5 @@ onBeforeUnmount(() => {
 
 .fashion-check-item-line small {
   color: var(--ns-color-text-muted);
-}
-
-.fashion-check-item-line__menu {
-  position: fixed;
-  z-index: 1200;
-  gap: 0;
-  min-width: 148px;
-  padding: 4px;
-}
-
-.fashion-check-item-line__menu button {
-  width: 100%;
-  justify-content: flex-start;
 }
 </style>

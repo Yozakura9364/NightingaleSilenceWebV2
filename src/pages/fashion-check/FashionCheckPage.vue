@@ -165,6 +165,10 @@ onMounted(async () => {
 .fashion-check-page {
   font-family: var(--ns-font-ui);
 }
+.fashion-check-page :deep(.ns-workbench-panel) {
+  border: 2px solid var(--ns-pixel-border);
+  box-shadow: none;
+}
 .fashion-check-page__header {
   display: grid;
   gap: 5px;

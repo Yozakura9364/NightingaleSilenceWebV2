@@ -32,6 +32,7 @@
                 <FashionCheckItemLine
                   v-if="entry.item || entry.iconId"
                   :item="entry.item"
+                  :locale-catalog="localeCatalog"
                   :display-name="
                     entry.item ? itemName(entry.item.itemId, entry.item.name) : undefined
                   "
@@ -125,6 +126,7 @@
             v-for="entry in solution.items"
             :key="`${solution.id}:${entry.slotId}`"
             :item="findItem(entry.itemId)"
+            :locale-catalog="localeCatalog"
             :points="entry.points"
           />
           <p v-for="dye in solution.dyes ?? []" :key="`${solution.id}:${dye.slotId}`">
@@ -205,7 +207,7 @@
 import { computed } from 'vue'
 import FashionCheckItemLine from '@/pages/fashion-check/components/FashionCheckItemLine.vue'
 import FashionCheckGoldItemsView from '@/pages/fashion-check/views/FashionCheckGoldItemsView.vue'
-import { getArmoireIconUrl } from '@/lib/armoire/catalog'
+import { getFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
 import { resolveFashionCheckName } from '@/lib/fashion-check/localization'
 import type {
   FashionCheckItem,
@@ -242,7 +244,7 @@ const faqEntries = [
   { kind: 'text', question: keys.faqFacewearQuestion, answer: keys.faqFacewearAnswer },
   { kind: 'text', question: keys.faqDualDyeQuestion, answer: keys.faqDualDyeAnswer }
 ] as const
-const mgpIconUrl = getArmoireIconUrl(65025)
+const mgpIconUrl = getFfxivItemIconUrl(65025)
 const itemById = computed(
   () =>
     new Map(props.week.slots.flatMap((slot) => slot.gold.items).map((item) => [item.itemId, item]))
@@ -279,7 +281,7 @@ function dyeItemName(dyeId: number | undefined) {
   return item ? resolveFashionCheckName(item.names, current.value, '') : ''
 }
 function dyeItemIconUrl(dyeId: number | undefined) {
-  return getArmoireIconUrl(dyeItem(dyeId)?.iconId)
+  return getFfxivItemIconUrl(dyeItem(dyeId)?.iconId)
 }
 function entryDyeColor(entry: FashionCheckReferenceEntry) {
   const dye = props.showcase?.dyes.find(

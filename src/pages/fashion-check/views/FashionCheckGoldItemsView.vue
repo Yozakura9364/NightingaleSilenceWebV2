@@ -17,7 +17,7 @@
           :key="item.itemId"
           class="fashion-check-gold-items__item"
         >
-          <FashionCheckItemLine :item="item" :display-name="itemName(item.itemId, item.name)" />
+          <FashionCheckItemLine :item="item" :display-name="itemName(item.itemId, item.name)" :locale-catalog="localeCatalog" />
         </div>
       </div>
     </article>

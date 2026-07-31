@@ -137,23 +137,29 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '초록색 계열'
   ),
   'fashionCheck.dyeFamilyBlue': localizedMessage('蓝色系', 'Blue dyes', 'ブルー系', '파란색 계열'),
-  'fashionCheck.openHuijiWiki': localizedMessage(
-    '打开灰机 Wiki',
-    'Open Huiji Wiki',
-    '灰機Wikiを開く',
-    '회색기 Wiki 열기'
+  'fashionCheck.referenceHuijiWiki': localizedMessage(
+    '最终幻想14中文维基',
+    '最终幻想14中文维基',
+    '最终幻想14中文维基',
+    '最终幻想14中文维基'
   ),
-  'fashionCheck.openLodestone': localizedMessage(
-    '打开 Lodestone',
-    'Open Lodestone',
-    'Lodestoneを開く',
-    'Lodestone 열기'
+  'fashionCheck.referenceLodestone': localizedMessage(
+    'Lodestone',
+    'Lodestone',
+    'Lodestone',
+    'Lodestone'
   ),
-  'fashionCheck.openGarland': localizedMessage(
-    '打开 Garland Data',
-    'Open Garland Data',
-    'Garland Dataを開く',
-    'Garland Data 열기'
+  'fashionCheck.referenceGarlandData': localizedMessage(
+    'Garland Data',
+    'Garland Data',
+    'Garland Data',
+    'Garland Data'
+  ),
+  'fashionCheck.referenceKrGuide': localizedMessage(
+    '파이널판타지14 공식 가이드',
+    '파이널판타지14 공식 가이드',
+    '파이널판타지14 공식 가이드',
+    '파이널판타지14 공식 가이드'
   ),
   'fashionCheck.tagDatabase.search': localizedMessage(
     '搜索标签',

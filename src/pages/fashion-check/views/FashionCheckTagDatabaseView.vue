@@ -219,7 +219,7 @@ onMounted(async () => {
   min-height: 40px;
   border: 2px solid var(--ns-pixel-border);
   border-radius: 0;
-  background-color: var(--ns-color-bg-surface);
+  background-color: var(--ns-pixel-surface, var(--ns-color-surface-solid));
   color: var(--ns-color-text);
   font: inherit;
 }
@@ -267,7 +267,7 @@ onMounted(async () => {
   padding: 8px 10px;
   border: 0;
   border-bottom: 2px solid var(--ns-pixel-border);
-  background: var(--ns-color-bg-surface);
+  background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
   color: var(--ns-color-text);
   font: inherit;
   text-align: left;
