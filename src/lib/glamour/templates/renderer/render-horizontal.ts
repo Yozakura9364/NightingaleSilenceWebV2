@@ -1,67 +1,106 @@
 import type { GlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
-import type {
-  GlamourTemplateCanvasRenderContext
-} from './types'
-import {
-  HORIZONTAL_TEMPLATE,
-  type HorizontalEquipmentRow
-} from './layouts'
-import {
-  horizontalUnit,
-  horizontalUnitY,
-  horizontalRect
-} from './utils'
-import {
-  drawGlamourTemplateImageCover
-} from './canvas'
+import type { GlamourTemplateCanvasRenderContext } from './types'
+import { HORIZONTAL_TEMPLATE } from './layouts'
+import { horizontalUnit, horizontalUnitY, horizontalRect } from './utils'
+import { drawGlamourTemplateImageCover } from './canvas'
 
-export function getHorizontalRowAdvance(row: HorizontalEquipmentRow) {
-  const area = HORIZONTAL_TEMPLATE.equipmentText
-  return area.itemLineHeight + (row.hasDyeLine ? area.dyeLineHeight : 0) + area.groupGap
+export interface HorizontalEquipmentRow {
+  itemNames: string[]
+  hasDyeLine: boolean
+  dyeText: string
 }
 
-export function getHorizontalRowInkHeight(row: HorizontalEquipmentRow) {
-  const area = HORIZONTAL_TEMPLATE.equipmentText
-  return row.hasDyeLine ? area.itemLineHeight + area.dyeInkHeight : area.itemInkHeight
+const CUSTOM_HORIZONTAL_EQUIPMENT_TEXT = {
+  ...HORIZONTAL_TEMPLATE.equipmentText,
+  itemSize: 68,
+  secondaryItemSize: 58,
+  itemLineHeight: 72,
+  secondaryItemLineHeight: 64,
+  itemInkHeight: 58,
+  dyeSize: 44,
+  dyeLineHeight: 54,
+  dyeInkHeight: 38,
+  groupGap: 46
 }
 
-export function getHorizontalEquipmentHeight(rows: HorizontalEquipmentRow[]) {
-  const area = HORIZONTAL_TEMPLATE.equipmentText
+type HorizontalEquipmentArea = typeof CUSTOM_HORIZONTAL_EQUIPMENT_TEXT
 
+export function getHorizontalEquipmentArea(customLanguageMode = false): HorizontalEquipmentArea {
+  return customLanguageMode
+    ? CUSTOM_HORIZONTAL_EQUIPMENT_TEXT
+    : {
+        ...HORIZONTAL_TEMPLATE.equipmentText,
+        secondaryItemSize: HORIZONTAL_TEMPLATE.equipmentText.itemSize,
+        secondaryItemLineHeight: 0
+      }
+}
+
+export function getHorizontalRowAdvance(
+  row: HorizontalEquipmentRow,
+  area: HorizontalEquipmentArea = getHorizontalEquipmentArea()
+) {
+  return (
+    area.itemLineHeight +
+    (row.itemNames.length > 1 ? area.secondaryItemLineHeight : 0) +
+    (row.hasDyeLine ? area.dyeLineHeight : 0) +
+    area.groupGap
+  )
+}
+
+export function getHorizontalRowInkHeight(
+  row: HorizontalEquipmentRow,
+  area: HorizontalEquipmentArea = getHorizontalEquipmentArea()
+) {
+  const secondaryHeight = row.itemNames.length > 1 ? area.secondaryItemLineHeight : 0
+  return row.hasDyeLine
+    ? area.itemLineHeight + secondaryHeight + area.dyeInkHeight
+    : area.itemInkHeight + secondaryHeight
+}
+
+export function getHorizontalEquipmentHeight(
+  rows: HorizontalEquipmentRow[],
+  area: HorizontalEquipmentArea = getHorizontalEquipmentArea()
+) {
   if (!rows.length) {
     return area.topPadding + area.itemLineHeight
   }
 
   return rows.reduce((height, row, index) => {
     if (index === rows.length - 1) {
-      return height + getHorizontalRowInkHeight(row)
+      return height + getHorizontalRowInkHeight(row, area)
     }
 
-    return height + getHorizontalRowAdvance(row)
+    return height + getHorizontalRowAdvance(row, area)
   }, area.topPadding)
 }
 
-export function getHorizontalVisibleRows(rows: HorizontalEquipmentRow[]) {
-  const area = HORIZONTAL_TEMPLATE.equipmentText
+export function getHorizontalVisibleRows(
+  rows: HorizontalEquipmentRow[],
+  area: HorizontalEquipmentArea = getHorizontalEquipmentArea()
+) {
   const visibleRows: HorizontalEquipmentRow[] = []
   let cursorY = area.topPadding
 
   for (const row of rows) {
-    if (cursorY + getHorizontalRowInkHeight(row) > area.height) {
+    if (cursorY + getHorizontalRowInkHeight(row, area) > area.height) {
       break
     }
 
     visibleRows.push(row)
-    cursorY += getHorizontalRowAdvance(row)
+    cursorY += getHorizontalRowAdvance(row, area)
   }
 
   return visibleRows
 }
 
-export function getHorizontalContentLayout(rows: HorizontalEquipmentRow[]) {
+export function getHorizontalContentLayout(
+  rows: HorizontalEquipmentRow[],
+  customLanguageMode = false
+) {
   const group = HORIZONTAL_TEMPLATE.contentGroup
-  const visibleRows = getHorizontalVisibleRows(rows)
-  const equipmentHeight = getHorizontalEquipmentHeight(visibleRows)
+  const area = getHorizontalEquipmentArea(customLanguageMode)
+  const visibleRows = getHorizontalVisibleRows(rows, area)
+  const equipmentHeight = getHorizontalEquipmentHeight(visibleRows, area)
   const groupHeight = group.titleToEquipment + equipmentHeight
   const groupBoundsHeight = group.bottom - group.top
   const groupTop = group.top + Math.max(0, (groupBoundsHeight - groupHeight) / 2)
@@ -71,7 +110,8 @@ export function getHorizontalContentLayout(rows: HorizontalEquipmentRow[]) {
     visibleRows,
     titleY: groupTop,
     lineY: groupTop + group.titleToLine,
-    equipmentY: groupTop + group.titleToEquipment
+    equipmentY: groupTop + group.titleToEquipment,
+    area
   }
 }
 
@@ -108,7 +148,10 @@ export function getHorizontalFittedFontSize(
   return minSize
 }
 
-export function drawHorizontalBackground(ctx: CanvasRenderingContext2D, options: GlamourTemplateCanvasRenderContext) {
+export function drawHorizontalBackground(
+  ctx: CanvasRenderingContext2D,
+  options: GlamourTemplateCanvasRenderContext
+) {
   const { renderData, assets } = options
   ctx.fillStyle = '#ffffff'
   ctx.fillRect(0, 0, renderData.canvas.width, renderData.canvas.height)
@@ -120,7 +163,10 @@ export function drawHorizontalBackground(ctx: CanvasRenderingContext2D, options:
   }
 }
 
-export function drawHorizontalImageSlots(ctx: CanvasRenderingContext2D, options: GlamourTemplateCanvasRenderContext) {
+export function drawHorizontalImageSlots(
+  ctx: CanvasRenderingContext2D,
+  options: GlamourTemplateCanvasRenderContext
+) {
   const { renderData, resolveImage } = options
 
   for (const slot of renderData.canvas.imageSlots) {
@@ -129,12 +175,23 @@ export function drawHorizontalImageSlots(ctx: CanvasRenderingContext2D, options:
     ctx.fillRect(slot.region.x, slot.region.y, slot.region.width, slot.region.height)
 
     if (image) {
-      drawGlamourTemplateImageCover(ctx, image.image, slot.region.x, slot.region.y, slot.region.width, slot.region.height)
+      drawGlamourTemplateImageCover(
+        ctx,
+        image.image,
+        slot.region.x,
+        slot.region.y,
+        slot.region.width,
+        slot.region.height
+      )
     }
   }
 }
 
-export function drawHorizontalTitle(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData, titleY: number) {
+export function drawHorizontalTitle(
+  ctx: CanvasRenderingContext2D,
+  renderData: GlamourTemplateRenderData,
+  titleY: number
+) {
   const titleBox = horizontalRect(renderData, {
     ...HORIZONTAL_TEMPLATE.title,
     y: titleY
@@ -146,7 +203,12 @@ export function drawHorizontalTitle(ctx: CanvasRenderingContext2D, renderData: G
 
   ctx.save()
   ctx.beginPath()
-  ctx.rect(titleBox.x, titleBox.y - clipBleedTop, lineWidth, titleBox.height + clipBleedTop + clipBleedBottom)
+  ctx.rect(
+    titleBox.x,
+    titleBox.y - clipBleedTop,
+    lineWidth,
+    titleBox.height + clipBleedTop + clipBleedBottom
+  )
   ctx.clip()
   ctx.fillStyle = HORIZONTAL_TEMPLATE.textColor
   ctx.textAlign = 'left'
@@ -156,7 +218,11 @@ export function drawHorizontalTitle(ctx: CanvasRenderingContext2D, renderData: G
   ctx.restore()
 }
 
-export function drawHorizontalTitleLine(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData, lineY: number) {
+export function drawHorizontalTitleLine(
+  ctx: CanvasRenderingContext2D,
+  renderData: GlamourTemplateRenderData,
+  lineY: number
+) {
   const lineBox = horizontalRect(renderData, {
     ...HORIZONTAL_TEMPLATE.titleLine,
     y: lineY
@@ -166,9 +232,10 @@ export function drawHorizontalTitleLine(ctx: CanvasRenderingContext2D, renderDat
   HORIZONTAL_TEMPLATE.lineColors.forEach((color, index) => {
     ctx.fillStyle = color
     const y = lineBox.y + index * lineHeight
-    const height = index === HORIZONTAL_TEMPLATE.lineColors.length - 1
-      ? Math.max(1, lineBox.y + lineBox.height - y)
-      : lineHeight
+    const height =
+      index === HORIZONTAL_TEMPLATE.lineColors.length - 1
+        ? Math.max(1, lineBox.y + lineBox.height - y)
+        : lineHeight
     ctx.fillRect(lineBox.x, y, lineBox.width, height)
   })
 }
@@ -177,9 +244,9 @@ export function drawHorizontalEquipmentText(
   ctx: CanvasRenderingContext2D,
   renderData: GlamourTemplateRenderData,
   equipmentY: number,
-  rows: HorizontalEquipmentRow[]
+  rows: HorizontalEquipmentRow[],
+  area: HorizontalEquipmentArea = getHorizontalEquipmentArea()
 ) {
-  const area = HORIZONTAL_TEMPLATE.equipmentText
   const box = horizontalRect(renderData, {
     ...area,
     y: equipmentY
@@ -198,27 +265,33 @@ export function drawHorizontalEquipmentText(
   ctx.textBaseline = 'top'
 
   const itemSize = horizontalUnit(renderData, area.itemSize)
+  const secondaryItemSize = horizontalUnit(renderData, area.secondaryItemSize)
   const dyeSize = horizontalUnit(renderData, area.dyeSize)
   const itemLineHeight = horizontalUnitY(renderData, area.itemLineHeight)
+  const secondaryItemLineHeight = horizontalUnitY(renderData, area.secondaryItemLineHeight)
   const dyeLineHeight = horizontalUnitY(renderData, area.dyeLineHeight)
   const groupGap = horizontalUnitY(renderData, area.groupGap)
   let cursorY = box.y + horizontalUnitY(renderData, area.topPadding)
 
   for (const row of rows) {
+    const secondaryHeight = row.itemNames.length > 1 ? secondaryItemLineHeight : 0
     const rowInkHeight = row.hasDyeLine
-      ? itemLineHeight + horizontalUnitY(renderData, area.dyeInkHeight)
-      : horizontalUnitY(renderData, area.itemInkHeight)
+      ? itemLineHeight + secondaryHeight + horizontalUnitY(renderData, area.dyeInkHeight)
+      : horizontalUnitY(renderData, area.itemInkHeight) + secondaryHeight
 
     if (cursorY + rowInkHeight > box.y + box.height) {
       break
     }
 
-    const fittedItemSize = getHorizontalFittedFontSize(ctx, row.itemName, itemSize, box.width)
-    ctx.font = makeHorizontalEquipmentFont(fittedItemSize)
-    ctx.fillText(row.itemName, box.x, cursorY)
+    row.itemNames.forEach((itemName, itemIndex) => {
+      const baseSize = itemIndex === 0 ? itemSize : secondaryItemSize
+      const fittedItemSize = getHorizontalFittedFontSize(ctx, itemName, baseSize, box.width)
+      ctx.font = makeHorizontalEquipmentFont(fittedItemSize)
+      ctx.fillText(itemName, box.x, cursorY)
+      cursorY += itemIndex === 0 ? itemLineHeight : secondaryItemLineHeight
+    })
 
     if (row.hasDyeLine) {
-      cursorY += itemLineHeight
       ctx.font = makeHorizontalEquipmentFont(dyeSize)
 
       if (row.dyeText) {
@@ -227,28 +300,32 @@ export function drawHorizontalEquipmentText(
 
       cursorY += dyeLineHeight + groupGap
     } else {
-      cursorY += itemLineHeight + groupGap
+      cursorY += groupGap
     }
   }
 
   ctx.restore()
 }
 
-export function renderHorizontalTemplateCanvas(ctx: CanvasRenderingContext2D, options: GlamourTemplateCanvasRenderContext) {
+export function renderHorizontalTemplateCanvas(
+  ctx: CanvasRenderingContext2D,
+  options: GlamourTemplateCanvasRenderContext
+) {
   const { renderData } = options
   const rows = renderData.rows
     .filter((row) => row.itemName)
     .map((row) => ({
-      itemName: row.itemName,
+      itemNames: row.itemNames.length ? row.itemNames : [row.itemName],
       hasDyeLine: row.hasDyeLine,
       dyeText: row.dyeText
     }))
-  const layout = getHorizontalContentLayout(rows)
+  const customLanguageMode = renderData.outputLanguageMode === 'custom'
+  const layout = getHorizontalContentLayout(rows, customLanguageMode)
 
   ctx.clearRect(0, 0, renderData.canvas.width, renderData.canvas.height)
   drawHorizontalBackground(ctx, options)
   drawHorizontalImageSlots(ctx, options)
   drawHorizontalTitleLine(ctx, renderData, layout.lineY)
   drawHorizontalTitle(ctx, renderData, layout.titleY)
-  drawHorizontalEquipmentText(ctx, renderData, layout.equipmentY, layout.visibleRows)
+  drawHorizontalEquipmentText(ctx, renderData, layout.equipmentY, layout.visibleRows, layout.area)
 }

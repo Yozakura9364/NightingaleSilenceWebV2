@@ -1,20 +1,10 @@
 import type { GlamourLocale } from '@/lib/glamour/types'
 
 export type GlamourTemplateId =
-  | 'eorzea'
-  | 'horizontal'
-  | 'story'
-  | 'risingstones'
-  | 'ec'
-  | 'silence-fashion'
+  'eorzea' | 'horizontal' | 'story' | 'risingstones' | 'ec' | 'silence-fashion'
 
 export type GlamourTemplateRenderMode =
-  | 'eorzea'
-  | 'horizontal'
-  | 'double-pic'
-  | 'risingstones'
-  | 'ec'
-  | 'silence-fashion'
+  'eorzea' | 'horizontal' | 'double-pic' | 'risingstones' | 'ec' | 'silence-fashion'
 
 export interface GlamourTemplateRect {
   x: number
@@ -36,6 +26,7 @@ export interface GlamourTemplateImageSlot {
 export interface GlamourTemplateLanguageOption {
   id: string
   label: string
+  labelKey?: string
   locales: GlamourLocale[]
 }
 
@@ -86,6 +77,7 @@ export interface GlamourTemplateDefinition {
   renderMode: GlamourTemplateRenderMode
   defaultLocale: GlamourLocale
   localeOrder: GlamourLocale[]
+  supportsCustomLanguages?: boolean
   languageOptions?: GlamourTemplateLanguageOption[]
   controls: GlamourTemplateControls
   equipmentFormat: GlamourTemplateEquipmentFormat
@@ -153,8 +145,14 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     authorUrl: 'https://weibo.com/u/1734754935',
     authorSns: [
       { platform: 'weibo', url: 'https://weibo.com/u/1734754935' },
-      { platform: 'xiaohongshu', url: 'https://www.xiaohongshu.com/user/profile/5e6c8c6e0000000001000724' },
-      { platform: 'douyin', url: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY' }
+      {
+        platform: 'xiaohongshu',
+        url: 'https://www.xiaohongshu.com/user/profile/5e6c8c6e0000000001000724'
+      },
+      {
+        platform: 'douyin',
+        url: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY'
+      }
     ],
     legacyPreviewPath: '/template-preview/4-Horizontal Eorzea Magazine/4-Preview.webp',
     summary: '横版杂志模板，适合中文或繁中装备列表。',
@@ -163,6 +161,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     renderMode: 'horizontal',
     defaultLocale: 'zh',
     localeOrder: ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko'],
+    supportsCustomLanguages: true,
     controls: { title: true, ecSubtitle: false, dyeFrame: false },
     equipmentFormat: {
       source: 'default',
@@ -249,8 +248,14 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     authorUrl: 'https://weibo.com/u/1734754935',
     authorSns: [
       { platform: 'weibo', url: 'https://weibo.com/u/1734754935' },
-      { platform: 'xiaohongshu', url: 'https://www.xiaohongshu.com/user/profile/5e6c8c6e0000000001000724' },
-      { platform: 'douyin', url: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY' }
+      {
+        platform: 'xiaohongshu',
+        url: 'https://www.xiaohongshu.com/user/profile/5e6c8c6e0000000001000724'
+      },
+      {
+        platform: 'douyin',
+        url: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY'
+      }
     ],
     legacyPreviewPath: '/template-preview/5-Risingstones/5-preview.webp',
     summary: '石之家风格模板，适合中文或繁中装备信息。',
@@ -259,6 +264,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     renderMode: 'risingstones',
     defaultLocale: 'zh',
     localeOrder: ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko'],
+    supportsCustomLanguages: true,
     controls: { title: true, ecSubtitle: true, dyeFrame: false, storySwatches: false },
     equipmentFormat: {
       source: 'default',
@@ -299,8 +305,14 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     authorUrl: 'https://weibo.com/u/1734754935',
     authorSns: [
       { platform: 'weibo', url: 'https://weibo.com/u/1734754935' },
-      { platform: 'xiaohongshu', url: 'https://www.xiaohongshu.com/user/profile/5e6c8c6e0000000001000724' },
-      { platform: 'douyin', url: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY' }
+      {
+        platform: 'xiaohongshu',
+        url: 'https://www.xiaohongshu.com/user/profile/5e6c8c6e0000000001000724'
+      },
+      {
+        platform: 'douyin',
+        url: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY'
+      }
     ],
     legacyPreviewPath: '/template-preview/3-Eorzea Collection/3-preview.webp',
     summary: 'EC投稿风格，适合英文，也支持中日韩法德装备名。',
@@ -309,6 +321,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     renderMode: 'ec',
     defaultLocale: 'en',
     localeOrder: ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko'],
+    supportsCustomLanguages: true,
     controls: { title: true, ecSubtitle: true, dyeFrame: false },
     equipmentFormat: {
       source: 'ec',
@@ -341,25 +354,39 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     authorUrl: 'https://weibo.com/u/1734754935',
     authorSns: [
       { platform: 'weibo', url: 'https://weibo.com/u/1734754935' },
-      { platform: 'xiaohongshu', url: 'https://www.xiaohongshu.com/user/profile/5e6c8c6e0000000001000724' },
-      { platform: 'douyin', url: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY' }
+      {
+        platform: 'xiaohongshu',
+        url: 'https://www.xiaohongshu.com/user/profile/5e6c8c6e0000000001000724'
+      },
+      {
+        platform: 'douyin',
+        url: 'https://www.douyin.com/user/MS4wLjABAAAAtHfFkouTFs-quaZJ9EEgYjkWIa32xJSgiqNklbNuqQY'
+      }
     ],
     legacyPreviewPath: '/template-preview/6-Silence Fashion/6-preview.webp',
-    summary: 'Silence Fashion 模板，支持中文、繁中和日英双语排版。',
+    summary: 'Silence Fashion 模板，支持单语和任意双语排版。',
     sourceWidth: 3000,
     sourceHeight: 3000,
     renderMode: 'silence-fashion',
     defaultLocale: 'zh',
-    localeOrder: ['ja', 'en', 'zh', 'tc', 'ko'],
+    localeOrder: ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko'],
+    supportsCustomLanguages: true,
     languageOptions: [
       { id: 'zh', label: 'chs', locales: ['zh'] },
       { id: 'tc', label: 'tc', locales: ['tc'] },
       { id: 'ko', label: 'ko', locales: ['ko'] },
       { id: 'en', label: 'en', locales: ['en'] },
       { id: 'ja', label: 'ja', locales: ['ja'] },
-      { id: 'en-ja', label: 'en+ja', locales: ['en', 'ja'] }
+      { id: 'fr', label: 'fr', locales: ['fr'] },
+      { id: 'de', label: 'de', locales: ['de'] }
     ],
-    controls: { title: true, characterName: false, ecSubtitle: true, dyeFrame: false, storySwatches: false },
+    controls: {
+      title: true,
+      characterName: false,
+      ecSubtitle: true,
+      dyeFrame: false,
+      storySwatches: false
+    },
     equipmentFormat: {
       source: 'default',
       maxRows: 99,
@@ -394,7 +421,9 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
   }
 }
 
-export function getGlamourTemplateDefinition(templateId: string | undefined): GlamourTemplateDefinition {
+export function getGlamourTemplateDefinition(
+  templateId: string | undefined
+): GlamourTemplateDefinition {
   return GLAMOUR_TEMPLATE_DEFINITIONS[normalizeGlamourTemplateId(templateId)]
 }
 

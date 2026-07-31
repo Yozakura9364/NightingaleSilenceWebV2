@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'Source Han Serif KR Local';
+  src: url('../../../assets/fonts/glamour/SourceHanSerifK-Regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Source Han Serif KR Local';
+  src: url('../../../assets/fonts/glamour/SourceHanSerifK-SemiBold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}

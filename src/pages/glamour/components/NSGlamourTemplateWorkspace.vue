@@ -103,6 +103,9 @@
         ref="equipmentPanelRef"
         :language-options="orderedLanguageOptions"
         :selected-locales="selectedLocales"
+        :selected-dye-locales="selectedDyeLocales"
+        :locale-options="localeSelectOptions"
+        :custom-language-mode="isCustomTemplateLanguageMode"
         :active-locale="activeLocale"
         :single-language-mode="isSingleTemplateLanguageMode"
         :rows="editorRows"
@@ -117,6 +120,8 @@
         @open-import="openImportDialog"
         @clear-draft="emit('clear-draft')"
         @toggle-language="toggleTemplateLocale"
+        @update-item-locale="updateTemplateItemLocale"
+        @update-dye-locale="updateTemplateDyeLocale"
         @replace-entry="forwardReplaceEntry"
         @clear-entry="forwardClearEntry"
         @set-entry-dye="forwardSetEntryDye"
@@ -242,26 +247,33 @@ const {
   templateId,
   template,
   templateSettings,
+  outputLanguageMode,
   selectedLocales,
+  selectedDyeLocales,
   activeLocale,
   templateRenderData,
   setTemplateId,
-  updateTemplateSettings,
-  setTemplateLocales
+  updateTemplateSettings
 } = useGlamourTemplateWorkspace(draftRef)
 const {
   templateImportPreferredLocale,
   isSingleLanguageMode: isSingleTemplateLanguageMode,
+  isCustomLanguageMode: isCustomTemplateLanguageMode,
   orderedLanguageOptions,
+  localeSelectOptions,
   editorLocale,
-  toggleTemplateLocale
+  toggleTemplateLocale,
+  updateTemplateItemLocale,
+  updateTemplateDyeLocale
 } = useGlamourTemplateLanguageControls({
   template,
   selectedLocales,
+  selectedDyeLocales,
+  outputLanguageMode,
   activeLocale,
   draftLocale: computed(() => props.draft.locale),
   uiLocale: current,
-  setTemplateLocales,
+  updateTemplateSettings,
   updateLocale: (locale) => emit('update-locale', locale)
 })
 const editorRows = computed<GlamourTemplateEditorRow[]>(() => {
@@ -406,12 +418,13 @@ const {
   currentLocale: current,
   setTemplateImageData
 })
-const { templateCanvasEl, previewCanvasSize, drawTemplateCanvas, downloadTemplateCanvas } = useGlamourTemplateCanvas({
-  renderData: templateRenderData,
-  apiBase: computed(() => props.apiBase),
-  imageStateVersion,
-  resolveImage: getTemplateImage
-})
+const { templateCanvasEl, previewCanvasSize, drawTemplateCanvas, downloadTemplateCanvas } =
+  useGlamourTemplateCanvas({
+    renderData: templateRenderData,
+    apiBase: computed(() => props.apiBase),
+    imageStateVersion,
+    resolveImage: getTemplateImage
+  })
 
 watch(
   () => props.busy,
@@ -604,4 +617,5 @@ onBeforeUnmount(() => {
 })
 </script>
 
+<style src="../styles/template-fonts.css"></style>
 <style src="../styles/template-workspace.css"></style>

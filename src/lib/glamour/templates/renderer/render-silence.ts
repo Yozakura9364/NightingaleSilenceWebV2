@@ -1,19 +1,9 @@
 import type { GlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
 import type { GlamourTemplateRow } from '@/lib/glamour/templates/rows'
-import type {
-  GlamourTemplateCanvasRenderContext,
-  GlamourTemplateImageResolver
-} from './types'
-import {
-  SILENCE_FASHION_TEMPLATE
-} from './layouts'
-import {
-  getSilenceFashionScale,
-  getSilenceFashionScaleY
-} from './utils'
-import {
-  drawGlamourTemplateImageCover
-} from './canvas'
+import type { GlamourTemplateCanvasRenderContext, GlamourTemplateImageResolver } from './types'
+import { SILENCE_FASHION_TEMPLATE } from './layouts'
+import { getSilenceFashionScale, getSilenceFashionScaleY } from './utils'
+import { drawGlamourTemplateImageCover } from './canvas'
 import {
   GLAMOUR_TEMPLATE_DEFAULT_IMAGE_SLOT_ID,
   GLAMOUR_TEMPLATE_SILENCE_FASHION_AVATAR_SLOT_ID
@@ -32,22 +22,32 @@ export function getSilenceFashionRect(
 }
 
 export function isSilenceFashionEnJaMode(renderData: GlamourTemplateRenderData): boolean {
-  return renderData.locales.includes('ja') && renderData.locales.includes('en')
+  return renderData.outputLanguageMode === 'custom'
 }
 
-export function getSilenceFashionSerifFamily(renderData: GlamourTemplateRenderData): string {
-  if (!isSilenceFashionEnJaMode(renderData) && renderData.locale === 'ko') {
+export function getSilenceFashionSerifFamily(
+  renderData: GlamourTemplateRenderData,
+  locale: string = renderData.locale
+): string {
+  if (locale === 'ko') {
     return SILENCE_FASHION_TEMPLATE.koSerifFamily
   }
 
   return SILENCE_FASHION_TEMPLATE.serifFamily
 }
 
-export function getSilenceFashionRows(renderData: GlamourTemplateRenderData, locale: string): GlamourTemplateRow[] {
+export function getSilenceFashionRows(
+  renderData: GlamourTemplateRenderData,
+  locale: string
+): GlamourTemplateRow[] {
   return renderData.localizedRows.find((entry) => entry.locale === locale)?.rows || []
 }
 
-export function getSilenceFashionTextWidth(renderData: GlamourTemplateRenderData, x: number, fallbackWidth: number): number {
+export function getSilenceFashionTextWidth(
+  renderData: GlamourTemplateRenderData,
+  x: number,
+  fallbackWidth: number
+): number {
   return SILENCE_FASHION_TEMPLATE.equipmentRight > 0
     ? Math.max(1, getSilenceFashionScale(renderData, SILENCE_FASHION_TEMPLATE.equipmentRight) - x)
     : fallbackWidth
@@ -58,10 +58,17 @@ export function getSilenceFashionEquipmentBottomY(
   layout: { bottom?: number }
 ): number {
   const layoutBottom = Number(layout.bottom || SILENCE_FASHION_TEMPLATE.equipmentBottom)
-  return getSilenceFashionScaleY(renderData, Math.min(SILENCE_FASHION_TEMPLATE.equipmentBottom, layoutBottom))
+  return getSilenceFashionScaleY(
+    renderData,
+    Math.min(SILENCE_FASHION_TEMPLATE.equipmentBottom, layoutBottom)
+  )
 }
 
-function splitSilenceFashionTokenByWidth(ctx: CanvasRenderingContext2D, token: string, width: number): string[] {
+function splitSilenceFashionTokenByWidth(
+  ctx: CanvasRenderingContext2D,
+  token: string,
+  width: number
+): string[] {
   const lines: string[] = []
   let line = ''
 
@@ -83,8 +90,15 @@ function splitSilenceFashionTokenByWidth(ctx: CanvasRenderingContext2D, token: s
   return lines
 }
 
-export function wrapSilenceFashionText(ctx: CanvasRenderingContext2D, text: string, width: number): string[] {
-  const tokens = String(text || '').trim().match(/[A-Za-z0-9]+(?:['’-][A-Za-z0-9]+)*\s*|[^\s]+\s*|\s+/gu) || []
+export function wrapSilenceFashionText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  width: number
+): string[] {
+  const tokens =
+    String(text || '')
+      .trim()
+      .match(/[A-Za-z0-9]+(?:['’-][A-Za-z0-9]+)*\s*|[^\s]+\s*|\s+/gu) || []
   const lines: string[] = []
   let line = ''
 
@@ -195,7 +209,10 @@ export function drawSilenceFashionWrappedText(
   return { nextY: cursorY, clipped: false }
 }
 
-export function drawSilenceFashionBackground(ctx: CanvasRenderingContext2D, options: GlamourTemplateCanvasRenderContext) {
+export function drawSilenceFashionBackground(
+  ctx: CanvasRenderingContext2D,
+  options: GlamourTemplateCanvasRenderContext
+) {
   const { renderData, assets } = options
   const background = assets?.['silence-fashion-background']?.image
 
@@ -220,18 +237,35 @@ export function drawSilenceFashionImages(
   ctx.fillRect(mainBox.x, mainBox.y, mainBox.width, mainBox.height)
 
   if (mainImage) {
-    drawGlamourTemplateImageCover(ctx, mainImage.image, mainBox.x, mainBox.y, mainBox.width, mainBox.height)
+    drawGlamourTemplateImageCover(
+      ctx,
+      mainImage.image,
+      mainBox.x,
+      mainBox.y,
+      mainBox.width,
+      mainBox.height
+    )
   }
 
   const avatar = resolveImage(GLAMOUR_TEMPLATE_SILENCE_FASHION_AVATAR_SLOT_ID)
 
   if (avatar) {
     const avatarBox = getSilenceFashionRect(renderData, SILENCE_FASHION_TEMPLATE.avatarRegion)
-    drawGlamourTemplateImageCover(ctx, avatar.image, avatarBox.x, avatarBox.y, avatarBox.width, avatarBox.height)
+    drawGlamourTemplateImageCover(
+      ctx,
+      avatar.image,
+      avatarBox.x,
+      avatarBox.y,
+      avatarBox.width,
+      avatarBox.height
+    )
   }
 }
 
-export function drawSilenceFashionHeader(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData) {
+export function drawSilenceFashionHeader(
+  ctx: CanvasRenderingContext2D,
+  renderData: GlamourTemplateRenderData
+) {
   const family = getSilenceFashionSerifFamily(renderData)
   const character = String(renderData.text.subtitle || renderData.text.characterName || '').trim()
   const title = String(renderData.text.title || '').trim() || renderData.profile.defaultTopText
@@ -278,8 +312,16 @@ export function drawSilenceFashionZhEquipment(
   const family = getSilenceFashionSerifFamily(renderData)
   const itemX = getSilenceFashionScale(renderData, layout.itemX)
   const dyeX = getSilenceFashionScale(renderData, layout.dyeX)
-  const itemWidth = getSilenceFashionTextWidth(renderData, itemX, getSilenceFashionScale(renderData, layout.width))
-  const dyeWidth = getSilenceFashionTextWidth(renderData, dyeX, getSilenceFashionScale(renderData, layout.width))
+  const itemWidth = getSilenceFashionTextWidth(
+    renderData,
+    itemX,
+    getSilenceFashionScale(renderData, layout.width)
+  )
+  const dyeWidth = getSilenceFashionTextWidth(
+    renderData,
+    dyeX,
+    getSilenceFashionScale(renderData, layout.width)
+  )
   const bottomY = getSilenceFashionEquipmentBottomY(renderData, layout)
   let y = getSilenceFashionScaleY(renderData, layout.y)
 
@@ -291,13 +333,21 @@ export function drawSilenceFashionZhEquipment(
       break
     }
 
-    const itemResult = drawSilenceFashionWrappedText(ctx, renderData, row.itemName, itemX, y, itemWidth, {
-      size: layout.itemSize,
-      lineHeight: layout.itemLineHeight,
-      weight: layout.weight,
-      family,
-      bottomY
-    })
+    const itemResult = drawSilenceFashionWrappedText(
+      ctx,
+      renderData,
+      row.itemName,
+      itemX,
+      y,
+      itemWidth,
+      {
+        size: layout.itemSize,
+        lineHeight: layout.itemLineHeight,
+        weight: layout.weight,
+        family,
+        bottomY
+      }
+    )
 
     if (itemResult.clipped) {
       break
@@ -336,15 +386,30 @@ export function drawSilenceFashionZhEquipment(
   }
 }
 
-export function drawSilenceFashionEnJaEquipment(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData) {
+export function drawSilenceFashionEnJaEquipment(
+  ctx: CanvasRenderingContext2D,
+  renderData: GlamourTemplateRenderData
+) {
   const layout = SILENCE_FASHION_TEMPLATE.enJa
-  const jaRows = getSilenceFashionRows(renderData, 'ja')
-  const enRowsBySlot = new Map(getSilenceFashionRows(renderData, 'en').map((row) => [row.slot, row]))
-  const family = SILENCE_FASHION_TEMPLATE.serifFamily
+  const rows = renderData.rows.filter((row) => row.itemName)
+  const primaryLocale = renderData.locales[0] || renderData.locale
+  const secondaryLocale = renderData.locales[1] || primaryLocale
+  const dyeFamily = getSilenceFashionSerifFamily(
+    renderData,
+    renderData.dyeLocales.includes('ko') ? 'ko' : renderData.dyeLocales[0] || primaryLocale
+  )
   const itemX = getSilenceFashionScale(renderData, layout.itemX)
   const dyeX = getSilenceFashionScale(renderData, layout.dyeX)
-  const itemWidth = getSilenceFashionTextWidth(renderData, itemX, getSilenceFashionScale(renderData, layout.width))
-  const dyeWidth = getSilenceFashionTextWidth(renderData, dyeX, getSilenceFashionScale(renderData, layout.width))
+  const itemWidth = getSilenceFashionTextWidth(
+    renderData,
+    itemX,
+    getSilenceFashionScale(renderData, layout.width)
+  )
+  const dyeWidth = getSilenceFashionTextWidth(
+    renderData,
+    dyeX,
+    getSilenceFashionScale(renderData, layout.width)
+  )
   const bottomY = getSilenceFashionEquipmentBottomY(renderData, layout)
   const lineGap = getSilenceFashionScaleY(renderData, layout.lineGap)
   let y = getSilenceFashionScaleY(renderData, layout.y)
@@ -352,59 +417,69 @@ export function drawSilenceFashionEnJaEquipment(ctx: CanvasRenderingContext2D, r
   ctx.fillStyle = SILENCE_FASHION_TEMPLATE.textColor
   ctx.textBaseline = 'top'
 
-  for (const jaRow of jaRows.slice(0, layout.maxRows)) {
+  for (const row of rows.slice(0, layout.maxRows)) {
     if (y >= bottomY) {
       break
     }
 
-    const enRow = enRowsBySlot.get(jaRow.slot)
-    const jaResult = drawSilenceFashionWrappedText(ctx, renderData, jaRow.itemName, itemX, y, itemWidth, {
-      size: layout.jaSize,
-      lineHeight: layout.jaLineHeight,
-      weight: layout.weight,
-      family,
-      bottomY
-    })
-
-    if (jaResult.clipped) {
-      break
-    }
-
-    const enResult = drawSilenceFashionWrappedText(
+    const itemNames = row.itemNames.length ? row.itemNames : [row.itemName]
+    const primaryResult = drawSilenceFashionWrappedText(
       ctx,
       renderData,
-      enRow?.itemName || '',
+      itemNames[0],
       itemX,
-      jaResult.nextY + lineGap,
+      y,
       itemWidth,
       {
-        size: layout.enSize,
-        lineHeight: layout.enLineHeight,
+        size: layout.jaSize,
+        lineHeight: layout.jaLineHeight,
         weight: layout.weight,
-        family,
+        family: getSilenceFashionSerifFamily(renderData, primaryLocale),
         bottomY
       }
     )
 
-    if (enResult.clipped) {
+    if (primaryResult.clipped) {
       break
     }
 
-    let contentBottom = enResult.nextY
+    const secondaryResult = itemNames[1]
+      ? drawSilenceFashionWrappedText(
+          ctx,
+          renderData,
+          itemNames[1],
+          itemX,
+          primaryResult.nextY + lineGap,
+          itemWidth,
+          {
+            size: layout.enSize,
+            lineHeight: layout.enLineHeight,
+            weight: layout.weight,
+            family: getSilenceFashionSerifFamily(renderData, secondaryLocale),
+            bottomY
+          }
+        )
+      : primaryResult
 
-    if (enRow?.dyeText) {
+    if (secondaryResult.clipped) {
+      break
+    }
+
+    let contentBottom = secondaryResult.nextY
+
+    if (row.dyeText) {
       const dyeResult = drawSilenceFashionWrappedText(
         ctx,
         renderData,
-        enRow.dyeText,
+        row.dyeText,
         dyeX,
-        enResult.nextY + lineGap,
+        secondaryResult.nextY + lineGap,
         dyeWidth,
         {
           size: layout.dyeSize,
           lineHeight: layout.dyeLineHeight,
           weight: layout.weight,
-          family,
+          family: dyeFamily,
           bottomY
         }
       )
@@ -423,7 +498,10 @@ export function drawSilenceFashionEnJaEquipment(ctx: CanvasRenderingContext2D, r
   }
 }
 
-export function renderSilenceFashionTemplateCanvas(ctx: CanvasRenderingContext2D, options: GlamourTemplateCanvasRenderContext) {
+export function renderSilenceFashionTemplateCanvas(
+  ctx: CanvasRenderingContext2D,
+  options: GlamourTemplateCanvasRenderContext
+) {
   const { renderData, resolveImage } = options
   ctx.clearRect(0, 0, renderData.canvas.width, renderData.canvas.height)
   drawSilenceFashionBackground(ctx, options)
@@ -433,6 +511,10 @@ export function renderSilenceFashionTemplateCanvas(ctx: CanvasRenderingContext2D
   if (isSilenceFashionEnJaMode(renderData)) {
     drawSilenceFashionEnJaEquipment(ctx, renderData)
   } else {
-    drawSilenceFashionZhEquipment(ctx, renderData, renderData.rows.filter((row) => row.itemName))
+    drawSilenceFashionZhEquipment(
+      ctx,
+      renderData,
+      renderData.rows.filter((row) => row.itemName)
+    )
   }
 }

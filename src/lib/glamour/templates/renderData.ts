@@ -9,6 +9,7 @@ import {
 import {
   getGlamourTemplateSubtitleParts,
   getGlamourTemplateSubtitleText,
+  type GlamourTemplateOutputLanguageMode,
   type GlamourTemplateSettings
 } from '@/lib/glamour/templates/settings'
 import { createGlamourTemplateRows, type GlamourTemplateRow } from '@/lib/glamour/templates/rows'
@@ -59,6 +60,8 @@ export interface GlamourTemplateRenderData {
   canvas: GlamourTemplateRenderCanvas
   locale: GlamourLocale
   locales: GlamourLocale[]
+  dyeLocales: GlamourLocale[]
+  outputLanguageMode: GlamourTemplateOutputLanguageMode
   rows: GlamourTemplateRow[]
   localizedRows: GlamourTemplateLocalizedRows[]
   text: GlamourTemplateRenderText
@@ -142,7 +145,10 @@ function cloneImageSlot(slot: GlamourTemplateImageSlot): GlamourTemplateImageSlo
 
 function cloneImageSlotAliases(): Record<string, string[]> {
   return Object.fromEntries(
-    Object.entries(GLAMOUR_TEMPLATE_IMAGE_SLOT_ALIASES).map(([slotId, aliases]) => [slotId, [...aliases]])
+    Object.entries(GLAMOUR_TEMPLATE_IMAGE_SLOT_ALIASES).map(([slotId, aliases]) => [
+      slotId,
+      [...aliases]
+    ])
   )
 }
 
@@ -165,10 +171,11 @@ export function createGlamourTemplateRenderData(
     options.locale || draft.locale
   )
   const locale = locales.includes(options.locale || draft.locale)
-    ? (options.locale || draft.locale)
+    ? options.locale || draft.locale
     : locales[0] || template.defaultLocale
   const profile = getGlamourTemplateRenderProfile(template.renderMode)
-  const rows = createGlamourTemplateRows(draft, { template, locale, locales })
+  const dyeLocales = normalizeRenderLocales(settings.dyeLocales, template, locale).slice(0, 2)
+  const rows = createGlamourTemplateRows(draft, { template, locale, locales, dyeLocales })
 
   return {
     template,
@@ -184,13 +191,16 @@ export function createGlamourTemplateRenderData(
     },
     locale,
     locales,
+    dyeLocales,
+    outputLanguageMode: settings.outputLanguageMode,
     rows,
     localizedRows: locales.map((rowLocale) => ({
       locale: rowLocale,
       rows: createGlamourTemplateRows(draft, {
         template,
         locale: rowLocale,
-        locales
+        locales,
+        dyeLocales
       })
     })),
     text: {

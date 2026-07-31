@@ -66,10 +66,28 @@ export interface GlamourTemplateRow {
   slot: GlamourSlotKey
   slotName: string
   itemName: string
+  itemNames: string[]
   item: GlamourTemplateItem
   dyes: GlamourTemplateDye[]
   dyeText: string
   hasDyeLine: boolean
+}
+
+export function mergeGlamourTemplateDyes(
+  localizedDyes: GlamourTemplateDye[][]
+): GlamourTemplateDye[] {
+  const baseDyes = localizedDyes[0] || []
+
+  return baseDyes.map((dye, dyeIndex) => {
+    const names = localizedDyes
+      .map((entries) => String(entries[dyeIndex]?.name || '').trim())
+      .filter((name, index, values) => name && values.indexOf(name) === index)
+
+    return {
+      ...dye,
+      name: names.join(' ') || dye.name
+    }
+  })
 }
 
 function isKnownTemplateSlot(slot: string): slot is GlamourSlotKey {
@@ -94,12 +112,18 @@ function resolveTemplateDyeOptions(format: GlamourTemplateDyeFormat) {
   }
 }
 
-function isTemplateDyeExcludedSlot(entry: GlamourEquipmentEntry, format: GlamourTemplateDyeFormat): boolean {
+function isTemplateDyeExcludedSlot(
+  entry: GlamourEquipmentEntry,
+  format: GlamourTemplateDyeFormat
+): boolean {
   return format.includeAccessories !== true && GLAMOUR_ACCESSORY_SLOTS.has(entry.slot)
 }
 
 function normalizeTemplateDyeName(name: string): string {
-  return String(name || '').trim().replace(/^【(.+)】$/u, '$1').replace(/[【】]/gu, '')
+  return String(name || '')
+    .trim()
+    .replace(/^【(.+)】$/u, '$1')
+    .replace(/[【】]/gu, '')
 }
 
 function makeTemplateNoDye(locale: GlamourLocale, draft: GlamourDraft): GlamourTemplateDye {
@@ -219,6 +243,7 @@ export function createGlamourTemplateRows(
     template?: GlamourTemplateDefinition | string
     locale?: GlamourLocale
     locales?: GlamourLocale[]
+    dyeLocales?: GlamourLocale[]
   } = {}
 ): GlamourTemplateRow[] {
   const template =
@@ -227,6 +252,7 @@ export function createGlamourTemplateRows(
       : options.template
   const locales = options.locales?.length ? options.locales : [options.locale || draft.locale]
   const locale = options.locale || locales[0] || draft.locale
+  const dyeLocales = options.dyeLocales?.length ? options.dyeLocales : [locale]
   const maxRows = Math.max(0, Number(template.equipmentFormat.maxRows || 0))
   const format = template.equipmentFormat.dye
   const sourceEntries = getOrderedFilledEntries(draft).filter((entry) => {
@@ -234,9 +260,9 @@ export function createGlamourTemplateRows(
 
     return Boolean(
       candidate &&
-        locales.some((candidateLocale) =>
-          getCandidateName(candidate, candidateLocale, draft.source.locale).trim()
-        )
+      locales.some((candidateLocale) =>
+        getCandidateName(candidate, candidateLocale, draft.source.locale).trim()
+      )
     )
   })
   const limitedEntries = maxRows > 0 ? sourceEntries.slice(0, maxRows) : sourceEntries
@@ -249,14 +275,22 @@ export function createGlamourTemplateRows(
       }
 
       const itemName = getCandidateName(candidate, locale, draft.source.locale).trim()
+      const itemNames = locales
+        .map((itemLocale) => getCandidateName(candidate, itemLocale, draft.source.locale).trim())
+        .filter((name, index, names) => name && names.indexOf(name) === index)
 
       if (!itemName) {
         return null
       }
 
-      const dyes = getTemplateDyes(entry, candidate, draft, locale, format)
+      const dyes = mergeGlamourTemplateDyes(
+        dyeLocales.map((dyeLocale) => getTemplateDyes(entry, candidate, draft, dyeLocale, format))
+      )
       const separator = resolveTemplateDyeOptions(format).separator
-      const dyeText = dyes.map((dye) => dye.name).filter(Boolean).join(separator)
+      const dyeText = dyes
+        .map((dye) => dye.name)
+        .filter(Boolean)
+        .join(separator)
 
       return {
         slot: entry.slot as GlamourSlotKey,
@@ -265,6 +299,7 @@ export function createGlamourTemplateRows(
           default_locale: draft.source.locale
         }),
         itemName,
+        itemNames,
         item: toTemplateItem(candidate, entry, draft, locale),
         dyes,
         dyeText,

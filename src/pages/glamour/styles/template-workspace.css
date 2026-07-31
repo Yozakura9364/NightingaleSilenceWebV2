@@ -113,7 +113,7 @@
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  box-shadow: 0 14px 28px rgba(20, 28, 45, 0.16);
+  box-shadow: none;
 }
 
 .nsglamour-template__image-menu-actions {
@@ -126,7 +126,7 @@
   min-height: 28px;
   padding: 3px 8px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border-radius: 0;
   background: transparent;
   color: inherit;
   font: inherit;
@@ -164,7 +164,7 @@
   min-width: 0;
   padding: 5px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border-radius: 0;
   background: transparent;
   color: inherit;
   font: inherit;
@@ -287,7 +287,7 @@
   padding: 8px 10px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
-  box-shadow: 0 10px 24px rgba(20, 28, 45, 0.12);
+  box-shadow: none;
 }
 
 .nsglamour-template__author-popover a {
@@ -296,7 +296,7 @@
   min-height: 28px;
   padding: 3px 8px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border-radius: 0;
   color: var(--ns-color-text-muted);
   font-size: 12px;
   font-weight: 800;
@@ -364,7 +364,7 @@
   min-height: 32px;
   padding: 4px 8px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border-radius: 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
@@ -392,21 +392,49 @@
   text-align: center;
 }
 
-.nsglamour-template__segmented,
-.nsglamour-template__language-controls {
+.nsglamour-template__segmented {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
   align-items: center;
 }
 
-.nsglamour-template__language-controls {
-  flex-wrap: nowrap;
+.nsglamour-template__custom-language-settings {
+  display: grid;
   gap: 6px;
+  padding: 8px;
+  border: 1px solid var(--ns-color-border);
+  background: color-mix(in srgb, var(--ns-color-surface-solid) 82%, transparent);
 }
 
-.nsglamour-template__segmented button,
-.nsglamour-template__language-controls button {
+.nsglamour-template__custom-language-row {
+  display: grid;
+  grid-template-columns: minmax(64px, 0.7fr) minmax(0, 1fr) 14px minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--ns-color-text-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.nsglamour-template__custom-language-row select {
+  width: 100%;
+  min-width: 0;
+  min-height: 30px;
+  padding: 3px 6px;
+  border: 1px solid var(--ns-color-border);
+  border-radius: 0;
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  font: inherit;
+  font-size: 11px;
+}
+
+.nsglamour-template__custom-language-row b {
+  color: var(--ns-color-text-muted);
+  text-align: center;
+}
+
+.nsglamour-template__segmented button {
   min-height: 36px;
   padding: 5px 12px;
   border: 2px solid var(--ns-pixel-border);
@@ -417,7 +445,7 @@
   font-size: 13px;
   font-weight: 950;
   line-height: 1;
-  box-shadow: var(--ns-pixel-button-shadow);
+  box-shadow: none;
   cursor: pointer;
   transition: none;
 }
@@ -426,41 +454,97 @@
   min-width: 104px;
 }
 
-.nsglamour-template__language-controls button {
-  min-width: 42px;
-  padding-inline: 8px;
-  text-transform: lowercase;
+.nsglamour-snapshot__tool-button {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  min-height: 34px;
+  padding: 6px;
+  place-items: center;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
+  background: var(--ns-pixel-surface);
+  color: var(--ns-color-text);
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.nsglamour-snapshot__tool-button img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.nsglamour-snapshot__language-control {
+  position: relative;
+  display: inline-flex;
+  width: max-content;
+}
+
+.nsglamour-snapshot__language-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 20;
+  display: grid;
+  width: max-content;
+  min-width: 132px;
+  padding: 4px;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-pixel-surface);
+  box-shadow: none;
+}
+
+.nsglamour-snapshot__language-menu button {
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ns-color-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.nsglamour-snapshot__language-menu button:hover,
+.nsglamour-snapshot__language-menu button.active {
+  background: var(--ns-pixel-cyan-surface);
+  color: var(--ns-color-accent-strong);
 }
 
 .nsglamour-template__segmented button:hover,
-.nsglamour-template__segmented button:focus-visible,
-.nsglamour-template__language-controls button:hover,
-.nsglamour-template__language-controls button:focus-visible {
+.nsglamour-template__segmented button:focus-visible {
   border-color: var(--ns-pixel-border);
   background: var(--ns-pixel-hover-surface);
   color: var(--ns-color-accent-strong);
-  box-shadow: var(--ns-pixel-button-shadow-hover);
+  box-shadow: none;
   outline: none;
   transform: translate(-1px, -1px);
 }
 
-.nsglamour-template__segmented button.active,
-.nsglamour-template__language-controls button.active,
-.nsglamour-template__language-controls button.current {
+.nsglamour-template__segmented button.active {
   border-color: var(--ns-pixel-border);
   background: var(--ns-pixel-pink-surface);
   color: var(--ns-color-accent-strong);
-  box-shadow: var(--ns-pixel-button-shadow);
-}
-
-.nsglamour-template__language-controls button.current {
-  background: var(--ns-pixel-cyan-surface);
+  box-shadow: none;
 }
 
 .nsglamour-template__segmented button:active,
-.nsglamour-template__language-controls button:active {
-  box-shadow: var(--ns-pixel-soft-shadow);
+.nsglamour-template__segmented button:active {
+  box-shadow: none;
   transform: translate(2px, 2px);
+}
+
+.nsglamour-template__recent-button,
+.nsglamour-template__recent-button:hover,
+.nsglamour-template__recent-button[data-open='true'],
+.nsglamour-template__recent-button:focus-visible {
+  box-shadow: none;
+}
+
+.nsglamour-snapshot__tool-button:hover,
+.nsglamour-snapshot__tool-button.active {
+  background: var(--ns-pixel-cyan-surface);
+  color: var(--ns-color-accent-strong);
 }
 
 @media (max-width: 1080px) {

@@ -1,8 +1,6 @@
 import { computed, ref, watch } from 'vue'
 import type { GlamourDraft, GlamourLocale } from '@/lib/glamour/types'
-import {
-  createGlamourTemplateRenderData
-} from '@/lib/glamour/templates/renderData'
+import { createGlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
 import {
   getGlamourTemplateDefinition,
   GLAMOUR_TEMPLATE_SELECT_ORDER,
@@ -67,12 +65,20 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
   const templateId = computed(() => workspaceSettings.value.templateId)
   const template = computed(() => getGlamourTemplateDefinition(templateId.value))
   const templateSettings = computed(() => workspaceSettings.value.templates[templateId.value])
+  const outputLanguageMode = computed(() => templateSettings.value.outputLanguageMode)
   const selectedLocales = computed(() =>
     templateSettings.value.locales.length ? templateSettings.value.locales : [draft.value.locale]
   )
+  const selectedDyeLocales = computed(() =>
+    templateSettings.value.dyeLocales.length
+      ? templateSettings.value.dyeLocales
+      : [selectedLocales.value[0] || draft.value.locale]
+  )
   const activeLocale = computed(() => {
     const draftLocale = draft.value.locale
-    return selectedLocales.value.includes(draftLocale) ? draftLocale : selectedLocales.value[0] || draftLocale
+    return selectedLocales.value.includes(draftLocale)
+      ? draftLocale
+      : selectedLocales.value[0] || draftLocale
   })
   const templateRenderData = computed(() =>
     createGlamourTemplateRenderData(draft.value, templateSettings.value, {
@@ -85,24 +91,9 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
 
   function setTemplateId(nextTemplateId: string) {
     const normalized = normalizeGlamourTemplateId(nextTemplateId)
-    const nextTemplate = getGlamourTemplateDefinition(normalized)
-    const currentSettings = workspaceSettings.value.templates[normalized]
-    const nextSettings = normalizeGlamourTemplateSettings(
-      {
-        ...currentSettings,
-        templateId: normalized,
-        locales: getDefaultTemplateLocalesForUiLanguage(nextTemplate, currentUiLocale.value)
-      },
-      normalized
-    )
-
     workspaceSettings.value = {
       ...workspaceSettings.value,
-      templateId: normalized,
-      templates: {
-        ...workspaceSettings.value.templates,
-        [normalized]: nextSettings
-      }
+      templateId: normalized
     }
     writeTemplateWorkspaceSettings(workspaceSettings.value)
   }
@@ -138,13 +129,20 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
   }
 
   function syncCurrentTemplateLocalesWithUiLanguage() {
-    const nextLocales = getDefaultTemplateLocalesForUiLanguage(template.value, currentUiLocale.value)
+    if (templateSettings.value.outputLanguageMode === 'custom') {
+      return
+    }
+
+    const nextLocales = getDefaultTemplateLocalesForUiLanguage(
+      template.value,
+      currentUiLocale.value
+    )
 
     if (areSameLocales(templateSettings.value.locales, nextLocales)) {
       return
     }
 
-    updateTemplateSettings({ locales: nextLocales })
+    updateTemplateSettings({ locales: nextLocales, dyeLocales: nextLocales })
   }
 
   function applyImportedSourceToCurrentTemplate(options: { force?: boolean } = {}) {
@@ -189,6 +187,10 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
   }
 
   function syncTemplateLinkImportLocales() {
+    if (templateSettings.value.outputLanguageMode === 'custom') {
+      return
+    }
+
     const draftLocale = draft.value.locale
 
     if (!template.value.localeOrder.includes(draftLocale)) {
@@ -201,7 +203,7 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
       return
     }
 
-    updateTemplateSettings({ locales: nextLocales })
+    updateTemplateSettings({ locales: nextLocales, dyeLocales: nextLocales })
   }
 
   function resetTemplateSettings(targetTemplateId: GlamourTemplateId = templateId.value) {
@@ -222,7 +224,7 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
   }
 
   watch(
-    () => [currentUiLocale.value, templateId.value].join('|'),
+    () => currentUiLocale.value,
     () => {
       syncCurrentTemplateLocalesWithUiLanguage()
     },
@@ -230,16 +232,17 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
   )
 
   watch(
-    () => [
-      draft.value.source.importedAt,
-      draft.value.source.name,
-      draft.value.source.title,
-      draft.value.source.authorName,
-      draft.value.source.authorWorld,
-      draft.value.source.authorLabel,
-      draft.value.source.importMode,
-      templateId.value
-    ].join('|'),
+    () =>
+      [
+        draft.value.source.importedAt,
+        draft.value.source.name,
+        draft.value.source.title,
+        draft.value.source.authorName,
+        draft.value.source.authorWorld,
+        draft.value.source.authorLabel,
+        draft.value.source.importMode,
+        templateId.value
+      ].join('|'),
     () => {
       if (!draft.value.source.importedAt) {
         return
@@ -273,7 +276,9 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
     templateId,
     template,
     templateSettings,
+    outputLanguageMode,
     selectedLocales,
+    selectedDyeLocales,
     activeLocale,
     templateRenderData,
     templateRows,

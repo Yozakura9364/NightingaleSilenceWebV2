@@ -1,8 +1,5 @@
 import type { GlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
-import type {
-  GlamourTemplateCanvasRenderContext,
-  GlamourTemplateImageResolver
-} from './types'
+import type { GlamourTemplateCanvasRenderContext, GlamourTemplateImageResolver } from './types'
 import {
   RISINGSTONES_TEMPLATE,
   EC_TEMPLATE_LAYOUTS,
@@ -20,14 +17,13 @@ import {
   fillRoundedRect,
   fitCanvasFont
 } from './utils'
-import {
-  drawGlamourTemplateImageCover
-} from './canvas'
-import {
-  GLAMOUR_TEMPLATE_RISINGSTONES_AVATAR_SLOT_ID
-} from '@/lib/glamour/templates/definitions'
+import { drawGlamourTemplateImageCover } from './canvas'
+import { GLAMOUR_TEMPLATE_RISINGSTONES_AVATAR_SLOT_ID } from '@/lib/glamour/templates/definitions'
 
-export function getRisingstonesRect(renderData: GlamourTemplateRenderData, rect: { x: number; y: number; width: number; height: number }) {
+export function getRisingstonesRect(
+  renderData: GlamourTemplateRenderData,
+  rect: { x: number; y: number; width: number; height: number }
+) {
   return {
     x: getRisingstonesScale(renderData, rect.x),
     y: getRisingstonesScale(renderData, rect.y),
@@ -36,7 +32,10 @@ export function getRisingstonesRect(renderData: GlamourTemplateRenderData, rect:
   }
 }
 
-export function getRisingstonesEquipmentScale(rowCount: number, layout: RisingstonesEquipmentLayout): number {
+export function getRisingstonesEquipmentScale(
+  rowCount: number,
+  layout: RisingstonesEquipmentLayout
+): number {
   if (rowCount <= 0) {
     return 1
   }
@@ -52,8 +51,12 @@ export function getRisingstonesEquipmentScale(rowCount: number, layout: Risingst
   return Math.max(0.42, Math.min(1, availableHeight / naturalHeight))
 }
 
-export function getRisingstonesNameWidth(renderData: GlamourTemplateRenderData, layout: RisingstonesEquipmentLayout): number {
-  const avatarRight = RISINGSTONES_TEMPLATE.avatarRegion.x + RISINGSTONES_TEMPLATE.avatarRegion.width
+export function getRisingstonesNameWidth(
+  renderData: GlamourTemplateRenderData,
+  layout: RisingstonesEquipmentLayout
+): number {
+  const avatarRight =
+    RISINGSTONES_TEMPLATE.avatarRegion.x + RISINGSTONES_TEMPLATE.avatarRegion.width
   const defaultRight = layout.nameX + layout.nameWidth
   const nameRight = Math.max(defaultRight, avatarRight)
   return getRisingstonesScale(renderData, Math.max(0, nameRight - layout.nameX))
@@ -182,15 +185,27 @@ export function drawRisingstonesHeader(
     RISINGSTONES_TEMPLATE.title,
     { clipBleedX: 120, clipBleedY: 42 }
   )
-  drawRisingstonesFittedText(ctx, renderData, renderData.text.subtitle, RISINGSTONES_TEMPLATE.author, {
-    clipBleedLeftX: 0,
-    clipBleedRightX: authorRightBleed,
-    clipBleedY: 28
-  })
-  drawRisingstonesFittedText(ctx, renderData, RISINGSTONES_TEMPLATE.sourceText, RISINGSTONES_TEMPLATE.source, {
-    clipBleedX: 48,
-    clipBleedY: 28
-  })
+  drawRisingstonesFittedText(
+    ctx,
+    renderData,
+    renderData.text.subtitle,
+    RISINGSTONES_TEMPLATE.author,
+    {
+      clipBleedLeftX: 0,
+      clipBleedRightX: authorRightBleed,
+      clipBleedY: 28
+    }
+  )
+  drawRisingstonesFittedText(
+    ctx,
+    renderData,
+    RISINGSTONES_TEMPLATE.sourceText,
+    RISINGSTONES_TEMPLATE.source,
+    {
+      clipBleedX: 48,
+      clipBleedY: 28
+    }
+  )
 }
 
 export function drawRisingstonesIcon(
@@ -248,19 +263,24 @@ export function drawRisingstonesDyeChip(
   dye: { name: string; hex?: string; isEmpty: boolean },
   x: number,
   maxWidth: number,
-  scale: number
+  scale: number,
+  dyeY?: number
 ) {
   const { renderData, assets } = options
   const layout = RISINGSTONES_TEMPLATE.equipment
   const label = normalizeDyeLabel(dye.name)
   const measured = measureRisingstonesDyeChip(ctx, renderData, label, scale)
-  const y = getRisingstonesScale(renderData, rowY + layout.dyeYOffset * scale)
+  const sourceY = dyeY ?? rowY + layout.dyeYOffset * scale
+  const y = getRisingstonesScale(renderData, sourceY)
   const height = getRisingstonesScale(renderData, layout.dyeHeight * scale)
   const dotSize = getRisingstonesScale(renderData, layout.dyeDotSize * scale)
   const dotX = x + getRisingstonesScale(renderData, layout.dyeDotXOffset * scale)
   const dotY = y + (height - dotSize) / 2
   const textX = x + getRisingstonesScale(renderData, layout.dyeTextXOffset * scale)
-  const textY = getRisingstonesScale(renderData, rowY + layout.dyeTextYOffset * scale)
+  const textY = getRisingstonesScale(
+    renderData,
+    sourceY + (layout.dyeTextYOffset - layout.dyeYOffset) * scale
+  )
   const textHeight = getRisingstonesScale(renderData, layout.dyeTextHeight * scale)
   const radius = getRisingstonesScale(renderData, layout.dyeDotRadius * scale)
 
@@ -282,16 +302,30 @@ export function drawRisingstonesDyeChip(
   drawClippedTextInBox(
     ctx,
     label,
-    { x: textX, y: textY, width: Math.max(0, maxWidth - getRisingstonesScale(renderData, layout.dyeTextXOffset * scale)), height: textHeight },
+    {
+      x: textX,
+      y: textY,
+      width: Math.max(
+        0,
+        maxWidth - getRisingstonesScale(renderData, layout.dyeTextXOffset * scale)
+      ),
+      height: textHeight
+    },
     textX,
     getTextInkCenterBaseline(ctx, label, textY + textHeight / 2)
   )
-  return measured.width
+  return Math.min(measured.width, maxWidth)
 }
 
-export function drawRisingstonesEquipment(ctx: CanvasRenderingContext2D, options: GlamourTemplateCanvasRenderContext) {
+export function drawRisingstonesEquipment(
+  ctx: CanvasRenderingContext2D,
+  options: GlamourTemplateCanvasRenderContext
+) {
   const { renderData, resolveIcon } = options
-  const layout = RISINGSTONES_TEMPLATE.equipment
+  const customLanguageMode = renderData.outputLanguageMode === 'custom'
+  const layout: RisingstonesEquipmentLayout = customLanguageMode
+    ? { ...RISINGSTONES_TEMPLATE.equipment, rowStep: 330 }
+    : RISINGSTONES_TEMPLATE.equipment
   const rows = renderData.rows.filter((row) => row.itemName).slice(0, layout.maxRows)
   const scale = getRisingstonesEquipmentScale(rows.length, layout)
 
@@ -305,42 +339,98 @@ export function drawRisingstonesEquipment(ctx: CanvasRenderingContext2D, options
     const nameX = getRisingstonesScale(renderData, layout.nameX)
     const nameWidth = getRisingstonesNameWidth(renderData, layout)
 
-    drawRisingstonesIcon(ctx, renderData, rowY, layout, scale, resolveIcon?.(row.item.icon)?.image || null)
-    ctx.fillStyle = RISINGSTONES_TEMPLATE.textColor
-    drawEcFittedItemName(
+    drawRisingstonesIcon(
       ctx,
       renderData,
-      row.itemName,
-      nameX,
-      getRisingstonesScale(renderData, nameCenterY),
-      nameWidth,
-      {
+      rowY,
+      layout,
+      scale,
+      resolveIcon?.(row.item.icon)?.image || null
+    )
+    ctx.fillStyle = RISINGSTONES_TEMPLATE.textColor
+    const itemNames = row.itemNames.length ? row.itemNames : [row.itemName]
+    let dyeY: number | undefined
+
+    if (customLanguageMode && itemNames.length > 1) {
+      const lineStep = layout.iconSize * scale * 0.34
+      const primaryCenterY = dyes.length ? iconCenterY - lineStep : iconCenterY - lineStep / 2
+      const secondaryCenterY = dyes.length ? iconCenterY : iconCenterY + lineStep / 2
+      const nameLayout = {
         ...EC_TEMPLATE_LAYOUTS.normal,
-        nameSize: layout.nameSize * scale,
-        nameMinSize: layout.nameMinSize * scale,
+        nameSize: Math.max(layout.dyeFontSize, layout.nameSize * 0.78) * scale,
+        nameMinSize: Math.max(layout.nameMinSize, layout.dyeFontSize) * scale,
         nameWeight: layout.nameWeight,
         fontFamily: layout.fontFamily,
         inkCenter: true
       }
-    )
+
+      drawEcFittedItemName(
+        ctx,
+        renderData,
+        itemNames[0],
+        nameX,
+        getRisingstonesScale(renderData, primaryCenterY),
+        nameWidth,
+        nameLayout
+      )
+      drawEcFittedItemName(
+        ctx,
+        renderData,
+        itemNames[1],
+        nameX,
+        getRisingstonesScale(renderData, secondaryCenterY),
+        nameWidth,
+        nameLayout
+      )
+
+      if (dyes.length) {
+        dyeY = iconCenterY + lineStep - (layout.dyeHeight * scale) / 2
+      }
+    } else {
+      drawEcFittedItemName(
+        ctx,
+        renderData,
+        row.itemName,
+        nameX,
+        getRisingstonesScale(renderData, nameCenterY),
+        nameWidth,
+        {
+          ...EC_TEMPLATE_LAYOUTS.normal,
+          nameSize: layout.nameSize * scale,
+          nameMinSize: layout.nameMinSize * scale,
+          nameWeight: layout.nameWeight,
+          fontFamily: layout.fontFamily,
+          inkCenter: true
+        }
+      )
+    }
 
     let dyeX = getRisingstonesScale(renderData, layout.dyes[0]?.x || layout.nameX)
     const rowRight = getRisingstonesScale(renderData, layout.rowX + layout.rowWidth)
     const dyeGap = getRisingstonesScale(renderData, layout.dyeGap * scale)
 
-    dyes.slice(0, 2).forEach((dye) => {
-      const maxWidth = Math.max(0, rowRight - dyeX)
+    const visibleDyes = dyes.slice(0, 2)
+    const customMaxWidth =
+      customLanguageMode && visibleDyes.length
+        ? Math.max(1, (rowRight - dyeX - dyeGap * (visibleDyes.length - 1)) / visibleDyes.length)
+        : null
+
+    visibleDyes.forEach((dye) => {
+      const maxWidth = customMaxWidth ?? Math.max(0, rowRight - dyeX)
 
       if (maxWidth <= 0) {
         return
       }
 
-      dyeX += drawRisingstonesDyeChip(ctx, options, rowY, dye, dyeX, maxWidth, scale) + dyeGap
+      dyeX += drawRisingstonesDyeChip(ctx, options, rowY, dye, dyeX, maxWidth, scale, dyeY) + dyeGap
     })
   })
 }
 
-export function drawRisingstonesCopyright(ctx: CanvasRenderingContext2D, renderData: GlamourTemplateRenderData) {
+export function drawRisingstonesCopyright(
+  ctx: CanvasRenderingContext2D,
+  renderData: GlamourTemplateRenderData
+) {
   const box = getRisingstonesRect(renderData, RISINGSTONES_TEMPLATE.copyright)
   const lines = RISINGSTONES_TEMPLATE.copyright.lines
 
@@ -348,15 +438,28 @@ export function drawRisingstonesCopyright(ctx: CanvasRenderingContext2D, renderD
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.font = `700 ${getRisingstonesScale(renderData, 34)}px "Noto Sans SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif`
-  ctx.fillText(lines[0] || '', box.x + box.width / 2, box.y + getRisingstonesScale(renderData, 30), box.width)
+  ctx.fillText(
+    lines[0] || '',
+    box.x + box.width / 2,
+    box.y + getRisingstonesScale(renderData, 30),
+    box.width
+  )
 
   if (lines[1]) {
     ctx.font = `700 ${getRisingstonesScale(renderData, 32)}px "Noto Sans SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif`
-    ctx.fillText(lines[1], box.x + box.width / 2, box.y + getRisingstonesScale(renderData, 76), box.width)
+    ctx.fillText(
+      lines[1],
+      box.x + box.width / 2,
+      box.y + getRisingstonesScale(renderData, 76),
+      box.width
+    )
   }
 }
 
-export function renderRisingstonesTemplateCanvas(ctx: CanvasRenderingContext2D, options: GlamourTemplateCanvasRenderContext) {
+export function renderRisingstonesTemplateCanvas(
+  ctx: CanvasRenderingContext2D,
+  options: GlamourTemplateCanvasRenderContext
+) {
   const { renderData, resolveImage } = options
   const strokeWidth = getRisingstonesScale(renderData, RISINGSTONES_TEMPLATE.backgroundStrokeWidth)
   ctx.clearRect(0, 0, renderData.canvas.width, renderData.canvas.height)
@@ -366,7 +469,12 @@ export function renderRisingstonesTemplateCanvas(ctx: CanvasRenderingContext2D, 
   if (strokeWidth > 0) {
     ctx.strokeStyle = RISINGSTONES_TEMPLATE.borderColor
     ctx.lineWidth = strokeWidth
-    ctx.strokeRect(strokeWidth / 2, strokeWidth / 2, renderData.canvas.width - strokeWidth, renderData.canvas.height - strokeWidth)
+    ctx.strokeRect(
+      strokeWidth / 2,
+      strokeWidth / 2,
+      renderData.canvas.width - strokeWidth,
+      renderData.canvas.height - strokeWidth
+    )
   }
 
   drawRisingstonesImage(ctx, renderData, resolveImage)

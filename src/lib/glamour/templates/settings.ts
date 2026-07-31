@@ -12,7 +12,9 @@ import {
 import { getGlamourTemplateRenderProfile } from '@/lib/glamour/templates/renderProfiles'
 
 export const GLAMOUR_TEMPLATE_SETTINGS_STORAGE_KEY = 'nsglamour.templateWorkspaceSettings'
-export const GLAMOUR_TEMPLATE_SETTINGS_VERSION = 3
+export const GLAMOUR_TEMPLATE_SETTINGS_VERSION = 4
+
+export type GlamourTemplateOutputLanguageMode = 'single' | 'custom'
 
 export interface GlamourTemplateSettings {
   templateId: GlamourTemplateId
@@ -33,7 +35,9 @@ export interface GlamourTemplateSettings {
   dyeSize: number
   showIcons: boolean
   dyeFrameMode: 'psd' | 'color'
+  outputLanguageMode: GlamourTemplateOutputLanguageMode
   locales: GlamourLocale[]
+  dyeLocales: GlamourLocale[]
   textColor: string
   panelColor: string
   storySwatchColors: string[]
@@ -57,15 +61,24 @@ function normalizeText(value: unknown, fallback = ''): string {
 }
 
 function normalizeSubtitleText(value: unknown): string {
-  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, 120)
+  return String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 120)
 }
 
 function normalizeSubtitlePart(value: unknown, maxLength = 80): string {
-  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, maxLength)
+  return String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, maxLength)
 }
 
 function normalizeSubtitleSymbol(value: unknown): string {
-  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, 4)
+  return String(value || '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 4)
 }
 
 function normalizeHexColor(value: unknown, fallback: string): string {
@@ -172,7 +185,9 @@ function shouldApplyImportedTitle(
 
   const currentText = String(settings.topText || '').trim()
   const autoText = String(settings.importedTitleAutoText || '').trim()
-  return Boolean(autoText && currentText === autoText) || currentText === getDefaultTopText(template)
+  return (
+    Boolean(autoText && currentText === autoText) || currentText === getDefaultTopText(template)
+  )
 }
 
 function getImportedAuthorParts(source: GlamourDraftSource) {
@@ -227,6 +242,84 @@ export function normalizeGlamourTemplateLocales(
   const fallback = fallbackLocales.filter((locale) => supported.has(normalizeGlamourLocale(locale)))
   const normalizedFallback = fallback.map((locale) => normalizeGlamourLocale(locale))
   return Array.from(new Set(normalizedFallback)).slice(0, Math.max(1, template.localeOrder.length))
+}
+
+export function supportsGlamourTemplateCustomLanguages(
+  template: GlamourTemplateDefinition
+): boolean {
+  return template.supportsCustomLanguages === true
+}
+
+export function normalizeGlamourTemplateOutputLanguageMode(
+  value: unknown,
+  template: GlamourTemplateDefinition,
+  locales: unknown = []
+): GlamourTemplateOutputLanguageMode {
+  if (!supportsGlamourTemplateCustomLanguages(template)) {
+    return 'single'
+  }
+
+  if (value === 'custom' || value === 'bilingual') {
+    return 'custom'
+  }
+
+  if (value === 'single') {
+    return 'single'
+  }
+
+  return Array.isArray(locales) && locales.length > 1 ? 'custom' : 'single'
+}
+
+function getPreferredSecondaryLocale(
+  primaryLocale: GlamourLocale,
+  template: GlamourTemplateDefinition
+): GlamourLocale {
+  const preferred = primaryLocale === 'en' ? 'ja' : 'en'
+
+  if (template.localeOrder.includes(preferred) && preferred !== primaryLocale) {
+    return preferred
+  }
+
+  return template.localeOrder.find((locale) => locale !== primaryLocale) || primaryLocale
+}
+
+export function normalizeGlamourTemplateItemLocales(
+  locales: unknown,
+  template: GlamourTemplateDefinition,
+  mode: GlamourTemplateOutputLanguageMode,
+  fallbackLocales: GlamourLocale[] = getDefaultLocaleList(template)
+): GlamourLocale[] {
+  const normalized = normalizeGlamourTemplateLocales(locales, template, fallbackLocales)
+  const primary = normalized[0] || template.defaultLocale
+
+  if (!supportsGlamourTemplateCustomLanguages(template) || mode !== 'custom') {
+    return [primary]
+  }
+
+  const secondary =
+    normalized.find((locale) => locale !== primary) ||
+    getPreferredSecondaryLocale(primary, template)
+  return Array.from(new Set([primary, secondary])).slice(0, 2)
+}
+
+export function normalizeGlamourTemplateDyeLocales(
+  locales: unknown,
+  template: GlamourTemplateDefinition,
+  mode: GlamourTemplateOutputLanguageMode,
+  fallbackLocales: GlamourLocale[] = getDefaultLocaleList(template)
+): GlamourLocale[] {
+  const fallback = normalizeGlamourTemplateLocales(
+    fallbackLocales,
+    template,
+    getDefaultLocaleList(template)
+  )
+  const normalized = normalizeGlamourTemplateLocales(locales, template, fallback)
+
+  if (!supportsGlamourTemplateCustomLanguages(template) || mode !== 'custom') {
+    return [fallback[0] || normalized[0] || template.defaultLocale]
+  }
+
+  return normalized.slice(0, 2)
 }
 
 export function formatGlamourTemplateSubtitleParts(
@@ -314,9 +407,7 @@ export function applyGlamourTemplateImportedSource(
       patch.ecSubtitleSymbolText = authorParts?.full
         ? ''
         : normalizeSubtitleSymbol(authorParts?.symbol || '♦')
-      patch.ecSubtitleRightText = authorParts?.full
-        ? ''
-        : normalizeSubtitlePart(authorParts?.right)
+      patch.ecSubtitleRightText = authorParts?.full ? '' : normalizeSubtitlePart(authorParts?.right)
       patch.ecSubtitleText = importedAuthorText
       patch.ecSubtitleAutoText = importedAuthorText
       patch.ecSubtitleTouched = false
@@ -325,7 +416,9 @@ export function applyGlamourTemplateImportedSource(
 
   if (importedAuthorText && template.controls.characterName === true) {
     const shouldUpdate =
-      force || !titleSettings.characterName || titleSettings.characterName === titleSettings.ecSubtitleAutoText
+      force ||
+      !titleSettings.characterName ||
+      titleSettings.characterName === titleSettings.ecSubtitleAutoText
 
     if (shouldUpdate) {
       patch.characterName = importedAuthorText.slice(0, 80)
@@ -362,7 +455,9 @@ export function applyGlamourTemplateImportedTitle(
   )
 }
 
-export function getDefaultGlamourTemplateSettings(templateId = GLAMOUR_TEMPLATE_DEFAULT_ID): GlamourTemplateSettings {
+export function getDefaultGlamourTemplateSettings(
+  templateId = GLAMOUR_TEMPLATE_DEFAULT_ID
+): GlamourTemplateSettings {
   const template = getGlamourTemplateDefinition(templateId)
 
   return {
@@ -384,7 +479,9 @@ export function getDefaultGlamourTemplateSettings(templateId = GLAMOUR_TEMPLATE_
     dyeSize: 15,
     showIcons: true,
     dyeFrameMode: 'psd',
+    outputLanguageMode: 'single',
     locales: getDefaultLocaleList(template),
+    dyeLocales: getDefaultLocaleList(template),
     textColor: '#1c2130',
     panelColor: '#ffffff',
     storySwatchColors: [...DEFAULT_STORY_SWATCH_COLORS]
@@ -402,10 +499,45 @@ export function normalizeGlamourTemplateSettings(
   const legacySubtitleText = normalizeText(source.ecSubtitleText, '')
   const legacySubtitleParts = splitGlamourTemplateSubtitleText(legacySubtitleText)
   const legacySubtitleHasParts = Boolean(legacySubtitleParts && !legacySubtitleParts.full)
-  const hasStoredSubtitleSymbol = Object.prototype.hasOwnProperty.call(source, 'ecSubtitleSymbolText')
+  const hasStoredSubtitleSymbol = Object.prototype.hasOwnProperty.call(
+    source,
+    'ecSubtitleSymbolText'
+  )
   const swatches = Array.isArray(source.storySwatchColors)
     ? source.storySwatchColors.map((color) => normalizeHexColor(color, '')).filter(Boolean)
     : []
+  const rawLocales = Array.isArray(source.locales) ? source.locales : defaults.locales
+  const legacySilenceLocales =
+    normalizedTemplateId === 'silence-fashion' &&
+    source.outputLanguageMode == null &&
+    rawLocales.length === 2 &&
+    rawLocales[0] === 'en' &&
+    rawLocales[1] === 'ja'
+      ? ['ja', 'en']
+      : rawLocales
+  const outputLanguageMode = normalizeGlamourTemplateOutputLanguageMode(
+    source.outputLanguageMode,
+    template,
+    legacySilenceLocales
+  )
+  const locales = normalizeGlamourTemplateItemLocales(
+    legacySilenceLocales,
+    template,
+    outputLanguageMode,
+    defaults.locales
+  )
+  const defaultDyeLocales =
+    normalizedTemplateId === 'silence-fashion' &&
+    outputLanguageMode === 'custom' &&
+    locales.includes('en')
+      ? (['en'] as GlamourLocale[])
+      : [locales[0] || template.defaultLocale]
+  const dyeLocales = normalizeGlamourTemplateDyeLocales(
+    source.dyeLocales,
+    template,
+    outputLanguageMode,
+    defaultDyeLocales
+  )
 
   return {
     ...defaults,
@@ -420,7 +552,9 @@ export function normalizeGlamourTemplateSettings(
     ).slice(0, 80),
     ecSubtitleSymbolText: normalizeText(
       hasStoredSubtitleSymbol ? source.ecSubtitleSymbolText : undefined,
-      legacySubtitleHasParts ? legacySubtitleParts?.symbol || defaults.ecSubtitleSymbolText : defaults.ecSubtitleSymbolText
+      legacySubtitleHasParts
+        ? legacySubtitleParts?.symbol || defaults.ecSubtitleSymbolText
+        : defaults.ecSubtitleSymbolText
     ).slice(0, 4),
     ecSubtitleRightText: normalizeText(
       source.ecSubtitleRightText,
@@ -436,7 +570,9 @@ export function normalizeGlamourTemplateSettings(
     dyeSize: clampNumber(source.dyeSize, 10, 32, defaults.dyeSize),
     showIcons: typeof source.showIcons === 'boolean' ? source.showIcons : defaults.showIcons,
     dyeFrameMode: source.dyeFrameMode === 'color' ? 'color' : 'psd',
-    locales: normalizeGlamourTemplateLocales(source.locales, template),
+    outputLanguageMode,
+    locales,
+    dyeLocales,
     textColor: normalizeHexColor(source.textColor, defaults.textColor),
     panelColor: normalizeHexColor(source.panelColor, defaults.panelColor),
     storySwatchColors: swatches.length ? swatches.slice(0, 3) : defaults.storySwatchColors
@@ -447,7 +583,7 @@ export function normalizeGlamourTemplateWorkspaceSettings(
   value: unknown
 ): GlamourTemplateWorkspaceSettings {
   const source = isRecord(value) ? value : {}
-  const shouldResetLegacyTemplateSubtitles = Number(source.version || 0) < GLAMOUR_TEMPLATE_SETTINGS_VERSION
+  const shouldResetLegacyTemplateSubtitles = Number(source.version || 0) < 3
   const templateId = normalizeGlamourTemplateId(String(source.templateId || ''))
   const rawTemplates = isRecord(source.templates) ? source.templates : {}
   const templates = Object.fromEntries(
