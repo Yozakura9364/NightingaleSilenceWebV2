@@ -221,9 +221,7 @@ export const ffxivTools: ToolEntry[] = [
     projectName: 'NSArmoire',
     route: siteRoutes.armoire,
     summaryKey: textKeys.placeholder,
-    sourcePath: 'docs/ARMOIRE_PLAN.md',
-    apiBase: '/api/armoire',
-    devPort: 8015,
+    sourcePath: 'src/pages/armoire/NSArmoireLandingPage.vue',
     statusLabelKey: textKeys.placeholder
   },
   {

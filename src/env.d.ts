@@ -8,7 +8,6 @@ interface ImportMetaEnv {
   readonly VITE_LOCAL_ASSET_BASE?: string
   readonly VITE_SILENCE_LAYOUT_BASE?: string
   readonly VITE_FFXIV_COMMUNITY_EVENTS_URL?: string
-  readonly VITE_NSARMOIRE_LOCAL_APP?: string
 }
 
 interface ImportMeta {

@@ -2,13 +2,13 @@
   <a href="#main-content" class="app-skip-link ns-sr-only ns-sr-only--focusable">
     {{ t(textKeys.skipToMainContent) }}
   </a>
-  <AppTopNav v-if="!isArmoireLocalApp" />
+  <AppTopNav />
   <div id="main-content">
     <router-view v-slot="{ Component }">
       <component :is="Component" />
     </router-view>
   </div>
-  <AppTaskbar v-if="!isArmoireLocalApp && isHomePage" />
+  <AppTaskbar v-if="isHomePage" />
   <AppDialog :state="dialog.state" @close="dialog.close" />
 </template>
 
@@ -18,57 +18,39 @@ import { useRoute } from 'vue-router'
 import AppTopNav from '@/components/AppTopNav.vue'
 import AppTaskbar from '@/components/AppTaskbar.vue'
 import AppDialog from '@/components/AppDialog.vue'
-import { isArmoireLocalApp } from '@/config/features'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'
 import { useDialog } from '@/composables/useDialog'
 
 const { initLocale, t } = useLocale()
-const { initThemeMode, setThemeMode } = useTheme()
+const { initThemeMode } = useTheme()
 const dialog = useDialog()
 const route = useRoute()
 const isHomePage = computed(() => route.name === 'home')
 
-document.documentElement.toggleAttribute('data-armoire-local-app', isArmoireLocalApp)
-
 // Hide page content from screen readers while dialog is open
 const appRoot = document.getElementById('app')
-watch(() => dialog.state.visible, (visible) => {
-  if (appRoot) {
-    if (visible) {
-      appRoot.setAttribute('aria-hidden', 'true')
-      appRoot.setAttribute('inert', '')
-    } else {
-      appRoot.removeAttribute('aria-hidden')
-      appRoot.removeAttribute('inert')
+watch(
+  () => dialog.state.visible,
+  (visible) => {
+    if (appRoot) {
+      if (visible) {
+        appRoot.setAttribute('aria-hidden', 'true')
+        appRoot.setAttribute('inert', '')
+      } else {
+        appRoot.removeAttribute('aria-hidden')
+        appRoot.removeAttribute('inert')
+      }
     }
   }
-})
+)
 
 initLocale()
-if (isArmoireLocalApp) {
-  setThemeMode('day')
-}
 initThemeMode()
 </script>
 
 <style>
-:root[data-armoire-local-app] .ffxiv-tool-page--workspace {
-  min-height: 100vh;
-}
-
-:root[data-armoire-local-app] .ffxiv-tool-workspace--wide {
-  height: 100vh;
-}
-
-@media (min-width: 981px) {
-  :root[data-armoire-local-app] .nsarmoire-section-rail {
-    top: 0;
-    height: 100vh;
-  }
-}
-
 /* Page route transitions — removed */
 .app-skip-link {
   position: absolute;
@@ -87,37 +69,22 @@ initThemeMode()
 }
 
 /* Adjust full-viewport pages for the 56px top navigation and its 2px border. */
-:root:not([data-armoire-local-app]) .ffxiv-tool-page--workspace {
+:root .ffxiv-tool-page--workspace {
   min-height: calc(100vh - 58px) !important;
   overflow: hidden !important;
 }
 
-:root:not([data-armoire-local-app]) .ffxiv-tool-workspace--wide {
+:root .ffxiv-tool-workspace--wide {
   height: calc(100vh - 58px) !important;
 }
 
-:root:not([data-armoire-local-app]) .nsarmoire-section-rail {
+:root .nsarmoire-section-rail {
   min-height: calc(100vh - 58px) !important;
 }
 
 @media (min-width: 981px) {
-  :root:not([data-armoire-local-app]) .nsarmoire-section-rail {
+  :root .nsarmoire-section-rail {
     height: calc(100vh - 58px) !important;
-  }
-}
-
-:root[data-armoire-local-app] .ffxiv-tool-page--workspace {
-  min-height: 100vh;
-}
-
-:root[data-armoire-local-app] .ffxiv-tool-workspace--wide {
-  height: 100vh;
-}
-
-@media (min-width: 981px) {
-  :root[data-armoire-local-app] .nsarmoire-section-rail {
-    top: 0;
-    height: 100vh;
   }
 }
 

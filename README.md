@@ -36,7 +36,6 @@ npm run check   # 全量检查（类型、i18n、数据完整性、构建）
 | `/ffxiv/armoire` | 衣柜管家 NSArmoire | 公网教程与下载 |
 | `/ffxiv/fashion-check` | 时尚品鉴 | 每周方案与金牌来源 |
 | `/ffxiv/item-card` | 物品卡片 | 导入、编辑与导出 |
-| `/ffxiv/armoire/store-review` | 商城数据校正 | 内置校正工具（armoire-local 构建） |
 | `/ffxiv/term-review` | FFXIV 术语校正 | 内部用语校正页 |
 | `/silence` | Silence 创作入口 | 角色资料与画廊 |
 | `/silence/angel` | 不语·silence | 角色详情页 |
@@ -73,7 +72,7 @@ src/
 
 - NSPlate：静态数据源（COS/CDN），`/data/plate/*`
 - NSGlamour：V2 自有 Flask API `/api/glamour/*`，本地端口 `8766`
-- NSArmoire：本地 GUI（8015 端口），公网页仅展示教程与下载
+- NSArmoire：完整工作台由独立 NSArmoireButler 桌面程序承载，公网页仅展示教程与下载
 
 ## 许可证与素材
 

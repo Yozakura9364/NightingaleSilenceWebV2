@@ -4,7 +4,6 @@ import { watch } from 'vue'
 import { formatDocumentTitle, getCategory, getFfxivTool, siteMeta, siteRoutes } from '@/config/site'
 import {
   areInternalRoutesEnabled,
-  isArmoireWorkbenchEnabled,
   isSilenceEnabled
 } from '@/config/features'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
@@ -36,23 +35,8 @@ const armoireRoutes: RouteRecordRaw[] = [
     path: siteRoutes.armoire,
     name: 'ffxiv-armoire',
     meta: { titleKey: armoireTool?.titleKey ?? textKeys.armoireTitle },
-    component: isArmoireWorkbenchEnabled
-      ? loadLocalizedPage(['armoire'], () => import('@/pages/armoire/NSArmoirePage.vue'))
-      : loadLocalizedPage(['armoire'], () => import('@/pages/armoire/NSArmoireLandingPage.vue'))
-  },
-  ...(isArmoireWorkbenchEnabled
-    ? [
-        {
-          path: '/ffxiv/armoire/store-review',
-          name: 'ffxiv-armoire-store-review',
-          meta: { titleKey: 'nsarmoire.storeReview.title' },
-          component: loadLocalizedPage(
-            ['armoire'],
-            () => import('@/pages/armoire/NSArmoireStoreReviewPage.vue')
-          )
-        } satisfies RouteRecordRaw
-      ]
-    : [])
+    component: loadLocalizedPage(['armoire'], () => import('@/pages/armoire/NSArmoireLandingPage.vue'))
+  }
 ]
 
 const silenceRoutes: RouteRecordRaw[] = isSilenceEnabled

@@ -1,8 +1,6 @@
 // @ts-expect-error The Vite config runs in Node; this project intentionally omits @types/node.
-import { existsSync, readdirSync, rmSync } from 'node:fs'
-// @ts-expect-error The Vite config runs in Node; this project intentionally omits @types/node.
-import { join, resolve } from 'node:path'
-import { defineConfig, loadEnv, type Plugin, type ResolvedConfig } from 'vite'
+import { resolve } from 'node:path'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 declare const process: {
@@ -25,37 +23,8 @@ function readBooleanEnv(value: string | undefined, fallback: boolean): boolean {
   return value === 'true'
 }
 
-function excludePublicArmoireDataPlugin(enabled: boolean): Plugin {
-  let resolvedConfig: ResolvedConfig
-
-  return {
-    name: 'exclude-public-armoire-data',
-    apply: 'build',
-    configResolved(config) {
-      resolvedConfig = config
-    },
-    closeBundle() {
-      if (!enabled) {
-        return
-      }
-
-      const dataDir = join(resolve(resolvedConfig.root, resolvedConfig.build.outDir), 'data')
-      if (!existsSync(dataDir)) {
-        return
-      }
-
-      for (const entry of readdirSync(dataDir)) {
-        if (entry.startsWith('armoire-')) {
-          rmSync(join(dataDir, entry), { recursive: true, force: true })
-        }
-      }
-    }
-  }
-}
-
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
-  const isArmoireLocalBuild = mode === 'armoire-local'
   const enableDevelopmentRoutesByDefault = command === 'serve'
   const enableSilence = readBooleanEnv(env.VITE_ENABLE_SILENCE, false)
   const enableInternalRoutes = readBooleanEnv(
@@ -65,14 +34,13 @@ export default defineConfig(({ command, mode }) => {
 
   return {
     define: {
-      'import.meta.env.VITE_NSARMOIRE_LOCAL_APP': JSON.stringify(String(isArmoireLocalBuild)),
       'import.meta.env.VITE_ENABLE_SILENCE': JSON.stringify(String(enableSilence)),
       'import.meta.env.VITE_ENABLE_INTERNAL_ROUTES': JSON.stringify(String(enableInternalRoutes)),
       'import.meta.env.VITE_LOCAL_ASSET_BASE': JSON.stringify(
         command === 'serve' ? '/local-assets' : ''
       )
     },
-    plugins: [vue(), excludePublicArmoireDataPlugin(!isArmoireLocalBuild)],
+    plugins: [vue()],
     build: {
       rollupOptions: {
         output: {
@@ -111,14 +79,17 @@ export default defineConfig(({ command, mode }) => {
           rewrite: (path) => path.replace(/^\/api\/plate(?=\/|$)/, '/api')
         },
         '/api/glamour': {
-          target: 'http://localhost:8766',
+          target: `http://localhost:${process.env.NSGLAMOUR_PROXY_PORT || '8766'}`,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api\/glamour(?=\/|$)/, '/api')
         },
-        '/api/armoire': {
-          target: 'http://127.0.0.1:8015',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api\/armoire(?=\/|$)/, '')
+        '/glamour/api': {
+          target: process.env.NSGLAMOUR_SNAPSHOT_PROXY_TARGET || 'https://nsffxiv.com',
+          changeOrigin: true
+        },
+        '/api/content-studio': {
+          target: `http://127.0.0.1:${process.env.CONTENT_STUDIO_PORT || '8770'}`,
+          changeOrigin: true
         },
         '/img': 'http://localhost:3456',
         '/img-preview': 'http://localhost:3456'
