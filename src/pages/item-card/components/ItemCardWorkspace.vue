@@ -1,27 +1,8 @@
 <template>
   <div class="item-card-workspace">
     <div class="item-card-workspace__body">
-      <aside class="item-card-workspace__sidebar">
-        <div class="item-card-workspace__tabs" role="tablist">
-          <button
-            type="button"
-            role="tab"
-            :aria-selected="activeTab === 'equipment'"
-            :class="{ active: activeTab === 'equipment' }"
-            @click="activeTab = 'equipment'"
-          >
-            {{ t(textKeys.nsglamourEquipmentPanel) }}
-          </button>
-          <button
-            type="button"
-            role="tab"
-            :aria-selected="activeTab === 'settings'"
-            :class="{ active: activeTab === 'settings' }"
-            @click="activeTab = 'settings'"
-          >
-            {{ t(textKeys.settingsTitle) }}
-          </button>
-        </div>
+      <aside class="item-card-workspace__sidebar ns-scroll-area">
+        <AppTabs v-model="activeTab" :items="sidebarTabs" stretch density="compact" />
 
         <ItemCardEquipmentEditor
           v-show="activeTab === 'equipment'"
@@ -45,7 +26,7 @@
         />
       </aside>
 
-      <main class="item-card-workspace__preview">
+      <main class="item-card-workspace__preview ns-scroll-area">
         <ItemCardPreview
           :entries="filledEntries"
           :draft="draft"
@@ -92,6 +73,7 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent, computed, ref, watch } from 'vue'
+import AppTabs from '@/components/AppTabs.vue'
 
 const ItemCardImportDialog = defineAsyncComponent({
   loader: () => import('@/pages/item-card/components/ItemCardImportDialog.vue'),
@@ -146,7 +128,11 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useLocale()
-const activeTab = ref<'equipment' | 'settings'>('equipment')
+const activeTab = ref('equipment')
+const sidebarTabs = computed(() => [
+  { value: 'equipment', label: t(textKeys.nsglamourEquipmentPanel) },
+  { value: 'settings', label: t(textKeys.settingsTitle) }
+])
 const importOpen = ref(false)
 const importUrl = ref('')
 const textImportOpen = ref(false)
@@ -247,28 +233,13 @@ function submitTextImport() {
   background: var(--ns-color-surface);
 }
 
-.item-card-workspace__tabs {
+.item-card-workspace :deep(.app-tabs) {
   position: sticky;
   z-index: 20;
   top: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  background: var(--ns-pixel-window-bg);
-}
-
-.item-card-workspace__tabs button {
-  min-height: 34px;
   border: 0;
-  border-bottom: 2px solid var(--ns-color-border);
-  background: transparent;
-  color: var(--ns-color-text-muted);
-  font: 900 12px var(--ns-font-pixel);
-  cursor: pointer;
-}
-
-.item-card-workspace__tabs button.active {
-  border-bottom-color: var(--ns-color-accent);
-  color: var(--ns-color-accent-strong);
+  border-bottom: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
+  box-shadow: none;
 }
 
 .item-card-workspace__preview {
@@ -276,7 +247,7 @@ function submitTextImport() {
   overflow-y: auto;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 860px) {
   .item-card-workspace {
     height: auto;
   }

@@ -1,12 +1,8 @@
 <template>
-  <FfxivToolShell :tool="tool" :boundary="boundary" variant="workspace">
-    <NSGlamourSnapshotPage
-      v-if="snapshotId"
-      :snapshot-id="snapshotId"
-      :boundary="boundary"
-    />
+  <NSGlamourSnapshotPage v-if="snapshotId" :snapshot-id="snapshotId" :boundary="boundary" />
 
-    <div v-else class="nsglamour-page">
+  <FfxivToolShell v-else :tool="tool" :boundary="boundary" variant="workspace">
+    <div class="nsglamour-page">
       <RouterLink
         class="nsglamour-page-turn"
         :class="turnButtonClass"
@@ -14,11 +10,7 @@
         :title="turnLabel"
         :aria-label="turnLabel"
       >
-        <span
-          class="nsglamour-page-turn__arrow"
-          :style="turnIconStyle"
-          aria-hidden="true"
-        ></span>
+        <span class="nsglamour-page-turn__arrow" :style="turnIconStyle" aria-hidden="true"></span>
         <small>{{ turnLabel }}</small>
       </RouterLink>
 
@@ -52,9 +44,7 @@ const snapshotId = computed(() =>
   typeof route.params.snapshotId === 'string' ? route.params.snapshotId : ''
 )
 
-const mode = computed(() =>
-  route.path === siteRoutes.glamourEquipInfo ? 'equipinfo' : 'template'
-)
+const mode = computed(() => (route.path === siteRoutes.glamourEquipInfo ? 'equipinfo' : 'template'))
 const isEquipInfoMode = computed(() => mode.value === 'equipinfo')
 const turnTarget = computed(() =>
   isEquipInfoMode.value ? siteRoutes.glamourTemplate : siteRoutes.glamourEquipInfo
@@ -185,9 +175,7 @@ const turnIconStyle = computed(
 }
 
 .nsglamour-page-turn:focus-visible {
-  box-shadow:
-    var(--ns-focus-ring),
-    var(--ns-pixel-button-shadow-hover);
+  box-shadow: var(--ns-focus-ring), var(--ns-pixel-button-shadow-hover);
 }
 
 @media (max-width: 720px) {

@@ -1,7 +1,7 @@
 <template>
   <div ref="rootElement" class="catalog-search-row" @focusout="handleFocusOut">
     <div
-      class="catalog-search-row__categories"
+      class="catalog-search-row__categories ns-segmented-control"
       role="group"
       :aria-label="t(textKeys.catalogCategoryLabel)"
     >
@@ -9,7 +9,6 @@
         v-for="option in categoryOptions"
         :key="option.value"
         type="button"
-        :class="{ active: category === option.value }"
         :aria-pressed="category === option.value"
         @click="selectCategory(option.value)"
       >
@@ -28,7 +27,7 @@
       />
       <div
         v-if="open && query.trim()"
-        class="catalog-search-row__results"
+        class="catalog-search-row__results ns-floating-panel ns-scroll-area ns-scroll-area--compact"
         :aria-busy="state === 'loading'"
       >
         <button
@@ -55,10 +54,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, ref, watch } from 'vue'
 import { buildGlamourIconUrl, getCandidateName } from '@/pages/item-card/lib/equipment'
-import type {
-  GlamourCandidate,
-  ItemCardCatalogCategory
-} from '@/pages/item-card/lib/types'
+import type { GlamourCandidate, ItemCardCatalogCategory } from '@/pages/item-card/lib/types'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
 import { useLocale } from '@/stores/locale'
 
@@ -208,26 +204,7 @@ function handleFocusOut() {
 }
 
 .catalog-search-row__categories {
-  display: inline-flex;
   min-width: 0;
-}
-
-.catalog-search-row__categories button {
-  min-height: 30px;
-  padding: 4px 8px;
-  border: 1px solid var(--ns-color-border);
-  border-right: 0;
-  border-radius: 0;
-  background: var(--ns-color-surface);
-  color: var(--ns-color-text-muted);
-  font: 700 11px var(--ns-font-ui);
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.catalog-search-row__categories button.active {
-  background: var(--ns-color-accent);
-  color: var(--ns-color-on-accent);
 }
 
 .catalog-search-row__body {
@@ -240,7 +217,7 @@ function handleFocusOut() {
   height: 30px;
   padding: 4px 7px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 0 3px 3px 0;
+  border-radius: 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: 11px var(--ns-font-ui);
@@ -254,10 +231,6 @@ function handleFocusOut() {
   gap: 7px;
   max-height: 320px;
   padding: 8px;
-  overflow-y: auto;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-window-bg);
-  box-shadow: var(--ns-pixel-window-shadow);
 }
 
 .catalog-search-row__results button {
@@ -283,7 +256,7 @@ function handleFocusOut() {
 .catalog-search-row__results img {
   width: 36px;
   height: 36px;
-  border-radius: 3px;
+  border-radius: 0;
 }
 
 .catalog-search-row__results p {

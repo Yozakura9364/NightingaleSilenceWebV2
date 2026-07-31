@@ -14,3 +14,4 @@ export type UiMessageModuleName =
   | 'silence'
   | 'styleLab'
   | 'fashionCheck'
+  | 'contentStudio'

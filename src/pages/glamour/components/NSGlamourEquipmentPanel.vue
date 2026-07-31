@@ -10,22 +10,36 @@
       </div>
 
       <div class="nsglamour-equipment__actions">
-        <div
-          class="nsglamour-equipment__locale-tabs"
-          :aria-label="t(textKeys.nsglamourEquipmentLanguage)"
-        >
+        <div ref="localeControl" class="nsglamour-snapshot__language-control">
           <button
-            v-for="option in localeOptions"
-            :key="option.value"
             type="button"
-            :class="{ active: option.value === draft.locale }"
-            :aria-pressed="option.value === draft.locale"
-            :aria-label="option.accessibleLabel"
-            :title="option.accessibleLabel"
-            @click="emit('update-locale', option.value)"
+            class="nsglamour-snapshot__tool-button"
+            :aria-label="localeButtonLabel"
+            :title="localeButtonLabel"
+            aria-haspopup="menu"
+            :aria-expanded="localeMenuOpen"
+            @click.stop="localeMenuOpen = !localeMenuOpen"
           >
-            {{ option.label }}
+            <img :src="languagesIcon" alt="" aria-hidden="true" />
           </button>
+          <div
+            v-if="localeMenuOpen"
+            class="nsglamour-snapshot__language-menu"
+            role="menu"
+            :aria-label="t(textKeys.nsglamourEquipmentLanguage)"
+          >
+            <button
+              v-for="option in localeOptions"
+              :key="option.value"
+              type="button"
+              role="menuitemradio"
+              :class="{ active: option.value === draft.locale }"
+              :aria-checked="option.value === draft.locale"
+              @click="selectLocale(option.value)"
+            >
+              {{ option.accessibleLabel }}
+            </button>
+          </div>
         </div>
 
         <AppButton
@@ -81,6 +95,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
+import languagesIcon from '@/assets/icons/pixelarticons/languages.svg'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import {
   buildGlamourIconUrl,
@@ -177,6 +192,8 @@ const equipmentLayoutQuery = window.matchMedia('(max-width: 1080px)')
 const isMobileLayout = ref(equipmentLayoutQuery.matches)
 const snapshotCreating = ref(false)
 const snapshotCopied = ref(false)
+const localeMenuOpen = ref(false)
+const localeControl = ref<HTMLElement | null>(null)
 const editor = useGlamourEquipInfoEditor({
   apiBase: computed(() => props.apiBase),
   draft: computed(() => props.draft),
@@ -201,16 +218,6 @@ const localeLabelKeys: Record<string, string> = {
 }
 
 const LOCALE_ORDER = ['ja', 'en', 'fr', 'de', 'zh', 'tc', 'ko']
-const COMPACT_LOCALE_LABELS: Record<string, string> = {
-  ja: 'ja',
-  en: 'en',
-  fr: 'fr',
-  de: 'de',
-  zh: 'chs',
-  tc: 'tc',
-  ko: 'ko'
-}
-
 const localeOptions = computed(() =>
   [...props.draft.locales]
     .sort((left, right) => {
@@ -223,11 +230,16 @@ const localeOptions = computed(() =>
     })
     .map((locale) => ({
       value: locale,
-      label: COMPACT_LOCALE_LABELS[locale] || locale,
+      label: t(localeLabelKeys[locale] ?? '') || props.draft.localeLabels[locale] || locale,
       accessibleLabel:
         t(localeLabelKeys[locale] ?? '') || props.draft.localeLabels[locale] || locale
     }))
 )
+
+const localeButtonLabel = computed(() => {
+  const option = localeOptions.value.find((item) => item.value === props.draft.locale)
+  return `${t(textKeys.nsglamourEquipmentLanguage)}: ${option?.accessibleLabel || props.draft.locale}`
+})
 
 const entryViews = computed<GlamourEquipmentEntryView[]>(() =>
   props.draft.entries.map((entry) => {
@@ -286,11 +298,33 @@ const snapshotActionLabel = computed(() => {
 
 onMounted(() => {
   equipmentLayoutQuery.addEventListener('change', updateEquipmentLayout)
+  document.addEventListener('click', closeLocaleMenu)
+  document.addEventListener('keydown', handleLocaleKeydown)
 })
 
 onBeforeUnmount(() => {
   equipmentLayoutQuery.removeEventListener('change', updateEquipmentLayout)
+  document.removeEventListener('click', closeLocaleMenu)
+  document.removeEventListener('keydown', handleLocaleKeydown)
 })
+
+function selectLocale(locale: string): void {
+  emit('update-locale', locale)
+  localeMenuOpen.value = false
+  localeControl.value?.querySelector<HTMLButtonElement>('.nsglamour-snapshot__tool-button')?.focus()
+}
+
+function closeLocaleMenu(event: MouseEvent): void {
+  if (!localeControl.value?.contains(event.target as Node)) {
+    localeMenuOpen.value = false
+  }
+}
+
+function handleLocaleKeydown(event: KeyboardEvent): void {
+  if (event.key === 'Escape') {
+    localeMenuOpen.value = false
+  }
+}
 
 function updateEquipmentLayout(event: MediaQueryListEvent): void {
   isMobileLayout.value = event.matches

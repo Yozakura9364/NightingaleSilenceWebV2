@@ -1,6 +1,6 @@
 <template>
   <section class="card-settings">
-    <h2>{{ t(textKeys.settingsTitle) }}</h2>
+    <h2 class="ns-heading-bloom">{{ t(textKeys.settingsTitle) }}</h2>
 
     <fieldset class="card-settings__group">
       <legend>{{ t(textKeys.outputLanguages) }}</legend>
@@ -18,9 +18,14 @@
     </fieldset>
 
     <div class="card-settings__font-row">
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.fontFamily) }}</span>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.fontFamily)"
+        for-id="item-card-font-family"
+        density="compact"
+      >
         <select
+          id="item-card-font-family"
           :value="activeStyle.fontFamily"
           @change="updateStyle('fontFamily', inputValue($event))"
         >
@@ -28,27 +33,37 @@
             {{ font.label }}
           </option>
         </select>
-      </label>
-      <button type="button" class="card-settings__secondary" @click="loadLocalFonts">
+      </AppField>
+      <button type="button" class="ns-button ns-button--compact" @click="loadLocalFonts">
         {{ t(textKeys.loadLocalFonts) }}
       </button>
     </div>
     <p v-if="fontStatus" class="card-settings__status">{{ fontStatus }}</p>
 
     <div class="card-settings__grid card-settings__text-grid">
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.titleSize) }}</span>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.titleSize)"
+        for-id="item-card-title-size"
+        density="compact"
+      >
         <input
+          id="item-card-title-size"
           type="number"
           min="8"
           max="64"
           :value="activeStyle.titleSize"
           @change="updateStyle('titleSize', numberValue($event))"
         />
-      </label>
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.titleWeight) }}</span>
+      </AppField>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.titleWeight)"
+        for-id="item-card-title-weight"
+        density="compact"
+      >
         <input
+          id="item-card-title-weight"
           type="number"
           min="100"
           max="900"
@@ -56,52 +71,77 @@
           :value="activeStyle.titleWeight"
           @change="updateStyle('titleWeight', numberValue($event))"
         />
-      </label>
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.dyeSize) }}</span>
+      </AppField>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.dyeSize)"
+        for-id="item-card-dye-size"
+        density="compact"
+      >
         <input
+          id="item-card-dye-size"
           type="number"
           min="8"
           max="48"
           :value="activeStyle.dyeSize"
           @change="updateStyle('dyeSize', numberValue($event))"
         />
-      </label>
+      </AppField>
     </div>
 
     <div class="card-settings__grid">
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.titleOffsetX) }}</span>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.titleOffsetX)"
+        for-id="item-card-title-offset-x"
+        density="compact"
+      >
         <input
+          id="item-card-title-offset-x"
           type="number"
           :value="settings.titleOffsetX"
           @change="updateNumber('titleOffsetX', $event)"
         />
-      </label>
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.titleOffsetY) }}</span>
+      </AppField>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.titleOffsetY)"
+        for-id="item-card-title-offset-y"
+        density="compact"
+      >
         <input
+          id="item-card-title-offset-y"
           type="number"
           :value="settings.titleOffsetY"
           @change="updateNumber('titleOffsetY', $event)"
         />
-      </label>
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.dyeOffsetX) }}</span>
+      </AppField>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.dyeOffsetX)"
+        for-id="item-card-dye-offset-x"
+        density="compact"
+      >
         <input
+          id="item-card-dye-offset-x"
           type="number"
           :value="settings.dyeOffsetX"
           @change="updateNumber('dyeOffsetX', $event)"
         />
-      </label>
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.dyeOffsetY) }}</span>
+      </AppField>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.dyeOffsetY)"
+        for-id="item-card-dye-offset-y"
+        density="compact"
+      >
         <input
+          id="item-card-dye-offset-y"
           type="number"
           :value="settings.dyeOffsetY"
           @change="updateNumber('dyeOffsetY', $event)"
         />
-      </label>
+      </AppField>
     </div>
 
     <div class="card-settings__color-row">
@@ -132,9 +172,14 @@
     </div>
 
     <div class="card-settings__grid">
-      <label class="card-settings__field">
-        <span>{{ t(textKeys.strokeRatio) }}</span>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.strokeRatio)"
+        for-id="item-card-stroke-ratio"
+        density="compact"
+      >
         <input
+          id="item-card-stroke-ratio"
           type="number"
           min="0"
           max="1"
@@ -142,7 +187,7 @@
           :value="settings.strokeRatio"
           @change="updateNumber('strokeRatio', $event)"
         />
-      </label>
+      </AppField>
       <label class="card-settings__field card-settings__color">
         <span>{{ t(textKeys.strokeColor) }}</span>
         <input
@@ -157,6 +202,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import AppField from '@/components/AppField.vue'
 import { getItemCardLocaleStyle } from '@/pages/item-card/lib/cardSettings'
 import { buildItemCardFontOptions } from '@/pages/item-card/lib/fontNames'
 import type {
@@ -277,7 +323,7 @@ async function loadLocalFonts() {
 }
 
 .card-settings__group legend,
-.card-settings__field > span {
+.card-settings__color > span {
   color: var(--ns-color-text-muted);
   font-size: 11px;
   font-weight: 700;
@@ -309,42 +355,11 @@ async function loadLocalFonts() {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.card-settings__field {
-  display: grid;
-  gap: 5px;
-  min-width: 0;
-}
-
-.card-settings input[type='text'],
-.card-settings input[type='number'],
-.card-settings select {
-  width: 100%;
-  min-width: 0;
-  height: 30px;
-  padding: 4px 7px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font: 12px var(--ns-font-ui);
-}
-
 .card-settings__font-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: 8px;
-}
-
-.card-settings__secondary {
-  min-height: 30px;
-  padding: 4px 8px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
-  background: var(--ns-color-surface);
-  color: var(--ns-color-text);
-  font: 700 11px var(--ns-font-ui);
-  cursor: pointer;
 }
 
 .card-settings__status {
@@ -367,6 +382,7 @@ async function loadLocalFonts() {
   height: 28px;
   padding: 2px;
   border: 1px solid var(--ns-color-border);
+  border-radius: 0;
   background: var(--ns-color-surface-solid);
 }
 </style>

@@ -163,7 +163,9 @@ function getFilterLabel(filter: string): string {
 
 function getLanguageLabels(option: GlamourTemplateDefinition): string[] {
   if (option.languageOptions?.length) {
-    return sortLanguageOptions(option.languageOptions).map((item) => item.label)
+    return sortLanguageOptions(option.languageOptions).map((item) =>
+      item.labelKey ? t(item.labelKey) : item.label
+    )
   }
 
   return [...option.localeOrder]
@@ -243,7 +245,7 @@ function formatMessage(template: string, values: Record<string, string>): string
   min-height: 28px;
   padding: 3px 9px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border-radius: 0;
   background: transparent;
   color: inherit;
   font: inherit;
@@ -349,7 +351,7 @@ function formatMessage(template: string, values: Record<string, string>): string
 .nsglamour-template-selector__languages code {
   padding: 2px 5px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border-radius: 0;
   color: var(--ns-color-text-muted);
   font: inherit;
   font-size: 11px;

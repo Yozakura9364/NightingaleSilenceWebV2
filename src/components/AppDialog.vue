@@ -303,13 +303,13 @@ function onOverlayClick() {
 
 .app-dialog-window__btn--primary {
   border-color: var(--ns-pixel-border);
-  background: linear-gradient(135deg, var(--ns-color-accent), var(--ns-color-cyan));
-  color: var(--ns-color-on-accent);
-  text-shadow: var(--ns-control-primary-text-shadow);
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  text-shadow: none;
 }
 
 .app-dialog-window__btn--primary:hover {
-  background: linear-gradient(135deg, var(--ns-color-accent-strong), var(--ns-color-cyan));
+  background: var(--ns-color-surface-solid);
   border-color: var(--ns-pixel-border);
 }
 </style>

@@ -3,28 +3,34 @@
     <header>
       <strong>{{ title }}</strong>
       <div class="card-preview-row__actions">
-        <div class="card-preview-row__segment">
+        <div class="card-preview-row__segment ns-segmented-control ns-segmented-control--small">
           <button
             type="button"
-            :class="{ active: layout === 'left' }"
+            :aria-pressed="layout === 'left'"
             @click="emit('set-layout', 'left')"
           >
             {{ t(textKeys.layoutLeft) }}
           </button>
           <button
             type="button"
-            :class="{ active: layout === 'right' }"
+            :aria-pressed="layout === 'right'"
             @click="emit('set-layout', 'right')"
           >
             {{ t(textKeys.layoutRight) }}
           </button>
         </div>
-        <button type="button" class="card-preview-row__download" @click="download">
+        <button
+          type="button"
+          class="card-preview-row__download ns-button ns-button--compact"
+          @click="download"
+        >
           {{ t(textKeys.downloadPng) }}
         </button>
       </div>
     </header>
-    <div class="card-preview-row__canvas">
+    <div
+      class="card-preview-row__canvas ns-transparency-grid ns-scroll-area ns-scroll-area--compact"
+    >
       <canvas ref="canvasElement" />
     </div>
   </article>
@@ -65,11 +71,7 @@ const { t } = useLocale()
 const canvasElement = ref<HTMLCanvasElement | null>(null)
 let renderId = 0
 const title = computed(() =>
-  getCandidateName(
-    getSelectedCandidate(props.entry),
-    props.draft.locale,
-    props.draft.source.locale
-  )
+  getCandidateName(getSelectedCandidate(props.entry), props.draft.locale, props.draft.source.locale)
 )
 
 watch(
@@ -118,7 +120,7 @@ async function download() {
   gap: 8px;
   padding: 10px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 5px;
+  border-radius: 0;
   background: var(--ns-color-surface);
 }
 
@@ -146,48 +148,13 @@ async function download() {
   flex: 0 0 auto;
 }
 
-.card-preview-row button {
-  min-height: 25px;
-  padding: 3px 7px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font: 700 10px var(--ns-font-ui);
-  cursor: pointer;
-}
-
 .card-preview-row__segment {
   gap: 0;
-}
-
-.card-preview-row__segment button {
-  border-radius: 0;
-}
-
-.card-preview-row__segment button + button {
-  border-left: 0;
-}
-
-.card-preview-row__segment button.active {
-  background: var(--ns-color-accent);
-  color: var(--ns-color-on-accent);
 }
 
 .card-preview-row__canvas {
   min-width: 0;
   padding: 8px;
-  overflow-x: auto;
-  background-color: #ffffff;
-  background-image: conic-gradient(#e8ebef 25%, #ffffff 0 50%, #e8ebef 0 75%, #ffffff 0);
-  background-size: 16px 16px;
-}
-
-:global(:root[data-theme='night'] .card-preview-row__canvas) {
-  background:
-    linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%) 0 0 / 14px 14px,
-    linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%) 0 7px / 14px 14px,
-    #252a32;
 }
 
 .card-preview-row canvas {

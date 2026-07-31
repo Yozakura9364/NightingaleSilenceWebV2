@@ -2,29 +2,37 @@
   <section class="card-preview">
     <header class="card-preview__toolbar ns-panel">
       <div class="card-preview__actions">
-        <button type="button" @click="emit('open-import')">
+        <button type="button" class="ns-button ns-button--compact" @click="emit('open-import')">
           {{ t(textKeys.importAction) }}
         </button>
-        <button type="button" :disabled="!entries.length" @click="emit('clear-draft')">
+        <button
+          type="button"
+          class="ns-button ns-button--compact"
+          :disabled="!entries.length"
+          @click="emit('clear-draft')"
+        >
           {{ t(textKeys.nsglamourClearDraft) }}
         </button>
-        <div class="card-preview__mode card-preview__segment" :aria-label="t(textKeys.modeLabel)">
+        <div
+          class="card-preview__mode card-preview__segment ns-segmented-control ns-segmented-control--small"
+          :aria-label="t(textKeys.modeLabel)"
+        >
           <button
             type="button"
-            :class="{ active: settings.mode === 'compact' }"
+            :aria-pressed="settings.mode === 'compact'"
             @click="emit('set-mode', 'compact')"
           >
             {{ t(textKeys.modeCompact) }}
           </button>
           <button
             type="button"
-            :class="{ active: settings.mode === 'full' }"
+            :aria-pressed="settings.mode === 'full'"
             @click="emit('set-mode', 'full')"
           >
             {{ t(textKeys.modeFull) }}
           </button>
         </div>
-        <div class="card-preview__segment">
+        <div class="card-preview__segment ns-segmented-control ns-segmented-control--small">
           <button type="button" @click="emit('set-all-layouts', 'left')">
             {{ t(textKeys.allLeft) }}
           </button>
@@ -32,7 +40,12 @@
             {{ t(textKeys.allRight) }}
           </button>
         </div>
-        <button type="button" :disabled="!entries.length || exporting" @click="downloadZip">
+        <button
+          type="button"
+          class="ns-button ns-button--compact"
+          :disabled="!entries.length || exporting"
+          @click="downloadZip"
+        >
           {{ t(textKeys.downloadZip) }}
         </button>
       </div>
@@ -42,17 +55,19 @@
       <section class="card-preview__list">
         <header class="card-preview__list-header">
           <h3>{{ t(textKeys.listPreview) }}</h3>
-          <div class="card-preview__list-actions card-preview__segment">
+          <div
+            class="card-preview__list-actions card-preview__segment ns-segmented-control ns-segmented-control--small"
+          >
             <button
               type="button"
-              :class="{ active: listLayout === 'left' }"
+              :aria-pressed="listLayout === 'left'"
               @click="emit('set-list-layout', 'left')"
             >
               {{ t(textKeys.layoutLeft) }}
             </button>
             <button
               type="button"
-              :class="{ active: listLayout === 'right' }"
+              :aria-pressed="listLayout === 'right'"
               @click="emit('set-list-layout', 'right')"
             >
               {{ t(textKeys.layoutRight) }}
@@ -62,7 +77,9 @@
             </button>
           </div>
         </header>
-        <div class="card-preview__list-canvas">
+        <div
+          class="card-preview__list-canvas ns-transparency-grid ns-scroll-area ns-scroll-area--compact"
+        >
           <canvas ref="listCanvasElement" />
         </div>
       </section>
@@ -212,8 +229,7 @@ async function downloadZip() {
 }
 
 .card-preview__toolbar,
-.card-preview__actions,
-.card-preview__segment {
+.card-preview__actions {
   display: flex;
   min-width: 0;
   align-items: center;
@@ -226,6 +242,7 @@ async function downloadZip() {
   top: 0;
   justify-content: flex-end;
   padding: 10px;
+  box-shadow: none;
 }
 
 .card-preview h3 {
@@ -242,41 +259,8 @@ async function downloadZip() {
   flex-wrap: wrap;
 }
 
-.card-preview__list-actions button,
-.card-preview__actions button {
-  min-height: 28px;
-  padding: 4px 8px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font: 800 11px var(--ns-font-ui);
-  cursor: pointer;
-}
-
 .card-preview__segment {
   gap: 0;
-}
-
-.card-preview__segment button {
-  border-radius: 0;
-}
-
-.card-preview__segment button + button {
-  border-left: 0;
-}
-
-.card-preview__mode button.active,
-.card-preview__list-actions button.active {
-  border-color: var(--ns-color-accent);
-  background: var(--ns-color-accent);
-  color: var(--ns-color-on-accent);
-}
-
-.card-preview__list-actions button:disabled,
-.card-preview__actions button:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
 }
 
 .card-preview__list,
@@ -308,14 +292,6 @@ async function downloadZip() {
 .card-preview__list-canvas {
   min-width: 0;
   padding: 14px;
-  overflow: auto;
-  background-color: #ffffff;
-  background-image: conic-gradient(#e8ebef 25%, #ffffff 0 50%, #e8ebef 0 75%, #ffffff 0);
-  background-size: 16px 16px;
-}
-
-:global(:root[data-theme='night'] .card-preview__list-canvas) {
-  background: #252a32;
 }
 
 .card-preview__list-canvas canvas {

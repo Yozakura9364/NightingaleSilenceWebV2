@@ -2,12 +2,15 @@
   <section class="equipment-editor">
     <header class="equipment-editor__head">
       <h2>{{ t(textKeys.nsglamourEquipmentPanel) }}</h2>
-      <div class="equipment-editor__locales" :aria-label="t(textKeys.nsglamourEquipmentLanguage)">
+      <div
+        class="equipment-editor__locales ns-segmented-control ns-segmented-control--small"
+        :aria-label="t(textKeys.nsglamourEquipmentLanguage)"
+      >
         <button
           v-for="locale in draft.locales"
           :key="locale"
           type="button"
-          :class="{ active: locale === draft.locale }"
+          :aria-pressed="locale === draft.locale"
           @click="emit('update-locale', locale)"
         >
           {{ localeLabel(locale) }}
@@ -77,7 +80,7 @@
                   </button>
                   <div
                     v-if="activeDyeKey === dyeKey(rowId(entry), dyeIndex)"
-                    class="dye-picker"
+                    class="dye-picker ns-floating-panel ns-scroll-area ns-scroll-area--compact"
                     @click.stop
                   >
                     <input
@@ -343,31 +346,7 @@ function closePickers() {
 }
 
 .equipment-editor__locales {
-  display: inline-flex;
   max-width: 100%;
-  overflow-x: auto;
-}
-
-.equipment-editor__locales button {
-  min-height: 25px;
-  padding: 3px 7px;
-  border: 1px solid var(--ns-color-border);
-  border-right: 0;
-  border-radius: 0;
-  background: var(--ns-color-surface);
-  color: var(--ns-color-text-muted);
-  font: 700 10px var(--ns-font-ui);
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.equipment-editor__locales button:last-child {
-  border-right: 1px solid var(--ns-color-border);
-}
-
-.equipment-editor__locales button.active {
-  background: var(--ns-color-accent);
-  color: var(--ns-color-on-accent);
 }
 
 .equipment-editor__rows {
@@ -417,7 +396,7 @@ function closePickers() {
 .equipment-row__selected > img {
   width: 42px;
   height: 42px;
-  border-radius: 4px;
+  border-radius: 0;
   object-fit: cover;
 }
 
@@ -440,7 +419,7 @@ function closePickers() {
   height: 27px;
   padding: 3px 6px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border-radius: 0;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: 11px var(--ns-font-ui);
@@ -492,7 +471,7 @@ function closePickers() {
   min-height: 24px;
   padding: 3px 6px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border-radius: 0;
   background: var(--ns-color-surface);
   color: var(--ns-color-text);
   font: 11px var(--ns-font-ui);
@@ -504,7 +483,7 @@ function closePickers() {
   width: 11px;
   height: 11px;
   flex: 0 0 auto;
-  border: 1px solid rgba(15, 23, 42, 0.28);
+  border: 1px solid var(--ns-color-border);
   border-radius: 50%;
   background: var(--dye-color);
 }
@@ -522,10 +501,6 @@ function closePickers() {
   width: min(320px, calc(100vw - 56px));
   max-height: 300px;
   padding: 8px;
-  overflow-y: auto;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-window-bg);
-  box-shadow: var(--ns-pixel-window-shadow);
 }
 
 .dye-picker > div {
@@ -546,4 +521,12 @@ function closePickers() {
   font-size: 11px;
 }
 
+@media (max-width: 760px) {
+  .dye-picker {
+    position: fixed;
+    right: 28px;
+    left: 28px;
+    width: auto;
+  }
+}
 </style>

@@ -934,12 +934,12 @@
 
           <section
             class="ns-pixel-window ns-pixel-rail-reflow-lab"
-            :aria-label="t(textKeys.nsarmoireSectionNavigation)"
+            :aria-label="t(textKeys.styleLabWorkbenchCanvas)"
           >
             <div class="ns-pixel-window__bar">
               <span class="ns-pixel-window__title">
                 <span class="ns-pixel-window__icon" aria-hidden="true"></span>
-                {{ t(textKeys.nsarmoireSectionNavigation) }}
+                {{ t(textKeys.styleLabWorkbenchCanvas) }}
               </span>
               <span class="ns-pixel-window__controls" aria-hidden="true">
                 <span class="ns-pixel-window__control ns-pixel-window__control--min"></span>
@@ -948,7 +948,7 @@
               </span>
             </div>
 
-            <div class="ns-pixel-rail-reflow" :aria-label="t(textKeys.nsarmoireSectionNavigation)">
+            <div class="ns-pixel-rail-reflow" :aria-label="t(textKeys.styleLabWorkbenchCanvas)">
               <nav class="ns-pixel-rail-reflow__rail">
                 <button
                   v-for="item in pixelRailDemoItems"
@@ -973,16 +973,16 @@
                 :aria-label="t(textKeys.styleLabWorkbenchCanvas)"
               >
                 <div class="ns-pixel-rail-reflow__toolbar">
-                  <span>{{ t(textKeys.nsarmoireSectionCleanup) }}</span>
+                  <span>{{ t(textKeys.styleLabToolbarSample) }}</span>
                   <span>{{ t(textKeys.styleLabReady) }}</span>
                 </div>
                 <div class="ns-pixel-rail-reflow__grid">
                   <article class="ns-pixel-rail-reflow__card">
-                    <strong>{{ t(textKeys.nsarmoireSectionStorage) }}</strong>
+                    <strong>{{ t(textKeys.styleLabIconFolder) }}</strong>
                     <span>{{ t(textKeys.placeholder) }}</span>
                   </article>
                   <article class="ns-pixel-rail-reflow__card">
-                    <strong>{{ t(textKeys.nsarmoireSectionCollection) }}</strong>
+                    <strong>{{ t(textKeys.styleLabIconImage) }}</strong>
                     <span>{{ t(textKeys.placeholder) }}</span>
                   </article>
                 </div>
@@ -1280,18 +1280,18 @@ const pixelRailDemoItems: PixelIconBarAction[] = [
   {
     id: 'cleanup',
     icon: pixelBroomIcon,
-    labelKey: textKeys.nsarmoireSectionCleanup,
+    labelKey: textKeys.menu,
     active: true
   },
   {
     id: 'collection',
     icon: pixelArchiveIcon,
-    labelKey: textKeys.nsarmoireSectionCollection
+    labelKey: textKeys.config
   },
   {
     id: 'characters',
     icon: pixelUserIcon,
-    labelKey: textKeys.nsarmoireSectionCharacters
+    labelKey: textKeys.about
   }
 ]
 const pixelIconMenuItems: PixelIconMenuItem[] = [

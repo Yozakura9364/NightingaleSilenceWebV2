@@ -465,12 +465,12 @@ onBeforeUnmount(() => {
 }
 
 .ffxiv-calendar-section :deep(.vis-timeline) {
-  border: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
+  border: 2px solid var(--ns-pixel-border);
   border-radius: var(--ns-large-panel-border-radius);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
-  box-shadow: var(--ns-pixel-soft-shadow);
+  box-shadow: none;
 }
 
 .ffxiv-calendar-section :deep(.vis-loading-screen) {
@@ -546,7 +546,7 @@ onBeforeUnmount(() => {
   border-width: 2px;
   border-radius: 0;
   color: var(--ns-color-text);
-  box-shadow: 2px 2px 0 var(--ns-pixel-soft-shadow);
+  box-shadow: none;
   font: 800 0.98rem/1.2 var(--ns-font-ui);
 }
 

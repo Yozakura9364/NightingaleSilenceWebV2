@@ -341,7 +341,7 @@ function uniqueOptions<T extends string>(values: T[]) {
   position: sticky;
   top: 0;
   z-index: 1;
-  background: var(--ns-pixel-window-title-bg);
+  background: var(--ns-pixel-window-bar-bg);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
   font-size: 12px;

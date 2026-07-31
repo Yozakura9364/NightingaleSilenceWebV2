@@ -176,6 +176,12 @@ function useFriendIconFallback(event: Event) {
   box-shadow: var(--ns-focus-ring);
 }
 
+.about-profile,
+.about-site-info {
+  border: 2px solid var(--ns-pixel-border);
+  box-shadow: none;
+}
+
 .about-profile {
   padding: 0;
 }
@@ -196,7 +202,7 @@ function useFriendIconFallback(event: Event) {
   overflow: hidden;
   border: 2px solid var(--ns-pixel-border);
   background: var(--ns-pixel-window-bg);
-  box-shadow: 4px 4px 0 var(--ns-pixel-shadow-color);
+  box-shadow: none;
 }
 
 .about-profile__avatar {
@@ -238,19 +244,18 @@ function useFriendIconFallback(event: Event) {
   padding: 9px 11px;
   border: 2px solid var(--ns-pixel-border);
   background: var(--ns-pixel-surface);
-  box-shadow: 3px 3px 0 var(--ns-pixel-shadow-color);
+  box-shadow: none;
   color: var(--ns-color-text);
   text-decoration: none;
   transition:
     transform 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+    background 0.2s ease;
 }
 
 .about-profile__sns-link:hover {
   transform: translate(-1px, -1px);
   background: var(--ns-pixel-hover-surface);
-  box-shadow: 4px 4px 0 var(--ns-pixel-shadow-color);
+  box-shadow: none;
 }
 
 .about-profile__sns-link:active {
@@ -366,19 +371,18 @@ function useFriendIconFallback(event: Event) {
   padding: 12px;
   border: 2px solid var(--ns-pixel-border);
   background: var(--ns-pixel-surface);
-  box-shadow: var(--ns-pixel-soft-shadow);
+  box-shadow: none;
   color: var(--ns-color-text);
   text-decoration: none;
   transition:
     transform 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+    background 0.2s ease;
 }
 
 .about-friend-link:hover {
   transform: translate(-2px, -2px);
   background: var(--ns-pixel-hover-surface);
-  box-shadow: var(--ns-pixel-shadow);
+  box-shadow: none;
 }
 
 .about-friend-link:active {

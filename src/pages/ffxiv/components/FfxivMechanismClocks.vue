@@ -212,6 +212,8 @@ function isoTime(timestamp: number): string {
   min-width: 0;
   gap: 16px;
   padding: 18px;
+  border: 2px solid var(--ns-pixel-border);
+  box-shadow: none;
 }
 
 .ffxiv-clock-card__header {

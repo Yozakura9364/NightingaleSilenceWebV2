@@ -1,10 +1,6 @@
 <template>
   <main class="nsglamour-snapshot-page">
-    <NSGlamourSnapshotView
-      v-if="snapshot"
-      :snapshot="snapshot"
-      :api-base="boundary.apiBase"
-    />
+    <NSGlamourSnapshotView v-if="snapshot" :snapshot="snapshot" :api-base="boundary.apiBase" />
     <p v-else class="nsglamour-snapshot-page__status" :data-tone="statusTone">
       {{ statusMessage }}
     </p>
@@ -60,22 +56,31 @@ async function loadSnapshot(): Promise<void> {
 <style scoped>
 .nsglamour-snapshot-page {
   box-sizing: border-box;
-  width: min(1120px, 100%);
-  min-height: 100%;
-  margin: 0 auto;
-  padding: 28px 18px;
+  display: flex;
+  min-height: 100vh;
+  padding: 24px;
+  background: var(--ns-color-bg);
 }
 
 .nsglamour-snapshot-page__status {
-  margin: 0;
-  padding: 18px;
+  width: min(860px, 100%);
+  margin: auto;
+  padding: 20px;
   border: 1px solid var(--ns-color-border);
+  border-radius: 8px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text-muted);
+  text-align: center;
 }
 
 .nsglamour-snapshot-page__status[data-tone='danger'] {
   border-color: var(--ns-status-danger-border);
   color: var(--ns-status-danger-text);
+}
+
+@media (max-width: 720px) {
+  .nsglamour-snapshot-page {
+    padding: 10px;
+  }
 }
 </style>

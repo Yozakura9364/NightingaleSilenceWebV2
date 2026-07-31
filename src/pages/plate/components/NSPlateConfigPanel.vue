@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <div class="nsplate-config-panel__scroll">
+    <div class="nsplate-config-panel__scroll ns-scroll-area ns-scroll-area--compact">
       <slot />
     </div>
   </aside>

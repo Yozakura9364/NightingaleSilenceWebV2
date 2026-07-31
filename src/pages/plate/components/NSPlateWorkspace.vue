@@ -334,9 +334,9 @@ interface NSPlateCanvasAreaExpose {
 .nsplate-workspace__status {
   margin: 0;
   padding: 10px 12px;
-  border: 1px solid rgba(214, 79, 114, 0.28);
+  border: 1px solid var(--ns-status-danger-border);
   border-radius: var(--ns-radius-sm);
-  background: rgba(214, 79, 114, 0.08);
+  background: var(--ns-status-danger-bg);
   color: var(--ns-color-danger);
   font-size: 13px;
   font-weight: 850;
