@@ -59,22 +59,6 @@
 - 将 `--ns-color-text-muted` 从 `#766a83` 改为更深的 `#5a4e67`（计算对比度约 5.2:1，满足 AA）
 - 或仅对 `brand-command` 和 `locale-option small` 单独覆盖颜色为 `#5a4e67`
 
-### 1.5 硬编码阴影变量化 (`components.css:125`)
-
-**问题：** `.ns-button:active` 的 `box-shadow` 硬编码 `rgba(42, 33, 56, 0.16)`，夜间不可见。
-
-**方案：**
-- `theme.css` 新增：`--ns-pixel-shadow-active: 1px 1px 0 rgba(42, 33, 56, 0.16)`
-- `theme-night.css` 覆盖：`--ns-pixel-shadow-active: 1px 1px 0 rgba(0, 0, 0, 0.34)`
-- `components.css` 改为：`box-shadow: var(--ns-pixel-shadow-active)`
-
-### 1.6 滚动条高光硬编码 (`base.css:38`, `components.css:89`)
-
-**方案：**
-- `theme.css` 新增：`--ns-scroll-thumb-highlight: inset 2px 2px 0 rgba(255, 255, 255, 0.28)`
-- 两处改为引用变量
-- 夜间可选择性降低高光强度
-
 ---
 
 ## Batch 2：过渡动画与微交互
@@ -195,12 +179,11 @@ onMounted(() => {
 - 统一滚动条角落背景为 `--ns-scroll-track`
 - `.ns-scroll-area--plain` 明确重置角落为 `transparent`
 
-### 4.2 Status 变量补全 (`theme.css` / `components.css`)
+### 4.2 状态反馈统一 (`AppStatus.vue`)
 
-- 新增 `--ns-status-success-text`、`--ns-status-warning-text`、`--ns-status-danger-text`
-- 在 `theme-night.css` 中补充对应覆盖值
-- `components.css` 中新增修饰类 `.ns-status--success`、`.ns-status--warning`、`.ns-status--danger`
-- `.ns-status` 基础组件模板增加 `variant` prop 映射到这些类
+- 状态反馈统一使用 `AppStatus` 及其 `.app-status--*` 修饰类
+- 昼夜主题保留各状态实际使用的边框、背景和文字 token
+- 删除未被运行时代码调用的旧 `.ns-status*` 公共类与冗余 token
 
 ### 4.3 `a` 标签装饰 (`base.css`)
 
@@ -356,3 +339,51 @@ Week 5:  Batch 6 (Silence 页面)
 - **组件先行**：`useFocusTrap` 等可复用逻辑优先抽取为 composable，而非每个组件重复实现
 - **兼容性**：`color-mix()` 仅现代浏览器支持，需保留 fallback；`:focus-visible` 需 polyfill 老旧浏览器
 - **测试**：每个批次完成后手动核对日间/夜间双主题显示效果
+
+---
+
+## 样式收敛交接计划（✅ 已完成）
+
+> 执行日期：2026-07-31
+> 最终报告：`docs/ai/STYLE_CONVERGENCE_FINAL_REPORT.md`
+> 逐批详情：`docs/ai/BATCH_AB_REPORT.md`
+
+### 已完成基线：Item Card 公共样式收敛（前置工作）
+
+- `src/styles/components.css` 已提供最近记录、表单弹窗、分段控件、浮层、透明棋盘格等公共样式。
+- 最近记录面板、导入弹窗、文本导入弹窗、目录搜索、装备编辑、预览、Canvas、渲染设置已改用公共控件和公共样式。
+- 已移除相关网页容器的多余圆角和阴影。
+- 已修复移动端染剂浮层右溢出问题。
+
+### Batch A：Item Card 工作台剩余收口 ✅
+
+**1 处改动：** `ItemCardWorkspace.vue` 移动端断点 900→860px，修复 861–900px 区间内容被裁剪 bug。
+
+审计确认：`AppTabs`、`ns-scroll-area`、sticky toolbar 均已在位。
+
+### Batch B：NSGlamour 第一段样式审计 ✅
+
+**7 处改动：** `template-workspace.css`（5 处）和 `NSGlamourTemplateSelectorDialog.vue`（2 处）的 `border-radius: 4px/3px` → `0`，对齐项目像素方角风格。
+
+审计确认：`AppButton`、`ns-workbench-panel`、`ns-compact-action` 已在关键位置使用；`equipment-slot.css` 为槽位微交互，按计划仅审计不修改。
+
+### Batch C：NSPlate 页面样式审计 ✅
+
+**2 处改动：** `NSPlateWorkspace.vue` 错误状态硬编码 rgba → `--ns-status-danger-*` token；`NSPlateConfigPanel.vue` 滚动区加 `ns-scroll-area`。
+
+审计确认：`AppTabs`、`AppLoading`、`AppStatus`、`AppPixelWindow`、`ns-workbench-panel`、`ns-compact-action`、`ns-icon-button` 均已在位；所有 `--ns-radius-*` token 在主题层已收敛为 0。
+
+### Batch D：FFXIV 分类页与普通工具页 ✅
+
+**0 处改动。** 审计 11 个页面/组件，全部已对齐公共样式。FashionCheckItemLine 稀有度颜色为 FFXIV 游戏语义，保留。
+
+### Batch E：全站最终审计 ✅
+
+**0 处改动。** 全站搜索 `border-radius`、`box-shadow`、硬编码色值，命中项均为业务视觉/Style Lab/Silence/Content Studio，无公共网页控件重复。CSS layer 顺序确认正确，Style Lab 实验样式隔离确认有效。
+
+### 执行纪律（已遵守）
+
+- 每批只处理 1–3 个相关文件 ✅
+- 固定运行 `npm run typecheck`、Prettier、`git diff --check` ✅
+- 只做本地改动，不提交、不推送 ✅
+- 不改 Canvas 导出/业务数据/后端接口 ✅

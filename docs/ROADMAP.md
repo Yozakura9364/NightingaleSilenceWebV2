@@ -58,7 +58,7 @@
 ### NSArmoire
 
 - 公网只维护教程和 GitHub Release 下载入口。
-- 完整工作台只进入 `armoire-local` 构建，由 Helper GUI 内嵌并同源提供 API 与 catalog。
+- 完整工作台、Helper、catalog、生成脚本和测试由独立 `NSArmoireButler` 仓库维护并发布。
 - 继续验证游戏版本变化、容器读取、角色档案、商城目录和保守分析规则。
 
 ### 物品卡片与时尚品鉴

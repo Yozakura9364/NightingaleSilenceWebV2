@@ -210,6 +210,51 @@ interface NSGlamourEquipinfoParseTextResponse {
 - 空 `text`：400，返回 `{ error: string }`。
 - 文本超过 20000 字：413，返回 `{ error: string }`。
 
+### `POST /glamour/api/equipinfo/snapshots`
+
+用途：
+
+- 生成或复用一条只读装备信息快照，并返回不可预测的 `snapshotId`。该接口属于旧 NSGlamour 的共享持久化服务；V2 仅通过同源代理调用，不建立独立 SQLite。
+
+请求只接受已经选择的装备行。服务端会将输入投影为固定字段：部位、多语言部位名、装备 ID/图标/多语言名称和最多两个染色槽；来源、角色、链接、导入文本、模型、候选列表和其他草稿元数据一律丢弃。没有有效装备行或请求超过快照边界时返回 `400`。
+
+```ts
+interface NSGlamourEquipmentSnapshotResponse {
+  id: string
+  created_at: string
+  reused: boolean
+  snapshot: {
+    version: 1
+    locales: string[]
+    slot_names: Record<string, Record<string, string>>
+    no_dye_labels: Record<string, string>
+    entries: Array<{
+      slot: string
+      slot_names: Record<string, string>
+      item: {
+        key: string
+        name: string
+        names: Record<string, string>
+        icon: number
+        dyes: Array<{ id: number; name: string; names: Record<string, string>; hex: string; isEmpty: boolean }>
+      }
+    }>
+  }
+}
+```
+
+服务端使用净化后的公开快照内容计算 SHA-256。首次写入返回 `201` 和 `reused: false`；相同内容已经存在时返回原 `id`、原 `created_at`、`200` 和 `reused: true`。当前界面语言、来源标题、模型字段和其他不会进入快照的字段不参与去重。SQLite 旧表按增量方式补充内容哈希，不删除旧行或使旧链接失效。
+
+EquipInfo 前端生成成功后会把当前配置自动保存到 `nsglamour.recentLoadouts`，并在该本地记录中附带快照 ID、链接和公开内容指纹；再次选择完全相同的公开快照内容时直接复用本地 ID，不再发送创建请求。本地记录被清除或来自其他浏览器时，仍由服务端幂等契约避免重复写入。
+
+### `GET /glamour/api/equipinfo/snapshots/:snapshotId`
+
+用途：
+
+- 读取公开只读快照；唯一公开查看地址为 `https://nsffxiv.com/g/:snapshotId?lang=:locale`，旧 V2 hash 路由仅保留兼容。
+
+响应与创建接口相同。新建 ID 为 10 位无歧义小写字母数字；旧 URL-safe 长 ID 继续可读。格式不合法、无效或不存在的 ID 都返回 `404` 和统一 `{ error: "snapshot not found" }`，不泄漏记录状态。地址、语言、存储和兼容契约见 `docs/ai/NSGLAMOUR_SNAPSHOT_URL_CONTRACT.md`。
+
 ### `POST /api/glamour/parse-chara`
 
 旧接口：`POST /api/parse-chara`
