@@ -42,6 +42,7 @@ npm run check   # 全量检查（类型、i18n、数据完整性、构建）
 | `/silence/glitch` | 幽灵·silence | 双人页 |
 | `/about` | 关于 | 站点信息 |
 | `/style-lab` | Style Lab | 内部样式实验页 |
+| `/content-studio` | Content Studio | 内部富文本内容编辑器（显式开关启用） |
 
 ## 项目结构
 

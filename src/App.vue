@@ -2,7 +2,7 @@
   <a href="#main-content" class="app-skip-link ns-sr-only ns-sr-only--focusable">
     {{ t(textKeys.skipToMainContent) }}
   </a>
-  <AppTopNav />
+  <AppTopNav v-if="showTopNav" />
   <div id="main-content">
     <router-view v-slot="{ Component }">
       <component :is="Component" />
@@ -28,6 +28,7 @@ const { initThemeMode } = useTheme()
 const dialog = useDialog()
 const route = useRoute()
 const isHomePage = computed(() => route.name === 'home')
+const showTopNav = computed(() => route.meta.hideTopNav !== true)
 
 // Hide page content from screen readers while dialog is open
 const appRoot = document.getElementById('app')

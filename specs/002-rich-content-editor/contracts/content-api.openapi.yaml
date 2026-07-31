@@ -1,0 +1,419 @@
+openapi: 3.1.0
+info:
+  title: Nightingale Silence Content Studio API
+  version: 1.0.0
+  description: >-
+    Loopback-only authoring API. It is not deployed with the public site. Public
+    readers consume generated /data/content JSON instead.
+servers:
+  - url: http://127.0.0.1:8770/api/content-studio
+    description: Local content helper; Vite accesses it through a same-origin proxy.
+security:
+  - StudioToken: []
+paths:
+  /health:
+    get:
+      operationId: getContentStudioHealth
+      security: []
+      responses:
+        '200':
+          description: Helper is available.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [ok, service]
+                properties:
+                  ok: { type: boolean, const: true }
+                  service: { type: string, const: content-studio }
+  /drafts:
+    get:
+      operationId: listDrafts
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/PageSize'
+        - name: status
+          in: query
+          schema: { $ref: '#/components/schemas/ContentStatus' }
+      responses:
+        '200':
+          description: Paginated authoring entries.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DraftListResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    post:
+      operationId: createDraft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateDraftInput' }
+      responses:
+        '201':
+          description: Draft created with revision 1.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Draft' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /drafts/{contentId}:
+    parameters:
+      - $ref: '#/components/parameters/ContentId'
+    get:
+      operationId: getDraft
+      responses:
+        '200':
+          description: Latest draft and publication metadata.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Draft' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    patch:
+      operationId: saveDraft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SaveDraftInput' }
+      responses:
+        '200':
+          description: New immutable revision saved, or unchanged revision returned.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Draft' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+    delete:
+      operationId: deleteUnpublishedDraft
+      responses:
+        '204': { description: Unpublished draft deleted. }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409':
+          description: Published entries must be archived/withdrawn instead of deleted.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+  /drafts/{contentId}/publications:
+    parameters:
+      - $ref: '#/components/parameters/ContentId'
+    post:
+      operationId: createPublication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RevisionExpectation' }
+      responses:
+        '201':
+          description: Publication source written atomically.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Publication' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /drafts/{contentId}/publication:
+    parameters:
+      - $ref: '#/components/parameters/ContentId'
+    delete:
+      operationId: withdrawPublication
+      responses:
+        '204':
+          description: Publication withdrawn; entry returns to DRAFT and generated data must be rebuilt.
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /drafts/{contentId}/archive:
+    parameters:
+      - $ref: '#/components/parameters/ContentId'
+    post:
+      operationId: archiveDraft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RevisionExpectation' }
+      responses:
+        '200':
+          description: Entry archived and any current publication withdrawn.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Draft' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+  /drafts/{contentId}/restore:
+    parameters:
+      - $ref: '#/components/parameters/ContentId'
+    post:
+      operationId: restoreArchivedDraft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RevisionExpectation' }
+      responses:
+        '200':
+          description: Archived entry restored to DRAFT without publishing it.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Draft' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+  /media:
+    post:
+      operationId: stageMedia
+      parameters:
+        - name: X-File-Name
+          in: header
+          required: true
+          schema: { type: string, minLength: 1, maxLength: 255 }
+      requestBody:
+        required: true
+        content:
+          image/png: { schema: { type: string, format: binary } }
+          image/jpeg: { schema: { type: string, format: binary } }
+          image/webp: { schema: { type: string, format: binary } }
+          image/gif: { schema: { type: string, format: binary } }
+      responses:
+        '201':
+          description: Validated bytes staged under a generated object name.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MediaAsset' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '413':
+          description: Byte or decoded pixel limit exceeded.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '415':
+          description: Unsupported or falsely labelled media.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+  /media/{mediaId}/checks:
+    parameters:
+      - $ref: '#/components/parameters/MediaId'
+    post:
+      operationId: checkRemoteMedia
+      responses:
+        '201':
+          description: Permanent HTTPS URL, anonymous access, host and image response checks completed.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [media, result]
+                properties:
+                  media: { $ref: '#/components/schemas/MediaAsset' }
+                  result:
+                    type: object
+                    additionalProperties: false
+                    required: [ok, statusCode, contentType, publiclyReadable, stableUrl]
+                    properties:
+                      ok: { type: boolean }
+                      statusCode: { type: integer }
+                      contentType: { type: string }
+                      publiclyReadable: { type: boolean }
+                      stableUrl:
+                        type: boolean
+                        description: False when the URL depends on a recognized expiring signature or credential query.
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationError' }
+components:
+  securitySchemes:
+    StudioToken:
+      type: apiKey
+      in: header
+      name: X-Content-Studio-Token
+      description: Per-process random token generated by the local launcher; never persisted or committed.
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema: { type: integer, minimum: 1, default: 1 }
+    PageSize:
+      name: pageSize
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+    ContentId:
+      name: contentId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    MediaId:
+      name: mediaId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+  responses:
+    Unauthorized:
+      description: Missing/invalid studio token or rejected Host/Origin.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    Conflict:
+      description: Public ID or optimistic revision conflict.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+    ValidationError:
+      description: Input, document, media or publication validation failed.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorResponse' }
+  schemas:
+    ContentStatus:
+      type: string
+      enum: [DRAFT, PUBLISHED, ARCHIVED]
+    RevisionExpectation:
+      type: object
+      additionalProperties: false
+      required: [expectedRevision]
+      properties:
+        expectedRevision: { type: integer, minimum: 1 }
+    MetadataInput:
+      type: object
+      additionalProperties: false
+      required: [title, tags]
+      properties:
+        title: { type: string, maxLength: 120 }
+        summary: { type: [string, 'null'], maxLength: 300 }
+        coverMediaId: { type: [string, 'null'], format: uuid }
+        tags:
+          type: array
+          maxItems: 10
+          items: { type: string, minLength: 1, maxLength: 30 }
+    CreateDraftInput:
+      type: object
+      additionalProperties: false
+      required: [metadata, document]
+      properties:
+        metadata: { $ref: '#/components/schemas/MetadataInput' }
+        document: { $ref: './editor-document.schema.json' }
+    SaveDraftInput:
+      type: object
+      additionalProperties: false
+      required: [expectedRevision, metadata, document]
+      properties:
+        expectedRevision: { type: integer, minimum: 1 }
+        metadata: { $ref: '#/components/schemas/MetadataInput' }
+        document: { $ref: './editor-document.schema.json' }
+    DraftSummary:
+      type: object
+      additionalProperties: false
+      required: [id, publicId, title, status, revision, updatedAt, publishedAt]
+      properties:
+        id: { type: string, format: uuid }
+        publicId: { type: integer, minimum: 1 }
+        title: { type: string }
+        status: { $ref: '#/components/schemas/ContentStatus' }
+        revision: { type: integer, minimum: 1 }
+        updatedAt: { type: string, format: date-time }
+        publishedAt: { type: [string, 'null'], format: date-time }
+    Draft:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - publicId
+        - title
+        - status
+        - revision
+        - updatedAt
+        - publishedAt
+        - metadata
+        - document
+        - media
+        - createdAt
+      properties:
+        id: { type: string, format: uuid }
+        publicId: { type: integer, minimum: 1 }
+        title: { type: string }
+        status: { $ref: '#/components/schemas/ContentStatus' }
+        revision: { type: integer, minimum: 1 }
+        updatedAt: { type: string, format: date-time }
+        publishedAt: { type: [string, 'null'], format: date-time }
+        metadata: { $ref: '#/components/schemas/MetadataInput' }
+        document: { $ref: './editor-document.schema.json' }
+        media:
+          type: array
+          items: { $ref: '#/components/schemas/MediaAsset' }
+        createdAt: { type: string, format: date-time }
+    DraftListResponse:
+      type: object
+      additionalProperties: false
+      required: [data, pagination]
+      properties:
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/DraftSummary' }
+        pagination:
+          type: object
+          additionalProperties: false
+          required: [page, pageSize, totalItems, totalPages]
+          properties:
+            page: { type: integer }
+            pageSize: { type: integer }
+            totalItems: { type: integer }
+            totalPages: { type: integer }
+    MediaAsset:
+      type: object
+      additionalProperties: false
+      required: [id, mediaType, byteSize, width, height, status, publicObjectKey, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        mediaType:
+          type: string
+          enum: [image/png, image/jpeg, image/webp, image/gif]
+        byteSize: { type: integer, minimum: 1 }
+        width: { type: integer, minimum: 1 }
+        height: { type: integer, minimum: 1 }
+        status:
+          type: string
+          enum: [STAGED, REMOTE_VERIFIED, REFERENCED, ORPHANED]
+        publicObjectKey: { type: string }
+        publicUrl: { type: [string, 'null'], format: uri }
+        remoteCheckedAt: { type: [string, 'null'], format: date-time }
+        createdAt: { type: string, format: date-time }
+    Publication:
+      type: object
+      additionalProperties: false
+      required: [entryId, revision, publicId, publicPath, publishedAt, generationHash]
+      properties:
+        entryId: { type: string, format: uuid }
+        revision: { type: integer, minimum: 1 }
+        publicId: { type: integer, minimum: 1 }
+        publicPath: { type: string }
+        publishedAt: { type: string, format: date-time }
+        generationHash: { type: string, pattern: '^[0-9a-f]{64}$' }
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code: { type: string, pattern: '^[A-Z0-9_]+$' }
+            message: { type: string }
+            details: { type: [object, array, 'null'] }

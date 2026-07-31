@@ -34,6 +34,9 @@ Thumbs.db
 # local-only large reference assets
 /local-assets/
 
+# local-only content-studio drafts, staging, and audit
+/local-assets/content-studio/
+
 # local-only icon experiments and draft exports
 /icon-drafts/
 /com_icon_clear.svg

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "content.document.v1",
+  "doc": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": [
+          { "type": "text", "text": "click", "marks": [{ "type": "link", "attrs": { "href": "javascript:alert(1)" } }] }
+        ]
+      }
+    ]
+  }
+}

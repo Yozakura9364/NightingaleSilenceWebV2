@@ -4,6 +4,7 @@ import { watch } from 'vue'
 import { formatDocumentTitle, getCategory, getFfxivTool, siteMeta, siteRoutes } from '@/config/site'
 import {
   areInternalRoutesEnabled,
+  isContentStudioEnabled,
   isSilenceEnabled
 } from '@/config/features'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
@@ -151,7 +152,7 @@ const router = createRouter({
     {
       path: `${siteRoutes.glamourEquipInfo}/:snapshotId`,
       name: 'ffxiv-glamour-equipinfo-snapshot',
-      meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle },
+      meta: { titleKey: glamourTool?.titleKey ?? textKeys.glamourTitle, hideTopNav: true },
       component: loadLocalizedPage(['glamour'], () => import('@/pages/glamour/NSGlamourPage.vue'))
     },
     {
@@ -194,6 +195,16 @@ const router = createRouter({
       component: loadLocalizedPage(['about'], () => import('@/pages/about/AboutPage.vue'))
     },
     ...internalRoutes,
+    ...(isContentStudioEnabled
+      ? [
+          {
+            path: '/content-studio',
+            name: 'content-studio',
+            meta: { title: 'Content Studio', hideTopNav: true },
+            component: loadLocalizedPage(['contentStudio'], () => import('@/pages/content-studio/ContentStudioPage.vue'))
+          } satisfies RouteRecordRaw
+        ]
+      : []),
     {
       path: '/:pathMatch(.*)*',
       redirect: '/'

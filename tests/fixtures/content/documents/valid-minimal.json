@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "content.document.v1",
+  "doc": {
+    "type": "doc",
+    "content": [
+      { "type": "paragraph", "content": [{ "type": "text", "text": "Hello world" }] }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "content.document.v1",
+  "doc": {
+    "type": "doc",
+    "content": [{ "type": "script", "content": [{ "type": "text", "text": "alert(1)" }] }]
+  }
+}

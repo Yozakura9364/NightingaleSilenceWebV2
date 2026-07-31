@@ -9,6 +9,11 @@
     "dev:glamour-api": "python server/glamour/app.py",
     "test:glamour-api": "python server/glamour/tests/run_tests.py",
     "test:shortlinks": "python -m unittest server.shortlinks.tests.test_shortlinks",
+    "dev:content-studio": "node scripts/dev-content-studio.mjs",
+    "test:content": "vitest run --config vitest.config.ts",
+    "test:content-api": "python -m unittest discover server.content.tests",
+    "build:content": "node scripts/content/build-public-content.mjs",
+    "check:content": "node scripts/content/check-public-content.mjs && node scripts/content/check-local-boundary.mjs",
     "build:glamour-mapping": "python server/glamour/tools/build_item_mapping.py",
     "build:glamour-item-catalog": "python server/glamour/tools/build_item_catalog.py",
     "build:ffxiv-csv-structure": "node scripts/build-ffxiv-csv-structure.mjs",
@@ -36,6 +41,21 @@
     "format:check": "prettier --check \"src/**/*.{ts,vue,css}\""
   },
   "dependencies": {
+    "@tiptap/extension-color": "^3.0.0",
+    "@tiptap/extension-highlight": "^3.0.0",
+    "@tiptap/extension-image": "^3.0.0",
+    "@tiptap/extension-link": "^3.0.0",
+    "@tiptap/extension-placeholder": "^3.0.0",
+    "@tiptap/extension-table": "^3.0.0",
+    "@tiptap/extension-table-cell": "^3.0.0",
+    "@tiptap/extension-table-header": "^3.0.0",
+    "@tiptap/extension-table-row": "^3.0.0",
+    "@tiptap/extension-text-align": "^3.0.0",
+    "@tiptap/extension-text-style": "^3.0.0",
+    "@tiptap/extension-underline": "^3.0.0",
+    "@tiptap/pm": "^3.0.0",
+    "@tiptap/starter-kit": "^3.0.0",
+    "@tiptap/vue-3": "^3.0.0",
     "pinia": "^2.1.7",
     "vis-timeline": "^8.5.2",
     "vue": "^3.5.13",
@@ -46,6 +66,7 @@
     "prettier": "^3.9.4",
     "typescript": "~5.7.3",
     "vite": "^6.2.4",
+    "vitest": "^2.0.0",
     "vue-tsc": "^2.2.8"
   }
 }

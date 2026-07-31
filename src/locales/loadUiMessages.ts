@@ -1,6 +1,6 @@
 import type { UiMessageMap, UiMessageModuleName } from '@/locales/types'
 import { loadMessages } from '@/stores/locale'
-import { areInternalRoutesEnabled, isSilenceEnabled } from '@/config/features'
+import { areInternalRoutesEnabled, isContentStudioEnabled, isSilenceEnabled } from '@/config/features'
 
 type UiMessageLoader = () => Promise<UiMessageMap>
 
@@ -13,6 +13,12 @@ const messageLoaders: Partial<Record<UiMessageModuleName, UiMessageLoader>> = {
   armoire: () => import('@/locales/modules/armoire').then((module) => module.armoireUiMessages),
   fashionCheck: () =>
     import('@/locales/modules/fashionCheck').then((module) => module.fashionCheckUiMessages),
+  ...(isContentStudioEnabled
+    ? {
+        contentStudio: () =>
+          import('@/locales/modules/contentStudio').then((module) => module.contentStudioUiMessages)
+      }
+    : {}),
   ...(isSilenceEnabled || areInternalRoutesEnabled
     ? {
         silence: () =>
