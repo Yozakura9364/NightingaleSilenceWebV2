@@ -471,9 +471,9 @@ onBeforeUnmount(() => {
 <style scoped>
 .nsglamour-snapshot {
   display: grid;
-  width: min(860px, 100%);
+  width: min(1040px, 100%);
   margin: auto;
-  padding: 16px 20px 20px;
+  padding: 18px 24px 24px;
   border: 1px solid var(--ns-color-border);
   border-radius: 8px;
   background: var(--ns-color-surface-solid, #fff);
@@ -572,7 +572,7 @@ onBeforeUnmount(() => {
 .nsglamour-snapshot__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 28px;
+  gap: 0 36px;
 }
 
 .nsglamour-snapshot__grid.is-single-column {
@@ -582,11 +582,11 @@ onBeforeUnmount(() => {
 .nsglamour-snapshot__item {
   position: relative;
   display: flex;
-  min-height: 78px;
+  min-height: 88px;
   min-width: 0;
   align-items: center;
-  gap: 8px;
-  padding: 19px 0 7px;
+  gap: 10px;
+  padding: 22px 0 8px;
 }
 
 .nsglamour-snapshot__item--empty {
@@ -598,10 +598,10 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-snapshot__icon {
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   flex: 0 0 auto;
-  border-radius: 7px;
+  border-radius: 8px;
   object-fit: cover;
   image-rendering: auto;
 }
@@ -615,16 +615,16 @@ onBeforeUnmount(() => {
 
 .nsglamour-snapshot__body h3 {
   position: absolute;
-  top: 5px;
+  top: 6px;
   left: 0;
   color: var(--ns-color-text-muted);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   line-height: 1;
 }
 
 .nsglamour-snapshot__body strong {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   line-height: 1.25;
   overflow-wrap: anywhere;
@@ -633,23 +633,23 @@ onBeforeUnmount(() => {
 .nsglamour-snapshot__dyes {
   display: flex;
   flex-wrap: wrap;
-  min-height: 22px;
+  min-height: 24px;
   align-items: center;
   gap: 4px 8px;
   color: var(--ns-color-text-muted);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .nsglamour-snapshot__dye {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .nsglamour-snapshot__dye i {
   display: block;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border: 1px solid var(--ns-color-border-strong, #777);
 }
 
@@ -659,10 +659,10 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding-top: 12px;
+  padding-top: 14px;
   border-top: 1px solid var(--ns-color-border);
   color: var(--ns-color-text-muted);
-  font: 600 11px/1.45 var(--ns-font-ui);
+  font: 600 12px/1.45 var(--ns-font-ui);
 }
 
 .nsglamour-snapshot__footer a {

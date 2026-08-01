@@ -63,7 +63,7 @@ async function loadSnapshot(): Promise<void> {
 }
 
 .nsglamour-snapshot-page__status {
-  width: min(860px, 100%);
+  width: min(1040px, 100%);
   margin: auto;
   padding: 20px;
   border: 1px solid var(--ns-color-border);
