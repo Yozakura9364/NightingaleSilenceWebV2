@@ -143,6 +143,8 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '초록색 계열'
   ),
   'fashionCheck.dyeFamilyBlue': localizedMessage('蓝色系', 'Blue dyes', 'ブルー系', '파란색 계열'),
+  'fashionCheck.dyeFamilyYellow': localizedMessage('黄色系', 'Yellow dyes', 'イエロー系', '노란색 계열'),
+  'fashionCheck.dyeFamilyPurple': localizedMessage('紫色系', 'Purple dyes', 'パープル系', '볼라색 계열'),
   'fashionCheck.referenceHuijiWiki': localizedMessage(
     '最终幻想14中文维基',
     '最终幻想14中文维基',

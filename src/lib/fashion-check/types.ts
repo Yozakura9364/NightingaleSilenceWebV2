@@ -88,7 +88,7 @@ export interface FashionCheckReferenceSolution {
   variants?: FashionCheckReferenceVariant[]
 }
 
-export type FashionCheckDyeFamilyId = 'black' | 'red' | 'brown' | 'green' | 'blue'
+export type FashionCheckDyeFamilyId = 'black' | 'red' | 'brown' | 'green' | 'blue' | 'yellow' | 'purple'
 
 export interface FashionCheckReferenceShowcase {
   globalIssue: number

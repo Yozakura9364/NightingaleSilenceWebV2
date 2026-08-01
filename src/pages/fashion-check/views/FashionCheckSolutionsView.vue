@@ -321,6 +321,8 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   if (familyId === 'brown') return t(keys.dyeFamilyBrown)
   if (familyId === 'green') return t(keys.dyeFamilyGreen)
   if (familyId === 'blue') return t(keys.dyeFamilyBlue)
+  if (familyId === 'yellow') return t(keys.dyeFamilyYellow)
+  if (familyId === 'purple') return t(keys.dyeFamilyPurple)
   return fallback
 }
 </script>

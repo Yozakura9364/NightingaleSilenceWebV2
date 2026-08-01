@@ -48,6 +48,8 @@ export const fashionCheckTextKeys = {
   dyeFamilyBrown: 'fashionCheck.dyeFamilyBrown',
   dyeFamilyGreen: 'fashionCheck.dyeFamilyGreen',
   dyeFamilyBlue: 'fashionCheck.dyeFamilyBlue',
+  dyeFamilyYellow: 'fashionCheck.dyeFamilyYellow',
+  dyeFamilyPurple: 'fashionCheck.dyeFamilyPurple',
   referenceHuijiWiki: 'fashionCheck.referenceHuijiWiki',
   referenceLodestone: 'fashionCheck.referenceLodestone',
   referenceGarlandData: 'fashionCheck.referenceGarlandData',
