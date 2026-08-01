@@ -262,7 +262,6 @@ onBeforeUnmount(() => {
   display: block;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
   object-fit: cover;
 }
