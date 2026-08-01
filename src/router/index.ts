@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import { watch } from 'vue'
+import { createV2SnapshotHashRoute } from './legacySnapshotRoute'
 import { formatDocumentTitle, getCategory, getFfxivTool, siteMeta, siteRoutes } from '@/config/site'
 import {
   areInternalRoutesEnabled,
@@ -20,6 +21,11 @@ const plateTool = getFfxivTool('plate')
 const armoireTool = getFfxivTool('armoire')
 const fashionCheckTool = getFfxivTool('fashionCheck')
 const { current: locale, messages, t } = useLocale()
+
+const snapshotHashRoute = createV2SnapshotHashRoute(window.location)
+if (snapshotHashRoute) {
+  window.history.replaceState(null, document.title, `${window.location.pathname}${snapshotHashRoute}`)
+}
 
 function loadLocalizedPage<T>(
   moduleNames: readonly UiMessageModuleName[],
