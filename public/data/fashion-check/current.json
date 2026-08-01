@@ -379,8 +379,7 @@
             "dye": {
               "dyeId": 34,
               "name": "骸骨白"
-            },
-            "labelKey": "fashionCheck.starterGearHands"
+            }
           },
           {
             "slotId": "legs",
@@ -441,9 +440,9 @@
       {
         "slotId": "body",
         "family": {
-          "id": "red",
-          "name": "红色系",
-          "color": "#913B27",
+          "id": "purple",
+          "name": "紫色系",
+          "color": "#79526C",
           "points": 1
         },
         "exact": {
@@ -456,9 +455,9 @@
       {
         "slotId": "hands",
         "family": {
-          "id": "red",
-          "name": "红色系",
-          "color": "#913B27",
+          "id": "yellow",
+          "name": "黄色系",
+          "color": "#FEF864",
           "points": 1
         },
         "exact": {
@@ -495,36 +494,6 @@
           "dyeId": 117,
           "name": "金属绿",
           "color": "#22A757",
-          "points": 2
-        }
-      },
-      {
-        "slotId": "hands",
-        "family": {
-          "id": "black",
-          "name": "黑色系",
-          "color": "#2B2923",
-          "points": 1
-        },
-        "exact": {
-          "dyeId": 34,
-          "name": "骸骨白",
-          "color": "#EBD3A0",
-          "points": 2
-        }
-      },
-      {
-        "slotId": "feet",
-        "family": {
-          "id": "green",
-          "name": "绿色系",
-          "color": "#22A757",
-          "points": 1
-        },
-        "exact": {
-          "dyeId": 43,
-          "name": "泥沼绿",
-          "color": "#585230",
           "points": 2
         }
       }
