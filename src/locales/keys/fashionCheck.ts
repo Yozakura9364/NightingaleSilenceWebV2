@@ -42,6 +42,7 @@ export const fashionCheckTextKeys = {
   anyDyeableHands: 'fashionCheck.anyDyeableHands',
   anyDyeableLegs: 'fashionCheck.anyDyeableLegs',
   anyDyeableFeet: 'fashionCheck.anyDyeableFeet',
+  starterGearHands: 'fashionCheck.starterGearHands',
   dyeFamilyBlack: 'fashionCheck.dyeFamilyBlack',
   dyeFamilyRed: 'fashionCheck.dyeFamilyRed',
   dyeFamilyBrown: 'fashionCheck.dyeFamilyBrown',

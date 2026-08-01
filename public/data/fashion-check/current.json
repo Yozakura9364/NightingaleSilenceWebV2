@@ -318,7 +318,8 @@
           {
             "slotId": "hands",
             "iconId": 44114,
-            "label": "各种族初始装备"
+            "label": "各种族初始装备",
+            "labelKey": "fashionCheck.starterGearHands"
           },
           {
             "slotId": "head",
@@ -378,7 +379,8 @@
             "dye": {
               "dyeId": 34,
               "name": "骸骨白"
-            }
+            },
+            "labelKey": "fashionCheck.starterGearHands"
           },
           {
             "slotId": "legs",

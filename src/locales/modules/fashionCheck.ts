@@ -117,6 +117,12 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '染色可能な足防具',
     '염색 가능한 발 방어구'
   ),
+  'fashionCheck.starterGearHands': localizedMessage(
+    '各种族初始装备',
+    'Racial starting gear',
+    '種族初期装備',
+    '종족 시작 장비'
+  ),
   'fashionCheck.dyeFamilyBlack': localizedMessage(
     '黑色系',
     'Black dyes',
