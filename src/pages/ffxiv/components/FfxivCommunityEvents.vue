@@ -448,7 +448,7 @@ onBeforeUnmount(() => {
 
 .ffxiv-calendar-section__range {
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-data);
+  font-family: var(--ns-font-pixel);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
   font-weight: 800;
@@ -504,7 +504,7 @@ onBeforeUnmount(() => {
   width: 7.5rem;
   height: 100%;
   padding: var(--ns-space-2);
-  font: 600 0.72rem/1.35 var(--ns-font-ui);
+  font: 600 0.72rem/1.35 var(--ns-font-pixel);
   text-align: center;
   white-space: normal;
 }

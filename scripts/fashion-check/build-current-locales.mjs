@@ -11,7 +11,7 @@ const referenceRoot = path.resolve(
 )
 const currentPath = path.join(projectRoot, 'public/data/fashion-check/current.json')
 const dyePath = path.join(projectRoot, 'data/fashion-check/current-dye-locales.json')
-const armoireDyePath = path.join(projectRoot, 'public/data/armoire-dye-catalog.json')
+const dyeCatalogPath = path.join(projectRoot, 'public/data/ffxiv/dye-catalog.json')
 const outputPath = path.join(projectRoot, 'public/data/fashion-check/current-locales.json')
 const itemPaths = {
   'zh-CN': path.join(referenceRoot, 'official/chs/Item.csv'),
@@ -89,10 +89,10 @@ function findStoreDyeItemId(dyeId, dyeDocument, rows) {
   return itemId
 }
 
-function getDyeItemIds(dyeIds, dyeDocument, armoireDyeCatalog, chsRows) {
+function getDyeItemIds(dyeIds, dyeDocument, ffxivDyeCatalog, chsRows) {
   const result = new Map()
   for (const dyeId of dyeIds) {
-    const category = armoireDyeCatalog.dyes?.[String(dyeId)]?.valueCategory
+    const category = ffxivDyeCatalog.dyes?.[String(dyeId)]?.valueCategory
     const mergedItemId = mergedDyeItemIds[category]
     const itemId =
       mergedItemId ??
@@ -111,11 +111,11 @@ function sortedRecord(values) {
 }
 
 async function main() {
-  const [current, dyeDocument, armoireDyeCatalog, localeRowsEntries, categoryRowsEntries] =
+  const [current, dyeDocument, ffxivDyeCatalog, localeRowsEntries, categoryRowsEntries] =
     await Promise.all([
       readFile(currentPath, 'utf8').then(JSON.parse),
       readFile(dyePath, 'utf8').then(JSON.parse),
-      readFile(armoireDyePath, 'utf8').then(JSON.parse),
+      readFile(dyeCatalogPath, 'utf8').then(JSON.parse),
       Promise.all(
         Object.entries(itemPaths).map(async ([locale, filePath]) => [
           locale,
@@ -139,7 +139,7 @@ async function main() {
   const dyeItemIds = getDyeItemIds(
     dyeIds,
     dyeDocument,
-    armoireDyeCatalog,
+    ffxivDyeCatalog,
     localeRows.get('zh-CN') ?? []
   )
   const allItemIds = new Set([...itemIds, ...dyeItemIds.values()])
