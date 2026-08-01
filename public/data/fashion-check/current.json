@@ -305,5 +305,227 @@
         ]
       }
     }
-  ]
+  ],
+  "referenceShowcase": {
+    "globalIssue": 444,
+    "theme": "",
+    "dyeProvider": "游玩C哩酱（B站）",
+    "solutions": [
+      {
+        "id": "80",
+        "score": 80,
+        "entries": [
+          {
+            "slotId": "hands",
+            "iconId": 44114,
+            "label": "各种族初始装备"
+          },
+          {
+            "slotId": "head",
+            "iconId": 41227,
+            "labelKey": "fashionCheck.anyDyeableHead",
+            "dye": {
+              "dyeId": 6,
+              "name": "煤烟黑"
+            }
+          },
+          {
+            "slotId": "body",
+            "iconId": 42422,
+            "labelKey": "fashionCheck.anyDyeableBody",
+            "dye": {
+              "dyeId": 84,
+              "name": "仙子梅"
+            }
+          }
+        ]
+      },
+      {
+        "id": "100",
+        "score": 100,
+        "entries": [
+          {
+            "slotId": "weapon",
+            "iconId": 31104,
+            "labelKey": "fashionCheck.anyDyeableWeapon",
+            "dye": {
+              "dyeId": 14,
+              "name": "鲜血红"
+            }
+          },
+          {
+            "slotId": "head",
+            "item": {
+              "itemId": 30131,
+              "name": "红色风信子头花",
+              "iconId": 54321,
+              "rarity": 1
+            }
+          },
+          {
+            "slotId": "body",
+            "iconId": 42422,
+            "labelKey": "fashionCheck.anyDyeableBody",
+            "dye": {
+              "dyeId": 84,
+              "name": "仙子梅"
+            }
+          },
+          {
+            "slotId": "hands",
+            "iconId": 44114,
+            "label": "各种族初始装备",
+            "dye": {
+              "dyeId": 34,
+              "name": "骸骨白"
+            }
+          },
+          {
+            "slotId": "legs",
+            "item": {
+              "itemId": 10784,
+              "name": "青麻强袭软甲裤",
+              "iconId": 45656,
+              "rarity": 1
+            },
+            "dye": {
+              "dyeId": 6,
+              "name": "煤烟黑"
+            }
+          },
+          {
+            "slotId": "feet",
+            "iconId": 46446,
+            "labelKey": "fashionCheck.anyDyeableFeet",
+            "dye": {
+              "dyeId": 43,
+              "name": "泥沼绿"
+            }
+          }
+        ]
+      }
+    ],
+    "dyes": [
+      {
+        "slotId": "weapon",
+        "family": {
+          "id": "red",
+          "name": "红色系",
+          "color": "#913B27",
+          "points": 1
+        },
+        "exact": {
+          "dyeId": 14,
+          "name": "鲜血红",
+          "color": "#913B27",
+          "points": 2
+        }
+      },
+      {
+        "slotId": "head",
+        "family": {
+          "id": "black",
+          "name": "黑色系",
+          "color": "#2B2923",
+          "points": 1
+        },
+        "exact": {
+          "dyeId": 6,
+          "name": "煤烟黑",
+          "color": "#2B2923",
+          "points": 2
+        }
+      },
+      {
+        "slotId": "body",
+        "family": {
+          "id": "red",
+          "name": "红色系",
+          "color": "#913B27",
+          "points": 1
+        },
+        "exact": {
+          "dyeId": 84,
+          "name": "仙子梅",
+          "color": "#79526C",
+          "points": 2
+        }
+      },
+      {
+        "slotId": "hands",
+        "family": {
+          "id": "red",
+          "name": "红色系",
+          "color": "#913B27",
+          "points": 1
+        },
+        "exact": {
+          "dyeId": 88,
+          "name": "丝雀黄",
+          "color": "#FEF864",
+          "points": 2
+        }
+      },
+      {
+        "slotId": "legs",
+        "family": {
+          "id": "black",
+          "name": "黑色系",
+          "color": "#2B2923",
+          "points": 1
+        },
+        "exact": {
+          "dyeId": 6,
+          "name": "煤烟黑",
+          "color": "#2B2923",
+          "points": 2
+        }
+      },
+      {
+        "slotId": "feet",
+        "family": {
+          "id": "green",
+          "name": "绿色系",
+          "color": "#22A757",
+          "points": 1
+        },
+        "exact": {
+          "dyeId": 117,
+          "name": "金属绿",
+          "color": "#22A757",
+          "points": 2
+        }
+      },
+      {
+        "slotId": "hands",
+        "family": {
+          "id": "black",
+          "name": "黑色系",
+          "color": "#2B2923",
+          "points": 1
+        },
+        "exact": {
+          "dyeId": 34,
+          "name": "骸骨白",
+          "color": "#EBD3A0",
+          "points": 2
+        }
+      },
+      {
+        "slotId": "feet",
+        "family": {
+          "id": "green",
+          "name": "绿色系",
+          "color": "#22A757",
+          "points": 1
+        },
+        "exact": {
+          "dyeId": 43,
+          "name": "泥沼绿",
+          "color": "#585230",
+          "points": 2
+        }
+      }
+    ]
+  }
 }

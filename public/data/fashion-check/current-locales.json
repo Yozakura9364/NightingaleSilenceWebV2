@@ -254,8 +254,122 @@
       "ko": "로스가르 완갑"
     }
   },
-  "dyes": {},
-  "dyeItems": {},
+  "dyes": {
+    "6": {
+      "zh-CN": "煤烟黑",
+      "en": "Soot Black",
+      "ja": "スートブラック",
+      "ko": "숯검정색"
+    },
+    "14": {
+      "zh-CN": "鲜血红",
+      "en": "Blood Red",
+      "ja": "カララント:ブラッドレッド",
+      "ko": "염료: 선홍색"
+    },
+    "34": {
+      "zh-CN": "骸骨白",
+      "en": "Bone White",
+      "ja": "カララント:ボーンホワイト",
+      "ko": "염료: 상아색"
+    },
+    "43": {
+      "zh-CN": "泥沼绿",
+      "en": "Mud Green",
+      "ja": "カララント:マッドグリーン",
+      "ko": "염료: 습지 녹색"
+    },
+    "84": {
+      "zh-CN": "仙子梅",
+      "en": "Plum Purple",
+      "ja": "カララント:プラムパープル",
+      "ko": "염료: 매화색"
+    },
+    "88": {
+      "zh-CN": "丝雀黄",
+      "en": "Canary Yellow",
+      "ja": "カララント:カナリーイエロー",
+      "ko": "염료: 카나리아색"
+    },
+    "117": {
+      "zh-CN": "金属绿",
+      "en": "Metallic Green",
+      "ja": "カララント:メタリックグリーン",
+      "ko": "염료: 금속질 녹색"
+    }
+  },
+  "dyeItems": {
+    "6": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "14": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "34": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "43": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "84": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "88": {
+      "itemId": 52255,
+      "iconId": 22805,
+      "names": {
+        "zh-CN": "追加染剂1",
+        "en": "Wide Spectrum #1 Dye",
+        "ja": "カララント:アディショナルカラー1",
+        "ko": "염료: 추가 색상 1"
+      }
+    },
+    "117": {
+      "itemId": 13720,
+      "iconId": 22819,
+      "names": {
+        "zh-CN": "金属绿染剂",
+        "en": "General-purpose Metallic Green Dye",
+        "ja": "カララント:メタリックグリーン",
+        "ko": "염료: 금속질 녹색"
+      }
+    }
+  },
   "tags": {
     "42": {
       "zh-CN": "装饰钉扣",
