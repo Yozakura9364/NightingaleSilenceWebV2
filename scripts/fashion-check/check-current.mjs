@@ -166,11 +166,14 @@ if (showcase && typeof showcase === 'object') {
   }
 }
 
-// ---- tag-database 一致性（仅警告）----
+// ---- tag-database 一致性（分档）----
+// tag-database 已有标签：金牌 itemId 必须命中同 categoryId+slotId 的金牌列表，
+// 否则 FAIL（2026-08-01 wronggold 事故：风化系列非金牌装备被写入）。
+// tag-database 未收录的标签（本周新标签）：WARN，需人工确认证据。
 if (tagDatabase?.categories && tagDatabase?.items) {
   for (const slot of current.slots ?? []) {
     if (!isPositiveInt(slot.categoryId)) continue
-    const category = tagDatabase.categories.find((entry) => entry.id === slot.categoryId)
+    const category = tagDatabase.categories.find((entry) => entry.categoryId === slot.categoryId)
     if (!category) {
       warn(`categoryId ${slot.categoryId} 不在 tag-database（当周新标签可接受，发布前需人工确认证据）`)
       continue
@@ -180,7 +183,7 @@ if (tagDatabase?.categories && tagDatabase?.items) {
       if (!tagDatabase.items[String(item.itemId)]) {
         warn(`itemId ${item.itemId}（${slot.slotId}）不在 tag-database items 索引（新答案可接受，需人工确认）`)
       } else if (dbSlot && !(dbSlot.itemIds ?? []).includes(item.itemId)) {
-        warn(`itemId ${item.itemId} 在 tag-database 中不属于 ${slot.tag}/${slot.slotId} 的金牌列表（需人工确认）`)
+        fail(`itemId ${item.itemId} 在 tag-database 中不属于 categoryId ${slot.categoryId}/${slot.slotId} 的金牌列表（wronggold 类错误，禁止发布）`)
       }
     }
   }
