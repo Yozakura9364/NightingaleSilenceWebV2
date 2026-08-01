@@ -207,6 +207,20 @@ const router = createRouter({
         ]
       : []),
     {
+      // public blog — static reader chunk only; no Tiptap/content-studio deps
+      path: siteRoutes.blogIndex,
+      name: 'blog-index',
+      meta: { titleKey: 'publicBlog.pageTitle' },
+      component: loadLocalizedPage(['publicBlog'], () => import('@/pages/content/ContentIndexPage.vue'))
+    },
+    {
+      // :id must be a positive integer; anything else falls through to 404
+      path: `${siteRoutes.blogIndex}/:id([1-9]\\d*)`,
+      name: 'blog-detail',
+      meta: { titleKey: 'publicBlog.pageTitle' },
+      component: loadLocalizedPage(['publicBlog'], () => import('@/pages/content/ContentDetailPage.vue'))
+    },
+    {
       path: '/:pathMatch(.*)*',
       redirect: '/'
     }

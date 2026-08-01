@@ -16,6 +16,7 @@ import {
   isStableMediaUrl,
   DEFAULT_MEDIA_HOST,
 } from './lib/public-content-core.mjs'
+import { entryGenerationHash } from './lib/canonical-hash.mjs'
 
 export function checkPublicContent({ publishedDir, outDir, mediaHost = DEFAULT_MEDIA_HOST, log = () => {} }) {
   const errors = []
@@ -122,6 +123,12 @@ export function checkPublicContent({ publishedDir, outDir, mediaHost = DEFAULT_M
     }
     if (disk.generationHash !== e.generationHash) {
       errors.push(`entries/${e.publicId}.json generationHash mismatch`)
+    }
+    // independent tamper check: recompute the hash over the on-disk entry's own content
+    if (typeof disk.generationHash !== 'string' || !/^[0-9a-f]{64}$/.test(disk.generationHash)) {
+      errors.push(`entries/${e.publicId}.json generationHash must be a 64-char hex sha256`)
+    } else if (entryGenerationHash(disk) !== disk.generationHash) {
+      errors.push(`entries/${e.publicId}.json generationHash does not match entry content (tampered)`)
     }
     // independent scan of the on-disk file, so tampered media/leaks are
     // reported even when the consistency check already failed

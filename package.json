@@ -11,7 +11,7 @@
     "test:shortlinks": "python -m unittest server.shortlinks.tests.test_shortlinks",
     "dev:content-studio": "node scripts/dev-content-studio.mjs",
     "test:content": "vitest run --config vitest.config.ts",
-    "test:content-api": "python -m unittest discover server.content.tests",
+    "test:content-api": "node scripts/content/run-clean-python.mjs -- -m unittest discover server.content.tests",
     "build:content": "node scripts/content/build-public-content.mjs",
     "check:content": "node scripts/content/check-public-content.mjs && node scripts/content/check-local-boundary.mjs",
     "build:glamour-mapping": "python server/glamour/tools/build_item_mapping.py",

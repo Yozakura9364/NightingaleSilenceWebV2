@@ -36,6 +36,9 @@ export function isPermanentContentUrl(url: string): boolean {
     const parsed = new URL(url)
     if (parsed.protocol !== 'https:') return false
     if (!ALLOWED_IMAGE_HOSTS.includes(parsed.hostname)) return false
+    // stable URL contract (mirrors scripts/content/lib/public-content-core.mjs):
+    // any query string — signed, unknown or even empty ("?") — disqualifies
+    if (parsed.search !== '') return false
     for (const key of parsed.searchParams.keys()) {
       if (isTempParam(key)) return false
     }

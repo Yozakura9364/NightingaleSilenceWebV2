@@ -19,6 +19,8 @@ const messageLoaders: Partial<Record<UiMessageModuleName, UiMessageLoader>> = {
           import('@/locales/modules/contentStudio').then((module) => module.contentStudioUiMessages)
       }
     : {}),
+  publicBlog: () =>
+    import('@/locales/modules/publicBlog').then((module) => module.publicBlogUiMessages),
   ...(isSilenceEnabled || areInternalRoutesEnabled
     ? {
         silence: () =>

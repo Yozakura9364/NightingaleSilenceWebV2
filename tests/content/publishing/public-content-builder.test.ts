@@ -228,6 +228,20 @@ describe('buildPublicContent', () => {
       { name: 'image missing alt', mutate: (doc) => { doc.doc.content = [img()]; delete doc.doc.content[0].attrs.alt } },
       { name: 'image unknown attr', mutate: (doc) => { doc.doc.content = [img({ unknown: 1 })] } },
       { name: 'unknown mark', mutate: (doc) => { doc.doc.content = [{ type: 'paragraph', content: [{ type: 'text', text: 'x', marks: [{ type: 'glow' }] }] }] } },
+      { name: 'envelope extra field', mutate: (doc) => { doc.foo = 1 } },
+      { name: 'root node extra field', mutate: (doc) => { doc.doc.foo = 1 } },
+      { name: 'root node attrs', mutate: (doc) => { doc.doc.attrs = {} } },
+      { name: 'paragraph marks', mutate: (doc) => { doc.doc.content = [{ type: 'paragraph', marks: [], content: [{ type: 'text', text: 'x' }] }] } },
+      { name: 'hardBreak marks', mutate: (doc) => { doc.doc.content = [{ type: 'paragraph', content: [{ type: 'text', text: 'x' }, { type: 'hardBreak', marks: [] }] }] } },
+      { name: 'horizontalRule content', mutate: (doc) => { doc.doc.content = [{ type: 'horizontalRule', content: [] }] } },
+      { name: 'text content field', mutate: (doc) => { doc.doc.content = [{ type: 'paragraph', content: [{ type: 'text', text: 'x', content: [] }] }] } },
+      { name: 'image marks', mutate: (doc) => { const n = img(); n.marks = []; doc.doc.content = [n] } },
+      { name: 'codeBlock plainText with marks', mutate: (doc) => { doc.doc.content = [{ type: 'codeBlock', content: [{ type: 'text', text: 'x', marks: [{ type: 'bold' }] }] }] } },
+      { name: 'textStyle without attrs', mutate: (doc) => { doc.doc.content = [{ type: 'paragraph', content: [{ type: 'text', text: 'x', marks: [{ type: 'textStyle' }] }] }] } },
+      { name: 'paragraph unknown attr', mutate: (doc) => { doc.doc.content = [para()]; doc.doc.content[0].attrs = { foo: 1 } } },
+      { name: 'tableRow unknown attr', mutate: (doc) => { doc.doc.content = [{ type: 'table', content: [{ type: 'tableRow', attrs: { foo: 1 }, content: [{ type: 'tableCell', content: [para()] }] }] }] } },
+      { name: 'listItem unknown attr', mutate: (doc) => { doc.doc.content = [{ type: 'bulletList', content: [{ type: 'listItem', attrs: { foo: 1 }, content: [para()] }] }] } },
+      { name: 'simple mark with attrs', mutate: (doc) => { doc.doc.content = [{ type: 'paragraph', content: [{ type: 'text', text: 'x', marks: [{ type: 'bold', attrs: { foo: 1 } }] }] }] } },
       { name: 'gallery below min items', mutate: (doc) => { doc.doc.content = [{ type: 'gallery', attrs: { layout: 'grid' }, content: [img()] }] } },
       { name: 'text node extra field', mutate: (doc) => { doc.doc.content = [{ type: 'paragraph', content: [{ type: 'text', text: 'x', bogus: true }] }] } },
     ]
@@ -242,6 +256,52 @@ describe('buildPublicContent', () => {
       expect(existsSync(join(ctx.outDir, 'index.json')), `no output for: ${name}`).toBe(false)
       rmSync(ctx.root, { recursive: true, force: true })
     }
+  })
+
+  it('accepts legal documents: optional content, codeBlock, empty doc, horizontalRule', () => {
+    const cases = [
+      { name: 'codeBlock with text child', mutate: (doc) => { doc.doc.content = [{ type: 'codeBlock', content: [{ type: 'text', text: 'code' }] }] } },
+      { name: 'paragraph without content', mutate: (doc) => { doc.doc.content = [{ type: 'paragraph' }] } },
+      { name: 'heading without content', mutate: (doc) => { doc.doc.content = [{ type: 'heading', attrs: { level: 2 } }] } },
+      { name: 'empty doc', mutate: (doc) => { doc.doc.content = [] } },
+      { name: 'horizontalRule', mutate: (doc) => { doc.doc.content = [{ type: 'horizontalRule' }] } },
+      { name: 'nullable attrs', mutate: (doc) => {
+        doc.doc.content = [
+          { type: 'paragraph', content: [{ type: 'text', text: 'x', marks: [
+            { type: 'textStyle', attrs: { color: null, sizePercent: null } },
+            { type: 'link', attrs: { href: 'https://x.com', target: null, rel: null } },
+          ] }] },
+          { type: 'table', content: [{ type: 'tableRow', content: [
+            { type: 'tableCell', attrs: { colwidth: null }, content: [{ type: 'paragraph' }] },
+          ] }] },
+        ]
+      } },
+    ]
+    for (const { name, mutate } of cases) {
+      const ctx = makeSnapshotDir()
+      const snap = makeSnapshot({ publicId: 1 })
+      mutate(snap.document)
+      snap.generationHash = snapshotHash(snap)
+      writePublished(ctx.publishedDir, [snap])
+      const r = buildPublicContent({ publishedDir: ctx.publishedDir, outDir: ctx.outDir, mediaHost: MEDIA_HOST })
+      expect(r.ok, `should accept: ${name}`).toBe(true)
+      rmSync(ctx.root, { recursive: true, force: true })
+    }
+  })
+
+  it('rejects doc.content beyond 5000 items', () => {
+    const ctx = makeSnapshotDir()
+    const snap = makeSnapshot({ publicId: 1 })
+    snap.document.doc.content = []
+    for (let i = 0; i < 5001; i++) {
+      snap.document.doc.content.push({ type: 'paragraph', content: [{ type: 'text', text: 'x' }] })
+    }
+    snap.generationHash = snapshotHash(snap)
+    writePublished(ctx.publishedDir, [snap])
+    const r = buildPublicContent({ publishedDir: ctx.publishedDir, outDir: ctx.outDir, mediaHost: MEDIA_HOST })
+    expect(r.ok).toBe(false)
+    expect(r.error).toMatch(/5000/i)
+    rmSync(ctx.root, { recursive: true, force: true })
   })
 })
 

@@ -9,6 +9,11 @@ export default defineConfig({
   },
   test: {
     include: ['tests/content/**/*.test.ts', 'tests/content/**/*.spec.mjs'],
-    environment: 'node'
+    environment: 'node',
+    setupFiles: ['tests/content/setup.ts'],
+    env: {
+      // Strip Hermes-gateway-injected venv paths so child `python` (3.8) imports its own site-packages
+      PYTHONPATH: ''
+    }
   }
 })

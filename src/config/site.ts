@@ -19,6 +19,8 @@ export type RoutePath =
   | '/silence/angel'
   | '/silence/glitch'
   | '/about'
+  | '/blog'
+  | '/blog/:id'
 
 export interface NavItem {
   id: string
@@ -115,7 +117,9 @@ export const siteRoutes = {
   silence: '/silence',
   silenceAngel: '/silence/angel',
   silenceGlitch: '/silence/glitch',
-  about: '/about'
+  about: '/about',
+  blogIndex: '/blog',
+  blogDetail: '/blog/:id'
 } as const satisfies Record<string, RoutePath>
 
 export const siteLocaleOptions: SiteLocaleOption[] = [

@@ -15,3 +15,4 @@ export type UiMessageModuleName =
   | 'styleLab'
   | 'fashionCheck'
   | 'contentStudio'
+  | 'publicBlog'

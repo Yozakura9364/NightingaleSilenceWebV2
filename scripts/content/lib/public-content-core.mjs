@@ -4,6 +4,11 @@
 import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import {
+  canonicalJson,
+  entryGenerationHash,
+  snapshotHash as sharedSnapshotHash,
+} from './canonical-hash.mjs'
 
 export const INDEX_SCHEMA = 'content.index.v1'
 export const ENTRY_SCHEMA = 'content.entry.v1'
@@ -63,16 +68,16 @@ const NODE_TYPES = new Set([...BLOCK_TYPES, ...INLINE_TYPES, 'listItem', 'tableR
 const MAX_DEPTH = 50
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
 
-// item: 'block' | 'inline' | concrete node type(s)
+// item: 'block' | 'inline' | concrete node type(s); content optional unless `optional: true`
 const CONTENT_RULES = {
-  doc: { item: 'block' },
-  paragraph: { item: 'inline', max: 2000 },
-  heading: { item: 'inline', min: 1, max: 500 },
+  doc: { item: 'block', max: 5000 },
+  paragraph: { item: 'inline', max: 2000, optional: true },
+  heading: { item: 'inline', min: 1, max: 500, optional: true },
   blockquote: { item: 'block', min: 1, max: 200 },
   bulletList: { item: 'listItem', min: 1, max: 500 },
   orderedList: { item: 'listItem', min: 1, max: 500 },
   listItem: { item: 'block', min: 1, max: 100 },
-  codeBlock: { item: 'plainText', max: 1 },
+  codeBlock: { item: 'text', max: 1, optional: true },
   table: { item: 'tableRow', min: 1, max: 100 },
   tableRow: { item: 'cell', min: 1, max: 50 },
   tableCell: { item: 'block', min: 1, max: 200 },
@@ -81,8 +86,52 @@ const CONTENT_RULES = {
   collapse: { item: 'block', min: 1, max: 1000 },
 }
 
+// exact per-node field whitelist (additionalProperties:false per schema)
+const NODE_FIELDS = {
+  doc: ['type', 'content'],
+  paragraph: ['type', 'attrs', 'content'],
+  heading: ['type', 'attrs', 'content'],
+  blockquote: ['type', 'content'],
+  bulletList: ['type', 'content'],
+  orderedList: ['type', 'attrs', 'content'],
+  listItem: ['type', 'content'],
+  codeBlock: ['type', 'attrs', 'content'],
+  horizontalRule: ['type'],
+  table: ['type', 'content'],
+  tableRow: ['type', 'content'],
+  tableCell: ['type', 'attrs', 'content'],
+  tableHeader: ['type', 'attrs', 'content'],
+  image: ['type', 'attrs'],
+  gallery: ['type', 'attrs', 'content'],
+  collapse: ['type', 'attrs', 'content'],
+  text: ['type', 'text', 'marks'],
+  hardBreak: ['type'],
+}
+
+const NODE_REQUIRED = {
+  doc: ['type', 'content'],
+  heading: ['type', 'attrs'],
+  blockquote: ['type', 'content'],
+  bulletList: ['type', 'content'],
+  orderedList: ['type', 'content'],
+  listItem: ['type', 'content'],
+  table: ['type', 'content'],
+  tableRow: ['type', 'content'],
+  tableCell: ['type', 'content'],
+  tableHeader: ['type', 'content'],
+  image: ['type', 'attrs'],
+  gallery: ['type', 'attrs', 'content'],
+  collapse: ['type', 'attrs', 'content'],
+  text: ['type', 'text'],
+  hardBreak: ['type'],
+  horizontalRule: ['type'],
+  paragraph: ['type'],
+  codeBlock: ['type'],
+}
+
 // attrs: { field: {type|enum|max|min|pattern|nullable} }, required: [..]
 const ATTR_RULES = {
+  paragraph: { attrs: { textAlign: { enum: ['left', 'center', 'right', 'justify'] } } },
   heading: {
     attrs: { level: { enum: [2, 3, 4] }, textAlign: { enum: ['left', 'center', 'right', 'justify'] } },
     required: ['level'],
@@ -112,23 +161,29 @@ function cellAttrs() {
   return {
     colspan: { int: [1, 50] },
     rowspan: { int: [1, 100] },
-    colwidth: { arrayInt: [25, 4096], maxItems: 50 },
+    colwidth: { arrayInt: [25, 4096], maxItems: 50, nullable: true },
     textAlign: { enum: ['left', 'center', 'right', 'justify'] },
   }
 }
 
 const MARK_RULES = {
   bold: {}, italic: {}, underline: {}, strike: {}, code: {},
-  textStyle: { attrs: { color: { str: [7, 7], pattern: /^#[0-9A-Fa-f]{6}$/, nullable: true }, sizePercent: { enum: [null, 75, 100, 125, 150, 200] } } },
-  link: { attrs: { href: { str: [1, 2048], pattern: /^(https?:\/\/|mailto:|\/(?!\/)|#)/ }, target: { enum: [null, '_blank'] }, rel: { enum: [null, 'noopener noreferrer nofollow'] } }, required: ['href'] },
+  textStyle: { attrs: { color: { str: [7, 7], pattern: /^#[0-9A-Fa-f]{6}$/, nullable: true }, sizePercent: { enum: [null, 75, 100, 125, 150, 200] } }, attrsRequired: true },
+  link: { attrs: { href: { str: [1, 2048], pattern: /^(https?:\/\/|mailto:|\/(?!\/)|#)/ }, target: { enum: [null, '_blank'] }, rel: { enum: [null, 'noopener noreferrer nofollow'] } }, attrsRequired: true, required: ['href'] },
 }
 
 function checkAttrs(node, rules, errors, where) {
   const attrs = node.attrs
   if (attrs === undefined) {
+    if (rules.attrsRequired) errors.push(`${where}: missing required attrs`)
     if (rules.required && rules.required.length > 0) {
       for (const k of rules.required) errors.push(`${where}: missing required attrs.${k}`)
     }
+    return
+  }
+  if (!rules.attrs) {
+    // additionalProperties:false — this node/mark type does not allow attrs at all
+    errors.push(`${where}: attrs is not allowed on this node/mark`)
     return
   }
   if (attrs === null || typeof attrs !== 'object' || Array.isArray(attrs)) {
@@ -143,7 +198,10 @@ function checkAttrs(node, rules, errors, where) {
       const v = attrs[k]
       if (v === undefined) continue
       if (v === null) {
-        if (rule.nullable) continue
+        // null is allowed when the schema type is [X, "null"]: explicit
+        // nullable flag, or an enum that lists null
+        const allowsNull = rule.nullable === true || (rule.enum !== undefined && rule.enum.includes(null))
+        if (allowsNull) continue
         errors.push(`${where}: attrs.${k} must not be null`)
         continue
       }
@@ -177,6 +235,12 @@ function itemMatches(item, kind) {
 export function validateDocumentStructure(doc) {
   const errors = []
   if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return ['document is not an object']
+  // envelope additionalProperties:false
+  const ENVELOPE_FIELDS = ['schemaVersion', 'doc']
+  for (const k of Object.keys(doc)) {
+    if (!ENVELOPE_FIELDS.includes(k)) errors.push(`document: unknown field ${JSON.stringify(k)}`)
+  }
+  if (!('doc' in doc)) errors.push('document: missing doc')
   if (doc.schemaVersion !== 'content.document.v1') {
     errors.push(`document schemaVersion must be content.document.v1, got ${JSON.stringify(doc.schemaVersion)}`)
   }
@@ -185,6 +249,11 @@ export function validateDocumentStructure(doc) {
     errors.push('document.doc must be {type:"doc", content:[...]}')
     return errors
   }
+  // root node additionalProperties:false + 5000-item cap
+  for (const k of Object.keys(root)) {
+    if (!NODE_FIELDS.doc.includes(k)) errors.push(`document.doc: unknown field ${JSON.stringify(k)}`)
+  }
+  if (root.content.length > 5000) errors.push(`document.doc.content exceeds 5000 items (${root.content.length})`)
   const walk = (n, parentType, depth, where) => {
     if (depth > MAX_DEPTH) {
       errors.push(`${where}: exceeds max depth ${MAX_DEPTH}`)
@@ -203,16 +272,19 @@ export function validateDocumentStructure(doc) {
       errors.push(`${where}: unknown node type ${JSON.stringify(t)}`)
       return
     }
-    // additionalProperties:false at node level
-    const nodeKeys = new Set(['type', 'attrs', 'content', 'text', 'marks'])
+    // per-node field whitelist (additionalProperties:false)
+    const allowed = NODE_FIELDS[t]
     for (const k of Object.keys(n)) {
-      if (!nodeKeys.has(k)) errors.push(`${where}: unknown field ${JSON.stringify(k)}`)
+      if (!allowed.includes(k)) errors.push(`${where}: unknown field ${JSON.stringify(k)}`)
     }
-    // parent/child relation
+    for (const k of NODE_REQUIRED[t] || []) {
+      if (!(k in n)) errors.push(`${where}: missing ${k}`)
+    }
+    // parent/child relation + array bounds
     const rule = CONTENT_RULES[t]
     if (rule) {
       if (n.content === undefined) {
-        errors.push(`${where}: missing content`)
+        if (!rule.optional) errors.push(`${where}: missing content`)
       } else if (!Array.isArray(n.content)) {
         errors.push(`${where}: content must be an array`)
       } else {
@@ -225,13 +297,16 @@ export function validateDocumentStructure(doc) {
         })
       }
     }
-    // text node
+    // text node: string bound; marks only on inline text, never on codeBlock's plainText
     if (t === 'text') {
       if (typeof n.text !== 'string') errors.push(`${where}: text node missing text string`)
       else if (n.text.length > 500000) errors.push(`${where}: text exceeds 500000 chars`)
+      if (parentType === 'codeBlock' && n.marks !== undefined) {
+        errors.push(`${where}: plainText (codeBlock child) must not carry marks`)
+      }
     }
-    // marks
-    if (n.marks !== undefined) {
+    // marks validation (field whitelist already restricted marks to text nodes)
+    if (n.marks !== undefined && !(t === 'text' && parentType === 'codeBlock')) {
       if (!Array.isArray(n.marks)) errors.push(`${where}: marks must be an array`)
       else {
         if (n.marks.length > 8) errors.push(`${where}: marks exceeds 8`)
@@ -252,8 +327,8 @@ export function validateDocumentStructure(doc) {
         })
       }
     }
-    // attrs per node type
-    if (ATTR_RULES[t]) checkAttrs(n, ATTR_RULES[t], errors, where)
+    // attrs per node type (no rule = attrs not allowed at all)
+    checkAttrs(n, ATTR_RULES[t] || {}, errors, where)
   }
   root.content.forEach((c, i) => {
     if (!itemMatches(c && c.type, 'block')) errors.push(`doc.content[${i}]: ${JSON.stringify(c && c.type)} is not allowed at document root`)
@@ -262,21 +337,17 @@ export function validateDocumentStructure(doc) {
   return errors
 }
 
-// ---- Python-compatible canonical JSON serialization (mirrors
-// json.dumps(payload, ensure_ascii=False, sort_keys=True) from the publish
-// side, so generationHash can be re-verified byte-for-byte) ----
-function pyJsonSort(obj) {
-  if (obj === null || typeof obj !== 'object') return JSON.stringify(obj)
-  if (Array.isArray(obj)) return '[' + obj.map(pyJsonSort).join(', ') + ']'
-  const keys = Object.keys(obj).sort()
-  return '{' + keys.map((k) => `${JSON.stringify(k)}: ${pyJsonSort(obj[k])}`).join(', ') + '}'
-}
+// ---- generationHash contract ----
+// The canonical serialization + digest live in ./canonical-hash.mjs and are the
+// SINGLE implementation used by the generator, the checker and the browser-side
+// publicContent service. The entry-level hash binds every field of the public
+// entry (title/summary/tags/publishedAt/revision/document/media), so any
+// tampering with the entry file is detectable.
+export { canonicalJson, entryGenerationHash } from './canonical-hash.mjs'
 
-/** Recompute the publish-side generationHash for a snapshot. */
+/** Recompute the publish-side generationHash for a snapshot (legacy snapshot binding). */
 export function snapshotHash(snapshot) {
-  const payload = { ...snapshot }
-  delete payload.generationHash
-  return createHash('sha256').update(pyJsonSort(payload), 'utf8').digest('hex')
+  return sharedSnapshotHash(snapshot)
 }
 
 /** Collect every mediaId referenced by the document (image attrs + media:// src). */
@@ -376,7 +447,7 @@ export function deriveEntryView(snapshot, mediaHost = DEFAULT_MEDIA_HOST) {
   const media = snapshot.media || []
   const mediaByPublicUrl = new Map()
   for (const m of media) mediaByPublicUrl.set(`media://${m.id}`, m.publicUrl)
-  return {
+  const entry = {
     schemaVersion: ENTRY_SCHEMA,
     publicId: snapshot.publicId,
     title: snapshot.metadata.title,
@@ -384,10 +455,14 @@ export function deriveEntryView(snapshot, mediaHost = DEFAULT_MEDIA_HOST) {
     tags: Array.isArray(snapshot.metadata.tags) ? [...snapshot.metadata.tags] : [],
     publishedAt: snapshot.publishedAt,
     revision: snapshot.revision,
-    generationHash: snapshot.generationHash,
+    generationHash: '',
     document: resolveDocumentMedia(snapshot.document, mediaByPublicUrl),
     media: media.map((m) => ({ mediaId: m.id, mediaType: m.mediaType, publicUrl: m.publicUrl })),
   }
+  // generationHash binds the ENTRY's own content (not the snapshot), so a
+  // tampered entry file is detectable by generator, checker and service alike.
+  entry.generationHash = entryGenerationHash(entry)
+  return entry
 }
 
 /** Build the public index view; snapshots must already be sorted by publicId. */
