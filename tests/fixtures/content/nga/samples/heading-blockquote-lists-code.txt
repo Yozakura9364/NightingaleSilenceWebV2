@@ -1,0 +1,23 @@
+=== heading blockquote lists code ===
+(mapping nga-v1; losses: 1)
+[b][size=120%]Title[/size][/b]
+
+intro
+
+[quote]quote text[/quote]
+
+[list]
+[*]a
+[*]b
+[/list]
+
+[list=1]
+[*]1
+[/list]
+
+[code=ts]const x = 1[/code]
+
+==========
+
+-- losses --
+INFO [0] heading-degraded

@@ -4,7 +4,7 @@
       <DraftList :drafts="drafts" :selectedId="currentDraftId" @create="createDraft" @select="selectDraft" />
       <div class="studio-main">
         <ContentMetadataPanel v-if="currentDraftId" v-model="metadata" :publicId="publicId" />
-        <ContentEditor v-if="currentDraftId" v-model="editorContent" @change="onEditorChange" ref="editorRef" />
+        <ContentEditor v-if="currentDraftId" v-model="editorContent" @change="onEditorChange" @request-media-insert="showMediaDialog = true" ref="editorRef" />
         <TableToolbar :editor="editorRef?.editor ?? null" />
         <GalleryEditor
           v-if="galleryState"
@@ -21,6 +21,14 @@
           <span v-else-if="autosave?.error.value" class="error">{{ autosave.error.value }}</span>
           <span v-else-if="autosave?.lastSaved.value">{{ t(statusKeys.saved) }} {{ autosave.lastSaved.value.toLocaleTimeString() }}</span>
         </div>
+        <button v-if="currentDraftId" type="button" class="btn-export" @click="showExportDialog = true">
+          {{ t(statusKeys.exportTitle) }}
+        </button>
+        <ExportDialog
+          v-if="showExportDialog && currentDraftId"
+          :document="exportDocument"
+          @close="showExportDialog = false"
+        />
       </div>
     </div>
     <button @click="showMediaDialog = true" class="btn-media">📷 {{ t(statusKeys.insertImage) }}</button>
@@ -29,19 +37,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onBeforeUnmount, nextTick } from 'vue'
+import { ref, watch, computed, onBeforeUnmount, nextTick } from 'vue'
 import { useLocale } from '@/stores/locale'
 import { contentStudioKeys } from '@/locales/keys/content'
+import type { ContentDocument } from '@/lib/content/model/types'
 import DraftList from './components/DraftList.vue'
 import ContentEditor from './components/ContentEditor.vue'
 import ContentMetadataPanel from './components/ContentMetadataPanel.vue'
 import TableToolbar from './components/TableToolbar.vue'
 import GalleryEditor from './components/GalleryEditor.vue'
 import MediaInsertDialog from './components/MediaInsertDialog.vue'
+import ExportDialog from './components/ExportDialog.vue'
 import { ContentStudioApi } from './services/contentStudioApi'
 import { useDraftAutosave } from './composables/useDraftAutosave'
 import type { AutosaveState } from './composables/useDraftAutosave'
 import { extractEditorDoc, buildSaveDraftBody } from './helpers/contentDocumentHelpers'
+import { toCanonicalDocument } from '@/lib/content/editor/toCanonicalDocument'
 import type { BareDoc } from './helpers/contentDocumentHelpers'
 import { clearPreviews, hasPreviewUrl } from '@/lib/content/editor/imagePreviewCache'
 import { fetchAndPreview } from './services/contentMediaPreview'
@@ -52,7 +63,12 @@ import {
 } from '@/lib/content/editor/galleryDocumentController'
 
 const { t } = useLocale()
-const statusKeys = { saving: contentStudioKeys.saving, saved: contentStudioKeys.saved, insertImage: contentStudioKeys.insertImage }
+const statusKeys = {
+  saving: contentStudioKeys.saving,
+  saved: contentStudioKeys.saved,
+  insertImage: contentStudioKeys.insertImage,
+  exportTitle: contentStudioKeys.exportTitle,
+}
 
 const token = import.meta.env.VITE_CONTENT_STUDIO_TOKEN || ''
 const api = new ContentStudioApi(token)
@@ -64,6 +80,7 @@ const metadata = ref<{ title: string; summary?: string; tags?: string[]; coverMe
 const publicId = ref<number | null>(null)
 const editorRef = ref<any>(null)
 const showMediaDialog = ref(false)
+const showExportDialog = ref(false)
 const galleryState = ref<GalleryState | null>(null)
 // draftId → session gid (in-memory; re-derived on load when doc has gallery)
 const sessionGids = new Map<string, string>()
@@ -121,6 +138,13 @@ function applyDoc(doc: BareDoc, nextState?: GalleryState | null) {
 function currentDoc(): BareDoc {
   return editorContent.value || { type: 'doc', content: [] }
 }
+
+// NGA export needs a ContentDocument envelope ({ schemaVersion, doc }) with
+// runtime-only attrs (gid etc.) stripped via the canonical conversion.
+const exportDocument = computed<ContentDocument>(() => ({
+  schemaVersion: 'content.document.v1',
+  doc: toCanonicalDocument(currentDoc() as any) as unknown as ContentDocument['doc'],
+}))
 
 function commitDoc(doc: BareDoc, state?: GalleryState | null) {
   applyDoc(doc, state)
@@ -253,4 +277,5 @@ watch(metadata, (val) => { if (autosave && editorContent.value) autosave.markDir
 .studio-status { padding: 4px 12px; font-size: 12px; color: var(--text-secondary,#666); border-top: 1px solid var(--border-color,#e0e0e0); }
 .error { color: red; }
 .btn-media { margin: 8px; padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; }
+.btn-export { margin: 8px; padding: 6px 12px; border: 1px solid #4a7; border-radius: 4px; background: #e8f5e9; cursor: pointer; }
 </style>

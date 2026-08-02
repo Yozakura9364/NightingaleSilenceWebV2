@@ -1,0 +1,10 @@
+=== gallery with a caption falls back to flattened images ===
+(mapping nga-v1; losses: 2)
+[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png[/img]
+
+[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000003.png[/img]
+[b]g cap[/b]
+
+-- losses --
+INFO [0] gallery-flattened
+INFO [0.1] caption-as-text

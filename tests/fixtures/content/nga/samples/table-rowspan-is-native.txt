@@ -1,0 +1,6 @@
+=== table rowspan is native ===
+(mapping nga-v1; losses: 0)
+[table]
+[tr][td rowspan=2]tall[/td][td]a[/td][/tr]
+[tr][td]b[/td][/tr]
+[/table]

@@ -1,0 +1,8 @@
+=== unknown node is blocking loss and skipped ===
+(mapping nga-v1; losses: 1)
+before
+
+after
+
+-- losses --
+BLOCKING [1] unknown-node

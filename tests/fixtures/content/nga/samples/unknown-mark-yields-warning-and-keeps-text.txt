@@ -1,0 +1,6 @@
+=== unknown mark yields warning and keeps text ===
+(mapping nga-v1; losses: 1)
+super
+
+-- losses --
+WARNING [0] unknown-mark

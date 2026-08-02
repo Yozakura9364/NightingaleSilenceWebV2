@@ -1,0 +1,11 @@
+=== table with header and spans ===
+(mapping nga-v1; losses: 3)
+[table]
+[tr][td][b]H1[/b][/td][td][b]H2[/b][/td][td][b]H3[/b][/td][/tr]
+[tr][td colspan=2]wide[/td][td]c2[/td][/tr]
+[/table]
+
+-- losses --
+INFO [0.0.0] table-header-degraded
+INFO [0.0.1] table-header-degraded
+INFO [0.0.2] table-header-degraded

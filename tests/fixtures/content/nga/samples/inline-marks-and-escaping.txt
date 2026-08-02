@@ -1,0 +1,3 @@
+=== inline marks and escaping ===
+(mapping nga-v1; losses: 0)
+plain [b]bold[/b] [i]italic[/i] [u]under[/u] [del]strike[/del] [code]code[/code] [bracket] ok

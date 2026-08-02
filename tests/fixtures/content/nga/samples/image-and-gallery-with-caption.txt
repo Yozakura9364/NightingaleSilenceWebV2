@@ -1,0 +1,13 @@
+=== image and gallery with caption ===
+(mapping nga-v1; losses: 2)
+[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000001.png[/img]
+[b]A cat[/b]
+
+[album]
+https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png
+https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000003.png
+[/album]
+
+-- losses --
+INFO [0] caption-as-text
+INFO [1] gallery-layout-degraded

@@ -1,0 +1,3 @@
+=== link href with bracket is escaped in attribute position ===
+(mapping nga-v1; losses: 0)
+[url=https://example.com/a%5Db]click[/url]

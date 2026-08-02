@@ -1,6 +1,8 @@
 <template>
   <div class="content-editor">
     <ContentToolbar :editor="editor ?? null" />
+    <EditorBubbleMenu :editor="editor ?? null" />
+    <EditorSlashMenu @request-media-insert="emit('request-media-insert')" />
     <div v-if="editor" class="editor-viewport">
       <editor-content :editor="editor" />
     </div>
@@ -14,8 +16,14 @@ import { useLocale } from '@/stores/locale'
 import { contentStudioKeys } from '@/locales/keys/content'
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import { getContentExtensions } from '@/lib/content/editor/extensions'
+import { createSlashCommandExtension } from '@/lib/content/editor/slashCommandExtension'
+import { filterSlashItems } from '../editor/slashCommandModel'
 import { toCanonicalDocument } from '@/lib/content/editor/toCanonicalDocument'
 import ContentToolbar from './ContentToolbar.vue'
+import EditorBubbleMenu from './EditorBubbleMenu.vue'
+import EditorSlashMenu from './EditorSlashMenu.vue'
+
+const slashCommand = createSlashCommandExtension({ items: filterSlashItems })
 
 const { t } = useLocale()
 const keys = { editorLoading: contentStudioKeys.editorLoading }
@@ -27,12 +35,13 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'update:modelValue', value: unknown): void
   (e: 'change'): void
+  (e: 'request-media-insert'): void
 }>()
 
 let suppressEmit = false
 
 const editor = useEditor({
-  extensions: getContentExtensions(),
+  extensions: [...getContentExtensions(), slashCommand],
   onUpdate: ({ editor }) => {
     if (suppressEmit) return
     // Emit RUNTIME JSON (gid preserved); canonicalization happens at save boundary

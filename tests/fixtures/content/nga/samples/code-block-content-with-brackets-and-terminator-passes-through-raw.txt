@@ -1,0 +1,3 @@
+=== code block content with brackets and terminator passes through raw ===
+(mapping nga-v1; losses: 0)
+[code=ts]if (a[0]) { [/code] }[/code]

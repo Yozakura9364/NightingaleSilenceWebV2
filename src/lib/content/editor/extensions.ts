@@ -14,6 +14,25 @@ import { Gallery } from './nodes/gallery'
 import { Collapse } from './nodes/collapse'
 import { getPreviewUrl, subscribePreviews } from './imagePreviewCache'
 
+// TextStyle carrying the canonical sizePercent attribute (75|100|125|150|200,
+// validated by document-validator). Without this the editor had no way to
+// represent font size even though the model/renderer/NGA export know it.
+const TextStyleWithSize = TextStyle.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      sizePercent: {
+        default: null,
+        parseHTML: (el) => {
+          const m = /font-size:\s*(\d+)%/.exec(el.getAttribute('style') ?? '')
+          return m ? Number(m[1]) : null
+        },
+        renderHTML: (attrs) => (attrs.sizePercent ? { style: `font-size: ${attrs.sizePercent}%` } : {}),
+      },
+    }
+  },
+})
+
 const ContentImage = TiptapImage.extend({
   addAttributes() {
     return {
@@ -67,7 +86,7 @@ export function getContentExtensions() {
     Table.configure({ resizable: true, allowTableNodeSelection: true, HTMLAttributes: { class: 'content-table' } }),
     TableRow, TableHeader, TableCell,
     ContentImage.configure({ allowBase64: false, inline: false }),
-    TextStyle, Color, Highlight.configure({ multicolor: true }),
+    TextStyleWithSize, Color, Highlight.configure({ multicolor: true }),
     TextAlign.configure({ types: ['heading', 'paragraph'], defaultAlignment: 'left' }),
     Gallery, Collapse
   ]

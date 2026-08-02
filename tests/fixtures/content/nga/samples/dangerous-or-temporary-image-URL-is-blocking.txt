@@ -1,0 +1,5 @@
+=== dangerous or temporary image URL is blocking ===
+(mapping nga-v1; losses: 1)
+
+-- losses --
+BLOCKING [0] unstable-image-url

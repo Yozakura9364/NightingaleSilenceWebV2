@@ -1,0 +1,7 @@
+=== image caption with brackets passes through raw ===
+(mapping nga-v1; losses: 1)
+[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png[/img]
+[b]my [cat][/b]
+
+-- losses --
+INFO [0] caption-as-text

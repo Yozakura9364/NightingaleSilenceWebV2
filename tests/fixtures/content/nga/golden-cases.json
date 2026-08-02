@@ -1,0 +1,338 @@
+{
+  "mappingVersion": "nga-v1",
+  "cases": [
+    {
+      "name": "inline marks and escaping",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "text": "plain " },
+                { "type": "text", "text": "bold", "marks": [{ "type": "bold" }] },
+                { "type": "text", "text": " " },
+                { "type": "text", "text": "italic", "marks": [{ "type": "italic" }] },
+                { "type": "text", "text": " " },
+                { "type": "text", "text": "under", "marks": [{ "type": "underline" }] },
+                { "type": "text", "text": " " },
+                { "type": "text", "text": "strike", "marks": [{ "type": "strike" }] },
+                { "type": "text", "text": " " },
+                { "type": "text", "text": "code", "marks": [{ "type": "code" }] },
+                { "type": "text", "text": " [bracket] ok" }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedText": "plain [b]bold[/b] [i]italic[/i] [u]under[/u] [del]strike[/del] [code]code[/code] [bracket] ok",
+      "expectedLosses": []
+    },
+    {
+      "name": "link and textStyle",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "text": "visit ", "marks": [{ "type": "link", "attrs": { "href": "https://example.com/page" } }] },
+                { "type": "text", "text": "https://example.com", "marks": [{ "type": "link", "attrs": { "href": "https://example.com" } }] },
+                { "type": "text", "text": " " },
+                { "type": "text", "text": "red", "marks": [{ "type": "textStyle", "attrs": { "color": "#ff0000", "sizePercent": null } }] },
+                { "type": "text", "text": " big", "marks": [{ "type": "textStyle", "attrs": { "color": null, "sizePercent": 150 } }] }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedText": "[url=https://example.com/page]visit [/url][url]https://example.com[/url] [color=#ff0000]red[/color][size=150%] big[/size]",
+      "expectedLosses": []
+    },
+    {
+      "name": "heading blockquote lists code",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            { "type": "heading", "attrs": { "level": 2 }, "content": [{ "type": "text", "text": "Title" }] },
+            { "type": "paragraph", "content": [{ "type": "text", "text": "intro" }] },
+            { "type": "blockquote", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "quote text" }] }] },
+            {
+              "type": "bulletList",
+              "content": [
+                { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "a" }] }] },
+                { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "b" }] }] }
+              ]
+            },
+            {
+              "type": "orderedList",
+              "content": [
+                { "type": "listItem", "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "1" }] }] }
+              ]
+            },
+            { "type": "codeBlock", "attrs": { "language": "ts" }, "content": [{ "type": "text", "text": "const x = 1" }] },
+            { "type": "horizontalRule" }
+          ]
+        }
+      },
+      "expectedText": "[b][size=120%]Title[/size][/b]\n\nintro\n\n[quote]quote text[/quote]\n\n[list]\n[*]a\n[*]b\n[/list]\n\n[list=1]\n[*]1\n[/list]\n\n[code=ts]const x = 1[/code]\n\n==========",
+      "expectedLosses": [
+        { "severity": "INFO", "nodePath": [0], "nodeType": "heading", "code": "heading-degraded" }
+      ]
+    },
+    {
+      "name": "image and gallery with caption",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "image",
+              "attrs": { "mediaId": "00000000-0000-4000-8000-000000000001", "src": "https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000001.png", "alt": "cat", "caption": "A cat", "align": "center", "displayWidth": 75 }
+            },
+            {
+              "type": "gallery",
+              "attrs": { "layout": "two-column" },
+              "content": [
+                { "type": "image", "attrs": { "mediaId": "00000000-0000-4000-8000-000000000002", "src": "https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png", "alt": "g1", "align": "center", "displayWidth": 75 } },
+                { "type": "image", "attrs": { "mediaId": "00000000-0000-4000-8000-000000000003", "src": "https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000003.png", "alt": "g2", "align": "center", "displayWidth": 75 } }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedText": "[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000001.png[/img]\n[b]A cat[/b]\n\n[album]\nhttps://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png\nhttps://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000003.png\n[/album]",
+      "expectedLosses": [
+        { "severity": "INFO", "nodePath": [0], "nodeType": "image", "code": "caption-as-text" },
+        { "severity": "INFO", "nodePath": [1], "nodeType": "gallery", "code": "gallery-layout-degraded" }
+      ]
+    },
+    {
+      "name": "collapse",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "collapse",
+              "attrs": { "title": "Spoiler" },
+              "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "hidden content" }] }]
+            }
+          ]
+        }
+      },
+      "expectedText": "[collapse=Spoiler]hidden content[/collapse]",
+      "expectedLosses": []
+    },
+    {
+      "name": "table with header and spans",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "table",
+              "content": [
+                {
+                  "type": "tableRow",
+                  "content": [
+                    { "type": "tableHeader", "attrs": {}, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "H1" }] }] },
+                    { "type": "tableHeader", "attrs": {}, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "H2" }] }] },
+                    { "type": "tableHeader", "attrs": {}, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "H3" }] }] }
+                  ]
+                },
+                {
+                  "type": "tableRow",
+                  "content": [
+                    { "type": "tableCell", "attrs": { "colspan": 2 }, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "wide" }] }] },
+                    { "type": "tableCell", "attrs": {}, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "c2" }] }] }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedText": "[table]\n[tr][td][b]H1[/b][/td][td][b]H2[/b][/td][td][b]H3[/b][/td][/tr]\n[tr][td colspan=2]wide[/td][td]c2[/td][/tr]\n[/table]",
+      "expectedLosses": [
+        { "severity": "INFO", "nodePath": [0, 0, 0], "nodeType": "tableHeader", "code": "table-header-degraded" },
+        { "severity": "INFO", "nodePath": [0, 0, 1], "nodeType": "tableHeader", "code": "table-header-degraded" },
+        { "severity": "INFO", "nodePath": [0, 0, 2], "nodeType": "tableHeader", "code": "table-header-degraded" }
+      ]
+    },
+    {
+      "name": "unknown node is blocking loss and skipped",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            { "type": "paragraph", "content": [{ "type": "text", "text": "before" }] },
+            { "type": "mysteryWidget", "content": [{ "type": "text", "text": "secret" }] },
+            { "type": "paragraph", "content": [{ "type": "text", "text": "after" }] }
+          ]
+        }
+      },
+      "expectedText": "before\n\nafter",
+      "expectedLosses": [
+        { "severity": "BLOCKING", "nodePath": [1], "nodeType": "mysteryWidget", "code": "unknown-node" }
+      ]
+    },
+    {
+      "name": "dangerous or temporary image URL is blocking",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "image",
+              "attrs": { "mediaId": "00000000-0000-4000-8000-000000000009", "src": "https://evil.example.com/x.png", "alt": "", "align": "center", "displayWidth": 75 }
+            }
+          ]
+        }
+      },
+      "expectedText": "",
+      "expectedLosses": [
+        { "severity": "BLOCKING", "nodePath": [0], "nodeType": "image", "code": "unstable-image-url" }
+      ]
+    },
+    {
+      "name": "link href with bracket is escaped in attribute position",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "text": "click", "marks": [{ "type": "link", "attrs": { "href": "https://example.com/a]b" } }] }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedText": "[url=https://example.com/a%5Db]click[/url]",
+      "expectedLosses": []
+    },
+    {
+      "name": "code block content with brackets and terminator passes through raw",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            { "type": "codeBlock", "attrs": { "language": "ts" }, "content": [{ "type": "text", "text": "if (a[0]) { [/code] }" }] }
+          ]
+        }
+      },
+      "expectedText": "[code=ts]if (a[0]) { [/code] }[/code]",
+      "expectedLosses": []
+    },
+    {
+      "name": "image caption with brackets passes through raw",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "image",
+              "attrs": { "mediaId": "00000000-0000-4000-8000-000000000002", "src": "https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png", "alt": "cat", "caption": "my [cat]", "align": "center", "displayWidth": 75 }
+            }
+          ]
+        }
+      },
+      "expectedText": "[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png[/img]\n[b]my [cat][/b]",
+      "expectedLosses": [
+        { "severity": "INFO", "nodePath": [0], "nodeType": "image", "code": "caption-as-text" }
+      ]
+    },
+    {
+      "name": "unknown mark yields warning and keeps text",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "text": "super", "marks": [{ "type": "superscript" }] }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedText": "super",
+      "expectedLosses": [
+        { "severity": "WARNING", "nodePath": [0], "nodeType": "superscript", "code": "unknown-mark" }
+      ]
+    },
+    {
+      "name": "gallery with a caption falls back to flattened images",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "gallery",
+              "attrs": { "layout": "two-column" },
+              "content": [
+                { "type": "image", "attrs": { "mediaId": "00000000-0000-4000-8000-000000000002", "src": "https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png", "alt": "g1", "align": "center", "displayWidth": 75 } },
+                { "type": "image", "attrs": { "mediaId": "00000000-0000-4000-8000-000000000003", "src": "https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000003.png", "alt": "g2", "caption": "g cap", "align": "center", "displayWidth": 75 } }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedText": "[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png[/img]\n\n[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000003.png[/img]\n[b]g cap[/b]",
+      "expectedLosses": [
+        { "severity": "INFO", "nodePath": [0], "nodeType": "gallery", "code": "gallery-flattened" },
+        { "severity": "INFO", "nodePath": [0, 1], "nodeType": "image", "code": "caption-as-text" }
+      ]
+    },
+    {
+      "name": "table rowspan is native",
+      "document": {
+        "schemaVersion": "content.document.v1",
+        "doc": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "table",
+              "content": [
+                {
+                  "type": "tableRow",
+                  "content": [
+                    { "type": "tableCell", "attrs": { "rowspan": 2 }, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "tall" }] }] },
+                    { "type": "tableCell", "attrs": {}, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "a" }] }] }
+                  ]
+                },
+                {
+                  "type": "tableRow",
+                  "content": [
+                    { "type": "tableCell", "attrs": {}, "content": [{ "type": "paragraph", "content": [{ "type": "text", "text": "b" }] }] }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "expectedText": "[table]\n[tr][td rowspan=2]tall[/td][td]a[/td][/tr]\n[tr][td]b[/td][/tr]\n[/table]",
+      "expectedLosses": []
+    }
+  ]
+}

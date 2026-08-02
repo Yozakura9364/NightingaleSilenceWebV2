@@ -1,0 +1,89 @@
+===== inline marks and escaping =====
+plain [b]bold[/b] [i]italic[/i] [u]under[/u] [del]strike[/del] [code]code[/code] [bracket] ok
+
+
+===== link and textStyle =====
+[url=https://example.com/page]visit [/url][url]https://example.com[/url] [color=#ff0000]red[/color][size=150%] big[/size]
+
+
+===== heading blockquote lists code =====
+[b][size=120%]Title[/size][/b]
+
+intro
+
+[quote]quote text[/quote]
+
+[list]
+[*]a
+[*]b
+[/list]
+
+[list=1]
+[*]1
+[/list]
+
+[code=ts]const x = 1[/code]
+
+==========
+
+
+===== image and gallery with caption =====
+[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000001.png[/img]
+[b]A cat[/b]
+
+[album]
+https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png
+https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000003.png
+[/album]
+
+
+===== collapse =====
+[collapse=Spoiler]hidden content[/collapse]
+
+
+===== table with header and spans =====
+[table]
+[tr][td][b]H1[/b][/td][td][b]H2[/b][/td][td][b]H3[/b][/td][/tr]
+[tr][td colspan=2]wide[/td][td]c2[/td][/tr]
+[/table]
+
+
+===== unknown node is blocking loss and skipped =====
+before
+
+after
+
+
+===== dangerous or temporary image URL is blocking =====
+
+
+
+===== link href with bracket is escaped in attribute position =====
+[url=https://example.com/a%5Db]click[/url]
+
+
+===== code block content with brackets and terminator passes through raw =====
+[code=ts]if (a[0]) { [/code] }[/code]
+
+
+===== image caption with brackets passes through raw =====
+[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png[/img]
+[b]my [cat][/b]
+
+
+===== unknown mark yields warning and keeps text =====
+super
+
+
+===== gallery with a caption falls back to flattened images =====
+[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000002.png[/img]
+
+[img]https://img.nightingalesilence.com/content/00000000-0000-4000-8000-000000000003.png[/img]
+[b]g cap[/b]
+
+
+===== table rowspan is native =====
+[table]
+[tr][td rowspan=2]tall[/td][td]a[/td][/tr]
+[tr][td]b[/td][/tr]
+[/table]

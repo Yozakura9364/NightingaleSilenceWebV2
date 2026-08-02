@@ -1,0 +1,3 @@
+=== collapse ===
+(mapping nga-v1; losses: 0)
+[collapse=Spoiler]hidden content[/collapse]
