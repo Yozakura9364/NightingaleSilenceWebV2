@@ -60,3 +60,6 @@ Thumbs.db
 
 # content-studio local runtime drafts (boundary: local-assets only)
 /server/content/drafts/
+
+# private agent docs (server IPs etc)
+docs/ai/
