@@ -120,6 +120,9 @@
         {{ t(textKeys.nsglamourSnapshotGeneratedBy) }}
         <a :href="editorUrl">{{ t(textKeys.nsglamourSnapshotSite) }}</a>
       </span>
+      <span v-if="snapshotShortUrl" class="nsglamour-snapshot__shortlink">
+        <a :href="snapshotShortUrl">{{ snapshotShortUrl }}</a>
+      </span>
     </footer>
 
     <FfxivItemReferenceMenu
@@ -261,6 +264,14 @@ const layoutToggleLabel = computed(() =>
 const themeToggleLabel = computed(() =>
   t(themeMode.value === 'night' ? textKeys.day : textKeys.night)
 )
+// 契约唯一公开地址（NSGLAMOUR_SNAPSHOT_URL_CONTRACT）：nsffxiv.com/g/<id>?lang=<locale>
+// 域名不参与拼接逻辑——固定生产域名，不随部署环境变化
+const snapshotShortUrl = computed(() => {
+  const id = typeof route.params.snapshotId === 'string' ? route.params.snapshotId : ''
+  if (!id) return ''
+  const lang = activeLocale.value === 'zh' ? 'zh-CN' : activeLocale.value === 'tc' ? 'zh-TW' : activeLocale.value
+  return `https://nsffxiv.com/g/${id}?lang=${lang}`
+})
 const listIconStyle = { '--nsglamour-snapshot-icon': `url("${listIcon}")` }
 const languagesIconStyle = { '--nsglamour-snapshot-icon': `url("${languagesIcon}")` }
 const themeIconStyle = computed(() => ({
@@ -676,6 +687,25 @@ onBeforeUnmount(() => {
   color: var(--ns-color-accent-strong);
 }
 
+.nsglamour-snapshot__shortlink {
+  max-width: 100%;
+}
+
+.nsglamour-snapshot__shortlink a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 920px) {
+  .nsglamour-snapshot__grid {
+    gap: 0 20px;
+  }
+
+  .nsglamour-snapshot__icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
 @media (max-width: 720px) {
   .nsglamour-snapshot {
     width: 100%;
@@ -684,6 +714,43 @@ onBeforeUnmount(() => {
 
   .nsglamour-snapshot__grid {
     grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .nsglamour-snapshot__icon {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nsglamour-snapshot {
+    padding: 10px;
+    border-radius: 6px;
+  }
+
+  .nsglamour-snapshot__item {
+    min-height: 76px;
+    gap: 8px;
+    padding: 16px 0 6px;
+  }
+
+  .nsglamour-snapshot__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+  }
+
+  .nsglamour-snapshot__body strong {
+    font-size: 14px;
+  }
+
+  .nsglamour-snapshot__dyes {
+    font-size: 11px;
+  }
+
+  .nsglamour-snapshot__footer {
+    font-size: 11px;
   }
 }
 </style>
