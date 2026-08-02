@@ -176,8 +176,8 @@ const LONG_PRESS_MS = 650
 const LONG_PRESS_MOVE_TOLERANCE = 12
 const ITEM_MENU_OPEN_EVENT = 'ffxiv-item-reference-menu-open'
 const editorUrl = import.meta.env.DEV
-  ? 'http://127.0.0.1:5175/#/ffxiv/glamour/equipinfo'
-  : '/#/ffxiv/glamour/equipinfo'
+  ? 'http://127.0.0.1:8765/glamour/template'
+  : 'https://www.nightingalesilence.com/glamour/template'
 const localeLabelKeys: Record<string, string> = {
   zh: textKeys.nsglamourLocaleZh,
   en: textKeys.nsglamourLocaleEn,
