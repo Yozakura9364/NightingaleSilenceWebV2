@@ -15,8 +15,10 @@ from .storage import ShortLink, ShortLinkConflictError, ShortLinkStore
 
 CODE_PATTERN = re.compile(r"^[a-z0-9][a-z0-9_-]{0,31}$")
 DEFAULT_DB_PATH = "/var/lib/nightingalesilence-v2/shortlinks/shortlinks.sqlite3"
-DEFAULT_PUBLIC_BASE_URL = "https://nsffxiv.com"
+DEFAULT_PUBLIC_BASE_URL = "https://n9s.site"
 DEFAULT_BLOCKED_HOSTS = {
+    "n9s.site",
+    "www.n9s.site",
     "nsffxiv.com",
     "www.nsffxiv.com",
     "nightingalesilence.com",

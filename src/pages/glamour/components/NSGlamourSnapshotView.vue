@@ -146,6 +146,7 @@ import listIcon from '@/assets/icons/list-regular.svg'
 import moonIcon from '@/assets/icons/moon-regular.svg'
 import sunIcon from '@/assets/icons/sun-regular.svg'
 import FfxivItemReferenceMenu from '@/components/FfxivItemReferenceMenu.vue'
+import { createGlamourSnapshotUrl } from '@/lib/glamour/snapshotLinks'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import {
   buildGlamourIconUrl,
@@ -264,13 +265,10 @@ const layoutToggleLabel = computed(() =>
 const themeToggleLabel = computed(() =>
   t(themeMode.value === 'night' ? textKeys.day : textKeys.night)
 )
-// 契约唯一公开地址（NSGLAMOUR_SNAPSHOT_URL_CONTRACT）：nsffxiv.com/g/<id>?lang=<locale>
-// 域名不参与拼接逻辑——固定生产域名，不随部署环境变化
+// 契约唯一公开地址（NSGLAMOUR_SNAPSHOT_URL_CONTRACT）：经 snapshotLinks 单一来源生成
 const snapshotShortUrl = computed(() => {
   const id = typeof route.params.snapshotId === 'string' ? route.params.snapshotId : ''
-  if (!id) return ''
-  const lang = activeLocale.value === 'zh' ? 'zh-CN' : activeLocale.value === 'tc' ? 'zh-TW' : activeLocale.value
-  return `https://nsffxiv.com/g/${id}?lang=${lang}`
+  return id ? createGlamourSnapshotUrl(id, activeLocale.value) : ''
 })
 const listIconStyle = { '--nsglamour-snapshot-icon': `url("${listIcon}")` }
 const languagesIconStyle = { '--nsglamour-snapshot-icon': `url("${languagesIcon}")` }

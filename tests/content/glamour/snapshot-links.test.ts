@@ -8,13 +8,13 @@ import { createV2SnapshotHashRoute } from '@/router/legacySnapshotRoute'
 describe('NSGlamour snapshot links', () => {
   it('uses the canonical short domain and selected language', () => {
     expect(createGlamourSnapshotUrl('aB3dE5fG7h', 'en')).toBe(
-      'https://nsffxiv.com/g/aB3dE5fG7h?lang=en'
+      'https://n9s.site/g/aB3dE5fG7h?lang=en'
     )
     expect(createGlamourSnapshotUrl('snapshot-id', 'zh')).toBe(
-      'https://nsffxiv.com/g/snapshot-id?lang=zh-CN'
+      'https://n9s.site/g/snapshot-id?lang=zh-CN'
     )
     expect(createGlamourSnapshotUrl('snapshot-id', 'tc')).toBe(
-      'https://nsffxiv.com/g/snapshot-id?lang=zh-TW'
+      'https://n9s.site/g/snapshot-id?lang=zh-TW'
     )
   })
 

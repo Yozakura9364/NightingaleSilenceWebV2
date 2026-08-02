@@ -1,5 +1,5 @@
 export const GLAMOUR_SNAPSHOT_API_BASE = '/glamour/api'
-export const GLAMOUR_SNAPSHOT_PUBLIC_ORIGIN = 'https://nsffxiv.com'
+export const GLAMOUR_SNAPSHOT_PUBLIC_ORIGIN = 'https://n9s.site'
 
 const SNAPSHOT_LOCALE_URL_VALUES: Record<string, string> = {
   ja: 'ja',
