@@ -44,6 +44,15 @@
 
         <AppButton
           size="compact"
+          variant="ghost"
+          :disabled="!hasEquipment"
+          @click="emit('clear-draft')"
+        >
+          {{ t(textKeys.nsglamourClearDraft) }}
+        </AppButton>
+
+        <AppButton
+          size="compact"
           :disabled="!hasEquipment || snapshotCreating"
           @click="createSnapshot"
         >
@@ -183,6 +192,7 @@ const emit = defineEmits<{
   'select-entry-candidate': [slot: string, candidateKey: string | number | undefined]
   'set-entry-dye': [slot: string, dyeIndex: number, stain: GlamourStain]
   'save-config': [name: string]
+  'clear-draft': []
 }>()
 
 const { t } = useLocale()

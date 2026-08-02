@@ -68,9 +68,6 @@
           </select>
         </label>
         <div class="nsglamour-import__actions">
-          <AppButton size="compact" variant="ghost" :disabled="props.busy" @click="$emit('clear')">
-            {{ t(textKeys.nsglamourClearDraft) }}
-          </AppButton>
           <AppButton size="compact" variant="primary" :disabled="props.busy" @click="submitText">
             {{ t(textKeys.nsglamourImportParseText) }}
           </AppButton>

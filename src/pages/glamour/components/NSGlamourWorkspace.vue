@@ -32,6 +32,7 @@
         @select-entry-candidate="selectEntryCandidate"
         @set-entry-dye="setEntryDye"
         @save-config="saveConfig"
+        @clear-draft="clear"
       />
 
       <NSGlamourCopyPanel
