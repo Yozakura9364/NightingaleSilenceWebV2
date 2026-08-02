@@ -23,6 +23,9 @@ const fashionCheckTool = getFfxivTool('fashionCheck')
 const { current: locale, messages, t } = useLocale()
 
 const snapshotHashRoute = createV2SnapshotHashRoute(window.location)
+const snapshotShortUrl = snapshotHashRoute
+  ? `${window.location.pathname}${window.location.search}`
+  : ''
 if (snapshotHashRoute) {
   window.history.replaceState(null, document.title, `${window.location.pathname}${snapshotHashRoute}`)
 }
@@ -236,6 +239,12 @@ const router = createRouter({
 router.afterEach((to) => {
   updateDocumentTitle(to.meta.titleKey ?? to.meta.title)
 })
+
+if (snapshotShortUrl) {
+  void router.isReady().then(() => {
+    window.history.replaceState(null, document.title, snapshotShortUrl)
+  })
+}
 
 function updateDocumentTitle(titleKeyOrText?: string) {
   const title =
