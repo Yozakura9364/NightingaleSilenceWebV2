@@ -66,3 +66,7 @@ docs/ai/
 
 # large sqlite data (generated at deploy)
 server/glamour/data/*.sqlite3
+
+# agent workflow templates (private)
+.specify/
+.agents/
