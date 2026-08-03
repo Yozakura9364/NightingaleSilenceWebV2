@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
-import type { SilenceCharacterTextBlock } from '@/data/silence/characters'
+import type { SilenceCharacterTextBlock } from '@/data/silence/types'
 import { useLocale } from '@/stores/locale'
 
 defineProps<{

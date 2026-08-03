@@ -1,5 +1,5 @@
 import type { SilenceCharacterSeed } from '@/data/silence/characterSeeds'
-import type { SilenceCharacter } from '@/data/silence/characters'
+import type { SilenceCharacter } from '@/data/silence/types'
 
 export type SilenceDraftCharacterContent = Pick<
   SilenceCharacter,

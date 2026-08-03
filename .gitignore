@@ -48,6 +48,9 @@ Thumbs.db
 /.codex/agent-sessions/
 /.codex/agent-locks/
 
+# local-only temporary directories
+/.tmp-*/
+
 # AI agent collab messages (local-only)
 /.collab/
 /.codex/collab/

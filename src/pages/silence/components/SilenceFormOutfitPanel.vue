@@ -74,7 +74,7 @@ import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import type {
   SilenceCharacterForm,
   SilenceCharacterOutfit
-} from '@/data/silence/characters'
+} from '@/data/silence/types'
 import { useLocale } from '@/stores/locale'
 
 const props = withDefaults(

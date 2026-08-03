@@ -16,7 +16,7 @@ import type {
   SilenceCharacterForm,
   SilenceCharacterOutfit,
   SilenceCharacterTextFact
-} from '@/data/silence/characters'
+} from '@/data/silence/types'
 
 interface UseSilenceViiokoPrototypeModelOptions {
   character: Readonly<Ref<SilenceCharacter>>

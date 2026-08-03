@@ -45,9 +45,9 @@ import { silenceUiMessages } from '@/locales/modules/silence'
 import { silenceGlitchDuoMembers } from '@/data/silence/glitchDuo'
 import {
   getSilenceCharacterRoute,
-  getSilenceCharactersByGroup,
-  type SilenceCharacter
+  getSilenceCharactersByGroup
 } from '@/data/silence/characters'
+import type { SilenceCharacter } from '@/data/silence/types'
 import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilenceTurnNavigation'
 import SilenceGroupVisual from '@/pages/silence/components/SilenceGroupVisual.vue'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'

@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
-import type { SilenceCharacterProfileField } from '@/data/silence/characters'
+import type { SilenceCharacterProfileField } from '@/data/silence/types'
 import { useLocale } from '@/stores/locale'
 
 defineProps<{
