@@ -63,3 +63,6 @@ Thumbs.db
 
 # private agent docs (server IPs etc)
 docs/ai/
+
+# large sqlite data (generated at deploy)
+server/glamour/data/*.sqlite3
