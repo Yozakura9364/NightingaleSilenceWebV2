@@ -50,34 +50,23 @@
   }
   12%, 14% {
     opacity: 0;
-    filter: brightness(0.62) saturate(0.84) contrast(1.18)
-      drop-shadow(16px 10px 0 rgba(94, 234, 255, 0.36))
-      drop-shadow(-12px 0 0 rgba(255, 95, 184, 0.34));
+    filter: brightness(0.62) saturate(0.84) contrast(1.18);
   }
   16% {
     opacity: 0.12;
-    filter: brightness(0.64) saturate(0.86) contrast(1.18)
-      drop-shadow(-14px 8px 0 rgba(255, 95, 184, 0.34))
-      drop-shadow(12px 0 0 rgba(94, 234, 255, 0.32));
+    filter: brightness(0.64) saturate(0.86) contrast(1.18);
   }
   40%, 42%, 70% {
     opacity: 0;
-    filter: brightness(0.62) saturate(0.84) contrast(1.18)
-      drop-shadow(18px 6px 0 rgba(94, 234, 255, 0.34))
-      drop-shadow(-16px 0 0 rgba(255, 95, 184, 0.3));
+    filter: brightness(0.62) saturate(0.84) contrast(1.18);
   }
   44%, 72% {
     opacity: 0.2;
-    filter: brightness(0.64) saturate(0.86) contrast(1.18)
-      drop-shadow(12px 12px 0 rgba(5, 9, 18, 0.64))
-      drop-shadow(-10px 0 0 rgba(255, 95, 184, 0.36))
-      drop-shadow(10px 0 0 rgba(94, 234, 255, 0.38));
+    filter: brightness(0.64) saturate(0.86) contrast(1.18);
   }
   74% {
     opacity: 0.08;
-    filter: brightness(0.62) saturate(0.84) contrast(1.18)
-      drop-shadow(-18px 8px 0 rgba(255, 95, 184, 0.34))
-      drop-shadow(18px 0 0 rgba(94, 234, 255, 0.34));
+    filter: brightness(0.62) saturate(0.84) contrast(1.18);
   }
 }
 

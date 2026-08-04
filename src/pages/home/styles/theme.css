@@ -14,9 +14,7 @@
   --home-blue: #5edceb;
   --home-border: #2a2138;
   --home-shadow: rgba(42, 33, 56, 0.22);
-  --home-window-shadow:
-    6px 6px 0 var(--home-shadow),
-    0 0 22px rgba(94, 220, 235, 0.08);
+  --home-window-shadow: 0 0 0 transparent;
   --home-window-bar:
     linear-gradient(90deg, rgba(255, 124, 194, 0.24), rgba(94, 220, 235, 0.22)),
     var(--home-surface);
@@ -39,10 +37,7 @@
   --home-blue: #5eeaff;
   --home-border: #cbc2d2;
   --home-shadow: rgba(5, 9, 18, 0.66);
-  --home-window-shadow:
-    6px 6px 0 rgba(5, 9, 18, 0.78),
-    0 0 18px rgba(94, 234, 255, 0.1),
-    0 0 28px rgba(255, 95, 184, 0.08);
+  --home-window-shadow: 0 0 0 transparent;
   --home-window-bar:
     linear-gradient(90deg, rgba(255, 95, 184, 0.18), rgba(94, 234, 255, 0.16)),
     #10131d;
