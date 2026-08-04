@@ -24,6 +24,9 @@ class ShortLinkApiTests(unittest.TestCase):
         self.auth = {"Authorization": f"Bearer {self.token}"}
 
     def tearDown(self):
+        store = self.app.extensions.get("shortlink_store")
+        if store is not None:
+            store.close()
         self.temp_dir.cleanup()
 
     def create_link(self, target_url="https://example.com/path#section", code="demo"):
