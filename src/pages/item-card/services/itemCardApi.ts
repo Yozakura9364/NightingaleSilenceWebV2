@@ -49,9 +49,13 @@ const NUMERIC_ITEM_SEARCH_SLOTS = GLAMOUR_SLOT_DEFINITIONS.map(
   (definition) => definition.key
 ).filter((slot) => !['RightRing', 'Glasses', 'FashionAccessory'].includes(slot))
 
+const SEARCH_CACHE_LIMIT = 300
+
 export function useItemCardApi(boundary: ApiBoundary) {
   const client = useFetch().createClient(boundary.apiBase)
   const stainsByLocale = new Map<string, Promise<GlamourStain[]>>()
+  // 搜索结果缓存：数字 ID 解析会对同一物品跨槽位反复查询，物品数据基本静态，可安全缓存
+  const searchItemsCache = new Map<string, Promise<GlamourCandidate[]>>()
 
   function importLink(options: ImportGlamourLinkOptions): Promise<GlamourImportPayload> {
     return client.api<GlamourImportPayload>('/import-glamour-link', {
@@ -84,17 +88,37 @@ export function useItemCardApi(boundary: ApiBoundary) {
   }
 
   async function searchItems(options: SearchGlamourItemsOptions): Promise<GlamourCandidate[]> {
-    const data = await client.api<SearchGlamourItemsResponse>('/search-items', {
-      query: {
-        slot: options.slot,
-        q: options.query,
-        locale: options.locale,
-        limit: options.limit ?? 20
-      },
-      cache: 'no-store'
-    })
+    const limit = options.limit ?? 20
+    const cacheKey = ['items', options.slot, options.query, options.locale, limit].join('|')
+    const cached = searchItemsCache.get(cacheKey)
+    if (cached) {
+      return cached
+    }
 
-    return Array.isArray(data.results) ? data.results : []
+    const pending = client
+      .api<SearchGlamourItemsResponse>('/search-items', {
+        query: {
+          slot: options.slot,
+          q: options.query,
+          locale: options.locale,
+          limit
+        },
+        cache: 'no-store'
+      })
+      .then((data) => (Array.isArray(data.results) ? data.results : []))
+      .catch((error) => {
+        searchItemsCache.delete(cacheKey)
+        throw error
+      })
+
+    if (searchItemsCache.size >= SEARCH_CACHE_LIMIT) {
+      const oldestKey = searchItemsCache.keys().next().value
+      if (oldestKey !== undefined) {
+        searchItemsCache.delete(oldestKey)
+      }
+    }
+    searchItemsCache.set(cacheKey, pending)
+    return pending
   }
 
   async function searchCatalogItems(
@@ -140,14 +164,18 @@ export function useItemCardApi(boundary: ApiBoundary) {
   }
 
   async function resolveNumericItemName(itemId: string, locale: string): Promise<string> {
-    for (const slot of NUMERIC_ITEM_SEARCH_SLOTS) {
-      const candidates = await searchItems({ slot, query: itemId, locale, limit: 5 })
-      const candidate = candidates.find((item) => String(item.key ?? '') === itemId)
-      if (candidate) {
-        return getCandidateName(candidate, locale) || String(candidate.name || '').trim()
-      }
+    // 各槽位并行查询，仍按槽位定义顺序取第一个命中，保持原有优先级语义
+    const matches = await Promise.all(
+      NUMERIC_ITEM_SEARCH_SLOTS.map(async (slot) => {
+        const candidates = await searchItems({ slot, query: itemId, locale, limit: 5 })
+        return candidates.find((item) => String(item.key ?? '') === itemId) ?? null
+      })
+    )
+    const candidate = matches.find((item) => item !== null)
+    if (!candidate) {
+      return ''
     }
-    return ''
+    return getCandidateName(candidate, locale) || String(candidate.name || '').trim()
   }
 
   async function loadStains(locale: string): Promise<GlamourStain[]> {
