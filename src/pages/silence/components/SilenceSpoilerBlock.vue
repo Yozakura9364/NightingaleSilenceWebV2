@@ -29,7 +29,6 @@ const { t } = useLocale()
   padding: 16px;
   border: 2px solid rgba(42, 33, 56, 0.36);
   background: rgba(255, 252, 255, 0.72);
-  box-shadow: 6px 6px 0 rgba(42, 33, 56, 0.07);
 }
 
 .silence-character-spoiler summary {
@@ -48,7 +47,6 @@ const { t } = useLocale()
   padding: 16px;
   border: 2px solid rgba(42, 33, 56, 0.36);
   background: rgba(255, 252, 255, 0.72);
-  box-shadow: 6px 6px 0 rgba(42, 33, 56, 0.07);
 }
 
 .silence-character-note h3 {

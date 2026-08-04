@@ -437,7 +437,6 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
   line-height: 1;
   opacity: 0;
   pointer-events: none;
-  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.72);
   visibility: hidden;
   transition:
     opacity 180ms ease,
@@ -492,7 +491,6 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
   height: 3px;
   margin-top: 3px;
   background: currentColor;
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.52);
 }
 
 .silence-group-stage__character--angel-1 {
@@ -551,9 +549,6 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
   left: 8%;
   height: 2px;
   background: rgba(127, 217, 227, 0.72);
-  box-shadow:
-    0 14px 0 rgba(240, 128, 189, 0.68),
-    0 28px 0 rgba(127, 217, 227, 0.42);
   content: '';
 }
 
@@ -593,9 +588,7 @@ async function handlePortraitLoad(event: Event, item: SilenceGroupVisualItem) {
 .silence-group-stage__character--glitch:hover,
 .silence-group-stage__character--glitch:focus-visible,
 .silence-group-stage__character--glitch.silence-group-stage__character--active {
-  filter: brightness(1.08) saturate(1.08)
-    drop-shadow(4px 0 0 rgba(240, 128, 189, 0.34))
-    drop-shadow(-4px 0 0 rgba(119, 255, 244, 0.3));
+  filter: brightness(1.08) saturate(1.08);
   transform: translateY(-12px) scale(1.015);
 }
 

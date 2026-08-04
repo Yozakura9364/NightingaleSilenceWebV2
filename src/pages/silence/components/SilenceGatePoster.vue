@@ -98,9 +98,6 @@ const posterRef = ref<HTMLElement | null>(null)
   line-height: 1;
   letter-spacing: 0;
   overflow-wrap: anywhere;
-  text-shadow:
-    3px 3px 0 rgba(99, 217, 220, 0.28),
-    -2px -2px 0 rgba(239, 111, 178, 0.18);
 }
 
 .silence-gate__intro .ns-lead {
@@ -195,7 +192,6 @@ const posterRef = ref<HTMLElement | null>(null)
   line-height: 1;
   opacity: 0.9;
   pointer-events: none;
-  text-shadow: 3px 3px 0 rgba(99, 217, 220, 0.18);
 }
 
 .silence-poster__art {
@@ -210,9 +206,6 @@ const posterRef = ref<HTMLElement | null>(null)
   bottom: 17%;
   width: clamp(128px, 13.5vw, 244px);
   height: clamp(300px, 58vh, 660px);
-  filter:
-    drop-shadow(0 24px 28px rgba(42, 33, 56, 0.18))
-    drop-shadow(0 0 22px color-mix(in srgb, var(--silence-poster-character-color), transparent 72%));
 }
 
 .silence-poster__figure:nth-child(1) {
@@ -268,9 +261,6 @@ const posterRef = ref<HTMLElement | null>(null)
   left: 7%;
   height: 2px;
   background: rgba(42, 33, 56, 0.28);
-  box-shadow:
-    0 18px 0 rgba(99, 217, 220, 0.18),
-    0 36px 0 rgba(239, 111, 178, 0.16);
 }
 
 .silence-poster__ghost {
@@ -282,9 +272,6 @@ const posterRef = ref<HTMLElement | null>(null)
   background:
     linear-gradient(180deg, rgba(127, 217, 227, 0.18), rgba(8, 14, 25, 0.72)),
     rgba(15, 23, 40, 0.9);
-  box-shadow:
-    7px 7px 0 rgba(127, 217, 227, 0.22),
-    -5px -5px 0 rgba(240, 128, 189, 0.12);
 }
 
 .silence-poster__ghost:nth-child(1) {
@@ -304,16 +291,12 @@ const posterRef = ref<HTMLElement | null>(null)
   left: 12px;
   height: 2px;
   background: rgba(127, 217, 227, 0.9);
-  box-shadow:
-    0 10px 0 rgba(240, 128, 189, 0.82),
-    0 20px 0 rgba(127, 217, 227, 0.65);
 }
 
 .silence-poster__window {
   position: absolute;
   border: 2px solid rgba(248, 241, 255, 0.76);
   background: rgba(20, 28, 46, 0.9);
-  box-shadow: 6px 6px 0 rgba(127, 217, 227, 0.22);
 }
 
 .silence-poster__window::before {
@@ -344,9 +327,6 @@ const posterRef = ref<HTMLElement | null>(null)
   width: 42%;
   height: 2px;
   background: #7fd9e3;
-  box-shadow:
-    0 10px 0 rgba(240, 128, 189, 0.8),
-    0 20px 0 rgba(127, 217, 227, 0.72);
 }
 
 @media (max-width: 920px) {

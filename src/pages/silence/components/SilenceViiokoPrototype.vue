@@ -657,7 +657,6 @@ const {
     linear-gradient(var(--silence-viioko-debug-line), var(--silence-viioko-debug-line))
       var(--silence-viioko-divider-b-end-line) var(--silence-viioko-line-vertical-top) /
       var(--silence-viioko-debug-line-size) var(--silence-viioko-line-vertical-height) no-repeat;
-  filter: drop-shadow(0 0 4px rgba(255, 0, 214, 0.8));
   pointer-events: none;
   transition: opacity 140ms ease;
 }

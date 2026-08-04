@@ -72,9 +72,6 @@ const panelStyle = computed(() => ({
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--silence-glitch-accent), transparent 88%), transparent),
     rgba(9, 12, 24, 0.78);
-  box-shadow:
-    7px 7px 0 rgba(119, 255, 244, 0.18),
-    -5px -5px 0 rgba(255, 65, 172, 0.1);
   color: #f8f1ff;
 }
 
@@ -109,9 +106,6 @@ const panelStyle = computed(() => ({
   font-weight: 950;
   line-height: 0.94;
   letter-spacing: 0;
-  text-shadow:
-    3px 0 0 rgba(255, 65, 172, 0.28),
-    -3px 0 0 rgba(119, 255, 244, 0.24);
 }
 
 .silence-glitch-duo__header p {
@@ -145,7 +139,6 @@ const panelStyle = computed(() => ({
   outline: none;
   border-color: color-mix(in srgb, var(--silence-glitch-accent), #f8f1ff 12%);
   background: color-mix(in srgb, var(--silence-glitch-accent), transparent 84%);
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.32);
 }
 
 .silence-glitch-duo__switcher span {
