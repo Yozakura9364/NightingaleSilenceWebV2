@@ -4,6 +4,8 @@ import os
 import re
 import secrets
 import sqlite3
+import threading
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -11,7 +13,8 @@ from io import BytesIO
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from flask import Flask, abort, jsonify, request, send_file
+from collections import OrderedDict
+from flask import Flask, abort, after_this_request, jsonify, request, send_file
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 try:
@@ -132,6 +135,18 @@ if BASE_PATH and not BASE_PATH.startswith("/"):
     BASE_PATH = f"/{BASE_PATH}"
 ICON_CACHE_SECONDS = 7 * 24 * 60 * 60
 REFERENCE_DATA_CACHE_SECONDS = 60 * 60
+
+# /api/import-glamour-link 防护：外部请求慢（EC 最多 4×12s、石之家 45s），
+# 需要限流 + 并发闸门，避免少量慢请求拖死 worker
+IMPORT_LINK_MAX_URL_LENGTH = 512
+IMPORT_LINK_MAX_ID_LENGTH = 20
+IMPORT_LINK_RATE_LIMIT_COUNT = max(1, int(os.environ.get("NSGLAMOUR_IMPORT_RATE_LIMIT_COUNT", "10")))
+IMPORT_LINK_RATE_LIMIT_WINDOW_SECONDS = max(1, int(os.environ.get("NSGLAMOUR_IMPORT_RATE_LIMIT_WINDOW", "60")))
+IMPORT_LINK_MAX_CONCURRENT = max(1, int(os.environ.get("NSGLAMOUR_IMPORT_MAX_CONCURRENT", "2")))
+IMPORT_LINK_QUEUE_TIMEOUT_SECONDS = 5
+
+# /api/search-items 结果缓存上限（按 mapping 文件 mtime 失效）
+SEARCH_RESULTS_CACHE_MAX_ENTRIES = 256
 
 SEARCH_SLOT_LABELS = {
     "MainHand": "武器",
@@ -380,6 +395,46 @@ _mapping_mtime_ns: Optional[int] = None
 _equipinfo_name_index: Dict[str, Any] = {}
 _equipinfo_name_index_mtime_ns: Optional[int] = None
 _item_catalog = ItemCatalog(ITEM_CATALOG_PATH)
+
+# /api/search-items 相关缓存：按 mapping 文件 mtime 整体失效
+_search_cache_mtime_ns: Optional[int] = None
+_slot_records_cache: Dict[str, List[Dict[str, Any]]] = {}
+_item_card_equipment_cache: List[Dict[str, Any]] = []
+_search_results_cache: "OrderedDict[Tuple[str, str, str, int], List[Dict[str, Any]]]" = OrderedDict()
+_search_cache_lock = threading.Lock()
+
+
+def ensure_search_cache_fresh() -> None:
+    global _search_cache_mtime_ns
+    global _slot_records_cache
+    global _item_card_equipment_cache
+    current_mtime_ns = MAPPING_PATH.stat().st_mtime_ns
+    if _search_cache_mtime_ns == current_mtime_ns:
+        return
+    with _search_cache_lock:
+        if _search_cache_mtime_ns == current_mtime_ns:
+            return
+        _slot_records_cache = {}
+        _item_card_equipment_cache = []
+        _search_results_cache.clear()
+        _search_cache_mtime_ns = current_mtime_ns
+
+
+def get_cached_search_results(cache_key: Tuple[str, str, str, int]) -> Optional[List[Dict[str, Any]]]:
+    with _search_cache_lock:
+        results = _search_results_cache.get(cache_key)
+        if results is None:
+            return None
+        _search_results_cache.move_to_end(cache_key)
+        return results
+
+
+def put_cached_search_results(cache_key: Tuple[str, str, str, int], results: List[Dict[str, Any]]) -> None:
+    with _search_cache_lock:
+        _search_results_cache[cache_key] = results
+        _search_results_cache.move_to_end(cache_key)
+        while len(_search_results_cache) > SEARCH_RESULTS_CACHE_MAX_ENTRIES:
+            _search_results_cache.popitem(last=False)
 class BasePathMiddleware:
     def __init__(self, wsgi_app, base_path: str):
         self.wsgi_app = wsgi_app
@@ -411,6 +466,29 @@ def get_mapping() -> Dict[str, Any]:
         _mapping_data = load_mapping()
         _mapping_mtime_ns = current_mtime_ns
     return _mapping_data
+
+
+_import_link_semaphore = threading.BoundedSemaphore(IMPORT_LINK_MAX_CONCURRENT)
+_import_link_rate_lock = threading.Lock()
+_import_link_request_log: Dict[str, List[float]] = {}
+
+
+def check_import_link_rate_limit(key: str) -> bool:
+    """每 IP 滑动窗口限流，返回 True 表示放行。"""
+    now = time.monotonic()
+    window_start = now - IMPORT_LINK_RATE_LIMIT_WINDOW_SECONDS
+    with _import_link_rate_lock:
+        timestamps = [ts for ts in _import_link_request_log.get(key, []) if ts > window_start]
+        if len(timestamps) >= IMPORT_LINK_RATE_LIMIT_COUNT:
+            _import_link_request_log[key] = timestamps
+            return False
+        timestamps.append(now)
+        _import_link_request_log[key] = timestamps
+        # 防止 key 无限增长：定期清理窗口外已无记录的 IP
+        if len(_import_link_request_log) > 4096:
+            for stale_key in [k for k, v in _import_link_request_log.items() if not v or v[-1] <= window_start]:
+                _import_link_request_log.pop(stale_key, None)
+        return True
 
 
 def is_local_request() -> bool:
@@ -1950,10 +2028,23 @@ def ui_localization():
 
 @app.post("/api/import-glamour-link")
 def import_glamour_link():
+    if not _import_link_semaphore.acquire(timeout=IMPORT_LINK_QUEUE_TIMEOUT_SECONDS):
+        return jsonify({"error": "导入服务繁忙，请稍后重试"}), 503
+
+    @after_this_request
+    def _release_import_link_slot(response):
+        _import_link_semaphore.release()
+        return response
+
+    if not check_import_link_rate_limit(request.remote_addr or "unknown"):
+        return jsonify({"error": "请求过于频繁，请稍后再试"}), 429
+
     payload = request.get_json(silent=True, cache=True) or {}
     raw_url = str(payload.get("url", "") or payload.get("target", "")).strip()
     if raw_url and not re.match(r"^[a-z][a-z0-9+.-]*://", raw_url, flags=re.IGNORECASE):
         raw_url = f"https://{raw_url}"
+    if len(raw_url) > IMPORT_LINK_MAX_URL_LENGTH:
+        return jsonify({"error": "链接过长，请直接粘贴幻化详情页链接"}), 400
     try:
         parsed_url = urllib.parse.urlparse(raw_url)
         host = parsed_url.hostname or ""
@@ -1969,6 +2060,8 @@ def import_glamour_link():
 
     if host == "ff14risingstones.web.sdo.com":
         ids = extract_risingstones_glamour_ids(raw_url)
+        if any(len(detail_id) > IMPORT_LINK_MAX_ID_LENGTH for detail_id in ids):
+            return jsonify({"error": "石之家详情 ID 无效"}), 400
         if not ids:
             return jsonify({"error": "没有识别到石之家详情 ID"}), 400
         if len(ids) > 1:
@@ -2132,21 +2225,25 @@ def search_records(records: List[Dict[str, Any]], query: str, locale: str, limit
 
 
 def get_item_card_equipment_records(mapping: Dict[str, Any]) -> List[Dict[str, Any]]:
-    return [
-        *mapping.get("items", []),
-        *(
-            {**record, "_item_card_slot": "Glasses", "slot_label": RESOLVER_SLOT_LABELS.get("Glasses", "")}
-            for record in (mapping.get("glasses") or {}).values()
-        ),
-        *(
-            {
-                **record,
-                "_item_card_slot": "FashionAccessory",
-                "slot_label": RESOLVER_SLOT_LABELS.get("FashionAccessory", ""),
-            }
-            for record in (mapping.get("ornaments") or {}).values()
-        ),
-    ]
+    global _item_card_equipment_cache
+    ensure_search_cache_fresh()
+    if not _item_card_equipment_cache:
+        _item_card_equipment_cache = [
+            *mapping.get("items", []),
+            *(
+                {**record, "_item_card_slot": "Glasses", "slot_label": RESOLVER_SLOT_LABELS.get("Glasses", "")}
+                for record in (mapping.get("glasses") or {}).values()
+            ),
+            *(
+                {
+                    **record,
+                    "_item_card_slot": "FashionAccessory",
+                    "slot_label": RESOLVER_SLOT_LABELS.get("FashionAccessory", ""),
+                }
+                for record in (mapping.get("ornaments") or {}).values()
+            ),
+        ]
+    return _item_card_equipment_cache
 
 
 @app.get("/api/stains")
@@ -2203,6 +2300,30 @@ def stains():
     return jsonify({"locale": locale, "results": results})
 
 
+def get_slot_search_records(mapping: Dict[str, Any], slot: str) -> List[Dict[str, Any]]:
+    """按槽位过滤后的记录列表（按 mapping mtime 缓存）；未知槽位返回空列表。"""
+    ensure_search_cache_fresh()
+    cached = _slot_records_cache.get(slot)
+    if cached is not None:
+        return cached
+
+    if slot == "Glasses":
+        records = list((mapping.get("glasses") or {}).values())
+    elif slot == "FashionAccessory":
+        records = list((mapping.get("ornaments") or {}).values())
+    elif slot in SEARCH_SLOT_LABELS:
+        records = [
+            item
+            for item in mapping.get("items", [])
+            if item_matches_equipment_slot(item, slot)
+        ]
+    else:
+        records = []
+    with _search_cache_lock:
+        _slot_records_cache[slot] = records
+    return records
+
+
 @app.get("/api/search-items")
 def search_items():
     slot = request.args.get("slot", "").strip()
@@ -2217,9 +2338,15 @@ def search_items():
         return jsonify({"slot": slot, "results": []})
 
     mapping = get_mapping()
-    if slot == "Glasses":
-        records = list((mapping.get("glasses") or {}).values())
-        return jsonify({"slot": slot, "results": search_records(records, query, locale, limit)})
+    cache_key = (slot, query, locale, limit)
+    cached_results = get_cached_search_results(cache_key)
+    if cached_results is not None:
+        return jsonify({"slot": slot, "results": cached_results})
+
+    records = get_slot_search_records(mapping, slot)
+    results = search_records(records, query, locale, limit)
+    put_cached_search_results(cache_key, results)
+    return jsonify({"slot": slot, "results": results})
 
     if slot == "FashionAccessory":
         records = list((mapping.get("ornaments") or {}).values())
@@ -2255,8 +2382,14 @@ def search_catalog_items():
 
     if category == "equipment":
         mapping = get_mapping()
+        cache_key = ("__item_card_equipment__", query.casefold(), locale, limit)
+        cached_results = get_cached_search_results(cache_key)
+        if cached_results is not None:
+            return jsonify({"results": cached_results})
         records = get_item_card_equipment_records(mapping)
-        return jsonify({"results": search_records(records, query.casefold(), locale, limit)})
+        results = search_records(records, query.casefold(), locale, limit)
+        put_cached_search_results(cache_key, results)
+        return jsonify({"results": results})
 
     try:
         results = _item_catalog.search(query, locale, limit, category=category)

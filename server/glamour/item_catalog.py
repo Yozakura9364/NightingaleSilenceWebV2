@@ -235,17 +235,17 @@ class ItemCatalog:
             item_ids,
         ).fetchall()
         names_by_id: Dict[int, Dict[str, str]] = {}
-        for name_locale in SUPPORTED_LOCALES:
-            name_rows = connection.execute(
-                f"""
-                SELECT item_id, name
-                FROM item_names
-                WHERE locale = ? AND item_id IN ({placeholders})
-                """,
-                (name_locale, *item_ids),
-            ).fetchall()
-            for row in name_rows:
-                names_by_id.setdefault(int(row["item_id"]), {})[name_locale] = str(row["name"])
+        locale_placeholders = ", ".join("?" for _ in SUPPORTED_LOCALES)
+        name_rows = connection.execute(
+            f"""
+            SELECT item_id, locale, name
+            FROM item_names
+            WHERE locale IN ({locale_placeholders}) AND item_id IN ({placeholders})
+            """,
+            (*SUPPORTED_LOCALES, *item_ids),
+        ).fetchall()
+        for row in name_rows:
+            names_by_id.setdefault(int(row["item_id"]), {})[str(row["locale"])] = str(row["name"])
         rows_by_id = {int(row["item_id"]): row for row in item_rows}
 
         results = []
