@@ -101,7 +101,7 @@ const notebookStyle = computed(
   background: var(--app-notebook-paper);
   color: var(--app-notebook-ink);
   font-family: var(--ns-font-ui);
-  box-shadow: var(--ns-notebook-shadow, 4px 4px 0 rgba(0, 0, 0, 0.18));
+  box-shadow: var(--ns-notebook-shadow, 0 0 0 transparent);
 }
 
 .app-notebook-list[data-theme-mode='night'] {
@@ -115,10 +115,7 @@ const notebookStyle = computed(
   --app-notebook-cutout: var(--ns-notebook-cutout, var(--ns-pixel-window-bg));
   --app-notebook-mark-bg: var(--ns-notebook-mark-bg, rgba(17, 22, 34, 0.96));
   --app-notebook-accent: var(--ns-notebook-accent, var(--ns-color-cyan));
-  box-shadow:
-    4px 4px 0 rgba(0, 0, 0, 0.64),
-    inset 0 0 0 1px rgba(102, 244, 255, 0.18),
-    0 0 26px rgba(102, 244, 255, 0.18);
+  box-shadow: none;
 }
 
 .app-notebook-list::before,

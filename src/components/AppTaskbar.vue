@@ -1,10 +1,12 @@
 <template>
   <nav class="app-taskbar" :aria-label="t(textKeys.menuTitle)">
+    <!-- 入梦按钮已注释：暂时移除任务栏开始按钮，其余元素左移填位
     <RouterLink class="app-taskbar__start" :to="siteRoutes.home">
       <span class="app-taskbar__start-icon" :style="pixelIconStyle(pixelSparklesIcon)" aria-hidden="true"></span>
       <span>{{ t(textKeys.homeDream) }}</span>
       <span class="app-taskbar__command" aria-hidden="true">{{ t(textKeys.homeCommand) }}</span>
     </RouterLink>
+    -->
 
     <div class="app-taskbar__scroll-region">
       <div class="app-taskbar__windows">
@@ -44,11 +46,12 @@
 
 <script setup lang="ts">
 import { computed, type CSSProperties } from 'vue'
-import { RouterLink } from 'vue-router'
-import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
+// 以下 import 仅供已注释的“入梦”开始按钮使用，暂保留注释
+// import { RouterLink } from 'vue-router'
+// import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
 import moonIcon from '@/assets/icons/moon.svg'
 import sunIcon from '@/assets/icons/sun-alt.svg'
-import { siteRoutes } from '@/config/site'
+// import { siteRoutes } from '@/config/site'
 import { siteSocialLinks } from '@/config/socialLinks'
 import { homeTextKeys as textKeys } from '@/locales/keys/home'
 import { homeUiMessages } from '@/locales/modules/home'
@@ -71,9 +74,10 @@ function toggleTheme() {
   setThemeMode(themeMode.value === 'night' ? 'day' : 'night')
 }
 
-function pixelIconStyle(icon: string): CSSProperties {
-  return { '--app-taskbar-icon-url': `url("${icon}")` } as CSSProperties
-}
+// 以下 helper 仅供已注释的“入梦”开始按钮使用，暂保留注释
+// function pixelIconStyle(icon: string): CSSProperties {
+//   return { '--app-taskbar-icon-url': `url("${icon}")` } as CSSProperties
+// }
 
 function modeIconStyle(icon: string): CSSProperties {
   return { '--app-taskbar-mode-icon-url': `url("${icon}")` } as CSSProperties
