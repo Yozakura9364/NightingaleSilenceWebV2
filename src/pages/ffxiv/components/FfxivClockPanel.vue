@@ -6,9 +6,11 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
-import FfxivCommunityEvents from './FfxivCommunityEvents.vue'
+import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue'
 import FfxivMechanismClocks from './FfxivMechanismClocks.vue'
+
+// vis-timeline 体积较大，社区事件时间轴按需拆分加载
+const FfxivCommunityEvents = defineAsyncComponent(() => import('./FfxivCommunityEvents.vue'))
 
 const now = ref(Date.now())
 let timer = 0
