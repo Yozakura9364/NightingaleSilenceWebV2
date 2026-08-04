@@ -90,7 +90,7 @@
   border: 2px solid var(--blog-ink);
   border-radius: 0;
   background: var(--blog-surface);
-  box-shadow: 4px 4px 0 var(--blog-shadow);
+  box-shadow: none;
 }
 
 .blog-entry-link {
@@ -176,7 +176,7 @@
   border: 2px solid var(--blog-ink);
   color: inherit;
   text-decoration: none;
-  box-shadow: 3px 3px 0 var(--blog-shadow);
+  box-shadow: none;
 }
 
 .blog-back-link:hover {

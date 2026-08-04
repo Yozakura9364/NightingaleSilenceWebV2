@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "content.index.v1",
+  "entries": [
+    {
+      "publicId": 37,
+      "title": "本地博客预览",
+      "summary": "用于验证编辑器保存后生成公开博客页面。",
+      "tags": [
+        "预览",
+        "编辑器"
+      ],
+      "publishedAt": "2026-08-01T05:16:51.870858+00:00",
+      "revision": 3
+    }
+  ]
+}

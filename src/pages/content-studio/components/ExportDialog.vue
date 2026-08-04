@@ -109,7 +109,7 @@ function download() {
 }
 .export-dialog-window {
   width: min(720px, 92vw); max-height: 85vh; display: flex; flex-direction: column;
-  background: var(--surface, #fff); border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  background: var(--surface, #fff); border-radius: 8px;
 }
 .export-dialog-window__bar {
   display: flex; align-items: center; justify-content: space-between;

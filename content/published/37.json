@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "content.publication.v1",
+  "entryId": "d8be3a19-d0d9-434a-879b-d7564f990ef0",
+  "publicId": 37,
+  "revision": 3,
+  "publishedAt": "2026-08-01T05:16:51.870858+00:00",
+  "publicPath": "/data/content/entries/37.json",
+  "metadata": {
+    "title": "本地博客预览",
+    "summary": "用于验证编辑器保存后生成公开博客页面。",
+    "coverMediaId": null,
+    "tags": [
+      "预览",
+      "编辑器"
+    ]
+  },
+  "document": {
+    "schemaVersion": "content.document.v1",
+    "doc": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "attrs": {
+            "textAlign": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "这是保存后博客页面的第一段内容。"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "attrs": {
+            "textAlign": "left"
+          }
+        },
+        {
+          "type": "paragraph",
+          "attrs": {
+            "textAlign": "left"
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "这里验证标题、摘要和正文都能从编辑器进入公开阅读器。"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "media": [],
+  "generationHash": "061da01dfca526f8f7add9b3f3f43cb6c648bb6fa36504db93d316bda93107f5"
+}
