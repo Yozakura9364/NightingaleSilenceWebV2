@@ -73,3 +73,10 @@ server/glamour/data/*.sqlite3
 # agent workflow templates (private)
 .specify/
 .agents/
+
+# local IDE / agent runtime state
+.vscode/
+.hermes/
+
+# local config backups
+vite.config.ts.bak-*
