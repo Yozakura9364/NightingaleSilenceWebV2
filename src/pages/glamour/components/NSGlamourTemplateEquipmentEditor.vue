@@ -357,7 +357,6 @@ onBeforeUnmount(() => {
   padding: 8px;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
-  box-shadow: 0 10px 22px rgba(20, 28, 45, 0.12);
 }
 
 .nsglamour-template__dye-search {
@@ -485,7 +484,6 @@ onBeforeUnmount(() => {
   overflow-y: auto;
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
-  box-shadow: 0 10px 22px rgba(20, 28, 45, 0.12);
 }
 
 .nsglamour-template__search-result {

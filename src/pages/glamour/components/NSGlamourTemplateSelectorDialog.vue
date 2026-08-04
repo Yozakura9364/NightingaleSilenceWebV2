@@ -218,7 +218,6 @@ function formatMessage(template: string, values: Record<string, string>): string
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  box-shadow: 0 16px 34px rgba(20, 28, 45, 0.18);
 }
 
 .nsglamour-template-selector__head {

@@ -322,7 +322,6 @@ function updateViewportSize() {
   border: 2px solid var(--ns-pixel-border);
   border-radius: 0;
   background: var(--ns-pixel-window-bg);
-  box-shadow: 8px 8px 0 rgba(42, 33, 56, 0.38);
 }
 
 .nsglamour-template-crop__head {
@@ -377,7 +376,6 @@ function updateViewportSize() {
     8px -8px,
     -8px 0;
   background-size: 16px 16px;
-  box-shadow: 4px 4px 0 rgba(42, 33, 56, 0.24);
   cursor: move;
   touch-action: none;
 }
@@ -432,7 +430,6 @@ function updateViewportSize() {
   font: inherit;
   font-weight: 850;
   text-align: right;
-  box-shadow: inset 2px 2px 0 rgba(42, 33, 56, 0.08);
 }
 
 .nsglamour-template-crop__actions {

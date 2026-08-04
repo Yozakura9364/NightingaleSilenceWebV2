@@ -550,7 +550,6 @@ onBeforeUnmount(() => {
   border: 1px solid var(--ns-color-border);
   border-radius: 8px;
   background: var(--ns-color-surface-solid);
-  box-shadow: 0 8px 24px rgb(20 28 45 / 12%);
 }
 
 .nsglamour-snapshot__language-menu button {
