@@ -269,7 +269,6 @@ onBeforeUnmount(() => {
   display: inline-grid;
   place-items: center;
   padding: 0;
-  box-shadow: 2px 2px 0 color-mix(in srgb, var(--ns-color-border-strong) 28%, transparent);
   cursor: pointer;
 }
 
@@ -280,7 +279,6 @@ onBeforeUnmount(() => {
 
 .nsplate-preset-select__step:active:not(:disabled) {
   transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 color-mix(in srgb, var(--ns-color-border-strong) 28%, transparent);
 }
 
 .nsplate-preset-select__step:disabled {
@@ -353,9 +351,6 @@ onBeforeUnmount(() => {
   border: 1px solid var(--ns-color-border);
   border-radius: var(--ns-radius-xs);
   background: var(--ns-color-surface-solid);
-  box-shadow:
-    3px 3px 0 color-mix(in srgb, var(--ns-color-border-strong) 26%, transparent),
-    0 8px 22px color-mix(in srgb, var(--ns-color-border-strong) 18%, transparent);
 }
 
 .nsplate-preset-search {

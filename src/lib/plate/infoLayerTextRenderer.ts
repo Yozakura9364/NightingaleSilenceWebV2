@@ -5,6 +5,11 @@ import type {
 import { normalizeNSPlateResourcePath, resolveNSPlateImageUrl } from '@/lib/plate/assetUrls'
 import { createLruCache } from '@/lib/utils/lruCache'
 
+interface NSPlateInfoTextGlyphRun {
+  text: string
+  scale: number
+}
+
 interface NSPlateInfoTextLayoutRow {
   text: string
   left: number
@@ -12,6 +17,7 @@ interface NSPlateInfoTextLayoutRow {
   top: number
   width: number
   textWidth: number
+  runs?: NSPlateInfoTextGlyphRun[]
   iconPath?: string
   iconWidthPx?: number
   iconHeightPx?: number
@@ -35,8 +41,11 @@ interface NSPlateInfoTextLayout {
 
 interface CanvasTextFeatureContext {
   fontKerning?: string
-  fontVariantCaps?: string
+  fontVariantLigatures?: string
+  fontFeatureSettings?: string
   letterSpacing?: string
+  textRendering?: string
+  lang?: string
 }
 
 interface NSPlateInfoTextRenderCanvasDimensions {
@@ -58,6 +67,40 @@ const INFO_TEXT_FONT_LOAD_TIMEOUT_MS = 30_000
 const INFO_TEXT_WORLD_TRANSRATE_INLINE_BOTTOM_Y = 351
 const TEXT_RENDER_EFFECT_SHADOW_GRAY = 'shadowGray'
 const TEXT_RENDER_EFFECT_EMBOSS_SOFT = 'embossSoft'
+// 与 NSPortable SMALL_CAPS_GLYPH_SCALE 一致：小写字母转大写后按 0.82 缩小
+const SMALL_CAPS_GLYPH_SCALE = 0.82
+
+function isLowercaseLetterForSmallCaps(char: string) {
+  return char.toLowerCase() !== char.toUpperCase() && char === char.toLowerCase()
+}
+
+function buildSmallCapsRuns(text: string): NSPlateInfoTextGlyphRun[] {
+  const runs: NSPlateInfoTextGlyphRun[] = []
+  let currentScale: number | null = null
+  let currentText = ''
+
+  for (const char of text) {
+    const lowerLike = isLowercaseLetterForSmallCaps(char)
+    const scale = lowerLike ? SMALL_CAPS_GLYPH_SCALE : 1
+    const nextChar = lowerLike ? char.toUpperCase() : char
+
+    if (currentScale === null || currentScale !== scale) {
+      if (currentText && currentScale !== null) {
+        runs.push({ text: currentText, scale: currentScale })
+      }
+      currentScale = scale
+      currentText = nextChar
+      continue
+    }
+    currentText += nextChar
+  }
+
+  if (currentText && currentScale !== null) {
+    runs.push({ text: currentText, scale: currentScale })
+  }
+
+  return runs
+}
 
 const infoTextImageCache = createLruCache<string, Promise<HTMLImageElement | null>>(50)
 const infoTextFontLoadCache = new Map<string, Promise<void>>()
@@ -316,14 +359,14 @@ async function drawInfoTextLayer(
     drawInfoTextInlineIcon(context, layer, row, inlineIconImage)
 
     if (effect) {
-      drawInfoTextShadow(context, row)
+      drawInfoTextShadow(context, layer, row, layout.fontSpec)
     }
 
     if (hasStroke) {
-      context.strokeText(row.text, row.textLeft, row.top)
+      drawInfoTextRowGlyphs(context, layer, row, layout.fontSpec, row.textLeft, row.top, true, false)
     }
 
-    context.fillText(row.text, row.textLeft, row.top)
+    drawInfoTextRowGlyphs(context, layer, row, layout.fontSpec, row.textLeft, row.top, false, true)
   }
 
   context.restore()
@@ -353,7 +396,53 @@ function drawInfoTextInlineIcon(
   context.drawImage(image, iconX, iconY, iconWidthPx, iconHeightPx)
 }
 
-function drawInfoTextShadow(context: CanvasRenderingContext2D, row: NSPlateInfoTextLayoutRow) {
+function drawInfoTextRowGlyphs(
+  context: CanvasRenderingContext2D,
+  layer: NSPlateInfoTextRenderLayer,
+  row: NSPlateInfoTextLayoutRow,
+  fontSpec: string,
+  textLeft: number,
+  textTop: number,
+  drawStroke: boolean,
+  drawFill: boolean
+) {
+  if (!row.text) {
+    return
+  }
+
+  // smallCaps：逐 run 绘制，小写 run 缩小字号并底对齐（NSPortable 行为）
+  if (layer.smallCaps && row.runs?.length) {
+    let runLeft = textLeft
+    for (const run of row.runs) {
+      const runFontSize = Math.max(1, layer.fontSize * run.scale)
+      const runTop = textTop + (layer.fontSize - runFontSize)
+      context.font = buildInfoTextLayerFontSpecWithSize(layer, runFontSize)
+      if (drawStroke) {
+        context.strokeText(run.text, runLeft, runTop)
+      }
+      if (drawFill) {
+        context.fillText(run.text, runLeft, runTop)
+      }
+      runLeft += context.measureText(run.text).width
+    }
+    context.font = fontSpec
+    return
+  }
+
+  if (drawStroke) {
+    context.strokeText(row.text, textLeft, textTop)
+  }
+  if (drawFill) {
+    context.fillText(row.text, textLeft, textTop)
+  }
+}
+
+function drawInfoTextShadow(
+  context: CanvasRenderingContext2D,
+  layer: NSPlateInfoTextRenderLayer,
+  row: NSPlateInfoTextLayoutRow,
+  fontSpec: string
+) {
   const previousFillStyle = context.fillStyle
   const previousStrokeStyle = context.strokeStyle
   const previousLineWidth = context.lineWidth
@@ -368,8 +457,7 @@ function drawInfoTextShadow(context: CanvasRenderingContext2D, row: NSPlateInfoT
 
   const x = Math.round(row.textLeft)
   const y = Math.round(row.top + 1)
-  context.strokeText(row.text, x, y)
-  context.fillText(row.text, x, y)
+  drawInfoTextRowGlyphs(context, layer, row, fontSpec, x, y, true, true)
 
   context.fillStyle = previousFillStyle
   context.strokeStyle = previousStrokeStyle
@@ -396,10 +484,35 @@ function computeInfoTextLayerLayout(
   context.font = fontSpec
   applyInfoTextCanvasFeatures(context, layer)
 
-  const centerReferenceWidth = resolveInfoTextCenterReferenceWidth(context, layer, wrapWidthPx)
-  const rows: NSPlateInfoTextLayoutRow[] = wrapInfoTextLines(layer.text, context, wrapWidthPx).map(
-    (text, index) => {
-      const textWidth = measureInfoText(context, text)
+  // smallCaps 时逐 run 测量（小写 run 用缩小字号），与 NSPortable 一致
+  const measureRowWidth = (text: string): number => {
+    if (!text) {
+      return 0
+    }
+    if (!layer.smallCaps) {
+      return context.measureText(text).width
+    }
+    let width = 0
+    for (const run of buildSmallCapsRuns(text)) {
+      context.font = buildInfoTextLayerFontSpecWithSize(layer, layer.fontSize * run.scale)
+      width += context.measureText(run.text).width
+    }
+    context.font = fontSpec
+    return width
+  }
+
+  const centerReferenceWidth = resolveInfoTextCenterReferenceWidth(
+    measureRowWidth,
+    layer,
+    wrapWidthPx
+  )
+  const rows: NSPlateInfoTextLayoutRow[] = wrapInfoTextLines(
+    layer.text,
+    measureRowWidth,
+    wrapWidthPx
+  ).map((text, index) => {
+      const textWidth = measureRowWidth(text)
+      const runs = layer.smallCaps && text ? buildSmallCapsRuns(text) : undefined
       const hasInlineIconOnRow = index === 0 && inlineIcon !== null
       const isWorldTransrateInlineIcon =
         hasInlineIconOnRow && isWorldTransrateInlineIconPath(inlineIcon.path)
@@ -416,6 +529,7 @@ function computeInfoTextLayerLayout(
           text,
           width: textWidth,
           textWidth,
+          runs,
           left: textLeft,
           textLeft,
           top: yAnchor + index * lineHeightPx,
@@ -436,6 +550,7 @@ function computeInfoTextLayerLayout(
         text,
         width,
         textWidth,
+        runs,
         left,
         textLeft: left + iconWidth,
         top: yAnchor + index * lineHeightPx,
@@ -591,11 +706,11 @@ function loadInfoTextImage(source: string) {
   return promise
 }
 
-function wrapInfoTextLines(text: string, context: CanvasRenderingContext2D, maxWidth: number) {
+function wrapInfoTextLines(text: string, measure: (value: string) => number, maxWidth: number) {
   const lines: string[] = []
 
   for (const rawLine of text.split(/\r?\n/)) {
-    if (!rawLine || measureInfoText(context, rawLine) <= maxWidth) {
+    if (!rawLine || measure(rawLine) <= maxWidth) {
       lines.push(rawLine)
       continue
     }
@@ -605,7 +720,7 @@ function wrapInfoTextLines(text: string, context: CanvasRenderingContext2D, maxW
     for (const char of Array.from(rawLine)) {
       const next = `${current}${char}`
 
-      if (current && measureInfoText(context, next) > maxWidth) {
+      if (current && measure(next) > maxWidth) {
         lines.push(current)
         current = char
       } else {
@@ -619,12 +734,8 @@ function wrapInfoTextLines(text: string, context: CanvasRenderingContext2D, maxW
   return lines
 }
 
-function measureInfoText(context: CanvasRenderingContext2D, text: string) {
-  return text ? context.measureText(text).width : 0
-}
-
 function resolveInfoTextCenterReferenceWidth(
-  context: CanvasRenderingContext2D,
+  measure: (text: string) => number,
   layer: NSPlateInfoTextRenderLayer,
   wrapWidthPx: number
 ) {
@@ -632,15 +743,19 @@ function resolveInfoTextCenterReferenceWidth(
     return 0
   }
 
-  const referenceRows = wrapInfoTextLines(layer.defaultText, context, wrapWidthPx)
-  return Math.max(0, ...referenceRows.map((row) => measureInfoText(context, row)))
+  const referenceRows = wrapInfoTextLines(layer.defaultText, measure, wrapWidthPx)
+  return Math.max(0, ...referenceRows.map((row) => measure(row)))
 }
 
 function buildInfoTextLayerFontSpec(layer: NSPlateInfoTextRenderLayer) {
-  const style = layer.italic ? 'italic' : 'normal'
-  const weight = layer.bold ? 700 : resolveFontVariantWeight(layer.fontVariant)
+  return buildInfoTextLayerFontSpecWithSize(layer, layer.fontSize)
+}
 
-  return `${style} ${weight} ${Math.max(1, layer.fontSize)}px ${quoteFontFamily(
+function buildInfoTextLayerFontSpecWithSize(layer: NSPlateInfoTextRenderLayer, fontSizePx: number) {
+  const style = layer.italic ? 'italic' : 'normal'
+  const weight = resolveFontVariantWeight(layer.fontFamily, layer.fontVariant, layer.bold)
+
+  return `${style} ${weight} ${Math.max(1, fontSizePx)}px ${quoteFontFamily(
     layer.fontFamily
   )}, sans-serif`
 }
@@ -655,45 +770,101 @@ function quoteFontFamily(fontFamily: string) {
   return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`
 }
 
-function resolveFontVariantWeight(fontVariant: string | undefined) {
-  const key = fontVariant?.toLowerCase() ?? ''
+// 与 NSPortable TEXT_FONT_VARIANT_BY_FAMILY 一致：字重档位按字体族解析，
+// 未识别档位回退 regular；legacy bold=true 且无有效档位时回退 bold
+const TEXT_FONT_VARIANT_DEFAULT = [
+  { key: 'regular', weight: 400 },
+  { key: 'medium', weight: 500 },
+  { key: 'bold', weight: 700 }
+] as const
 
-  if (key.includes('ultra') || key.includes('thin')) {
-    return 200
+const TEXT_FONT_VARIANT_BY_FAMILY: Record<string, readonly { key: string; weight: number }[]> = {
+  'adobe heiti std': [{ key: 'regular', weight: 400 }],
+  'harmonyos sans sc': [
+    { key: 'thin', weight: 100 },
+    { key: 'light', weight: 300 },
+    { key: 'regular', weight: 400 },
+    { key: 'medium', weight: 500 },
+    { key: 'bold', weight: 700 },
+    { key: 'black', weight: 900 }
+  ],
+  axis: [
+    { key: 'ultralight', weight: 100 },
+    { key: 'extralight', weight: 200 },
+    { key: 'light', weight: 300 },
+    { key: 'regular', weight: 400 },
+    { key: 'medium', weight: 500 },
+    { key: 'bold', weight: 700 },
+    { key: 'heavy', weight: 800 }
+  ],
+  miedinger: [{ key: 'regular', weight: 400 }],
+  'eofont sp': [{ key: 'regular', weight: 400 }],
+  'jupiter pro': [{ key: 'regular', weight: 400 }],
+  'augmented neo-eorzean': [{ key: 'regular', weight: 400 }],
+  'augmented far eastern script': [{ key: 'regular', weight: 400 }],
+  'augmented norvrandt': [{ key: 'regular', weight: 400 }],
+  'augmented postulated proto-alphabet': [{ key: 'regular', weight: 400 }]
+}
+
+function isJupiterProFontFamily(fontFamily: string) {
+  return fontFamily.trim().toLowerCase() === 'jupiter pro'
+}
+
+function resolveFontVariantWeight(
+  fontFamily: string,
+  fontVariant: string | undefined,
+  bold: boolean | undefined
+) {
+  const options =
+    TEXT_FONT_VARIANT_BY_FAMILY[fontFamily.trim().toLowerCase()] ?? TEXT_FONT_VARIANT_DEFAULT
+  const raw = (fontVariant ?? '').trim().toLowerCase()
+  const matched = options.find((item) => item.key === raw)
+
+  if (matched) {
+    return matched.weight
   }
 
-  if (key.includes('extra') || key.includes('light')) {
-    return 300
-  }
-
-  if (key.includes('medium')) {
-    return 500
-  }
-
-  if (key.includes('bold') || key.includes('heavy') || key.includes('black')) {
-    return 700
-  }
-
-  return 400
+  const fallbackKey = bold ? 'bold' : 'regular'
+  const fallback = options.find((item) => item.key === fallbackKey) ?? options[0]
+  return fallback?.weight ?? 400
 }
 
 function applyInfoTextCanvasFeatures(
   context: CanvasRenderingContext2D,
   layer: NSPlateInfoTextRenderLayer
 ) {
+  // 与 NSPortable applyCanvasTextFeatureHints 对齐：默认关闭连字/上下文替代；
+  // Jupiter Pro 额外锁死全部 OpenType 特性并使用英文语言标记
   const featureContext = context as unknown as CanvasTextFeatureContext
   const trackingPx = (normalizeNumber(layer.tracking, 0) / 1000) * layer.fontSize
+  const jupiterPro = isJupiterProFontFamily(layer.fontFamily)
 
   if ('fontKerning' in featureContext) {
     featureContext.fontKerning = 'normal'
   }
 
-  if ('fontVariantCaps' in featureContext) {
-    featureContext.fontVariantCaps = layer.smallCaps ? 'small-caps' : 'normal'
+  if ('fontVariantLigatures' in featureContext) {
+    featureContext.fontVariantLigatures = 'none'
+  }
+
+  if ('fontFeatureSettings' in featureContext) {
+    featureContext.fontFeatureSettings = jupiterPro
+      ? '"liga" 0, "clig" 0, "dlig" 0, "hlig" 0, "calt" 0, "salt" 0, "aalt" 0, ' +
+        '"smcp" 0, "c2sc" 0, "pcap" 0, "onum" 0, "lnum" 0, "tnum" 0, "pnum" 0, ' +
+        '"ss01" 0, "ss02" 0, "ss03" 0, "ss04" 0, "ss05" 0, "titl" 0, "swsh" 0'
+      : '"liga" 0, "clig" 0, "calt" 0'
   }
 
   if ('letterSpacing' in featureContext) {
     featureContext.letterSpacing = `${trackingPx}px`
+  }
+
+  if ('textRendering' in featureContext) {
+    featureContext.textRendering = 'auto'
+  }
+
+  if ('lang' in featureContext) {
+    featureContext.lang = jupiterPro ? 'en' : 'zh-CN'
   }
 }
 

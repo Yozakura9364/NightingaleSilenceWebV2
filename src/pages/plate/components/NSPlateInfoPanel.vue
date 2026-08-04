@@ -728,9 +728,7 @@ const {
   border-color: var(--ns-color-accent-strong);
   background: color-mix(in srgb, var(--ns-color-surface-solid) 90%, var(--ns-color-cyan-soft));
   color: var(--ns-color-text);
-  box-shadow:
-    inset 0 0 0 2px color-mix(in srgb, var(--ns-color-accent-strong) 78%, transparent),
-    3px 3px 0 color-mix(in srgb, var(--ns-color-accent-strong) 22%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--ns-color-accent-strong) 78%, transparent);
 }
 
 .nsplate-info-panel__note {

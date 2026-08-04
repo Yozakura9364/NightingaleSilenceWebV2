@@ -278,7 +278,6 @@ function isCurrentRender(serial: number) {
     10px -10px,
     -10px 0;
   background-size: 20px 20px;
-  box-shadow: 0 10px 32px rgba(42, 33, 56, 0.1);
   transition: transform 120ms ease-out;
   will-change: transform;
 }

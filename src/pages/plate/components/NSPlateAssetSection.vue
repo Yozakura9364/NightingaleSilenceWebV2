@@ -220,7 +220,6 @@ function normalizeSearchText(value: unknown) {
 
 .nsplate-asset-section[data-selected='true'] .nsplate-asset-section__status-icon {
   color: var(--ns-color-accent-strong);
-  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--ns-color-accent) 38%, transparent));
 }
 
 .nsplate-asset-section__name span:last-child,
@@ -247,7 +246,6 @@ function normalizeSearchText(value: unknown) {
 
 .nsplate-asset-section[data-selected='true'] .nsplate-asset-section__selected {
   color: var(--ns-color-accent-strong);
-  text-shadow: 0 0 5px color-mix(in srgb, var(--ns-color-accent) 24%, transparent);
 }
 
 .nsplate-asset-section__selected[data-empty='true'] {

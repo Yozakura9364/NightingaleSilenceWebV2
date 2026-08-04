@@ -122,9 +122,7 @@ const cardStyle = computed(
 .nsplate-asset-card--active {
   border-color: var(--ns-color-accent-strong);
   background: color-mix(in srgb, var(--ns-color-surface-solid) 90%, var(--ns-color-cyan-soft));
-  box-shadow:
-    inset 0 0 0 2px color-mix(in srgb, var(--ns-color-accent-strong) 78%, transparent),
-    3px 3px 0 color-mix(in srgb, var(--ns-color-accent-strong) 22%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--ns-color-accent-strong) 78%, transparent);
 }
 
 .nsplate-asset-card--active::before,
@@ -141,7 +139,6 @@ const cardStyle = computed(
   height: 18px;
   border: 1px solid var(--ns-color-accent-strong);
   background: var(--ns-color-bg);
-  box-shadow: 2px 2px 0 color-mix(in srgb, var(--ns-color-accent-strong) 24%, transparent);
 }
 
 .nsplate-asset-card--active::after {
@@ -150,7 +147,6 @@ const cardStyle = computed(
   width: 11px;
   height: 11px;
   background: var(--ns-color-accent-strong);
-  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--ns-color-accent) 45%, transparent));
   image-rendering: pixelated;
   mask: var(--nsplate-asset-card-active-icon) center / contain no-repeat;
   -webkit-mask: var(--nsplate-asset-card-active-icon) center / contain no-repeat;

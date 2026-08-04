@@ -191,10 +191,11 @@
 @font-face {
   font-family: 'Adobe Heiti Std';
   src:
-    url('../../assets/fonts/plate/AdobeHeitiStdR.woff2') format('woff2'),
+    /* 与 NSPortable 一致：本机字体优先，完整字体文件兜底；canvas 可编辑文字不做子集 */
     local('Adobe Heiti Std'),
     local('AdobeHeitiStd-Regular'),
-    local('Adobe Heiti Std R');
+    local('Adobe Heiti Std R'),
+    url('../../assets/fonts/plate/AdobeHeitiStdR.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
