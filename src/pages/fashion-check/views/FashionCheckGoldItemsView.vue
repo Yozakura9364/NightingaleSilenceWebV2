@@ -66,7 +66,7 @@ function slotLabel(slotId: string) {
 .fashion-check-gold-items {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 0;
 }
 .fashion-check-gold-items__slot {
   align-content: start;
@@ -92,9 +92,20 @@ function slotLabel(slotId: string) {
   padding: 8px;
   border: 1px solid var(--ns-pixel-border);
 }
+@media (min-width: 761px) {
+  .fashion-check-gold-items > .fashion-check-gold-items__slot:nth-child(even) {
+    border-left: 0;
+  }
+  .fashion-check-gold-items > .fashion-check-gold-items__slot:nth-child(n + 3) {
+    border-top: 0;
+  }
+}
 @media (max-width: 760px) {
   .fashion-check-gold-items {
     grid-template-columns: 1fr;
+  }
+  .fashion-check-gold-items > .fashion-check-gold-items__slot:not(:first-child) {
+    border-top: 0;
   }
 }
 </style>

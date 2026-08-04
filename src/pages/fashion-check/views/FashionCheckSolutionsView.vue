@@ -103,7 +103,11 @@
         </article>
       </section>
     </div>
-    <FashionCheckGoldItemsView :week="week" :locale-catalog="localeCatalog" />
+    <FashionCheckGoldItemsView
+      class="fashion-check-showcase__gold"
+      :week="week"
+      :locale-catalog="localeCatalog"
+    />
   </section>
 
   <section
@@ -342,19 +346,23 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   margin-top: 16px;
 }
 .fashion-check-weekly__gold {
-  margin-top: 16px;
+  margin-top: -2px;
 }
 .fashion-check-showcase {
   display: grid;
 }
 .fashion-check-showcase {
-  gap: 16px;
+  gap: 0;
 }
 .fashion-check-showcase__overview {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  row-gap: 0;
+  column-gap: 0;
   align-items: stretch;
+}
+.fashion-check-showcase__gold {
+  margin-top: -2px;
 }
 .fashion-check-showcase__solution {
   align-content: start;
@@ -488,7 +496,7 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   font-size: 16px;
 }
 .fashion-check-showcase__faq {
-  margin-top: 16px;
+  margin-top: -2px;
 }
 .fashion-check-showcase__faq-list {
   display: grid;
@@ -586,10 +594,18 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
 .fashion-check-solution__items p b {
   color: var(--ns-color-text);
 }
+@media (min-width: 761px) {
+  .fashion-check-showcase__overview > .ns-workbench-panel:not(:first-child) {
+    border-left: 0;
+  }
+}
 @media (max-width: 760px) {
   .fashion-check-showcase__overview,
   .fashion-check-solutions {
     grid-template-columns: 1fr;
+  }
+  .fashion-check-showcase__overview > .ns-workbench-panel:not(:first-child) {
+    border-top: 0;
   }
 }
 </style>

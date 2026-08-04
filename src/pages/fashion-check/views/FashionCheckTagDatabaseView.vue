@@ -261,17 +261,23 @@ onMounted(async () => {
 
 .fashion-check-tag-database__tag-list button {
   display: grid;
-  gap: 3px;
+  gap: 2px;
   width: 100%;
-  min-height: 48px;
-  padding: 8px 10px;
+  min-height: 0;
+  padding: 5px 10px;
   border: 0;
-  border-bottom: 2px solid var(--ns-pixel-border);
+  border-bottom: 1px solid var(--ns-pixel-divider);
+  border-left: 4px solid transparent;
   background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
   color: var(--ns-color-text);
   font: inherit;
   text-align: left;
   cursor: pointer;
+}
+
+.fashion-check-tag-database__tag-list button > span {
+  font-size: 15px;
+  line-height: 1.2;
 }
 
 .fashion-check-tag-database__tag-list button:last-child {
@@ -280,15 +286,22 @@ onMounted(async () => {
 
 .fashion-check-tag-database__tag-list button:hover,
 .fashion-check-tag-database__tag-list button:focus-visible {
-  background: var(--ns-color-bg-soft);
+  background: color-mix(
+    in srgb,
+    var(--ns-color-text) 4%,
+    var(--ns-pixel-surface, var(--ns-color-surface-solid))
+  );
 }
 
 .fashion-check-tag-database__tag-list .fashion-check-tag-database__tag--active {
+  border-left-color: var(--ns-color-accent-strong);
   background: var(--ns-color-accent-soft);
 }
 
 .fashion-check-tag-database__tag-list small {
   color: var(--ns-color-text-muted);
+  font-size: 12px;
+  line-height: 1.25;
 }
 
 .fashion-check-tag-database__detail {
