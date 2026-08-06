@@ -1,19 +1,52 @@
 <template>
   <section class="equipment-editor">
     <header class="equipment-editor__head">
-      <h2>{{ t(textKeys.nsglamourEquipmentPanel) }}</h2>
-      <div
-        class="equipment-editor__locales ns-segmented-control ns-segmented-control--small"
-        :aria-label="t(textKeys.nsglamourEquipmentLanguage)"
-      >
-        <button
-          v-for="locale in draft.locales"
-          :key="locale"
-          type="button"
-          :aria-pressed="locale === draft.locale"
-          @click="emit('update-locale', locale)"
+      <div class="equipment-editor__head-row">
+        <h2 class="equipment-editor__title ns-heading-bloom">
+          {{ t(textKeys.nsglamourEquipmentPanel) }}
+        </h2>
+        <div
+          class="equipment-editor__locales ns-segmented-control ns-segmented-control--small"
+          :aria-label="t(textKeys.nsglamourEquipmentLanguage)"
         >
-          {{ localeLabel(locale) }}
+          <button
+            v-for="locale in draft.locales"
+            :key="locale"
+            type="button"
+            :aria-pressed="locale === draft.locale"
+            @click="emit('update-locale', locale)"
+          >
+            {{ localeLabel(locale) }}
+          </button>
+        </div>
+      </div>
+      <div class="equipment-editor__head-row">
+        <div
+          class="equipment-editor__modes ns-segmented-control ns-segmented-control--small"
+          :aria-label="t(textKeys.modeLabel)"
+        >
+          <button
+            type="button"
+            :aria-pressed="mode === 'compact'"
+            @click="emit('update-mode', 'compact')"
+          >
+            {{ t(textKeys.modeCompact) }}
+          </button>
+          <button
+            type="button"
+            :aria-pressed="mode === 'full'"
+            @click="emit('update-mode', 'full')"
+          >
+            {{ t(textKeys.modeFull) }}
+          </button>
+        </div>
+        <button
+          type="button"
+          class="equipment-editor__clear"
+          :disabled="!hasEntries"
+          @click="emit('clear-draft')"
+        >
+          {{ t(textKeys.nsglamourClearDraft) }}
         </button>
       </div>
     </header>
@@ -23,107 +56,101 @@
         :api-base="apiBase"
         :locale="draft.locale"
         :search-items="searchCatalogItems"
+        :search-emotes="searchEmotes"
         @select="emit('add-catalog-item', $event)"
       />
+      <div v-if="hasEntries" class="equipment-editor__bulk-layout">
+        <span class="equipment-editor__bulk-label">{{ t(textKeys.singlePreviews) }}</span>
+        <div
+          class="equipment-editor__bulk-actions ns-segmented-control ns-segmented-control--small"
+        >
+          <button type="button" @click="emit('set-all-layouts', 'left')">
+            {{ t(textKeys.allLeft) }}
+          </button>
+          <button type="button" @click="emit('set-all-layouts', 'right')">
+            {{ t(textKeys.allRight) }}
+          </button>
+        </div>
+      </div>
       <article
         v-for="entry in draft.entries"
         :key="rowId(entry)"
-        class="equipment-row"
+        class="equipment-row ns-glamour-item-info"
         :class="{
           'equipment-row--duplicate': entry.cardDuplicate,
-          'equipment-row--plain-item': isPlainItem(entry)
+          'equipment-row--plain-item': isPlainItem(entry),
+          'equipment-row--emote': isEmote(entry),
+          'equipment-row--draggable': Boolean(selectedCandidate(entry))
         }"
+        :draggable="Boolean(selectedCandidate(entry))"
+        :title="selectedCandidate(entry) ? t(textKeys.canvasDragHint) : undefined"
+        @dragstart="startEntryDrag($event, entry)"
       >
-        <div class="equipment-row__slot">
+        <div class="equipment-row__slot ns-glamour-item-info__slot">
           {{ rowTypeTitle(entry) }}
         </div>
 
         <div class="equipment-row__body">
-          <div v-if="selectedCandidate(entry)" class="equipment-row__selected">
+          <div v-if="selectedCandidate(entry)" class="equipment-row__selected ns-glamour-item-info__item-row">
             <img
               v-if="iconUrl(entry)"
+              class="ns-glamour-item-info__icon"
               :src="iconUrl(entry)"
               :alt="candidateName(selectedCandidate(entry))"
               loading="lazy"
               referrerpolicy="no-referrer"
             />
-            <div class="equipment-row__item">
-              <strong>{{ candidateName(selectedCandidate(entry)) }}</strong>
-              <select
-                v-if="(entry.candidates?.length || 0) > 1"
-                :aria-label="t(textKeys.nsglamourEquipmentSwitchCandidate)"
-                :value="selectedCandidate(entry)?.key"
-                @change="selectCandidate(entry, $event)"
-              >
-                <option
-                  v-for="candidate in entry.candidates"
-                  :key="String(candidate.key || candidate.name)"
-                  :value="candidate.key"
+            <div class="equipment-row__item ns-glamour-item-info__body">
+              <strong class="ns-glamour-item-info__name">{{ candidateName(selectedCandidate(entry)) }}</strong>
+              <div class="equipment-row__details">
+                <div v-if="dyeCount(entry) > 0" class="equipment-row__dyes">
+                  <GlamourDyePicker
+                    v-for="(dye, dyeIndex) in displayDyes(entry)"
+                    :key="dyeIndex"
+                    :load-stains="loadStains"
+                    :locale="draft.locale"
+                    :label="dyeName(dye)"
+                    :color="dyeColor(dye)"
+                    :search-placeholder="t(textKeys.nsglamourEquipmentDyeSearchPlaceholder)"
+                    :loading-text="t(textKeys.nsglamourEquipmentDyeLoading)"
+                    :error-text="t(textKeys.nsglamourEquipmentDyeLoadError)"
+                    :empty-text="t(textKeys.nsglamourEquipmentDyeSearchEmpty)"
+                    @select="emit('set-entry-dye', rowId(entry), dyeIndex, $event)"
+                  />
+                </div>
+                <span
+                  v-else-if="selectedCandidate(entry) && !isPlainItem(entry) && !isEmote(entry)"
+                  class="equipment-row__undyeable"
                 >
-                  {{ candidateName(candidate) }}
-                </option>
-              </select>
-              <div v-if="dyeCount(entry) > 0" class="equipment-row__dyes">
+                  {{ t(textKeys.nsglamourEquipmentUndyeable) }}
+                </span>
                 <div
-                  v-for="(dye, dyeIndex) in displayDyes(entry)"
-                  :key="dyeIndex"
-                  class="dye-control"
+                  v-if="selectedCandidate(entry)"
+                  class="equipment-row__layout ns-segmented-control ns-segmented-control--small"
                 >
                   <button
                     type="button"
-                    class="dye-control__button"
-                    :style="{ '--dye-color': dyeColor(dye) }"
-                    @click.stop="toggleDyePicker(entry, dyeIndex)"
+                    :aria-pressed="layoutFor(entry) === 'left'"
+                    @click.stop="emit('set-layout', rowId(entry), 'left')"
                   >
-                    <span aria-hidden="true" />
-                    {{ dyeName(dye) }}
+                    {{ t(textKeys.layoutLeft) }}
                   </button>
-                  <div
-                    v-if="activeDyeKey === dyeKey(rowId(entry), dyeIndex)"
-                    class="dye-picker ns-floating-panel ns-scroll-area ns-scroll-area--compact"
-                    @click.stop
+                  <button
+                    type="button"
+                    :aria-pressed="layoutFor(entry) === 'right'"
+                    @click.stop="emit('set-layout', rowId(entry), 'right')"
                   >
-                    <input
-                      v-model="dyeQuery"
-                      type="search"
-                      :placeholder="t(textKeys.nsglamourEquipmentDyeSearchPlaceholder)"
-                    />
-                    <p v-if="dyeLoading">{{ t(textKeys.nsglamourEquipmentDyeLoading) }}</p>
-                    <p v-else-if="dyeError">{{ t(textKeys.nsglamourEquipmentDyeLoadError) }}</p>
-                    <template v-else>
-                      <div v-for="group in filteredDyeGroups" :key="group.key">
-                        <b>{{ group.label }}</b>
-                        <button
-                          v-for="stain in group.items"
-                          :key="String(stain.id)"
-                          type="button"
-                          :style="{ '--dye-color': String(stain.hex || 'transparent') }"
-                          @click="chooseDye(entry, dyeIndex, stain)"
-                        >
-                          <span aria-hidden="true" />
-                          {{ stainName(stain) }}
-                        </button>
-                      </div>
-                      <p v-if="!filteredDyeGroups.length">
-                        {{ t(textKeys.nsglamourEquipmentDyeSearchEmpty) }}
-                      </p>
-                    </template>
-                  </div>
+                    {{ t(textKeys.layoutRight) }}
+                  </button>
                 </div>
               </div>
-              <span
-                v-else-if="selectedCandidate(entry) && !isPlainItem(entry)"
-                class="equipment-row__undyeable"
-              >
-                {{ t(textKeys.nsglamourEquipmentUndyeable) }}
-              </span>
             </div>
           </div>
 
           <div class="equipment-row__controls">
             <button
               type="button"
-              class="equipment-row__remove"
+              class="equipment-row__remove ns-glamour-item-info__delete"
               :title="t(textKeys.nsglamourEquipmentRemoveRow)"
               :aria-label="t(textKeys.nsglamourEquipmentRemoveRow)"
               @click="emit('clear-entry', rowId(entry))"
@@ -138,8 +165,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import ItemCardCatalogSearch from '@/pages/item-card/components/ItemCardCatalogSearch.vue'
+import GlamourDyePicker from '@/components/glamour/GlamourDyePicker.vue'
 import {
   buildGlamourIconUrl,
   getCandidateDyeCount,
@@ -149,18 +176,22 @@ import {
   getItemCardRowId,
   getSelectedCandidate,
   getSlotTitle,
-  groupGlamourStains,
-  stainMatchesQuery,
+  isItemCardEmote,
   isItemCardPlainItem
 } from '@/pages/item-card/lib/equipment'
+import {
+  ITEM_CARD_CANVAS_DRAG_MIME,
+  encodeItemCardCanvasDragSource
+} from '@/pages/item-card/lib/canvasDrag'
 import type {
   GlamourCandidate,
   GlamourDraft,
   GlamourDyeEntry,
   GlamourEquipmentEntry,
   ItemCardCatalogCategory,
-  GlamourStain,
-  GlamourStainGroup
+  ItemCardLayout,
+  ItemCardMode,
+  GlamourStain
 } from '@/pages/item-card/lib/types'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
 import { itemCardUiMessages } from '@/pages/item-card/locales/messages'
@@ -169,6 +200,8 @@ import { useLocale } from '@/stores/locale'
 
 const props = defineProps<{
   draft: GlamourDraft
+  hasEntries: boolean
+  mode: ItemCardMode
   apiBase: string
   searchCatalogItems: (options: {
     query: string
@@ -177,30 +210,28 @@ const props = defineProps<{
     limit?: number
     signal?: AbortSignal
   }) => Promise<GlamourCandidate[]>
+  searchEmotes: (options: {
+    query: string
+    locale: string
+    limit?: number
+    signal?: AbortSignal
+  }) => Promise<GlamourCandidate[]>
   loadStains: (locale: string) => Promise<GlamourStain[]>
+  layouts: Record<string, ItemCardLayout>
 }>()
 
 const emit = defineEmits<{
   'update-locale': [locale: string]
   'add-catalog-item': [candidate: GlamourCandidate]
-  'select-entry-candidate': [rowId: string, candidateKey: string | number | undefined]
   'clear-entry': [rowId: string]
   'set-entry-dye': [rowId: string, dyeIndex: number, stain: GlamourStain]
+  'set-layout': [rowId: string, layout: ItemCardLayout]
+  'set-all-layouts': [layout: ItemCardLayout]
+  'clear-draft': []
+  'update-mode': [mode: ItemCardMode]
 }>()
 
 const { t } = useLocale()
-const stains = ref<GlamourStain[]>([])
-const dyeLoading = ref(false)
-const dyeError = ref(false)
-const activeDyeKey = ref('')
-const dyeQuery = ref('')
-
-const filteredDyeGroups = computed<GlamourStainGroup[]>(() =>
-  groupGlamourStains(stains.value.filter((stain) => stainMatchesQuery(stain, dyeQuery.value)))
-)
-
-onMounted(() => document.addEventListener('click', closePickers))
-onBeforeUnmount(() => document.removeEventListener('click', closePickers))
 
 function localeLabel(locale: string): string {
   return (
@@ -228,6 +259,10 @@ function slotTitle(entry: GlamourEquipmentEntry): string {
 }
 
 function rowTypeTitle(entry: GlamourEquipmentEntry): string {
+  if (isEmote(entry)) {
+    const message = itemCardUiMessages[textKeys.catalogCategoryEmote]
+    return message?.[itemCardUiLocale(props.draft.locale)] ?? message?.['zh-CN'] ?? ''
+  }
   if (!isPlainItem(entry)) {
     return slotTitle(entry)
   }
@@ -245,6 +280,14 @@ function itemCardUiLocale(locale: string): Locale {
 
 function isPlainItem(entry: GlamourEquipmentEntry): boolean {
   return isItemCardPlainItem(entry)
+}
+
+function isEmote(entry: GlamourEquipmentEntry): boolean {
+  return isItemCardEmote(entry)
+}
+
+function layoutFor(entry: GlamourEquipmentEntry): ItemCardLayout {
+  return props.layouts[rowId(entry)] === 'right' ? 'right' : 'left'
 }
 
 function selectedCandidate(entry: GlamourEquipmentEntry): GlamourCandidate | undefined {
@@ -280,47 +323,19 @@ function dyeColor(dye: GlamourDyeEntry): string {
   return String(dye.hex || 'transparent')
 }
 
-function stainName(stain: GlamourStain): string {
-  return getCandidateName({ name: stain.name, names: stain.names }, props.draft.locale)
-}
-
-function selectCandidate(entry: GlamourEquipmentEntry, event: Event) {
-  emit('select-entry-candidate', rowId(entry), (event.currentTarget as HTMLSelectElement).value)
-}
-
-function dyeKey(slot: string, index: number): string {
-  return `${slot}:${index}`
-}
-
-async function toggleDyePicker(entry: GlamourEquipmentEntry, index: number) {
-  const key = dyeKey(rowId(entry), index)
-  if (activeDyeKey.value === key) {
-    activeDyeKey.value = ''
+function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
+  const candidate = selectedCandidate(entry)
+  const transfer = event.dataTransfer
+  if (!candidate || !transfer) {
+    event.preventDefault()
     return
   }
-  activeDyeKey.value = key
-  dyeQuery.value = ''
-  if (stains.value.length) {
-    return
-  }
-  dyeLoading.value = true
-  dyeError.value = false
-  try {
-    stains.value = await props.loadStains(props.draft.locale)
-  } catch {
-    dyeError.value = true
-  } finally {
-    dyeLoading.value = false
-  }
-}
-
-function chooseDye(entry: GlamourEquipmentEntry, index: number, stain: GlamourStain) {
-  emit('set-entry-dye', rowId(entry), index, stain)
-  activeDyeKey.value = ''
-}
-
-function closePickers() {
-  activeDyeKey.value = ''
+  transfer.effectAllowed = 'copy'
+  transfer.setData(
+    ITEM_CARD_CANVAS_DRAG_MIME,
+    encodeItemCardCanvasDragSource({ kind: 'item', sourceId: rowId(entry) })
+  )
+  transfer.setData('text/plain', candidateName(candidate))
 }
 </script>
 
@@ -331,22 +346,78 @@ function closePickers() {
 }
 
 .equipment-editor__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
   gap: 8px;
   padding: 12px 14px;
   border-bottom: 1px solid var(--ns-color-border);
 }
 
-.equipment-editor__head h2 {
+.equipment-editor__head-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.equipment-editor__title {
   margin: 0;
-  font-family: var(--ns-font-pixel);
-  font-size: 15px;
+  font-size: 16px;
+  line-height: 1.35;
 }
 
 .equipment-editor__locales {
-  max-width: 100%;
+  flex: 0 1 auto;
+}
+
+.equipment-editor__modes {
+  flex: 0 0 auto;
+}
+
+.equipment-editor__clear {
+  min-height: 25px;
+  padding: 3px 7px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ns-color-text-muted);
+  font: 700 10px/1 var(--ns-font-ui);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color var(--ns-transition-fast),
+    color var(--ns-transition-fast);
+}
+
+.equipment-editor__clear:hover:not(:disabled),
+.equipment-editor__clear:focus-visible {
+  border-color: var(--ns-color-danger, #b4453c);
+  color: var(--ns-color-danger, #b4453c);
+  outline: 0;
+}
+
+.equipment-editor__clear:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.equipment-editor__bulk-layout {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--ns-color-border);
+}
+
+.equipment-editor__bulk-label {
+  color: var(--ns-color-text-muted);
+  font: 700 12px/1.3 var(--ns-font-ui);
+}
+
+.equipment-editor__bulk-actions {
+  flex: 0 0 auto;
 }
 
 .equipment-editor__rows {
@@ -358,6 +429,14 @@ function closePickers() {
   grid-template-columns: 58px minmax(0, 1fr);
   min-width: 0;
   border-bottom: 1px solid var(--ns-color-border);
+}
+
+.equipment-row--draggable {
+  cursor: grab;
+}
+
+.equipment-row--draggable:active {
+  cursor: grabbing;
 }
 
 .equipment-row__slot {
@@ -396,7 +475,8 @@ function closePickers() {
 .equipment-row__selected > img {
   width: 42px;
   height: 42px;
-  border-radius: 0;
+  border: 1px solid var(--ns-color-border);
+  border-radius: 3px;
   object-fit: cover;
 }
 
@@ -408,7 +488,9 @@ function closePickers() {
 
 .equipment-row__item strong {
   overflow: hidden;
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -423,6 +505,15 @@ function closePickers() {
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: 11px var(--ns-font-ui);
+}
+
+.equipment-row__details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 4px;
 }
 
 .equipment-row__controls {
@@ -441,26 +532,37 @@ function closePickers() {
   height: 24px;
   min-height: 24px;
   padding: 0;
-  border: 0;
+  border: 1px solid var(--ns-color-border);
+  border-radius: 3px;
   background: transparent;
   color: var(--ns-color-text-muted);
-  font: 18px/1 var(--ns-font-ui);
+  font: 700 16px/1 var(--ns-font-ui);
   cursor: pointer;
 }
 
 .equipment-row__remove:hover {
+  border-color: var(--ns-color-accent);
   background: var(--ns-pixel-hover-surface);
-  color: var(--ns-color-accent-strong);
+  color: var(--ns-color-accent);
 }
 
 .equipment-row__dyes {
   display: flex;
+  min-width: 0;
   flex-wrap: wrap;
   gap: 5px;
 }
 
+.equipment-row__layout {
+  display: inline-flex;
+  gap: 0;
+  margin-left: 0;
+  align-self: center;
+}
+
 .dye-control {
   position: relative;
+  flex: 0 0 auto;
 }
 
 .dye-control__button,
@@ -478,6 +580,27 @@ function closePickers() {
   cursor: pointer;
 }
 
+.dye-picker button {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 5px 0 6px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.dye-picker button:hover,
+.dye-picker button:focus {
+  border-bottom-color: var(--ns-color-accent-strong);
+  color: var(--ns-color-accent-strong);
+  outline: none;
+}
+
 .dye-control__button span,
 .dye-picker button span {
   width: 11px;
@@ -489,6 +612,7 @@ function closePickers() {
 }
 
 .equipment-row__undyeable {
+  flex: 0 0 auto;
   color: var(--ns-color-text-muted);
   font-size: 10px;
 }
@@ -496,23 +620,33 @@ function closePickers() {
 .dye-picker {
   position: absolute;
   z-index: 30;
+  top: calc(100% + 4px);
+  left: 0;
   display: grid;
-  gap: 7px;
-  width: min(320px, calc(100vw - 56px));
-  max-height: 300px;
-  padding: 8px;
+  gap: 4px;
+  width: min(240px, calc(100vw - 42px));
+  max-height: 240px;
+  padding: 5px;
+  overflow: hidden;
 }
 
-.dye-picker > div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+.dye-picker__results {
+  display: grid;
+  gap: 2px;
+  max-height: 190px;
+  overflow-y: auto;
 }
 
-.dye-picker b {
-  width: 100%;
+.dye-picker__group {
+  display: grid;
+  gap: 2px;
+}
+
+.dye-picker__group-title {
+  padding: 6px 7px 3px;
   color: var(--ns-color-text-muted);
   font-size: 10px;
+  font-weight: 800;
 }
 
 .dye-picker p {

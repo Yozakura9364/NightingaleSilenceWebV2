@@ -15,7 +15,14 @@ export type GlamourSlotKey =
   | 'FashionAccessory'
 
 export type GlamourLocale = string
-export type ItemCardCatalogCategory = 'equipment' | 'other'
+export type ItemCardCatalogCategory =
+  | 'equipment'
+  | 'facewear'
+  | 'fashion'
+  | 'other'
+  | 'furniture'
+  | 'mount'
+export type ItemCardSearchCategory = ItemCardCatalogCategory | 'emote'
 
 export type LocalizedTextMap = Record<string, string | undefined>
 
@@ -77,14 +84,15 @@ export interface GlamourCandidate {
   dye_display_by_locale?: LocalizedTextMap
   dye_entries?: GlamourDyeEntry[]
   is_emperor?: boolean
-  item_kind?: 'equipment' | 'item'
-  item_card_slot?: GlamourSlotKey
+  item_kind?: 'equipment' | 'item' | 'emote'
+  item_category?: 'furniture' | 'mount'
+  item_card_slot?: GlamourSlotKey | 'Emote'
   [key: string]: unknown
 }
 
 export interface GlamourEquipmentEntry {
   slot: GlamourSlotKey | string
-  cardKind?: 'equipment' | 'item'
+  cardKind?: 'equipment' | 'item' | 'emote'
   cardRowId?: string
   cardDuplicate?: boolean
   slot_label?: string
@@ -190,5 +198,19 @@ export interface ItemCardStoredSettings {
   version: 1
   render: ItemCardRenderSettings
   layouts: Record<string, ItemCardLayout>
-  listLayout: ItemCardLayout
+}
+
+export interface ItemCardCustomText {
+  id: string
+  text: string
+}
+
+export interface ItemCardEmoteRecord {
+  id: string
+  name: string
+  names?: LocalizedTextMap
+  icon: number
+  category?: string
+  textCommand?: string
+  unlockLink?: string
 }

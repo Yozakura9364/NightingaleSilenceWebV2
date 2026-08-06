@@ -1,5 +1,6 @@
 import {
   GLAMOUR_DEFAULT_LOCALE,
+  ITEM_CARD_EMOTE_SLOT,
   GLAMOUR_SLOT_DEFINITIONS,
   ITEM_CARD_GENERIC_SLOT,
   createItemCardRowId,
@@ -209,6 +210,38 @@ export function addItemCardCatalogItem(
   const candidateLocales = Object.keys(candidate.names || {}).map(normalizeGlamourLocale)
   const slot = candidate.item_card_slot
 
+  if (candidate.item_kind === 'emote') {
+    const normalizedCandidate: GlamourCandidate = {
+      ...candidate,
+      item_kind: 'emote',
+      dye_count: 0,
+      dye_display: '',
+      dye_display_by_locale: {},
+      dye_entries: []
+    }
+    const entry: GlamourEquipmentEntry = {
+      slot: ITEM_CARD_EMOTE_SLOT,
+      cardKind: 'emote',
+      cardRowId: createItemCardRowId(ITEM_CARD_EMOTE_SLOT),
+      cardDuplicate: true,
+      slot_label: '',
+      slot_names: {},
+      slot_display: '',
+      lookup_key: `EMOTE|${candidate.key ?? ''}`,
+      model: {},
+      dye_id: 0,
+      dye_id_2: 0,
+      candidate_count: 1,
+      candidates: [normalizedCandidate],
+      __emptySlot: false
+    }
+    return {
+      ...draft,
+      locales: orderGlamourLocales(Array.from(new Set([...draft.locales, ...candidateLocales]))),
+      entries: [...draft.entries, entry]
+    }
+  }
+
   if (candidate.item_kind === 'equipment' && slot && isKnownGlamourSlot(slot)) {
     const equipmentCandidate: GlamourCandidate = {
       ...candidate,
@@ -234,6 +267,46 @@ export function addItemCardCatalogItem(
       cardKind: 'equipment' as const
     }
 
+    return {
+      ...draft,
+      locales: orderGlamourLocales(Array.from(new Set([...draft.locales, ...candidateLocales]))),
+      entries: [...draft.entries, entry]
+    }
+  }
+
+  if (candidate.item_category === 'furniture') {
+    const furnitureCandidate: GlamourCandidate = {
+      ...candidate,
+      item_kind: 'item'
+    }
+    const dyeEntries = getDisplayDyeEntries(
+      furnitureCandidate,
+      ITEM_CARD_GENERIC_SLOT,
+      draft.noDyeLabels,
+      draft.locale
+    )
+    const normalizedCandidate = updateCandidateDyeDisplay(
+      furnitureCandidate,
+      dyeEntries,
+      draft.locale,
+      draft.noDyeLabels
+    )
+    const entry: GlamourEquipmentEntry = {
+      slot: ITEM_CARD_GENERIC_SLOT,
+      cardKind: 'item',
+      cardRowId: createItemCardRowId(ITEM_CARD_GENERIC_SLOT),
+      cardDuplicate: true,
+      slot_label: '',
+      slot_names: {},
+      slot_display: '',
+      lookup_key: `FURNITURE|${candidate.key ?? ''}`,
+      model: {},
+      dye_id: dyeEntries[0]?.id ?? 0,
+      dye_id_2: dyeEntries[1]?.id ?? 0,
+      candidate_count: 1,
+      candidates: [normalizedCandidate],
+      __emptySlot: false
+    }
     return {
       ...draft,
       locales: orderGlamourLocales(Array.from(new Set([...draft.locales, ...candidateLocales]))),
@@ -272,50 +345,6 @@ export function addItemCardCatalogItem(
   }
 }
 
-function getCandidateSwitchDyeEntries(
-  draft: GlamourDraft,
-  entry: GlamourEquipmentEntry,
-  previousCandidate: GlamourCandidate | undefined,
-  selectedCandidate: GlamourCandidate
-): GlamourDyeEntry[] {
-  const selectedDyeCount = getCandidateDyeCount(selectedCandidate, entry.slot)
-
-  if (selectedDyeCount <= 0) {
-    return []
-  }
-
-  const previousDyes = getDisplayDyeEntries(
-    previousCandidate,
-    entry.slot,
-    draft.noDyeLabels,
-    draft.locale
-  )
-  const selectedDyes = getDisplayDyeEntries(
-    selectedCandidate,
-    entry.slot,
-    draft.noDyeLabels,
-    draft.locale
-  )
-  const sourceDyes = previousDyes.length ? previousDyes : selectedDyes
-
-  if (!sourceDyes.length) {
-    return selectedDyes
-  }
-
-  const nextDyes = sourceDyes.slice(0, selectedDyeCount)
-
-  while (nextDyes.length < selectedDyeCount) {
-    nextDyes.push(
-      selectedDyes[nextDyes.length] ??
-        getDisplayDyeEntries(selectedCandidate, entry.slot, draft.noDyeLabels, draft.locale)[
-          nextDyes.length
-        ]
-    )
-  }
-
-  return nextDyes.filter(Boolean)
-}
-
 function updateEntryDyeIds(
   entry: GlamourEquipmentEntry,
   dyeEntries: GlamourDyeEntry[],
@@ -329,62 +358,6 @@ function updateEntryDyeIds(
     active_dye_id: dyeEntries[0]?.id ?? 0,
     active_dye_id_2: dyeEntries[1]?.id ?? 0,
     user_dye_override: userDyeOverride || entry.user_dye_override === true
-  }
-}
-
-export function selectGlamourDraftEntryCandidate(
-  draft: GlamourDraft,
-  rowId: string,
-  candidateKey: string | number | undefined
-): GlamourDraft {
-  const normalizedKey = String(candidateKey ?? '')
-  const nextEntries = draft.entries.map((entry) => {
-    if (
-      getItemCardRowId(entry) !== rowId ||
-      !Array.isArray(entry.candidates) ||
-      entry.candidates.length <= 1
-    ) {
-      return entry
-    }
-
-    const selectedIndex = entry.candidates.findIndex(
-      (candidate) => String(candidate.key ?? '') === normalizedKey
-    )
-
-    if (selectedIndex <= 0) {
-      return entry
-    }
-
-    const candidates = [...entry.candidates]
-    const [selected] = candidates.splice(selectedIndex, 1)
-    const previousCandidate = candidates[0]
-    const dyeEntries = getCandidateSwitchDyeEntries(draft, entry, previousCandidate, selected)
-    const nextSelected = updateCandidateDyeDisplay(
-      selected,
-      dyeEntries,
-      draft.locale,
-      draft.noDyeLabels
-    )
-    const nextCandidates = [nextSelected, ...candidates]
-
-    return updateEntryDyeIds(
-      {
-        ...entry,
-        lookup_key: nextSelected.model_main?.raw
-          ? `${entry.slot_label || entry.slot || 'SEARCH'}|${nextSelected.model_main.raw}`
-          : entry.lookup_key,
-        candidate_count: nextCandidates.length,
-        candidates: nextCandidates,
-        __emptySlot: false
-      },
-      dyeEntries,
-      false
-    )
-  })
-
-  return {
-    ...draft,
-    entries: nextEntries
   }
 }
 

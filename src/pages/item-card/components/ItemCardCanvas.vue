@@ -3,25 +3,9 @@
     <header>
       <strong>{{ title }}</strong>
       <div class="card-preview-row__actions">
-        <div class="card-preview-row__segment ns-segmented-control ns-segmented-control--small">
-          <button
-            type="button"
-            :aria-pressed="layout === 'left'"
-            @click="emit('set-layout', 'left')"
-          >
-            {{ t(textKeys.layoutLeft) }}
-          </button>
-          <button
-            type="button"
-            :aria-pressed="layout === 'right'"
-            @click="emit('set-layout', 'right')"
-          >
-            {{ t(textKeys.layoutRight) }}
-          </button>
-        </div>
         <button
           type="button"
-          class="card-preview-row__download ns-button ns-button--compact"
+          class="card-preview-row__action ns-button ns-button--compact"
           @click="download"
         >
           {{ t(textKeys.downloadPng) }}
@@ -61,10 +45,6 @@ const props = defineProps<{
   layout: ItemCardLayout
   apiBase: string
   index: number
-}>()
-
-const emit = defineEmits<{
-  'set-layout': [layout: ItemCardLayout]
 }>()
 
 const { t } = useLocale()
@@ -125,8 +105,7 @@ async function download() {
 }
 
 .card-preview-row header,
-.card-preview-row__actions,
-.card-preview-row__segment {
+.card-preview-row__actions {
   display: flex;
   min-width: 0;
   align-items: center;
@@ -148,8 +127,29 @@ async function download() {
   flex: 0 0 auto;
 }
 
-.card-preview-row__segment {
-  gap: 0;
+.card-preview-row__action {
+  min-height: 30px;
+  padding: 4px 9px;
+  border: 1px solid var(--ns-color-border-strong);
+  border-radius: 0;
+  background: var(--ns-color-surface-solid);
+  box-shadow: none;
+  color: var(--ns-color-text);
+  font: 700 11px/1.15 var(--ns-font-ui);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color var(--ns-transition-fast),
+    background var(--ns-transition-fast),
+    color var(--ns-transition-fast);
+}
+
+.card-preview-row__action:hover,
+.card-preview-row__action:focus-visible {
+  border-color: var(--ns-color-accent);
+  background: var(--ns-pixel-hover-surface);
+  color: var(--ns-color-text);
+  outline: 0;
 }
 
 .card-preview-row__canvas {

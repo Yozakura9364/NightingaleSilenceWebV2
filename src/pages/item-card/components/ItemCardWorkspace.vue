@@ -2,19 +2,68 @@
   <div class="item-card-workspace">
     <div class="item-card-workspace__body">
       <aside class="item-card-workspace__sidebar ns-scroll-area">
-        <AppTabs v-model="activeTab" :items="sidebarTabs" stretch density="compact" />
+        <div class="item-card-workspace__tabs">
+          <AppTabs v-model="activeTab" :items="sidebarTabs" stretch density="compact" />
+        </div>
+
+        <section v-if="activePreviewView === 'canvas'" class="item-card-workspace__controls">
+          <div class="item-card-workspace__canvas-controls">
+            <div class="item-card-workspace__control-row">
+              <button
+                type="button"
+                class="ns-button ns-button--compact"
+                @click="openCanvasFilePicker"
+              >
+                {{ t(textKeys.canvasUpload) }}
+              </button>
+              <button
+                type="button"
+                class="ns-button ns-button--compact"
+                :disabled="!canvasHasContent"
+                @click="clearCanvasDocument"
+              >
+                {{ t(textKeys.canvasClear) }}
+              </button>
+              <button
+                type="button"
+                class="ns-button ns-button--compact"
+                :disabled="!canvasBackground || canvasExporting"
+                @click="exportCanvas"
+              >
+                {{ t(textKeys.canvasExport) }}
+              </button>
+            </div>
+            <input
+              ref="canvasFileInputElement"
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              hidden
+              @change="onCanvasFileChange"
+            />
+            <p v-if="canvasStatusKey" class="item-card-workspace__control-status">
+              {{ t(canvasStatusKey) }}
+            </p>
+          </div>
+        </section>
 
         <ItemCardEquipmentEditor
           v-show="activeTab === 'equipment'"
           :draft="draft"
+          :has-entries="Boolean(filledEntries.length)"
+          :mode="settings.mode"
           :api-base="apiBase"
           :search-catalog-items="searchCatalogItems"
+          :search-emotes="searchEmotes"
           :load-stains="loadStains"
+          :layouts="layouts"
           @update-locale="selectEquipmentLocale"
           @add-catalog-item="emit('add-catalog-item', $event)"
-          @select-entry-candidate="forwardCandidateSelection"
           @clear-entry="emit('clear-entry', $event)"
           @set-entry-dye="forwardDyeSelection"
+          @set-layout="setLayout"
+          @set-all-layouts="setAllLayouts(filledEntries.map(getItemCardRowId), $event)"
+          @clear-draft="emit('clear-draft')"
+          @update-mode="updateSettings({ mode: $event })"
         />
         <ItemCardRenderSettings
           v-show="activeTab === 'settings'"
@@ -24,22 +73,18 @@
           @update-locale-style="updateLocaleStyle"
           @toggle-locale="toggleOutputLocale"
         />
+        <ItemCardCustomTextEditor v-show="activeTab === 'customText'" :settings="settings" />
       </aside>
 
       <main class="item-card-workspace__preview ns-scroll-area">
         <ItemCardPreview
+          :active-view="activePreviewView"
           :entries="filledEntries"
           :draft="draft"
           :settings="settings"
           :layouts="layouts"
-          :list-layout="listLayout"
           :api-base="apiBase"
-          @set-layout="setLayout"
-          @set-all-layouts="setAllLayouts(filledEntries.map(getItemCardRowId), $event)"
-          @set-list-layout="setListLayout"
-          @set-mode="updateSettings({ mode: $event })"
-          @open-import="importOpen = true"
-          @clear-draft="emit('clear-draft')"
+          @update-view="activePreviewView = $event"
         />
       </main>
     </div>
@@ -84,9 +129,13 @@ const ItemCardTextImportDialog = defineAsyncComponent({
   delay: 200
 })
 import ItemCardEquipmentEditor from '@/pages/item-card/components/ItemCardEquipmentEditor.vue'
+import ItemCardCustomTextEditor from '@/pages/item-card/components/ItemCardCustomTextEditor.vue'
 import ItemCardPreview from '@/pages/item-card/components/ItemCardPreview.vue'
 import ItemCardRenderSettings from '@/pages/item-card/components/ItemCardRenderSettings.vue'
 import { useItemCardSettings } from '@/pages/item-card/composables/useItemCardSettings'
+import { useItemCardCanvas } from '@/pages/item-card/composables/useItemCardCanvas'
+import { downloadBlob } from '@/pages/item-card/lib/cardRenderer'
+import { renderItemCardCanvasBlob } from '@/pages/item-card/lib/canvasComposer'
 import { getFilledGlamourDraftEntries } from '@/pages/item-card/lib/draft'
 import { getItemCardRowId } from '@/pages/item-card/lib/equipment'
 import type {
@@ -112,6 +161,12 @@ const props = defineProps<{
     limit?: number
     signal?: AbortSignal
   }) => Promise<GlamourCandidate[]>
+  searchEmotes: (options: {
+    query: string
+    locale: string
+    limit?: number
+    signal?: AbortSignal
+  }) => Promise<GlamourCandidate[]>
   loadStains: (locale: string) => Promise<GlamourStain[]>
 }>()
 
@@ -121,7 +176,6 @@ const emit = defineEmits<{
   'import-text': [payload: { text: string; sourceLocale: string }]
   'import-chara': [file: File]
   'add-catalog-item': [candidate: GlamourCandidate]
-  'select-entry-candidate': [rowId: string, candidateKey: string | number | undefined]
   'clear-entry': [rowId: string]
   'set-entry-dye': [rowId: string, dyeIndex: number, stain: GlamourStain]
   'update-locale': [locale: string]
@@ -129,28 +183,40 @@ const emit = defineEmits<{
 
 const { t } = useLocale()
 const activeTab = ref('equipment')
+const activePreviewView = ref<'cards' | 'canvas'>('cards')
 const sidebarTabs = computed(() => [
   { value: 'equipment', label: t(textKeys.nsglamourEquipmentPanel) },
-  { value: 'settings', label: t(textKeys.settingsTitle) }
+  { value: 'settings', label: t(textKeys.settingsTitle) },
+  { value: 'customText', label: t(textKeys.customTextPanel) }
 ])
 const importOpen = ref(false)
 const importUrl = ref('')
 const textImportOpen = ref(false)
 const textImportValue = ref('')
 const textImportLocale = ref('zh')
+const canvasFileInputElement = ref<HTMLInputElement | null>(null)
+const canvasExporting = ref(false)
+const canvasStatusKey = ref('')
 const {
   settings,
   layouts,
-  listLayout,
   updateSettings,
   updateLocaleStyle,
   toggleOutputLocale,
   setLayout,
-  setAllLayouts,
-  setListLayout
+  setAllLayouts
 } = useItemCardSettings()
 
 const filledEntries = computed(() => getFilledGlamourDraftEntries(props.draft))
+const {
+  canvasDocument,
+  setBackgroundFromFile,
+  clearCanvas: clearCanvasDocumentState
+} = useItemCardCanvas()
+const canvasBackground = computed(() => canvasDocument.value.background || null)
+const canvasHasContent = computed(() =>
+  Boolean(canvasBackground.value || canvasDocument.value.layers.length)
+)
 watch(
   () => props.busy,
   (busy, previous) => {
@@ -172,16 +238,57 @@ function selectEquipmentLocale(locale: string) {
   updateSettings({ outputLocales: [selectedLocale] })
 }
 
-function forwardCandidateSelection(rowId: string, candidateKey: string | number | undefined) {
-  emit('select-entry-candidate', rowId, candidateKey)
-}
-
 function forwardDyeSelection(rowId: string, dyeIndex: number, stain: GlamourStain) {
   emit('set-entry-dye', rowId, dyeIndex, stain)
 }
 
 function closeImport() {
   importOpen.value = false
+}
+
+function openCanvasFilePicker() {
+  canvasFileInputElement.value?.click()
+}
+
+function onCanvasFileChange(event: Event) {
+  const input = event.currentTarget as HTMLInputElement
+  const file = input.files?.[0]
+  input.value = ''
+  if (file) {
+    void uploadCanvasFile(file)
+  }
+}
+
+async function uploadCanvasFile(file: File) {
+  const result = await setBackgroundFromFile(file)
+  canvasStatusKey.value =
+    result === 'ok'
+      ? ''
+      : result === 'format'
+        ? textKeys.canvasErrorFormat
+        : result === 'tooLarge'
+          ? textKeys.canvasErrorTooLarge
+          : textKeys.canvasErrorRead
+}
+
+async function clearCanvasDocument() {
+  canvasStatusKey.value = ''
+  await clearCanvasDocumentState()
+}
+
+async function exportCanvas() {
+  canvasExporting.value = true
+  try {
+    const blob = await renderItemCardCanvasBlob(canvasDocument.value)
+    if (!blob) {
+      canvasStatusKey.value = textKeys.canvasEmpty
+      return
+    }
+    canvasStatusKey.value = ''
+    downloadBlob(blob, 'item-card-canvas.png')
+  } finally {
+    canvasExporting.value = false
+  }
 }
 
 function submitImport() {
@@ -233,13 +340,47 @@ function submitTextImport() {
   background: var(--ns-color-surface);
 }
 
-.item-card-workspace :deep(.app-tabs) {
+.item-card-workspace__tabs {
   position: sticky;
   z-index: 20;
   top: 0;
-  border: 0;
-  border-bottom: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
-  box-shadow: none;
+  display: grid;
+  flex: 0 0 auto;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  padding: 10px;
+  border-bottom: 2px solid var(--ns-pixel-divider);
+  background: color-mix(in srgb, var(--ns-color-surface-solid) 88%, transparent);
+}
+
+.item-card-workspace__tabs :deep(.app-tabs) {
+  width: 100%;
+}
+
+.item-card-workspace__controls {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface-solid);
+}
+
+.item-card-workspace__canvas-controls {
+  display: grid;
+  gap: 8px;
+}
+
+.item-card-workspace__control-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.item-card-workspace__control-status {
+  margin: 0;
+  color: var(--ns-color-danger, #b4453c);
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .item-card-workspace__preview {

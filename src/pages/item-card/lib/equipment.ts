@@ -11,9 +11,11 @@ import type {
   GlamourSlotKey,
   LocalizedTextMap
 } from '@/pages/item-card/lib/types'
+import { getFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
 
 export const GLAMOUR_DEFAULT_LOCALE = 'zh'
 export const ITEM_CARD_GENERIC_SLOT = 'Item'
+export const ITEM_CARD_EMOTE_SLOT = 'Emote'
 
 export const GLAMOUR_SLOT_DEFINITIONS: GlamourSlotDefinition[] = [
   {
@@ -518,14 +520,18 @@ export function getEquipmentModelCode(entry: GlamourEquipmentEntry): string {
   return ''
 }
 
-export function buildGlamourIconUrl(apiBase: string, iconId: unknown): string {
+export function buildGlamourIconUrl(_apiBase: string, iconId: unknown): string {
+  if (typeof iconId === 'string' && /^https?:\/\//i.test(iconId.trim())) {
+    return iconId.trim()
+  }
+
   const numericId = Number(iconId)
 
   if (!Number.isFinite(numericId) || numericId <= 0) {
     return ''
   }
 
-  return `${apiBase.replace(/\/+$/, '')}/icon/${numericId}`
+  return getFfxivItemIconUrl(numericId)
 }
 
 function normalizeLocalizedTextMap(value: unknown): LocalizedTextMap | undefined {
@@ -599,6 +605,10 @@ export function isItemCardPlainItem(entry: GlamourEquipmentEntry | undefined): b
   return entry?.cardKind === 'item' || entry?.slot === ITEM_CARD_GENERIC_SLOT
 }
 
+export function isItemCardEmote(entry: GlamourEquipmentEntry | undefined): boolean {
+  return entry?.cardKind === 'emote' || entry?.slot === ITEM_CARD_EMOTE_SLOT
+}
+
 function normalizeEquipmentEntry(value: unknown): GlamourEquipmentEntry | undefined {
   if (!isRecord(value) || typeof value.slot !== 'string') {
     return undefined
@@ -614,7 +624,11 @@ function normalizeEquipmentEntry(value: unknown): GlamourEquipmentEntry | undefi
     ...value,
     slot: value.slot,
     cardKind:
-      value.cardKind === 'item' || value.slot === ITEM_CARD_GENERIC_SLOT ? 'item' : 'equipment',
+      value.cardKind === 'emote' || value.slot === ITEM_CARD_EMOTE_SLOT
+        ? 'emote'
+        : value.cardKind === 'item' || value.slot === ITEM_CARD_GENERIC_SLOT
+          ? 'item'
+          : 'equipment',
     cardRowId: typeof value.cardRowId === 'string' ? value.cardRowId.trim() : undefined,
     cardDuplicate: value.cardDuplicate === true,
     slot_label: typeof value.slot_label === 'string' ? value.slot_label : undefined,
@@ -638,7 +652,8 @@ let cachedIgnoreEmperor: boolean | null = null
 function shouldIgnoreEmperorItems(): boolean {
   if (cachedIgnoreEmperor === null) {
     cachedIgnoreEmperor =
-      typeof localStorage !== 'undefined' && localStorage.getItem('nsitemcard.ignoreEmperor') === '1'
+      typeof localStorage !== 'undefined' &&
+      localStorage.getItem('nsitemcard.ignoreEmperor') === '1'
   }
   return cachedIgnoreEmperor
 }
@@ -649,6 +664,7 @@ export function getVisibleEquipmentEntries(
   const entriesBySlot = new Map<string, GlamourEquipmentEntry>()
   const duplicateEntriesBySlot = new Map<string, GlamourEquipmentEntry[]>()
   const plainItemEntries: GlamourEquipmentEntry[] = []
+  const emoteEntries: GlamourEquipmentEntry[] = []
   const storedEntries: GlamourEquipmentEntry[] = []
   const storedRows =
     payload?._itemCardRowsVersion === 1 && Array.isArray(payload._cardRows)
@@ -688,6 +704,32 @@ export function getVisibleEquipmentEntries(
       })
       if (preserveDuplicateRows) {
         storedEntries.push(plainItemEntries[plainItemEntries.length - 1])
+      }
+      continue
+    }
+
+    if (isItemCardEmote(entry)) {
+      if (!getSelectedCandidate(entry)) {
+        continue
+      }
+      const preferredRowId = entry.cardRowId
+      const cardRowId =
+        preferredRowId && !usedRowIds.has(preferredRowId)
+          ? preferredRowId
+          : createItemCardRowId(ITEM_CARD_EMOTE_SLOT)
+      usedRowIds.add(cardRowId)
+      const normalizedEmote = {
+        ...entry,
+        slot: ITEM_CARD_EMOTE_SLOT,
+        cardKind: 'emote' as const,
+        cardRowId,
+        cardDuplicate: true,
+        __emptySlot: false
+      }
+      if (preserveDuplicateRows) {
+        storedEntries.push(normalizedEmote)
+      } else {
+        emoteEntries.push(normalizedEmote)
       }
       continue
     }
@@ -764,7 +806,8 @@ export function getVisibleEquipmentEntries(
       ...(entriesBySlot.has(slot.key) ? [entriesBySlot.get(slot.key)!] : []),
       ...(duplicateEntriesBySlot.get(slot.key) || [])
     ]),
-    ...plainItemEntries
+    ...plainItemEntries,
+    ...emoteEntries
   ]
 }
 

@@ -17,6 +17,8 @@
     "build:glamour-mapping": "python server/glamour/tools/build_item_mapping.py",
     "build:glamour-item-catalog": "python server/glamour/tools/build_item_catalog.py",
     "build:ffxiv-csv-structure": "node scripts/build-ffxiv-csv-structure.mjs",
+    "build:item-card-emotes": "node scripts/build-item-card-emotes.mjs",
+    "check:item-card-emotes": "node scripts/check-item-card-emotes.mjs",
     "build:fashion-check-history": "node scripts/fashion-check/build-history.mjs",
     "check:fashion-check-history": "node scripts/fashion-check/check-history.mjs",
     "build:fashion-check-tags": "node scripts/fashion-check/build-tag-database.mjs",

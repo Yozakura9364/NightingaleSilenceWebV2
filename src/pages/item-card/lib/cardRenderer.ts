@@ -4,6 +4,7 @@ import {
   getCandidateName,
   getDisplayDyeEntries,
   getDyeEntryName,
+  getItemCardRowId,
   getSelectedCandidate,
   isNoDyeEntry,
   resolveLocalized
@@ -62,8 +63,16 @@ export interface ItemCardListRenderRequest {
   entries: GlamourEquipmentEntry[]
   draft: GlamourDraft
   settings: ItemCardRenderSettings
-  layout: ItemCardLayout
+  layouts: Record<string, ItemCardLayout>
   apiBase: string
+}
+
+export function resolveItemCardLayout(
+  entry: GlamourEquipmentEntry,
+  layouts: Record<string, ItemCardLayout>
+): ItemCardLayout {
+  const layout = layouts[getItemCardRowId(entry)] ?? layouts[entry.slot]
+  return layout === 'right' ? 'right' : 'left'
 }
 
 const imageCache = new Map<string, Promise<HTMLImageElement | null>>()
@@ -310,7 +319,12 @@ function drawIcon(
 
 function dyeRows(request: ItemCardRenderRequest, locale: GlamourLocale): ItemCardDyeRow[] {
   const candidate = getSelectedCandidate(request.entry)
-  if (candidate?.item_kind === 'item') {
+  // 情感动作与普通物品不显示染剂行；家具（含庭具、内装建材）与装备一样展示染色状态。
+  const isFurniture = candidate?.item_category === 'furniture'
+  if (
+    candidate?.item_kind === 'emote' ||
+    (candidate?.item_kind === 'item' && !isFurniture)
+  ) {
     return []
   }
   const count = getCandidateDyeCount(candidate, request.entry.slot)
@@ -547,7 +561,7 @@ export async function renderItemListCanvas(
       entry,
       draft: request.draft,
       settings: request.settings,
-      layout: request.layout,
+      layout: resolveItemCardLayout(entry, request.layouts),
       apiBase: request.apiBase
     })
     ctx.drawImage(row, 0, y)

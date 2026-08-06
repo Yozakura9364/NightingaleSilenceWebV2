@@ -17,16 +17,14 @@ export function useItemCardSettings() {
   const stored = readItemCardSettings()
   const settings = ref<ItemCardRenderSettings>(stored.render)
   const layouts = ref<Record<string, ItemCardLayout>>(stored.layouts)
-  const listLayout = ref<ItemCardLayout>(stored.listLayout)
 
   watch(
-    [settings, layouts, listLayout],
+    [settings, layouts],
     () => {
       writeItemCardSettings({
         version: 1,
         render: settings.value,
-        layouts: layouts.value,
-        listLayout: listLayout.value
+        layouts: layouts.value
       })
     },
     { deep: true }
@@ -82,20 +80,14 @@ export function useItemCardSettings() {
     }
   }
 
-  function setListLayout(layout: ItemCardLayout) {
-    listLayout.value = layout
-  }
-
   return {
     settings,
     layouts,
-    listLayout,
     updateSettings,
     updateLocaleStyle,
     toggleOutputLocale,
     getLayout,
     setLayout,
-    setAllLayouts,
-    setListLayout
+    setAllLayouts
   }
 }

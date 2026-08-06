@@ -1,0 +1,5126 @@
+{
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs/Emote.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs/Emote.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/en/Emote.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/ja/Emote.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/master/csv/Emote.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/master/Emote.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/fr/Emote.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/de/Emote.csv"
+    }
+  },
+  "generatedAt": "2026-08-06T02:08:39.188Z",
+  "items": [
+    {
+      "id": "1",
+      "name": "惊讶",
+      "icon": 246201,
+      "category": "1",
+      "textCommand": "402",
+      "unlockLink": "0",
+      "names": {
+        "zh": "惊讶",
+        "en": "Surprised",
+        "ja": "おどろく",
+        "ko": "놀라기",
+        "tc": "驚訝",
+        "fr": "Surprise",
+        "de": "Überrascht"
+      }
+    },
+    {
+      "id": "2",
+      "name": "不满",
+      "icon": 246202,
+      "category": "1",
+      "textCommand": "403",
+      "unlockLink": "0",
+      "names": {
+        "zh": "不满",
+        "en": "Angry",
+        "ja": "不満を表す",
+        "ko": "불만 표시",
+        "tc": "不滿",
+        "fr": "Se fâcher",
+        "de": "Verärgert"
+      }
+    },
+    {
+      "id": "3",
+      "name": "愤怒",
+      "icon": 246203,
+      "category": "1",
+      "textCommand": "404",
+      "unlockLink": "0",
+      "names": {
+        "zh": "愤怒",
+        "en": "Furious",
+        "ja": "怒る",
+        "ko": "화내기",
+        "tc": "憤怒",
+        "fr": "Furieux",
+        "de": "Zornig"
+      }
+    },
+    {
+      "id": "4",
+      "name": "害羞",
+      "icon": 246204,
+      "category": "1",
+      "textCommand": "405",
+      "unlockLink": "0",
+      "names": {
+        "zh": "害羞",
+        "en": "Blush",
+        "ja": "照れる",
+        "ko": "수줍어하기",
+        "tc": "害羞",
+        "fr": "Rougir",
+        "de": "Erröten"
+      }
+    },
+    {
+      "id": "5",
+      "name": "行礼",
+      "icon": 246205,
+      "category": "1",
+      "textCommand": "406",
+      "unlockLink": "0",
+      "names": {
+        "zh": "行礼",
+        "en": "Bow",
+        "ja": "お辞儀する",
+        "ko": "공손하게 인사",
+        "tc": "行禮",
+        "fr": "S'incliner",
+        "de": "Verbeugen"
+      }
+    },
+    {
+      "id": "6",
+      "name": "加油",
+      "icon": 246206,
+      "category": "1",
+      "textCommand": "407",
+      "unlockLink": "0",
+      "names": {
+        "zh": "加油",
+        "en": "Cheer",
+        "ja": "応援する",
+        "ko": "응원",
+        "tc": "加油",
+        "fr": "Encourager",
+        "de": "Anfeuern"
+      }
+    },
+    {
+      "id": "7",
+      "name": "拍手",
+      "icon": 246207,
+      "category": "1",
+      "textCommand": "408",
+      "unlockLink": "0",
+      "names": {
+        "zh": "拍手",
+        "en": "Clap",
+        "ja": "拍手する",
+        "ko": "박수",
+        "tc": "拍手",
+        "fr": "Applaudir",
+        "de": "Klatschen"
+      }
+    },
+    {
+      "id": "8",
+      "name": "招手",
+      "icon": 246208,
+      "category": "1",
+      "textCommand": "409",
+      "unlockLink": "0",
+      "names": {
+        "zh": "招手",
+        "en": "Beckon",
+        "ja": "手まねきする",
+        "ko": "손짓",
+        "tc": "招手",
+        "fr": "Inviter",
+        "de": "Herbeiwinken"
+      }
+    },
+    {
+      "id": "9",
+      "name": "安慰",
+      "icon": 246209,
+      "category": "1",
+      "textCommand": "410",
+      "unlockLink": "0",
+      "names": {
+        "zh": "安慰",
+        "en": "Comfort",
+        "ja": "なぐさめる",
+        "ko": "위로",
+        "tc": "安慰",
+        "fr": "Consoler",
+        "de": "Trösten"
+      }
+    },
+    {
+      "id": "10",
+      "name": "哭泣",
+      "icon": 246210,
+      "category": "1",
+      "textCommand": "411",
+      "unlockLink": "0",
+      "names": {
+        "zh": "哭泣",
+        "en": "Cry",
+        "ja": "泣く",
+        "ko": "엉엉 울기",
+        "tc": "哭泣",
+        "fr": "Pleurer",
+        "de": "Weinen"
+      }
+    },
+    {
+      "id": "11",
+      "name": "跳舞",
+      "icon": 246211,
+      "category": "1",
+      "textCommand": "412",
+      "unlockLink": "0",
+      "names": {
+        "zh": "跳舞",
+        "en": "Dance",
+        "ja": "踊る",
+        "ko": "춤추기",
+        "tc": "跳舞",
+        "fr": "Danser",
+        "de": "Tanzen"
+      }
+    },
+    {
+      "id": "12",
+      "name": "质疑",
+      "icon": 246212,
+      "category": "1",
+      "textCommand": "413",
+      "unlockLink": "0",
+      "names": {
+        "zh": "质疑",
+        "en": "Doubt",
+        "ja": "問い詰める",
+        "ko": "추궁",
+        "tc": "質疑",
+        "fr": "Questionner",
+        "de": "Beschuldigen"
+      }
+    },
+    {
+      "id": "13",
+      "name": "打盹",
+      "icon": 246213,
+      "category": "1",
+      "textCommand": "414",
+      "unlockLink": "0",
+      "names": {
+        "zh": "打盹",
+        "en": "Doze",
+        "ja": "居眠りする",
+        "ko": "꾸벅꾸벅 졸기",
+        "tc": "打盹",
+        "fr": "Somnoler",
+        "de": "Müde"
+      }
+    },
+    {
+      "id": "14",
+      "name": "后悔",
+      "icon": 246214,
+      "category": "1",
+      "textCommand": "415",
+      "unlockLink": "0",
+      "names": {
+        "zh": "后悔",
+        "en": "Fume",
+        "ja": "悔しがる",
+        "ko": "분개",
+        "tc": "後悔",
+        "fr": "Dépit",
+        "de": "Frustriert"
+      }
+    },
+    {
+      "id": "15",
+      "name": "道别",
+      "icon": 246215,
+      "category": "1",
+      "textCommand": "416",
+      "unlockLink": "0",
+      "names": {
+        "zh": "道别",
+        "en": "Goodbye",
+        "ja": "さようなら",
+        "ko": "작별 인사",
+        "tc": "道別",
+        "fr": "Au revoir",
+        "de": "Tschüs"
+      }
+    },
+    {
+      "id": "16",
+      "name": "挥手",
+      "icon": 246216,
+      "category": "1",
+      "textCommand": "417",
+      "unlockLink": "0",
+      "names": {
+        "zh": "挥手",
+        "en": "Wave",
+        "ja": "手を振る",
+        "ko": "손 흔들어 인사",
+        "tc": "揮手",
+        "fr": "Signe de la main",
+        "de": "Winken"
+      }
+    },
+    {
+      "id": "17",
+      "name": "莫名",
+      "icon": 246217,
+      "category": "1",
+      "textCommand": "418",
+      "unlockLink": "0",
+      "names": {
+        "zh": "莫名",
+        "en": "Huh",
+        "ja": "呆れる",
+        "ko": "어이없음",
+        "tc": "莫名",
+        "fr": "Consterner",
+        "de": "Tja"
+      }
+    },
+    {
+      "id": "18",
+      "name": "高兴",
+      "icon": 246218,
+      "category": "1",
+      "textCommand": "419",
+      "unlockLink": "0",
+      "names": {
+        "zh": "高兴",
+        "en": "Joy",
+        "ja": "喜ぶ",
+        "ko": "기쁨",
+        "tc": "高興",
+        "fr": "Se réjouir",
+        "de": "Freuen"
+      }
+    },
+    {
+      "id": "19",
+      "name": "下跪",
+      "icon": 246219,
+      "category": "1",
+      "textCommand": "420",
+      "unlockLink": "0",
+      "names": {
+        "zh": "下跪",
+        "en": "Kneel",
+        "ja": "ひざまずく",
+        "ko": "무릎 꿇기",
+        "tc": "下跪",
+        "fr": "S'agenouiller",
+        "de": "Knien"
+      }
+    },
+    {
+      "id": "20",
+      "name": "轻笑",
+      "icon": 246220,
+      "category": "1",
+      "textCommand": "421",
+      "unlockLink": "0",
+      "names": {
+        "zh": "轻笑",
+        "en": "Chuckle",
+        "ja": "笑う",
+        "ko": "웃기",
+        "tc": "輕笑",
+        "fr": "Rire",
+        "de": "Lachen"
+      }
+    },
+    {
+      "id": "21",
+      "name": "大笑",
+      "icon": 246221,
+      "category": "1",
+      "textCommand": "422",
+      "unlockLink": "0",
+      "names": {
+        "zh": "大笑",
+        "en": "Laugh",
+        "ja": "大笑いする",
+        "ko": "폭소",
+        "tc": "大笑",
+        "fr": "S'esclaffer",
+        "de": "Totlachen"
+      }
+    },
+    {
+      "id": "22",
+      "name": "张望",
+      "icon": 246222,
+      "category": "1",
+      "textCommand": "423",
+      "unlockLink": "0",
+      "names": {
+        "zh": "张望",
+        "en": "Lookout",
+        "ja": "見わたす",
+        "ko": "주위 둘러보기",
+        "tc": "張望",
+        "fr": "Scruter",
+        "de": "Spähen"
+      }
+    },
+    {
+      "id": "23",
+      "name": "展示",
+      "icon": 246223,
+      "category": "1",
+      "textCommand": "424",
+      "unlockLink": "0",
+      "names": {
+        "zh": "展示",
+        "en": "Me",
+        "ja": "アピール",
+        "ko": "자신 가리키기",
+        "tc": "展示",
+        "fr": "Moi",
+        "de": "Ich"
+      }
+    },
+    {
+      "id": "24",
+      "name": "摇头",
+      "icon": 246224,
+      "category": "1",
+      "textCommand": "425",
+      "unlockLink": "0",
+      "names": {
+        "zh": "摇头",
+        "en": "No",
+        "ja": "首を横に振る",
+        "ko": "고개 젓기",
+        "tc": "搖頭",
+        "fr": "Non",
+        "de": "Nein"
+      }
+    },
+    {
+      "id": "25",
+      "name": "否定",
+      "icon": 246225,
+      "category": "1",
+      "textCommand": "426",
+      "unlockLink": "0",
+      "names": {
+        "zh": "否定",
+        "en": "Deny",
+        "ja": "否定する",
+        "ko": "부정",
+        "tc": "否定",
+        "fr": "Refuser",
+        "de": "Niemals"
+      }
+    },
+    {
+      "id": "26",
+      "name": "慌张",
+      "icon": 246226,
+      "category": "1",
+      "textCommand": "427",
+      "unlockLink": "0",
+      "names": {
+        "zh": "慌张",
+        "en": "Panic",
+        "ja": "慌てる",
+        "ko": "당황",
+        "tc": "慌張",
+        "fr": "Paniquer",
+        "de": "Panik"
+      }
+    },
+    {
+      "id": "27",
+      "name": "指向",
+      "icon": 246227,
+      "category": "1",
+      "textCommand": "428",
+      "unlockLink": "0",
+      "names": {
+        "zh": "指向",
+        "en": "Point",
+        "ja": "指さす",
+        "ko": "손가락으로 가리키기",
+        "tc": "指向",
+        "fr": "Montrer",
+        "de": "Zeigen"
+      }
+    },
+    {
+      "id": "28",
+      "name": "戳指",
+      "icon": 246228,
+      "category": "1",
+      "textCommand": "429",
+      "unlockLink": "0",
+      "names": {
+        "zh": "戳指",
+        "en": "Poke",
+        "ja": "つつく",
+        "ko": "쿡쿡 찌르기",
+        "tc": "用手指戳",
+        "fr": "Toucher",
+        "de": "Anstupsen"
+      }
+    },
+    {
+      "id": "29",
+      "name": "称赞",
+      "icon": 246229,
+      "category": "1",
+      "textCommand": "430",
+      "unlockLink": "0",
+      "names": {
+        "zh": "称赞",
+        "en": "Congratulate",
+        "ja": "称賛する",
+        "ko": "칭찬",
+        "tc": "稱讚",
+        "fr": "Féliciter",
+        "de": "Super"
+      }
+    },
+    {
+      "id": "30",
+      "name": "激励",
+      "icon": 246230,
+      "category": "1",
+      "textCommand": "431",
+      "unlockLink": "0",
+      "names": {
+        "zh": "激励",
+        "en": "Psych",
+        "ja": "活を入れる",
+        "ko": "힘 불어넣기",
+        "tc": "激勵",
+        "fr": "Se motiver",
+        "de": "Auf geht's"
+      }
+    },
+    {
+      "id": "31",
+      "name": "敬礼",
+      "icon": 246231,
+      "category": "1",
+      "textCommand": "432",
+      "unlockLink": "0",
+      "names": {
+        "zh": "敬礼",
+        "en": "Salute",
+        "ja": "敬礼する",
+        "ko": "경례",
+        "tc": "敬禮",
+        "fr": "Saluer",
+        "de": "Salutieren"
+      }
+    },
+    {
+      "id": "32",
+      "name": "震惊",
+      "icon": 246232,
+      "category": "1",
+      "textCommand": "433",
+      "unlockLink": "0",
+      "names": {
+        "zh": "震惊",
+        "en": "Shocked",
+        "ja": "動転する",
+        "ko": "기겁",
+        "tc": "震驚",
+        "fr": "Choc",
+        "de": "Schockiert"
+      }
+    },
+    {
+      "id": "33",
+      "name": "耸肩",
+      "icon": 246233,
+      "category": "1",
+      "textCommand": "434",
+      "unlockLink": "0",
+      "names": {
+        "zh": "耸肩",
+        "en": "Shrug",
+        "ja": "肩をすくめる",
+        "ko": "어깨 으쓱하기",
+        "tc": "聳肩",
+        "fr": "Hausser les épaules",
+        "de": "Schultern zucken"
+      }
+    },
+    {
+      "id": "34",
+      "name": "鼓励",
+      "icon": 246234,
+      "category": "1",
+      "textCommand": "435",
+      "unlockLink": "0",
+      "names": {
+        "zh": "鼓励",
+        "en": "Rally",
+        "ja": "励ます",
+        "ko": "격려",
+        "tc": "鼓勵",
+        "fr": "Stimuler",
+        "de": "Aufmuntern"
+      }
+    },
+    {
+      "id": "35",
+      "name": "安抚",
+      "icon": 246235,
+      "category": "1",
+      "textCommand": "436",
+      "unlockLink": "0",
+      "names": {
+        "zh": "安抚",
+        "en": "Soothe",
+        "ja": "なだめる",
+        "ko": "진정시키기",
+        "tc": "安撫",
+        "fr": "Apaiser",
+        "de": "Beruhigen"
+      }
+    },
+    {
+      "id": "36",
+      "name": "迷糊",
+      "icon": 246236,
+      "category": "1",
+      "textCommand": "437",
+      "unlockLink": "0",
+      "names": {
+        "zh": "迷糊",
+        "en": "Stagger",
+        "ja": "よろめく",
+        "ko": "비틀거리기",
+        "tc": "迷糊",
+        "fr": "Tituber",
+        "de": "Torkeln"
+      }
+    },
+    {
+      "id": "37",
+      "name": "伸展",
+      "icon": 246237,
+      "category": "1",
+      "textCommand": "438",
+      "unlockLink": "0",
+      "names": {
+        "zh": "伸展",
+        "en": "Stretch",
+        "ja": "伸びをする",
+        "ko": "기지개 켜기",
+        "tc": "伸展",
+        "fr": "S'étirer",
+        "de": "Sich strecken"
+      }
+    },
+    {
+      "id": "38",
+      "name": "愠怒",
+      "icon": 246238,
+      "category": "1",
+      "textCommand": "439",
+      "unlockLink": "0",
+      "names": {
+        "zh": "愠怒",
+        "en": "Sulk",
+        "ja": "すねる",
+        "ko": "삐치기",
+        "tc": "慍怒",
+        "fr": "Bouder",
+        "de": "Schmollen"
+      }
+    },
+    {
+      "id": "39",
+      "name": "思考",
+      "icon": 246239,
+      "category": "1",
+      "textCommand": "440",
+      "unlockLink": "0",
+      "names": {
+        "zh": "思考",
+        "en": "Think",
+        "ja": "考える",
+        "ko": "생각에 잠기기",
+        "tc": "思考",
+        "fr": "Penser",
+        "de": "Denken"
+      }
+    },
+    {
+      "id": "40",
+      "name": "失望",
+      "icon": 246240,
+      "category": "1",
+      "textCommand": "441",
+      "unlockLink": "0",
+      "names": {
+        "zh": "失望",
+        "en": "Upset",
+        "ja": "がっかりする",
+        "ko": "실망",
+        "tc": "失望",
+        "fr": "Déception",
+        "de": "Na toll"
+      }
+    },
+    {
+      "id": "41",
+      "name": "欢迎",
+      "icon": 246241,
+      "category": "1",
+      "textCommand": "442",
+      "unlockLink": "0",
+      "names": {
+        "zh": "欢迎",
+        "en": "Welcome",
+        "ja": "歓迎する",
+        "ko": "환영",
+        "tc": "歡迎",
+        "fr": "Accueillir",
+        "de": "Willkommen"
+      }
+    },
+    {
+      "id": "42",
+      "name": "点头",
+      "icon": 246242,
+      "category": "1",
+      "textCommand": "443",
+      "unlockLink": "0",
+      "names": {
+        "zh": "点头",
+        "en": "Yes",
+        "ja": "うなずく",
+        "ko": "고개 끄덕이기",
+        "tc": "點頭",
+        "fr": "Oui",
+        "de": "Ja"
+      }
+    },
+    {
+      "id": "43",
+      "name": "肯定",
+      "icon": 246243,
+      "category": "1",
+      "textCommand": "444",
+      "unlockLink": "0",
+      "names": {
+        "zh": "肯定",
+        "en": "Thumbs Up",
+        "ja": "肯定する",
+        "ko": "엄지 세우기",
+        "tc": "肯定",
+        "fr": "Accord",
+        "de": "Jawohl"
+      }
+    },
+    {
+      "id": "44",
+      "name": "自视",
+      "icon": 246244,
+      "category": "1",
+      "textCommand": "445",
+      "unlockLink": "0",
+      "names": {
+        "zh": "自视",
+        "en": "Examine Self",
+        "ja": "自分を見る",
+        "ko": "자기 모습 확인",
+        "tc": "自視",
+        "fr": "Se regarder",
+        "de": "Sich betrachten"
+      }
+    },
+    {
+      "id": "45",
+      "name": "摆造型",
+      "icon": 246245,
+      "category": "1",
+      "textCommand": "446",
+      "unlockLink": "0",
+      "names": {
+        "zh": "摆造型",
+        "en": "Pose",
+        "ja": "ポーズをとる",
+        "ko": "멋진 자세 취하기",
+        "tc": "擺造型",
+        "fr": "Poser",
+        "de": "Posieren"
+      }
+    },
+    {
+      "id": "46",
+      "name": "飞吻",
+      "icon": 246249,
+      "category": "1",
+      "textCommand": "447",
+      "unlockLink": "0",
+      "names": {
+        "zh": "飞吻",
+        "en": "Blow Kiss",
+        "ja": "投げキッス",
+        "ko": "손키스 날리기",
+        "tc": "飛吻",
+        "fr": "Envoyer un baiser",
+        "de": "Kusshand"
+      }
+    },
+    {
+      "id": "47",
+      "name": "下跪认错",
+      "icon": 246251,
+      "category": "1",
+      "textCommand": "448",
+      "unlockLink": "0",
+      "names": {
+        "zh": "下跪认错",
+        "en": "Grovel",
+        "ja": "土下座",
+        "ko": "무릎 꿇고 사죄",
+        "tc": "下跪認錯",
+        "fr": "Se prosterner",
+        "de": "Demütig"
+      }
+    },
+    {
+      "id": "48",
+      "name": "欣喜若狂",
+      "icon": 246252,
+      "category": "1",
+      "textCommand": "449",
+      "unlockLink": "0",
+      "names": {
+        "zh": "欣喜若狂",
+        "en": "Happy",
+        "ja": "すごく喜ぶ",
+        "ko": "행복",
+        "tc": "欣喜若狂",
+        "fr": "Jubiler",
+        "de": "Freudentaumel"
+      }
+    },
+    {
+      "id": "49",
+      "name": "大失所望",
+      "icon": 246253,
+      "category": "1",
+      "textCommand": "450",
+      "unlockLink": "0",
+      "names": {
+        "zh": "大失所望",
+        "en": "Disappointed",
+        "ja": "すごくがっかりする",
+        "ko": "좌절",
+        "tc": "大失所望",
+        "fr": "Désespérer",
+        "de": "Vernichtet"
+      }
+    },
+    {
+      "id": "50",
+      "name": "坐下",
+      "icon": 246256,
+      "category": "2",
+      "textCommand": "451",
+      "unlockLink": "0",
+      "names": {
+        "zh": "坐下",
+        "en": "Sit",
+        "ja": "座る",
+        "ko": "앉기",
+        "tc": "坐下",
+        "fr": "S'asseoir",
+        "de": "Sitzen"
+      }
+    },
+    {
+      "id": "51",
+      "name": "起身",
+      "icon": 246254,
+      "category": "2",
+      "textCommand": "0",
+      "unlockLink": "0",
+      "names": {
+        "zh": "起身",
+        "en": "Stand Up",
+        "ja": "立ち上がる",
+        "ko": "서기",
+        "tc": "起身",
+        "fr": "Se lever",
+        "de": "Aufstehen"
+      }
+    },
+    {
+      "id": "52",
+      "name": "坐下到地上",
+      "icon": 246254,
+      "category": "2",
+      "textCommand": "453",
+      "unlockLink": "0",
+      "names": {
+        "zh": "坐下到地上",
+        "en": "Sit on Ground",
+        "ja": "地面に座る",
+        "ko": "바닥에 앉기",
+        "tc": "坐下到地上",
+        "fr": "S'asseoir par terre",
+        "de": "Auf Boden setzen"
+      }
+    },
+    {
+      "id": "53",
+      "name": "起身",
+      "icon": 246254,
+      "category": "2",
+      "textCommand": "0",
+      "unlockLink": "0",
+      "names": {
+        "zh": "起身",
+        "en": "Stand Up",
+        "ja": "立ち上がる",
+        "ko": "서기",
+        "tc": "起身",
+        "fr": "Se lever",
+        "de": "Aufstehen"
+      }
+    },
+    {
+      "id": "54",
+      "name": "引用",
+      "icon": 246263,
+      "category": "1",
+      "textCommand": "455",
+      "unlockLink": "0",
+      "names": {
+        "zh": "引用",
+        "en": "Air Quotes",
+        "ja": "引用",
+        "ko": "강조",
+        "tc": "引用",
+        "fr": "Guillemets",
+        "de": "Ironisch"
+      }
+    },
+    {
+      "id": "55",
+      "name": "黑涡团军礼",
+      "icon": 246246,
+      "category": "1",
+      "textCommand": "456",
+      "unlockLink": "0",
+      "names": {
+        "zh": "黑涡团军礼",
+        "en": "Storm Salute",
+        "ja": "黒渦団・敬礼",
+        "ko": "흑와단식 경례",
+        "tc": "黑渦團軍禮",
+        "fr": "Salut du Maelstrom",
+        "de": "Mahlstrom-Salut"
+      }
+    },
+    {
+      "id": "56",
+      "name": "双蛇党军礼",
+      "icon": 246247,
+      "category": "1",
+      "textCommand": "457",
+      "unlockLink": "0",
+      "names": {
+        "zh": "双蛇党军礼",
+        "en": "Serpent Salute",
+        "ja": "双蛇党・敬礼",
+        "ko": "쌍사당식 경례",
+        "tc": "雙蛇黨軍禮",
+        "fr": "Salut des Deux Vipères",
+        "de": "Bruderschafts-Salut"
+      }
+    },
+    {
+      "id": "57",
+      "name": "恒辉队军礼",
+      "icon": 246248,
+      "category": "1",
+      "textCommand": "458",
+      "unlockLink": "0",
+      "names": {
+        "zh": "恒辉队军礼",
+        "en": "Flame Salute",
+        "ja": "不滅隊・敬礼",
+        "ko": "불멸대식 경례",
+        "tc": "不滅隊軍禮",
+        "fr": "Salut des Immortels",
+        "de": "Legions-Salut"
+      }
+    },
+    {
+      "id": "58",
+      "name": "祈祷",
+      "icon": 246264,
+      "category": "1",
+      "textCommand": "459",
+      "unlockLink": "0",
+      "names": {
+        "zh": "祈祷",
+        "en": "Pray",
+        "ja": "祈る",
+        "ko": "기도하기",
+        "tc": "祈禱",
+        "fr": "Prier",
+        "de": "Beten"
+      }
+    },
+    {
+      "id": "59",
+      "name": "帝国式军礼",
+      "icon": 246266,
+      "category": "1",
+      "textCommand": "460",
+      "unlockLink": "23",
+      "names": {
+        "zh": "帝国式军礼",
+        "en": "Imperial Salute",
+        "ja": "帝国式敬礼",
+        "ko": "제국식 경례",
+        "tc": "帝國式軍禮",
+        "fr": "Salut impérial",
+        "de": "Garleischer Salut"
+      }
+    },
+    {
+      "id": "60",
+      "name": "头部装备操作",
+      "icon": 246265,
+      "category": "2",
+      "textCommand": "461",
+      "unlockLink": "0",
+      "names": {
+        "zh": "头部装备操作",
+        "en": "Visor",
+        "ja": "頭装備の操作",
+        "ko": "머리 장비 조작",
+        "tc": "頭部裝備操作",
+        "fr": "Visière",
+        "de": "Visier"
+      }
+    },
+    {
+      "id": "61",
+      "name": "头部装备操作",
+      "icon": 246265,
+      "category": "2",
+      "textCommand": "0",
+      "unlockLink": "0",
+      "names": {
+        "zh": "头部装备操作",
+        "en": "Visor",
+        "ja": "頭装備の操作",
+        "ko": "머리 장비 조작",
+        "tc": "頭部裝備操作",
+        "fr": "Visière",
+        "de": "Visier"
+      }
+    },
+    {
+      "id": "62",
+      "name": "百万核爆",
+      "icon": 246327,
+      "category": "2",
+      "textCommand": "463",
+      "unlockLink": "379",
+      "names": {
+        "zh": "百万核爆",
+        "en": "Megaflare",
+        "ja": "メガフレア",
+        "ko": "메가플레어",
+        "tc": "百萬火光",
+        "fr": "MégaBrasier",
+        "de": "Megaflare"
+      }
+    },
+    {
+      "id": "63",
+      "name": "练武",
+      "icon": 246328,
+      "category": "1",
+      "textCommand": "464",
+      "unlockLink": "378",
+      "names": {
+        "zh": "练武",
+        "en": "Crimson Lotus",
+        "ja": "演舞",
+        "ko": "연무",
+        "tc": "練武",
+        "fr": "Chorégraphie martiale",
+        "de": "Purpurlotos"
+      }
+    },
+    {
+      "id": "64",
+      "name": "魅惑拥抱",
+      "icon": 246329,
+      "category": "2",
+      "textCommand": "465",
+      "unlockLink": "384",
+      "names": {
+        "zh": "魅惑拥抱",
+        "en": "Charmed",
+        "ja": "魅惑の抱擁",
+        "ko": "매혹적인 포옹",
+        "tc": "魅惑擁抱",
+        "fr": "Tomber sous le charme",
+        "de": "Lockende Umarmung"
+      }
+    },
+    {
+      "id": "65",
+      "name": "前后声援小蓝",
+      "icon": 246330,
+      "category": "2",
+      "textCommand": "466",
+      "unlockLink": "381",
+      "names": {
+        "zh": "前后声援小蓝",
+        "en": "Cheer On: Blue",
+        "ja": "声援フロント：青",
+        "ko": "정면 응원(파랑)",
+        "tc": "聲援小藍",
+        "fr": "Encourager : devant (bleu)",
+        "de": "Anfeuern (Wippen/Blau)"
+      }
+    },
+    {
+      "id": "66",
+      "name": "挥舞声援小黄",
+      "icon": 246331,
+      "category": "2",
+      "textCommand": "467",
+      "unlockLink": "382",
+      "names": {
+        "zh": "挥舞声援小黄",
+        "en": "Cheer Wave: Yellow",
+        "ja": "声援ウェーブ：黄",
+        "ko": "물결 응원(노랑)",
+        "tc": "聲援小黃",
+        "fr": "Encourager : arcs (jaune)",
+        "de": "Anfeuern (Schwenken/Gelb)"
+      }
+    },
+    {
+      "id": "67",
+      "name": "蹦跳声援小红",
+      "icon": 246332,
+      "category": "2",
+      "textCommand": "468",
+      "unlockLink": "383",
+      "names": {
+        "zh": "蹦跳声援小红",
+        "en": "Cheer Jump: Red",
+        "ja": "声援ジャンプ：赤",
+        "ko": "점프 응원(빨강)",
+        "tc": "聲援小紅",
+        "fr": "Encourager : sauts (rouge)",
+        "de": "Anfeuern (Hüpfen/Rot)"
+      }
+    },
+    {
+      "id": "68",
+      "name": "表情：平常",
+      "icon": 246101,
+      "category": "3",
+      "textCommand": "469",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：平常",
+        "en": "Straight Face",
+        "ja": "表情：素顔",
+        "ko": "정색",
+        "tc": "表情：平常",
+        "fr": "Visage normal",
+        "de": "Neutrale Miene"
+      }
+    },
+    {
+      "id": "69",
+      "name": "表情：微笑",
+      "icon": 246102,
+      "category": "3",
+      "textCommand": "470",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：微笑",
+        "en": "Smile",
+        "ja": "表情：微笑",
+        "ko": "미소 짓기",
+        "tc": "表情：微笑",
+        "fr": "Visage souriant",
+        "de": "Lächelnd"
+      }
+    },
+    {
+      "id": "70",
+      "name": "表情：笑颜",
+      "icon": 246103,
+      "category": "3",
+      "textCommand": "471",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：笑颜",
+        "en": "Grin",
+        "ja": "表情：笑顔",
+        "ko": "웃는 얼굴",
+        "tc": "表情：笑容",
+        "fr": "Visage radieux",
+        "de": "Grinsend"
+      }
+    },
+    {
+      "id": "71",
+      "name": "表情：自信",
+      "icon": 246104,
+      "category": "3",
+      "textCommand": "472",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：自信",
+        "en": "Smirk",
+        "ja": "表情：自信",
+        "ko": "자신감 넘치는 표정",
+        "tc": "表情：自信",
+        "fr": "Visage confiant",
+        "de": "Zuversichtlich"
+      }
+    },
+    {
+      "id": "72",
+      "name": "表情：无畏",
+      "icon": 246105,
+      "category": "3",
+      "textCommand": "473",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：无畏",
+        "en": "Taunt",
+        "ja": "表情：不敵",
+        "ko": "음흉한 웃음",
+        "tc": "表情：無畏",
+        "fr": "Visage arrogant",
+        "de": "Siegessicher"
+      }
+    },
+    {
+      "id": "73",
+      "name": "表情：闭目",
+      "icon": 246106,
+      "category": "3",
+      "textCommand": "474",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：闭目",
+        "en": "Shut Eyes",
+        "ja": "表情：瞑目",
+        "ko": "눈 감기",
+        "tc": "表情：閉目",
+        "fr": "Visage endormi",
+        "de": "Augen zu"
+      }
+    },
+    {
+      "id": "74",
+      "name": "表情：悲伤",
+      "icon": 246107,
+      "category": "3",
+      "textCommand": "475",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：悲伤",
+        "en": "Sad",
+        "ja": "表情：泣き顔",
+        "ko": "울상 짓기",
+        "tc": "表情：悲傷",
+        "fr": "Visage larmoyant",
+        "de": "Traurig"
+      }
+    },
+    {
+      "id": "75",
+      "name": "表情：恐怖",
+      "icon": 246108,
+      "category": "3",
+      "textCommand": "476",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：恐怖",
+        "en": "Scared",
+        "ja": "表情：恐怖",
+        "ko": "공포에 질린 표정",
+        "tc": "表情：恐怖",
+        "fr": "Visage craintif",
+        "de": "Ängstlich"
+      }
+    },
+    {
+      "id": "76",
+      "name": "表情：意外",
+      "icon": 246109,
+      "category": "3",
+      "textCommand": "477",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：意外",
+        "en": "Amazed",
+        "ja": "表情：呆然",
+        "ko": "어리둥절한 표정",
+        "tc": "表情：意外",
+        "fr": "Visage stupéfait",
+        "de": "Sprachlos"
+      }
+    },
+    {
+      "id": "77",
+      "name": "表情：痛苦",
+      "icon": 246110,
+      "category": "3",
+      "textCommand": "478",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：痛苦",
+        "en": "Ouch",
+        "ja": "表情：激痛",
+        "ko": "아픈 표정",
+        "tc": "表情：痛苦",
+        "fr": "Visage souffrant",
+        "de": "Schmerzerfüllt"
+      }
+    },
+    {
+      "id": "78",
+      "name": "表情：反感",
+      "icon": 246111,
+      "category": "3",
+      "textCommand": "479",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：反感",
+        "en": "Annoyed",
+        "ja": "表情：不機嫌",
+        "ko": "불쾌한 표정",
+        "tc": "表情：反感",
+        "fr": "Visage maussade",
+        "de": "Genervt"
+      }
+    },
+    {
+      "id": "79",
+      "name": "表情：吃惊",
+      "icon": 246112,
+      "category": "3",
+      "textCommand": "480",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：吃惊",
+        "en": "Alert",
+        "ja": "表情：感知",
+        "ko": "깨달은 표정",
+        "tc": "表情：吃驚",
+        "fr": "Visage interloqué",
+        "de": "Alarmiert"
+      }
+    },
+    {
+      "id": "80",
+      "name": "表情：担心",
+      "icon": 246113,
+      "category": "3",
+      "textCommand": "481",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：担心",
+        "en": "Worried",
+        "ja": "表情：心配",
+        "ko": "걱정스러운 표정",
+        "tc": "表情：擔心",
+        "fr": "Visage inquiet",
+        "de": "Besorgt"
+      }
+    },
+    {
+      "id": "81",
+      "name": "表情：咧嘴",
+      "icon": 246125,
+      "category": "3",
+      "textCommand": "482",
+      "unlockLink": "388",
+      "names": {
+        "zh": "表情：咧嘴",
+        "en": "Big Grin",
+        "ja": "表情：破顔",
+        "ko": "씨익 웃는 얼굴",
+        "tc": "表情：咧嘴",
+        "fr": "Visage rieur",
+        "de": "Feist grinsend"
+      }
+    },
+    {
+      "id": "82",
+      "name": "表情：沉思",
+      "icon": 246126,
+      "category": "3",
+      "textCommand": "483",
+      "unlockLink": "389",
+      "names": {
+        "zh": "表情：沉思",
+        "en": "Reflect",
+        "ja": "表情：熟考",
+        "ko": "심사숙고",
+        "tc": "表情：沉思",
+        "fr": "Visage méditatif",
+        "de": "In sich gekehrt"
+      }
+    },
+    {
+      "id": "83",
+      "name": "表情：皱眉",
+      "icon": 246127,
+      "category": "3",
+      "textCommand": "484",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：皱眉",
+        "en": "Furrow",
+        "ja": "表情：眉をひそめる",
+        "ko": "눈살 찌푸리기",
+        "tc": "表情：皺眉",
+        "fr": "Sourcils froncés",
+        "de": "Augenbrauen"
+      }
+    },
+    {
+      "id": "84",
+      "name": "表情：苦笑",
+      "icon": 246128,
+      "category": "3",
+      "textCommand": "485",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：苦笑",
+        "en": "Scoff",
+        "ja": "表情：苦笑い",
+        "ko": "쓴웃음",
+        "tc": "表情：苦笑",
+        "fr": "Sourire navré",
+        "de": "Überheblich lächelnd"
+      }
+    },
+    {
+      "id": "85",
+      "name": "投掷",
+      "icon": 246250,
+      "category": "1",
+      "textCommand": "486",
+      "unlockLink": "24",
+      "names": {
+        "zh": "投掷",
+        "en": "Throw",
+        "ja": "投げる",
+        "ko": "던지기",
+        "tc": "投擲",
+        "fr": "Lancer",
+        "de": "Werfen"
+      }
+    },
+    {
+      "id": "86",
+      "name": "投雪球",
+      "icon": 246250,
+      "category": "1",
+      "textCommand": "0",
+      "unlockLink": "24",
+      "names": {
+        "zh": "投雪球",
+        "en": "Snowball",
+        "ja": "雪玉を投げる",
+        "ko": "눈덩이 던지기",
+        "tc": "投雪球",
+        "fr": "Boule de neige",
+        "de": "Schneeball"
+      }
+    },
+    {
+      "id": "87",
+      "name": "投雪球",
+      "icon": 246250,
+      "category": "1",
+      "textCommand": "0",
+      "unlockLink": "24",
+      "names": {
+        "zh": "投雪球",
+        "en": "Snowball",
+        "ja": "雪玉を投げる",
+        "ko": "눈덩이 던지기",
+        "tc": "投雪球",
+        "fr": "Boule de neige",
+        "de": "Schneeball"
+      }
+    },
+    {
+      "id": "88",
+      "name": "睡觉",
+      "icon": 246325,
+      "category": "2",
+      "textCommand": "0",
+      "unlockLink": "0",
+      "names": {
+        "zh": "睡觉",
+        "en": "Sleep",
+        "ja": "寝る",
+        "ko": "잠자기",
+        "tc": "睡覺",
+        "fr": "Dormir",
+        "de": "Schlafen"
+      }
+    },
+    {
+      "id": "90",
+      "name": "改变姿势",
+      "icon": 246268,
+      "category": "2",
+      "textCommand": "491",
+      "unlockLink": "0",
+      "names": {
+        "zh": "改变姿势",
+        "en": "Change Pose",
+        "ja": "ポーズを変える",
+        "ko": "자세 변경",
+        "tc": "改變姿勢",
+        "fr": "Changer de pose",
+        "de": "Pose ändern"
+      }
+    },
+    {
+      "id": "101",
+      "name": "踢踏舞",
+      "icon": 246269,
+      "category": "2",
+      "textCommand": "502",
+      "unlockLink": "27",
+      "names": {
+        "zh": "踢踏舞",
+        "en": "Step Dance",
+        "ja": "ステップダンス",
+        "ko": "탭댄스",
+        "tc": "踢踏舞",
+        "fr": "Claquettes",
+        "de": "Stepptanz"
+      }
+    },
+    {
+      "id": "102",
+      "name": "丰饶之舞",
+      "icon": 246270,
+      "category": "2",
+      "textCommand": "503",
+      "unlockLink": "28",
+      "names": {
+        "zh": "丰饶之舞",
+        "en": "Harvest Dance",
+        "ja": "豊穣の舞",
+        "ko": "풍요의 춤",
+        "tc": "豐饒之舞",
+        "fr": "Danse des moissons",
+        "de": "Tanz der Fruchtbarkeit"
+      }
+    },
+    {
+      "id": "103",
+      "name": "宫廷之舞",
+      "icon": 246271,
+      "category": "2",
+      "textCommand": "504",
+      "unlockLink": "29",
+      "names": {
+        "zh": "宫廷之舞",
+        "en": "Ball Dance",
+        "ja": "宮廷の舞",
+        "ko": "궁중 무용",
+        "tc": "宮廷之舞",
+        "fr": "Danse de la cour",
+        "de": "Tanz der Höflinge"
+      }
+    },
+    {
+      "id": "104",
+      "name": "绅士之舞",
+      "icon": 246272,
+      "category": "2",
+      "textCommand": "505",
+      "unlockLink": "30",
+      "names": {
+        "zh": "绅士之舞",
+        "en": "Manderville Dance",
+        "ja": "紳士の舞",
+        "ko": "신사의 춤",
+        "tc": "紳士之舞",
+        "fr": "Danse du gentilhomme",
+        "de": "Tanz der Chevaliers"
+      }
+    },
+    {
+      "id": "105",
+      "name": "抚摸",
+      "icon": 246267,
+      "category": "1",
+      "textCommand": "506",
+      "unlockLink": "0",
+      "names": {
+        "zh": "抚摸",
+        "en": "Pet",
+        "ja": "なでる",
+        "ko": "쓰다듬기",
+        "tc": "撫摸",
+        "fr": "Caresser",
+        "de": "Streicheln"
+      }
+    },
+    {
+      "id": "106",
+      "name": "递交",
+      "icon": 246273,
+      "category": "1",
+      "textCommand": "507",
+      "unlockLink": "0",
+      "names": {
+        "zh": "递交",
+        "en": "Hand Over",
+        "ja": "わたす",
+        "ko": "건네기",
+        "tc": "遞交",
+        "fr": "Donner",
+        "de": "Übergeben"
+      }
+    },
+    {
+      "id": "109",
+      "name": "火盆舞",
+      "icon": 246274,
+      "category": "2",
+      "textCommand": "510",
+      "unlockLink": "98",
+      "names": {
+        "zh": "火盆舞",
+        "en": "Bomb Dance",
+        "ja": "ボム踊り",
+        "ko": "축제의 춤",
+        "tc": "火盆舞",
+        "fr": "Danse du bombo",
+        "de": "Feuertanz"
+      }
+    },
+    {
+      "id": "110",
+      "name": "胜利欢呼",
+      "icon": 246275,
+      "category": "1",
+      "textCommand": "511",
+      "unlockLink": "225",
+      "names": {
+        "zh": "胜利欢呼",
+        "en": "Huzzah",
+        "ja": "勝ちどき",
+        "ko": "승리의 함성",
+        "tc": "勝利歡呼",
+        "fr": "Hourra",
+        "de": "Hurra"
+      }
+    },
+    {
+      "id": "111",
+      "name": "甩巴掌",
+      "icon": 246276,
+      "category": "1",
+      "textCommand": "512",
+      "unlockLink": "0",
+      "names": {
+        "zh": "甩巴掌",
+        "en": "Slap",
+        "ja": "平手打ち",
+        "ko": "뺨 때리기",
+        "tc": "甩巴掌",
+        "fr": "Claque",
+        "de": "Schlagen"
+      }
+    },
+    {
+      "id": "112",
+      "name": "拥抱",
+      "icon": 246277,
+      "category": "1",
+      "textCommand": "513",
+      "unlockLink": "0",
+      "names": {
+        "zh": "拥抱",
+        "en": "Hug",
+        "ja": "ハグ",
+        "ko": "포옹하기",
+        "tc": "擁抱",
+        "fr": "Accolade",
+        "de": "Umarmen"
+      }
+    },
+    {
+      "id": "113",
+      "name": "深情拥抱",
+      "icon": 246278,
+      "category": "1",
+      "textCommand": "514",
+      "unlockLink": "229",
+      "names": {
+        "zh": "深情拥抱",
+        "en": "Embrace",
+        "ja": "抱き合う",
+        "ko": "애정을 담아 껴안기",
+        "tc": "深情擁抱",
+        "fr": "Étreinte",
+        "de": "Ans Herz drücken"
+      }
+    },
+    {
+      "id": "114",
+      "name": "绅士风度",
+      "icon": 246279,
+      "category": "2",
+      "textCommand": "515",
+      "unlockLink": "244",
+      "names": {
+        "zh": "绅士风度",
+        "en": "Most Gentlemanly",
+        "ja": "事件屋の決めポーズ",
+        "ko": "사건해결사 포즈",
+        "tc": "紳士風度",
+        "fr": "Pose du détective",
+        "de": "Hildibrand-Pose"
+      }
+    },
+    {
+      "id": "115",
+      "name": "对拳",
+      "icon": 246280,
+      "category": "1",
+      "textCommand": "516",
+      "unlockLink": "259",
+      "names": {
+        "zh": "对拳",
+        "en": "Fist Bump",
+        "ja": "拳を突き出す",
+        "ko": "주먹 내밀기",
+        "tc": "對拳",
+        "fr": "Salut du poing",
+        "de": "Faustgruß"
+      }
+    },
+    {
+      "id": "118",
+      "name": "萨维奈舞",
+      "icon": 246282,
+      "category": "2",
+      "textCommand": "519",
+      "unlockLink": "288",
+      "names": {
+        "zh": "萨维奈舞",
+        "en": "Thavnairian Dance",
+        "ja": "サベネアンダンス",
+        "ko": "사베네어의 춤",
+        "tc": "薩維奈舞",
+        "fr": "Danse thavnairoise",
+        "de": "Thavnair-Tanz"
+      }
+    },
+    {
+      "id": "119",
+      "name": "黄金之舞",
+      "icon": 246283,
+      "category": "2",
+      "textCommand": "520",
+      "unlockLink": "289",
+      "names": {
+        "zh": "黄金之舞",
+        "en": "Gold Dance",
+        "ja": "ゴールデンダンス",
+        "ko": "황금의 춤",
+        "tc": "黃金之舞",
+        "fr": "Danse de l'or",
+        "de": "Goldtanz"
+      }
+    },
+    {
+      "id": "120",
+      "name": "太阳之舞",
+      "icon": 246284,
+      "category": "2",
+      "textCommand": "521",
+      "unlockLink": "283",
+      "names": {
+        "zh": "太阳之舞",
+        "en": "Sundrop Dance",
+        "ja": "太陽の舞",
+        "ko": "태양의 춤",
+        "tc": "太陽之舞",
+        "fr": "Danse du soleil",
+        "de": "Sonnentanz"
+      }
+    },
+    {
+      "id": "121",
+      "name": "准备战斗",
+      "icon": 246285,
+      "category": "1",
+      "textCommand": "522",
+      "unlockLink": "305",
+      "names": {
+        "zh": "准备战斗",
+        "en": "Battle Stance",
+        "ja": "戦いに備える",
+        "ko": "전투태세",
+        "tc": "準備戰鬥",
+        "fr": "Se préparer au combat",
+        "de": "Aufwärmen"
+      }
+    },
+    {
+      "id": "122",
+      "name": "欢呼胜利",
+      "icon": 246286,
+      "category": "1",
+      "textCommand": "523",
+      "unlockLink": "306",
+      "names": {
+        "zh": "欢呼胜利",
+        "en": "Victory",
+        "ja": "勝利を喜ぶ",
+        "ko": "승리의 기쁨",
+        "tc": "歡呼勝利",
+        "fr": "Se réjouir de la victoire",
+        "de": "Triumph"
+      }
+    },
+    {
+      "id": "123",
+      "name": "后空翻",
+      "icon": 246287,
+      "category": "1",
+      "textCommand": "524",
+      "unlockLink": "308",
+      "names": {
+        "zh": "后空翻",
+        "en": "Backflip",
+        "ja": "宙返り",
+        "ko": "공중제비",
+        "tc": "後空翻",
+        "fr": "Salto arrière",
+        "de": "Salto"
+      }
+    },
+    {
+      "id": "124",
+      "name": "抱拳礼",
+      "icon": 246288,
+      "category": "1",
+      "textCommand": "525",
+      "unlockLink": "309",
+      "names": {
+        "zh": "抱拳礼",
+        "en": "Eastern Greeting",
+        "ja": "抱拳礼",
+        "ko": "포권의 예",
+        "tc": "抱拳禮",
+        "fr": "Salut oriental",
+        "de": "Fernöstlicher Gruß"
+      }
+    },
+    {
+      "id": "125",
+      "name": "灵光一现",
+      "icon": 246289,
+      "category": "1",
+      "textCommand": "526",
+      "unlockLink": "304",
+      "names": {
+        "zh": "灵光一现",
+        "en": "Eureka",
+        "ja": "閃く",
+        "ko": "번뜩이는 생각",
+        "tc": "靈光一現",
+        "fr": "Éclair de génie",
+        "de": "Aha"
+      }
+    },
+    {
+      "id": "126",
+      "name": "莫古莫古舞",
+      "icon": 246290,
+      "category": "2",
+      "textCommand": "527",
+      "unlockLink": "67862",
+      "names": {
+        "zh": "莫古莫古舞",
+        "en": "Moogle Dance",
+        "ja": "モグモグダンス",
+        "ko": "모그모그 춤",
+        "tc": "莫古莫古舞",
+        "fr": "Danse mog",
+        "de": "Mogry-Tanz"
+      }
+    },
+    {
+      "id": "127",
+      "name": "太棒了！",
+      "icon": 246291,
+      "category": "1",
+      "textCommand": "528",
+      "unlockLink": "318",
+      "names": {
+        "zh": "太棒了！",
+        "en": "Haurchefant",
+        "ja": "「イイ！」",
+        "ko": "아주 좋아!",
+        "tc": "太棒了！",
+        "fr": "Geste d'Haurchefant",
+        "de": "Haurchefant"
+      }
+    },
+    {
+      "id": "128",
+      "name": "热身",
+      "icon": 246292,
+      "category": "1",
+      "textCommand": "529",
+      "unlockLink": "323",
+      "names": {
+        "zh": "热身",
+        "en": "Eastern Stretch",
+        "ja": "ウォームアップ",
+        "ko": "몸 풀기",
+        "tc": "熱身",
+        "fr": "Étirements orientaux",
+        "de": "Fernöstliches Strecken"
+      }
+    },
+    {
+      "id": "129",
+      "name": "东方传统舞蹈",
+      "icon": 246293,
+      "category": "2",
+      "textCommand": "530",
+      "unlockLink": "324",
+      "names": {
+        "zh": "东方传统舞蹈",
+        "en": "Eastern Dance",
+        "ja": "東方の伝統舞踊",
+        "ko": "동방의 전통 무용",
+        "tc": "東方傳統舞蹈",
+        "fr": "Danse orientale",
+        "de": "Fernöstlicher Tanz"
+      }
+    },
+    {
+      "id": "130",
+      "name": "战队演武正红一式",
+      "icon": 246294,
+      "category": "2",
+      "textCommand": "531",
+      "unlockLink": "315",
+      "names": {
+        "zh": "战队演武正红一式",
+        "en": "Red Ranger Pose A",
+        "ja": "戦士の演武：壱",
+        "ko": "레드 전사의 연무(왼쪽)",
+        "tc": "戰隊演武正紅一式",
+        "fr": "Bomboforce rouge",
+        "de": "Roter Bombattant I"
+      }
+    },
+    {
+      "id": "131",
+      "name": "战队演武正黑二式",
+      "icon": 246295,
+      "category": "2",
+      "textCommand": "532",
+      "unlockLink": "316",
+      "names": {
+        "zh": "战队演武正黑二式",
+        "en": "Black Ranger Pose A",
+        "ja": "戦士の演武：弐",
+        "ko": "블랙 전사의 연무(왼쪽)",
+        "tc": "戰隊演武正黑二式",
+        "fr": "Bomboforce noire",
+        "de": "Schwarze Bombattantin I"
+      }
+    },
+    {
+      "id": "132",
+      "name": "战队演武正黄三式",
+      "icon": 246296,
+      "category": "2",
+      "textCommand": "533",
+      "unlockLink": "317",
+      "names": {
+        "zh": "战队演武正黄三式",
+        "en": "Yellow Ranger Pose A",
+        "ja": "戦士の演武：参",
+        "ko": "옐로 전사의 연무(왼쪽)",
+        "tc": "戰隊演武正黃三式",
+        "fr": "Bomboforce jaune",
+        "de": "Gelber Bombattant I"
+      }
+    },
+    {
+      "id": "133",
+      "name": "表情：右飞眼",
+      "icon": 246118,
+      "category": "3",
+      "textCommand": "534",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：右飞眼",
+        "en": "Wink (Right)",
+        "ja": "表情：ウィンク右",
+        "ko": "오른눈 윙크",
+        "tc": "表情：拋媚眼右",
+        "fr": "Clin d'œil droit",
+        "de": "Zwinkern (rechts)"
+      }
+    },
+    {
+      "id": "134",
+      "name": "战队演武逆红一式",
+      "icon": 246297,
+      "category": "2",
+      "textCommand": "535",
+      "unlockLink": "315",
+      "names": {
+        "zh": "战队演武逆红一式",
+        "en": "Red Ranger Pose B",
+        "ja": "戦士の演武：壱ノ裏",
+        "ko": "레드 전사의 연무(오른쪽)",
+        "tc": "戰隊演武逆紅一式",
+        "fr": "Bomboforce rouge inversé",
+        "de": "Roter Bombattant II"
+      }
+    },
+    {
+      "id": "135",
+      "name": "战队演武逆黑二式",
+      "icon": 246298,
+      "category": "2",
+      "textCommand": "536",
+      "unlockLink": "316",
+      "names": {
+        "zh": "战队演武逆黑二式",
+        "en": "Black Ranger Pose B",
+        "ja": "戦士の演武：弐ノ裏",
+        "ko": "블랙 전사의 연무(오른쪽)",
+        "tc": "戰隊演武逆黑二式",
+        "fr": "Bomboforce noire inversé",
+        "de": "Schwarze Bombattantin II"
+      }
+    },
+    {
+      "id": "136",
+      "name": "战队演武逆黄三式",
+      "icon": 246299,
+      "category": "2",
+      "textCommand": "537",
+      "unlockLink": "317",
+      "names": {
+        "zh": "战队演武逆黄三式",
+        "en": "Yellow Ranger Pose B",
+        "ja": "戦士の演武：参ノ裏",
+        "ko": "옐로 전사의 연무(오른쪽)",
+        "tc": "戰隊演武逆黃三式",
+        "fr": "Bomboforce jaune inversé",
+        "de": "Gelber Bombattant II"
+      }
+    },
+    {
+      "id": "137",
+      "name": "捂脸",
+      "icon": 246301,
+      "category": "1",
+      "textCommand": "538",
+      "unlockLink": "0",
+      "names": {
+        "zh": "捂脸",
+        "en": "Facepalm",
+        "ja": "顔を覆う",
+        "ko": "머리 감싸기",
+        "tc": "捂臉",
+        "fr": "Se prendre la tête",
+        "de": "Gesicht vergraben"
+      }
+    },
+    {
+      "id": "138",
+      "name": "斩铁剑",
+      "icon": 246302,
+      "category": "2",
+      "textCommand": "539",
+      "unlockLink": "328",
+      "names": {
+        "zh": "斩铁剑",
+        "en": "Zantetsuken",
+        "ja": "斬鉄剣",
+        "ko": "참철검",
+        "tc": "斬鐵劍",
+        "fr": "Zantetsuken",
+        "de": "Zantetsuken"
+      }
+    },
+    {
+      "id": "139",
+      "name": "肉体之美",
+      "icon": 246303,
+      "category": "1",
+      "textCommand": "540",
+      "unlockLink": "0",
+      "names": {
+        "zh": "肉体之美",
+        "en": "Flex",
+        "ja": "肉体美",
+        "ko": "육체미",
+        "tc": "肉體之美",
+        "fr": "Contracter ses muscles",
+        "de": "Muskeln anspannen"
+      }
+    },
+    {
+      "id": "140",
+      "name": "默哀",
+      "icon": 246304,
+      "category": "1",
+      "textCommand": "541",
+      "unlockLink": "0",
+      "names": {
+        "zh": "默哀",
+        "en": "Pay Respects",
+        "ja": "黙祷",
+        "ko": "묵념",
+        "tc": "默哀",
+        "fr": "Se recueillir",
+        "de": "Respekt"
+      }
+    },
+    {
+      "id": "141",
+      "name": "表情：阴险",
+      "icon": 246119,
+      "category": "3",
+      "textCommand": "542",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：阴险",
+        "en": "Sneer",
+        "ja": "表情：悪だくみ",
+        "ko": "교활한 웃음",
+        "tc": "表情：陰險",
+        "fr": "Visage vicieux",
+        "de": "Verächtlich"
+      }
+    },
+    {
+      "id": "142",
+      "name": "撒娇",
+      "icon": 246305,
+      "category": "1",
+      "textCommand": "543",
+      "unlockLink": "331",
+      "names": {
+        "zh": "撒娇",
+        "en": "Pretty Please",
+        "ja": "おねだり",
+        "ko": "귀여운 부탁",
+        "tc": "撒嬌",
+        "fr": "Attendrir",
+        "de": "Lieb bitten"
+      }
+    },
+    {
+      "id": "143",
+      "name": "装死",
+      "icon": 246306,
+      "category": "2",
+      "textCommand": "544",
+      "unlockLink": "330",
+      "names": {
+        "zh": "装死",
+        "en": "Play Dead",
+        "ja": "死んだふり",
+        "ko": "죽은 척하기",
+        "tc": "裝死",
+        "fr": "Feindre la mort",
+        "de": "Totstellen"
+      }
+    },
+    {
+      "id": "144",
+      "name": "寒冰的幻想",
+      "icon": 246307,
+      "category": "2",
+      "textCommand": "545",
+      "unlockLink": "329",
+      "names": {
+        "zh": "寒冰的幻想",
+        "en": "Diamond Dust",
+        "ja": "氷結の幻想",
+        "ko": "빙결의 환상",
+        "tc": "寒冰的幻想",
+        "fr": "Illusions glacées",
+        "de": "Eisiges Erscheinen"
+      }
+    },
+    {
+      "id": "145",
+      "name": "日月之舞",
+      "icon": 246308,
+      "category": "2",
+      "textCommand": "546",
+      "unlockLink": "332",
+      "names": {
+        "zh": "日月之舞",
+        "en": "Moonlift Dance",
+        "ja": "太陽と月の舞",
+        "ko": "태양과 달의 춤",
+        "tc": "日月之舞",
+        "fr": "Danse du soleil et de la lune",
+        "de": "Sonne-und-Mond-Tanz"
+      }
+    },
+    {
+      "id": "146",
+      "name": "表达爱意",
+      "icon": 246309,
+      "category": "1",
+      "textCommand": "547",
+      "unlockLink": "333",
+      "names": {
+        "zh": "表达爱意",
+        "en": "Dote",
+        "ja": "愛を表現する",
+        "ko": "애정 표현",
+        "tc": "表達愛意",
+        "fr": "Exprimer son amour",
+        "de": "Kussregen"
+      }
+    },
+    {
+      "id": "148",
+      "name": "托眼镜",
+      "icon": 246310,
+      "category": "1",
+      "textCommand": "549",
+      "unlockLink": "334",
+      "names": {
+        "zh": "托眼镜",
+        "en": "Spectacles",
+        "ja": "眼鏡を正す",
+        "ko": "안경 고쳐쓰기",
+        "tc": "托眼鏡",
+        "fr": "Ajuster ses lunettes",
+        "de": "Brille"
+      }
+    },
+    {
+      "id": "149",
+      "name": "小黄莺之舞",
+      "icon": 246311,
+      "category": "2",
+      "textCommand": "550",
+      "unlockLink": "335",
+      "names": {
+        "zh": "小黄莺之舞",
+        "en": "Songbird",
+        "ja": "歌姫を真似る",
+        "ko": "가희 따라하기",
+        "tc": "小黃鶯之舞",
+        "fr": "Danse des Églantines",
+        "de": "Singdrossel"
+      }
+    },
+    {
+      "id": "150",
+      "name": "浮水",
+      "icon": 246312,
+      "category": "2",
+      "textCommand": "551",
+      "unlockLink": "0",
+      "names": {
+        "zh": "浮水",
+        "en": "Water Float",
+        "ja": "水面に浮く",
+        "ko": "수면에 뜨기",
+        "tc": "浮水",
+        "fr": "Faire la planche",
+        "de": "Toter Mann"
+      }
+    },
+    {
+      "id": "151",
+      "name": "水中翻跟头",
+      "icon": 246313,
+      "category": "1",
+      "textCommand": "552",
+      "unlockLink": "340",
+      "names": {
+        "zh": "水中翻跟头",
+        "en": "Water Flip",
+        "ja": "水中宙返り",
+        "ko": "수중 공중제비",
+        "tc": "水中翻跟斗",
+        "fr": "Salto arrière aquatique",
+        "de": "Unterwasserrolle"
+      }
+    },
+    {
+      "id": "152",
+      "name": "表情：嘟嘴",
+      "icon": 246120,
+      "category": "3",
+      "textCommand": "553",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：嘟嘴",
+        "en": "Pucker Up",
+        "ja": "表情：口をすぼめる",
+        "ko": "입술 내밀기",
+        "tc": "表情：嘟嘴",
+        "fr": "Bouche en cœur",
+        "de": "Mund kräuseln"
+      }
+    },
+    {
+      "id": "153",
+      "name": "蓄力迸发",
+      "icon": 246314,
+      "category": "1",
+      "textCommand": "554",
+      "unlockLink": "343",
+      "names": {
+        "zh": "蓄力迸发",
+        "en": "Power Up",
+        "ja": "力を高める",
+        "ko": "힘 모으기",
+        "tc": "蓄力迸發",
+        "fr": "Concentrer ses forces",
+        "de": "Kraft sammeln"
+      }
+    },
+    {
+      "id": "154",
+      "name": "行东方礼",
+      "icon": 246315,
+      "category": "1",
+      "textCommand": "555",
+      "unlockLink": "68016",
+      "names": {
+        "zh": "行东方礼",
+        "en": "Eastern Bow",
+        "ja": "東方風お辞儀",
+        "ko": "동방식 인사",
+        "tc": "行東方禮",
+        "fr": "Révérence orientale",
+        "de": "Fernöstliche Verbeugung"
+      }
+    },
+    {
+      "id": "155",
+      "name": "深蹲",
+      "icon": 246316,
+      "category": "2",
+      "textCommand": "556",
+      "unlockLink": "373",
+      "names": {
+        "zh": "深蹲",
+        "en": "Squats",
+        "ja": "スクワット",
+        "ko": "스쿼트",
+        "tc": "深蹲",
+        "fr": "Flexions de jambes",
+        "de": "Kniebeugen"
+      }
+    },
+    {
+      "id": "156",
+      "name": "俯卧撑",
+      "icon": 246317,
+      "category": "2",
+      "textCommand": "557",
+      "unlockLink": "373",
+      "names": {
+        "zh": "俯卧撑",
+        "en": "Push-ups",
+        "ja": "腕立て伏せ",
+        "ko": "팔굽혀펴기",
+        "tc": "伏地挺身",
+        "fr": "Pompes",
+        "de": "Liegestütze"
+      }
+    },
+    {
+      "id": "157",
+      "name": "仰卧起坐",
+      "icon": 246318,
+      "category": "2",
+      "textCommand": "558",
+      "unlockLink": "373",
+      "names": {
+        "zh": "仰卧起坐",
+        "en": "Sit-ups",
+        "ja": "腹筋運動",
+        "ko": "윗몸일으키기",
+        "tc": "仰臥起坐",
+        "fr": "Abdos",
+        "de": "Sit-ups"
+      }
+    },
+    {
+      "id": "158",
+      "name": "深呼吸",
+      "icon": 246319,
+      "category": "2",
+      "textCommand": "559",
+      "unlockLink": "373",
+      "names": {
+        "zh": "深呼吸",
+        "en": "Breath Control",
+        "ja": "深呼吸",
+        "ko": "심호흡",
+        "tc": "深呼吸",
+        "fr": "Respiration profonde",
+        "de": "Atemübung"
+      }
+    },
+    {
+      "id": "159",
+      "name": "说话",
+      "icon": 246320,
+      "category": "1",
+      "textCommand": "560",
+      "unlockLink": "0",
+      "names": {
+        "zh": "说话",
+        "en": "Converse",
+        "ja": "話す",
+        "ko": "이야기",
+        "tc": "說話",
+        "fr": "Parler",
+        "de": "Erzählen"
+      }
+    },
+    {
+      "id": "160",
+      "name": "表情：认真",
+      "icon": 246121,
+      "category": "3",
+      "textCommand": "561",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：认真",
+        "en": "Concentrate",
+        "ja": "表情：真剣",
+        "ko": "진지한 표정",
+        "tc": "表情：認真",
+        "fr": "Visage sérieux",
+        "de": "Ernst"
+      }
+    },
+    {
+      "id": "161",
+      "name": "表情：困惑",
+      "icon": 246122,
+      "category": "3",
+      "textCommand": "562",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：困惑",
+        "en": "Confused",
+        "ja": "表情：困惑",
+        "ko": "당혹스러운 표정",
+        "tc": "表情：困惑",
+        "fr": "Visage perplexe",
+        "de": "Betrübt"
+      }
+    },
+    {
+      "id": "162",
+      "name": "表情：柔和",
+      "icon": 246123,
+      "category": "3",
+      "textCommand": "563",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：柔和",
+        "en": "Simper",
+        "ja": "表情：柔和",
+        "ko": "온화한 표정",
+        "tc": "表情：柔和",
+        "fr": "Sourire tendre",
+        "de": "Sanftmütig"
+      }
+    },
+    {
+      "id": "163",
+      "name": "表情：满足",
+      "icon": 246124,
+      "category": "3",
+      "textCommand": "564",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：满足",
+        "en": "Beam",
+        "ja": "表情：満足",
+        "ko": "만족스러운 표정",
+        "tc": "表情：滿足",
+        "fr": "Visage satisfait",
+        "de": "Zufrieden"
+      }
+    },
+    {
+      "id": "164",
+      "name": "立正",
+      "icon": 246321,
+      "category": "2",
+      "textCommand": "565",
+      "unlockLink": "375",
+      "names": {
+        "zh": "立正",
+        "en": "Attention",
+        "ja": "気をつけ",
+        "ko": "차려",
+        "tc": "立正",
+        "fr": "Garde-à-vous",
+        "de": "Habachtstellung"
+      }
+    },
+    {
+      "id": "165",
+      "name": "稍息",
+      "icon": 246322,
+      "category": "2",
+      "textCommand": "566",
+      "unlockLink": "376",
+      "names": {
+        "zh": "稍息",
+        "en": "At Ease",
+        "ja": "休め",
+        "ko": "열중쉬어",
+        "tc": "稍息",
+        "fr": "Repos",
+        "de": "Rühren"
+      }
+    },
+    {
+      "id": "166",
+      "name": "练拳",
+      "icon": 246323,
+      "category": "2",
+      "textCommand": "567",
+      "unlockLink": "68498",
+      "names": {
+        "zh": "练拳",
+        "en": "Box",
+        "ja": "格闘訓練",
+        "ko": "격투 훈련",
+        "tc": "練拳",
+        "fr": "Boxe",
+        "de": "Schattenboxen"
+      }
+    },
+    {
+      "id": "167",
+      "name": "祝祷",
+      "icon": 246324,
+      "category": "2",
+      "textCommand": "568",
+      "unlockLink": "374",
+      "names": {
+        "zh": "祝祷",
+        "en": "Ritual Prayer",
+        "ja": "おまじない",
+        "ko": "주술걸기",
+        "tc": "祝禱",
+        "fr": "Prière rituelle",
+        "de": "Beschwörung"
+      }
+    },
+    {
+      "id": "169",
+      "name": "害怕",
+      "icon": 246333,
+      "category": "2",
+      "textCommand": "570",
+      "unlockLink": "386",
+      "names": {
+        "zh": "害怕",
+        "en": "Tremble",
+        "ja": "怯える",
+        "ko": "덜덜 떨기",
+        "tc": "害怕",
+        "fr": "Trembler de peur",
+        "de": "Vor Angst zittern"
+      }
+    },
+    {
+      "id": "170",
+      "name": "单膝跪地",
+      "icon": 246334,
+      "category": "2",
+      "textCommand": "571",
+      "unlockLink": "385",
+      "names": {
+        "zh": "单膝跪地",
+        "en": "Winded",
+        "ja": "膝を突く",
+        "ko": "기진맥진",
+        "tc": "單膝跪地",
+        "fr": "Genou à terre",
+        "de": "Außer Atem"
+      }
+    },
+    {
+      "id": "171",
+      "name": "大吃一惊",
+      "icon": 246335,
+      "category": "1",
+      "textCommand": "572",
+      "unlockLink": "387",
+      "names": {
+        "zh": "大吃一惊",
+        "en": "Aback",
+        "ja": "仰天",
+        "ko": "흠칫",
+        "tc": "大吃一驚",
+        "fr": "Stupéfaction",
+        "de": "Huch"
+      }
+    },
+    {
+      "id": "172",
+      "name": "打招呼",
+      "icon": 246336,
+      "category": "1",
+      "textCommand": "573",
+      "unlockLink": "68558",
+      "names": {
+        "zh": "打招呼",
+        "en": "Greeting",
+        "ja": "挨拶する",
+        "ko": "가벼운 인사",
+        "tc": "打招呼",
+        "fr": "Salut décontracté",
+        "de": "Salopper Gruß"
+      }
+    },
+    {
+      "id": "173",
+      "name": "方形步",
+      "icon": 246337,
+      "category": "2",
+      "textCommand": "574",
+      "unlockLink": "260",
+      "names": {
+        "zh": "方形步",
+        "en": "Box Step",
+        "ja": "ボックスステップ",
+        "ko": "복싱 스텝",
+        "tc": "方形步",
+        "fr": "Pas de base",
+        "de": "Tanzgrundschritt"
+      }
+    },
+    {
+      "id": "174",
+      "name": "侧步",
+      "icon": 246338,
+      "category": "2",
+      "textCommand": "575",
+      "unlockLink": "261",
+      "names": {
+        "zh": "侧步",
+        "en": "Side Step",
+        "ja": "サイドステップ",
+        "ko": "사이드 스텝",
+        "tc": "側步",
+        "fr": "Pas de côté",
+        "de": "Seitwärtsschritt"
+      }
+    },
+    {
+      "id": "175",
+      "name": "究极",
+      "icon": 246339,
+      "category": "2",
+      "textCommand": "576",
+      "unlockLink": "262",
+      "names": {
+        "zh": "究极",
+        "en": "Ultima",
+        "ja": "アルテマ",
+        "ko": "알테마",
+        "tc": "究極",
+        "fr": "Ultima",
+        "de": "Ultima"
+      }
+    },
+    {
+      "id": "176",
+      "name": "胡鹰之舞",
+      "icon": 246340,
+      "category": "2",
+      "textCommand": "577",
+      "unlockLink": "269",
+      "names": {
+        "zh": "胡鹰之舞",
+        "en": "Yol Dance",
+        "ja": "ヨルダンス",
+        "ko": "욜의 춤",
+        "tc": "胡鷹之舞",
+        "fr": "Danse des yols",
+        "de": "Yol-Tanz"
+      }
+    },
+    {
+      "id": "178",
+      "name": "撩水",
+      "icon": 246341,
+      "category": "1",
+      "textCommand": "579",
+      "unlockLink": "270",
+      "names": {
+        "zh": "撩水",
+        "en": "Splash",
+        "ja": "水をかける",
+        "ko": "물 뿌리기",
+        "tc": "撩水",
+        "fr": "Éclabousser",
+        "de": "Wasserschlacht"
+      }
+    },
+    {
+      "id": "180",
+      "name": "好热",
+      "icon": 246342,
+      "category": "2",
+      "textCommand": "581",
+      "unlockLink": "263",
+      "names": {
+        "zh": "好热",
+        "en": "Sweat",
+        "ja": "暑がる",
+        "ko": "더위",
+        "tc": "好熱",
+        "fr": "Transpirer",
+        "de": "Mir ist heiß"
+      }
+    },
+    {
+      "id": "181",
+      "name": "好冷",
+      "icon": 246343,
+      "category": "2",
+      "textCommand": "582",
+      "unlockLink": "264",
+      "names": {
+        "zh": "好冷",
+        "en": "Shiver",
+        "ja": "寒がる",
+        "ko": "추위",
+        "tc": "好冷",
+        "fr": "Grelotter",
+        "de": "Mir ist kalt"
+      }
+    },
+    {
+      "id": "182",
+      "name": "说明",
+      "icon": 246344,
+      "category": "1",
+      "textCommand": "583",
+      "unlockLink": "265",
+      "names": {
+        "zh": "说明",
+        "en": "Elucidate",
+        "ja": "説明",
+        "ko": "설명",
+        "tc": "說明",
+        "fr": "Élucider",
+        "de": "Erklären"
+      }
+    },
+    {
+      "id": "183",
+      "name": "表情：思索",
+      "icon": 246129,
+      "category": "3",
+      "textCommand": "584",
+      "unlockLink": "68612",
+      "names": {
+        "zh": "表情：思索",
+        "en": "Ponder",
+        "ja": "表情：空想",
+        "ko": "딴생각",
+        "tc": "表情：思索",
+        "fr": "Visage songeur",
+        "de": "Ahnungslos"
+      }
+    },
+    {
+      "id": "184",
+      "name": "表情：左飞眼",
+      "icon": 246130,
+      "category": "3",
+      "textCommand": "585",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：左飞眼",
+        "en": "Wink (Left)",
+        "ja": "表情：ウィンク左",
+        "ko": "왼눈 윙크",
+        "tc": "表情：拋媚眼左",
+        "fr": "Clin d'œil gauche",
+        "de": "Zwinkern (links)"
+      }
+    },
+    {
+      "id": "185",
+      "name": "幻想舞步",
+      "icon": 246345,
+      "category": "2",
+      "textCommand": "586",
+      "unlockLink": "393",
+      "names": {
+        "zh": "幻想舞步",
+        "en": "Get Fantasy",
+        "ja": "ゲットファンタジー",
+        "ko": "겟 판타지",
+        "tc": "幻想舞步",
+        "fr": "Fantaisie urbaine",
+        "de": "Funky-Fantasy-Tanz"
+      }
+    },
+    {
+      "id": "186",
+      "name": "波波托步",
+      "icon": 246346,
+      "category": "2",
+      "textCommand": "587",
+      "unlockLink": "394",
+      "names": {
+        "zh": "波波托步",
+        "en": "Popoto Step",
+        "ja": "ポポトステップ",
+        "ko": "포포토 스텝",
+        "tc": "波波托步",
+        "fr": "Popping popoto",
+        "de": "Toffel-Tanz"
+      }
+    },
+    {
+      "id": "187",
+      "name": "哼歌",
+      "icon": 246347,
+      "category": "2",
+      "textCommand": "588",
+      "unlockLink": "68688",
+      "names": {
+        "zh": "哼歌",
+        "en": "Hum",
+        "ja": "鼻歌",
+        "ko": "콧노래",
+        "tc": "哼歌",
+        "fr": "Fredonner",
+        "de": "Summen"
+      }
+    },
+    {
+      "id": "188",
+      "name": "确认",
+      "icon": 246348,
+      "category": "2",
+      "textCommand": "589",
+      "unlockLink": "395",
+      "names": {
+        "zh": "确认",
+        "en": "Confirm",
+        "ja": "確認",
+        "ko": "확인",
+        "tc": "確認",
+        "fr": "Confirmer",
+        "de": "Vergewissern"
+      }
+    },
+    {
+      "id": "189",
+      "name": "说明计划",
+      "icon": 246349,
+      "category": "2",
+      "textCommand": "590",
+      "unlockLink": "396",
+      "names": {
+        "zh": "说明计划",
+        "en": "Scheme",
+        "ja": "企みを話す",
+        "ko": "계략",
+        "tc": "說明計畫",
+        "fr": "Expliquer son plan",
+        "de": "Plan erläutern"
+      }
+    },
+    {
+      "id": "190",
+      "name": "表情：忍耐",
+      "icon": 246131,
+      "category": "3",
+      "textCommand": "591",
+      "unlockLink": "68684",
+      "names": {
+        "zh": "表情：忍耐",
+        "en": "Endure",
+        "ja": "表情：忍耐",
+        "ko": "꾹 참는 표정",
+        "tc": "表情：忍耐",
+        "fr": "Visage crispé",
+        "de": "Zähne zusammenbeißen"
+      }
+    },
+    {
+      "id": "191",
+      "name": "神典石",
+      "icon": 246350,
+      "category": "1",
+      "textCommand": "592",
+      "unlockLink": "406",
+      "names": {
+        "zh": "神典石",
+        "en": "Tomestone",
+        "ja": "トームストーン",
+        "ko": "석판",
+        "tc": "神典石",
+        "fr": "Mémoquartz",
+        "de": "Allagischer Stein"
+      }
+    },
+    {
+      "id": "192",
+      "name": "趾踵步",
+      "icon": 246351,
+      "category": "2",
+      "textCommand": "593",
+      "unlockLink": "232",
+      "names": {
+        "zh": "趾踵步",
+        "en": "Heel Toe",
+        "ja": "ヒールトー",
+        "ko": "힐토 스텝",
+        "tc": "趾踵步",
+        "fr": "Danse sautillante",
+        "de": "Salontanz"
+      }
+    },
+    {
+      "id": "193",
+      "name": "古菩步",
+      "icon": 246352,
+      "category": "2",
+      "textCommand": "594",
+      "unlockLink": "233",
+      "names": {
+        "zh": "古菩步",
+        "en": "Goobbue Do",
+        "ja": "グゥーブー・ドゥ",
+        "ko": "구부두 춤",
+        "tc": "古卜步",
+        "fr": "Danse festive du goobbue",
+        "de": "Goobbue-Poplock"
+      }
+    },
+    {
+      "id": "194",
+      "name": "心意",
+      "icon": 246353,
+      "category": "1",
+      "textCommand": "595",
+      "unlockLink": "68700",
+      "names": {
+        "zh": "心意",
+        "en": "Gratuity",
+        "ja": "心づけ",
+        "ko": "사례금",
+        "tc": "心意",
+        "fr": "Charité chafouine",
+        "de": "Spendierhose"
+      }
+    },
+    {
+      "id": "195",
+      "name": "振作精神",
+      "icon": 246354,
+      "category": "1",
+      "textCommand": "596",
+      "unlockLink": "234",
+      "names": {
+        "zh": "振作精神",
+        "en": "Fist Pump",
+        "ja": "ガッツポーズ",
+        "ko": "힘찬 자축",
+        "tc": "振作精神",
+        "fr": "Poing en l'air",
+        "de": "Gewinnerpose"
+      }
+    },
+    {
+      "id": "196",
+      "name": "提醒",
+      "icon": 246355,
+      "category": "2",
+      "textCommand": "597",
+      "unlockLink": "235",
+      "names": {
+        "zh": "提醒",
+        "en": "Reprimand",
+        "ja": "注意する",
+        "ko": "꾸짖기",
+        "tc": "提醒",
+        "fr": "Réprimander",
+        "de": "Ermahnen"
+      }
+    },
+    {
+      "id": "197",
+      "name": "优雅仙人刺",
+      "icon": 246356,
+      "category": "1",
+      "textCommand": "598",
+      "unlockLink": "236",
+      "names": {
+        "zh": "优雅仙人刺",
+        "en": "Senor Sabotender",
+        "ja": "サボテンダーポーズ",
+        "ko": "사보텐더",
+        "tc": "優雅仙人掌怪",
+        "fr": "Pas de pampa",
+        "de": "Señor Kaktor"
+      }
+    },
+    {
+      "id": "198",
+      "name": "绅士舞步",
+      "icon": 246357,
+      "category": "2",
+      "textCommand": "599",
+      "unlockLink": "68704",
+      "names": {
+        "zh": "绅士舞步",
+        "en": "Manderville Mambo",
+        "ja": "事件屋のマンボ",
+        "ko": "사건해결사 맘보",
+        "tc": "紳士舞步",
+        "fr": "Mambo du gentilhomme",
+        "de": "Manderville-Mambo"
+      }
+    },
+    {
+      "id": "199",
+      "name": "啦哩吼",
+      "icon": 246358,
+      "category": "1",
+      "textCommand": "600",
+      "unlockLink": "69095",
+      "names": {
+        "zh": "啦哩吼",
+        "en": "Lali-ho",
+        "ja": "ラリホー",
+        "ko": "라리호",
+        "tc": "啦哩吼",
+        "fr": "Lali-ho",
+        "de": "Holladrio"
+      }
+    },
+    {
+      "id": "200",
+      "name": "欧米茄M架势",
+      "icon": 246359,
+      "category": "2",
+      "textCommand": "601",
+      "unlockLink": "75",
+      "names": {
+        "zh": "欧米茄M架势",
+        "en": "Simulation M",
+        "ja": "オメガMの構え",
+        "ko": "오메가 M 자세",
+        "tc": "歐米茄M架勢",
+        "fr": "Simulation M",
+        "de": "Omega-M"
+      }
+    },
+    {
+      "id": "201",
+      "name": "欧米茄F架势",
+      "icon": 246360,
+      "category": "2",
+      "textCommand": "602",
+      "unlockLink": "75",
+      "names": {
+        "zh": "欧米茄F架势",
+        "en": "Simulation F",
+        "ja": "オメガFの構え",
+        "ko": "오메가 F 자세",
+        "tc": "歐米茄F架勢",
+        "fr": "Simulation F",
+        "de": "Omega-F"
+      }
+    },
+    {
+      "id": "202",
+      "name": "干杯",
+      "icon": 246361,
+      "category": "1",
+      "textCommand": "603",
+      "unlockLink": "76",
+      "names": {
+        "zh": "干杯",
+        "en": "Toast",
+        "ja": "乾杯する",
+        "ko": "건배",
+        "tc": "乾杯",
+        "fr": "Trinquer",
+        "de": "Prosit"
+      }
+    },
+    {
+      "id": "203",
+      "name": "背靠",
+      "icon": 246363,
+      "category": "2",
+      "textCommand": "604",
+      "unlockLink": "77",
+      "names": {
+        "zh": "背靠",
+        "en": "Lean",
+        "ja": "斜め立ち",
+        "ko": "기대기",
+        "tc": "背靠",
+        "fr": "Posture inclinée",
+        "de": "Anlehnen"
+      }
+    },
+    {
+      "id": "204",
+      "name": "头痛",
+      "icon": 246362,
+      "category": "1",
+      "textCommand": "605",
+      "unlockLink": "78",
+      "names": {
+        "zh": "头痛",
+        "en": "Headache",
+        "ja": "頭痛",
+        "ko": "두통",
+        "tc": "頭痛",
+        "fr": "Maux de tête",
+        "de": "Kopfschmerz"
+      }
+    },
+    {
+      "id": "205",
+      "name": "打响指",
+      "icon": 246364,
+      "category": "1",
+      "textCommand": "606",
+      "unlockLink": "68",
+      "names": {
+        "zh": "打响指",
+        "en": "Snap",
+        "ja": "フィンガースナップ",
+        "ko": "핑거 스냅",
+        "tc": "打響指",
+        "fr": "Claquer des doigts",
+        "de": "Fingerschnippen"
+      }
+    },
+    {
+      "id": "206",
+      "name": "吃面包",
+      "icon": 246365,
+      "category": "1",
+      "textCommand": "607",
+      "unlockLink": "69",
+      "names": {
+        "zh": "吃面包",
+        "en": "Break Fast",
+        "ja": "パンを食べる",
+        "ko": "빵 먹기",
+        "tc": "吃麵包",
+        "fr": "Manger du pain",
+        "de": "Brot essen"
+      }
+    },
+    {
+      "id": "207",
+      "name": "看书",
+      "icon": 246366,
+      "category": "1",
+      "textCommand": "608",
+      "unlockLink": "70",
+      "names": {
+        "zh": "看书",
+        "en": "Read",
+        "ja": "本を読む",
+        "ko": "책 읽기",
+        "tc": "看書",
+        "fr": "Lire un livre",
+        "de": "Buchlektüre"
+      }
+    },
+    {
+      "id": "208",
+      "name": "坚持主张",
+      "icon": 246368,
+      "category": "1",
+      "textCommand": "609",
+      "unlockLink": "71",
+      "names": {
+        "zh": "坚持主张",
+        "en": "Insist",
+        "ja": "主張する",
+        "ko": "강력한 주장",
+        "tc": "堅持主張",
+        "fr": "Insister",
+        "de": "Insistieren"
+      }
+    },
+    {
+      "id": "209",
+      "name": "疑问",
+      "icon": 246367,
+      "category": "1",
+      "textCommand": "610",
+      "unlockLink": "279",
+      "names": {
+        "zh": "疑问",
+        "en": "Consider",
+        "ja": "疑問を抱く",
+        "ko": "의문",
+        "tc": "疑問",
+        "fr": "S'interroger",
+        "de": "Hm"
+      }
+    },
+    {
+      "id": "210",
+      "name": "嘿哟",
+      "icon": 246369,
+      "category": "2",
+      "textCommand": "611",
+      "unlockLink": "271",
+      "names": {
+        "zh": "嘿哟",
+        "en": "Wasshoi",
+        "ja": "わっしょい",
+        "ko": "영치기영차",
+        "tc": "嘿喲",
+        "fr": "Oh hisse !",
+        "de": "Wasshoi"
+      }
+    },
+    {
+      "id": "211",
+      "name": "花雨",
+      "icon": 246370,
+      "category": "1",
+      "textCommand": "612",
+      "unlockLink": "272",
+      "names": {
+        "zh": "花雨",
+        "en": "Flower Shower",
+        "ja": "フラワーシャワー",
+        "ko": "꽃비",
+        "tc": "花雨",
+        "fr": "Pluie de pétales",
+        "de": "Blütenregen"
+      }
+    },
+    {
+      "id": "212",
+      "name": "火焰之舞",
+      "icon": 246371,
+      "category": "2",
+      "textCommand": "613",
+      "unlockLink": "273",
+      "names": {
+        "zh": "火焰之舞",
+        "en": "Flame Dance",
+        "ja": "フレイムダンス",
+        "ko": "불꽃춤",
+        "tc": "烈焰之舞",
+        "fr": "Danse des flammes",
+        "de": "Flammentanz"
+      }
+    },
+    {
+      "id": "213",
+      "name": "击掌",
+      "icon": 246372,
+      "category": "1",
+      "textCommand": "614",
+      "unlockLink": "275",
+      "names": {
+        "zh": "击掌",
+        "en": "High Five",
+        "ja": "ハイタッチ",
+        "ko": "하이파이브",
+        "tc": "擊掌",
+        "fr": "Tope là",
+        "de": "Schlag ein"
+      }
+    },
+    {
+      "id": "214",
+      "name": "巡视",
+      "icon": 246373,
+      "category": "2",
+      "textCommand": "615",
+      "unlockLink": "276",
+      "names": {
+        "zh": "巡视",
+        "en": "Guard",
+        "ja": "警備する",
+        "ko": "경비",
+        "tc": "巡視",
+        "fr": "Monter la garde",
+        "de": "Wachsam"
+      }
+    },
+    {
+      "id": "215",
+      "name": "诅咒",
+      "icon": 246374,
+      "category": "2",
+      "textCommand": "616",
+      "unlockLink": "277",
+      "names": {
+        "zh": "诅咒",
+        "en": "Malevolence",
+        "ja": "呪う",
+        "ko": "저주",
+        "tc": "詛咒",
+        "fr": "Pose de l'occultiste",
+        "de": "Fluch"
+      }
+    },
+    {
+      "id": "216",
+      "name": "蜜蜂之舞",
+      "icon": 246375,
+      "category": "2",
+      "textCommand": "617",
+      "unlockLink": "278",
+      "names": {
+        "zh": "蜜蜂之舞",
+        "en": "Bee's Knees",
+        "ja": "ビーステップ",
+        "ko": "꿀벌 스텝",
+        "tc": "蜜蜂之舞",
+        "fr": "Danse des abeilles",
+        "de": "Bienen-Swing"
+      }
+    },
+    {
+      "id": "217",
+      "name": "啦哩吼舞",
+      "icon": 246376,
+      "category": "2",
+      "textCommand": "618",
+      "unlockLink": "274",
+      "names": {
+        "zh": "啦哩吼舞",
+        "en": "Lali Hop",
+        "ja": "ラリホップ",
+        "ko": "라리홉",
+        "tc": "啦哩吼舞",
+        "fr": "Lali-hop",
+        "de": "Holladrihopsasa"
+      }
+    },
+    {
+      "id": "220",
+      "name": "吃饭团",
+      "icon": 246377,
+      "category": "1",
+      "textCommand": "621",
+      "unlockLink": "414",
+      "names": {
+        "zh": "吃饭团",
+        "en": "Eat Rice Ball",
+        "ja": "おにぎりを食べる",
+        "ko": "주먹밥 먹기",
+        "tc": "吃飯糰",
+        "fr": "Manger un onigiri",
+        "de": "Onigiri essen"
+      }
+    },
+    {
+      "id": "221",
+      "name": "吃苹果",
+      "icon": 246378,
+      "category": "1",
+      "textCommand": "622",
+      "unlockLink": "415",
+      "names": {
+        "zh": "吃苹果",
+        "en": "Eat Apple",
+        "ja": "リンゴを食べる",
+        "ko": "사과 먹기",
+        "tc": "吃蘋果",
+        "fr": "Manger une pomme",
+        "de": "Apfel essen"
+      }
+    },
+    {
+      "id": "222",
+      "name": "搓手",
+      "icon": 246379,
+      "category": "2",
+      "textCommand": "623",
+      "unlockLink": "416",
+      "names": {
+        "zh": "搓手",
+        "en": "Wring Hands",
+        "ja": "もみ手をする",
+        "ko": "아첨",
+        "tc": "搓手",
+        "fr": "Se frotter les mains",
+        "de": "Händereiben"
+      }
+    },
+    {
+      "id": "223",
+      "name": "扫地",
+      "icon": 246380,
+      "category": "2",
+      "textCommand": "624",
+      "unlockLink": "417",
+      "names": {
+        "zh": "扫地",
+        "en": "Sweep Up",
+        "ja": "ホウキで掃く",
+        "ko": "빗자루질",
+        "tc": "掃地",
+        "fr": "Balayer",
+        "de": "Kehren"
+      }
+    },
+    {
+      "id": "224",
+      "name": "黑色陆行鸟之笔",
+      "icon": 246381,
+      "category": "1",
+      "textCommand": "625",
+      "unlockLink": "418",
+      "names": {
+        "zh": "黑色陆行鸟之笔",
+        "en": "Paint It Black",
+        "ja": "チョコボの筆：黒",
+        "ko": "검은색 초코보 붓",
+        "tc": "黑色陸行鳥之筆",
+        "fr": "Pinceau chocobo : noir",
+        "de": "Pinselstrich: Schwarz"
+      }
+    },
+    {
+      "id": "225",
+      "name": "红色陆行鸟之笔",
+      "icon": 246382,
+      "category": "1",
+      "textCommand": "626",
+      "unlockLink": "418",
+      "names": {
+        "zh": "红色陆行鸟之笔",
+        "en": "Paint It Red",
+        "ja": "チョコボの筆：赤",
+        "ko": "빨간색 초코보 붓",
+        "tc": "紅色陸行鳥之筆",
+        "fr": "Pinceau chocobo : rouge",
+        "de": "Pinselstrich: Rot"
+      }
+    },
+    {
+      "id": "226",
+      "name": "黄色陆行鸟之笔",
+      "icon": 246383,
+      "category": "1",
+      "textCommand": "627",
+      "unlockLink": "418",
+      "names": {
+        "zh": "黄色陆行鸟之笔",
+        "en": "Paint It Yellow",
+        "ja": "チョコボの筆：黄",
+        "ko": "노란색 초코보 붓",
+        "tc": "黃色陸行鳥之筆",
+        "fr": "Pinceau chocobo : jaune",
+        "de": "Pinselstrich: Gelb"
+      }
+    },
+    {
+      "id": "227",
+      "name": "蓝色陆行鸟之笔",
+      "icon": 246384,
+      "category": "1",
+      "textCommand": "628",
+      "unlockLink": "418",
+      "names": {
+        "zh": "蓝色陆行鸟之笔",
+        "en": "Paint It Blue",
+        "ja": "チョコボの筆：青",
+        "ko": "파란색 초코보 붓",
+        "tc": "藍色陸行鳥之筆",
+        "fr": "Pinceau chocobo : bleu",
+        "de": "Pinselstrich: Blau"
+      }
+    },
+    {
+      "id": "228",
+      "name": "表情：假笑",
+      "icon": 246132,
+      "category": "3",
+      "textCommand": "629",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：假笑",
+        "en": "Fake Smile",
+        "ja": "表情：作り笑い",
+        "ko": "꾸며낸 웃음",
+        "tc": "表情：假笑",
+        "fr": "Sourire forcé",
+        "de": "Aufgesetztes Lächeln"
+      }
+    },
+    {
+      "id": "229",
+      "name": "默剧",
+      "icon": 246385,
+      "category": "1",
+      "textCommand": "630",
+      "unlockLink": "237",
+      "names": {
+        "zh": "默剧",
+        "en": "Pantomime",
+        "ja": "パントマイム",
+        "ko": "무언극",
+        "tc": "默劇",
+        "fr": "Pantomime",
+        "de": "Pantomime"
+      }
+    },
+    {
+      "id": "230",
+      "name": "困惑",
+      "icon": 246386,
+      "category": "1",
+      "textCommand": "631",
+      "unlockLink": "238",
+      "names": {
+        "zh": "困惑",
+        "en": "Vexed",
+        "ja": "困惑する",
+        "ko": "짜증",
+        "tc": "疑惑",
+        "fr": "Mécontentement",
+        "de": "Grübeln"
+      }
+    },
+    {
+      "id": "231",
+      "name": "嘘",
+      "icon": 246387,
+      "category": "1",
+      "textCommand": "632",
+      "unlockLink": "69602",
+      "names": {
+        "zh": "嘘",
+        "en": "Shush",
+        "ja": "静寂を促す",
+        "ko": "쉿",
+        "tc": "噓",
+        "fr": "Chut",
+        "de": "Pst"
+      }
+    },
+    {
+      "id": "232",
+      "name": "吃披萨",
+      "icon": 246388,
+      "category": "1",
+      "textCommand": "633",
+      "unlockLink": "240",
+      "names": {
+        "zh": "吃披萨",
+        "en": "Eat Pizza",
+        "ja": "ピザを食べる",
+        "ko": "피자 먹기",
+        "tc": "吃披薩",
+        "fr": "Manger une pizza",
+        "de": "Pizza essen"
+      }
+    },
+    {
+      "id": "233",
+      "name": "抱头",
+      "icon": 246391,
+      "category": "1",
+      "textCommand": "634",
+      "unlockLink": "0",
+      "names": {
+        "zh": "抱头",
+        "en": "Clutch Head",
+        "ja": "頭を抱える",
+        "ko": "고뇌",
+        "tc": "抱頭",
+        "fr": "Se tenir la tête",
+        "de": "An den Kopf fassen"
+      }
+    },
+    {
+      "id": "234",
+      "name": "吃恋人巧克力",
+      "icon": 246390,
+      "category": "1",
+      "textCommand": "635",
+      "unlockLink": "428",
+      "names": {
+        "zh": "吃恋人巧克力",
+        "en": "Eat Chocolate",
+        "ja": "ヴァレンティオンチョコを食べる",
+        "ko": "발렌티온 초콜릿 먹기",
+        "tc": "吃戀人巧克力",
+        "fr": "Manger un chocolat",
+        "de": "Schokolade essen"
+      }
+    },
+    {
+      "id": "235",
+      "name": "吃水煮蛋",
+      "icon": 246392,
+      "category": "1",
+      "textCommand": "636",
+      "unlockLink": "429",
+      "names": {
+        "zh": "吃水煮蛋",
+        "en": "Eat Egg",
+        "ja": "ゆで卵を食べる",
+        "ko": "삶은 달걀 먹기",
+        "tc": "吃水煮蛋",
+        "fr": "Manger un œuf dur",
+        "de": "Ei essen"
+      }
+    },
+    {
+      "id": "236",
+      "name": "表情：幸福",
+      "icon": 246133,
+      "category": "3",
+      "textCommand": "637",
+      "unlockLink": "0",
+      "names": {
+        "zh": "表情：幸福",
+        "en": "Content",
+        "ja": "表情：幸福",
+        "ko": "행복한 표정",
+        "tc": "表情：幸福",
+        "fr": "Visage heureux",
+        "de": "Glückselig"
+      }
+    },
+    {
+      "id": "237",
+      "name": "收回武器",
+      "icon": 246397,
+      "category": "1",
+      "textCommand": "638",
+      "unlockLink": "430",
+      "names": {
+        "zh": "收回武器",
+        "en": "Sheathe Weapon",
+        "ja": "武器を収める",
+        "ko": "무기 넣기",
+        "tc": "收回武器",
+        "fr": "Ranger son arme",
+        "de": "Waffe wegstecken"
+      }
+    },
+    {
+      "id": "238",
+      "name": "亮出武器",
+      "icon": 246398,
+      "category": "1",
+      "textCommand": "639",
+      "unlockLink": "431",
+      "names": {
+        "zh": "亮出武器",
+        "en": "Draw Weapon",
+        "ja": "武器を構える",
+        "ko": "무기 꺼내기",
+        "tc": "亮出武器",
+        "fr": "Sortir son arme",
+        "de": "Waffe ziehen"
+      }
+    },
+    {
+      "id": "239",
+      "name": "饮用红茶",
+      "icon": 246393,
+      "category": "1",
+      "textCommand": "640",
+      "unlockLink": "433",
+      "names": {
+        "zh": "饮用红茶",
+        "en": "Drink Tea",
+        "ja": "紅茶を飲む",
+        "ko": "홍차 마시기",
+        "tc": "飲用紅茶",
+        "fr": "Boire du thé",
+        "de": "Tee trinken"
+      }
+    },
+    {
+      "id": "240",
+      "name": "干劲十足",
+      "icon": 246394,
+      "category": "1",
+      "textCommand": "641",
+      "unlockLink": "432",
+      "names": {
+        "zh": "干劲十足",
+        "en": "Determined",
+        "ja": "意気込む",
+        "ko": "의욕",
+        "tc": "幹勁十足",
+        "fr": "Détermination",
+        "de": "Entschlossen"
+      }
+    },
+    {
+      "id": "241",
+      "name": "展现右侧",
+      "icon": 246395,
+      "category": "2",
+      "textCommand": "642",
+      "unlockLink": "434",
+      "names": {
+        "zh": "展现右侧",
+        "en": "Show Right",
+        "ja": "見せつける：右",
+        "ko": "오른쪽 보여주기",
+        "tc": "展現右側",
+        "fr": "Montrer fièrement la droite",
+        "de": "Tadaa (rechts)"
+      }
+    },
+    {
+      "id": "242",
+      "name": "展现左侧",
+      "icon": 246396,
+      "category": "2",
+      "textCommand": "643",
+      "unlockLink": "434",
+      "names": {
+        "zh": "展现左侧",
+        "en": "Show Left",
+        "ja": "見せつける：左",
+        "ko": "왼쪽 보여주기",
+        "tc": "展現左側",
+        "fr": "Montrer fièrement la gauche",
+        "de": "Tadaa (links)"
+      }
+    },
+    {
+      "id": "245",
+      "name": "叛逆精神",
+      "icon": 246399,
+      "category": "1",
+      "textCommand": "646",
+      "unlockLink": "437",
+      "names": {
+        "zh": "叛逆精神",
+        "en": "Deride",
+        "ja": "反骨精神を示す",
+        "ko": "조롱하는 몸짓",
+        "tc": "叛逆精神",
+        "fr": "Montrer son côté rebelle",
+        "de": "Verhöhnen"
+      }
+    },
+    {
+      "id": "246",
+      "name": "两眼放光",
+      "icon": 246400,
+      "category": "1",
+      "textCommand": "647",
+      "unlockLink": "438",
+      "names": {
+        "zh": "两眼放光",
+        "en": "Wow",
+        "ja": "目を輝かせる",
+        "ko": "초롱초롱",
+        "tc": "兩眼放光",
+        "fr": "Avoir des étoiles dans les yeux",
+        "de": "Entzückt"
+      }
+    },
+    {
+      "id": "247",
+      "name": "吃南瓜曲奇",
+      "icon": 246389,
+      "category": "1",
+      "textCommand": "648",
+      "unlockLink": "439",
+      "names": {
+        "zh": "吃南瓜曲奇",
+        "en": "Eat Pumpkin Cookie",
+        "ja": "パンプキンクッキーを食べる",
+        "ko": "호박 쿠키 먹기",
+        "tc": "吃南瓜餅乾",
+        "fr": "Manger un biscuit citrouille",
+        "de": "Kürbiskeks essen"
+      }
+    },
+    {
+      "id": "248",
+      "name": "观战",
+      "icon": 246401,
+      "category": "2",
+      "textCommand": "649",
+      "unlockLink": "440",
+      "names": {
+        "zh": "观战",
+        "en": "Spirit",
+        "ja": "観戦する",
+        "ko": "관전하기",
+        "tc": "觀戰",
+        "fr": "Apprécier le spectacle",
+        "de": "Olé, olé, olé, olé!"
+      }
+    },
+    {
+      "id": "249",
+      "name": "魔术",
+      "icon": 246402,
+      "category": "1",
+      "textCommand": "650",
+      "unlockLink": "443",
+      "names": {
+        "zh": "魔术",
+        "en": "Magic Trick",
+        "ja": "手品",
+        "ko": "마술",
+        "tc": "魔術",
+        "fr": "Tour de magie",
+        "de": "Zaubertrick"
+      }
+    },
+    {
+      "id": "250",
+      "name": "公主之舞",
+      "icon": 246403,
+      "category": "1",
+      "textCommand": "651",
+      "unlockLink": "444",
+      "names": {
+        "zh": "公主之舞",
+        "en": "Little Ladies' Dance",
+        "ja": "姫の舞踊",
+        "ko": "공주님 춤",
+        "tc": "公主之舞",
+        "fr": "Danse des princesses",
+        "de": "Prinzessinnentanz"
+      }
+    },
+    {
+      "id": "251",
+      "name": "通讯珠",
+      "icon": 246404,
+      "category": "1",
+      "textCommand": "652",
+      "unlockLink": "445",
+      "names": {
+        "zh": "通讯珠",
+        "en": "Linkpearl",
+        "ja": "リンクパール通信",
+        "ko": "링크펄 통신",
+        "tc": "通訊珠",
+        "fr": "Appel via linkperle",
+        "de": "Kontaktperle"
+      }
+    },
+    {
+      "id": "252",
+      "name": "摇兔兔耳",
+      "icon": 246405,
+      "category": "1",
+      "textCommand": "653",
+      "unlockLink": "70222",
+      "names": {
+        "zh": "摇兔兔耳",
+        "en": "Ear Wiggle",
+        "ja": "おみみピコピコ",
+        "ko": "귀 쫑긋",
+        "tc": "搖兔兔耳",
+        "fr": "Longues oreilles soyeuses",
+        "de": "Löffelwackeln"
+      }
+    },
+    {
+      "id": "256",
+      "name": "吓唬人",
+      "icon": 246406,
+      "category": "1",
+      "textCommand": "657",
+      "unlockLink": "450",
+      "names": {
+        "zh": "吓唬人",
+        "en": "Frighten",
+        "ja": "驚かす",
+        "ko": "놀래기",
+        "tc": "嚇唬人",
+        "fr": "Effrayer",
+        "de": "Angst und Schrecken"
+      }
+    },
+    {
+      "id": "257",
+      "name": "威光降临",
+      "icon": 246407,
+      "category": "1",
+      "textCommand": "658",
+      "unlockLink": "451",
+      "names": {
+        "zh": "威光降临",
+        "en": "Advent of Light",
+        "ja": "猛き光の降臨",
+        "ko": "용감한 빛의 강림",
+        "tc": "威光降臨",
+        "fr": "Envol héroïque",
+        "de": "Heldenhafter Auftritt"
+      }
+    },
+    {
+      "id": "258",
+      "name": "雀跃1",
+      "icon": 246408,
+      "category": "1",
+      "textCommand": "659",
+      "unlockLink": "452",
+      "names": {
+        "zh": "雀跃1",
+        "en": "Jump for Joy 1",
+        "ja": "ハッピージャンプ1",
+        "ko": "행복한 점프 1",
+        "tc": "雀躍1",
+        "fr": "Saut de joie 1",
+        "de": "Freudensprung 1"
+      }
+    },
+    {
+      "id": "259",
+      "name": "雀跃2",
+      "icon": 246409,
+      "category": "1",
+      "textCommand": "660",
+      "unlockLink": "452",
+      "names": {
+        "zh": "雀跃2",
+        "en": "Jump for Joy 2",
+        "ja": "ハッピージャンプ2",
+        "ko": "행복한 점프 2",
+        "tc": "雀躍2",
+        "fr": "Saut de joie 2",
+        "de": "Freudensprung 2"
+      }
+    },
+    {
+      "id": "260",
+      "name": "雀跃3",
+      "icon": 246410,
+      "category": "1",
+      "textCommand": "661",
+      "unlockLink": "452",
+      "names": {
+        "zh": "雀跃3",
+        "en": "Jump for Joy 3",
+        "ja": "ハッピージャンプ3",
+        "ko": "행복한 점프 3",
+        "tc": "雀躍3",
+        "fr": "Saut de joie 3",
+        "de": "Freudensprung 3"
+      }
+    },
+    {
+      "id": "261",
+      "name": "雀跃4",
+      "icon": 246411,
+      "category": "1",
+      "textCommand": "662",
+      "unlockLink": "452",
+      "names": {
+        "zh": "雀跃4",
+        "en": "Jump for Joy 4",
+        "ja": "ハッピージャンプ4",
+        "ko": "행복한 점프 4",
+        "tc": "雀躍4",
+        "fr": "Saut de joie 4",
+        "de": "Freudensprung 4"
+      }
+    },
+    {
+      "id": "262",
+      "name": "雀跃5",
+      "icon": 246412,
+      "category": "1",
+      "textCommand": "663",
+      "unlockLink": "452",
+      "names": {
+        "zh": "雀跃5",
+        "en": "Jump for Joy 5",
+        "ja": "ハッピージャンプ5",
+        "ko": "행복한 점프 5",
+        "tc": "雀躍5",
+        "fr": "Saut de joie 5",
+        "de": "Freudensprung 5"
+      }
+    },
+    {
+      "id": "263",
+      "name": "手抚胸",
+      "icon": 246413,
+      "category": "1",
+      "textCommand": "664",
+      "unlockLink": "453",
+      "names": {
+        "zh": "手抚胸",
+        "en": "Hand to Heart",
+        "ja": "胸に手をあてる",
+        "ko": "가슴에 손 얹기",
+        "tc": "手撫胸",
+        "fr": "Main sur la poitrine",
+        "de": "Hand auf die Brust"
+      }
+    },
+    {
+      "id": "264",
+      "name": "前后声援小白",
+      "icon": 246414,
+      "category": "2",
+      "textCommand": "665",
+      "unlockLink": "454",
+      "names": {
+        "zh": "前后声援小白",
+        "en": "Cheer On: Bright",
+        "ja": "声援フロント：白",
+        "ko": "정면 응원(하양)",
+        "tc": "聲援小白",
+        "fr": "Encourager : devant (blanc)",
+        "de": "Anfeuern (Wippen/Weiß)"
+      }
+    },
+    {
+      "id": "265",
+      "name": "挥舞声援小紫",
+      "icon": 246415,
+      "category": "2",
+      "textCommand": "666",
+      "unlockLink": "455",
+      "names": {
+        "zh": "挥舞声援小紫",
+        "en": "Cheer Wave: Violet",
+        "ja": "声援ウェーブ：紫",
+        "ko": "물결 응원(보라)",
+        "tc": "聲援小紫",
+        "fr": "Encourager : arcs (violet)",
+        "de": "Anfeuern (Schwenken/Lila)"
+      }
+    },
+    {
+      "id": "266",
+      "name": "蹦跳声援小绿",
+      "icon": 246416,
+      "category": "2",
+      "textCommand": "667",
+      "unlockLink": "456",
+      "names": {
+        "zh": "蹦跳声援小绿",
+        "en": "Cheer Jump: Green",
+        "ja": "声援ジャンプ：緑",
+        "ko": "점프 응원(초록)",
+        "tc": "聲援小綠",
+        "fr": "Encourager : sauts (vert)",
+        "de": "Anfeuern (Hüpfen/Grün)"
+      }
+    },
+    {
+      "id": "267",
+      "name": "守护天节的魔咒",
+      "icon": 246417,
+      "category": "1",
+      "textCommand": "668",
+      "unlockLink": "457",
+      "names": {
+        "zh": "守护天节的魔咒",
+        "en": "All Saints' Charm",
+        "ja": "守護天節のおまじない",
+        "ko": "수호천절 주문",
+        "tc": "守護天節的魔咒",
+        "fr": "Sortilège de la Veillée",
+        "de": "Verwandlungsmagie"
+      }
+    },
+    {
+      "id": "268",
+      "name": "守护天节的魔咒",
+      "icon": 246417,
+      "category": "1",
+      "textCommand": "0",
+      "unlockLink": "457",
+      "names": {
+        "zh": "守护天节的魔咒",
+        "en": "All Saints' Charm",
+        "ja": "守護天節のおまじない",
+        "ko": "수호천절 주문",
+        "tc": "守護天節的魔咒",
+        "fr": "Sortilège de la Veillée",
+        "de": "Verwandlungsmagie"
+      }
+    },
+    {
+      "id": "269",
+      "name": "兔兔舞",
+      "icon": 246418,
+      "category": "2",
+      "textCommand": "670",
+      "unlockLink": "458",
+      "names": {
+        "zh": "兔兔舞",
+        "en": "Lop Hop",
+        "ja": "レポリットダンス",
+        "ko": "레포릿 춤",
+        "tc": "兔兔舞",
+        "fr": "Danse des Loporrites",
+        "de": "Lophop"
+      }
+    },
+    {
+      "id": "270",
+      "name": "比对文献",
+      "icon": 246419,
+      "category": "1",
+      "textCommand": "671",
+      "unlockLink": "459",
+      "names": {
+        "zh": "比对文献",
+        "en": "Reference",
+        "ja": "文献と見比べる",
+        "ko": "문헌과 비교하기",
+        "tc": "比對文獻",
+        "fr": "Se référer",
+        "de": "Literarischer Vergleich"
+      }
+    },
+    {
+      "id": "271",
+      "name": "吃炸鸡",
+      "icon": 246420,
+      "category": "1",
+      "textCommand": "672",
+      "unlockLink": "469",
+      "names": {
+        "zh": "吃炸鸡",
+        "en": "Eat Chicken",
+        "ja": "フライドチキンを食べる",
+        "ko": "치킨 먹기",
+        "tc": "吃炸雞",
+        "fr": "Manger du poulet frit",
+        "de": "Backhähnchen essen"
+      }
+    },
+    {
+      "id": "272",
+      "name": "众生离绝",
+      "icon": 246421,
+      "category": "2",
+      "textCommand": "673",
+      "unlockLink": "470",
+      "names": {
+        "zh": "众生离绝",
+        "en": "Sundering",
+        "ja": "エクソダス",
+        "ko": "엑소더스",
+        "tc": "眾生離絕",
+        "fr": "Exode",
+        "de": "Exodus"
+      }
+    },
+    {
+      "id": "273",
+      "name": "垂头丧气",
+      "icon": 246422,
+      "category": "2",
+      "textCommand": "674",
+      "unlockLink": "471",
+      "names": {
+        "zh": "垂头丧气",
+        "en": "Slump",
+        "ja": "うなだれる",
+        "ko": "낙담",
+        "tc": "垂頭喪氣",
+        "fr": "Être accablé",
+        "de": "Kopf hängen lassen"
+      }
+    },
+    {
+      "id": "274",
+      "name": "比心",
+      "icon": 246423,
+      "category": "2",
+      "textCommand": "675",
+      "unlockLink": "472",
+      "names": {
+        "zh": "比心",
+        "en": "Love Heart",
+        "ja": "ハートポーズ",
+        "ko": "하트 포즈",
+        "tc": "比心",
+        "fr": "Pose en cœur",
+        "de": "Herzpose"
+      }
+    },
+    {
+      "id": "275",
+      "name": "得意洋洋",
+      "icon": 246424,
+      "category": "1",
+      "textCommand": "676",
+      "unlockLink": "473",
+      "names": {
+        "zh": "得意洋洋",
+        "en": "Humble Triumph",
+        "ja": "自慢げなポーズ",
+        "ko": "의기양양한 자세",
+        "tc": "得意洋洋",
+        "fr": "Pose du fanfaron",
+        "de": "Kleiner Stolz"
+      }
+    },
+    {
+      "id": "276",
+      "name": "大获全胜",
+      "icon": 246425,
+      "category": "1",
+      "textCommand": "677",
+      "unlockLink": "474",
+      "names": {
+        "zh": "大获全胜",
+        "en": "Victory Reveal",
+        "ja": "ビーンズ・ビクトリー",
+        "ko": "젤리빈 승리",
+        "tc": "大獲全勝",
+        "fr": "Célébration de haricot",
+        "de": "Bohnensieg"
+      }
+    },
+    {
+      "id": "277",
+      "name": "煎蛋",
+      "icon": 246426,
+      "category": "1",
+      "textCommand": "678",
+      "unlockLink": "475",
+      "names": {
+        "zh": "煎蛋",
+        "en": "Fry Egg",
+        "ja": "目玉焼きを作る",
+        "ko": "달걀프라이 만들기",
+        "tc": "煎蛋",
+        "fr": "Cuisiner un œuf au plat",
+        "de": "Spiegelei"
+      }
+    },
+    {
+      "id": "278",
+      "name": "扇大团扇",
+      "icon": 246427,
+      "category": "1",
+      "textCommand": "679",
+      "unlockLink": "484",
+      "names": {
+        "zh": "扇大团扇",
+        "en": "Uchiwasshoi",
+        "ja": "大うちわで扇ぐ",
+        "ko": "큰 부채로 부채질하기",
+        "tc": "搧大團扇",
+        "fr": "Grand éventail",
+        "de": "Großfächer"
+      }
+    },
+    {
+      "id": "279",
+      "name": "待命",
+      "icon": 246428,
+      "category": "2",
+      "textCommand": "680",
+      "unlockLink": "490",
+      "names": {
+        "zh": "待命",
+        "en": "Attend",
+        "ja": "指示を待つ",
+        "ko": "지시 대기",
+        "tc": "待命",
+        "fr": "Attendre les ordres",
+        "de": "Anweisung erwarten"
+      }
+    },
+    {
+      "id": "280",
+      "name": "浇水",
+      "icon": 246429,
+      "category": "2",
+      "textCommand": "681",
+      "unlockLink": "491",
+      "names": {
+        "zh": "浇水",
+        "en": "Water",
+        "ja": "水をまく",
+        "ko": "물 주기",
+        "tc": "澆水",
+        "fr": "Arroser",
+        "de": "Gießkanne"
+      }
+    },
+    {
+      "id": "281",
+      "name": "调饮",
+      "icon": 246430,
+      "category": "2",
+      "textCommand": "682",
+      "unlockLink": "492",
+      "names": {
+        "zh": "调饮",
+        "en": "Shake Drink",
+        "ja": "シェイカーを振る",
+        "ko": "셰이커 흔들기",
+        "tc": "搖雪克杯",
+        "fr": "Mélanger un cocktail",
+        "de": "Mixen"
+      }
+    },
+    {
+      "id": "282",
+      "name": "象征自由的姿势",
+      "icon": 246431,
+      "category": "1",
+      "textCommand": "683",
+      "unlockLink": "70725",
+      "names": {
+        "zh": "象征自由的姿势",
+        "en": "Pose of the Unbound",
+        "ja": "自由のポーズ",
+        "ko": "자유의 포즈",
+        "tc": "象徵自由的姿勢",
+        "fr": "Pose des Affranchis",
+        "de": "Freigeist-Pose"
+      }
+    },
+    {
+      "id": "283",
+      "name": "赠送花束",
+      "icon": 246432,
+      "category": "2",
+      "textCommand": "684",
+      "unlockLink": "493",
+      "names": {
+        "zh": "赠送花束",
+        "en": "Bouquet",
+        "ja": "花束を贈る",
+        "ko": "꽃다발 선물하기",
+        "tc": "贈送花束",
+        "fr": "Offrir des fleurs",
+        "de": "Blumenstrauß"
+      }
+    },
+    {
+      "id": "284",
+      "name": "吹泡泡",
+      "icon": 246433,
+      "category": "1",
+      "textCommand": "685",
+      "unlockLink": "494",
+      "names": {
+        "zh": "吹泡泡",
+        "en": "Blow Bubbles",
+        "ja": "シャボン玉",
+        "ko": "비눗방울",
+        "tc": "吹泡泡",
+        "fr": "Bulles de savon",
+        "de": "Seifenblasen"
+      }
+    },
+    {
+      "id": "285",
+      "name": "噢霍卡利",
+      "icon": 246434,
+      "category": "1",
+      "textCommand": "686",
+      "unlockLink": "70729",
+      "names": {
+        "zh": "噢霍卡利",
+        "en": "Ohokaliy",
+        "ja": "オフォカリー",
+        "ko": "오호칼리",
+        "tc": "噢霍卡利",
+        "fr": "Ohokaliy",
+        "de": "Ohokaliy"
+      }
+    },
+    {
+      "id": "286",
+      "name": "用触控板记录",
+      "icon": 246435,
+      "category": "1",
+      "textCommand": "687",
+      "unlockLink": "495",
+      "names": {
+        "zh": "用触控板记录",
+        "en": "Visage Capture",
+        "ja": "タブレットで記録する",
+        "ko": "단말기로 기록하기",
+        "tc": "用觸控板記錄",
+        "fr": "Immortaliser son portrait",
+        "de": "Schönheit speichern"
+      }
+    },
+    {
+      "id": "288",
+      "name": "拍照",
+      "icon": 246436,
+      "category": "1",
+      "textCommand": "689",
+      "unlockLink": "0",
+      "names": {
+        "zh": "拍照",
+        "en": "Photograph",
+        "ja": "撮影する",
+        "ko": "촬영하기",
+        "tc": "拍照",
+        "fr": "Photographier",
+        "de": "Fotografieren"
+      }
+    },
+    {
+      "id": "291",
+      "name": "大惊小怪",
+      "icon": 246437,
+      "category": "1",
+      "textCommand": "692",
+      "unlockLink": "543",
+      "names": {
+        "zh": "大惊小怪",
+        "en": "Overreact",
+        "ja": "大げさに驚く",
+        "ko": "화들짝 놀라기",
+        "tc": "大驚小怪",
+        "fr": "Stupeur exagérée",
+        "de": "Von den Socken"
+      }
+    },
+    {
+      "id": "292",
+      "name": "转圈",
+      "icon": 246438,
+      "category": "1",
+      "textCommand": "693",
+      "unlockLink": "544",
+      "names": {
+        "zh": "转圈",
+        "en": "Twirl",
+        "ja": "くるっと回る",
+        "ko": "빙그르르 돌기",
+        "fr": "Pirouette",
+        "de": "Wirbeln"
+      }
+    },
+    {
+      "id": "293",
+      "name": "晕头转向",
+      "icon": 246439,
+      "category": "2",
+      "textCommand": "694",
+      "unlockLink": "545",
+      "names": {
+        "zh": "晕头转向",
+        "en": "Dazed",
+        "ja": "ふらつく",
+        "ko": "어질어질",
+        "tc": "暈頭轉向",
+        "fr": "Chanceler",
+        "de": "Taumeln"
+      }
+    },
+    {
+      "id": "294",
+      "name": "气得发抖",
+      "icon": 246440,
+      "category": "2",
+      "textCommand": "695",
+      "unlockLink": "546",
+      "names": {
+        "zh": "气得发抖",
+        "en": "Rage",
+        "ja": "怒りに震える",
+        "ko": "분노에 떨기",
+        "tc": "氣得發抖",
+        "fr": "Frémir de rage",
+        "de": "Vor Wut zittern"
+      }
+    },
+    {
+      "id": "295",
+      "name": "玩神典石",
+      "icon": 246441,
+      "category": "2",
+      "textCommand": "696",
+      "unlockLink": "406",
+      "names": {
+        "zh": "玩神典石",
+        "en": "Tomescroll",
+        "ja": "トームストーンを愛で続ける",
+        "ko": "석판 계속 만지기",
+        "tc": "玩神典石",
+        "fr": "Mémoquartz (continu)",
+        "de": "Steinstarren"
+      }
+    },
+    {
+      "id": "296",
+      "name": "认真看书",
+      "icon": 246442,
+      "category": "2",
+      "textCommand": "697",
+      "unlockLink": "70",
+      "names": {
+        "zh": "认真看书",
+        "en": "Study",
+        "ja": "本を熟読する",
+        "ko": "열심히 책 읽기",
+        "tc": "認真看書",
+        "fr": "Lire un livre (continu)",
+        "de": "Schmökern"
+      }
+    },
+    {
+      "id": "297",
+      "name": "霹雳舞",
+      "icon": 246453,
+      "category": "1",
+      "textCommand": "698",
+      "unlockLink": "553",
+      "names": {
+        "zh": "霹雳舞",
+        "en": "Breaking",
+        "ja": "ブレイキン",
+        "ko": "브레이크 댄스",
+        "fr": "Danser le break",
+        "de": "Breakdance"
+      }
+    },
+    {
+      "id": "298",
+      "name": "用森都风格马克杯喝",
+      "icon": 246443,
+      "category": "1",
+      "textCommand": "699",
+      "unlockLink": "554",
+      "names": {
+        "zh": "用森都风格马克杯喝",
+        "en": "Gridanian Sip",
+        "ja": "森都風マグカップで飲む",
+        "ko": "삼림도시풍 머그컵 마시기",
+        "fr": "Tasse gridanienne",
+        "de": "Gridanisches Schlückchen"
+      }
+    },
+    {
+      "id": "299",
+      "name": "用沙都风格马克杯喝",
+      "icon": 246444,
+      "category": "1",
+      "textCommand": "700",
+      "unlockLink": "554",
+      "names": {
+        "zh": "用沙都风格马克杯喝",
+        "en": "Ul'dahn Sip",
+        "ja": "砂都風マグカップで飲む",
+        "ko": "사막도시풍 머그컵 마시기",
+        "fr": "Tasse uldienne",
+        "de": "Ul'dhisches Schlückchen"
+      }
+    },
+    {
+      "id": "300",
+      "name": "用海都风格马克杯喝",
+      "icon": 246445,
+      "category": "1",
+      "textCommand": "701",
+      "unlockLink": "554",
+      "names": {
+        "zh": "用海都风格马克杯喝",
+        "en": "Lominsan Sip",
+        "ja": "海都風マグカップで飲む",
+        "ko": "바다도시풍 머그컵 마시기",
+        "fr": "Tasse limséenne",
+        "de": "Limsisches Schlückchen"
+      }
+    },
+    {
+      "id": "301",
+      "name": "持续用森都风格马克杯喝",
+      "icon": 246446,
+      "category": "2",
+      "textCommand": "702",
+      "unlockLink": "554",
+      "names": {
+        "zh": "持续用森都风格马克杯喝",
+        "en": "Gridanian Gulp",
+        "ja": "森都風マグカップで飲み続ける",
+        "ko": "삼림도시풍 머그컵 계속 마시기",
+        "fr": "Tasse gridanienne (continu)",
+        "de": "Gridanischer Schluck"
+      }
+    },
+    {
+      "id": "302",
+      "name": "持续用沙都风格马克杯喝",
+      "icon": 246447,
+      "category": "2",
+      "textCommand": "703",
+      "unlockLink": "554",
+      "names": {
+        "zh": "持续用沙都风格马克杯喝",
+        "en": "Ul'dahn Gulp",
+        "ja": "砂都風マグカップで飲み続ける",
+        "ko": "사막도시풍 머그컵 계속 마시기",
+        "fr": "Tasse uldienne (continu)",
+        "de": "Ul'dhischer Schluck"
+      }
+    },
+    {
+      "id": "303",
+      "name": "持续用海都风格马克杯喝",
+      "icon": 246448,
+      "category": "2",
+      "textCommand": "704",
+      "unlockLink": "554",
+      "names": {
+        "zh": "持续用海都风格马克杯喝",
+        "en": "Lominsan Gulp",
+        "ja": "海都風マグカップで飲み続ける",
+        "ko": "바다도시풍 머그컵 계속 마시기",
+        "fr": "Tasse limséenne (continu)",
+        "de": "Limsischer Schluck"
+      }
+    },
+    {
+      "id": "304",
+      "name": "跃跃欲试",
+      "icon": 246449,
+      "category": "1",
+      "textCommand": "705",
+      "unlockLink": "555",
+      "names": {
+        "zh": "跃跃欲试",
+        "en": "Limber Up",
+        "ja": "張り切る",
+        "ko": "준비 운동",
+        "fr": "S'échauffer",
+        "de": "Lockern"
+      }
+    },
+    {
+      "id": "305",
+      "name": "饮用绿茶",
+      "icon": 246450,
+      "category": "1",
+      "textCommand": "706",
+      "unlockLink": "556",
+      "names": {
+        "zh": "饮用绿茶",
+        "en": "Drink Green Tea",
+        "ja": "緑茶を飲む",
+        "ko": "녹차 마시기",
+        "fr": "Boire du thé vert",
+        "de": "Grüntee trinken"
+      }
+    },
+    {
+      "id": "306",
+      "name": "端坐享用绿茶",
+      "icon": 246451,
+      "category": "2",
+      "textCommand": "707",
+      "unlockLink": "556",
+      "names": {
+        "zh": "端坐享用绿茶",
+        "en": "Savor Tea",
+        "ja": "正座して緑茶を飲み続ける",
+        "ko": "정좌하고 녹차 계속 마시기",
+        "fr": "Boire du thé vert assis (continu)",
+        "de": "Grüntee genießen"
+      }
+    },
+    {
+      "id": "307",
+      "name": "用羽毛笔记录",
+      "icon": 246452,
+      "category": "2",
+      "textCommand": "708",
+      "unlockLink": "557",
+      "names": {
+        "zh": "用羽毛笔记录",
+        "en": "Pen",
+        "ja": "羽根ペンで記述する",
+        "ko": "깃펜으로 쓰기",
+        "fr": "Écrire avec une plume",
+        "de": "Beschwingt notieren"
+      }
+    },
+    {
+      "id": "308",
+      "name": "击飞",
+      "icon": 246454,
+      "category": "1",
+      "textCommand": "709",
+      "unlockLink": "577",
+      "names": {
+        "zh": "击飞",
+        "en": "Blown Away",
+        "ja": "ふっとぶ",
+        "ko": "날아가기",
+        "fr": "Se faire éjecter",
+        "de": "Überwältigt"
+      }
+    },
+    {
+      "id": "309",
+      "name": "跳脚",
+      "icon": 246455,
+      "category": "1",
+      "textCommand": "710",
+      "unlockLink": "578",
+      "names": {
+        "zh": "跳脚",
+        "en": "Stomp",
+        "ja": "地団駄を踏む",
+        "ko": "발 동동 구르기",
+        "fr": "Trépigner",
+        "de": "Stampfen"
+      }
+    },
+    {
+      "id": "310",
+      "name": "节拍声援小红",
+      "icon": 246456,
+      "category": "2",
+      "textCommand": "711",
+      "unlockLink": "579",
+      "names": {
+        "zh": "节拍声援小红",
+        "en": "Cheer Rhythm: Red",
+        "ja": "声援リズム：赤",
+        "ko": "리듬 응원(빨강)",
+        "fr": "Encourager : rapide (rouge)",
+        "de": "Anfeuern (Grooven/Rot)"
+      }
+    },
+    {
+      "id": "311",
+      "name": "摇摆声援小黄",
+      "icon": 246457,
+      "category": "2",
+      "textCommand": "712",
+      "unlockLink": "580",
+      "names": {
+        "zh": "摇摆声援小黄",
+        "en": "Cheer Light: Yellow",
+        "ja": "声援スロウ：黄",
+        "ko": "느린 응원(노랑)",
+        "fr": "Encourager : lent (jaune)",
+        "de": "Anfeuern (Schwofen/Gelb)"
+      }
+    },
+    {
+      "id": "312",
+      "name": "太感动了",
+      "icon": 246458,
+      "category": "1",
+      "textCommand": "713",
+      "unlockLink": "581",
+      "names": {
+        "zh": "太感动了",
+        "en": "Delighted",
+        "ja": "ほっぺたが落ちる",
+        "ko": "천상의 맛",
+        "fr": "Fondre de plaisir",
+        "de": "Hocherfreut"
+      }
+    },
+    {
+      "id": "313",
+      "name": "模特步",
+      "icon": 246459,
+      "category": "1",
+      "textCommand": "714",
+      "unlockLink": "582",
+      "names": {
+        "zh": "模特步",
+        "en": "Runway Walk",
+        "ja": "モデルウォーク",
+        "ko": "모델 걷기",
+        "fr": "Démarche de mannequin",
+        "de": "Laufstegschritt"
+      }
+    },
+    {
+      "id": "314",
+      "name": "前后声援小橙",
+      "icon": 246460,
+      "category": "2",
+      "textCommand": "715",
+      "unlockLink": "583",
+      "names": {
+        "zh": "前后声援小橙",
+        "en": "Cheer On: Orange",
+        "ja": "声援フロント：橙",
+        "ko": "정면 응원(주황)",
+        "fr": "Encourager : devant (orange)",
+        "de": "Anfeuern (Wippen/Orange)"
+      }
+    },
+    {
+      "id": "315",
+      "name": "挥舞声援小粉",
+      "icon": 246461,
+      "category": "2",
+      "textCommand": "716",
+      "unlockLink": "584",
+      "names": {
+        "zh": "挥舞声援小粉",
+        "en": "Cheer Wave: Pink",
+        "ja": "声援ウェーブ：桃",
+        "ko": "물결 응원(분홍)",
+        "fr": "Encourager : arcs (rose)",
+        "de": "Anfeuern (Schwenken/Rosa)"
+      }
+    },
+    {
+      "id": "316",
+      "name": "蹦跳声援小靛",
+      "icon": 246462,
+      "category": "2",
+      "textCommand": "717",
+      "unlockLink": "585",
+      "names": {
+        "zh": "蹦跳声援小靛",
+        "en": "Cheer Jump: Indigo",
+        "ja": "声援ジャンプ：紺",
+        "ko": "점프 응원(감청)",
+        "fr": "Encourager : sauts (indigo)",
+        "de": "Anfeuern (Hüpfen/Dunkelblau)"
+      }
+    },
+    {
+      "id": "317",
+      "name": "双手抱书",
+      "icon": 246463,
+      "category": "2",
+      "textCommand": "718",
+      "unlockLink": "586",
+      "names": {
+        "zh": "双手抱书",
+        "en": "Carry Book",
+        "ja": "本を抱える",
+        "ko": "책 끌어안기",
+        "fr": "Serrer un livre",
+        "de": "Buch tragen"
+      }
+    },
+    {
+      "id": "318",
+      "name": "激活神机手铠",
+      "icon": 246464,
+      "category": "1",
+      "textCommand": "719",
+      "unlockLink": "587",
+      "names": {
+        "zh": "激活神机手铠",
+        "en": "Divine Arm",
+        "ja": "神機を輝かす：ガントレット",
+        "ko": "신기 빛내기(건틀릿)",
+        "fr": "Artefact divin (gant)",
+        "de": "Göttlicher Handschuh"
+      }
+    },
+    {
+      "id": "319",
+      "name": "激活神机项环",
+      "icon": 246465,
+      "category": "1",
+      "textCommand": "720",
+      "unlockLink": "588",
+      "names": {
+        "zh": "激活神机项环",
+        "en": "Divine Disk",
+        "ja": "神機を輝かす：チョーカー",
+        "ko": "신기 빛내기(목장식)",
+        "fr": "Artefact divin (ras de cou)",
+        "de": "Göttliche Halskette"
+      }
+    },
+    {
+      "id": "320",
+      "name": "激活神机王冠",
+      "icon": 246466,
+      "category": "1",
+      "textCommand": "721",
+      "unlockLink": "589",
+      "names": {
+        "zh": "激活神机王冠",
+        "en": "Divine Tiara",
+        "ja": "神機を輝かす：ティアラ",
+        "ko": "신기 빛내기(티아라)",
+        "fr": "Artefact divin (tiare)",
+        "de": "Göttliches Diadem"
+      }
+    },
+    {
+      "id": "321",
+      "name": "节拍声援小紫",
+      "icon": 246467,
+      "category": "2",
+      "textCommand": "722",
+      "unlockLink": "590",
+      "names": {
+        "zh": "节拍声援小紫",
+        "en": "Cheer Rhythm: Violet",
+        "ja": "声援リズム：紫",
+        "ko": "리듬 응원(보라)",
+        "fr": "Encourager : rapide (violet)",
+        "de": "Anfeuern (Grooven/Lila)"
+      }
+    },
+    {
+      "id": "322",
+      "name": "节拍声援小白",
+      "icon": 246469,
+      "category": "2",
+      "textCommand": "723",
+      "unlockLink": "591",
+      "names": {
+        "zh": "节拍声援小白",
+        "en": "Cheer Rhythm: Bright",
+        "ja": "声援リズム：白",
+        "ko": "리듬 응원(하양)",
+        "fr": "Encourager : rapide (blanc)",
+        "de": "Anfeuern (Grooven/Weiß)"
+      }
+    },
+    {
+      "id": "323",
+      "name": "摇摆声援小蓝",
+      "icon": 246468,
+      "category": "2",
+      "textCommand": "724",
+      "unlockLink": "592",
+      "names": {
+        "zh": "摇摆声援小蓝",
+        "en": "Cheer Light: Blue",
+        "ja": "声援スロウ：青",
+        "ko": "느린 응원(파랑)",
+        "fr": "Encourager : lent (bleu)",
+        "de": "Anfeuern (Schwofen/Blau)"
+      }
+    },
+    {
+      "id": "324",
+      "name": "摇摆声援小绿",
+      "icon": 246470,
+      "category": "2",
+      "textCommand": "725",
+      "unlockLink": "593",
+      "names": {
+        "zh": "摇摆声援小绿",
+        "en": "Cheer Light: Green",
+        "ja": "声援スロウ：緑",
+        "ko": "느린 응원(초록)",
+        "fr": "Encourager : lent (vert)",
+        "de": "Anfeuern (Schwofen/Grün)"
+      }
+    },
+    {
+      "id": "326",
+      "name": "查看地图",
+      "icon": 246471,
+      "category": "1",
+      "textCommand": "727",
+      "unlockLink": "640",
+      "names": {
+        "zh": "查看地图",
+        "en": "Navigate",
+        "ja": "地図を見る",
+        "ko": "지도 보기",
+        "fr": "Consulter la carte",
+        "de": "Karte lesen"
+      }
+    },
+    {
+      "id": "327",
+      "name": "敲魔键盘",
+      "icon": 246472,
+      "category": "1",
+      "textCommand": "728",
+      "unlockLink": "641",
+      "names": {
+        "zh": "敲魔键盘",
+        "en": "Magitype",
+        "ja": "魔法盤を叩く",
+        "ko": "마법자판 치기",
+        "fr": "Taper au clavier",
+        "de": "Magitipp-Tastatur"
+      }
+    },
+    {
+      "id": "328",
+      "name": "放声大笑",
+      "icon": 246473,
+      "category": "2",
+      "textCommand": "729",
+      "unlockLink": "642",
+      "names": {
+        "zh": "放声大笑",
+        "en": "Cackle",
+        "ja": "高笑い",
+        "ko": "깔깔 웃기",
+        "fr": "Ricaner",
+        "de": "Spitzes Lachen"
+      }
+    },
+    {
+      "id": "329",
+      "name": "挥舞指挥棒",
+      "icon": 246474,
+      "category": "2",
+      "textCommand": "730",
+      "unlockLink": "643",
+      "names": {
+        "zh": "挥舞指挥棒",
+        "en": "Conduct",
+        "ja": "指揮棒を振る",
+        "ko": "지휘하기",
+        "fr": "Chef d'orchestre",
+        "de": "Dirigieren"
+      }
+    },
+    {
+      "id": "330",
+      "name": "吃夹饼",
+      "icon": 246475,
+      "category": "1",
+      "textCommand": "731",
+      "unlockLink": "644",
+      "names": {
+        "zh": "吃夹饼",
+        "en": "Eat Taco",
+        "ja": "タコスを食べる",
+        "ko": "타코 먹기",
+        "fr": "Manger un taco",
+        "de": "Taco essen"
+      }
+    },
+    {
+      "id": "331",
+      "name": "一直吃夹饼",
+      "icon": 246476,
+      "category": "2",
+      "textCommand": "732",
+      "unlockLink": "644",
+      "names": {
+        "zh": "一直吃夹饼",
+        "en": "Devour Taco",
+        "ja": "タコスを食べ続ける",
+        "ko": "타코 계속 먹기",
+        "fr": "Manger un taco (continu)",
+        "de": "Taco mampfen"
+      }
+    },
+    {
+      "id": "332",
+      "name": "回头看",
+      "icon": 246477,
+      "category": "2",
+      "textCommand": "733",
+      "unlockLink": "645",
+      "names": {
+        "zh": "回头看",
+        "en": "Look Back",
+        "ja": "後ろを振り返る",
+        "ko": "뒤돌아보기",
+        "fr": "Regarder en arrière",
+        "de": "Zurückblicken"
+      }
+    }
+  ]
+}

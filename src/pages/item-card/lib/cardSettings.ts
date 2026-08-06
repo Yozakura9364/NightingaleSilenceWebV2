@@ -102,8 +102,7 @@ export function normalizeItemCardSettings(value: unknown): ItemCardStoredSetting
       strokeRatio: clamp(input.strokeRatio, 0, 1, 0.2),
       strokeColor: normalizeColor(input.strokeColor, '#000000')
     },
-    layouts,
-    listLayout: stored.listLayout === 'right' ? 'right' : 'left'
+    layouts
   }
 }
 

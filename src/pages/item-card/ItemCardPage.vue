@@ -6,6 +6,7 @@
       :busy="importing"
       :load-stains="api.loadStains"
       :search-catalog-items="api.searchCatalogItems"
+      :search-emotes="searchEmotes"
       :status-message="statusMessage"
       :status-tone="statusTone"
       @clear-draft="clear"
@@ -13,7 +14,6 @@
       @import-text="importText"
       @import-chara="importChara"
       @add-catalog-item="addCatalogItem"
-      @select-entry-candidate="selectEntryCandidate"
       @clear-entry="clearEntry"
       @set-entry-dye="setEntryDye"
       @update-locale="setLocale"
@@ -28,6 +28,7 @@ import ItemCardWorkspace from '@/pages/item-card/components/ItemCardWorkspace.vu
 import { getRequiredFfxivTool } from '@/config/site'
 import { normalizeGlamourLocale } from '@/pages/item-card/lib/equipment'
 import { formatGlamourText } from '@/pages/item-card/lib/formatText'
+import { searchItemCardEmotes } from '@/pages/item-card/lib/emotes'
 import { isSupportedGlamourLinkUrl } from '@/pages/item-card/lib/links'
 import {
   normalizeItemCardImportText,
@@ -49,22 +50,23 @@ const tool = getRequiredFfxivTool('itemCard')
 const boundary = getApiBoundary('itemCard')
 const { t } = useLocale()
 const api = useItemCardApi(boundary)
-const {
-  draft,
-  acceptPayload,
-  clearDraft,
-  setLocale,
-  addCatalogItem,
-  selectEntryCandidate,
-  clearEntry,
-  setEntryDye,
-} = useItemCardDraft()
+const { draft, acceptPayload, clearDraft, setLocale, addCatalogItem, clearEntry, setEntryDye } =
+  useItemCardDraft()
 
 const importing = ref(false)
 const statusKey = ref<string>(textKeys.nsglamourStatusIdle)
 const statusText = ref('')
 const statusTone = ref<'neutral' | 'info' | 'success' | 'warning' | 'danger' | 'loading'>('neutral')
 const statusValues = ref<Record<string, string | number>>({})
+
+function searchEmotes(options: {
+  query: string
+  locale: string
+  limit?: number
+  signal?: AbortSignal
+}) {
+  return searchItemCardEmotes(options.query, options.locale, options.limit)
+}
 
 const statusMessage = computed(() => {
   if (statusText.value) {

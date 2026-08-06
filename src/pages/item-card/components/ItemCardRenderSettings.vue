@@ -87,6 +87,22 @@
           @change="updateStyle('dyeSize', numberValue($event))"
         />
       </AppField>
+      <AppField
+        class="card-settings__field"
+        :label="t(textKeys.strokeRatio)"
+        for-id="item-card-stroke-ratio"
+        density="compact"
+      >
+        <input
+          id="item-card-stroke-ratio"
+          type="number"
+          min="0"
+          max="1"
+          step="0.05"
+          :value="settings.strokeRatio"
+          @change="updateNumber('strokeRatio', $event)"
+        />
+      </AppField>
     </div>
 
     <div class="card-settings__grid">
@@ -144,14 +160,22 @@
       </AppField>
     </div>
 
-    <div class="card-settings__color-row">
+    <div class="card-settings__grid card-settings__appearance-grid">
       <label class="card-settings__field card-settings__color">
-        <span>{{ t(textKeys.fontColor) }}</span>
         <input
           type="color"
           :value="settings.fontColor"
           @input="emit('update', { fontColor: inputValue($event) })"
         />
+        <span>{{ t(textKeys.fontColor) }}</span>
+      </label>
+      <label class="card-settings__field card-settings__color">
+        <input
+          type="color"
+          :value="settings.strokeColor"
+          @input="emit('update', { strokeColor: inputValue($event) })"
+        />
+        <span>{{ t(textKeys.strokeColor) }}</span>
       </label>
       <label class="card-settings__toggle">
         <input
@@ -168,33 +192,6 @@
           @change="emit('update', { strokeEnabled: checkedValue($event) })"
         />
         <span>{{ t(textKeys.strokeEnabled) }}</span>
-      </label>
-    </div>
-
-    <div class="card-settings__grid">
-      <AppField
-        class="card-settings__field"
-        :label="t(textKeys.strokeRatio)"
-        for-id="item-card-stroke-ratio"
-        density="compact"
-      >
-        <input
-          id="item-card-stroke-ratio"
-          type="number"
-          min="0"
-          max="1"
-          step="0.05"
-          :value="settings.strokeRatio"
-          @change="updateNumber('strokeRatio', $event)"
-        />
-      </AppField>
-      <label class="card-settings__field card-settings__color">
-        <span>{{ t(textKeys.strokeColor) }}</span>
-        <input
-          type="color"
-          :value="settings.strokeColor"
-          @input="emit('update', { strokeColor: inputValue($event) })"
-        />
       </label>
     </div>
   </section>
@@ -329,8 +326,7 @@ async function loadLocalFonts() {
   font-weight: 700;
 }
 
-.card-settings__checks,
-.card-settings__color-row {
+.card-settings__checks {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -347,12 +343,12 @@ async function loadLocalFonts() {
 
 .card-settings__grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
 }
 
 .card-settings__text-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .card-settings__font-row {
@@ -368,21 +364,40 @@ async function loadLocalFonts() {
   font-size: 11px;
 }
 
-.card-settings__color-row {
-  justify-content: space-between;
-}
-
 .card-settings__color {
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr;
   align-items: center;
 }
 
+.card-settings__appearance-grid {
+  align-items: center;
+}
+
+.card-settings__toggle {
+  min-width: 0;
+}
+
 .card-settings input[type='color'] {
-  width: 34px;
-  height: 28px;
-  padding: 2px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.card-settings input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.card-settings input[type='color']::-webkit-color-swatch {
   border: 1px solid var(--ns-color-border);
   border-radius: 0;
-  background: var(--ns-color-surface-solid);
+}
+
+.card-settings input[type='color']::-moz-color-swatch {
+  border: 1px solid var(--ns-color-border);
+  border-radius: 0;
 }
 </style>

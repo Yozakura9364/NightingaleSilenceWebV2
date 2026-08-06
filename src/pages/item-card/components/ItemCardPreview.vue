@@ -1,48 +1,38 @@
 <template>
   <section class="card-preview">
     <header class="card-preview__toolbar ns-panel">
-      <div class="card-preview__actions">
-        <button type="button" class="ns-button ns-button--compact" @click="emit('open-import')">
-          {{ t(textKeys.importAction) }}
-        </button>
-        <button
-          type="button"
-          class="ns-button ns-button--compact"
-          :disabled="!entries.length"
-          @click="emit('clear-draft')"
-        >
-          {{ t(textKeys.nsglamourClearDraft) }}
-        </button>
-        <div
-          class="card-preview__mode card-preview__segment ns-segmented-control ns-segmented-control--small"
-          :aria-label="t(textKeys.modeLabel)"
-        >
+      <div class="card-preview__view-tabs">
+        <AppTabs
+          :model-value="activeView"
+          :items="previewViews"
+          stretch
+          density="compact"
+          :aria-label="t(textKeys.previewTitle)"
+          @update:model-value="updatePreviewView"
+        />
+      </div>
+      <div class="card-preview__floating-actions">
+        <div v-if="activeView === 'canvas'" class="card-preview__canvas-menu">
           <button
             type="button"
-            :aria-pressed="settings.mode === 'compact'"
-            @click="emit('set-mode', 'compact')"
+            class="card-preview__action"
+            :aria-expanded="canvasLayerMenuOpen"
+            aria-controls="item-card-canvas-layer-menu"
+            @pointerdown.stop
+            @click.stop="canvasLayerMenuOpen = !canvasLayerMenuOpen"
           >
-            {{ t(textKeys.modeCompact) }}
+            {{ t(textKeys.canvasLayers) }}
           </button>
-          <button
-            type="button"
-            :aria-pressed="settings.mode === 'full'"
-            @click="emit('set-mode', 'full')"
-          >
-            {{ t(textKeys.modeFull) }}
-          </button>
-        </div>
-        <div class="card-preview__segment ns-segmented-control ns-segmented-control--small">
-          <button type="button" @click="emit('set-all-layouts', 'left')">
-            {{ t(textKeys.allLeft) }}
-          </button>
-          <button type="button" @click="emit('set-all-layouts', 'right')">
-            {{ t(textKeys.allRight) }}
-          </button>
+          <div
+            id="item-card-canvas-layer-menu-host"
+            ref="canvasLayerMenuHost"
+            class="card-preview__canvas-menu-host"
+          />
         </div>
         <button
+          v-if="activeView === 'cards'"
           type="button"
-          class="ns-button ns-button--compact"
+          class="card-preview__action"
           :disabled="!entries.length || exporting"
           @click="downloadZip"
         >
@@ -51,28 +41,27 @@
       </div>
     </header>
 
-    <template v-if="entries.length">
+    <ItemCardCanvasBoard
+      v-if="activeView === 'canvas'"
+      :entries="entries"
+      :draft="draft"
+      :settings="settings"
+      :layouts="layouts"
+      :api-base="apiBase"
+      :layer-menu-open="canvasLayerMenuOpen"
+    />
+
+    <template v-else-if="entries.length">
       <section class="card-preview__list">
         <header class="card-preview__list-header">
           <h3>{{ t(textKeys.listPreview) }}</h3>
-          <div
-            class="card-preview__list-actions card-preview__segment ns-segmented-control ns-segmented-control--small"
-          >
+          <div class="card-preview__list-actions">
             <button
               type="button"
-              :aria-pressed="listLayout === 'left'"
-              @click="emit('set-list-layout', 'left')"
+              class="card-preview__action"
+              :disabled="exporting"
+              @click="downloadList"
             >
-              {{ t(textKeys.layoutLeft) }}
-            </button>
-            <button
-              type="button"
-              :aria-pressed="listLayout === 'right'"
-              @click="emit('set-list-layout', 'right')"
-            >
-              {{ t(textKeys.layoutRight) }}
-            </button>
-            <button type="button" :disabled="exporting" @click="downloadList">
               {{ t(textKeys.downloadPng) }}
             </button>
           </div>
@@ -95,7 +84,6 @@
           :layout="layoutFor(entry)"
           :api-base="apiBase"
           :index="index"
-          @set-layout="emit('set-layout', getItemCardRowId(entry), $event)"
         />
       </section>
     </template>
@@ -103,14 +91,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import AppTabs from '@/components/AppTabs.vue'
+import ItemCardCanvasBoard from '@/pages/item-card/components/ItemCardCanvasBoard.vue'
 import ItemCardCanvas from '@/pages/item-card/components/ItemCardCanvas.vue'
 import {
   canvasToBlob,
   downloadBlob,
   makeItemCardFileName,
   renderItemCardCanvas,
-  renderItemListCanvas
+  renderItemListCanvas,
+  resolveItemCardLayout
 } from '@/pages/item-card/lib/cardRenderer'
 import { createZip } from '@/pages/item-card/lib/zip'
 import { getItemCardRowId } from '@/pages/item-card/lib/equipment'
@@ -118,45 +109,77 @@ import type {
   GlamourDraft,
   GlamourEquipmentEntry,
   ItemCardLayout,
-  ItemCardMode,
   ItemCardRenderSettings
 } from '@/pages/item-card/lib/types'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
 import { useLocale } from '@/stores/locale'
 
+type ItemCardPreviewView = 'cards' | 'canvas'
+
 const props = defineProps<{
+  activeView: ItemCardPreviewView
   entries: GlamourEquipmentEntry[]
   draft: GlamourDraft
   settings: ItemCardRenderSettings
   layouts: Record<string, ItemCardLayout>
-  listLayout: ItemCardLayout
   apiBase: string
 }>()
 
 const emit = defineEmits<{
-  'set-layout': [rowId: string, layout: ItemCardLayout]
-  'set-all-layouts': [layout: ItemCardLayout]
-  'set-list-layout': [layout: ItemCardLayout]
-  'set-mode': [mode: ItemCardMode]
-  'open-import': []
-  'clear-draft': []
+  'update-view': [view: ItemCardPreviewView]
 }>()
 
 const { t } = useLocale()
+const previewViews = computed(() => [
+  { value: 'cards', label: t(textKeys.previewCards) },
+  { value: 'canvas', label: t(textKeys.canvasPanel) }
+])
 const listCanvasElement = ref<HTMLCanvasElement | null>(null)
 const exporting = ref(false)
+const canvasLayerMenuOpen = ref(false)
+const canvasLayerMenuHost = ref<HTMLElement | null>(null)
 let renderId = 0
 
+function updatePreviewView(value: string) {
+  if (value === 'cards' || value === 'canvas') {
+    if (value !== 'canvas') {
+      canvasLayerMenuOpen.value = false
+    }
+    emit('update-view', value)
+  }
+}
+
 watch(
-  () => [props.entries, props.draft.locale, props.settings, props.listLayout],
+  () => [props.entries, props.draft.locale, props.settings, props.layouts],
   () => void renderList(),
   { deep: true }
 )
 onMounted(() => void renderList())
+onMounted(() => {
+  document.addEventListener('pointerdown', onDocumentPointerDown)
+  document.addEventListener('keydown', onDocumentKeydown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('pointerdown', onDocumentPointerDown)
+  document.removeEventListener('keydown', onDocumentKeydown)
+})
+
+function onDocumentPointerDown(event: PointerEvent) {
+  if (!canvasLayerMenuOpen.value || canvasLayerMenuHost.value?.contains(event.target as Node)) {
+    return
+  }
+  canvasLayerMenuOpen.value = false
+}
+
+function onDocumentKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    canvasLayerMenuOpen.value = false
+  }
+}
 
 function layoutFor(entry: GlamourEquipmentEntry): ItemCardLayout {
-  const layout = props.layouts[getItemCardRowId(entry)] ?? props.layouts[entry.slot]
-  return layout === 'right' ? 'right' : 'left'
+  return resolveItemCardLayout(entry, props.layouts)
 }
 
 async function makeListCanvas() {
@@ -164,7 +187,7 @@ async function makeListCanvas() {
     entries: props.entries,
     draft: props.draft,
     settings: props.settings,
-    layout: props.listLayout,
+    layouts: props.layouts,
     apiBase: props.apiBase
   })
 }
@@ -228,21 +251,40 @@ async function downloadZip() {
   padding: 14px;
 }
 
-.card-preview__toolbar,
-.card-preview__actions {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 8px;
-}
-
 .card-preview__toolbar {
   position: sticky;
   z-index: 10;
   top: 0;
-  justify-content: flex-end;
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
   padding: 10px;
   box-shadow: none;
+}
+
+.card-preview__view-tabs {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 4px;
+  min-width: 0;
+}
+
+.card-preview__floating-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-preview__canvas-menu {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card-preview__canvas-menu-host {
+  position: static;
 }
 
 .card-preview h3 {
@@ -254,13 +296,34 @@ async function downloadZip() {
   font-size: 13px;
 }
 
-.card-preview__actions {
-  justify-content: flex-end;
-  flex-wrap: wrap;
+.card-preview__action {
+  min-height: 34px;
+  padding: 4px 12px;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
+  background: var(--ns-color-surface-solid);
+  box-shadow: none;
+  color: var(--ns-color-text);
+  font: 700 11px/1.15 var(--ns-font-ui);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color var(--ns-transition-fast),
+    background var(--ns-transition-fast),
+    color var(--ns-transition-fast);
 }
 
-.card-preview__segment {
-  gap: 0;
+.card-preview__action:hover:not(:disabled),
+.card-preview__action:focus-visible {
+  border-color: var(--ns-color-accent);
+  background: var(--ns-pixel-hover-surface);
+  color: var(--ns-color-text);
+  outline: 0;
+}
+
+.card-preview__action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .card-preview__list,
@@ -307,8 +370,8 @@ async function downloadZip() {
     flex-direction: column;
   }
 
-  .card-preview__actions {
-    justify-content: flex-start;
+  .card-preview__floating-actions {
+    justify-content: flex-end;
   }
 }
 </style>

@@ -9,7 +9,6 @@ import {
   getFilledGlamourDraftEntries,
   GLAMOUR_CARD_DRAFT_STORAGE_KEY,
   GLAMOUR_STORE_EQUIPMENT_STORAGE_KEY,
-  selectGlamourDraftEntryCandidate,
   setGlamourDraftEntryDye,
   setGlamourDraftLocale,
   storedGlamourValueToPayload
@@ -174,12 +173,6 @@ export function useItemCardDraft() {
     syncSharedDraftStorage(sharedDraft.value)
   }
 
-  function selectEntryCandidate(rowId: string, candidateKey: string | number | undefined) {
-    sharedDraft.value = selectGlamourDraftEntryCandidate(sharedDraft.value, rowId, candidateKey)
-    updatedAt.value = new Date().toISOString()
-    syncSharedDraftStorage(sharedDraft.value)
-  }
-
   function setEntryDye(rowId: string, dyeIndex: number, stain: GlamourStain) {
     sharedDraft.value = setGlamourDraftEntryDye(sharedDraft.value, rowId, dyeIndex, stain)
     updatedAt.value = new Date().toISOString()
@@ -231,7 +224,6 @@ export function useItemCardDraft() {
     setLocale,
     addCatalogItem,
     clearEntry,
-    selectEntryCandidate,
     setEntryDye,
     saveCurrentConfig,
     restoreRecentConfig,

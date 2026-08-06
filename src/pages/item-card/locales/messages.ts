@@ -7,38 +7,58 @@ export const itemCardUiMessages: UiMessageMap = {
     zh: '卡片内容',
     en: 'Card contents',
     ja: 'カード内容',
-    ko: '카드 내용'
+    ko: '카드 내용',
+    fr: 'Contenu des cartes',
+    de: 'Karteninhalt'
+  }),
+  'itemCard.panel.customText': msg({
+    zh: '自定义文字',
+    en: 'Custom text',
+    ja: 'カスタムテキスト',
+    ko: '사용자 지정 텍스트',
+    fr: 'Texte personnalisé',
+    de: 'Benutzerdefinierter Text'
   }),
   'itemCard.panel.recent': msg({
     zh: '最近记录',
     en: 'Recent',
     ja: '最近の記録',
-    ko: '최근 기록'
+    ko: '최근 기록',
+    fr: 'Récents',
+    de: 'Zuletzt verwendet'
   }),
   'itemCard.import.action': msg({ zh: '导入', en: 'Import', ja: '読込', ko: '가져오기' }),
   'itemCard.import.link': msg({
     zh: '从网页导入',
     en: 'Import page',
     ja: 'ページから読込',
-    ko: '웹에서 가져오기'
+    ko: '웹에서 가져오기',
+    fr: 'Importer',
+    de: 'Importieren'
   }),
   'itemCard.import.text': msg({
     zh: '从文本导入',
     en: 'Import text',
     ja: 'テキストから読込',
-    ko: '텍스트에서 가져오기'
+    ko: '텍스트에서 가져오기',
+    fr: 'Importer du texte',
+    de: 'Text importieren'
   }),
   'itemCard.import.title': msg({
     zh: '从网页导入',
     en: 'Import from page',
     ja: 'ページから読み込み',
-    ko: '웹에서 가져오기'
+    ko: '웹에서 가져오기',
+    fr: 'Importer depuis une page',
+    de: 'Von Seite importieren'
   }),
   'itemCard.import.urlLabel': msg({
     zh: '幻化链接',
     en: 'Glamour link',
     ja: 'ミラプリリンク',
-    ko: '코디 링크'
+    ko: '코디 링크',
+    fr: 'Lien de glamour',
+    de: 'Glamour-Link'
   }),
   'itemCard.import.urlPlaceholder': same('https://...'),
   'itemCard.import.hint': same('请输入石之家或 Eorzea Collection 幻化链接'),
@@ -48,91 +68,121 @@ export const itemCardUiMessages: UiMessageMap = {
     zh: '从文本导入',
     en: 'Import from text',
     ja: 'テキストから読み込み',
-    ko: '텍스트에서 가져오기'
+    ko: '텍스트에서 가져오기',
+    fr: 'Charger',
+    de: 'Laden'
   }),
   'itemCard.importText.sourceLocale': msg({
     zh: '文本语言',
     en: 'Text language',
     ja: 'テキスト言語',
-    ko: '텍스트 언어'
+    ko: '텍스트 언어',
+    fr: 'Langue du texte',
+    de: 'Textsprache'
   }),
   'itemCard.importText.label': msg({
     zh: '装备文本',
     en: 'Equipment text',
     ja: '装備テキスト',
-    ko: '장비 텍스트'
+    ko: '장비 텍스트',
+    fr: 'Texte d\'équipement',
+    de: 'Ausrüstungstext'
   }),
   'itemCard.importText.placeholder': msg({
     zh: '粘贴装备文本',
     en: 'Paste equipment text',
     ja: '装備テキストを貼り付け',
-    ko: '장비 텍스트 붙여넣기'
+    ko: '장비 텍스트 붙여넣기',
+    fr: 'Coller le texte d\'équipement',
+    de: 'Ausrüstungstext einfügen'
   }),
   'itemCard.importText.submit': msg({
     zh: '识别并导入',
     en: 'Recognize and import',
     ja: '認識して読み込み',
-    ko: '인식하고 가져오기'
+    ko: '인식하고 가져오기',
+    fr: 'Reconnaître et importer',
+    de: 'Erkennen und importieren'
   }),
   'itemCard.action.clearDraft': msg({
     zh: '清空',
     en: 'Clear',
     ja: 'クリア',
-    ko: '비우기'
+    ko: '비우기',
+    fr: 'Effacer',
+    de: 'Leeren'
   }),
   'itemCard.action.saveConfig': msg({
     zh: '保存卡片',
     en: 'Save cards',
     ja: 'カードを保存',
-    ko: '카드 저장'
+    ko: '카드 저장',
+    fr: 'Enregistrer les cartes',
+    de: 'Karten speichern'
   }),
   'itemCard.equipment.language': msg({
     zh: '装备名语言',
     en: 'Display language',
     ja: '表示言語',
-    ko: '표시 언어'
+    ko: '표시 언어',
+    fr: 'Langue d\'affichage',
+    de: 'Anzeigesprache'
   }),
   'itemCard.equipment.undyeable': msg({
     zh: '不可染色',
     en: 'Undyeable',
     ja: '染色不可',
-    ko: '염색 불가'
+    ko: '염색 불가',
+    fr: 'Non teignable',
+    de: 'Nicht färbbar'
   }),
   'itemCard.equipment.dyeSearch.placeholder': msg({
     zh: '搜索染剂',
     en: 'Search dye',
     ja: '染色を検索',
-    ko: '염료 검색'
+    ko: '염료 검색',
+    fr: 'Rechercher une teinture',
+    de: 'Farbstoff suchen'
   }),
   'itemCard.equipment.dyeSearch.empty': msg({
     zh: '没有匹配的染剂',
     en: 'No matching dyes',
     ja: '一致する染色なし',
-    ko: '일치하는 염료 없음'
+    ko: '일치하는 염료 없음',
+    fr: 'Aucune teinture correspondante',
+    de: 'Keine passenden Farbstoffe'
   }),
   'itemCard.equipment.dyeSearch.loading': msg({
     zh: '正在读取染剂',
     en: 'Loading dyes',
     ja: '染色を読み込み中',
-    ko: '염료 읽는 중'
+    ko: '염료 읽는 중',
+    fr: 'Chargement des teintures',
+    de: 'Farbstoffe werden geladen'
   }),
   'itemCard.equipment.dyeSearch.error': msg({
     zh: '染剂读取失败',
     en: 'Failed to load dyes',
     ja: '染色の読み込み失敗',
-    ko: '염료 읽기 실패'
+    ko: '염료 읽기 실패',
+    fr: 'Échec du chargement des teintures',
+    de: 'Farbstoffe konnten nicht geladen werden'
   }),
   'itemCard.equipment.search.empty': msg({
     zh: '无搜索结果',
     en: 'No results',
     ja: '検索結果なし',
-    ko: '검색 결과 없음'
+    ko: '검색 결과 없음',
+    fr: 'Aucun résultat',
+    de: 'Keine Ergebnisse'
   }),
   'itemCard.equipment.search.error': msg({
     zh: '搜索失败',
     en: 'Search failed',
     ja: '検索失敗',
-    ko: '검색 실패'
+    ko: '검색 실패',
+    fr: 'Échec de la recherche',
+    de: 'Suche fehlgeschlagen'
   }),
   'itemCard.catalog.itemType': msg({
     zh: '物品',
@@ -158,6 +208,22 @@ export const itemCardUiMessages: UiMessageMap = {
     fr: 'Équipement',
     de: 'Ausrüstung'
   }),
+  'itemCard.catalog.category.facewear': msg({
+    zh: '面部配饰',
+    en: 'Facewear',
+    ja: 'フェイスアクセサリー',
+    ko: '얼굴 소품',
+    fr: 'Accessoires de visage',
+    de: 'Gesichtsaccessoires'
+  }),
+  'itemCard.catalog.category.fashion': msg({
+    zh: '时尚配饰',
+    en: 'Fashion Accessories',
+    ja: 'ファッションアクセサリー',
+    ko: '패션 액세서리',
+    fr: 'Accessoires de mode',
+    de: 'Modeaccessoires'
+  }),
   'itemCard.catalog.category.other': msg({
     zh: '其他物品',
     en: 'Other items',
@@ -165,6 +231,30 @@ export const itemCardUiMessages: UiMessageMap = {
     ko: '기타 아이템',
     fr: 'Autres objets',
     de: 'Andere Gegenstände'
+  }),
+  'itemCard.catalog.category.furniture': msg({
+    zh: '家具',
+    en: 'Furnishing',
+    ja: '調度品',
+    ko: '가구',
+    fr: 'Meuble',
+    de: 'Mobiliar'
+  }),
+  'itemCard.catalog.category.mount': msg({
+    zh: '坐骑',
+    en: 'Mounts',
+    ja: 'マウント',
+    ko: '탈것',
+    fr: 'Montures',
+    de: 'Reittiere'
+  }),
+  'itemCard.catalog.category.emote': msg({
+    zh: '情感动作',
+    en: 'emote',
+    ja: 'エモート',
+    ko: '감정 표현',
+    fr: 'Emote',
+    de: 'Emote'
   }),
   'itemCard.catalog.search.label': msg({
     zh: '添加物品',
@@ -182,86 +272,354 @@ export const itemCardUiMessages: UiMessageMap = {
     fr: 'Rechercher par nom ou ID',
     de: 'Gegenstandsname oder ID suchen'
   }),
+  'itemCard.customText.input.label': msg({
+    zh: '添加文字',
+    en: 'Add text',
+    ja: '文字を追加',
+    ko: '텍스트 추가',
+    fr: 'Ajouter du texte',
+    de: 'Text hinzufügen'
+  }),
+  'itemCard.customText.input.placeholder': msg({
+    zh: '输入要生成的文字，可换行',
+    en: 'Enter text; line breaks are supported',
+    ja: '生成する文字を入力（改行可）',
+    ko: '생성할 텍스트를 입력하세요(줄바꿈 가능)',
+    fr: 'Saisissez le texte à générer; sauts de ligne possibles',
+    de: 'Text eingeben; Zeilenumbrüche möglich'
+  }),
+  'itemCard.customText.add': msg({
+    zh: '添加',
+    en: 'Add',
+    ja: '追加',
+    ko: '추가',
+    fr: 'Ajouter',
+    de: 'Hinzufügen'
+  }),
+  'itemCard.customText.empty': msg({
+    zh: '还没有自定义文字',
+    en: 'No custom text yet',
+    ja: 'カスタムテキストはありません',
+    ko: '사용자 지정 텍스트가 없습니다',
+    fr: 'Aucun texte personnalisé',
+    de: 'Noch kein eigener Text'
+  }),
+  'itemCard.customText.delete': msg({
+    zh: '删除文字',
+    en: 'Delete text',
+    ja: '文字を削除',
+    ko: '텍스트 삭제',
+    fr: 'Supprimer le texte',
+    de: 'Text löschen'
+  }),
+  'itemCard.customText.download': msg({
+    zh: '下载',
+    en: 'Download',
+    ja: 'ダウンロード',
+    ko: '다운로드',
+    fr: 'Télécharger',
+    de: 'Herunterladen'
+  }),
+  'itemCard.panel.canvas': msg({
+    zh: '画布',
+    en: 'Canvas',
+    ja: 'キャンバス',
+    ko: '캔버스',
+    fr: 'Canevas',
+    de: 'Leinwand'
+  }),
+  'itemCard.canvas.upload': msg({
+    zh: '上传图片',
+    en: 'Upload image',
+    ja: '画像をアップロード',
+    ko: '이미지 업로드',
+    fr: 'Téléverser une image',
+    de: 'Bild hochladen'
+  }),
+  'itemCard.canvas.dropHint': msg({
+    zh: '拖入图片作为画布背景',
+    en: 'Drop an image as the canvas background',
+    ja: '画像をドラッグして背景に設定',
+    ko: '이미지를 끌어다 배경으로 설정하세요',
+    fr: 'Déposez une image comme arrière-plan du canevas',
+    de: 'Bild als Hintergrund hier ablegen'
+  }),
+  'itemCard.canvas.clear': msg({
+    zh: '清空画布',
+    en: 'Clear canvas',
+    ja: 'キャンバスをクリア',
+    ko: '캔버스 비우기',
+    fr: 'Effacer le canevas',
+    de: 'Leinwand leeren'
+  }),
+  'itemCard.canvas.fit': msg({
+    zh: '适应窗口',
+    en: 'Fit to view',
+    ja: 'ウィンドウに合わせる',
+    ko: '창에 맞추기',
+    fr: 'Ajuster à la fenêtre',
+    de: 'Einpassen'
+  }),
+  'itemCard.canvas.zoomIn': msg({ zh: '放大', en: 'Zoom in', ja: '拡大', ko: '확대' }),
+  'itemCard.canvas.zoomOut': msg({ zh: '缩小', en: 'Zoom out', ja: '縮小', ko: '축소' }),
+  'itemCard.canvas.resetViewport': msg({
+    zh: '重置视口',
+    en: 'Reset view',
+    ja: 'ビューをリセット',
+    ko: '보기 초기화',
+    fr: 'Zoom avant',
+    de: 'Vergrößern'
+  }),
+  'itemCard.canvas.export': msg({
+    zh: '导出画布',
+    en: 'Export canvas',
+    ja: 'キャンバスを書き出し',
+    ko: '캔버스 내보내기',
+    fr: 'Exporter le canevas',
+    de: 'Leinwand exportieren'
+  }),
+  'itemCard.canvas.dropContentHint': msg({
+    zh: '将左侧卡片内容或自定义文字拖到这里即可添加图层。',
+    en: 'Drag card content or custom text from the left panel here to add a layer.',
+    ja: '左側のカード内容またはカスタムテキストをここへドラッグしてレイヤーを追加します。',
+    ko: '왼쪽 패널의 카드 내용이나 사용자 지정 텍스트를 여기로 드래그해 레이어를 추가하세요.',
+    fr: 'Faites glisser le contenu de la carte ou du texte personnalisé depuis le panneau gauche pour ajouter un calque.',
+    de: 'Karteninhalt oder eigenen Text aus dem linken Panel hierher ziehen, um eine Ebene hinzuzufügen.'
+  }),
+  'itemCard.canvas.dragHint': msg({
+    zh: '拖动到右侧画布',
+    en: 'Drag to the canvas on the right',
+    ja: '右側のキャンバスへドラッグ',
+    ko: '오른쪽 캔버스로 드래그',
+    fr: 'Glisser vers le canevas à droite',
+    de: 'Auf die Leinwand rechts ziehen'
+  }),
+  'itemCard.canvas.layers': msg({
+    zh: '图层',
+    en: 'Layers',
+    ja: 'レイヤー',
+    ko: '레이어',
+    fr: 'Calques',
+    de: 'Ebenen'
+  }),
+  'itemCard.canvas.layerDelete': msg({
+    zh: '删除图层',
+    en: 'Delete layer',
+    ja: 'レイヤーを削除',
+    ko: '레이어 삭제',
+    fr: 'Supprimer le calque',
+    de: 'Ebene löschen'
+  }),
+  'itemCard.canvas.layerMoveUp': msg({
+    zh: '上移图层',
+    en: 'Move layer up',
+    ja: 'レイヤーを上へ',
+    ko: '레이어 위로',
+    fr: 'Monter le calque',
+    de: 'Ebene nach oben'
+  }),
+  'itemCard.canvas.layerMoveDown': msg({
+    zh: '下移图层',
+    en: 'Move layer down',
+    ja: 'レイヤーを下へ',
+    ko: '레이어 아래로',
+    fr: 'Descendre le calque',
+    de: 'Ebene nach unten'
+  }),
+  'itemCard.canvas.layerScale': msg({
+    zh: '缩放',
+    en: 'Scale',
+    ja: '拡大率',
+    ko: '배율',
+    fr: 'Échelle',
+    de: 'Skalierung'
+  }),
+  'itemCard.canvas.layerCoordinate': msg({
+    zh: '坐标',
+    en: 'Position',
+    ja: '座標',
+    ko: '좌표',
+    fr: 'Position',
+    de: 'Position'
+  }),
+  'itemCard.canvas.layerAxisX': msg({
+    zh: 'X',
+    en: 'X',
+    ja: 'X',
+    ko: 'X',
+    fr: 'X',
+    de: 'X'
+  }),
+  'itemCard.canvas.layerAxisY': msg({
+    zh: 'Y',
+    en: 'Y',
+    ja: 'Y',
+    ko: 'Y',
+    fr: 'Y',
+    de: 'Y'
+  }),
+  'itemCard.canvas.layerX': msg({
+    zh: 'X 坐标',
+    en: 'X position',
+    ja: 'X 座標',
+    ko: 'X 좌표',
+    fr: 'Position X',
+    de: 'X-Position'
+  }),
+  'itemCard.canvas.layerY': msg({
+    zh: 'Y 坐标',
+    en: 'Y position',
+    ja: 'Y 座標',
+    ko: 'Y 좌표',
+    fr: 'Position Y',
+    de: 'Y-Position'
+  }),
+  'itemCard.canvas.error.format': msg({
+    zh: '图片格式错误，仅支持 PNG / JPEG / WebP',
+    en: 'Unsupported image format; only PNG / JPEG / WebP are supported',
+    ja: '画像形式が不正です。PNG / JPEG / WebP のみ対応しています',
+    ko: '지원하지 않는 이미지 형식입니다. PNG / JPEG / WebP만 지원합니다',
+    fr: 'Format d\'image non pris en charge ; seuls PNG / JPEG / WebP sont acceptés',
+    de: 'Nicht unterstütztes Bildformat; nur PNG / JPEG / WebP werden unterstützt'
+  }),
+  'itemCard.canvas.error.tooLarge': msg({
+    zh: '图片过大',
+    en: 'Image is too large',
+    ja: '画像が大きすぎます',
+    ko: '이미지가 너무 큽니다',
+    fr: 'Image trop grande',
+    de: 'Bild ist zu groß'
+  }),
+  'itemCard.canvas.error.read': msg({
+    zh: '图片读取失败',
+    en: 'Failed to read the image',
+    ja: '画像の読み込みに失敗しました',
+    ko: '이미지를 읽지 못했습니다',
+    fr: 'Échec de la lecture de l\'image',
+    de: 'Bild konnte nicht gelesen werden'
+  }),
+  'itemCard.canvas.empty': msg({
+    zh: '画布为空，请先上传一张背景图片',
+    en: 'The canvas is empty; upload a background image first',
+    ja: 'キャンバスが空です。先に背景画像をアップロードしてください',
+    ko: '캔버스가 비어 있습니다. 먼저 배경 이미지를 업로드하세요',
+    fr: 'Le canevas est vide ; téléversez d\'abord une image d\'arrière-plan',
+    de: 'Die Leinwand ist leer; lade zuerst ein Hintergrundbild hoch'
+  }),
+  'itemCard.emote.search.placeholder': msg({
+    zh: '搜索 Emote 名称或 ID',
+    en: 'Search emote name or ID',
+    ja: 'エモート名または ID を検索',
+    ko: '감정 표현 이름 또는 ID 검색',
+    fr: 'Rechercher une emote ou un ID',
+    de: 'Emote-Name oder ID suchen'
+  }),
+  'itemCard.emote.data.empty': msg({
+    zh: 'Emote 数据尚未生成',
+    en: 'Emote data has not been generated yet',
+    ja: 'エモートデータはまだ生成されていません',
+    ko: '감정 표현 데이터가 아직 생성되지 않았습니다',
+    fr: 'Les données d\'emotes n\'ont pas encore été générées',
+    de: 'Emote-Daten wurden noch nicht erstellt'
+  }),
   'itemCard.equipment.removeRow': msg({
     zh: '删除这一行',
     en: 'Remove row',
     ja: 'この行を削除',
-    ko: '이 행 삭제'
+    ko: '이 행 삭제',
+    fr: 'Supprimer cette ligne',
+    de: 'Diese Zeile entfernen'
   }),
   'itemCard.equipment.delete.symbol': same('×'),
-  'itemCard.equipment.switchCandidate': msg({
-    zh: '切换匹配项',
-    en: 'Switch match',
-    ja: '一致項目を切替',
-    ko: '일치 항목 전환'
-  }),
   'itemCard.recent.configName.prompt': msg({
     zh: '卡片名称',
     en: 'Card name',
     ja: 'カード名',
-    ko: '카드 이름'
+    ko: '카드 이름',
+    fr: 'Nom de la carte',
+    de: 'Kartenname'
   }),
   'itemCard.recent.clear': msg({ zh: '清空', en: 'Clear', ja: 'クリア', ko: '비우기' }),
   'itemCard.recent.delete': msg({
     zh: '删除这条记录',
     en: 'Delete record',
     ja: '記録を削除',
-    ko: '기록 삭제'
+    ko: '기록 삭제',
+    fr: 'Effacer',
+    de: 'Leeren'
   }),
   'itemCard.recent.deleteNamed': msg({
     zh: '删除 {name}',
     en: 'Delete {name}',
     ja: '{name} を削除',
-    ko: '{name} 삭제'
+    ko: '{name} 삭제',
+    fr: 'Supprimer {name}',
+    de: '{name} löschen'
   }),
   'itemCard.recent.delete.symbol': same('×'),
   'itemCard.recent.empty': msg({
     zh: '暂无缓存',
     en: 'No saved records',
     ja: '保存済み記録なし',
-    ko: '저장된 기록 없음'
+    ko: '저장된 기록 없음',
+    fr: 'Aucun enregistrement',
+    de: 'Keine Einträge'
   }),
   'itemCard.recent.meta': msg({
     zh: '{count} 个部位 · {time}',
     en: '{count} slots · {time}',
     ja: '{count} 部位 · {time}',
-    ko: '{count}개 부위 · {time}'
+    ko: '{count}개 부위 · {time}',
+    fr: '{count} emplacements · {time}',
+    de: '{count} Slots · {time}'
   }),
   'itemCard.recent.unnamed': msg({
     zh: '未命名',
     en: 'Untitled',
     ja: '無題',
-    ko: '이름 없음'
+    ko: '이름 없음',
+    fr: 'Sans titre',
+    de: 'Unbenannt'
   }),
   'itemCard.status.idle': msg({
     zh: '等待输入',
     en: 'Waiting for input',
     ja: '入力待ち',
-    ko: '입력 대기'
+    ko: '입력 대기',
+    fr: 'En attente de saisie',
+    de: 'Warte auf Eingabe'
   }),
   'itemCard.status.readingLink': msg({
     zh: '正在读取网页……',
     en: 'Reading page...',
     ja: 'ページを読み込み中……',
-    ko: '페이지를 읽는 중……'
+    ko: '페이지를 읽는 중……',
+    fr: 'Lecture de la page...',
+    de: 'Seite wird gelesen...'
   }),
   'itemCard.status.parsingText': msg({
     zh: '正在识别装备文本……',
     en: 'Recognizing equipment text...',
     ja: '装備テキストを認識中……',
-    ko: '장비 텍스트 인식 중……'
+    ko: '장비 텍스트 인식 중……',
+    fr: 'Reconnaissance du texte d\'équipement...',
+    de: 'Ausrüstungstext wird erkannt...'
   }),
   'itemCard.status.readingConfig': msg({
     zh: '正在读取配置……',
     en: 'Reading config...',
     ja: '設定を読み込み中……',
-    ko: '설정을 읽는 중……'
+    ko: '설정을 읽는 중……',
+    fr: 'Lecture de la configuration...',
+    de: 'Konfiguration wird gelesen...'
   }),
   'itemCard.status.importError': msg({
     zh: '导入失败',
     en: 'Import failed',
     ja: '読み込み失敗',
-    ko: '가져오기 실패'
+    ko: '가져오기 실패',
+    fr: 'Échec de l\'import',
+    de: 'Import fehlgeschlagen'
   }),
   'itemCard.status.linkRequired': same('请输入石之家或 Eorzea Collection 幻化链接'),
   'itemCard.status.unsupportedLink': same('无法识别，请输入石之家或 Eorzea Collection 幻化链接'),
@@ -269,127 +627,169 @@ export const itemCardUiMessages: UiMessageMap = {
     zh: '请输入装备文本',
     en: 'Enter equipment text',
     ja: '装備テキストを入力してください',
-    ko: '장비 텍스트를 입력하세요'
+    ko: '장비 텍스트를 입력하세요',
+    fr: 'Saisissez le texte d\'équipement',
+    de: 'Ausrüstungstext eingeben'
   }),
   'itemCard.status.invalidLocalFile': msg({
     zh: '不支持的本地文件',
     en: 'Unsupported local file',
     ja: '対応していないローカルファイルです',
-    ko: '지원하지 않는 로컬 파일입니다'
+    ko: '지원하지 않는 로컬 파일입니다',
+    fr: 'Fichier local non pris en charge',
+    de: 'Lokale Datei nicht unterstützt'
   }),
   'itemCard.status.fileTooLarge': msg({
     zh: '文件超过 {size} MB',
     en: 'File is over {size} MB',
     ja: 'ファイルが {size} MB を超えています',
-    ko: '파일이 {size} MB를 초과합니다'
+    ko: '파일이 {size} MB를 초과합니다',
+    fr: 'Le fichier dépasse {size} Mo',
+    de: 'Datei überschreitet {size} MB'
   }),
   'itemCard.status.textImported': msg({
     zh: '已识别 {count} 件装备',
     en: 'Recognized {count} items',
     ja: '{count} 件の装備を認識しました',
-    ko: '장비 {count}개를 인식했습니다'
+    ko: '장비 {count}개를 인식했습니다',
+    fr: '{count} objets reconnus',
+    de: '{count} Gegenstände erkannt'
   }),
   'itemCard.status.textImportedWithWarnings': msg({
     zh: '已识别 {count} 件装备，另有 {warningCount} 条提示',
     en: 'Recognized {count} items with {warningCount} warnings',
     ja: '{count} 件を認識、{warningCount} 件の注意があります',
-    ko: '{count}개를 인식했으며 알림 {warningCount}개가 있습니다'
+    ko: '{count}개를 인식했으며 알림 {warningCount}개가 있습니다',
+    fr: '{count} objets reconnus, plus {warningCount} avertissements',
+    de: '{count} Gegenstände erkannt, mit {warningCount} Hinweisen'
   }),
   'itemCard.status.noConfigToSave': msg({
     zh: '没有可保存的卡片内容',
     en: 'No card content',
     ja: '保存できるカードがありません',
-    ko: '저장할 카드가 없습니다'
+    ko: '저장할 카드가 없습니다',
+    fr: 'Aucun contenu de carte',
+    de: 'Kein Karteninhalt'
   }),
   'itemCard.status.configSaved': msg({
     zh: '已保存卡片: {name}',
     en: 'Saved: {name}',
     ja: '保存しました: {name}',
-    ko: '저장됨: {name}'
+    ko: '저장됨: {name}',
+    fr: 'Carte enregistrée : {name}',
+    de: 'Karte gespeichert: {name}'
   }),
   'itemCard.status.configRestored': msg({
     zh: '已载入记录: {name}',
     en: 'Loaded: {name}',
     ja: '読み込みました: {name}',
-    ko: '불러옴: {name}'
+    ko: '불러옴: {name}',
+    fr: 'Enregistrement chargé : {name}',
+    de: 'Eintrag geladen: {name}'
   }),
   'itemCard.status.recentDeleted': msg({
     zh: '已删除这条卡片记录',
     en: 'Record deleted',
     ja: '記録を削除しました',
-    ko: '기록을 삭제했습니다'
+    ko: '기록을 삭제했습니다',
+    fr: 'Enregistrement supprimé',
+    de: 'Eintrag gelöscht'
   }),
   'itemCard.status.recentCleared': msg({
     zh: '已清空最近记录',
     en: 'Recent records cleared',
     ja: '最近の記録を消去',
-    ko: '최근 기록을 비웠습니다'
+    ko: '최근 기록을 비웠습니다',
+    fr: 'Enregistrements récents effacés',
+    de: 'Letzte Einträge geleert'
   }),
   'itemCard.source.manual': msg({
     zh: '手动编辑',
     en: 'Manual edit',
     ja: '手動編集',
-    ko: '수동 편집'
+    ko: '수동 편집',
+    fr: 'Modification manuelle',
+    de: 'Manuell bearbeitet'
   }),
   'itemCard.card.settings': msg({
-    zh: '图片设置',
-    en: 'Image settings',
-    ja: '画像設定',
-    ko: '이미지 설정'
+    zh: '设置',
+    en: 'Settings',
+    ja: '設定',
+    ko: '설정',
+    fr: 'Paramètres',
+    de: 'Einstellungen'
   }),
   'itemCard.card.outputLanguages': msg({
     zh: '输出语言',
     en: 'Output languages',
     ja: '出力言語',
-    ko: '출력 언어'
+    ko: '출력 언어',
+    fr: 'Langues de sortie',
+    de: 'Ausgabesprachen'
   }),
   'itemCard.card.fontFamily': msg({
     zh: '字体',
     en: 'Font',
     ja: 'フォント',
-    ko: '글꼴'
+    ko: '글꼴',
+    fr: 'Police',
+    de: 'Schriftart'
   }),
   'itemCard.card.loadLocalFonts': msg({
     zh: '加载本机字体',
     en: 'Load local fonts',
     ja: 'ローカルフォント読込',
-    ko: '로컬 글꼴 불러오기'
+    ko: '로컬 글꼴 불러오기',
+    fr: 'Charger les polices locales',
+    de: 'Lokale Schriften laden'
   }),
   'itemCard.card.localFontsUnsupported': msg({
     zh: '当前浏览器不支持读取本机字体',
     en: 'Local font access is unavailable',
     ja: 'ローカルフォントを読み込めません',
-    ko: '로컬 글꼴을 읽을 수 없습니다'
+    ko: '로컬 글꼴을 읽을 수 없습니다',
+    fr: 'L\'accès aux polices locales est indisponible',
+    de: 'Zugriff auf lokale Schriften nicht verfügbar'
   }),
   'itemCard.card.localFontsLoaded': msg({
     zh: '本机字体已载入',
     en: 'Local fonts loaded',
     ja: 'ローカルフォントを読み込みました',
-    ko: '로컬 글꼴을 불러왔습니다'
+    ko: '로컬 글꼴을 불러왔습니다',
+    fr: 'Polices locales chargées',
+    de: 'Lokale Schriften geladen'
   }),
   'itemCard.card.localFontsError': msg({
     zh: '本机字体读取失败',
     en: 'Failed to load local fonts',
     ja: 'ローカルフォントの読込に失敗',
-    ko: '로컬 글꼴 불러오기 실패'
+    ko: '로컬 글꼴 불러오기 실패',
+    fr: 'Échec du chargement des polices locales',
+    de: 'Lokale Schriften konnten nicht geladen werden'
   }),
   'itemCard.card.titleSize': msg({
     zh: '装备名字号',
     en: 'Item name size',
     ja: '装備名サイズ',
-    ko: '장비 이름 크기'
+    ko: '장비 이름 크기',
+    fr: 'Taille du nom d\'objet',
+    de: 'Größe des Gegenstandsnamens'
   }),
   'itemCard.card.titleWeight': msg({
     zh: '装备名字重',
     en: 'Item name weight',
     ja: '装備名ウェイト',
-    ko: '장비 이름 굵기'
+    ko: '장비 이름 굵기',
+    fr: 'Graisse du nom d\'objet',
+    de: 'Stärke des Gegenstandsnamens'
   }),
   'itemCard.card.dyeSize': msg({
     zh: '染剂字号',
     en: 'Dye text size',
     ja: '染色文字サイズ',
-    ko: '염료 글자 크기'
+    ko: '염료 글자 크기',
+    fr: 'Taille du texte de teinture',
+    de: 'Farbstoff-Textgröße'
   }),
   'itemCard.card.titleOffsetX': same('装备名 X'),
   'itemCard.card.titleOffsetY': same('装备名 Y'),
@@ -399,79 +799,113 @@ export const itemCardUiMessages: UiMessageMap = {
     zh: '字色',
     en: 'Text color',
     ja: '文字色',
-    ko: '글자색'
+    ko: '글자색',
+    fr: 'Couleur du texte',
+    de: 'Textfarbe'
   }),
   'itemCard.card.rarityColorEnabled': msg({
     zh: '物品名按品质着色',
     en: 'Color item names by rarity',
     ja: 'アイテム名をレアリティ色で表示',
-    ko: '아이템 이름에 희귀도 색상 적용'
+    ko: '아이템 이름에 희귀도 색상 적용',
+    fr: 'Colorer les noms selon la rareté',
+    de: 'Namen nach Seltenheit einfärben'
   }),
   'itemCard.card.strokeEnabled': msg({
     zh: '描边',
     en: 'Stroke',
     ja: '縁取り',
-    ko: '외곽선'
+    ko: '외곽선',
+    fr: 'Contour',
+    de: 'Kontur'
   }),
   'itemCard.card.strokeRatio': msg({
     zh: '描边比例',
     en: 'Stroke ratio',
     ja: '縁取り比率',
-    ko: '외곽선 비율'
+    ko: '외곽선 비율',
+    fr: 'Épaisseur du contour',
+    de: 'Konturstärke'
   }),
   'itemCard.card.strokeColor': msg({
     zh: '描边颜色',
     en: 'Stroke color',
     ja: '縁取り色',
-    ko: '외곽선 색상'
+    ko: '외곽선 색상',
+    fr: 'Couleur du contour',
+    de: 'Konturfarbe'
   }),
   'itemCard.mode.label': msg({
     zh: '卡片版本',
     en: 'Card version',
     ja: 'カード版',
-    ko: '카드 버전'
+    ko: '카드 버전',
+    fr: 'Version de la carte',
+    de: 'Kartenversion'
   }),
   'itemCard.mode.compact': msg({
     zh: '简易版',
     en: 'Compact',
     ja: '簡易版',
-    ko: '간이판'
+    ko: '간이판',
+    fr: 'Compacte',
+    de: 'Kompakt'
   }),
   'itemCard.mode.full': msg({
     zh: '完整版',
     en: 'Full',
     ja: '完全版',
-    ko: '완전판'
+    ko: '완전판',
+    fr: 'Complète',
+    de: 'Vollständig'
   }),
   'itemCard.preview.title': msg({
     zh: '图片预览',
     en: 'Preview',
     ja: '画像プレビュー',
-    ko: '이미지 미리보기'
+    ko: '이미지 미리보기',
+    fr: 'Aperçu',
+    de: 'Vorschau'
+  }),
+  'itemCard.preview.cards': msg({
+    zh: '卡片 PNG',
+    en: 'Card PNG',
+    ja: 'カード PNG',
+    ko: '카드 PNG',
+    fr: 'PNG de carte',
+    de: 'Karten-PNG'
   }),
   'itemCard.preview.count': msg({
     zh: '{count} 件物品',
     en: '{count} items',
     ja: '{count} 件',
-    ko: '{count}개 아이템'
+    ko: '{count}개 아이템',
+    fr: '{count} objets',
+    de: '{count} Gegenstände'
   }),
   'itemCard.preview.empty': msg({
     zh: '等待装备数据',
     en: 'Waiting for equipment',
     ja: '装備データ待ち',
-    ko: '장비 데이터 대기 중'
+    ko: '장비 데이터 대기 중',
+    fr: 'En attente d\'équipement',
+    de: 'Warte auf Ausrüstung'
   }),
   'itemCard.preview.list': msg({
     zh: '连续列表',
     en: 'Continuous list',
     ja: '連続リスト',
-    ko: '연속 목록'
+    ko: '연속 목록',
+    fr: 'Liste continue',
+    de: 'Fortlaufende Liste'
   }),
   'itemCard.preview.singles': msg({
     zh: '单张卡片',
     en: 'Individual cards',
     ja: '個別カード',
-    ko: '개별 카드'
+    ko: '개별 카드',
+    fr: 'Cartes individuelles',
+    de: 'Einzelkarten'
   }),
   'itemCard.layout.left': msg({ zh: '居左', en: 'Left', ja: '左', ko: '왼쪽' }),
   'itemCard.layout.right': msg({ zh: '居右', en: 'Right', ja: '右', ko: '오른쪽' }),
@@ -479,20 +913,33 @@ export const itemCardUiMessages: UiMessageMap = {
     zh: '全部居左',
     en: 'All left',
     ja: 'すべて左',
-    ko: '모두 왼쪽'
+    ko: '모두 왼쪽',
+    fr: 'Gauche',
+    de: 'Links'
   }),
   'itemCard.layout.allRight': msg({
     zh: '全部居右',
     en: 'All right',
     ja: 'すべて右',
-    ko: '모두 오른쪽'
+    ko: '모두 오른쪽',
+    fr: 'Tout à droite',
+    de: 'Alle rechts'
   }),
-  'itemCard.export.png': same('PNG'),
+  'itemCard.export.png': msg({
+    zh: '下载',
+    en: 'Download',
+    ja: 'ダウンロード',
+    ko: '다운로드',
+    fr: 'Télécharger',
+    de: 'Herunterladen'
+  }),
   'itemCard.export.zip': msg({
     zh: '下载 ZIP',
     en: 'Download ZIP',
     ja: 'ZIP ダウンロード',
-    ko: 'ZIP 다운로드'
+    ko: 'ZIP 다운로드',
+    fr: 'Télécharger le ZIP',
+    de: 'ZIP herunterladen'
   }),
   'itemCard.locale.zh': same('简体中文'),
   'itemCard.locale.en': same('English'),
