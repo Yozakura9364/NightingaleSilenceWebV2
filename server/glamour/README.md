@@ -17,7 +17,7 @@ npm run dev:glamour-api
 npm run build:glamour-item-catalog
 ```
 
-索引包含 `zh/en/ja/ko/tc/fr/de` 名称、物品 ID、图标、品质和 `EquipSlotCategory`，只随 Flask 服务部署，不进入 Vite `dist/`。`/api/search-catalog-items` 通过 `category=equipment|other|all` 区分现有装备映射、非装备物品和兼容全目录；可以用重复的 `--item-csv locale=path` 参数覆盖某个语言的 Item.csv 来源。
+索引包含 `zh/en/ja/ko/tc/fr/de` 名称、物品 ID、图标、品质、`EquipSlotCategory` 和坐骑 ID；只随 Flask 服务部署，不进入 Vite `dist/`。`/api/search-catalog-items` 通过 `category=equipment|facewear|fashion|other|furniture|mount|all` 区分 Item 装备、现有 Glasses.csv 面部配饰、Ornament.csv 时尚配饰、非装备物品、家具、Mount.csv 坐骑和兼容全目录；家具（含庭具与内装建材，不论是否可染色）由 `HousingFurniture.csv`、`HousingYardObject.csv` 的 `Item` 列以及 Item.csv 的 `ItemUICategory`（73=内墙、74=地板、75=屋顶照明）判定，可用 `--housing-furniture-csv` / `--housing-yard-object-csv` 覆盖来源；坐骑来源可用重复的 `--mount-csv locale=path` 参数覆盖，普通物品来源可用重复的 `--item-csv locale=path` 参数覆盖。
 
 ## 测试
 

@@ -24,6 +24,13 @@ write_item_catalog(
         }
     ],
     {"zh": "fixture:zh", "en": "fixture:en"},
+    [
+        {
+            "mount_id": 4,
+            "icon": 4003,
+            "names": {"zh": "古菩猩猩", "en": "Guu Bo"},
+        },
+    ],
 )
 os.environ["NSGLAMOUR_ITEM_CATALOG_PATH"] = str(catalog_path)
 
@@ -66,6 +73,29 @@ def test_search_text_and_chara_parsing():
     assert equipment_result["item_kind"] == "equipment"
     assert equipment_result["item_card_slot"] == "Body"
     assert equipment_result["dye_count"] >= 0
+
+    mapping = module.get_mapping()
+    facewear = next(iter((mapping.get("glasses") or {}).values()))
+    facewear_search = client.get(
+        f"/api/search-catalog-items?q={facewear['name']}&locale=zh&limit=1&category=facewear"
+    )
+    assert facewear_search.status_code == 200
+    assert facewear_search.get_json()["results"][0]["item_card_slot"] == "Glasses"
+
+    fashion = next(iter((mapping.get("ornaments") or {}).values()))
+    fashion_search = client.get(
+        f"/api/search-catalog-items?q={fashion['name']}&locale=zh&limit=1&category=fashion"
+    )
+    assert fashion_search.status_code == 200
+    assert fashion_search.get_json()["results"][0]["item_card_slot"] == "FashionAccessory"
+
+    mount_search = client.get(
+        "/api/search-catalog-items?q=古菩猩猩&locale=zh&limit=1&category=mount"
+    )
+    assert mount_search.status_code == 200
+    mount_result = mount_search.get_json()["results"][0]
+    assert mount_result["key"] == 4
+    assert mount_result["item_category"] == "mount"
 
     assert client.get("/api/search-catalog-items?q=x&category=invalid").status_code == 400
 

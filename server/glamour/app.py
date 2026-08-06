@@ -399,7 +399,7 @@ _item_catalog = ItemCatalog(ITEM_CATALOG_PATH)
 # /api/search-items 相关缓存：按 mapping 文件 mtime 整体失效
 _search_cache_mtime_ns: Optional[int] = None
 _slot_records_cache: Dict[str, List[Dict[str, Any]]] = {}
-_item_card_equipment_cache: List[Dict[str, Any]] = []
+_item_card_equipment_cache: Dict[str, List[Dict[str, Any]]] = {}
 _search_results_cache: "OrderedDict[Tuple[str, str, str, int], List[Dict[str, Any]]]" = OrderedDict()
 _search_cache_lock = threading.Lock()
 
@@ -415,7 +415,7 @@ def ensure_search_cache_fresh() -> None:
         if _search_cache_mtime_ns == current_mtime_ns:
             return
         _slot_records_cache = {}
-        _item_card_equipment_cache = []
+        _item_card_equipment_cache = {}
         _search_results_cache.clear()
         _search_cache_mtime_ns = current_mtime_ns
 
@@ -2224,26 +2224,38 @@ def search_records(records: List[Dict[str, Any]], query: str, locale: str, limit
     return [serialize_search_record(record, locale) for record in matched[:limit]]
 
 
-def get_item_card_equipment_records(mapping: Dict[str, Any]) -> List[Dict[str, Any]]:
+def get_item_card_equipment_records(
+    mapping: Dict[str, Any], category: str = "equipment"
+) -> List[Dict[str, Any]]:
     global _item_card_equipment_cache
     ensure_search_cache_fresh()
-    if not _item_card_equipment_cache:
-        _item_card_equipment_cache = [
-            *mapping.get("items", []),
-            *(
-                {**record, "_item_card_slot": "Glasses", "slot_label": RESOLVER_SLOT_LABELS.get("Glasses", "")}
-                for record in (mapping.get("glasses") or {}).values()
-            ),
-            *(
-                {
-                    **record,
-                    "_item_card_slot": "FashionAccessory",
-                    "slot_label": RESOLVER_SLOT_LABELS.get("FashionAccessory", ""),
-                }
-                for record in (mapping.get("ornaments") or {}).values()
-            ),
+    cached = _item_card_equipment_cache.get(category)
+    if cached is not None:
+        return cached
+
+    if category == "facewear":
+        records = [
+            {
+                **record,
+                "_item_card_slot": "Glasses",
+                "slot_label": RESOLVER_SLOT_LABELS.get("Glasses", ""),
+            }
+            for record in (mapping.get("glasses") or {}).values()
         ]
-    return _item_card_equipment_cache
+    elif category == "fashion":
+        records = [
+            {
+                **record,
+                "_item_card_slot": "FashionAccessory",
+                "slot_label": RESOLVER_SLOT_LABELS.get("FashionAccessory", ""),
+            }
+            for record in (mapping.get("ornaments") or {}).values()
+        ]
+    else:
+        records = list(mapping.get("items", []))
+
+    _item_card_equipment_cache[category] = records
+    return records
 
 
 @app.get("/api/stains")
@@ -2377,16 +2389,16 @@ def search_catalog_items():
     if not query:
         return jsonify({"results": []})
 
-    if category not in {"all", "equipment", "other"}:
+    if category not in {"all", "equipment", "facewear", "fashion", "other", "furniture", "mount"}:
         return jsonify({"error": "invalid item category"}), 400
 
-    if category == "equipment":
+    if category in {"equipment", "facewear", "fashion"}:
         mapping = get_mapping()
-        cache_key = ("__item_card_equipment__", query.casefold(), locale, limit)
+        cache_key = (f"__item_card_{category}__", query.casefold(), locale, limit)
         cached_results = get_cached_search_results(cache_key)
         if cached_results is not None:
             return jsonify({"results": cached_results})
-        records = get_item_card_equipment_records(mapping)
+        records = get_item_card_equipment_records(mapping, category)
         results = search_records(records, query.casefold(), locale, limit)
         put_cached_search_results(cache_key, results)
         return jsonify({"results": results})
