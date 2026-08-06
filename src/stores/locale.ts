@@ -15,9 +15,36 @@ function isLocale(value: string | null): value is Locale {
   return SUPPORTED_LOCALES.includes(value as Locale)
 }
 
+function normalizeLocaleCandidate(raw: string): Locale | null {
+  const base = raw.toLowerCase().split('-')[0]
+  if (base === 'zh') return 'zh-CN'
+  if (base === 'ja') return 'ja'
+  if (base === 'ko') return 'ko'
+  if (base === 'en' || base === 'fr' || base === 'de') return 'en'
+  return null
+}
+
+function detectBrowserLocale(): Locale {
+  const candidates =
+    navigator.languages && navigator.languages.length > 0
+      ? navigator.languages
+      : navigator.language
+        ? [navigator.language]
+        : []
+  for (const raw of candidates) {
+    const match = normalizeLocaleCandidate(raw)
+    if (match) return match
+  }
+  return 'zh-CN'
+}
+
 function loadLocale(): Locale {
   const saved = localStorage.getItem(LOCALE_KEY)
-  return isLocale(saved) ? saved : 'zh-CN'
+  if (isLocale(saved)) return saved
+
+  const detected = detectBrowserLocale()
+  safeSetLocalItem(LOCALE_KEY, detected)
+  return detected
 }
 
 function applyLocale(locale: Locale) {
