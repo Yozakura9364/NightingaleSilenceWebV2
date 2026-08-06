@@ -139,6 +139,30 @@ export const styleLabUiMessages: UiMessageMap = {
     ja: '状態フィードバック基準',
     ko: '상태 피드백 기준'
   }),
+  'styleLab.range.title': msg({
+    zh: '滑块样式实验',
+    en: 'Range slider styles',
+    ja: 'スライダースタイル実験',
+    ko: '슬라이더 스타일 실험'
+  }),
+  'styleLab.range.normal': msg({
+    zh: '正常风格',
+    en: 'Normal style',
+    ja: 'ノーマルスタイル',
+    ko: '일반 스타일'
+  }),
+  'styleLab.range.pixel': msg({
+    zh: '像素风格',
+    en: 'Pixel style',
+    ja: 'ピクセルスタイル',
+    ko: '픽셀 스타일'
+  }),
+  'styleLab.range.disabled': msg({
+    zh: '禁用状态',
+    en: 'Disabled state',
+    ja: '無効状態',
+    ko: '비활성화 상태'
+  }),
   'styleLab.timeline.title': msg({
     zh: '活动时间轴实验',
     en: 'Event timeline prototype',

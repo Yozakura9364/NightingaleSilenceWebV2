@@ -100,6 +100,8 @@
 
     <StyleLabTimelinePrototype />
 
+    <StyleLabRangeDemo />
+
     <section
       class="style-lab-experiment"
       data-style-preview="pixel-soft"
@@ -1179,6 +1181,7 @@ import AppTabs from '@/components/AppTabs.vue'
 import AppToolbar from '@/components/AppToolbar.vue'
 import { ffxivTools, siteLocaleOptions } from '@/config/site'
 import { allTextKeys as textKeys } from '@/locales/keys/all'
+import StyleLabRangeDemo from '@/pages/style-lab/components/StyleLabRangeDemo.vue'
 import StyleLabTimelinePrototype from '@/pages/style-lab/components/StyleLabTimelinePrototype.vue'
 import { useLocale } from '@/stores/locale'
 import { useTheme, type ThemeMode } from '@/stores/theme'

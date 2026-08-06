@@ -28,6 +28,21 @@ import type { DataGroup, DataItem, TimelineAnimationOptions, TimelineOptions } f
 import AppPixelWindow from '@/components/AppPixelWindow.vue'
 import { allTextKeys as textKeys } from '@/locales/keys/all'
 import { useLocale } from '@/stores/locale'
+import demoBannerCommonA from '@/assets/ffxiv/frontline-fields-of-glory.webp'
+import demoBannerCommonB from '@/assets/ffxiv/housing-banner.webp'
+import demoBannerCnA from '@/assets/ffxiv/frontline-seal-rock.webp'
+import demoBannerCnB from '@/assets/ffxiv/frontline-onsal-hakair.webp'
+import demoBannerGlobalA from '@/assets/ffxiv/frontline-borderland-ruins.webp'
+import demoBannerGlobalB from '@/assets/ffxiv/frontline-worqor-chirteh.webp'
+
+const DEMO_BANNERS: Record<string, string> = {
+  'common-a': demoBannerCommonA,
+  'common-b': demoBannerCommonB,
+  'cn-a': demoBannerCnA,
+  'cn-b': demoBannerCnB,
+  'global-a': demoBannerGlobalA,
+  'global-b': demoBannerGlobalB
+}
 
 const DAY_MS = 24 * 60 * 60 * 1000
 const DESKTOP_WINDOW_MONTHS = 2
@@ -143,17 +158,29 @@ function formatEventEnd(value: Date) {
 
 function renderTimelineItem(item: TimelinePrototypeItem) {
   const copy = document.createElement('span')
+  const text = document.createElement('span')
   const title = document.createElement('strong')
   const end = document.createElement('time')
   const endAt = item.end instanceof Date ? item.end : new Date(item.end as string | number)
+  const banner = DEMO_BANNERS[String(item.id)]
 
   copy.className = 'timeline-event-copy'
+  if (banner) {
+    const thumb = document.createElement('img')
+    thumb.className = 'timeline-event-copy__thumb'
+    thumb.src = banner
+    thumb.alt = ''
+    thumb.draggable = false
+    copy.append(thumb)
+  }
+  text.className = 'timeline-event-copy__text'
   title.className = 'timeline-event-copy__title'
   title.textContent = item.content
   end.className = 'timeline-event-copy__end'
   end.dateTime = endAt.toISOString()
   end.textContent = `~ ${formatEventEnd(endAt)}`
-  copy.append(title, end)
+  text.append(title, end)
+  copy.append(text)
 
   return copy
 }
@@ -437,14 +464,33 @@ onBeforeUnmount(() => {
 
 .style-timeline-lab :deep(.timeline-event-copy) {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  gap: var(--ns-space-2);
   width: 100%;
   min-width: 0;
   height: 100%;
   padding: var(--ns-space-1) var(--ns-space-2);
+}
+
+.style-timeline-lab :deep(.timeline-event-copy__thumb) {
+  flex: none;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid var(--ns-pixel-border);
+  border-radius: 0;
+  object-fit: cover;
+  image-rendering: auto;
+  background: var(--ns-color-surface-solid);
+}
+
+.style-timeline-lab :deep(.timeline-event-copy__text) {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .style-timeline-lab :deep(.timeline-event-copy__title) {
@@ -481,6 +527,11 @@ onBeforeUnmount(() => {
   background: color-mix(in srgb, var(--ns-color-surface-solid) 94%, transparent);
 }
 
+.style-timeline-lab :deep(.vis-item.timeline-item--compact .timeline-event-copy__thumb) {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
 .style-timeline-lab :deep(.vis-item.timeline-item--compact-right .vis-item-content) {
   margin-left: calc(100% + var(--ns-space-1));
 }
@@ -512,6 +563,28 @@ onBeforeUnmount(() => {
 .style-timeline-lab :deep(.vis-item.timeline-item--global-b) {
   border-color: var(--ns-color-cyan);
   background: var(--ns-color-cyan-soft);
+}
+
+/* 宣传图背景淡入 demo：仅长条（非 compact）在右端淡入活动宣传图 */
+.style-timeline-lab :deep(.vis-item.timeline-item--common-b:not(.timeline-item--compact)) {
+  background:
+    linear-gradient(to right, var(--ns-color-accent-soft) 42%, transparent 82%),
+    url('../../../assets/ffxiv/housing-banner.webp') right center / auto 100% no-repeat,
+    var(--ns-color-accent-soft);
+}
+
+.style-timeline-lab :deep(.vis-item.timeline-item--cn-a:not(.timeline-item--compact)) {
+  background:
+    linear-gradient(to right, var(--ns-pixel-warm-surface) 42%, transparent 82%),
+    url('../../../assets/ffxiv/frontline-seal-rock.webp') right center / auto 100% no-repeat,
+    var(--ns-pixel-warm-surface);
+}
+
+.style-timeline-lab :deep(.vis-item.timeline-item--global-b:not(.timeline-item--compact)) {
+  background:
+    linear-gradient(to right, var(--ns-color-cyan-soft) 42%, transparent 82%),
+    url('../../../assets/ffxiv/frontline-worqor-chirteh.webp') right center / auto 100% no-repeat,
+    var(--ns-color-cyan-soft);
 }
 
 .style-timeline-lab :deep(.vis-item.vis-selected) {
@@ -549,6 +622,11 @@ onBeforeUnmount(() => {
   .style-timeline-lab :deep(.vis-item.timeline-item--compact .vis-item-content),
   .style-timeline-lab :deep(.vis-item.timeline-item--compact .timeline-event-copy) {
     min-width: 9rem;
+  }
+
+  .style-timeline-lab :deep(.timeline-event-copy__thumb) {
+    width: 2rem;
+    height: 2rem;
   }
 
   .style-timeline-lab :deep(.vis-labelset .vis-label .vis-inner) {
