@@ -8,64 +8,66 @@
         @close="emit('cancel')"
       >
         <div class="nsplate-crop-dialog__body">
-          <div
-            class="nsplate-crop-dialog__modes"
-            role="group"
-            :aria-label="t(textKeys.nsplateCustomPortraitCropMode)"
-          >
-            <button
-              v-for="option in modeOptions"
-              :key="option.value"
-              type="button"
-              :data-active="selectedMode === option.value"
-              :aria-pressed="selectedMode === option.value"
-              @click="chooseMode(option.value)"
+          <div class="nsplate-crop-dialog__setup">
+            <div
+              class="nsplate-crop-dialog__modes"
+              role="group"
+              :aria-label="t(textKeys.nsplateCustomPortraitCropMode)"
             >
-              {{ t(option.labelKey) }}
-            </button>
-          </div>
+              <button
+                v-for="option in modeOptions"
+                :key="option.value"
+                type="button"
+                :data-active="selectedMode === option.value"
+                :aria-pressed="selectedMode === option.value"
+                @click="chooseMode(option.value)"
+              >
+                {{ t(option.labelKey) }}
+              </button>
+            </div>
 
-          <div class="nsplate-crop-dialog__files" :data-paired="usesPairedFiles">
-            <label class="nsplate-crop-dialog__file" :data-has-file="hasBaseImage">
-              <span>
-                <small>{{ t(baseImageLabelKey) }}</small>
-                <strong>{{ baseFileName || t(textKeys.nsplateCustomPortraitUpload) }}</strong>
-              </span>
-              <em v-if="hasBaseImage">{{ baseDimensions }}</em>
-              <input
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                :aria-label="t(textKeys.nsplateCustomPortraitInput)"
-                @change="onBaseFileChange"
-              />
-            </label>
+            <div class="nsplate-crop-dialog__files" :data-paired="usesPairedFiles">
+              <label class="nsplate-crop-dialog__file" :data-has-file="hasBaseImage">
+                <span>
+                  <small>{{ t(baseImageLabelKey) }}</small>
+                  <strong>{{ baseFileName || t(textKeys.nsplateCustomPortraitUpload) }}</strong>
+                </span>
+                <em v-if="hasBaseImage">{{ baseDimensions }}</em>
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  :aria-label="t(textKeys.nsplateCustomPortraitInput)"
+                  @change="onBaseFileChange"
+                />
+              </label>
 
-            <label
-              v-if="usesPairedFiles"
-              class="nsplate-crop-dialog__file"
-              :data-has-file="hasOverlayImage"
-              :data-disabled="!hasBaseImage"
-            >
-              <span>
-                <small>{{ t(textKeys.nsplateCustomPortraitCropPairedOverlay) }}</small>
-                <strong>
-                  {{
-                    overlayFileName ||
-                    (hasBaseImage
-                      ? t(textKeys.nsplateCustomPortraitCropPairedUpload)
-                      : t(textKeys.nsplateCustomPortraitCropPairedRequired))
-                  }}
-                </strong>
-              </span>
-              <em v-if="hasOverlayImage">{{ baseDimensions }}</em>
-              <input
-                type="file"
-                accept="image/png,image/webp"
-                :disabled="!hasBaseImage"
-                :aria-label="t(textKeys.nsplateCustomPortraitCropPairedInput)"
-                @change="onPairedOverlayChange"
-              />
-            </label>
+              <label
+                v-if="usesPairedFiles"
+                class="nsplate-crop-dialog__file"
+                :data-has-file="hasOverlayImage"
+                :data-disabled="!hasBaseImage"
+              >
+                <span>
+                  <small>{{ t(textKeys.nsplateCustomPortraitCropPairedOverlay) }}</small>
+                  <strong>
+                    {{
+                      overlayFileName ||
+                      (hasBaseImage
+                        ? t(textKeys.nsplateCustomPortraitCropPairedUpload)
+                        : t(textKeys.nsplateCustomPortraitCropPairedRequired))
+                    }}
+                  </strong>
+                </span>
+                <em v-if="hasOverlayImage">{{ baseDimensions }}</em>
+                <input
+                  type="file"
+                  accept="image/png,image/webp"
+                  :disabled="!hasBaseImage"
+                  :aria-label="t(textKeys.nsplateCustomPortraitCropPairedInput)"
+                  @change="onPairedOverlayChange"
+                />
+              </label>
+            </div>
           </div>
 
           <p v-if="fileErrorText" class="nsplate-crop-dialog__error" role="alert">
@@ -107,6 +109,7 @@
             <label class="nsplate-crop-dialog__control">
               <span>{{ t(textKeys.nsplateCustomPortraitCropZoom) }}</span>
               <input
+                class="ns-range ns-range--pixel"
                 type="range"
                 :min="isFullMode ? cropLimits.minFreeScale : cropMinZoom"
                 :max="isFullMode ? cropLimits.maxFreeScale : cropLimits.maxZoom"
@@ -122,6 +125,7 @@
             <div class="nsplate-crop-dialog__control nsplate-crop-dialog__control--editable">
               <span>{{ t(textKeys.nsplateCustomPortraitCropRotation) }}</span>
               <input
+                class="ns-range ns-range--pixel"
                 type="range"
                 min="-180"
                 max="180"
@@ -150,6 +154,7 @@
             <label v-if="localCropState?.mode === 'popout'" class="nsplate-crop-dialog__control">
               <span>{{ t(textKeys.nsplateCustomPortraitCropSplit) }}</span>
               <input
+                class="ns-range ns-range--pixel"
                 type="range"
                 :min="cropLimits.minSplitY"
                 :max="cropLimits.maxSplitY"
@@ -166,6 +171,7 @@
             >
               <span>{{ t(textKeys.nsplateCustomPortraitCropAngle) }}</span>
               <input
+                class="ns-range ns-range--pixel"
                 type="range"
                 min="-89"
                 max="89"
@@ -439,10 +445,15 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
   background: var(--ns-color-surface-solid);
 }
 
+.nsplate-crop-dialog__setup {
+  display: grid;
+  border: 2px solid var(--ns-pixel-border);
+  background: var(--ns-color-surface-solid);
+}
+
 .nsplate-crop-dialog__modes {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  border: 2px solid var(--ns-pixel-border);
   background: var(--ns-color-surface-solid);
 }
 
@@ -472,7 +483,7 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
 .nsplate-crop-dialog__files {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  border: 2px solid var(--ns-pixel-border);
+  border-top: 2px solid var(--ns-pixel-border);
   background: var(--ns-color-surface-solid);
 }
 
@@ -525,19 +536,19 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
 
 .nsplate-crop-dialog__file small {
   color: var(--ns-color-text-muted);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 750;
 }
 
 .nsplate-crop-dialog__file strong {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 850;
 }
 
 .nsplate-crop-dialog__file em {
   flex: none;
   color: var(--ns-color-text-muted);
-  font-size: 9px;
+  font-size: 10px;
   font-style: normal;
   font-variant-numeric: tabular-nums;
 }
@@ -608,8 +619,7 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  grid-template-columns: repeat(2, minmax(260px, 360px));
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 8px 18px;
   padding: 8px 10px;
   border: 2px solid var(--ns-pixel-border);

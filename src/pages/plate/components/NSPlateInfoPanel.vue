@@ -1,7 +1,6 @@
 <template>
   <NSPlatePanel :title="t(textKeys.nsplateInfoPreset)">
     <label class="nsplate-info-panel__field">
-      <span>{{ t(textKeys.nsplateInfoPreset) }}</span>
       <select
         class="nsplate-info-panel__select"
         :value="modelValue.activePresetId"
@@ -15,7 +14,7 @@
     </label>
   </NSPlatePanel>
 
-  <NSPlatePanel :title="t(textKeys.nsplateInfoFields)">
+  <NSPlatePanel>
     <div class="nsplate-info-panel__actions" role="group" :aria-label="t(ACTION_KEYS.group)">
       <button
         class="nsplate-info-panel__action-button"
