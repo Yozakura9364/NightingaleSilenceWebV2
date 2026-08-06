@@ -1,31 +1,31 @@
 <template>
   <div class="nsglamour-template__editor">
-    <article v-for="row in rows" :key="row.slot" class="nsglamour-template__row">
-      <h3>{{ row.slotName }}</h3>
+    <article v-for="row in rows" :key="row.slot" class="nsglamour-template__row ns-glamour-item-info">
+      <h3 class="ns-glamour-item-info__slot">{{ row.slotName }}</h3>
       <div
-        class="nsglamour-template__item"
+        class="nsglamour-template__item ns-glamour-item-info__item-row"
         :class="{ 'nsglamour-template__item--search': !row.itemName }"
       >
         <template v-if="row.itemName">
           <img
             v-if="row.iconUrl"
-            class="nsglamour-template__item-icon"
+            class="nsglamour-template__item-icon ns-glamour-item-info__icon"
             :src="row.iconUrl"
             :alt="row.itemName"
             loading="lazy"
             referrerpolicy="no-referrer"
           />
-          <div class="nsglamour-template__item-body">
-            <strong>{{ row.itemName }}</strong>
-            <div v-if="row.dyeEntries.length" class="nsglamour-template__dye-controls">
+          <div class="nsglamour-template__item-body ns-glamour-item-info__body">
+            <strong class="ns-glamour-item-info__name">{{ row.itemName }}</strong>
+            <div v-if="row.dyeEntries.length" class="nsglamour-template__dye-controls ns-glamour-item-info__dye-controls">
               <div
                 v-for="(dye, dyeIndex) in row.dyeEntries"
                 :key="`${row.slot}-${dyeIndex}`"
-                class="nsglamour-template__dye-select"
+                class="nsglamour-template__dye-select ns-glamour-item-info__dye-select"
               >
                 <button
                   type="button"
-                  class="nsglamour-template__dye-chip"
+                  class="nsglamour-template__dye-chip ns-glamour-item-info__dye-chip"
                   :class="{ 'empty-dye': isNoDye(dye) }"
                   :style="{ '--nsglamour-dye-color': getDyeColor(dye) }"
                   :title="getDyeTitle(dyeIndex, row.dyeEntries.length)"
@@ -37,36 +37,36 @@
 
                 <div
                   v-if="isDyePickerActive(row, dyeIndex)"
-                  class="nsglamour-template__dye-panel"
+                  class="nsglamour-template__dye-panel ns-glamour-item-info__dye-panel"
                   @click.stop
                 >
                   <input
                     type="search"
-                    class="nsglamour-template__dye-search"
+                    class="nsglamour-template__dye-search ns-glamour-item-info__dye-search"
                     :value="getDyeSearchQuery(row.slot, dyeIndex)"
                     :placeholder="t(textKeys.nsglamourEquipmentDyeSearchPlaceholder)"
                     spellcheck="false"
                     autocomplete="off"
                     @input="updateDyeSearch(row.slot, dyeIndex, $event)"
                   />
-                  <div class="nsglamour-template__dye-results">
+                  <div class="nsglamour-template__dye-results ns-glamour-item-info__dye-results">
                     <div
                       v-for="group in getDyeGroups(row.slot, dyeIndex)"
                       :key="group.key"
-                      class="nsglamour-template__dye-group"
+                      class="nsglamour-template__dye-group ns-glamour-item-info__dye-group"
                     >
-                      <div v-if="group.label" class="nsglamour-template__dye-group-title">
+                        <div v-if="group.label" class="nsglamour-template__dye-group-title ns-glamour-item-info__dye-group-title">
                         {{ group.label }}
                       </div>
                       <button
                         v-for="stain in group.items"
                         :key="stain.id"
                         type="button"
-                        class="nsglamour-template__dye-option"
+                        class="nsglamour-template__dye-option ns-glamour-item-info__dye-option"
                         :style="{ '--nsglamour-dye-color': stain.hex || '#000000' }"
                         @click="selectDye(row, dyeIndex, stain)"
                       >
-                        <span class="nsglamour-template__dye-swatch" aria-hidden="true"></span>
+                        <span class="nsglamour-template__dye-swatch ns-glamour-item-info__dye-swatch" aria-hidden="true"></span>
                         <span>{{ getStainName(stain) }}</span>
                       </button>
                     </div>
@@ -86,11 +86,11 @@
                 </div>
               </div>
             </div>
-            <small v-else-if="row.dyeStatusText">{{ row.dyeStatusText }}</small>
+            <small v-else-if="row.dyeStatusText" class="ns-glamour-item-info__dye-empty">{{ row.dyeStatusText }}</small>
           </div>
           <button
             type="button"
-            class="nsglamour-template__delete"
+              class="nsglamour-template__delete ns-glamour-item-info__delete"
             :title="t(textKeys.nsglamourEquipmentDelete)"
             :aria-label="t(textKeys.nsglamourEquipmentDelete)"
             @click="clearEditorEntry(row)"
@@ -101,19 +101,19 @@
 
         <div v-else class="nsglamour-template__search">
           <input
-            class="nsglamour-template__input"
+            class="nsglamour-template__input ns-glamour-item-info__search-input"
             type="search"
             spellcheck="false"
             :placeholder="t(textKeys.nsglamourEquipmentSearchPlaceholder)"
             :value="getSearchQuery(row.slot)"
             @input="updateSearch(row, $event)"
           />
-          <div v-if="shouldShowSearchPanel(row.slot)" class="nsglamour-template__search-results">
+          <div v-if="shouldShowSearchPanel(row.slot)" class="nsglamour-template__search-results ns-glamour-item-info__search-results">
             <button
               v-for="candidate in getSearchResults(row.slot)"
               :key="getSearchResultKey(candidate)"
               type="button"
-              class="nsglamour-template__search-result"
+              class="nsglamour-template__search-result ns-glamour-item-info__search-result"
               @click="selectSearchResult(row, candidate)"
             >
               <img
@@ -125,7 +125,7 @@
               />
               <span>{{ getSearchCandidateName(candidate) }}</span>
             </button>
-            <div v-if="shouldShowSearchEmpty(row.slot)" class="nsglamour-template__search-empty">
+            <div v-if="shouldShowSearchEmpty(row.slot)" class="nsglamour-template__search-empty ns-glamour-item-info__search-empty">
               {{ t(textKeys.nsglamourEquipmentSearchEmpty) }}
             </div>
           </div>
@@ -228,8 +228,8 @@ onBeforeUnmount(() => {
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 76px;
-  padding: 24px 0 10px;
+  min-height: 86px;
+  padding: 34px 0 10px;
   border-bottom: 1px solid var(--ns-color-border);
 }
 
@@ -260,8 +260,10 @@ onBeforeUnmount(() => {
 
 .nsglamour-template__item-icon {
   display: block;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--ns-color-border);
+  border-radius: 3px;
   background: var(--ns-color-surface-solid);
   object-fit: cover;
 }
@@ -303,27 +305,25 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-template__dye-chip {
-  display: inline-grid;
-  grid-template-columns: 12px minmax(0, 1fr);
+  display: inline-flex;
   align-items: center;
   gap: 5px;
-  max-width: 132px;
-  min-height: 24px;
-  padding: 2px 7px;
+  width: max-content;
+  max-width: min(220px, 100%);
+  min-height: 26px;
+  padding: 3px 7px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
-  background: transparent;
-  color: var(--ns-color-text-muted);
-  font: inherit;
-  font-size: 11px;
-  font-weight: 700;
+  border-radius: 3px;
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  font: 700 11px/1.2 var(--ns-font-ui);
   cursor: pointer;
 }
 
 .nsglamour-template__dye-chip::before {
   content: '';
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border: 1px solid var(--ns-color-border);
   background:
     linear-gradient(45deg, #ddd 25%, transparent 25% 75%, #ddd 75%) 0 0 / 6px 6px,
@@ -353,9 +353,12 @@ onBeforeUnmount(() => {
   z-index: 10;
   display: grid;
   gap: 6px;
-  width: min(280px, 82vw);
+  width: min(280px, calc(100vw - 42px));
+  max-height: 300px;
+  overflow: hidden;
   padding: 8px;
   border: 1px solid var(--ns-color-border);
+  border-radius: 3px;
   background: var(--ns-color-surface-solid);
 }
 
@@ -363,9 +366,9 @@ onBeforeUnmount(() => {
   box-sizing: border-box;
   width: 100%;
   min-height: 30px;
-  padding: 4px 8px;
+  padding: 3px 8px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border-radius: 3px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
@@ -413,9 +416,10 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-template__dye-swatch {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   border: 1px solid var(--ns-color-border);
+  border-radius: 2px;
   background: var(--nsglamour-dye-color, #000);
 }
 
@@ -429,16 +433,13 @@ onBeforeUnmount(() => {
 .nsglamour-template__delete {
   display: inline-grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border-radius: 3px;
   background: transparent;
   color: var(--ns-color-text-muted);
-  font: inherit;
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1;
+  font: 700 16px/1 var(--ns-font-ui);
   cursor: pointer;
 }
 
@@ -458,10 +459,10 @@ onBeforeUnmount(() => {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  min-height: 32px;
+  min-height: 30px;
   padding: 4px 8px;
   border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border-radius: 3px;
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);

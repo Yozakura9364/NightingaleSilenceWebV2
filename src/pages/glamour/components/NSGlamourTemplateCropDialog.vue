@@ -49,6 +49,7 @@
           </label>
           <input
             id="nsglamour-template-crop-zoom-range"
+            class="ns-range ns-range--pixel"
             type="range"
             min="10"
             max="500"

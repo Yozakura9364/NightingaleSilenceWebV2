@@ -1,6 +1,6 @@
 <template>
   <article
-    class="nsglamour-slot"
+    class="nsglamour-slot ns-glamour-item-info"
     :class="{
       'nsglamour-slot--empty': !entry.itemName,
       'nsglamour-slot--with-icon': Boolean(entry.iconUrl),
@@ -9,72 +9,79 @@
     }"
   >
     <div v-if="entry.iconUrl" class="nsglamour-slot__icon" aria-hidden="true">
-      <img :src="entry.iconUrl" :alt="entry.itemName" loading="lazy" />
+      <img
+        class="ns-glamour-item-info__icon"
+        :src="entry.iconUrl"
+        :alt="entry.itemName"
+        loading="lazy"
+      />
     </div>
 
-    <div class="nsglamour-slot__body">
+    <div class="nsglamour-slot__body ns-glamour-item-info__body">
       <div class="nsglamour-slot__topline">
         <h3>{{ entry.slotName }}</h3>
-        <button
-          v-if="entry.itemName"
-          type="button"
-          class="nsglamour-slot__delete"
-          :title="t(textKeys.nsglamourEquipmentDelete)"
-          :aria-label="t(textKeys.nsglamourEquipmentDelete)"
-          @click="editor.clearEntry(entry)"
-        >
-          {{ t(textKeys.nsglamourEquipmentDeleteSymbol) }}
-        </button>
-      </div>
-
-      <div v-if="entry.itemName" class="nsglamour-slot__item-row">
-        <strong class="nsglamour-slot__item">
-          {{ entry.itemName }}
-        </strong>
-        <button
-          v-if="entry.hasCandidateOptions"
-          type="button"
-          class="nsglamour-slot__candidate-switch"
-          :class="{ active: editor.isCandidatePickerActive(entry) }"
-          :title="t(textKeys.nsglamourEquipmentSwitchCandidate)"
-          :aria-label="t(textKeys.nsglamourEquipmentSwitchCandidate)"
-          @click.stop="editor.toggleCandidatePicker(entry)"
-        >
-          {{ t(textKeys.nsglamourEquipmentSwitchCandidateSymbol) }}
-        </button>
-        <div
-          v-if="editor.isCandidatePickerActive(entry)"
-          class="nsglamour-slot__candidate-panel"
-          @click.stop
-        >
+        <div class="nsglamour-slot__topline-actions">
           <button
-            v-for="candidate in entry.candidates"
-            :key="editor.getSearchResultKey(candidate)"
+            v-if="entry.hasCandidateOptions"
             type="button"
-            class="nsglamour-slot__candidate-option"
-            :class="{ active: editor.isSelectedCandidate(entry, candidate) }"
-            @click="editor.selectCandidate(entry, candidate)"
+            class="nsglamour-slot__candidate-switch ns-glamour-item-info__candidate-switch"
+            :class="{ active: editor.isCandidatePickerActive(entry) }"
+            :title="t(textKeys.nsglamourEquipmentSwitchCandidate)"
+            :aria-label="t(textKeys.nsglamourEquipmentSwitchCandidate)"
+            @click.stop="editor.toggleCandidatePicker(entry)"
           >
-            <img
-              v-if="editor.buildSearchIconUrl(candidate)"
-              :src="editor.buildSearchIconUrl(candidate)"
-              :alt="editor.getSearchCandidateName(candidate)"
-              loading="lazy"
-            />
-            <span>{{ editor.getSearchCandidateName(candidate) }}</span>
+            {{ t(textKeys.nsglamourEquipmentSwitchCandidateSymbol) }}
           </button>
+          <button
+            v-if="entry.itemName"
+            type="button"
+            class="nsglamour-slot__delete ns-glamour-item-info__delete"
+            :title="t(textKeys.nsglamourEquipmentDelete)"
+            :aria-label="t(textKeys.nsglamourEquipmentDelete)"
+            @click="editor.clearEntry(entry)"
+          >
+            {{ t(textKeys.nsglamourEquipmentDeleteSymbol) }}
+          </button>
+          <div
+            v-if="editor.isCandidatePickerActive(entry)"
+            class="nsglamour-slot__candidate-panel ns-glamour-item-info__candidate-panel"
+            @click.stop
+          >
+            <button
+              v-for="candidate in entry.candidates"
+              :key="editor.getSearchResultKey(candidate)"
+              type="button"
+              class="nsglamour-slot__candidate-option ns-glamour-item-info__candidate-option"
+              :class="{ active: editor.isSelectedCandidate(entry, candidate) }"
+              @click="editor.selectCandidate(entry, candidate)"
+            >
+              <img
+                v-if="editor.buildSearchIconUrl(candidate)"
+                :src="editor.buildSearchIconUrl(candidate)"
+                :alt="editor.getSearchCandidateName(candidate)"
+                loading="lazy"
+              />
+              <span>{{ editor.getSearchCandidateName(candidate) }}</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div v-if="entry.dyeEntries.length" class="nsglamour-slot__dye-controls">
+      <div v-if="entry.itemName" class="nsglamour-slot__item-row ns-glamour-item-info__item-row">
+        <strong class="nsglamour-slot__item ns-glamour-item-info__name">
+          {{ entry.itemName }}
+        </strong>
+      </div>
+
+      <div v-if="entry.dyeEntries.length" class="nsglamour-slot__dye-controls ns-glamour-item-info__dye-controls">
         <div
           v-for="(dye, dyeIndex) in entry.dyeEntries"
           :key="`${entry.slot}-${dyeIndex}`"
-          class="nsglamour-slot__dye-select"
+          class="nsglamour-slot__dye-select ns-glamour-item-info__dye-select"
         >
           <button
             type="button"
-            class="nsglamour-slot__dye-chip"
+            class="nsglamour-slot__dye-chip ns-glamour-item-info__dye-chip"
             :class="{ 'empty-dye': editor.isNoDye(dye) }"
             :style="{ '--nsglamour-dye-color': editor.getDyeColor(dye) }"
             :title="editor.getDyeTitle(dyeIndex, entry.dyeEntries.length)"
@@ -86,48 +93,48 @@
 
           <div
             v-if="editor.isDyePickerActive(entry, dyeIndex)"
-            class="nsglamour-slot__dye-panel"
+            class="nsglamour-slot__dye-panel ns-glamour-item-info__dye-panel"
             @click.stop
           >
             <input
               type="search"
-              class="nsglamour-slot__dye-search"
+              class="nsglamour-slot__dye-search ns-glamour-item-info__dye-search"
               :value="editor.getDyeSearchQuery(entry.slot, dyeIndex)"
               :placeholder="t(textKeys.nsglamourEquipmentDyeSearchPlaceholder)"
               spellcheck="false"
               autocomplete="off"
               @input="editor.updateDyeSearch(entry.slot, dyeIndex, $event)"
             />
-            <div class="nsglamour-slot__dye-results">
+            <div class="nsglamour-slot__dye-results ns-glamour-item-info__dye-results">
               <div
                 v-for="group in editor.getDyeGroups(entry.slot, dyeIndex)"
                 :key="group.key"
-                class="nsglamour-slot__dye-group"
+                class="nsglamour-slot__dye-group ns-glamour-item-info__dye-group"
               >
-                <div v-if="group.label" class="nsglamour-slot__dye-group-title">
+                <div v-if="group.label" class="nsglamour-slot__dye-group-title ns-glamour-item-info__dye-group-title">
                   {{ group.label }}
                 </div>
                 <button
                   v-for="stain in group.items"
                   :key="stain.id"
                   type="button"
-                  class="nsglamour-slot__dye-option"
+                  class="nsglamour-slot__dye-option ns-glamour-item-info__dye-option"
                   :style="{ '--nsglamour-dye-color': stain.hex || '#000000' }"
                   @click="editor.selectDye(entry, dyeIndex, stain)"
                 >
-                  <span class="nsglamour-slot__dye-swatch" aria-hidden="true"></span>
+                  <span class="nsglamour-slot__dye-swatch ns-glamour-item-info__dye-swatch" aria-hidden="true"></span>
                   <span>{{ editor.getStainName(stain) }}</span>
                 </button>
               </div>
-              <div v-if="editor.isDyeLoading()" class="nsglamour-slot__dye-empty">
+              <div v-if="editor.isDyeLoading()" class="nsglamour-slot__dye-empty ns-glamour-item-info__dye-empty">
                 {{ t(textKeys.nsglamourEquipmentDyeLoading) }}
               </div>
-              <div v-else-if="editor.isDyeFailed()" class="nsglamour-slot__dye-empty">
+              <div v-else-if="editor.isDyeFailed()" class="nsglamour-slot__dye-empty ns-glamour-item-info__dye-empty">
                 {{ t(textKeys.nsglamourEquipmentDyeLoadError) }}
               </div>
               <div
                 v-else-if="editor.shouldShowDyeEmpty(entry.slot, dyeIndex)"
-                class="nsglamour-slot__dye-empty"
+                class="nsglamour-slot__dye-empty ns-glamour-item-info__dye-empty"
               >
                 {{ t(textKeys.nsglamourEquipmentDyeSearchEmpty) }}
               </div>
@@ -136,25 +143,25 @@
         </div>
       </div>
 
-      <div v-else-if="entry.dyeStatusText" class="nsglamour-slot__dye-text">
+      <div v-else-if="entry.dyeStatusText" class="nsglamour-slot__dye-text ns-glamour-item-info__dye-empty">
         {{ entry.dyeStatusText }}
       </div>
 
       <div v-else-if="!entry.itemName" class="nsglamour-slot__search">
         <input
           type="search"
-          class="nsglamour-slot__search-input"
+          class="nsglamour-slot__search-input ns-glamour-item-info__search-input"
           :value="editor.getSearchQuery(entry.slot)"
           :placeholder="t(textKeys.nsglamourEquipmentSearchPlaceholder)"
           @input="editor.updateSearch(entry, $event)"
           @keydown.esc="editor.clearSearch(entry.slot)"
         />
-        <div v-if="editor.shouldShowSearchPanel(entry.slot)" class="nsglamour-slot__search-results">
+        <div v-if="editor.shouldShowSearchPanel(entry.slot)" class="nsglamour-slot__search-results ns-glamour-item-info__search-results">
           <button
             v-for="candidate in editor.getSearchResults(entry.slot)"
             :key="editor.getSearchResultKey(candidate)"
             type="button"
-            class="nsglamour-slot__search-result"
+            class="nsglamour-slot__search-result ns-glamour-item-info__search-result"
             @click="editor.selectSearchResult(entry, candidate)"
           >
             <img
@@ -165,10 +172,10 @@
             />
             <span>{{ editor.getSearchCandidateName(candidate) }}</span>
           </button>
-          <div v-if="editor.shouldShowSearchEmpty(entry.slot)" class="nsglamour-slot__search-empty">
+          <div v-if="editor.shouldShowSearchEmpty(entry.slot)" class="nsglamour-slot__search-empty ns-glamour-item-info__search-empty">
             {{ t(textKeys.nsglamourEquipmentSearchEmpty) }}
           </div>
-          <div v-if="editor.isSearchFailed(entry.slot)" class="nsglamour-slot__search-empty">
+          <div v-if="editor.isSearchFailed(entry.slot)" class="nsglamour-slot__search-empty ns-glamour-item-info__search-empty">
             {{ t(textKeys.nsglamourEquipmentSearchError) }}
           </div>
         </div>
