@@ -195,6 +195,31 @@ export function moveLayerOrder(
   })
 }
 
+// targetIndex 使用从底到顶的合成顺序，移动时保持其余图层的相对顺序不变。
+export function moveLayerToOrder(
+  layers: ItemCardCanvasLayer[],
+  layerId: string,
+  targetIndex: number
+): ItemCardCanvasLayer[] {
+  const ordered = sortedLayers(layers)
+  const zIndexes = ordered.map((layer) => layer.zIndex)
+  const sourceIndex = ordered.findIndex((layer) => layer.id === layerId)
+  if (sourceIndex < 0 || targetIndex < 0 || targetIndex >= ordered.length) {
+    return layers
+  }
+  if (sourceIndex === targetIndex) {
+    return layers
+  }
+
+  const [source] = ordered.splice(sourceIndex, 1)
+  ordered.splice(targetIndex, 0, source)
+  const zIndexById = new Map(
+    ordered.map((layer, index) => [layer.id, zIndexes[index]])
+  )
+
+  return layers.map((layer) => ({ ...layer, zIndex: zIndexById.get(layer.id) ?? layer.zIndex }))
+}
+
 export function canExportCanvasDocument(document: ItemCardCanvasDocument): boolean {
   return Boolean(document.background)
 }

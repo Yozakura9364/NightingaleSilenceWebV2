@@ -52,6 +52,18 @@
         :aria-label="t(textKeys.canvasLayerScale)"
         @pointerdown.stop="onScaleHandlePointerDown($event, selectedLayer)"
       />
+      <button
+        v-if="selectedLayer"
+        type="button"
+        class="canvas-board__delete-handle"
+        :style="deleteHandleStyle(selectedLayer)"
+        :aria-label="t(textKeys.canvasLayerDelete)"
+        :title="t(textKeys.canvasLayerDelete)"
+        @pointerdown.stop
+        @click.stop="removeLayer(selectedLayer.id)"
+      >
+        ×
+      </button>
     </div>
 
     <p v-if="background && !layers.length" class="canvas-board__guide">
@@ -70,28 +82,21 @@
           <li
             v-for="layer in displayLayers"
             :key="layer.id"
-            :class="{ 'canvas-board__layer-row--selected': layer.id === selectedLayerId }"
+            draggable="true"
+            :class="{
+              'canvas-board__layer-row--selected': layer.id === selectedLayerId,
+              'canvas-board__layer-row--dragging': layer.id === layerListDragSourceId,
+              'canvas-board__layer-row--drag-over': layer.id === layerListDragTargetId
+            }"
             @click="selectLayer(layer.id)"
+            @dragstart="onLayerListDragStart($event, layer)"
+            @dragover.prevent="onLayerListDragOver($event, layer)"
+            @drop.prevent="onLayerListDrop(layer)"
+            @dragend="clearLayerListDrag"
           >
             <div class="canvas-board__layer-head">
               <span class="canvas-board__layer-name">{{ layer.name }}</span>
               <span class="canvas-board__layer-ops">
-                <button
-                  type="button"
-                  :aria-label="t(textKeys.canvasLayerMoveUp)"
-                  :title="t(textKeys.canvasLayerMoveUp)"
-                  @click.stop="reorderLayer(layer.id, 1)"
-                >
-                  ↑
-                </button>
-                <button
-                  type="button"
-                  :aria-label="t(textKeys.canvasLayerMoveDown)"
-                  :title="t(textKeys.canvasLayerMoveDown)"
-                  @click.stop="reorderLayer(layer.id, -1)"
-                >
-                  ↓
-                </button>
                 <button
                   type="button"
                   class="canvas-board__layer-ops--danger"
@@ -227,7 +232,7 @@ const {
   updateLayerContent,
   setLayerScale,
   removeLayer,
-  reorderLayer,
+  moveLayerToIndex,
   selectLayer,
   setViewport
 } = useItemCardCanvas()
@@ -236,6 +241,8 @@ const { items: customTextItems } = useItemCardCustomText()
 const viewportElement = ref<HTMLElement | null>(null)
 const statusKey = ref('')
 const dragActive = ref(false)
+const layerListDragSourceId = ref('')
+const layerListDragTargetId = ref('')
 let dragDepth = 0
 let dragState: CanvasDragState | null = null
 let resizeObserver: ResizeObserver | null = null
@@ -315,6 +322,20 @@ function scaleHandleStyle(layer: ItemCardCanvasLayer) {
     {
       x: layer.x + layer.width * layer.scale,
       y: layer.y + layer.height * layer.scale
+    },
+    viewport.value
+  )
+  return {
+    left: `${corner.x}px`,
+    top: `${corner.y}px`
+  }
+}
+
+function deleteHandleStyle(layer: ItemCardCanvasLayer) {
+  const corner = imageToViewport(
+    {
+      x: layer.x + layer.width * layer.scale,
+      y: layer.y
     },
     viewport.value
   )
@@ -660,6 +681,47 @@ function onLayerCoordinateInput(layer: ItemCardCanvasLayer, axis: 'x' | 'y', eve
   }
   updateLayer(layer.id, axis === 'x' ? { x: Math.round(value) } : { y: Math.round(value) })
 }
+
+function onLayerListDragStart(event: DragEvent, layer: ItemCardCanvasLayer) {
+  if (
+    event.target instanceof HTMLInputElement ||
+    event.target instanceof HTMLButtonElement
+  ) {
+    event.preventDefault()
+    return
+  }
+  layerListDragSourceId.value = layer.id
+  event.dataTransfer?.setData('text/plain', layer.id)
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = 'move'
+  }
+}
+
+function onLayerListDragOver(event: DragEvent, layer: ItemCardCanvasLayer) {
+  if (!layerListDragSourceId.value || layerListDragSourceId.value === layer.id) {
+    return
+  }
+  layerListDragTargetId.value = layer.id
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'move'
+  }
+}
+
+function onLayerListDrop(targetLayer: ItemCardCanvasLayer) {
+  const sourceLayerId = layerListDragSourceId.value
+  const sourceIndex = displayLayers.value.findIndex((layer) => layer.id === sourceLayerId)
+  const targetIndex = displayLayers.value.findIndex((layer) => layer.id === targetLayer.id)
+  clearLayerListDrag()
+  if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) {
+    return
+  }
+  moveLayerToIndex(sourceLayerId, displayLayers.value.length - targetIndex - 1)
+}
+
+function clearLayerListDrag() {
+  layerListDragSourceId.value = ''
+  layerListDragTargetId.value = ''
+}
 </script>
 
 <style scoped>
@@ -771,6 +833,32 @@ function onLayerCoordinateInput(layer: ItemCardCanvasLayer, axis: 'x' | 'y', eve
   outline: 0;
 }
 
+.canvas-board__delete-handle {
+  position: absolute;
+  z-index: 6;
+  display: grid;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 2px solid var(--ns-color-danger, #b4453c);
+  border-radius: 0;
+  place-items: center;
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-pixel-soft-shadow);
+  color: var(--ns-color-danger, #b4453c);
+  font: 700 14px/1 var(--ns-font-ui);
+  cursor: pointer;
+  touch-action: none;
+  transform: translate(-50%, -50%);
+}
+
+.canvas-board__delete-handle:hover,
+.canvas-board__delete-handle:focus-visible {
+  background: var(--ns-color-danger, #b4453c);
+  color: var(--ns-color-surface-solid);
+  outline: 0;
+}
+
 .canvas-board__layers {
   position: absolute;
   z-index: 20;
@@ -804,7 +892,7 @@ function onLayerCoordinateInput(layer: ItemCardCanvasLayer, axis: 'x' | 'y', eve
   border: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface);
   font-size: 12px;
-  cursor: pointer;
+  cursor: grab;
   transition:
     border-color var(--ns-transition-fast),
     background var(--ns-transition-fast);
@@ -812,6 +900,16 @@ function onLayerCoordinateInput(layer: ItemCardCanvasLayer, axis: 'x' | 'y', eve
 
 .canvas-board__layer-list li:hover {
   border-color: var(--ns-color-accent);
+}
+
+.canvas-board__layer-list li.canvas-board__layer-row--dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.canvas-board__layer-list li.canvas-board__layer-row--drag-over {
+  border-color: var(--ns-color-accent-strong);
+  box-shadow: inset 0 2px 0 var(--ns-color-accent-strong);
 }
 
 .canvas-board__layer-list li.canvas-board__layer-row--selected,

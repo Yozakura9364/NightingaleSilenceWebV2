@@ -142,6 +142,10 @@ export const GLAMOUR_ACCESSORY_SLOTS = new Set<string>([
   'FashionAccessory'
 ])
 
+export function shouldRenderItemCardDyeDetails(slot: string | undefined): boolean {
+  return slot !== 'Glasses'
+}
+
 const GLAMOUR_NO_DYE_FALLBACK_LABELS: LocalizedTextMap = {
   zh: '无染色',
   en: 'No Dye',

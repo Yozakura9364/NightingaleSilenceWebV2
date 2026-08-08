@@ -2,7 +2,7 @@ import { computed, ref, shallowRef, watch } from 'vue'
 import {
   clampLayerScale,
   loadImageFromBlob,
-  moveLayerOrder,
+  moveLayerToOrder,
   nextLayerZIndex,
   replaceLayerContent,
   sortedLayers
@@ -238,10 +238,10 @@ function removeLayer(layerId: string) {
   })
 }
 
-function reorderLayer(layerId: string, offset: number) {
+function moveLayerToIndex(layerId: string, targetIndex: number) {
   setDocument({
     ...canvasDocument.value,
-    layers: moveLayerOrder(canvasDocument.value.layers, layerId, offset)
+    layers: moveLayerToOrder(canvasDocument.value.layers, layerId, targetIndex)
   })
 }
 
@@ -289,7 +289,7 @@ export function useItemCardCanvas() {
     updateLayerContent,
     setLayerScale,
     removeLayer,
-    reorderLayer,
+    moveLayerToIndex,
     selectLayer,
     setViewport,
     clearCanvas,

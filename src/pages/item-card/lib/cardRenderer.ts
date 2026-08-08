@@ -7,7 +7,8 @@ import {
   getItemCardRowId,
   getSelectedCandidate,
   isNoDyeEntry,
-  resolveLocalized
+  resolveLocalized,
+  shouldRenderItemCardDyeDetails
 } from '@/pages/item-card/lib/equipment'
 import { getItemCardLocaleStyle } from '@/pages/item-card/lib/cardSettings'
 import type {
@@ -322,6 +323,7 @@ function dyeRows(request: ItemCardRenderRequest, locale: GlamourLocale): ItemCar
   // 情感动作与普通物品不显示染剂行；家具（含庭具、内装建材）与装备一样展示染色状态。
   const isFurniture = candidate?.item_category === 'furniture'
   if (
+    !shouldRenderItemCardDyeDetails(request.entry.slot) ||
     candidate?.item_kind === 'emote' ||
     (candidate?.item_kind === 'item' && !isFurniture)
   ) {

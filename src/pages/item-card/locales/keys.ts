@@ -60,8 +60,6 @@ export const itemCardTextKeys = {
   canvasDragHint: 'itemCard.canvas.dragHint',
   canvasLayers: 'itemCard.canvas.layers',
   canvasLayerDelete: 'itemCard.canvas.layerDelete',
-  canvasLayerMoveUp: 'itemCard.canvas.layerMoveUp',
-  canvasLayerMoveDown: 'itemCard.canvas.layerMoveDown',
   canvasLayerScale: 'itemCard.canvas.layerScale',
   canvasLayerCoordinate: 'itemCard.canvas.layerCoordinate',
   canvasLayerAxisX: 'itemCard.canvas.layerAxisX',

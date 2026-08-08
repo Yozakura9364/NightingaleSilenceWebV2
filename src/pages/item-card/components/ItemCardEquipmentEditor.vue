@@ -91,7 +91,10 @@
         </div>
 
         <div class="equipment-row__body">
-          <div v-if="selectedCandidate(entry)" class="equipment-row__selected ns-glamour-item-info__item-row">
+          <div
+            v-if="selectedCandidate(entry)"
+            class="equipment-row__selected ns-glamour-item-info__item-row"
+          >
             <img
               v-if="iconUrl(entry)"
               class="ns-glamour-item-info__icon"
@@ -101,7 +104,9 @@
               referrerpolicy="no-referrer"
             />
             <div class="equipment-row__item ns-glamour-item-info__body">
-              <strong class="ns-glamour-item-info__name">{{ candidateName(selectedCandidate(entry)) }}</strong>
+              <strong class="ns-glamour-item-info__name">{{
+                candidateName(selectedCandidate(entry))
+              }}</strong>
               <div class="equipment-row__details">
                 <div v-if="dyeCount(entry) > 0" class="equipment-row__dyes">
                   <GlamourDyePicker
@@ -119,7 +124,11 @@
                   />
                 </div>
                 <span
-                  v-else-if="selectedCandidate(entry) && !isPlainItem(entry) && !isEmote(entry)"
+                  v-else-if="
+                    !isPlainItem(entry) &&
+                    !isEmote(entry) &&
+                    shouldRenderItemCardDyeDetails(entry.slot)
+                  "
                   class="equipment-row__undyeable"
                 >
                   {{ t(textKeys.nsglamourEquipmentUndyeable) }}
@@ -174,6 +183,7 @@ import {
   getDisplayDyeEntries,
   getDyeEntryName,
   getItemCardRowId,
+  shouldRenderItemCardDyeDetails,
   getSelectedCandidate,
   getSlotTitle,
   isItemCardEmote,

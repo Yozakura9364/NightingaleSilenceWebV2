@@ -410,22 +410,6 @@ export const itemCardUiMessages: UiMessageMap = {
     fr: 'Supprimer le calque',
     de: 'Ebene löschen'
   }),
-  'itemCard.canvas.layerMoveUp': msg({
-    zh: '上移图层',
-    en: 'Move layer up',
-    ja: 'レイヤーを上へ',
-    ko: '레이어 위로',
-    fr: 'Monter le calque',
-    de: 'Ebene nach oben'
-  }),
-  'itemCard.canvas.layerMoveDown': msg({
-    zh: '下移图层',
-    en: 'Move layer down',
-    ja: 'レイヤーを下へ',
-    ko: '레이어 아래로',
-    fr: 'Descendre le calque',
-    de: 'Ebene nach unten'
-  }),
   'itemCard.canvas.layerScale': msg({
     zh: '缩放',
     en: 'Scale',

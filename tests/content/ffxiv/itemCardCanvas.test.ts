@@ -15,6 +15,7 @@ import {
   hitTestLayers,
   imageToViewport,
   moveLayerBy,
+  moveLayerToOrder,
   moveLayerOrder,
   nextLayerZIndex,
   panViewport,
@@ -218,6 +219,30 @@ describe('layer ordering', () => {
     const movedDown = moveLayerOrder(layers, 'c', -1)
     expect(movedDown.find((layer) => layer.id === 'c')?.zIndex).toBe(2)
     expect(movedDown.find((layer) => layer.id === 'b')?.zIndex).toBe(3)
+  })
+
+  it('moves a layer to an arbitrary composition position without disturbing the other layers', () => {
+    const layers = [
+      makeLayer({ id: 'a', zIndex: 1 }),
+      makeLayer({ id: 'b', zIndex: 2 }),
+      makeLayer({ id: 'c', zIndex: 3 })
+    ]
+
+    const moved = moveLayerToOrder(layers, 'a', 2)
+
+    expect(sortedLayers(moved).map((layer) => layer.id)).toEqual(['b', 'c', 'a'])
+  })
+
+  it('moves a top layer down while keeping the intervening layers ordered', () => {
+    const layers = [
+      makeLayer({ id: 'a', zIndex: 1 }),
+      makeLayer({ id: 'b', zIndex: 2 }),
+      makeLayer({ id: 'c', zIndex: 3 })
+    ]
+
+    const moved = moveLayerToOrder(layers, 'c', 0)
+
+    expect(sortedLayers(moved).map((layer) => layer.id)).toEqual(['c', 'a', 'b'])
   })
 
   it('keeps the order unchanged at the edges or for unknown layers', () => {
