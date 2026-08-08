@@ -1,305 +1,173 @@
 {
   "schemaVersion": "fashion-check.current-locales.v3",
   "items": {
-    "3520": {
-      "zh-CN": "人族手套",
-      "en": "Hyuran Gloves",
-      "ja": "ヒューラングローブ",
-      "ko": "휴런 장갑"
+    "2702": {
+      "zh-CN": "旧化小丑帽",
+      "en": "Moldering Jester's Cap",
+      "ja": "オールドジェスターキャップ",
+      "ko": "오래된 광대모자"
     },
-    "3521": {
-      "zh-CN": "人族半指手套",
-      "en": "Hyuran Halfgloves",
-      "ja": "ヒューランハーフグローブ",
-      "ko": "휴런 손등장갑"
+    "2855": {
+      "zh-CN": "古典小丑帽",
+      "en": "Vintage Jester's Cap",
+      "ja": "ヴィンテージジェスターキャップ",
+      "ko": "고풍스러운 광대모자"
     },
-    "3522": {
-      "zh-CN": "精灵手套",
-      "en": "Elezen Gloves",
-      "ja": "エレゼングローブ",
-      "ko": "엘레젠 장갑"
+    "2906": {
+      "zh-CN": "滑稽帽",
+      "en": "Harlequin's Cap",
+      "ja": "ハーレクインキャップ",
+      "ko": "어릿광대 모자"
     },
-    "3523": {
-      "zh-CN": "精灵半手套",
-      "en": "Elezen Halfgloves",
-      "ja": "エレゼンハーフグローブ",
-      "ko": "엘레젠 손등장갑"
+    "2934": {
+      "zh-CN": "特务小丑帽",
+      "en": "Imperial Operative Hat",
+      "ja": "オペレーティブキャップ",
+      "ko": "공작원 광대모자"
     },
-    "3524": {
-      "zh-CN": "拉拉菲尔护腕",
-      "en": "Lalafellin Wristguards",
-      "ja": "ララフェルリストガード",
-      "ko": "라라펠 손목보호구"
+    "3006": {
+      "zh-CN": "定制鳞铠",
+      "en": "Custom-made Scale Mail",
+      "ja": "カスタムスケイルメイル",
+      "ko": "맞춤 미늘갑옷"
     },
-    "3525": {
-      "zh-CN": "拉拉菲尔手环",
-      "en": "Lalafellin Wristbands",
-      "ja": "ララフェルリストバンド",
-      "ko": "라라펠 손목띠"
+    "3057": {
+      "zh-CN": "黑铁鳞铠",
+      "en": "Iron Scale Mail",
+      "ja": "アイアンスケイルメイル",
+      "ko": "철제 미늘갑옷"
     },
-    "3526": {
-      "zh-CN": "猫魅手铠",
-      "en": "Miqo'te Gauntlets",
-      "ja": "ミコッテガントレット",
-      "ko": "미코테 건틀릿"
+    "3313": {
+      "zh-CN": "草布腿套",
+      "en": "Hempen Kecks",
+      "ja": "ケクス",
+      "ko": "덧바지"
     },
-    "3527": {
-      "zh-CN": "猫魅手套",
-      "en": "Miqo'te Gloves",
-      "ja": "ミコッテグローブ",
-      "ko": "미코테 장갑"
+    "3345": {
+      "zh-CN": "棉布腿套",
+      "en": "Cotton Kecks",
+      "ja": "コットンケクス",
+      "ko": "무명 덧바지"
     },
-    "3528": {
-      "zh-CN": "鲁加臂甲",
-      "en": "Roegadyn Bracers",
-      "ja": "ルガディンブレーサー",
-      "ko": "루가딘 손보호구"
+    "3374": {
+      "zh-CN": "牙兵腿套",
+      "en": "Serpent Private's Kecks",
+      "ja": "グリダニアンプライベート・ケクス",
+      "ko": "그리다니아 사병의 덧바지"
     },
-    "3529": {
-      "zh-CN": "鲁加护臂",
-      "en": "Roegadyn Armguards",
-      "ja": "ルガディンアームガード",
-      "ko": "루가딘 팔보호구"
+    "3392": {
+      "zh-CN": "漩兵腿套",
+      "en": "Storm Sergeant's Kecks",
+      "ja": "ロミンサンサージェント・ケクス",
+      "ko": "림사 로민사 부사관의 덧바지"
     },
-    "9646": {
-      "zh-CN": "敖龙护臂",
-      "en": "Auri Armguards",
-      "ja": "アウラアームガード",
-      "ko": "아우라 팔보호구"
+    "3421": {
+      "zh-CN": "呢绒腿套",
+      "en": "Woolen Kecks",
+      "ja": "ウールケクス",
+      "ko": "양모 덧바지"
     },
-    "9650": {
-      "zh-CN": "敖龙半手套",
-      "en": "Auri Halfgloves",
-      "ja": "アウラハーフグローブ",
-      "ko": "아우라 손등장갑"
+    "3454": {
+      "zh-CN": "纤维腿套",
+      "en": "Felt Kecks",
+      "ja": "フェルトケクス",
+      "ko": "펠트 덧바지"
     },
-    "10784": {
-      "zh-CN": "青麻强袭软甲裤",
-      "en": "Ramie Trousers of Striking",
-      "ja": "ラミーストライカートラウザー",
-      "ko": "청마 타격대 긴바지"
+    "3500": {
+      "zh-CN": "骏鹰革腿套",
+      "en": "Gryphonskin Kecks",
+      "ja": "ヒッポグリフケクス",
+      "ko": "히포그리프 덧바지"
     },
-    "10826": {
-      "zh-CN": "青麻精准软甲裤",
-      "en": "Ramie Trousers of Aiming",
-      "ja": "ラミーレンジャートラウザー",
-      "ko": "청마 유격대 긴바지"
+    "6764": {
+      "zh-CN": "饿狼腿套",
+      "en": "Wolf Kecks",
+      "ja": "ウルフケクス",
+      "ko": "늑대 덧바지"
     },
-    "10868": {
-      "zh-CN": "青麻游击软甲裤",
-      "en": "Ramie Trousers of Scouting",
-      "ja": "ラミースカウトトラウザー",
-      "ko": "청마 정찰대 긴바지"
+    "7340": {
+      "zh-CN": "昏光魔术帽",
+      "en": "Evenstar Hat",
+      "ja": "イヴンスターハット",
+      "ko": "저녁별 모자"
     },
-    "21510": {
-      "zh-CN": "钻石御敌战甲",
-      "en": "Diamond Armor of Fending",
-      "ja": "ダイヤ・ディフェンダーアーマー",
-      "ko": "다이아몬드 수호자 갑옷"
+    "7474": {
+      "zh-CN": "魔术师法帽",
+      "en": "Magician's Hat",
+      "ja": "マジシャンキャップ",
+      "ko": "마술사 모자"
     },
-    "21516": {
-      "zh-CN": "钻石制敌战甲",
-      "en": "Diamond Armor of Maiming",
-      "ja": "ダイヤ・スレイヤーアーマー",
-      "ko": "다이아몬드 학살자 갑옷"
+    "10796": {
+      "zh-CN": "虹布精准小丑帽",
+      "en": "Rainbow Cap of Aiming",
+      "ja": "レインボークロス・レンジャーキャップ",
+      "ko": "무지개 유격대 모자"
     },
-    "21522": {
-      "zh-CN": "钻石强袭战甲",
-      "en": "Diamond Armor of Striking",
-      "ja": "ダイヤ・ストライカーアーマー",
-      "ko": "다이아몬드 타격대 갑옷"
+    "10880": {
+      "zh-CN": "虹布治愈小丑帽",
+      "en": "Rainbow Cap of Healing",
+      "ja": "レインボークロス・ヒーラーキャップ",
+      "ko": "무지개 치유사 모자"
     },
-    "21528": {
-      "zh-CN": "钻石精准长衣",
-      "en": "Diamond Coat of Aiming",
-      "ja": "ダイヤ・レンジャーコート",
-      "ko": "다이아몬드 유격대 외투"
+    "10922": {
+      "zh-CN": "虹布咏咒小丑帽",
+      "en": "Rainbow Cap of Casting",
+      "ja": "レインボークロス・キャスターキャップ",
+      "ko": "무지개 마술사 모자"
     },
-    "21534": {
-      "zh-CN": "钻石游击战甲",
-      "en": "Diamond Armor of Scouting",
-      "ja": "ダイヤ・スカウトアーマー",
-      "ko": "다이아몬드 정찰대 갑옷"
+    "10927": {
+      "zh-CN": "奇美纤维咏咒魔术帽",
+      "en": "Chimerical Felt Hat of Casting",
+      "ja": "キマイラフェルト・キャスターハット",
+      "ko": "키마이라 펠트 마술사 모자"
     },
-    "21540": {
-      "zh-CN": "钻石治愈长袍",
-      "en": "Diamond Robe of Healing",
-      "ja": "ダイヤ・ヒーラーローブ",
-      "ko": "다이아몬드 치유사 로브"
+    "13271": {
+      "zh-CN": "高贵皮靴",
+      "en": "High House Halfboots",
+      "ja": "ハイハウス・ショートブーツ",
+      "ko": "명가의 반장화"
     },
-    "21546": {
-      "zh-CN": "钻石咏咒长袍",
-      "en": "Diamond Robe of Casting",
-      "ja": "ダイヤ・キャスターローブ",
-      "ko": "다이아몬드 마술사 로브"
+    "13687": {
+      "zh-CN": "古鸟革皮靴",
+      "en": "Archaeoskin Halfboots",
+      "ja": "アルケオーニスショートブーツ",
+      "ko": "아르케오니스 반장화"
     },
-    "21572": {
-      "zh-CN": "碳硅晶御敌战甲",
-      "en": "Carborundum Armor of Fending",
-      "ja": "カーボランダム・ディフェンダーアーマー",
-      "ko": "탄화규소 수호자 갑옷"
+    "16281": {
+      "zh-CN": "田园混斗者短靴",
+      "en": "Shire Pankratiast's Boots",
+      "ja": "イディル・パンクラティアストブーツ",
+      "ko": "이딜샤이어 격투가 장화"
     },
-    "21578": {
-      "zh-CN": "碳硅晶制敌战甲",
-      "en": "Carborundum Armor of Maiming",
-      "ja": "カーボランダム・スレイヤーアーマー",
-      "ko": "탄화규소 학살자 갑옷"
+    "16357": {
+      "zh-CN": "改良型田园混斗者短靴",
+      "en": "Augmented Shire Pankratiast's Boots",
+      "ja": "イディル・パンクラティアストブーツRE",
+      "ko": "보강된 이딜샤이어 격투가 장화"
     },
-    "21584": {
-      "zh-CN": "碳硅晶强袭战甲",
-      "en": "Carborundum Armor of Striking",
-      "ja": "カーボランダム・ストライカーアーマー",
-      "ko": "탄화규소 타격대 갑옷"
+    "17494": {
+      "zh-CN": "血盟冒险者矮靴",
+      "en": "Scion Adventurer's Boots",
+      "ja": "サイオンズアドベンチャラー・ブーツ",
+      "ko": "새벽 모험가의 장화"
     },
-    "21590": {
-      "zh-CN": "碳硅晶精准长衣",
-      "en": "Carborundum Coat of Aiming",
-      "ja": "カーボランダム・レンジャーコート",
-      "ko": "탄화규소 유격대 외투"
-    },
-    "21596": {
-      "zh-CN": "碳硅晶游击战甲",
-      "en": "Carborundum Armor of Scouting",
-      "ja": "カーボランダム・スカウトアーマー",
-      "ko": "탄화규소 정찰대 갑옷"
-    },
-    "21602": {
-      "zh-CN": "碳硅晶治愈长袍",
-      "en": "Carborundum Robe of Healing",
-      "ja": "カーボランダム・ヒーラーローブ",
-      "ko": "탄화규소 치유사 로브"
-    },
-    "21608": {
-      "zh-CN": "碳硅晶咏咒长袍",
-      "en": "Carborundum Robe of Casting",
-      "ja": "カーボランダム・キャスターローブ",
-      "ko": "탄화규소 마술사 로브"
-    },
-    "25209": {
-      "zh-CN": "维埃拉臂环",
-      "en": "Viera Armlets",
-      "ja": "ヴィエラアームレット",
-      "ko": "비에라 손목덮개"
-    },
-    "25213": {
-      "zh-CN": "硌狮护腕",
-      "en": "Hrothgar Wristguards",
-      "ja": "ロスガルリストガード",
-      "ko": "로스가르 손목보호구"
-    },
-    "29984": {
-      "zh-CN": "橙色风信子头花",
-      "en": "Orange Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:オレンジ",
-      "ko": "히아신스 머리장식: 주황"
-    },
-    "29985": {
-      "zh-CN": "紫色风信子头花",
-      "en": "Purple Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:パープル",
-      "ko": "히아신스 머리장식: 보라"
-    },
-    "29986": {
-      "zh-CN": "白色风信子头花",
-      "en": "White Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:ホワイト",
-      "ko": "히아신스 머리장식: 하양"
-    },
-    "29987": {
-      "zh-CN": "黑色风信子头花",
-      "en": "Black Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:ブラック",
-      "ko": "히아신스 머리장식: 검정"
-    },
-    "29988": {
-      "zh-CN": "混色风信子头花",
-      "en": "Rainbow Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:ブレンド",
-      "ko": "히아신스 머리장식: 혼합"
-    },
-    "30131": {
-      "zh-CN": "红色风信子头花",
-      "en": "Red Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:レッド",
-      "ko": "히아신스 머리장식: 빨강"
-    },
-    "30132": {
-      "zh-CN": "蓝色风信子头花",
-      "en": "Blue Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:ブルー",
-      "ko": "히아신스 머리장식: 파랑"
-    },
-    "30133": {
-      "zh-CN": "黄色风信子头花",
-      "en": "Yellow Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:イエロー",
-      "ko": "히아신스 머리장식: 노랑"
-    },
-    "30134": {
-      "zh-CN": "绿色风信子头花",
-      "en": "Green Hyacinth Corsage",
-      "ja": "ヒヤシンスオーナメント:グリーン",
-      "ko": "히아신스 머리장식: 초록"
-    },
-    "33944": {
-      "zh-CN": "维埃拉护臂",
-      "en": "Viera Armguards",
-      "ja": "ヴィエラアームガード",
-      "ko": "비에라 팔보호구"
-    },
-    "41791": {
-      "zh-CN": "硌狮臂甲",
-      "en": "Hrothgar Vambraces",
-      "ja": "ロスガルヴァンブレイス",
-      "ko": "로스가르 완갑"
+    "35863": {
+      "zh-CN": "小丑帽",
+      "en": "Clown's Hat",
+      "ja": "クラウンハット",
+      "ko": "광대 모자"
     }
   },
   "dyes": {
-    "6": {
-      "zh-CN": "煤烟黑",
-      "en": "Soot Black",
-      "ja": "スートブラック",
-      "ko": "숯검정색"
-    },
-    "14": {
-      "zh-CN": "鲜血红",
-      "en": "Blood Red",
-      "ja": "カララント:ブラッドレッド",
-      "ko": "염료: 선홍색"
-    },
-    "34": {
-      "zh-CN": "骸骨白",
-      "en": "Bone White",
-      "ja": "カララント:ボーンホワイト",
-      "ko": "염료: 상아색"
-    },
-    "43": {
-      "zh-CN": "泥沼绿",
-      "en": "Mud Green",
-      "ja": "カララント:マッドグリーン",
-      "ko": "염료: 습지 녹색"
-    },
-    "84": {
-      "zh-CN": "仙子梅",
-      "en": "Plum Purple",
-      "ja": "カララント:プラムパープル",
-      "ko": "염료: 매화색"
-    },
-    "88": {
-      "zh-CN": "丝雀黄",
-      "en": "Canary Yellow",
-      "ja": "カララント:カナリーイエロー",
-      "ko": "염료: 카나리아색"
-    },
-    "117": {
-      "zh-CN": "金属绿",
-      "en": "Metallic Green",
-      "ja": "カララント:メタリックグリーン",
-      "ko": "염료: 금속질 녹색"
+    "15": {
+      "zh-CN": "鲑鱼粉",
+      "en": "Salmon Pink",
+      "ja": "カララント:サーモンピンク",
+      "ko": "염료: 연어색"
     }
   },
   "dyeItems": {
-    "6": {
+    "15": {
       "itemId": 52254,
       "iconId": 22811,
       "names": {
@@ -307,93 +175,2175 @@
         "en": "Standard Spectrum Dye",
         "ja": "カララント:ノーマルカラー",
         "ko": "염료: 기본 색상"
-      }
-    },
-    "14": {
-      "itemId": 52254,
-      "iconId": 22811,
-      "names": {
-        "zh-CN": "通用染剂",
-        "en": "Standard Spectrum Dye",
-        "ja": "カララント:ノーマルカラー",
-        "ko": "염료: 기본 색상"
-      }
-    },
-    "34": {
-      "itemId": 52254,
-      "iconId": 22811,
-      "names": {
-        "zh-CN": "通用染剂",
-        "en": "Standard Spectrum Dye",
-        "ja": "カララント:ノーマルカラー",
-        "ko": "염료: 기본 색상"
-      }
-    },
-    "43": {
-      "itemId": 52254,
-      "iconId": 22811,
-      "names": {
-        "zh-CN": "通用染剂",
-        "en": "Standard Spectrum Dye",
-        "ja": "カララント:ノーマルカラー",
-        "ko": "염료: 기본 색상"
-      }
-    },
-    "84": {
-      "itemId": 52254,
-      "iconId": 22811,
-      "names": {
-        "zh-CN": "通用染剂",
-        "en": "Standard Spectrum Dye",
-        "ja": "カララント:ノーマルカラー",
-        "ko": "염료: 기본 색상"
-      }
-    },
-    "88": {
-      "itemId": 52255,
-      "iconId": 22805,
-      "names": {
-        "zh-CN": "追加染剂1",
-        "en": "Wide Spectrum #1 Dye",
-        "ja": "カララント:アディショナルカラー1",
-        "ko": "염료: 추가 색상 1"
-      }
-    },
-    "117": {
-      "itemId": 13720,
-      "iconId": 22819,
-      "names": {
-        "zh-CN": "金属绿染剂",
-        "en": "General-purpose Metallic Green Dye",
-        "ja": "カララント:メタリックグリーン",
-        "ko": "염료: 금속질 녹색"
       }
     }
   },
   "tags": {
+    "32": {
+      "zh-CN": "小丑",
+      "en": "Motley Crew",
+      "ja": "道化",
+      "ko": "광대"
+    },
+    "75": {
+      "zh-CN": "短靴",
+      "en": "Short Boots",
+      "ja": "ショートブーツ",
+      "ko": "짧은 장화"
+    },
+    "126": {
+      "zh-CN": "腿套",
+      "en": "Pumped Up Kecks",
+      "ja": "ケクス",
+      "ko": "덧바지"
+    },
+    "163": {
+      "zh-CN": "鳞铠",
+      "en": "Tipping the Scales",
+      "ja": "スケイルメイル",
+      "ko": "미늘갑옷"
+    }
+  },
+  "themes": {
+    "0": {
+      "zh-CN": "酷炫时尚",
+      "en": "Keeping It Cool"
+    },
+    "1": {
+      "zh-CN": "老练大厨",
+      "en": "Iron Chef"
+    },
+    "2": {
+      "zh-CN": "户外装束",
+      "en": "Walkabout"
+    },
+    "3": {
+      "zh-CN": "龙骑手",
+      "en": "Dragonrider"
+    },
+    "4": {
+      "zh-CN": "白色基调",
+      "en": "Whiteout"
+    },
+    "5": {
+      "zh-CN": "假日画家",
+      "en": "Starving Artist"
+    },
+    "6": {
+      "zh-CN": "时髦华丽",
+      "en": "Modern Rustler"
+    },
+    "7": {
+      "zh-CN": "狂野风格",
+      "en": "Up the Wildstyle"
+    },
+    "8": {
+      "zh-CN": "夏日时光",
+      "en": "Summertime Blues"
+    },
+    "9": {
+      "zh-CN": "海都风格",
+      "en": "Till Sea Swallows All"
+    },
+    "10": {
+      "zh-CN": "社交界之花",
+      "en": "High Society"
+    },
+    "11": {
+      "zh-CN": "新大陆探险家",
+      "en": "A Brave New World"
+    },
+    "12": {
+      "zh-CN": "酷炫时尚",
+      "en": "Keeping It Cool"
+    },
+    "13": {
+      "zh-CN": "老练大厨",
+      "en": "Iron Chef"
+    },
+    "14": {
+      "zh-CN": "户外装束",
+      "en": "Walkabout"
+    },
+    "15": {
+      "zh-CN": "游乐场之花",
+      "en": "Goldest Cup on the Saucer"
+    },
+    "16": {
+      "zh-CN": "孤高枪手",
+      "en": "Loose Cannon"
+    },
+    "17": {
+      "zh-CN": "魅惑舞者",
+      "en": "Everybody Dance"
+    },
+    "18": {
+      "zh-CN": "斯卡拉之民",
+      "en": "Dreams of Skalla"
+    },
+    "19": {
+      "zh-CN": "龙骑士",
+      "en": "Dragonrider"
+    },
+    "20": {
+      "zh-CN": "白色基调",
+      "en": "Whiteout"
+    },
+    "21": {
+      "zh-CN": "假日画家",
+      "en": "Starving Artist"
+    },
+    "22": {
+      "zh-CN": "时髦华丽",
+      "en": "Modern Rustler"
+    },
+    "23": {
+      "zh-CN": "活力十足",
+      "en": "Fitness Anytime"
+    },
+    "24": {
+      "zh-CN": "狂野风格",
+      "en": "Up the Wildstyle"
+    },
+    "25": {
+      "zh-CN": "夏日时光",
+      "en": "Summertime Blues"
+    },
+    "26": {
+      "zh-CN": "飞行员",
+      "en": "Airship Pilot"
+    },
+    "27": {
+      "zh-CN": "假日市民",
+      "en": "Weekend Warrior"
+    },
+    "28": {
+      "zh-CN": "时髦的魔法师",
+      "en": "Modish Mage"
+    },
+    "29": {
+      "zh-CN": "能干的劳动者",
+      "en": "I'm So Handy"
+    },
+    "30": {
+      "zh-CN": "地下社会",
+      "en": "In the Shadows"
+    },
+    "31": {
+      "zh-CN": "无声英雄",
+      "en": "The Silent Hero"
+    },
+    "32": {
+      "zh-CN": "售货员",
+      "en": "A Hard Bargain"
+    },
+    "33": {
+      "zh-CN": "王族风范",
+      "en": "A Royal Pain"
+    },
+    "34": {
+      "zh-CN": "流浪武士",
+      "en": "The 48th Ronin"
+    },
+    "35": {
+      "zh-CN": "邮递员",
+      "en": "Always Knock Twice"
+    },
+    "36": {
+      "zh-CN": "沙滩休闲",
+      "en": "Beachcomber"
+    },
+    "37": {
+      "zh-CN": "阿拉米格袍",
+      "en": "Revolution Gown"
+    },
+    "38": {
+      "zh-CN": "雅致的管家",
+      "en": "Stylish Steward"
+    },
+    "39": {
+      "zh-CN": "红莲节",
+      "en": "Moonfire Inferno"
+    },
+    "40": {
+      "zh-CN": "空中暴徒",
+      "en": "Plague of the Skies"
+    },
+    "41": {
+      "zh-CN": "休闲居家",
+      "en": "Lounging About"
+    },
     "42": {
-      "zh-CN": "装饰钉扣",
-      "en": "Star “Studded”",
-      "ja": "スタッズ",
-      "ko": "스터드"
+      "zh-CN": "庄园居民",
+      "en": "Manor Monster"
+    },
+    "43": {
+      "zh-CN": "海都市民",
+      "en": "Salt of the City-state"
+    },
+    "44": {
+      "zh-CN": "秋日风情",
+      "en": "Fall Lineup"
+    },
+    "45": {
+      "zh-CN": "山岳牧人",
+      "en": "The Good Shepherd"
+    },
+    "46": {
+      "zh-CN": "秋风瑟瑟",
+      "en": "Autumntime Sadness"
+    },
+    "47": {
+      "zh-CN": "雅致的知识分子",
+      "en": "Intellichic"
+    },
+    "48": {
+      "zh-CN": "学舍的优等生",
+      "en": "Straight As"
+    },
+    "49": {
+      "zh-CN": "古风的冒险者",
+      "en": "Adventurer of Yore"
+    },
+    "50": {
+      "zh-CN": "东洲的武人",
+      "en": "Far Eastern Fury"
+    },
+    "51": {
+      "zh-CN": "拂晓的时尚潮人",
+      "en": "Dawn Dandy"
+    },
+    "52": {
+      "zh-CN": "加隆德风格",
+      "en": "Working the Ironworks"
+    },
+    "53": {
+      "zh-CN": "洋葱市民",
+      "en": "Onion in the Streets"
+    },
+    "54": {
+      "zh-CN": "休假的骑士",
+      "en": "Weekend Knights"
+    },
+    "55": {
+      "zh-CN": "熟练的斥候",
+      "en": "Surly Scout"
+    },
+    "56": {
+      "zh-CN": "初出茅庐的魔法导师",
+      "en": "The Sorcerer's Apprentice"
+    },
+    "57": {
+      "zh-CN": "超越真源者",
+      "en": "Beyond the Coil"
+    },
+    "58": {
+      "zh-CN": "革命战士",
+      "en": "Piece de Resistance"
+    },
+    "59": {
+      "zh-CN": "垂褶风格",
+      "en": "When the Curtains Fall"
+    },
+    "60": {
+      "zh-CN": "野性风格的潮人",
+      "en": "Wild, yet Sophisticated"
+    },
+    "61": {
+      "zh-CN": "精致的豹纹帽子",
+      "en": "Panther on the Mind"
+    },
+    "62": {
+      "zh-CN": "斯卡拉之狼",
+      "en": "Sunken Wolf"
+    },
+    "63": {
+      "zh-CN": "新大陆之民",
+      "en": "Letters from the New World"
+    },
+    "64": {
+      "zh-CN": "民族学的研究者",
+      "en": "Anthropology Major"
+    },
+    "65": {
+      "zh-CN": "野外活动的高手",
+      "en": "Outdoorsman"
+    },
+    "66": {
+      "zh-CN": "雅致的冒险者",
+      "en": "Adventurer Debonair"
+    },
+    "67": {
+      "zh-CN": "老练的探险家",
+      "en": "Tattered Traveler"
+    },
+    "68": {
+      "zh-CN": "可怕的盗贼",
+      "en": "The Cunning Cutpurse"
+    },
+    "69": {
+      "zh-CN": "神秘的武人",
+      "en": "Monk of Intrigue"
+    },
+    "70": {
+      "zh-CN": "荒野法外之徒",
+      "en": "Outlands Outlaw"
+    },
+    "71": {
+      "zh-CN": "猛禽的骑士",
+      "en": "Chivalrous Raptor"
+    },
+    "72": {
+      "zh-CN": "豹纹的斗士",
+      "en": "Leopard Punch"
+    },
+    "73": {
+      "zh-CN": "强壮的游牧民族",
+      "en": "Tribal Warrior"
+    },
+    "74": {
+      "zh-CN": "日常服装的市民",
+      "en": "Around the House"
+    },
+    "75": {
+      "zh-CN": "海边的冒险者",
+      "en": "Questing the Shore"
+    },
+    "76": {
+      "zh-CN": "征服",
+      "en": "The Conqueror"
+    },
+    "77": {
+      "zh-CN": "新锐护法者",
+      "en": "To Serve and Protect"
+    },
+    "78": {
+      "zh-CN": "海洋冒险家",
+      "en": "Seas of Adventure"
+    },
+    "79": {
+      "zh-CN": "奇美拉猎人",
+      "en": "The Only Good Chimera"
+    },
+    "80": {
+      "zh-CN": "凉爽的假日",
+      "en": "Cool Breeze"
+    },
+    "81": {
+      "zh-CN": "海边的斗士",
+      "en": "Blood on the Beach"
+    },
+    "82": {
+      "zh-CN": "金碟骑士",
+      "en": "Knights of the Square"
+    },
+    "83": {
+      "zh-CN": "东方渔人",
+      "en": "The Far East Coast"
+    },
+    "84": {
+      "zh-CN": "规矩的守护者",
+      "en": "Breaking Rules"
+    },
+    "85": {
+      "zh-CN": "新入门的舞蹈家",
+      "en": "Learning to Dance"
+    },
+    "86": {
+      "zh-CN": "回到未来",
+      "en": "Back to the Future"
+    },
+    "87": {
+      "zh-CN": "蛮神的信奉者",
+      "en": "Tempered"
+    },
+    "88": {
+      "zh-CN": "沙漠之都的午后时光",
+      "en": "Ul'dahn Nights"
+    },
+    "89": {
+      "zh-CN": "加隆德炼铁厂的员工",
+      "en": "Garlond Says"
+    },
+    "90": {
+      "zh-CN": "扮演国王",
+      "en": "The King Am I"
+    },
+    "91": {
+      "zh-CN": "东洲的潮人",
+      "en": "Far Eastern Fashionista"
+    },
+    "92": {
+      "zh-CN": "旧大陆与新大陆",
+      "en": "Old World Meets New"
+    },
+    "93": {
+      "zh-CN": "戴眼罩的劳动者",
+      "en": "Keeping an Eye on Work"
+    },
+    "94": {
+      "zh-CN": "轻装的射手",
+      "en": "Aiming Light"
+    },
+    "95": {
+      "zh-CN": "休假中的海洋之都市民",
+      "en": "Lominsan Respite"
+    },
+    "96": {
+      "zh-CN": "战斗精英的训练服",
+      "en": "To the Practice Grounds"
+    },
+    "97": {
+      "zh-CN": "草原斗士",
+      "en": "Hero of the Steppe"
+    },
+    "98": {
+      "zh-CN": "自由骑士",
+      "en": "Free to Knight"
+    },
+    "99": {
+      "zh-CN": "轻装斗士",
+      "en": "Fighting Light"
+    },
+    "100": {
+      "zh-CN": "孤高探险家",
+      "en": "Exalted Explorer"
+    },
+    "101": {
+      "zh-CN": "决斗者的礼服",
+      "en": "Dashing Duelist"
+    },
+    "102": {
+      "zh-CN": "假日枪手",
+      "en": "Holiday Handgunner"
+    },
+    "103": {
+      "zh-CN": "空贼快枪手",
+      "en": "Quickshot Corsair"
+    },
+    "104": {
+      "zh-CN": "假面审判者",
+      "en": "The Mask of Judgment"
+    },
+    "105": {
+      "zh-CN": "豹纹骑士",
+      "en": "A Knight in Leopard's Mail"
+    },
+    "106": {
+      "zh-CN": "游猎者",
+      "en": "Safari"
+    },
+    "107": {
+      "zh-CN": "硬鳞战士",
+      "en": "The Scales of War"
+    },
+    "108": {
+      "zh-CN": "礼帽旅行艺人",
+      "en": "Silk for the Road"
+    },
+    "109": {
+      "zh-CN": "俏皮魔法师",
+      "en": "Mischievous Mage"
+    },
+    "110": {
+      "zh-CN": "假面舞会",
+      "en": "Masquerade"
+    },
+    "111": {
+      "zh-CN": "野孩儿的战装",
+      "en": "(Not Quite) Ready for Battle"
+    },
+    "112": {
+      "zh-CN": "隐秘的斥候",
+      "en": "Shadow Scout"
+    },
+    "113": {
+      "zh-CN": "学士",
+      "en": "Academia"
+    },
+    "114": {
+      "zh-CN": "乡野外袍",
+      "en": "Bronco Bliaud"
+    },
+    "115": {
+      "zh-CN": "都市潮人",
+      "en": "Snappy Socialite"
+    },
+    "116": {
+      "zh-CN": "义贼骑兵",
+      "en": "Chocoback Rider"
+    },
+    "117": {
+      "zh-CN": "荒野革命战士",
+      "en": "Wasteland Liberator"
+    },
+    "118": {
+      "zh-CN": "野地休闲装",
+      "en": "Wild 'n Mild"
+    },
+    "119": {
+      "zh-CN": "富裕的毛皮商人",
+      "en": "Fur-de-lis"
+    },
+    "120": {
+      "zh-CN": "山岳人民的庆典",
+      "en": "Tribal Dance"
+    },
+    "121": {
+      "zh-CN": "优雅的睡袍",
+      "en": "Going Gown"
+    },
+    "122": {
+      "zh-CN": "新大陆的劳动者",
+      "en": "Go West, Young Man"
+    },
+    "123": {
+      "zh-CN": "萨维奈的旅行商人",
+      "en": "Near Eastern"
+    },
+    "124": {
+      "zh-CN": "戴面具的斗士",
+      "en": "Macho Libre"
+    },
+    "125": {
+      "zh-CN": "雅致的魔法师",
+      "en": "The Marvelous Mage"
+    },
+    "126": {
+      "zh-CN": "假日垂褶风格",
+      "en": "Draped to Chill"
+    },
+    "127": {
+      "zh-CN": "斯卡拉的绅士",
+      "en": "Nobly Skallic"
+    },
+    "128": {
+      "zh-CN": "蒙面逆贼",
+      "en": "Masked Marauder"
+    },
+    "129": {
+      "zh-CN": "轻装冒险家",
+      "en": "Casual Quester"
+    },
+    "130": {
+      "zh-CN": "好战的农民",
+      "en": "Swords and Plowshares"
+    },
+    "131": {
+      "zh-CN": "花哨的手艺人",
+      "en": "Wild Style"
+    },
+    "132": {
+      "zh-CN": "东洲游牧民",
+      "en": "Nomad of the East"
+    },
+    "133": {
+      "zh-CN": "叛逆的信徒",
+      "en": "Rebel with a Cause"
+    },
+    "134": {
+      "zh-CN": "神机妙算的军师",
+      "en": "Astute Advisor"
+    },
+    "135": {
+      "zh-CN": "时尚的间谍",
+      "en": "Snazzy Spy"
+    },
+    "136": {
+      "zh-CN": "见习小丑",
+      "en": "Jester-in-training"
+    },
+    "137": {
+      "zh-CN": "破天荒的荷官",
+      "en": "Dangerous Dealer"
+    },
+    "138": {
+      "zh-CN": "加隆德炼铁厂的调查员",
+      "en": "Garlond Go-getter"
+    },
+    "139": {
+      "zh-CN": "努力的工匠",
+      "en": "Dedicated to the Craft"
+    },
+    "140": {
+      "zh-CN": "优雅的大贵族",
+      "en": "Polished Patrician"
+    },
+    "141": {
+      "zh-CN": "南洋冒险者",
+      "en": "South Sea Sojourner"
+    },
+    "142": {
+      "zh-CN": "崭新的瓦拉其族",
+      "en": "Marquee Whalaqee"
+    },
+    "143": {
+      "zh-CN": "雅致的雇员",
+      "en": "Dressed to Impress"
+    },
+    "144": {
+      "zh-CN": "风雅的工匠",
+      "en": "Cultured Craftsman"
+    },
+    "145": {
+      "zh-CN": "沙漠的魔法师",
+      "en": "Desert Mage"
+    },
+    "146": {
+      "zh-CN": "熟练的供应员",
+      "en": "Practiced Purveyor"
+    },
+    "147": {
+      "zh-CN": "知性山贼",
+      "en": "A Bandit and a Scholar"
+    },
+    "148": {
+      "zh-CN": "冬季便装",
+      "en": "Warm and Cozy"
+    },
+    "149": {
+      "zh-CN": "宽下摆的庶民装",
+      "en": "Folksy Flare"
+    },
+    "150": {
+      "zh-CN": "沙都潮人",
+      "en": "Urbane Ul'dahn"
+    },
+    "151": {
+      "zh-CN": "怕冷的武将",
+      "en": "Winter Soldier"
+    },
+    "152": {
+      "zh-CN": "超强佣兵",
+      "en": "Masterful Mercenary"
+    },
+    "153": {
+      "zh-CN": "月之信奉者",
+      "en": "Moonstruck Admirer"
+    },
+    "154": {
+      "zh-CN": "多才多艺的小丑",
+      "en": "Jester of All Trades"
+    },
+    "155": {
+      "zh-CN": "高贵的武人",
+      "en": "Wellborn Warrior"
+    },
+    "156": {
+      "zh-CN": "斯卡拉潮人",
+      "en": "Drowned City Dandy"
+    },
+    "157": {
+      "zh-CN": "优雅的决斗士",
+      "en": "Dignified Duelist"
+    },
+    "158": {
+      "zh-CN": "铁壁骑士",
+      "en": "Unyielding Knight"
+    },
+    "159": {
+      "zh-CN": "轻铠士兵",
+      "en": "Unfettered Fighter"
+    },
+    "160": {
+      "zh-CN": "戴风信子的野孩儿",
+      "en": "Flower Child"
+    },
+    "161": {
+      "zh-CN": "知性杂技演员",
+      "en": "Trenchant Trapeze Artist"
+    },
+    "162": {
+      "zh-CN": "假面魔法师",
+      "en": "The Masked Magician"
+    },
+    "163": {
+      "zh-CN": "自由与锁链",
+      "en": "Bound to Freedom"
+    },
+    "164": {
+      "zh-CN": "黑骑士的夏日",
+      "en": "Cool Summer Knights"
+    },
+    "165": {
+      "zh-CN": "绅士的防寒对策",
+      "en": "Warm-hearted Gentleman"
+    },
+    "166": {
+      "zh-CN": "斗技场勇士",
+      "en": "Colosseum Contender"
+    },
+    "167": {
+      "zh-CN": "开朗的贤人",
+      "en": "Of Bright Mind and Spirit"
+    },
+    "168": {
+      "zh-CN": "漆黑的战士",
+      "en": "Battle in the Shade"
+    },
+    "169": {
+      "zh-CN": "野营者的睡装",
+      "en": "Fighting Sleep"
+    },
+    "170": {
+      "zh-CN": "来自东方的开拓者",
+      "en": "Pioneer of the Far East"
+    },
+    "171": {
+      "zh-CN": "蛮风谋士",
+      "en": "Savage Sophistication"
+    },
+    "172": {
+      "zh-CN": "阿拉米格猎人",
+      "en": "Ala Mhigan Huntsman"
+    },
+    "173": {
+      "zh-CN": "叛逆战士",
+      "en": "Rebellious Spirit"
+    },
+    "174": {
+      "zh-CN": "重建协助者",
+      "en": "Hired Help"
+    },
+    "175": {
+      "zh-CN": "达尔马斯卡自由民",
+      "en": "Friends, Dalmascans, Countrymen"
+    },
+    "176": {
+      "zh-CN": "寒冬的学徒",
+      "en": "Elementary Winterwear"
+    },
+    "177": {
+      "zh-CN": "展示肌肉的斗士",
+      "en": "Washboard Belligerent"
+    },
+    "178": {
+      "zh-CN": "硬鳞之狼",
+      "en": "Wolf in Scaled Clothing"
+    },
+    "179": {
+      "zh-CN": "鸟头军事学者",
+      "en": "Birdbrained Scholar"
+    },
+    "180": {
+      "zh-CN": "天才魔法师",
+      "en": "Inventive Mage"
+    },
+    "181": {
+      "zh-CN": "稻荷铠武士",
+      "en": "Vixen Genji"
+    },
+    "182": {
+      "zh-CN": "过于稳健的午睡装",
+      "en": "Hardheaded Sleepwalker"
+    },
+    "183": {
+      "zh-CN": "潇洒的船员",
+      "en": "Dandified Deckhand"
+    },
+    "184": {
+      "zh-CN": "才思敏捷的暴露法师",
+      "en": "Amon on Display"
+    },
+    "185": {
+      "zh-CN": "雨天毅行",
+      "en": "Whatever the Weather"
+    },
+    "186": {
+      "zh-CN": "惹人怜爱的军师",
+      "en": "Advisor in Bloom"
+    },
+    "187": {
+      "zh-CN": "海滩上的海都市民",
+      "en": "Wading Lominsan"
+    },
+    "188": {
+      "zh-CN": "轻装画家",
+      "en": "Painting Light"
+    },
+    "189": {
+      "zh-CN": "戎装刺客",
+      "en": "Killer Jufuku"
+    },
+    "190": {
+      "zh-CN": "原始森林中的祭司",
+      "en": "Woodland Whimsy"
+    },
+    "191": {
+      "zh-CN": "杂技团团长",
+      "en": "Ringmaster"
+    },
+    "192": {
+      "zh-CN": "资深邮递员",
+      "en": "High-class Postmaster"
+    },
+    "193": {
+      "zh-CN": "炼铁厂风格",
+      "en": "Illuminated Ironworks"
+    },
+    "194": {
+      "zh-CN": "温暖地域的观光者",
+      "en": "Warm-weather Contraband"
+    },
+    "195": {
+      "zh-CN": "自然保护活动家",
+      "en": "Enlightened Conservationist"
+    },
+    "196": {
+      "zh-CN": "丁零当啷",
+      "en": "Bedecked and Bejeweled"
+    },
+    "197": {
+      "zh-CN": "原始部落的先知",
+      "en": "Impaired Visionary"
+    },
+    "198": {
+      "zh-CN": "隐于衣下的装饰",
+      "en": "Hidden Trinkets"
+    },
+    "199": {
+      "zh-CN": "弯月烹调师",
+      "en": "Lunar Culinarian"
+    },
+    "200": {
+      "zh-CN": "通讯珠会议服",
+      "en": "News Desk Formal"
+    },
+    "201": {
+      "zh-CN": "秀肌肉的虎面人",
+      "en": "Fangs Bared"
+    },
+    "202": {
+      "zh-CN": "穿着朴素的烹调师",
+      "en": "Simple Chef"
+    },
+    "203": {
+      "zh-CN": "秀肌肉的特殊部队员",
+      "en": "Elite Force Exhibitionist"
+    },
+    "204": {
+      "zh-CN": "假面舞会",
+      "en": "Anonymous Supporter"
+    },
+    "205": {
+      "zh-CN": "华贵的教皇",
+      "en": "Magnificent Majesty"
+    },
+    "206": {
+      "zh-CN": "空贼飞行员",
+      "en": "Cloudborne Cutthroat"
+    },
+    "207": {
+      "zh-CN": "潇洒的牧场主",
+      "en": "Padded Pier-sitter"
+    },
+    "208": {
+      "zh-CN": "野蛮人风格",
+      "en": "Hot Under the Collar"
+    },
+    "209": {
+      "zh-CN": "皇都的贵妇人",
+      "en": "Fashion Gatekeeper"
     },
     "210": {
-      "zh-CN": "风信子",
-      "en": "Flower Power",
-      "ja": "ヒヤシンス",
-      "ko": "히아신스"
+      "zh-CN": "铁腿贵人",
+      "en": "Iron of Leg, Steady of Heart"
+    },
+    "211": {
+      "zh-CN": "东方水夫",
+      "en": "Sloppy Sailor"
+    },
+    "212": {
+      "zh-CN": "旷野旅人",
+      "en": "Spellbinding Drover"
+    },
+    "213": {
+      "zh-CN": "高贵的魔法师",
+      "en": "Patrician Magician"
+    },
+    "214": {
+      "zh-CN": "布偶头王子",
+      "en": "Miscreant Mascot"
+    },
+    "215": {
+      "zh-CN": "兽武士",
+      "en": "Animalistic Samurai"
+    },
+    "216": {
+      "zh-CN": "独自轰趴",
+      "en": "Party for One"
+    },
+    "217": {
+      "zh-CN": "雨天的大小姐",
+      "en": "Rainy Day Maiden"
+    },
+    "218": {
+      "zh-CN": "一线烹调师",
+      "en": "Poor Man's Pugilist"
+    },
+    "219": {
+      "zh-CN": "拘谨的管家",
+      "en": "Stay-at-home Steward"
+    },
+    "220": {
+      "zh-CN": "常驻东方的武官",
+      "en": "Officer Far East from Home"
+    },
+    "221": {
+      "zh-CN": "金碟新人员工",
+      "en": "Well-groomed Bruiser"
+    },
+    "222": {
+      "zh-CN": "斯卡拉卫士",
+      "en": "Sunken Sentry"
+    },
+    "223": {
+      "zh-CN": "潇洒的山贼",
+      "en": "Well-wrapped Bandit"
+    },
+    "224": {
+      "zh-CN": "山岳老兵",
+      "en": "Pouches-a-plenty"
+    },
+    "225": {
+      "zh-CN": "邪教祈祷师",
+      "en": "Shamanic Sentinel"
+    },
+    "226": {
+      "zh-CN": "异乡斗士",
+      "en": "Fighter from Afar"
+    },
+    "227": {
+      "zh-CN": "潇洒的山岳民",
+      "en": "Mountain Tribal"
+    },
+    "228": {
+      "zh-CN": "无悔的新装皇帝",
+      "en": "Regal Exposure"
+    },
+    "229": {
+      "zh-CN": "舞蹈的胜负师",
+      "en": "Gold Saucer Saucy"
+    },
+    "230": {
+      "zh-CN": "正统海盗",
+      "en": "Principled Pirate"
+    },
+    "231": {
+      "zh-CN": "狼武者",
+      "en": "Wolf in the Woods"
+    },
+    "232": {
+      "zh-CN": "倾听大地轰鸣之人",
+      "en": "Hide from a Storm"
+    },
+    "233": {
+      "zh-CN": "兽军师",
+      "en": "Animalistic Advisor"
+    },
+    "234": {
+      "zh-CN": "列席红莲节",
+      "en": "Festival Frequenter"
+    },
+    "235": {
+      "zh-CN": "未来战士",
+      "en": "Futuristic Past"
+    },
+    "236": {
+      "zh-CN": "喜爱动物的读书家",
+      "en": "Animalistic Armchair-wear"
+    },
+    "237": {
+      "zh-CN": "历史遗迹探险家",
+      "en": "Ruins Explorer"
     },
     "238": {
-      "zh-CN": "冒险的开始",
-      "en": "Adventure First Worn",
-      "ja": "冒険の第一歩",
-      "ko": "모험의 첫걸음"
+      "zh-CN": "暗魔之臂",
+      "en": "Diabolically Precise"
+    },
+    "239": {
+      "zh-CN": "藏匿的性感",
+      "en": "Hidden Allure"
+    },
+    "240": {
+      "zh-CN": "美须斗士",
+      "en": "Bewhiskered Combatant"
     },
     "241": {
-      "zh-CN": "西格玛",
-      "en": "The Great Sigmascape",
-      "ja": "シグマ",
-      "ko": "시그마"
+      "zh-CN": "蒙面杂技师",
+      "en": "Anonymous Acrobat"
+    },
+    "242": {
+      "zh-CN": "山岳研究家",
+      "en": "Roaming Researcher"
+    },
+    "243": {
+      "zh-CN": "雨天对策",
+      "en": "Duck's Back Duds"
+    },
+    "244": {
+      "zh-CN": "玩偶头武人",
+      "en": "Dress-up Defender"
+    },
+    "245": {
+      "zh-CN": "兽耳冬装",
+      "en": "Wild-eared Winterwear"
+    },
+    "246": {
+      "zh-CN": "归国的城市居民",
+      "en": "Home from Abroad"
+    },
+    "247": {
+      "zh-CN": "仲夏海盗",
+      "en": "Island Pirate"
+    },
+    "248": {
+      "zh-CN": "兽耳胜负师",
+      "en": "Wild-eared Gambler"
+    },
+    "249": {
+      "zh-CN": "深林魔法师",
+      "en": "Deepforest Magician"
+    },
+    "250": {
+      "zh-CN": "随船厨师",
+      "en": "Galley Cook"
+    },
+    "251": {
+      "zh-CN": "蛮风霸者",
+      "en": "Barbarous Conqueror"
+    },
+    "252": {
+      "zh-CN": "爱冒险的旅行艺人",
+      "en": "Adventurous Artiste"
+    },
+    "253": {
+      "zh-CN": "野兽武者",
+      "en": "Beastly Brawler"
+    },
+    "254": {
+      "zh-CN": "武斗派小丑",
+      "en": "Battle-ready Jester"
+    },
+    "255": {
+      "zh-CN": "魔术绅士",
+      "en": "Genteel Physician"
+    },
+    "256": {
+      "zh-CN": "海盗团的画家",
+      "en": "Piratical Painter"
+    },
+    "257": {
+      "zh-CN": "野性的探索者",
+      "en": "Backwoods Wanderer"
+    },
+    "258": {
+      "zh-CN": "北洋船员",
+      "en": "Northern Seafarer"
+    },
+    "259": {
+      "zh-CN": "潇洒的劳动者",
+      "en": "Overdressed Laborer"
+    },
+    "260": {
+      "zh-CN": "重生之境的法师",
+      "en": "New-made Magician"
+    },
+    "261": {
+      "zh-CN": "新大陆船员",
+      "en": "New World Navigator"
+    },
+    "262": {
+      "zh-CN": "达尔马斯卡空贼",
+      "en": "Dalmascan Skies"
+    },
+    "263": {
+      "zh-CN": "玩偶装骑士",
+      "en": "Knights of a Feather"
+    },
+    "264": {
+      "zh-CN": "邪教斗士",
+      "en": "Might Makes Rite"
+    },
+    "265": {
+      "zh-CN": "轻装旅行者",
+      "en": "Traveling Light"
+    },
+    "266": {
+      "zh-CN": "优雅斗士",
+      "en": "Elegant Impact"
+    },
+    "267": {
+      "zh-CN": "秋之决斗者",
+      "en": "Rumbler's Rhapsody"
+    },
+    "268": {
+      "zh-CN": "喜爱动物的重建工匠",
+      "en": "Beast of a Builder"
+    },
+    "269": {
+      "zh-CN": "上热下冷的超魔科学战士",
+      "en": "Hot Head, Cold Feet, All Mage"
+    },
+    "270": {
+      "zh-CN": "优美决斗士",
+      "en": "Graceful Duelist"
+    },
+    "271": {
+      "zh-CN": "帝都风格防寒装",
+      "en": "Garlean Winter"
+    },
+    "272": {
+      "zh-CN": "轻装探险家",
+      "en": "Weekend Wayfarer"
+    },
+    "273": {
+      "zh-CN": "爱与甜",
+      "en": "Amantes Sunt Amentes"
+    },
+    "274": {
+      "zh-CN": "优雅居家服",
+      "en": "Lounging with Elegance"
+    },
+    "275": {
+      "zh-CN": "近东枪手",
+      "en": "Jungle Guerrilla"
+    },
+    "276": {
+      "zh-CN": "斯卡拉假面战士",
+      "en": "The Mask of Skalla"
+    },
+    "277": {
+      "zh-CN": "冬日垂褶风格",
+      "en": "Winterdrape Walkybug"
+    },
+    "278": {
+      "zh-CN": "标新立异的山岳民族",
+      "en": "Mountaineering Maverick"
+    },
+    "279": {
+      "zh-CN": "路人骑士",
+      "en": "Everyknight"
+    },
+    "280": {
+      "zh-CN": "兽首劳动者",
+      "en": "Feral Fencer"
+    },
+    "281": {
+      "zh-CN": "无袖画家",
+      "en": "Armless Artist"
+    },
+    "282": {
+      "zh-CN": "加入抵抗组织的戏法师",
+      "en": "Rebellious Regalia"
+    },
+    "283": {
+      "zh-CN": "实地考察的教授",
+      "en": "Fashionable Fieldwork"
+    },
+    "284": {
+      "zh-CN": "新大陆风格野外工作者",
+      "en": "New World, New Workfolk"
+    },
+    "285": {
+      "zh-CN": "庙中漫步",
+      "en": "A Trip to the Temple"
+    },
+    "286": {
+      "zh-CN": "兽首旅人",
+      "en": "Itinerant Beastface"
+    },
+    "287": {
+      "zh-CN": "铁盔决斗者",
+      "en": "Duelist of the Helm"
+    },
+    "288": {
+      "zh-CN": "养蜂人的工作装",
+      "en": "Beekeeper Fatigue"
+    },
+    "289": {
+      "zh-CN": "黑衣人偶",
+      "en": "Ebony Android"
+    },
+    "290": {
+      "zh-CN": "流亡的北方人",
+      "en": "Fled the North"
+    },
+    "291": {
+      "zh-CN": "花惹人怜",
+      "en": "Sweet Blossom"
+    },
+    "292": {
+      "zh-CN": "野性探险家",
+      "en": "Wild, Wild Wanderer"
+    },
+    "293": {
+      "zh-CN": "海边的空贼",
+      "en": "Sky Pirate on the Beach"
+    },
+    "294": {
+      "zh-CN": "追忆的争斗者",
+      "en": "Recollection of Fallen Foes"
+    },
+    "295": {
+      "zh-CN": "摩登风尚",
+      "en": "Modern MASH"
+    },
+    "296": {
+      "zh-CN": "野营的送货人",
+      "en": "Utility Camper"
+    },
+    "297": {
+      "zh-CN": "休息的劳动者",
+      "en": "Lounging Laborer"
+    },
+    "298": {
+      "zh-CN": "重返初心",
+      "en": "Ten Years Ago Today"
+    },
+    "299": {
+      "zh-CN": "南国厨师",
+      "en": "Southern Culinarian"
+    },
+    "300": {
+      "zh-CN": "勤勉的魔法大学生",
+      "en": "Sorcery Scholar"
+    },
+    "301": {
+      "zh-CN": "东西方混搭",
+      "en": "Adrift from East to West"
+    },
+    "302": {
+      "zh-CN": "冬季假日",
+      "en": "Early Holiday"
+    },
+    "303": {
+      "zh-CN": "艺术家的秋天",
+      "en": "Erudite Autumn"
+    },
+    "304": {
+      "zh-CN": "燃烧的斗魂",
+      "en": "Burning Brawn"
+    },
+    "305": {
+      "zh-CN": "旧时代的青春",
+      "en": "Oldies But Goodies"
+    },
+    "306": {
+      "zh-CN": "祭祀仪式的研究员",
+      "en": "Researcher Robes"
+    },
+    "307": {
+      "zh-CN": "想象与和平",
+      "en": "Imagining Peace"
+    },
+    "308": {
+      "zh-CN": "肌肉戏法师",
+      "en": "Muscly Magician"
+    },
+    "309": {
+      "zh-CN": "带刺的秋英",
+      "en": "Cosmos of Thorns"
+    },
+    "310": {
+      "zh-CN": "人狼法师",
+      "en": "Werewitch"
+    },
+    "311": {
+      "zh-CN": "近视的预言者",
+      "en": "Educated Oracle"
+    },
+    "312": {
+      "zh-CN": "豹纹近卫兵",
+      "en": "The Coeurl's Guard"
+    },
+    "313": {
+      "zh-CN": "皇都魔术师",
+      "en": "Ishgardian Illusionist"
+    },
+    "314": {
+      "zh-CN": "擅长踢技的海都市民",
+      "en": "Sea's Boots Were Made for Kicking"
+    },
+    "315": {
+      "zh-CN": "不灭钻石",
+      "en": "Diamonds Are Unbreakable"
+    },
+    "316": {
+      "zh-CN": "星芒节之兽",
+      "en": "Beast by Starlight"
+    },
+    "317": {
+      "zh-CN": "星芒节的胡子绅士",
+      "en": "Bearded Saint"
+    },
+    "318": {
+      "zh-CN": "戴花的斗技者",
+      "en": "Flowery Fighter"
+    },
+    "319": {
+      "zh-CN": "充满毅力的治安官",
+      "en": "Steadfast Sheriff"
+    },
+    "320": {
+      "zh-CN": "真麻忍者",
+      "en": "A True Lineninja"
+    },
+    "321": {
+      "zh-CN": "豪商的舞会",
+      "en": "Moneymaker's Masquerade"
+    },
+    "322": {
+      "zh-CN": "活泼的城里人",
+      "en": "Active Citizen"
+    },
+    "323": {
+      "zh-CN": "恶鬼装束",
+      "en": "Spotted Demon"
+    },
+    "324": {
+      "zh-CN": "新大陆的大地使者",
+      "en": "New World Harvester"
+    },
+    "325": {
+      "zh-CN": "锐利的枪手",
+      "en": "Sharp Shooter"
+    },
+    "326": {
+      "zh-CN": "法外探险家",
+      "en": "Outlaw Explorer"
+    },
+    "327": {
+      "zh-CN": "北地牛仔",
+      "en": "Tundra Cowboy"
+    },
+    "328": {
+      "zh-CN": "猎人喜迎20周年",
+      "en": "Twenty-year Hunter"
+    },
+    "329": {
+      "zh-CN": "正装匪徒",
+      "en": "Formal Mobster"
+    },
+    "330": {
+      "zh-CN": "古今内外",
+      "en": "From East to West, Then till Now"
+    },
+    "331": {
+      "zh-CN": "迎接暗影",
+      "en": "Traveler in Black"
+    },
+    "332": {
+      "zh-CN": "蛮风动物",
+      "en": "Prime Beast"
+    },
+    "333": {
+      "zh-CN": "尖尖帽仙子",
+      "en": "Pointed Pixie"
+    },
+    "334": {
+      "zh-CN": "时尚决斗者",
+      "en": "Dueling Spectacle"
+    },
+    "335": {
+      "zh-CN": "豹子头海盗",
+      "en": "Pantheran Pirate"
+    },
+    "336": {
+      "zh-CN": "长靴读书人",
+      "en": "Booted Bookworm"
+    },
+    "337": {
+      "zh-CN": "鲜花的季节",
+      "en": "In Full Flower"
+    },
+    "338": {
+      "zh-CN": "垂褶风红莲士兵",
+      "en": "Draped for the Storm"
+    },
+    "339": {
+      "zh-CN": "家居休闲礼服",
+      "en": "Suited to Slacking"
+    },
+    "340": {
+      "zh-CN": "休息日的护法者",
+      "en": "Weekend Warden"
+    },
+    "341": {
+      "zh-CN": "武斗派绅士",
+      "en": "Jousting Gentleman"
+    },
+    "342": {
+      "zh-CN": "可爱的近东士兵",
+      "en": "Near Eastern Cute Campaign"
+    },
+    "343": {
+      "zh-CN": "穿工作服的小丑",
+      "en": "Jester on the Job"
+    },
+    "344": {
+      "zh-CN": "饿狼之拳",
+      "en": "Fist of Garo"
+    },
+    "345": {
+      "zh-CN": "帝都风格的厨师",
+      "en": "Imperial Chef"
+    },
+    "346": {
+      "zh-CN": "准备过冬食物的动物",
+      "en": "Hibernation Anticipation"
+    },
+    "347": {
+      "zh-CN": "真源之抵抗组织",
+      "en": "A Rebel's Coil"
+    },
+    "348": {
+      "zh-CN": "暗魔贤人",
+      "en": "Iniquitous Archon"
+    },
+    "349": {
+      "zh-CN": "野性之王",
+      "en": "King of the Wild"
+    },
+    "350": {
+      "zh-CN": "简单的大胆的",
+      "en": "Simply Unpolished"
+    },
+    "351": {
+      "zh-CN": "斗技场舞会",
+      "en": "Soirée Fighter"
+    },
+    "352": {
+      "zh-CN": "家居休闲的枪手",
+      "en": "Let Sleeping Guns Lie"
+    },
+    "353": {
+      "zh-CN": "未来科技帝都人",
+      "en": "An Empire Advanced"
+    },
+    "354": {
+      "zh-CN": "山岳民族的秋季装扮",
+      "en": "Autumnal Ensemble"
+    },
+    "355": {
+      "zh-CN": "土匪团军师",
+      "en": "Officer of the Outlaw"
+    },
+    "356": {
+      "zh-CN": "大胆的传统穿着",
+      "en": "More or Less Traditional"
+    },
+    "357": {
+      "zh-CN": "非常规伴郎",
+      "en": "Best Man Not Yes-man"
+    },
+    "358": {
+      "zh-CN": "刚柔并济",
+      "en": "Bend and Smash"
+    },
+    "359": {
+      "zh-CN": "动物过冬",
+      "en": "Midwinter Mammal"
+    },
+    "360": {
+      "zh-CN": "兽骑士",
+      "en": "Ser Beast"
+    },
+    "361": {
+      "zh-CN": "助威的球赛观众",
+      "en": "Sport Support"
+    },
+    "362": {
+      "zh-CN": "白骨守护者",
+      "en": "Blanched Bone Bodyguard"
+    },
+    "363": {
+      "zh-CN": "魔界戏法师",
+      "en": "Otherworldly Illusionist"
+    },
+    "364": {
+      "zh-CN": "法外联盟",
+      "en": "Outlaw Alliance"
+    },
+    "365": {
+      "zh-CN": "狼之休憩",
+      "en": "Leisurely Lupin"
+    },
+    "366": {
+      "zh-CN": "皇都武斗派",
+      "en": "Ishgardian Infantry"
+    },
+    "367": {
+      "zh-CN": "时尚才俊",
+      "en": "Flair for Genius"
+    },
+    "368": {
+      "zh-CN": "霸王的开始",
+      "en": "Conqueror First Worn"
+    },
+    "369": {
+      "zh-CN": "防护头部",
+      "en": "Safety Helm"
+    },
+    "370": {
+      "zh-CN": "奇特的帝国人",
+      "en": "Unprecedented Imperial"
+    },
+    "371": {
+      "zh-CN": "谨慎的舞会",
+      "en": "Prepared Partygoer"
+    },
+    "372": {
+      "zh-CN": "与传统相融合",
+      "en": "Traditional Futurist"
+    },
+    "373": {
+      "zh-CN": "野路子联军成员",
+      "en": "Wild Company"
+    },
+    "374": {
+      "zh-CN": "轻快决斗者",
+      "en": "Unencumbered Duelist"
+    },
+    "375": {
+      "zh-CN": "四处旅行的山贼",
+      "en": "Well-traveled Bandit"
+    },
+    "376": {
+      "zh-CN": "平民派寄叶队员",
+      "en": "Common Company"
+    },
+    "377": {
+      "zh-CN": "主持仪式的读书人",
+      "en": "Ritual Reader"
+    },
+    "378": {
+      "zh-CN": "马戏团冒险者",
+      "en": "Circus Runaway"
+    },
+    "379": {
+      "zh-CN": "休假的武将",
+      "en": "General Holiday"
+    },
+    "380": {
+      "zh-CN": "时尚帝都人",
+      "en": "Well-dressed Imperialist"
+    },
+    "381": {
+      "zh-CN": "爱花的重建工人",
+      "en": "Blooming Builder"
+    },
+    "382": {
+      "zh-CN": "近东的冒险家",
+      "en": "Near Eastern Explorer"
+    },
+    "383": {
+      "zh-CN": "性感的和平爱好者",
+      "en": "Flirtatious Pacifist"
+    },
+    "384": {
+      "zh-CN": "欧米茄戏法师",
+      "en": "Omega-level Magician"
+    },
+    "385": {
+      "zh-CN": "放松身心的强者",
+      "en": "Accomplished at Rest"
+    },
+    "386": {
+      "zh-CN": "激进的工匠",
+      "en": "Crafting on the Edge"
+    },
+    "387": {
+      "zh-CN": "耍戏法的怪物猎人",
+      "en": "Hunter Caster"
+    },
+    "388": {
+      "zh-CN": "帅气野兽",
+      "en": "Cool Beast"
+    },
+    "389": {
+      "zh-CN": "寝室派对",
+      "en": "Pajama Party"
+    },
+    "390": {
+      "zh-CN": "抵抗组织的特殊部队",
+      "en": "Rebel Elite"
+    },
+    "391": {
+      "zh-CN": "皇都间谍",
+      "en": "Ishgardian Agent"
+    },
+    "392": {
+      "zh-CN": "波洛伽劳动者",
+      "en": "Protector Work Clothes"
+    },
+    "393": {
+      "zh-CN": "妖艳长裙",
+      "en": "Glamorous Lengths"
+    },
+    "394": {
+      "zh-CN": "家居和平爱好者",
+      "en": "Lover of Peace and Quiet"
+    },
+    "395": {
+      "zh-CN": "重建工作中的野兽",
+      "en": "Beast-at-Work"
+    },
+    "396": {
+      "zh-CN": "萨雷安吉祥物",
+      "en": "Archons' Mascot"
+    },
+    "397": {
+      "zh-CN": "野性的达尔马斯卡人",
+      "en": "Dalmascan in the Wild"
+    },
+    "398": {
+      "zh-CN": "爱百合的黑色匪徒",
+      "en": "Lily-topped Noir"
+    },
+    "399": {
+      "zh-CN": "抵抗组织的寝室装",
+      "en": "Bedtime Rebelworks"
+    },
+    "400": {
+      "zh-CN": "豹面读书人",
+      "en": "Coeurled Up with a Book"
+    },
+    "401": {
+      "zh-CN": "大自然贵族",
+      "en": "Noble Pack Hunter"
+    },
+    "402": {
+      "zh-CN": "马戏团的魔法师",
+      "en": "Jester Magician"
+    },
+    "403": {
+      "zh-CN": "未来科技探险家",
+      "en": "Advanced Explorer"
+    },
+    "404": {
+      "zh-CN": "举行仪式的帝国市民",
+      "en": "Ritual Imperial"
+    },
+    "405": {
+      "zh-CN": "苍穹之亚拉戈臣民",
+      "en": "Heavenly Subject of Allag"
+    },
+    "406": {
+      "zh-CN": "可爱的山岳斗士",
+      "en": "Dainty Mountain Combatant"
+    },
+    "407": {
+      "zh-CN": "山海的重建工作员",
+      "en": "Peak Piratical Restorer"
+    },
+    "408": {
+      "zh-CN": "东方风皇都民",
+      "en": "Far Eastern Foundation"
+    },
+    "409": {
+      "zh-CN": "有翼的寄叶队员",
+      "en": "Feathered Fighter"
+    },
+    "410": {
+      "zh-CN": "小市民赌徒",
+      "en": "Big City Gambler"
+    },
+    "411": {
+      "zh-CN": "欧米茄决斗者",
+      "en": "Omega Duelist"
+    },
+    "412": {
+      "zh-CN": "毛茸茸的寄叶队员",
+      "en": "Fluffy Fighter"
+    },
+    "413": {
+      "zh-CN": "空贼劳动者",
+      "en": "Skybound Laborer"
+    },
+    "414": {
+      "zh-CN": "正装小丑",
+      "en": "Genteel Jester"
+    },
+    "415": {
+      "zh-CN": "邂逅传奇之人",
+      "en": "Legendary Meetings"
+    },
+    "416": {
+      "zh-CN": "家居学者",
+      "en": "Academic at Ease"
+    },
+    "417": {
+      "zh-CN": "佩角的蛮神信徒",
+      "en": "Horned and Tempered"
+    },
+    "418": {
+      "zh-CN": "寄叶怪物猎人",
+      "en": "HuntinG UniT"
+    },
+    "419": {
+      "zh-CN": "日常休闲装扮",
+      "en": "Daily Casual"
+    },
+    "420": {
+      "zh-CN": "未来科技抵抗组织",
+      "en": "Futuristic Resistance"
+    },
+    "421": {
+      "zh-CN": "加隆德炼铁厂的异文明调查员",
+      "en": "Ironworks Cultural Investigator"
+    },
+    "422": {
+      "zh-CN": "勤劳的波洛伽护法者",
+      "en": "Working Warden"
+    },
+    "423": {
+      "zh-CN": "古代文明之花",
+      "en": "Bloom of Ancient Days"
+    },
+    "424": {
+      "zh-CN": "秋季的社交界",
+      "en": "FalL into SocietY"
+    },
+    "425": {
+      "zh-CN": "假面龙人",
+      "en": "Masked Dragon"
+    },
+    "426": {
+      "zh-CN": "前卫黑猫",
+      "en": "Black Cat Chic"
+    },
+    "427": {
+      "zh-CN": "近东风格弄臣",
+      "en": "Jester-in-Near-East"
+    },
+    "428": {
+      "zh-CN": "未来科技船员",
+      "en": "Cybersailor"
+    },
+    "429": {
+      "zh-CN": "古代文明的骑士",
+      "en": "Knights of Eld"
+    },
+    "430": {
+      "zh-CN": "知性军师",
+      "en": "Clever Commander"
+    },
+    "431": {
+      "zh-CN": "隆冬海水浴",
+      "en": "Midwinter Sea Bathing"
+    },
+    "432": {
+      "zh-CN": "反抗都市的上级兵",
+      "en": "Final Bastion's Elite"
+    },
+    "433": {
+      "zh-CN": "新大陆风格村民",
+      "en": "Villager of the West"
+    },
+    "434": {
+      "zh-CN": "邂逅的帝国",
+      "en": "Empire Awakened"
+    },
+    "435": {
+      "zh-CN": "梦见冒险的开始",
+      "en": "First Step of Big Dreams"
+    },
+    "436": {
+      "zh-CN": "山贼魔法师",
+      "en": "Sorcerous Banditry"
+    },
+    "437": {
+      "zh-CN": "森林的征服者",
+      "en": "ConqueroR of ForestS"
+    },
+    "438": {
+      "zh-CN": "头冷脚热",
+      "en": "Cool-headed Hotfoot"
+    },
+    "439": {
+      "zh-CN": "山贼的仪式",
+      "en": "Ritual of the Mountain"
+    },
+    "440": {
+      "zh-CN": "天道民族",
+      "en": "People of Heavens and Earth"
+    },
+    "441": {
+      "zh-CN": "休闲的寄叶队员",
+      "en": "CasuaL DresS"
+    },
+    "442": {
+      "zh-CN": "野性山岳民族",
+      "en": "Mountains Gone Wild"
+    },
+    "443": {
+      "zh-CN": "亚拉戈知识分子",
+      "en": "Allagan Intellectual"
+    },
+    "444": {
+      "zh-CN": "欧米茄的盟友",
+      "en": "Omega's Ally"
+    },
+    "445": {
+      "zh-CN": "秋天的抵抗组织",
+      "en": "Fight against Fall"
+    },
+    "446": {
+      "zh-CN": "蛮神探险队",
+      "en": "Primal Expedition"
+    },
+    "447": {
+      "zh-CN": "空鼠研究员",
+      "en": "Sky Pirate Investigator"
+    },
+    "448": {
+      "zh-CN": "秋英骑士",
+      "en": "Knight of the Blooming Cosmos"
+    },
+    "449": {
+      "zh-CN": "新大陆骑手",
+      "en": "Western Rider"
+    },
+    "450": {
+      "zh-CN": "知性蛮族工匠",
+      "en": "Mindful Master"
+    },
+    "451": {
+      "zh-CN": "亚拉戈高位装扮",
+      "en": "Allagan on High"
+    },
+    "452": {
+      "zh-CN": "真麻正式装",
+      "en": "True Linen Formal"
+    },
+    "453": {
+      "zh-CN": "风信子冒险者",
+      "en": "Adventurous Hyacinth"
+    },
+    "454": {
+      "zh-CN": "鳞铠小丑",
+      "en": "Jest Scale Mail"
+    },
+    "455": {
+      "zh-CN": "穿及膝裤的空贼",
+      "en": "Skirted Sky Pirate"
+    },
+    "456": {
+      "zh-CN": "阿拉米格旅行者",
+      "en": "Ala Mhigan Traveler"
+    },
+    "457": {
+      "zh-CN": "盛夏探险家",
+      "en": "Midsummer Explorer"
+    },
+    "458": {
+      "zh-CN": "远东猎人",
+      "en": "Hunter from the Far East"
+    },
+    "459": {
+      "zh-CN": "帅气的魔法师",
+      "en": "Suave Sorcery"
+    },
+    "460": {
+      "zh-CN": "冬天的海贼",
+      "en": "Shiver Me Timbers"
+    },
+    "461": {
+      "zh-CN": "古代文明的骑手",
+      "en": "Riders from the Distant Past"
+    },
+    "462": {
+      "zh-CN": "寝室的抵抗组织",
+      "en": "Overslept the Revolution"
+    },
+    "463": {
+      "zh-CN": "前卫的骑手",
+      "en": "Avant-garde Rider"
+    },
+    "464": {
+      "zh-CN": "欧米茄小丑",
+      "en": "Omega's Jest"
+    },
+    "465": {
+      "zh-CN": "古代文明的妖艳之神",
+      "en": "Enchanting Gods of Eld"
+    },
+    "466": {
+      "zh-CN": "大胆的猎人",
+      "en": "Bold Hunter"
+    },
+    "467": {
+      "zh-CN": "传奇球赛观众",
+      "en": "LegendarY SpectatoR"
+    },
+    "468": {
+      "zh-CN": "百合山贼",
+      "en": "Lily of the Bandit"
+    },
+    "469": {
+      "zh-CN": "摩登胡子空鼠",
+      "en": "Dread Sky Pirate Mod-beard"
+    },
+    "470": {
+      "zh-CN": "帅气的洋葱剑士",
+      "en": "That's One Cool Onion"
+    },
+    "471": {
+      "zh-CN": "寒冷地带的仪式服",
+      "en": "Freezing Rituals"
+    },
+    "472": {
+      "zh-CN": "古代文明的游客",
+      "en": "Sightseer of Erstwhile Civilizations"
+    },
+    "473": {
+      "zh-CN": "小丑王",
+      "en": "Majestic Jester"
+    },
+    "474": {
+      "zh-CN": "花纹源氏",
+      "en": "Genji of the Flowered Crest"
+    },
+    "475": {
+      "zh-CN": "破损的启动",
+      "en": "The Fashions of the Father"
+    },
+    "476": {
+      "zh-CN": "阿拉米格冬天的花",
+      "en": "Winter Blooms in Ala Mhigo"
+    },
+    "477": {
+      "zh-CN": "狼毛皮枪手",
+      "en": "Hunter in Wolf's Clothing"
+    },
+    "478": {
+      "zh-CN": "抵抗组织的牧人",
+      "en": "Rebel Shepherd"
+    },
+    "479": {
+      "zh-CN": "亚拉戈怪物猎人",
+      "en": "The Hunter of Allag"
+    },
+    "480": {
+      "zh-CN": "隆卡读书人",
+      "en": "Ronkan Bookworm"
+    },
+    "481": {
+      "zh-CN": "萨雷安的律动",
+      "en": "The Scholar of the Son"
+    },
+    "482": {
+      "zh-CN": "冬天的寄叶队员",
+      "en": "WinteR at WaR"
+    },
+    "483": {
+      "zh-CN": "近东风格真源装",
+      "en": "The Final Painter of Thavnair"
+    },
+    "484": {
+      "zh-CN": "知性血盟旅行者",
+      "en": "The Learned Traveler"
+    },
+    "485": {
+      "zh-CN": "未来科技山贼",
+      "en": "Bandit of the Future"
+    },
+    "486": {
+      "zh-CN": "亚拉戈失传民族特色装",
+      "en": "Avant-garde Allagan"
+    },
+    "487": {
+      "zh-CN": "天动欧米茄",
+      "en": "α is for Alexander"
+    },
+    "488": {
+      "zh-CN": "帅气羽翼装饰",
+      "en": "The Coolest Bird in Town"
+    },
+    "489": {
+      "zh-CN": "皇都最前沿的阿拉米格货",
+      "en": "Gown to Neo-Ishgard"
+    },
+    "490": {
+      "zh-CN": "沙龙服务员",
+      "en": "Service with a Style"
+    },
+    "491": {
+      "zh-CN": "萨雷安战斗之爪",
+      "en": "Clawing through Academia"
+    },
+    "492": {
+      "zh-CN": "亚拉戈仪式的律动",
+      "en": "Empire of the Son"
+    },
+    "493": {
+      "zh-CN": "伊瓦利斯探险家",
+      "en": "Chaser of Legends"
+    },
+    "494": {
+      "zh-CN": "天启律动",
+      "en": "Alexander Assembled"
+    },
+    "495": {
+      "zh-CN": "紫州船员",
+      "en": "Shishu Seafarer"
+    },
+    "496": {
+      "zh-CN": "寝室之战",
+      "en": "Warrior of Night"
+    },
+    "497": {
+      "zh-CN": "探险厨师",
+      "en": "Itinerant Chef"
+    },
+    "498": {
+      "zh-CN": "西格玛的荒天之狱",
+      "en": "Sigmascape Ascendant"
+    },
+    "499": {
+      "zh-CN": "性感贵人",
+      "en": "The Unnoble Noble"
+    },
+    "500": {
+      "zh-CN": "武装的球赛观众",
+      "en": "Warring and Touring"
+    },
+    "501": {
+      "zh-CN": "隆卡猫耳小员",
+      "en": "The Great Kitty of Ronka"
+    },
+    "502": {
+      "zh-CN": "律动的炼净之狱",
+      "en": "Son of Abyssos"
+    },
+    "503": {
+      "zh-CN": "前卫的盟友",
+      "en": "Avant-garde Associate"
+    },
+    "504": {
+      "zh-CN": "自然派斗士",
+      "en": "Fighting Farmhand"
+    },
+    "505": {
+      "zh-CN": "硬派匠人",
+      "en": "Armored Artisan"
+    },
+    "506": {
+      "zh-CN": "远东采集家",
+      "en": "Hingan Harvester"
+    },
+    "507": {
+      "zh-CN": "边境之狱的匪徒",
+      "en": "Asphodelos Agent"
+    },
+    "508": {
+      "zh-CN": "愉快的波洛伽护法",
+      "en": "Comfy Guardian"
+    },
+    "509": {
+      "zh-CN": "重唤初心",
+      "en": "Fourteen Years Ago Today"
+    },
+    "510": {
+      "zh-CN": "牧羊的斥候",
+      "en": "Scout and About"
+    },
+    "511": {
+      "zh-CN": "帝都的和平爱好者",
+      "en": "Garlean Pacifist"
+    },
+    "512": {
+      "zh-CN": "御前的休憩",
+      "en": "Eastern Casual"
+    },
+    "513": {
+      "zh-CN": "真麻亚拉戈",
+      "en": "Truly Allagan"
+    },
+    "514": {
+      "zh-CN": "家住万魔殿",
+      "en": "Positively Pandæmonium"
+    },
+    "515": {
+      "zh-CN": "天道知识分子",
+      "en": "Cultured Creator"
+    },
+    "516": {
+      "zh-CN": "豹纹贵族",
+      "en": "Lordly Leopard"
+    },
+    "517": {
+      "zh-CN": "标新立异的夜鹤",
+      "en": "Yakaku Maverick"
+    },
+    "518": {
+      "zh-CN": "山岳的猎鸟人",
+      "en": "Peaky Birder"
+    },
+    "519": {
+      "zh-CN": "塔利亚装扮",
+      "en": "Thoroughly Thaleia"
+    },
+    "520": {
+      "zh-CN": "律动贤人",
+      "en": "Mindful Midan"
+    },
+    "521": {
+      "zh-CN": "空贼贵人",
+      "en": "Savvy in the Skies"
+    },
+    "522": {
+      "zh-CN": "海盗胜负师",
+      "en": "High-sea High Roller"
+    },
+    "523": {
+      "zh-CN": "暗魔猎人",
+      "en": "Demon Hunter"
+    },
+    "524": {
+      "zh-CN": "阿格莱亚装扮",
+      "en": "Aglaia Authority"
+    },
+    "525": {
+      "zh-CN": "流浪的阿拉米格人",
+      "en": "Ala Mhigan Meanderer"
+    },
+    "526": {
+      "zh-CN": "无人岛牧羊人",
+      "en": "Head of the Herd"
+    },
+    "527": {
+      "zh-CN": "亚拉戈失传贤人",
+      "en": "Lost Allagan in Thought"
+    },
+    "528": {
+      "zh-CN": "启动海岛休假",
+      "en": "On a Gordian Getaway"
+    },
+    "529": {
+      "zh-CN": "欧芙洛绪涅装扮",
+      "en": "Euphrosyne Ensemble"
+    },
+    "530": {
+      "zh-CN": "夜晚的隆卡",
+      "en": "Ronkan Nightclothes"
+    },
+    "531": {
+      "zh-CN": "帅气的海岛休假",
+      "en": "Relaxed Recreationist"
+    },
+    "532": {
+      "zh-CN": "带刺的欧米茄",
+      "en": "Looking Sharp, Omega"
+    },
+    "533": {
+      "zh-CN": "洋葱决斗士",
+      "en": "Onion Duelist"
+    },
+    "534": {
+      "zh-CN": "艾欧泽亚神话",
+      "en": "Master of Myths"
     }
   }
 }

@@ -60,9 +60,8 @@
         :aria-label="t(keys.dyeGuide)"
       >
         <h2 class="ns-workbench-panel__title">{{ t(keys.dyeGuide) }}</h2>
-        <small v-if="showcase.dyeProvider" class="fashion-check-showcase__dye-provider">
-          {{ t(keys.providedBy) }} {{ showcase.dyeProvider }}
-        </small>
+        <!-- 2026-08-08 用户要求：染色区不显示提供者，行保留结构注释 -->
+
         <article v-for="dye in showcase.dyes" :key="dye.slotId">
           <b class="fashion-check-showcase__dye-slot">{{ slotLabel(dye.slotId) }}</b>
           <div class="fashion-check-showcase__dye-content">
@@ -477,11 +476,9 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
 }
 .fashion-check-showcase__dye-item-icon {
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   place-items: center;
-  border: 1px solid var(--ns-pixel-border);
-  background: var(--ns-color-bg-soft);
   overflow: hidden;
 }
 .fashion-check-showcase__dye-item-icon img {

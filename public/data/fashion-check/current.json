@@ -1,74 +1,86 @@
 {
   "schemaVersion": "fashion-check.public-current.v5",
-  "globalIssue": 444,
-  "cnIssue": 429,
-  "theme": "风信子冒险者",
+  "globalIssue": 445,
+  "cnIssue": 430,
+  "theme": "鳞铠小丑",
   "challengeWindow": {
-    "startsAt": "2026-07-31T16:00:00+08:00",
-    "endsAt": "2026-08-04T16:00:00+08:00"
+    "startsAt": "2026-08-07T16:00:00+08:00",
+    "endsAt": "2026-08-14T16:00:00+08:00"
   },
   "solutions": [],
   "slots": [
     {
       "slotId": "head",
       "label": "头部",
-      "tag": "风信子",
-      "categoryId": 210,
+      "tag": "小丑",
+      "categoryId": 32,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 29984,
-            "name": "橙色风信子头花",
-            "iconId": 54324,
+            "itemId": 2702,
+            "name": "旧化小丑帽",
+            "iconId": 41098,
             "rarity": 1
           },
           {
-            "itemId": 29985,
-            "name": "紫色风信子头花",
-            "iconId": 54319,
+            "itemId": 2855,
+            "name": "古典小丑帽",
+            "iconId": 41074,
             "rarity": 1
           },
           {
-            "itemId": 29986,
-            "name": "白色风信子头花",
-            "iconId": 54322,
+            "itemId": 2906,
+            "name": "滑稽帽",
+            "iconId": 41075,
+            "rarity": 2
+          },
+          {
+            "itemId": 2934,
+            "name": "特务小丑帽",
+            "iconId": 41146,
+            "rarity": 2
+          },
+          {
+            "itemId": 7340,
+            "name": "昏光魔术帽",
+            "iconId": 41198,
+            "rarity": 3
+          },
+          {
+            "itemId": 7474,
+            "name": "魔术师法帽",
+            "iconId": 41199,
+            "rarity": 2
+          },
+          {
+            "itemId": 10796,
+            "name": "虹布精准小丑帽",
+            "iconId": 41260,
             "rarity": 1
           },
           {
-            "itemId": 29987,
-            "name": "黑色风信子头花",
-            "iconId": 54317,
+            "itemId": 10880,
+            "name": "虹布治愈小丑帽",
+            "iconId": 41261,
             "rarity": 1
           },
           {
-            "itemId": 29988,
-            "name": "混色风信子头花",
-            "iconId": 54318,
+            "itemId": 10922,
+            "name": "虹布咏咒小丑帽",
+            "iconId": 41262,
             "rarity": 1
           },
           {
-            "itemId": 30131,
-            "name": "红色风信子头花",
-            "iconId": 54321,
+            "itemId": 10927,
+            "name": "奇美纤维咏咒魔术帽",
+            "iconId": 41267,
             "rarity": 1
           },
           {
-            "itemId": 30132,
-            "name": "蓝色风信子头花",
-            "iconId": 54320,
-            "rarity": 1
-          },
-          {
-            "itemId": 30133,
-            "name": "黄色风信子头花",
-            "iconId": 54316,
-            "rarity": 1
-          },
-          {
-            "itemId": 30134,
-            "name": "绿色风信子头花",
-            "iconId": 54323,
+            "itemId": 35863,
+            "name": "小丑帽",
+            "iconId": 41521,
             "rarity": 1
           }
         ]
@@ -77,200 +89,21 @@
     {
       "slotId": "body",
       "label": "身体",
-      "tag": "西格玛",
-      "categoryId": 241,
+      "tag": "鳞铠",
+      "categoryId": 163,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 21510,
-            "name": "钻石御敌战甲",
-            "iconId": 48167,
-            "rarity": 3
-          },
-          {
-            "itemId": 21516,
-            "name": "钻石制敌战甲",
-            "iconId": 48168,
-            "rarity": 3
-          },
-          {
-            "itemId": 21522,
-            "name": "钻石强袭战甲",
-            "iconId": 48169,
-            "rarity": 3
-          },
-          {
-            "itemId": 21528,
-            "name": "钻石精准长衣",
-            "iconId": 48170,
-            "rarity": 3
-          },
-          {
-            "itemId": 21534,
-            "name": "钻石游击战甲",
-            "iconId": 43400,
-            "rarity": 3
-          },
-          {
-            "itemId": 21540,
-            "name": "钻石治愈长袍",
-            "iconId": 43399,
-            "rarity": 3
-          },
-          {
-            "itemId": 21546,
-            "name": "钻石咏咒长袍",
-            "iconId": 43398,
-            "rarity": 3
-          },
-          {
-            "itemId": 21572,
-            "name": "碳硅晶御敌战甲",
-            "iconId": 48167,
-            "rarity": 3
-          },
-          {
-            "itemId": 21578,
-            "name": "碳硅晶制敌战甲",
-            "iconId": 48168,
-            "rarity": 3
-          },
-          {
-            "itemId": 21584,
-            "name": "碳硅晶强袭战甲",
-            "iconId": 48169,
-            "rarity": 3
-          },
-          {
-            "itemId": 21590,
-            "name": "碳硅晶精准长衣",
-            "iconId": 48170,
-            "rarity": 3
-          },
-          {
-            "itemId": 21596,
-            "name": "碳硅晶游击战甲",
-            "iconId": 43400,
-            "rarity": 3
-          },
-          {
-            "itemId": 21602,
-            "name": "碳硅晶治愈长袍",
-            "iconId": 43399,
-            "rarity": 3
-          },
-          {
-            "itemId": 21608,
-            "name": "碳硅晶咏咒长袍",
-            "iconId": 43398,
-            "rarity": 3
-          }
-        ]
-      }
-    },
-    {
-      "slotId": "hands",
-      "label": "手部",
-      "tag": "冒险的开始",
-      "categoryId": 238,
-      "gold": {
-        "points": 8,
-        "items": [
-          {
-            "itemId": 3520,
-            "name": "人族手套",
-            "iconId": 44114,
+            "itemId": 3006,
+            "name": "定制鳞铠",
+            "iconId": 43170,
             "rarity": 1
           },
           {
-            "itemId": 3521,
-            "name": "人族半指手套",
-            "iconId": 44146,
-            "rarity": 1
-          },
-          {
-            "itemId": 3522,
-            "name": "精灵手套",
-            "iconId": 44147,
-            "rarity": 1
-          },
-          {
-            "itemId": 3523,
-            "name": "精灵半手套",
-            "iconId": 44148,
-            "rarity": 1
-          },
-          {
-            "itemId": 3524,
-            "name": "拉拉菲尔护腕",
-            "iconId": 44149,
-            "rarity": 1
-          },
-          {
-            "itemId": 3525,
-            "name": "拉拉菲尔手环",
-            "iconId": 44150,
-            "rarity": 1
-          },
-          {
-            "itemId": 3526,
-            "name": "猫魅手铠",
-            "iconId": 44151,
-            "rarity": 1
-          },
-          {
-            "itemId": 3527,
-            "name": "猫魅手套",
-            "iconId": 44115,
-            "rarity": 1
-          },
-          {
-            "itemId": 3528,
-            "name": "鲁加臂甲",
-            "iconId": 44152,
-            "rarity": 1
-          },
-          {
-            "itemId": 3529,
-            "name": "鲁加护臂",
-            "iconId": 44153,
-            "rarity": 1
-          },
-          {
-            "itemId": 9646,
-            "name": "敖龙护臂",
-            "iconId": 44306,
-            "rarity": 1
-          },
-          {
-            "itemId": 9650,
-            "name": "敖龙半手套",
-            "iconId": 44307,
-            "rarity": 1
-          },
-          {
-            "itemId": 25209,
-            "name": "维埃拉臂环",
-            "iconId": 44675,
-            "rarity": 1
-          },
-          {
-            "itemId": 25213,
-            "name": "硌狮护腕",
-            "iconId": 48284,
-            "rarity": 1
-          },
-          {
-            "itemId": 33944,
-            "name": "维埃拉护臂",
-            "iconId": 44947,
-            "rarity": 1
-          },
-          {
-            "itemId": 41791,
-            "name": "硌狮臂甲",
-            "iconId": 56282,
+            "itemId": 3057,
+            "name": "黑铁鳞铠",
+            "iconId": 43063,
             "rarity": 1
           }
         ]
@@ -279,27 +112,98 @@
     {
       "slotId": "legs",
       "label": "腿部",
-      "tag": "装饰钉扣",
-      "categoryId": 42,
+      "tag": "腿套",
+      "categoryId": 126,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 10784,
-            "name": "青麻强袭软甲裤",
-            "iconId": 45656,
+            "itemId": 3313,
+            "name": "草布腿套",
+            "iconId": 45062,
             "rarity": 1
           },
           {
-            "itemId": 10826,
-            "name": "青麻精准软甲裤",
-            "iconId": 45658,
+            "itemId": 3345,
+            "name": "棉布腿套",
+            "iconId": 45099,
             "rarity": 1
           },
           {
-            "itemId": 10868,
-            "name": "青麻游击软甲裤",
-            "iconId": 45657,
+            "itemId": 3374,
+            "name": "牙兵腿套",
+            "iconId": 45234,
+            "rarity": 2
+          },
+          {
+            "itemId": 3392,
+            "name": "漩兵腿套",
+            "iconId": 45162,
+            "rarity": 2
+          },
+          {
+            "itemId": 3421,
+            "name": "呢绒腿套",
+            "iconId": 45176,
+            "rarity": 1
+          },
+          {
+            "itemId": 3454,
+            "name": "纤维腿套",
+            "iconId": 45177,
+            "rarity": 1
+          },
+          {
+            "itemId": 3500,
+            "name": "骏鹰革腿套",
+            "iconId": 45342,
+            "rarity": 2
+          },
+          {
+            "itemId": 6764,
+            "name": "饿狼腿套",
+            "iconId": 45177,
+            "rarity": 1
+          }
+        ]
+      }
+    },
+    {
+      "slotId": "feet",
+      "label": "脚部",
+      "tag": "短靴",
+      "categoryId": 75,
+      "gold": {
+        "points": 8,
+        "items": [
+          {
+            "itemId": 13271,
+            "name": "高贵皮靴",
+            "iconId": 46567,
+            "rarity": 1
+          },
+          {
+            "itemId": 13687,
+            "name": "古鸟革皮靴",
+            "iconId": 46567,
+            "rarity": 1
+          },
+          {
+            "itemId": 16281,
+            "name": "田园混斗者短靴",
+            "iconId": 46655,
+            "rarity": 3
+          },
+          {
+            "itemId": 16357,
+            "name": "改良型田园混斗者短靴",
+            "iconId": 46655,
+            "rarity": 3
+          },
+          {
+            "itemId": 17494,
+            "name": "血盟冒险者矮靴",
+            "iconId": 46672,
             "rarity": 1
           }
         ]
@@ -307,196 +211,81 @@
     }
   ],
   "referenceShowcase": {
-    "globalIssue": 444,
-    "theme": "",
-    "dyeProvider": "游玩C哩酱（B站）",
+    "globalIssue": 445,
+    "theme": "鳞铠小丑",
+    "dyeProvider": "AllGameStaff（自动翻译）",
     "solutions": [
-      {
-        "id": "80",
-        "score": 80,
-        "entries": [
-          {
-            "slotId": "hands",
-            "iconId": 44114,
-            "label": "各种族初始装备",
-            "labelKey": "fashionCheck.starterGearHands"
-          },
-          {
-            "slotId": "head",
-            "iconId": 41227,
-            "labelKey": "fashionCheck.anyDyeableHead",
-            "dye": {
-              "dyeId": 6,
-              "name": "煤烟黑"
-            }
-          },
-          {
-            "slotId": "body",
-            "iconId": 42422,
-            "labelKey": "fashionCheck.anyDyeableBody",
-            "dye": {
-              "dyeId": 84,
-              "name": "仙子梅"
-            }
-          }
-        ]
-      },
       {
         "id": "100",
         "score": 100,
         "entries": [
           {
-            "slotId": "weapon",
-            "iconId": 31104,
-            "labelKey": "fashionCheck.anyDyeableWeapon",
-            "dye": {
-              "dyeId": 14,
-              "name": "鲜血红"
-            }
-          },
-          {
             "slotId": "head",
             "item": {
-              "itemId": 30131,
-              "name": "红色风信子头花",
-              "iconId": 54321,
+              "itemId": 2702,
+              "name": "旧化小丑帽",
+              "iconId": 41098,
               "rarity": 1
             }
           },
           {
             "slotId": "body",
-            "iconId": 42422,
-            "labelKey": "fashionCheck.anyDyeableBody",
-            "dye": {
-              "dyeId": 84,
-              "name": "仙子梅"
-            }
-          },
-          {
-            "slotId": "hands",
-            "iconId": 44114,
-            "label": "各种族初始装备",
-            "dye": {
-              "dyeId": 34,
-              "name": "骸骨白"
+            "item": {
+              "itemId": 3057,
+              "name": "黑铁鳞铠",
+              "iconId": 43063,
+              "rarity": 1
             }
           },
           {
             "slotId": "legs",
             "item": {
-              "itemId": 10784,
-              "name": "青麻强袭软甲裤",
-              "iconId": 45656,
+              "itemId": 3313,
+              "name": "草布腿套",
+              "iconId": 45062,
               "rarity": 1
-            },
-            "dye": {
-              "dyeId": 6,
-              "name": "煤烟黑"
             }
           },
           {
             "slotId": "feet",
-            "iconId": 46446,
-            "labelKey": "fashionCheck.anyDyeableFeet",
+            "item": {
+              "itemId": 17494,
+              "name": "血盟冒险者矮靴",
+              "iconId": 46672,
+              "rarity": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "80",
+        "score": 80,
+        "entries": [
+          {
+            "slotId": "head",
+            "iconId": 41227,
+            "labelKey": "fashionCheck.anyDyeableHead",
             "dye": {
-              "dyeId": 43,
-              "name": "泥沼绿"
+              "dyeId": 15,
+              "name": "鲑鱼粉"
+            }
+          },
+          {
+            "slotId": "legs",
+            "item": {
+              "itemId": 3313,
+              "name": "草布腿套",
+              "iconId": 45062,
+              "rarity": 1
+            },
+            "dye": {
+              "dyeId": 15,
+              "name": "鲑鱼粉"
             }
           }
         ]
       }
     ],
-    "dyes": [
-      {
-        "slotId": "weapon",
-        "family": {
-          "id": "red",
-          "name": "红色系",
-          "color": "#913B27",
-          "points": 1
-        },
-        "exact": {
-          "dyeId": 14,
-          "name": "鲜血红",
-          "color": "#913B27",
-          "points": 2
-        }
-      },
-      {
-        "slotId": "head",
-        "family": {
-          "id": "black",
-          "name": "黑色系",
-          "color": "#2B2923",
-          "points": 1
-        },
-        "exact": {
-          "dyeId": 6,
-          "name": "煤烟黑",
-          "color": "#2B2923",
-          "points": 2
-        }
-      },
-      {
-        "slotId": "body",
-        "family": {
-          "id": "purple",
-          "name": "紫色系",
-          "color": "#79526C",
-          "points": 1
-        },
-        "exact": {
-          "dyeId": 84,
-          "name": "仙子梅",
-          "color": "#79526C",
-          "points": 2
-        }
-      },
-      {
-        "slotId": "hands",
-        "family": {
-          "id": "yellow",
-          "name": "黄色系",
-          "color": "#FEF864",
-          "points": 1
-        },
-        "exact": {
-          "dyeId": 88,
-          "name": "丝雀黄",
-          "color": "#FEF864",
-          "points": 2
-        }
-      },
-      {
-        "slotId": "legs",
-        "family": {
-          "id": "black",
-          "name": "黑色系",
-          "color": "#2B2923",
-          "points": 1
-        },
-        "exact": {
-          "dyeId": 6,
-          "name": "煤烟黑",
-          "color": "#2B2923",
-          "points": 2
-        }
-      },
-      {
-        "slotId": "feet",
-        "family": {
-          "id": "green",
-          "name": "绿色系",
-          "color": "#22A757",
-          "points": 1
-        },
-        "exact": {
-          "dyeId": 117,
-          "name": "金属绿",
-          "color": "#22A757",
-          "points": 2
-        }
-      }
-    ]
+    "dyes": []
   }
 }

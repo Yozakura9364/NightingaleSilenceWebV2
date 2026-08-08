@@ -6,7 +6,7 @@
       <header ref="headerRef" class="fashion-check-page__header">
         <h1 class="ns-heading-bloom">{{ t(keys.title) }}</h1>
         <div v-if="week" class="fashion-check-page__week">
-          <strong>{{ week.theme }}</strong>
+          <strong>{{ localizedTheme }}</strong>
           <time v-if="challengePeriod">{{ challengePeriod }}</time>
         </div>
       </header>
@@ -53,7 +53,7 @@ import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
 import FashionCheckSolutionsView from '@/pages/fashion-check/views/FashionCheckSolutionsView.vue'
 import { useLocale } from '@/stores/locale'
 
-const { t } = useLocale()
+const { t, current } = useLocale()
 const { api } = useFetch()
 const route = useRoute()
 const router = useRouter()
@@ -81,6 +81,17 @@ const challengePeriod = computed(() => {
   if (!challengeWindow) return ''
 
   return `${formatChallengeDate(challengeWindow.startsAt)} - ${formatChallengeDate(challengeWindow.endsAt)}`
+})
+
+// 主题名本地化：localeCatalog.themes[globalIssue] → 当前语言名；无则回退数据里的中文 theme
+const localizedTheme = computed(() => {
+  const fallback = week.value?.theme ?? ''
+  const issue = String(week.value?.referenceShowcase?.globalIssue ?? '')
+  const themeNames = localeCatalog.value?.themes?.[issue]
+  if (!themeNames) return fallback
+  // themes 表只有 zh-CN/en（ja/ko 无 CSV 源），其他语言回退 zh-CN
+  if (current.value === 'en') return themeNames.en || themeNames['zh-CN'] || fallback
+  return themeNames['zh-CN'] || fallback
 })
 
 function selectView(value: string) {

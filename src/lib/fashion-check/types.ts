@@ -18,6 +18,8 @@ export interface FashionCheckLocaleCatalog {
   dyes: Record<string, FashionCheckLocalizedNames>
   dyeItems?: Record<string, FashionCheckDyeItem>
   tags?: Record<string, FashionCheckLocalizedNames>
+  /** 主题名本地化：key=期号（如 "454"），值={zh-CN,en}（ja/ko 无源，前端回退 zh-CN） */
+  themes?: Record<string, FashionCheckLocalizedNames>
 }
 
 export interface FashionCheckTagDatabaseItem {

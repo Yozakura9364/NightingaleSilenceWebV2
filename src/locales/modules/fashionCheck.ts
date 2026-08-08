@@ -63,7 +63,7 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '第 {issue} 期临时展示',
     'Week {issue} temporary showcase'
   ),
-  'fashionCheck.dyeGuide': message('全部位染色', 'Full-slot dyes'),
+  'fashionCheck.dyeGuide': message('染色作业', 'Full-slot dyes'),
   'fashionCheck.providedBy': localizedMessage('提供者：', 'Provided by:', '提供：', '제공:'),
   'fashionCheck.solution80Title': message('80分作业', '80-point solution'),
   'fashionCheck.solution100Title': message('100分作业', '100-point solution'),

@@ -25,6 +25,11 @@ const categoryPaths = {
   ja: path.join(referenceRoot, 'official/ja/FashionCheckThemeCategory.csv'),
   ko: path.join(referenceRoot, 'official/ko/FashionCheckThemeCategory.csv')
 }
+// 主题名本地化：只有 chs/en 有 FashionCheckWeeklyTheme.csv（ja/ko 缺，前端回退 zh-CN）
+const themePaths = {
+  'zh-CN': path.join(referenceRoot, 'official/chs/FashionCheckWeeklyTheme.csv'),
+  en: path.join(referenceRoot, 'official/en/FashionCheckWeeklyTheme.csv')
+}
 const mergedDyeItemIds = {
   general: 52254,
   extra1: 52255,
@@ -129,6 +134,28 @@ async function main() {
         ])
       )
     ])
+  const [themeRowsEntries] = await Promise.all([
+    Promise.all(
+      Object.entries(themePaths).map(async ([locale, filePath]) => [
+        locale,
+        await readSaintCoinachCsv(filePath)
+      ])
+    )
+  ])
+  // 主题名表：key=期号（CSV 行 #），值={zh-CN,en}（ja/ko 无 CSV，留空由前端回退）
+  const themeRows = new Map(themeRowsEntries)
+  const themeIds = new Set(
+    (themeRows.get('zh-CN') ?? []).map((row) => Number(row['#']))
+  )
+  const themes = new Map()
+  for (const issue of themeIds) {
+    const names = {}
+    for (const [locale, rows] of themeRows.entries()) {
+      const row = rows.find((r) => Number(r['#']) === issue)
+      names[locale] = String(row?.Name ?? '').trim()
+    }
+    themes.set(String(issue), { 'zh-CN': names['zh-CN'] || '', en: names.en || '' })
+  }
   const itemIds = new Set()
   const dyeIds = new Set()
   const categoryIds = new Set()
@@ -191,11 +218,12 @@ async function main() {
     items: sortedRecord(items),
     dyes: sortedRecord(dyes),
     dyeItems: sortedRecord(dyeItems),
-    tags: sortedRecord(tags)
+    tags: sortedRecord(tags),
+    themes: sortedRecord(themes)
   }
   await writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8')
   console.log(
-    `Fashion Check current locales: ${items.size} items, ${dyes.size} dyes, ${dyeItems.size} dye items, ${tags.size} tags`
+    `Fashion Check current locales: ${items.size} items, ${dyes.size} dyes, ${dyeItems.size} dye items, ${tags.size} tags, ${themes.size} themes`
   )
 }
 

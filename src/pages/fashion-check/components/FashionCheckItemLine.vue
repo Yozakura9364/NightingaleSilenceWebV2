@@ -170,7 +170,7 @@ onBeforeUnmount(() => {
 <style scoped>
 .fashion-check-item-line {
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
   gap: 8px;
   align-items: center;
   min-width: 0;
@@ -181,7 +181,7 @@ onBeforeUnmount(() => {
 }
 
 .fashion-check-item-line--has-slot {
-  grid-template-columns: 34px auto minmax(0, 1fr) auto;
+  grid-template-columns: 32px auto minmax(0, 1fr) auto;
 }
 
 .fashion-check-item-line--has-secondary {
@@ -208,7 +208,7 @@ onBeforeUnmount(() => {
 }
 
 .fashion-check-item-line--stacked-slot {
-  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
   grid-template-rows: auto auto;
   row-gap: 5px;
 }
@@ -254,11 +254,9 @@ onBeforeUnmount(() => {
 
 .fashion-check-item-line__icon {
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   place-items: center;
-  border: 1px solid var(--ns-pixel-border);
-  background: var(--ns-color-bg-soft);
   overflow: hidden;
 }
 
