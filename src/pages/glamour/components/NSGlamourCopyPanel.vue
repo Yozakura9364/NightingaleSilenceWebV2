@@ -131,7 +131,7 @@ async function copyOutput() {
   justify-content: space-between;
   gap: 10px;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
 }
 
 .nsglamour-panel-header h2 {
@@ -147,7 +147,7 @@ async function copyOutput() {
   max-width: 100%;
   gap: 14px;
   overflow-x: auto;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
 }
 
 .nsglamour-copy__format {
@@ -156,7 +156,7 @@ async function copyOutput() {
   min-height: 30px;
   padding: 0 0 7px;
   border: 0;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--ns-line-width) solid transparent;
   border-radius: 0;
   background: transparent;
   color: var(--ns-pixel-muted, var(--ns-color-text-muted));
@@ -209,10 +209,9 @@ async function copyOutput() {
   width: 100%;
   min-height: 120px;
   padding: 10px 0;
-  border: 0;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 0;
-  background: transparent;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
   font-family: var(--ns-font-ui);
@@ -223,8 +222,8 @@ async function copyOutput() {
 
 .nsglamour-copy__template-input:focus {
   outline: 0;
-  border-bottom-color: var(--ns-color-accent, #d97706);
-  box-shadow: none;
+  border-color: var(--ns-color-accent, #d97706);
+  box-shadow: var(--ns-focus-ring);
 }
 
 .nsglamour-copy__output {
@@ -232,10 +231,9 @@ async function copyOutput() {
   width: 100%;
   min-height: 240px;
   padding: 10px 0;
-  border: 0;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 0;
-  background: transparent;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
   font-family: var(--ns-font-ui);
@@ -247,7 +245,7 @@ async function copyOutput() {
 
 .nsglamour-copy__output:focus {
   outline: 0;
-  border-bottom-color: var(--ns-color-accent, #d97706);
-  box-shadow: none;
+  border-color: var(--ns-color-accent, #d97706);
+  box-shadow: var(--ns-focus-ring);
 }
 </style>

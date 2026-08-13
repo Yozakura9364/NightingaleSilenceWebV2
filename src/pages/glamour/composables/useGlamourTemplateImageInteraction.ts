@@ -91,7 +91,13 @@ export function useGlamourTemplateImageInteraction(
       style.left = `${Math.max(0, (rect.x / canvas.width) * 100)}%`
     }
 
-    if (rect.y > canvas.height * 0.58) {
+    // A full-canvas upload region has no usable edge to anchor against. Keep
+    // its menu centered inside the shell; other lower slots open upward.
+    if (rect.height >= canvas.height * 0.9) {
+      style.left = '50%'
+      style.top = '50%'
+      style.transform = 'translate(-50%, -50%)'
+    } else if (rect.y + rect.height > canvas.height * 0.58) {
       style.bottom = `${Math.max(0, (anchorBottom / canvas.height) * 100)}%`
     } else {
       style.top = `${Math.max(0, (anchorTop / canvas.height) * 100)}%`

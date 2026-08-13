@@ -2108,33 +2108,44 @@ def icon(icon_id: int):
     icon_name = str(icon_id).zfill(6)
     folder = f"{icon_name[:3]}000"
     cache_dir = ICON_CACHE_DIR / folder
-    cache_path = cache_dir / f"{icon_name}_hr1.png"
-    if cache_path.is_file():
-        return send_file(cache_path, mimetype="image/png")
+    folder_id = int(folder)
+    suffixes = (
+        ("hd", "hr1")
+        if 20000 <= folder_id < 60000 or folder_id == 200000
+        else ("hr1",)
+    )
+    invalid_upstream_response = False
 
-    icon_url = f"{ICON_BASE_URL}/{folder}/{icon_name}_hr1.png"
-    try:
-        with urllib.request.urlopen(icon_url, timeout=8) as response:
-            data = response.read(ICON_MAX_BYTES + 1)
-    except (urllib.error.URLError, TimeoutError):
-        abort(404)
-    if len(data) > ICON_MAX_BYTES:
-        abort(502)
-    if not data.startswith(b"\x89PNG\r\n\x1a\n"):
-        abort(502)
+    # Check HD before an existing HR1 cache so warm deployments upgrade automatically.
+    for suffix in suffixes:
+        cache_path = cache_dir / f"{icon_name}_{suffix}.png"
+        if cache_path.is_file():
+            return send_file(cache_path, mimetype="image/png")
 
-    temp_path = cache_path.with_suffix(f".{secrets.token_hex(6)}.tmp")
-    try:
-        cache_dir.mkdir(parents=True, exist_ok=True)
-        temp_path.write_bytes(data)
-        os.replace(temp_path, cache_path)
-    except OSError:
+        icon_url = f"{ICON_BASE_URL}/{folder}/{icon_name}_{suffix}.png"
         try:
-            temp_path.unlink(missing_ok=True)
-        except OSError:
-            pass
+            with urllib.request.urlopen(icon_url, timeout=8) as response:
+                data = response.read(ICON_MAX_BYTES + 1)
+        except (urllib.error.URLError, TimeoutError):
+            continue
+        if len(data) > ICON_MAX_BYTES or not data.startswith(b"\x89PNG\r\n\x1a\n"):
+            invalid_upstream_response = True
+            continue
 
-    return send_file(BytesIO(data), mimetype="image/png")
+        temp_path = cache_path.with_suffix(f".{secrets.token_hex(6)}.tmp")
+        try:
+            cache_dir.mkdir(parents=True, exist_ok=True)
+            temp_path.write_bytes(data)
+            os.replace(temp_path, cache_path)
+        except OSError:
+            try:
+                temp_path.unlink(missing_ok=True)
+            except OSError:
+                pass
+
+        return send_file(BytesIO(data), mimetype="image/png")
+
+    abort(502 if invalid_upstream_response else 404)
 
 
 def localized_name(record: Dict[str, Any], locale: str) -> str:

@@ -221,7 +221,7 @@ onBeforeUnmount(() => {
 .nsglamour-template__editor {
   display: grid;
   min-width: 0;
-  border-top: 1px solid var(--ns-color-border);
+  border-top: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .nsglamour-template__row {
@@ -230,7 +230,7 @@ onBeforeUnmount(() => {
   min-width: 0;
   min-height: 86px;
   padding: 34px 0 10px;
-  border-bottom: 1px solid var(--ns-color-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .nsglamour-template__row h3 {
@@ -262,8 +262,8 @@ onBeforeUnmount(() => {
   display: block;
   width: 42px;
   height: 42px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   object-fit: cover;
 }
@@ -312,8 +312,8 @@ onBeforeUnmount(() => {
   max-width: min(220px, 100%);
   min-height: 26px;
   padding: 3px 7px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: 700 11px/1.2 var(--ns-font-ui);
@@ -324,7 +324,7 @@ onBeforeUnmount(() => {
   content: '';
   width: 12px;
   height: 12px;
-  border: 1px solid var(--ns-color-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
   background:
     linear-gradient(45deg, #ddd 25%, transparent 25% 75%, #ddd 75%) 0 0 / 6px 6px,
     var(--nsglamour-dye-color, transparent);
@@ -357,9 +357,10 @@ onBeforeUnmount(() => {
   max-height: 300px;
   overflow: hidden;
   padding: 8px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-panel);
 }
 
 .nsglamour-template__dye-search {
@@ -367,8 +368,8 @@ onBeforeUnmount(() => {
   width: 100%;
   min-height: 30px;
   padding: 3px 8px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
@@ -418,8 +419,8 @@ onBeforeUnmount(() => {
 .nsglamour-template__dye-swatch {
   width: 12px;
   height: 12px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 2px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--nsglamour-dye-color, #000);
 }
 
@@ -435,8 +436,8 @@ onBeforeUnmount(() => {
   place-items: center;
   width: 24px;
   height: 24px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: var(--ns-color-text-muted);
   font: 700 16px/1 var(--ns-font-ui);
@@ -461,8 +462,8 @@ onBeforeUnmount(() => {
   min-width: 0;
   min-height: 30px;
   padding: 4px 8px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
@@ -471,7 +472,9 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-template__input:focus {
-  outline: auto;
+  border-color: var(--ns-color-accent);
+  box-shadow: var(--ns-focus-ring);
+  outline: none;
 }
 
 .nsglamour-template__search-results {
@@ -483,7 +486,9 @@ onBeforeUnmount(() => {
   display: grid;
   max-height: 220px;
   overflow-y: auto;
-  border: 1px solid var(--ns-color-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  box-shadow: var(--ns-shadow-panel);
   background: var(--ns-color-surface-solid);
 }
 
@@ -496,7 +501,7 @@ onBeforeUnmount(() => {
   min-height: 34px;
   padding: 5px 8px;
   border: 0;
-  border-bottom: 1px solid var(--ns-color-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
   background: transparent;
   color: inherit;
   font: inherit;

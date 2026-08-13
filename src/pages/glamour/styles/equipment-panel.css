@@ -17,7 +17,7 @@
   gap: 12px;
   align-items: end;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
 }
 
 .nsglamour-equipment__header h2 {
@@ -66,7 +66,6 @@
 .nsglamour-equipment__actions :deep(.ns-button) {
   min-width: 92px;
   white-space: nowrap;
-  box-shadow: none;
 }
 
 .nsglamour-snapshot__language-control {
@@ -81,17 +80,18 @@
   height: 34px;
   padding: 6px;
   place-items: center;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-pixel-surface);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  box-shadow: none;
+  box-shadow: var(--ns-shadow-soft);
   cursor: pointer;
 }
 
 .nsglamour-snapshot__tool-button:hover,
 .nsglamour-snapshot__tool-button.active {
-  background: var(--ns-pixel-cyan-surface);
+  border-color: var(--ns-color-border-strong);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-accent-strong);
 }
 
@@ -109,16 +109,17 @@
   display: grid;
   width: max-content;
   min-width: 132px;
-  padding: 4px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-surface);
-  box-shadow: none;
+  padding: 6px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-panel);
 }
 
 .nsglamour-snapshot__language-menu button {
   padding: 7px 10px;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: var(--ns-color-text);
   text-align: left;
@@ -127,7 +128,7 @@
 
 .nsglamour-snapshot__language-menu button:hover,
 .nsglamour-snapshot__language-menu button.active {
-  background: var(--ns-pixel-cyan-surface);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-accent-strong);
 }
 
@@ -135,7 +136,8 @@
   display: grid;
   gap: 6px;
   padding: 8px;
-  border: 1px solid var(--ns-status-warning-border);
+  border: var(--ns-line-width) solid var(--ns-status-warning-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-status-warning-bg);
 }
 

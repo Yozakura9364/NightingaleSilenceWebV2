@@ -296,11 +296,14 @@ function choose(stain: GlamourStain) {
 
 @media (max-width: 760px) {
   .glamour-dye-picker__panel {
+    /* 移动端固定为屏幕底部弹层，避免 top:auto 随文档流飘走 */
     position: fixed;
     top: auto;
-    right: 28px;
-    left: 28px;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
     width: auto;
+    max-height: min(340px, 55vh);
   }
 }
 </style>

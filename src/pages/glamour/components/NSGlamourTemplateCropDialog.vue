@@ -320,9 +320,10 @@ function updateViewportSize() {
   max-width: calc(100vw - 40px);
   max-height: min(92vh, 820px);
   overflow: hidden;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-pixel-window-bg);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-panel);
 }
 
 .nsglamour-template-crop__head {
@@ -333,14 +334,14 @@ function updateViewportSize() {
   min-width: 0;
   min-height: 50px;
   padding: 9px 12px;
-  border-bottom: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-window-bar-bg);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
+  background: var(--ns-color-surface-tint);
 }
 
 .nsglamour-template-crop__head h2 {
   margin: 0;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 18px;
   font-weight: 950;
   line-height: 1.15;
@@ -364,8 +365,8 @@ function updateViewportSize() {
   margin: 12px;
   overflow: hidden;
   place-items: center;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background:
     linear-gradient(45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
     linear-gradient(-45deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%),
@@ -394,8 +395,8 @@ function updateViewportSize() {
   align-items: center;
   gap: 12px;
   padding: 10px 12px 12px;
-  border-top: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-surface);
+  border-top: var(--ns-line-width) solid var(--ns-color-border);
+  background: var(--ns-color-surface-solid);
 }
 
 .nsglamour-template-crop__zoom {
@@ -424,8 +425,8 @@ function updateViewportSize() {
   width: 70px;
   min-height: 34px;
   padding: 5px 8px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
@@ -443,14 +444,14 @@ function updateViewportSize() {
 .nsglamour-template__primary {
   min-height: 30px;
   padding: 4px 10px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border-strong);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-accent);
   color: var(--ns-color-on-accent);
   font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
-  box-shadow: var(--ns-pixel-button-shadow);
+  box-shadow: var(--ns-shadow-soft);
   cursor: pointer;
 }
 
@@ -458,25 +459,25 @@ function updateViewportSize() {
 .nsglamour-template-crop__actions .ns-compact-action,
 .nsglamour-template-crop__actions .nsglamour-template__primary {
   min-height: 34px;
-  border-width: 2px;
-  border-radius: 0;
+  border-width: var(--ns-line-width);
+  border-radius: var(--ns-radius-md);
   font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
-  box-shadow: var(--ns-pixel-button-shadow);
+  box-shadow: var(--ns-shadow-soft);
 }
 
 .nsglamour-template-crop__actions .nsglamour-template__primary {
   padding-inline: 16px;
-  border-color: var(--ns-pixel-border);
+  border-color: var(--ns-color-border-strong);
   background: var(--ns-color-accent);
   color: var(--ns-color-on-accent);
 }
 
 .nsglamour-template-crop__actions .nsglamour-template__primary:hover,
 .nsglamour-template-crop__actions .nsglamour-template__primary:focus-visible {
-  border-color: var(--ns-pixel-border);
-  background: var(--ns-pixel-pink-surface);
+  border-color: var(--ns-color-border-strong);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-accent-strong);
   outline: none;
 }

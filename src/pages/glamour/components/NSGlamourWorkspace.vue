@@ -332,7 +332,7 @@ function getImportErrorMessage(error: unknown): string {
   margin-left: -46px;
   padding: 14px 60px;
   overflow: auto;
-  background: #fff;
+  background: var(--ns-glamour-workspace-bg);
 }
 
 .nsglamour-workspace__main {
@@ -342,10 +342,6 @@ function getImportErrorMessage(error: unknown): string {
   margin: 0 auto;
   gap: 12px;
   min-height: 0;
-}
-
-:global(:root[data-theme='night'] .nsglamour-workspace) {
-  background: var(--ns-glamour-workspace-bg);
 }
 
 @media (max-width: 640px) {

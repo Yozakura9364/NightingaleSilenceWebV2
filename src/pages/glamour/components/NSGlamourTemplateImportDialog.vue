@@ -101,10 +101,11 @@ onMounted(() => {
   gap: 12px;
   width: min(460px, 100%);
   padding: 16px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-window-bg);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
-  box-shadow: var(--ns-pixel-window-shadow);
+  box-shadow: var(--ns-shadow-panel);
 }
 
 .nsglamour-template-import__head,
@@ -136,8 +137,8 @@ onMounted(() => {
   min-width: 0;
   min-height: 32px;
   padding: 4px 8px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 4px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
@@ -167,30 +168,28 @@ onMounted(() => {
 .nsglamour-template__primary {
   min-height: 30px;
   padding: 4px 10px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border-strong);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-accent);
   color: var(--ns-color-on-accent);
   font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
-  box-shadow: var(--ns-pixel-button-shadow);
+  box-shadow: var(--ns-shadow-soft);
   cursor: pointer;
 }
 
 .nsglamour-template__primary:hover,
 .nsglamour-template__primary:focus-visible {
-  border-color: var(--ns-pixel-border);
-  background: var(--ns-pixel-hover-surface);
+  border-color: var(--ns-color-border-strong);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-accent-strong);
-  box-shadow: var(--ns-pixel-button-shadow-hover);
+  box-shadow: var(--ns-shadow-soft), var(--ns-focus-ring);
   outline: none;
-  transform: translate(-1px, -1px);
 }
 
 .nsglamour-template__primary:active {
-  box-shadow: var(--ns-pixel-soft-shadow);
-  transform: translate(2px, 2px);
+  box-shadow: var(--ns-shadow-soft);
 }
 
 .nsglamour-template__primary:disabled {

@@ -5,7 +5,7 @@
   min-width: 0;
   min-height: 86px;
   padding: 34px 0 10px;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
   background: transparent;
 }
 
@@ -32,8 +32,8 @@
   display: block;
   width: 42px;
   height: 42px;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-sm);
   image-rendering: auto;
   object-fit: cover;
 }
@@ -83,8 +83,8 @@
   height: 24px;
   min-height: 24px;
   padding: 0;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: var(--ns-color-text-muted, #777);
   font: 700 16px/1 var(--ns-font-ui);
@@ -125,8 +125,8 @@
   height: 24px;
   min-height: 24px;
   padding: 0;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: var(--ns-color-text-muted, #777);
   font: inherit;
@@ -157,10 +157,10 @@
   min-width: 0;
   padding: 5px;
   overflow: auto;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid, #fff);
-  box-shadow: none;
+  box-shadow: var(--ns-shadow-panel);
 }
 
 @media (max-width: 760px) {
@@ -181,8 +181,7 @@
   min-width: 0;
   padding: 5px 8px;
   border: 0;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 0;
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
   background: transparent;
   color: inherit;
   font: inherit;
@@ -202,8 +201,8 @@
   display: block;
   width: 42px;
   height: 42px;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-sm);
   object-fit: cover;
 }
 
@@ -241,8 +240,8 @@
   min-height: 26px;
   padding: 3px 7px;
   overflow: hidden;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: inherit;
   font: inherit;
@@ -278,10 +277,10 @@
   max-height: 300px;
   padding: 8px;
   overflow: hidden;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid, #fff);
-  box-shadow: none;
+  box-shadow: var(--ns-shadow-panel);
 }
 
 .nsglamour-slot__dye-search {
@@ -289,8 +288,8 @@
   width: 100%;
   height: 30px;
   padding: 3px 8px;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: inherit;
   font: inherit;
@@ -331,8 +330,7 @@
   min-width: 0;
   padding: 5px 0 6px;
   border: 0;
-  border-bottom: 1px solid transparent;
-  border-radius: 0;
+  border-bottom: var(--ns-line-width) solid transparent;
   background: transparent;
   color: inherit;
   font: inherit;
@@ -360,8 +358,8 @@
   flex: 0 0 auto;
   width: 12px;
   height: 12px;
-  border: 1px solid rgba(17, 24, 39, 0.28);
-  border-radius: 2px;
+  border: var(--ns-line-width) solid rgba(17, 24, 39, 0.28);
+  border-radius: var(--ns-radius-sm);
   background: var(--nsglamour-dye-color, #000000);
   box-shadow: none;
 }
@@ -418,8 +416,8 @@
   min-width: 0;
   height: 30px;
   padding: 4px 8px;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: inherit;
   font: inherit;
@@ -437,7 +435,9 @@
   max-height: 180px;
   min-width: 0;
   overflow: auto;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-md);
+  box-shadow: var(--ns-shadow-panel);
   background: var(--ns-color-surface, #fff);
 }
 
@@ -450,8 +450,7 @@
   min-height: 48px;
   padding: 5px 8px;
   border: 0;
-  border-bottom: 1px solid var(--ns-color-border, #e4e4e4);
-  border-radius: 0;
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border, #e4e4e4);
   background: transparent;
   color: inherit;
   font: inherit;
@@ -470,8 +469,8 @@
   display: block;
   width: 42px;
   height: 42px;
-  border: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
+  border-radius: var(--ns-radius-sm);
   object-fit: cover;
 }
 

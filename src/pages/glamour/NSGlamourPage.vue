@@ -91,7 +91,7 @@ const turnIconStyle = computed(
   gap: 8px;
   justify-content: center;
   padding: 0 8px;
-  border: 2px solid transparent;
+  border: var(--ns-line-width) solid transparent;
   background: transparent;
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
@@ -110,10 +110,10 @@ const turnIconStyle = computed(
 .nsglamour-page-turn:hover,
 .nsglamour-page-turn:focus-visible {
   width: 146px;
-  border-color: var(--ns-pixel-border);
-  background: var(--ns-pixel-pink-surface);
+  border-color: var(--ns-color-border-strong);
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-accent-strong);
-  box-shadow: var(--ns-pixel-button-shadow-hover);
+  box-shadow: var(--ns-shadow-soft);
   outline: none;
 }
 
@@ -128,7 +128,7 @@ const turnIconStyle = computed(
 
 .nsglamour-page-turn--next:hover,
 .nsglamour-page-turn--next:focus-visible {
-  background: var(--ns-pixel-cyan-surface);
+  background: var(--ns-color-surface-tint);
 }
 
 .nsglamour-page-turn__arrow {

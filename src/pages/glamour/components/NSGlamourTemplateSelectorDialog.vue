@@ -215,7 +215,8 @@ function formatMessage(template: string, values: Record<string, string>): string
   width: min(820px, 100%);
   max-height: min(720px, calc(100vh - 36px));
   padding: 16px;
-  border: 1px solid var(--ns-color-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
 }
@@ -243,8 +244,8 @@ function formatMessage(template: string, values: Record<string, string>): string
 .nsglamour-template-selector__filters button {
   min-height: 28px;
   padding: 3px 9px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: inherit;
   font: inherit;
@@ -275,7 +276,8 @@ function formatMessage(template: string, values: Record<string, string>): string
   gap: 10px;
   min-width: 0;
   padding: 10px;
-  border: 1px solid var(--ns-color-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -294,7 +296,8 @@ function formatMessage(template: string, values: Record<string, string>): string
   min-height: 82px;
   height: 82px;
   overflow: hidden;
-  border: 1px solid var(--ns-color-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-glamour-template-canvas-bg);
 }
 
@@ -349,8 +352,8 @@ function formatMessage(template: string, values: Record<string, string>): string
 
 .nsglamour-template-selector__languages code {
   padding: 2px 5px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   color: var(--ns-color-text-muted);
   font: inherit;
   font-size: 11px;

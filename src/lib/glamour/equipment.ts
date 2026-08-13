@@ -1,3 +1,4 @@
+import { normalizeFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
 import type {
   GlamourCandidate,
   GlamourDyeEntry,
@@ -411,14 +412,8 @@ export function getEquipmentModelCode(entry: GlamourEquipmentEntry): string {
   return ''
 }
 
-export function buildGlamourIconUrl(apiBase: string, iconId: unknown): string {
-  const numericId = Number(iconId)
-
-  if (!Number.isFinite(numericId) || numericId <= 0) {
-    return ''
-  }
-
-  return `${apiBase.replace(/\/+$/, '')}/icon/${numericId}`
+export function buildGlamourIconUrl(_apiBase: string, iconId: unknown): string {
+  return normalizeFfxivItemIconUrl(iconId)
 }
 
 function normalizeLocalizedTextMap(value: unknown): LocalizedTextMap | undefined {

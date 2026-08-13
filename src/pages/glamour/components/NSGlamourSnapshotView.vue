@@ -483,8 +483,9 @@ onBeforeUnmount(() => {
   width: min(1040px, 100%);
   margin: auto;
   padding: 18px 24px 24px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 8px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  box-shadow: var(--ns-shadow-panel);
   background: var(--ns-color-surface-solid, #fff);
   color: var(--ns-color-text);
 }
@@ -511,16 +512,18 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-soft);
   color: var(--ns-color-text);
   cursor: pointer;
 }
 
 .nsglamour-snapshot__tool-button:hover,
 .nsglamour-snapshot__tool-button.active {
-  background: transparent;
+  border-color: var(--ns-color-border-strong);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-accent-strong);
 }
 
@@ -547,8 +550,9 @@ onBeforeUnmount(() => {
   min-width: 150px;
   gap: 2px;
   padding: 6px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 8px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  box-shadow: var(--ns-shadow-panel);
   background: var(--ns-color-surface-solid);
 }
 
@@ -556,8 +560,8 @@ onBeforeUnmount(() => {
   width: 100%;
   padding: 7px 0 6px;
   border: 0;
-  border-radius: 0;
-  background: transparent;
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-text);
   font-size: 12px;
   font-weight: 700;
@@ -658,7 +662,7 @@ onBeforeUnmount(() => {
   display: block;
   width: 12px;
   height: 12px;
-  border: 1px solid var(--ns-color-border-strong, #777);
+  border: var(--ns-line-width) solid var(--ns-color-border-strong, #777);
 }
 
 .nsglamour-snapshot__footer {
@@ -668,7 +672,7 @@ onBeforeUnmount(() => {
   justify-content: center;
   gap: 2px;
   padding-top: 14px;
-  border-top: 1px solid var(--ns-color-border);
+  border-top: var(--ns-line-width) solid var(--ns-color-border);
   color: var(--ns-color-text-muted);
   font: 600 12px/1.45 var(--ns-font-ui);
 }

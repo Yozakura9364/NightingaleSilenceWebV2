@@ -273,7 +273,7 @@ onBeforeUnmount(() => {
 
 .nsglamour-panel-header {
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
 }
 
 .nsglamour-import__recent {
@@ -321,7 +321,7 @@ onBeforeUnmount(() => {
 .nsglamour-import__status :deep(.app-status__mark) {
   width: 8px;
   height: 8px;
-  border-width: 2px;
+  border-width: var(--ns-line-width);
 }
 
 .nsglamour-import__status :deep(.app-status__message) {
@@ -361,10 +361,9 @@ onBeforeUnmount(() => {
 .nsglamour-import__locale select {
   min-width: 92px;
   height: 30px;
-  border: 0;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
-  border-radius: 0;
-  background: transparent;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface-solid);
   color: inherit;
   font: 12px/1.35 var(--ns-font-ui);
 }
@@ -374,7 +373,9 @@ onBeforeUnmount(() => {
   grid-template-columns: 44px minmax(0, 1fr);
   min-height: clamp(180px, 26vh, 270px);
   overflow: hidden;
-  border-bottom: 1px solid var(--ns-color-border, #d8d8d8);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface-solid);
 }
 
 .nsglamour-import__line-numbers {
@@ -383,7 +384,7 @@ onBeforeUnmount(() => {
   margin: 0;
   padding: 9px 8px 9px 10px;
   overflow: hidden;
-  border-right: 1px solid var(--ns-color-border, #d8d8d8);
+  border-right: var(--ns-line-width) solid var(--ns-color-border, #d8d8d8);
   color: var(--ns-color-text-muted, #777);
   font: 12px/1.35 var(--ns-font-mono, monospace);
   text-align: right;
@@ -396,7 +397,7 @@ onBeforeUnmount(() => {
   min-height: clamp(180px, 26vh, 270px);
   padding: 9px 10px;
   border: 0;
-  border-radius: 0;
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: inherit;
   font: 12px/1.35 var(--ns-font-mono, monospace);
@@ -406,7 +407,8 @@ onBeforeUnmount(() => {
 }
 
 .nsglamour-import__editor:focus-within {
-  border-bottom-color: var(--ns-color-accent, #d97706);
+  border-color: var(--ns-color-accent, #d97706);
+  box-shadow: var(--ns-focus-ring);
 }
 
 .nsglamour-import__text-form.is-dragover .nsglamour-import__editor {

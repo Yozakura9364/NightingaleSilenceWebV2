@@ -66,8 +66,9 @@ async function loadSnapshot(): Promise<void> {
   width: min(1040px, 100%);
   margin: auto;
   padding: 20px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 8px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  box-shadow: var(--ns-shadow-panel);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text-muted);
   text-align: center;
