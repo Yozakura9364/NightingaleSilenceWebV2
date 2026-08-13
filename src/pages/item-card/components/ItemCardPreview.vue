@@ -51,8 +51,8 @@
       :layer-menu-open="canvasLayerMenuOpen"
     />
 
-    <template v-else-if="entries.length">
-      <section class="card-preview__list">
+    <template v-else>
+      <section v-if="entries.length" class="card-preview__list">
         <header class="card-preview__list-header">
           <h3>{{ t(textKeys.listPreview) }}</h3>
           <div class="card-preview__list-actions">
@@ -73,7 +73,7 @@
         </div>
       </section>
 
-      <section class="card-preview__singles">
+      <section v-if="entries.length" class="card-preview__singles">
         <h3>{{ t(textKeys.singlePreviews) }}</h3>
         <ItemCardCanvas
           v-for="(entry, index) in entries"
@@ -86,6 +86,17 @@
           :index="index"
         />
       </section>
+
+      <section v-if="customTextItems.length" class="card-preview__custom-text">
+        <h3>{{ t(textKeys.customTextPanel) }}</h3>
+        <ItemCardCustomTextCanvas
+          v-for="(item, index) in customTextItems"
+          :key="item.id"
+          :item="item"
+          :settings="settings"
+          :index="index"
+        />
+      </section>
     </template>
   </section>
 </template>
@@ -95,6 +106,8 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import AppTabs from '@/components/AppTabs.vue'
 import ItemCardCanvasBoard from '@/pages/item-card/components/ItemCardCanvasBoard.vue'
 import ItemCardCanvas from '@/pages/item-card/components/ItemCardCanvas.vue'
+import ItemCardCustomTextCanvas from '@/pages/item-card/components/ItemCardCustomTextCanvas.vue'
+import { useItemCardCustomText } from '@/pages/item-card/composables/useItemCardCustomText'
 import {
   canvasToBlob,
   downloadBlob,
@@ -130,6 +143,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useLocale()
+const { items: customTextItems } = useItemCardCustomText()
 const previewViews = computed(() => [
   { value: 'cards', label: t(textKeys.previewCards) },
   { value: 'canvas', label: t(textKeys.canvasPanel) }
@@ -289,7 +303,7 @@ async function downloadZip() {
 
 .card-preview h3 {
   margin: 0;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
 }
 
 .card-preview h3 {
@@ -299,10 +313,10 @@ async function downloadZip() {
 .card-preview__action {
   min-height: 34px;
   padding: 4px 12px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid);
-  box-shadow: none;
+  box-shadow: var(--ns-shadow-soft);
   color: var(--ns-color-text);
   font: 700 11px/1.15 var(--ns-font-ui);
   white-space: nowrap;
@@ -316,7 +330,7 @@ async function downloadZip() {
 .card-preview__action:hover:not(:disabled),
 .card-preview__action:focus-visible {
   border-color: var(--ns-color-accent);
-  background: var(--ns-pixel-hover-surface);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-text);
   outline: 0;
 }
@@ -327,14 +341,16 @@ async function downloadZip() {
 }
 
 .card-preview__list,
-.card-preview__singles {
+.card-preview__singles,
+.card-preview__custom-text {
   display: grid;
   gap: 10px;
 }
 
 .card-preview__list {
   padding: 12px;
-  border: 1px solid var(--ns-color-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface);
 }
 

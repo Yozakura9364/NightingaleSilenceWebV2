@@ -11,7 +11,7 @@ import type {
   GlamourSlotKey,
   LocalizedTextMap
 } from '@/pages/item-card/lib/types'
-import { getFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
+import { normalizeFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
 
 export const GLAMOUR_DEFAULT_LOCALE = 'zh'
 export const ITEM_CARD_GENERIC_SLOT = 'Item'
@@ -525,17 +525,7 @@ export function getEquipmentModelCode(entry: GlamourEquipmentEntry): string {
 }
 
 export function buildGlamourIconUrl(_apiBase: string, iconId: unknown): string {
-  if (typeof iconId === 'string' && /^https?:\/\//i.test(iconId.trim())) {
-    return iconId.trim()
-  }
-
-  const numericId = Number(iconId)
-
-  if (!Number.isFinite(numericId) || numericId <= 0) {
-    return ''
-  }
-
-  return getFfxivItemIconUrl(numericId)
+  return normalizeFfxivItemIconUrl(iconId)
 }
 
 function normalizeLocalizedTextMap(value: unknown): LocalizedTextMap | undefined {

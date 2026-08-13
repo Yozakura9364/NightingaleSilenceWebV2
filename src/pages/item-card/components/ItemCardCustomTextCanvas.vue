@@ -1,19 +1,17 @@
 <template>
-  <article class="card-preview-row">
+  <article class="custom-text-preview-row">
     <header>
       <strong>{{ title }}</strong>
-      <div class="card-preview-row__actions">
-        <button
-          type="button"
-          class="card-preview-row__action ns-button ns-button--compact"
-          @click="download"
-        >
-          {{ t(textKeys.downloadPng) }}
-        </button>
-      </div>
+      <button
+        type="button"
+        class="custom-text-preview-row__action ns-button ns-button--compact"
+        @click="download"
+      >
+        {{ t(textKeys.customTextDownload) }}
+      </button>
     </header>
     <div
-      class="card-preview-row__canvas ns-transparency-grid ns-scroll-area ns-scroll-area--compact"
+      class="custom-text-preview-row__canvas ns-transparency-grid ns-scroll-area ns-scroll-area--compact"
     >
       <canvas ref="canvasElement" />
     </div>
@@ -22,53 +20,33 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import {
-  canvasToBlob,
-  downloadBlob,
-  makeItemCardFileName,
-  renderItemCardCanvas
-} from '@/pages/item-card/lib/cardRenderer'
-import { getCandidateName, getSelectedCandidate } from '@/pages/item-card/lib/equipment'
-import type {
-  GlamourDraft,
-  GlamourEquipmentEntry,
-  ItemCardLayout,
-  ItemCardRenderSettings
-} from '@/pages/item-card/lib/types'
+import { canvasToBlob, downloadBlob } from '@/pages/item-card/lib/cardRenderer'
+import { makeItemCardCustomTextFileName } from '@/pages/item-card/lib/customText'
+import { renderCustomTextCanvas } from '@/pages/item-card/lib/customTextRenderer'
+import type { ItemCardCustomText, ItemCardRenderSettings } from '@/pages/item-card/lib/types'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
 import { useLocale } from '@/stores/locale'
 
 const props = defineProps<{
-  entry: GlamourEquipmentEntry
-  draft: GlamourDraft
+  item: ItemCardCustomText
   settings: ItemCardRenderSettings
-  layout: ItemCardLayout
-  apiBase: string
   index: number
 }>()
 
 const { t } = useLocale()
 const canvasElement = ref<HTMLCanvasElement | null>(null)
+const title = computed(() => props.item.text.split(/\r?\n/, 1)[0] || props.item.text)
 let renderId = 0
-const title = computed(() =>
-  getCandidateName(getSelectedCandidate(props.entry), props.draft.locale, props.draft.source.locale)
-)
 
 watch(
-  () => [props.entry, props.draft.locale, props.settings, props.layout],
+  () => [props.item.text, props.settings],
   () => void render(),
   { deep: true }
 )
 onMounted(() => void render())
 
 async function makeCanvas() {
-  return renderItemCardCanvas({
-    entry: props.entry,
-    draft: props.draft,
-    settings: props.settings,
-    layout: props.layout,
-    apiBase: props.apiBase
-  })
+  return renderCustomTextCanvas(props.item.text, props.settings)
 }
 
 async function render() {
@@ -89,13 +67,13 @@ async function download() {
   const canvas = await makeCanvas()
   downloadBlob(
     await canvasToBlob(canvas),
-    makeItemCardFileName(props.entry, props.draft, props.index)
+    makeItemCardCustomTextFileName(props.item.text, props.index)
   )
 }
 </script>
 
 <style scoped>
-.card-preview-row {
+.custom-text-preview-row {
   display: grid;
   gap: 8px;
   padding: 10px;
@@ -104,30 +82,23 @@ async function download() {
   background: var(--ns-color-surface);
 }
 
-.card-preview-row header,
-.card-preview-row__actions {
+.custom-text-preview-row header {
   display: flex;
   min-width: 0;
   align-items: center;
-  gap: 7px;
-}
-
-.card-preview-row header {
   justify-content: space-between;
+  gap: 8px;
 }
 
-.card-preview-row header strong {
+.custom-text-preview-row header strong {
   overflow: hidden;
   font-size: 11px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.card-preview-row__actions {
+.custom-text-preview-row__action {
   flex: 0 0 auto;
-}
-
-.card-preview-row__action {
   min-height: 30px;
   padding: 4px 9px;
   border: var(--ns-line-width) solid var(--ns-color-border-strong);
@@ -138,38 +109,33 @@ async function download() {
   font: 700 11px/1.15 var(--ns-font-ui);
   white-space: nowrap;
   cursor: pointer;
-  transition:
-    border-color var(--ns-transition-fast),
-    background var(--ns-transition-fast),
-    color var(--ns-transition-fast);
 }
 
-.card-preview-row__action:hover,
-.card-preview-row__action:focus-visible {
+.custom-text-preview-row__action:hover,
+.custom-text-preview-row__action:focus-visible {
   border-color: var(--ns-color-accent);
   background: var(--ns-color-surface-tint);
-  color: var(--ns-color-text);
   outline: 0;
 }
 
-.card-preview-row__canvas {
+.custom-text-preview-row__canvas {
   min-width: 0;
   padding: 8px;
 }
 
-.card-preview-row canvas {
+.custom-text-preview-row canvas {
   display: block;
   max-width: none;
 }
 
 @media (max-width: 640px) {
-  .card-preview-row header {
+  .custom-text-preview-row header {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .card-preview-row__actions {
-    justify-content: space-between;
+  .custom-text-preview-row__action {
+    align-self: flex-start;
   }
 }
 </style>

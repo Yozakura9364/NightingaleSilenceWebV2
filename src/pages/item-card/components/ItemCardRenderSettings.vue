@@ -306,7 +306,7 @@ async function loadLocalFonts() {
 
 .card-settings h2 {
   margin: 0;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 15px;
 }
 
@@ -392,12 +392,12 @@ async function loadLocalFonts() {
 }
 
 .card-settings input[type='color']::-webkit-color-swatch {
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
 }
 
 .card-settings input[type='color']::-moz-color-swatch {
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
 }
 </style>

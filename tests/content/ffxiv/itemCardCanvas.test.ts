@@ -301,6 +301,11 @@ describe('canvas drag sources', () => {
     expect(decodeItemCardCanvasDragSource(encoded)).toEqual(source)
   })
 
+  it('round-trips a custom text drag source through dataTransfer text', () => {
+    const source = { kind: 'customText' as const, sourceId: 'custom-text-1' }
+    expect(decodeItemCardCanvasDragSource(encodeItemCardCanvasDragSource(source))).toEqual(source)
+  })
+
   it('rejects malformed or unsupported drag source payloads', () => {
     expect(decodeItemCardCanvasDragSource('')).toBeUndefined()
     expect(decodeItemCardCanvasDragSource('{"kind":"unknown","sourceId":"x"}')).toBeUndefined()

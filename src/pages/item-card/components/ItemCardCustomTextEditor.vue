@@ -28,33 +28,38 @@
     </header>
 
     <div v-if="items.length" class="custom-text-editor__items">
-      <article
-        v-for="(item, index) in items"
-        :key="item.id"
-        class="custom-text-item"
-        draggable="true"
-        :title="t(textKeys.canvasDragHint)"
-        @dragstart="startTextDrag($event, item)"
-      >
-        <span class="custom-text-item__drag-handle" aria-hidden="true">⋮⋮</span>
+      <article v-for="(item, index) in items" :key="item.id" class="custom-text-item">
+        <span
+          class="custom-text-item__drag-handle"
+          draggable="true"
+          :title="t(textKeys.canvasDragHint)"
+          aria-hidden="true"
+          @dragstart="startTextDrag($event, item)"
+        >
+          ⋮⋮
+        </span>
         <textarea
           :value="item.text"
           :aria-label="`${t(textKeys.customTextInputLabel)} ${index + 1}`"
           rows="2"
+          draggable="false"
           @input="updateText(item.id, $event)"
         />
         <div
           class="custom-text-item__preview ns-transparency-grid"
           role="img"
           :aria-label="item.text"
+          draggable="false"
         >
-          <canvas :ref="(element) => setCanvasRef(item.id, element)" />
+          <canvas :ref="(element) => setCanvasRef(item.id, element)" draggable="false" />
         </div>
         <div class="custom-text-item__actions">
-          <button type="button" class="ns-button ns-button--compact" @click="download(item, index)">
-            {{ t(textKeys.customTextDownload) }}
-          </button>
-          <button type="button" class="ns-button ns-button--compact" @click="remove(item.id)">
+          <button
+            type="button"
+            class="ns-button ns-button--compact"
+            draggable="false"
+            @click="remove(item.id)"
+          >
             {{ t(textKeys.customTextDelete) }}
           </button>
         </div>
@@ -67,12 +72,10 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
-import { canvasToBlob, downloadBlob } from '@/pages/item-card/lib/cardRenderer'
 import {
   ITEM_CARD_CANVAS_DRAG_MIME,
   encodeItemCardCanvasDragSource
 } from '@/pages/item-card/lib/canvasDrag'
-import { makeItemCardCustomTextFileName } from '@/pages/item-card/lib/customText'
 import { renderCustomTextCanvas } from '@/pages/item-card/lib/customTextRenderer'
 import type { ItemCardCustomText, ItemCardRenderSettings } from '@/pages/item-card/lib/types'
 import { useItemCardCustomText } from '@/pages/item-card/composables/useItemCardCustomText'
@@ -144,11 +147,6 @@ async function renderAll() {
     })
   )
 }
-
-async function download(item: ItemCardCustomText, index: number) {
-  const canvas = await renderCustomTextCanvas(item.text, props.settings)
-  downloadBlob(await canvasToBlob(canvas), makeItemCardCustomTextFileName(item.text, index))
-}
 </script>
 
 <style scoped>
@@ -169,7 +167,7 @@ async function download(item: ItemCardCustomText, index: number) {
 
 .custom-text-editor__head {
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--ns-color-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .custom-text-editor__title {
@@ -189,8 +187,8 @@ async function download(item: ItemCardCustomText, index: number) {
   width: 100%;
   min-width: 0;
   padding: 7px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: 12px/1.45 var(--ns-font-ui);
@@ -209,20 +207,23 @@ async function download(item: ItemCardCustomText, index: number) {
 
 .custom-text-item {
   padding: 10px;
-  border: 1px solid var(--ns-color-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface);
-  cursor: grab;
-}
-
-.custom-text-item:active {
-  cursor: grabbing;
 }
 
 .custom-text-item__drag-handle {
+  display: inline-flex;
+  width: fit-content;
   color: var(--ns-color-text-muted);
   font: 700 14px/1 var(--ns-font-ui);
   letter-spacing: -2px;
-  pointer-events: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.custom-text-item__drag-handle:active {
+  cursor: grabbing;
 }
 
 .custom-text-item__preview {

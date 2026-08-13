@@ -59,6 +59,7 @@
           @update-locale="selectEquipmentLocale"
           @add-catalog-item="emit('add-catalog-item', $event)"
           @clear-entry="emit('clear-entry', $event)"
+          @move-entry="forwardMoveEntry"
           @set-entry-dye="forwardDyeSelection"
           @set-layout="setLayout"
           @set-all-layouts="setAllLayouts(filledEntries.map(getItemCardRowId), $event)"
@@ -177,6 +178,7 @@ const emit = defineEmits<{
   'import-chara': [file: File]
   'add-catalog-item': [candidate: GlamourCandidate]
   'clear-entry': [rowId: string]
+  'move-entry': [sourceRowId: string, targetRowId: string, placement: 'before' | 'after']
   'set-entry-dye': [rowId: string, dyeIndex: number, stain: GlamourStain]
   'update-locale': [locale: string]
 }>()
@@ -240,6 +242,10 @@ function selectEquipmentLocale(locale: string) {
 
 function forwardDyeSelection(rowId: string, dyeIndex: number, stain: GlamourStain) {
   emit('set-entry-dye', rowId, dyeIndex, stain)
+}
+
+function forwardMoveEntry(sourceRowId: string, targetRowId: string, placement: 'before' | 'after') {
+  emit('move-entry', sourceRowId, targetRowId, placement)
 }
 
 function closeImport() {
@@ -349,7 +355,7 @@ function submitTextImport() {
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
   padding: 10px;
-  border-bottom: 2px solid var(--ns-pixel-divider);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
   background: color-mix(in srgb, var(--ns-color-surface-solid) 88%, transparent);
 }
 
@@ -361,7 +367,7 @@ function submitTextImport() {
   display: grid;
   gap: 8px;
   padding: 10px;
-  border-bottom: 1px solid var(--ns-color-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
 }
 

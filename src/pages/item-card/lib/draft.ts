@@ -180,6 +180,40 @@ export function getFilledGlamourDraftEntries(draft: GlamourDraft): GlamourEquipm
   )
 }
 
+export function moveGlamourDraftEntry(
+  draft: GlamourDraft,
+  sourceRowId: string,
+  targetRowId: string,
+  placement: 'before' | 'after'
+): GlamourDraft {
+  if (sourceRowId === targetRowId) {
+    return draft
+  }
+
+  const sourceIndex = draft.entries.findIndex((entry) => getItemCardRowId(entry) === sourceRowId)
+  const targetIndex = draft.entries.findIndex((entry) => getItemCardRowId(entry) === targetRowId)
+  if (sourceIndex === -1 || targetIndex === -1) {
+    return draft
+  }
+
+  const nextEntries = draft.entries.filter((_, index) => index !== sourceIndex)
+  const nextTargetIndex = nextEntries.findIndex((entry) => getItemCardRowId(entry) === targetRowId)
+  nextEntries.splice(
+    nextTargetIndex + (placement === 'after' ? 1 : 0),
+    0,
+    draft.entries[sourceIndex]
+  )
+
+  if (nextEntries.every((entry, index) => entry === draft.entries[index])) {
+    return draft
+  }
+
+  return {
+    ...draft,
+    entries: nextEntries
+  }
+}
+
 function isKnownGlamourSlot(slot: string): slot is GlamourSlotKey {
   return GLAMOUR_SLOT_DEFINITIONS.some((definition) => definition.key === slot)
 }

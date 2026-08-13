@@ -118,7 +118,7 @@ function onSelect(candidate: GlamourSearchCandidate) {
   position: relative;
   min-width: 0;
   padding: 8px;
-  border-bottom: 1px solid var(--ns-color-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .catalog-search-row__category {
@@ -127,7 +127,7 @@ function onSelect(candidate: GlamourSearchCandidate) {
   height: 30px;
   padding: 0 22px 0 8px;
   border: 0;
-  border-right: 1px solid var(--ns-color-border);
+  border-right: var(--ns-line-width) solid var(--ns-color-border);
   border-radius: 0;
   appearance: none;
   background: transparent

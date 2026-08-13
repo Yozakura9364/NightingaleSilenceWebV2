@@ -15,6 +15,7 @@
       @import-chara="importChara"
       @add-catalog-item="addCatalogItem"
       @clear-entry="clearEntry"
+      @move-entry="moveEntry"
       @set-entry-dye="setEntryDye"
       @update-locale="setLocale"
     />
@@ -50,8 +51,16 @@ const tool = getRequiredFfxivTool('itemCard')
 const boundary = getApiBoundary('itemCard')
 const { t } = useLocale()
 const api = useItemCardApi(boundary)
-const { draft, acceptPayload, clearDraft, setLocale, addCatalogItem, clearEntry, setEntryDye } =
-  useItemCardDraft()
+const {
+  draft,
+  acceptPayload,
+  clearDraft,
+  setLocale,
+  addCatalogItem,
+  clearEntry,
+  moveEntry,
+  setEntryDye
+} = useItemCardDraft()
 
 const importing = ref(false)
 const statusKey = ref<string>(textKeys.nsglamourStatusIdle)

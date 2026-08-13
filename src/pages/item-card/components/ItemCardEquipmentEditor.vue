@@ -80,11 +80,20 @@
           'equipment-row--duplicate': entry.cardDuplicate,
           'equipment-row--plain-item': isPlainItem(entry),
           'equipment-row--emote': isEmote(entry),
-          'equipment-row--draggable': Boolean(selectedCandidate(entry))
+          'equipment-row--draggable': Boolean(selectedCandidate(entry)),
+          'equipment-row--dragging': draggedRowId === rowId(entry),
+          'equipment-row--drop-before':
+            dragTarget?.rowId === rowId(entry) && dragTarget.placement === 'before',
+          'equipment-row--drop-after':
+            dragTarget?.rowId === rowId(entry) && dragTarget.placement === 'after'
         }"
         :draggable="Boolean(selectedCandidate(entry))"
         :title="selectedCandidate(entry) ? t(textKeys.canvasDragHint) : undefined"
         @dragstart="startEntryDrag($event, entry)"
+        @dragover="onEntryDragOver($event, entry)"
+        @dragleave="onEntryDragLeave($event, entry)"
+        @drop="onEntryDrop($event, entry)"
+        @dragend="clearEntryDrag"
       >
         <div class="equipment-row__slot ns-glamour-item-info__slot">
           {{ rowTypeTitle(entry) }}
@@ -102,6 +111,7 @@
               :alt="candidateName(selectedCandidate(entry))"
               loading="lazy"
               referrerpolicy="no-referrer"
+              @error="onIconError(entry)"
             />
             <div class="equipment-row__item ns-glamour-item-info__body">
               <strong class="ns-glamour-item-info__name">{{
@@ -174,6 +184,7 @@
 </template>
 
 <script setup lang="ts">
+import { reactive, ref } from 'vue'
 import ItemCardCatalogSearch from '@/pages/item-card/components/ItemCardCatalogSearch.vue'
 import GlamourDyePicker from '@/components/glamour/GlamourDyePicker.vue'
 import {
@@ -189,6 +200,7 @@ import {
   isItemCardEmote,
   isItemCardPlainItem
 } from '@/pages/item-card/lib/equipment'
+import { getFfxivItemIconHr1Url } from '@/lib/ffxiv/itemIcon'
 import {
   ITEM_CARD_CANVAS_DRAG_MIME,
   encodeItemCardCanvasDragSource
@@ -234,6 +246,7 @@ const emit = defineEmits<{
   'update-locale': [locale: string]
   'add-catalog-item': [candidate: GlamourCandidate]
   'clear-entry': [rowId: string]
+  'move-entry': [sourceRowId: string, targetRowId: string, placement: 'before' | 'after']
   'set-entry-dye': [rowId: string, dyeIndex: number, stain: GlamourStain]
   'set-layout': [rowId: string, layout: ItemCardLayout]
   'set-all-layouts': [layout: ItemCardLayout]
@@ -242,6 +255,9 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useLocale()
+const ITEM_CARD_ROW_DRAG_MIME = 'application/x-ns-item-card-row'
+const draggedRowId = ref('')
+const dragTarget = ref<{ rowId: string; placement: 'before' | 'after' } | null>(null)
 
 function localeLabel(locale: string): string {
   return (
@@ -308,8 +324,32 @@ function candidateName(candidate: GlamourCandidate | undefined): string {
   return getCandidateName(candidate, props.draft.locale, props.draft.source.locale)
 }
 
+const forceRerender = ref(0)
 function iconUrl(entry: GlamourEquipmentEntry): string {
-  return buildGlamourIconUrl(props.apiBase, selectedCandidate(entry)?.icon)
+  void forceRerender.value
+  const candidate = selectedCandidate(entry)
+  const key = `${entry.slot}-${candidate?.icon ?? ''}`
+  if (iconFallbacked.get(key)) {
+    const numericId = Number(candidate?.icon)
+    if (Number.isFinite(numericId) && numericId > 0) {
+      return getFfxivItemIconHr1Url(numericId)
+    }
+  }
+  return buildGlamourIconUrl(props.apiBase, candidate?.icon)
+}
+
+// hd 失败 -> hr1 兜底 (Vue 响应式, 按 entry key 记录)
+const iconFallbacked = reactive(new Map<string, boolean>())
+function onIconError(entry: GlamourEquipmentEntry) {
+  const candidate = selectedCandidate(entry)
+  const key = `${entry.slot}-${candidate?.icon ?? ''}`
+  if (iconFallbacked.get(key)) return
+  const numericId = Number(candidate?.icon)
+  if (!Number.isFinite(numericId) || numericId <= 0) return
+  const fallbackUrl = getFfxivItemIconHr1Url(numericId)
+  if (!fallbackUrl) return
+  iconFallbacked.set(key, true)
+  forceRerender.value++
 }
 
 function dyeCount(entry: GlamourEquipmentEntry): number {
@@ -340,12 +380,66 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
     event.preventDefault()
     return
   }
-  transfer.effectAllowed = 'copy'
+  const sourceRowId = rowId(entry)
+  draggedRowId.value = sourceRowId
+  dragTarget.value = null
+  transfer.effectAllowed = 'copyMove'
+  transfer.setData(ITEM_CARD_ROW_DRAG_MIME, sourceRowId)
   transfer.setData(
     ITEM_CARD_CANVAS_DRAG_MIME,
-    encodeItemCardCanvasDragSource({ kind: 'item', sourceId: rowId(entry) })
+    encodeItemCardCanvasDragSource({ kind: 'item', sourceId: sourceRowId })
   )
   transfer.setData('text/plain', candidateName(candidate))
+}
+
+function hasEntryDrag(event: DragEvent): boolean {
+  return Boolean(draggedRowId.value && event.dataTransfer?.types.includes(ITEM_CARD_ROW_DRAG_MIME))
+}
+
+function onEntryDragOver(event: DragEvent, entry: GlamourEquipmentEntry) {
+  const targetRowId = rowId(entry)
+  if (!hasEntryDrag(event) || targetRowId === draggedRowId.value) {
+    return
+  }
+
+  event.preventDefault()
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'move'
+  }
+  const bounds = (event.currentTarget as HTMLElement).getBoundingClientRect()
+  dragTarget.value = {
+    rowId: targetRowId,
+    placement: event.clientY < bounds.top + bounds.height / 2 ? 'before' : 'after'
+  }
+}
+
+function onEntryDragLeave(event: DragEvent, entry: GlamourEquipmentEntry) {
+  const row = event.currentTarget as HTMLElement
+  if (event.relatedTarget instanceof Node && row.contains(event.relatedTarget)) {
+    return
+  }
+  if (dragTarget.value?.rowId === rowId(entry)) {
+    dragTarget.value = null
+  }
+}
+
+function onEntryDrop(event: DragEvent, entry: GlamourEquipmentEntry) {
+  if (!hasEntryDrag(event)) {
+    return
+  }
+
+  event.preventDefault()
+  const sourceRowId = event.dataTransfer?.getData(ITEM_CARD_ROW_DRAG_MIME) || draggedRowId.value
+  const target = dragTarget.value
+  if (sourceRowId && target && target.rowId === rowId(entry)) {
+    emit('move-entry', sourceRowId, target.rowId, target.placement)
+  }
+  clearEntryDrag()
+}
+
+function clearEntryDrag() {
+  draggedRowId.value = ''
+  dragTarget.value = null
 }
 </script>
 
@@ -359,7 +453,7 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
   display: grid;
   gap: 8px;
   padding: 12px 14px;
-  border-bottom: 1px solid var(--ns-color-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .equipment-editor__head-row {
@@ -387,8 +481,8 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
 .equipment-editor__clear {
   min-height: 25px;
   padding: 3px 7px;
-  border: 1px solid transparent;
-  border-radius: 0;
+  border: var(--ns-line-width) solid transparent;
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: var(--ns-color-text-muted);
   font: 700 10px/1 var(--ns-font-ui);
@@ -418,7 +512,7 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
   justify-content: space-between;
   gap: 8px;
   padding: 10px 14px;
-  border-bottom: 1px solid var(--ns-color-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .equipment-editor__bulk-label {
@@ -438,7 +532,7 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
   min-width: 0;
-  border-bottom: 1px solid var(--ns-color-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .equipment-row--draggable {
@@ -449,12 +543,24 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
   cursor: grabbing;
 }
 
+.equipment-row--dragging {
+  opacity: 0.48;
+}
+
+.equipment-row--drop-before {
+  box-shadow: inset 0 3px 0 var(--ns-color-accent);
+}
+
+.equipment-row--drop-after {
+  box-shadow: inset 0 -3px 0 var(--ns-color-accent);
+}
+
 .equipment-row__slot {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px 5px;
-  border-right: 1px solid var(--ns-color-border);
+  border-right: var(--ns-line-width) solid var(--ns-color-border);
   color: var(--ns-color-text-muted);
   font-size: 11px;
   font-weight: 800;
@@ -470,7 +576,7 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
 }
 
 .equipment-row--plain-item .equipment-row__slot {
-  background: var(--ns-pixel-hover-surface);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-text);
 }
 
@@ -485,8 +591,8 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
 .equipment-row__selected > img {
   width: 42px;
   height: 42px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   object-fit: cover;
 }
 
@@ -510,8 +616,8 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
   min-width: 0;
   height: 27px;
   padding: 3px 6px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: 11px var(--ns-font-ui);
@@ -542,8 +648,8 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
   height: 24px;
   min-height: 24px;
   padding: 0;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 3px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   color: var(--ns-color-text-muted);
   font: 700 16px/1 var(--ns-font-ui);
@@ -552,7 +658,7 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
 
 .equipment-row__remove:hover {
   border-color: var(--ns-color-accent);
-  background: var(--ns-pixel-hover-surface);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-accent);
 }
 
@@ -582,8 +688,8 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
   gap: 5px;
   min-height: 24px;
   padding: 3px 6px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface);
   color: var(--ns-color-text);
   font: 11px var(--ns-font-ui);
@@ -616,7 +722,7 @@ function startEntryDrag(event: DragEvent, entry: GlamourEquipmentEntry) {
   width: 11px;
   height: 11px;
   flex: 0 0 auto;
-  border: 1px solid var(--ns-color-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
   border-radius: 50%;
   background: var(--dye-color);
 }

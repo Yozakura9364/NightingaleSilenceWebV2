@@ -6,9 +6,9 @@ import {
 } from '@/pages/item-card/lib/customText'
 import type { ItemCardCustomText } from '@/pages/item-card/lib/types'
 
-export function useItemCardCustomText() {
-  const items = ref<ItemCardCustomText[]>(readItemCardCustomTexts())
+const items = ref<ItemCardCustomText[]>(readItemCardCustomTexts())
 
+export function useItemCardCustomText() {
   function persist() {
     writeItemCardCustomTexts(items.value)
   }

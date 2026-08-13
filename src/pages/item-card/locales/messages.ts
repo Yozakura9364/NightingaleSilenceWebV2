@@ -85,7 +85,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Equipment text',
     ja: '装備テキスト',
     ko: '장비 텍스트',
-    fr: 'Texte d\'équipement',
+    fr: "Texte d'équipement",
     de: 'Ausrüstungstext'
   }),
   'itemCard.importText.placeholder': msg({
@@ -93,7 +93,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Paste equipment text',
     ja: '装備テキストを貼り付け',
     ko: '장비 텍스트 붙여넣기',
-    fr: 'Coller le texte d\'équipement',
+    fr: "Coller le texte d'équipement",
     de: 'Ausrüstungstext einfügen'
   }),
   'itemCard.importText.submit': msg({
@@ -125,7 +125,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Display language',
     ja: '表示言語',
     ko: '표시 언어',
-    fr: 'Langue d\'affichage',
+    fr: "Langue d'affichage",
     de: 'Anzeigesprache'
   }),
   'itemCard.equipment.undyeable': msg({
@@ -387,12 +387,12 @@ export const itemCardUiMessages: UiMessageMap = {
     de: 'Karteninhalt oder eigenen Text aus dem linken Panel hierher ziehen, um eine Ebene hinzuzufügen.'
   }),
   'itemCard.canvas.dragHint': msg({
-    zh: '拖动到右侧画布',
-    en: 'Drag to the canvas on the right',
-    ja: '右側のキャンバスへドラッグ',
-    ko: '오른쪽 캔버스로 드래그',
-    fr: 'Glisser vers le canevas à droite',
-    de: 'Auf die Leinwand rechts ziehen'
+    zh: '上下拖动可调整顺序，也可拖到右侧画布',
+    en: 'Drag up or down to reorder, or drag to the canvas on the right',
+    ja: '上下にドラッグして並べ替えるか、右側のキャンバスへドラッグ',
+    ko: '위아래로 드래그해 순서를 바꾸거나 오른쪽 캔버스로 드래그',
+    fr: 'Faire glisser verticalement pour réordonner, ou vers le canevas à droite',
+    de: 'Zum Sortieren nach oben oder unten oder auf die rechte Leinwand ziehen'
   }),
   'itemCard.canvas.layers': msg({
     zh: '图层',
@@ -463,7 +463,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Unsupported image format; only PNG / JPEG / WebP are supported',
     ja: '画像形式が不正です。PNG / JPEG / WebP のみ対応しています',
     ko: '지원하지 않는 이미지 형식입니다. PNG / JPEG / WebP만 지원합니다',
-    fr: 'Format d\'image non pris en charge ; seuls PNG / JPEG / WebP sont acceptés',
+    fr: "Format d'image non pris en charge ; seuls PNG / JPEG / WebP sont acceptés",
     de: 'Nicht unterstütztes Bildformat; nur PNG / JPEG / WebP werden unterstützt'
   }),
   'itemCard.canvas.error.tooLarge': msg({
@@ -479,7 +479,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Failed to read the image',
     ja: '画像の読み込みに失敗しました',
     ko: '이미지를 읽지 못했습니다',
-    fr: 'Échec de la lecture de l\'image',
+    fr: "Échec de la lecture de l'image",
     de: 'Bild konnte nicht gelesen werden'
   }),
   'itemCard.canvas.empty': msg({
@@ -487,7 +487,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'The canvas is empty; upload a background image first',
     ja: 'キャンバスが空です。先に背景画像をアップロードしてください',
     ko: '캔버스가 비어 있습니다. 먼저 배경 이미지를 업로드하세요',
-    fr: 'Le canevas est vide ; téléversez d\'abord une image d\'arrière-plan',
+    fr: "Le canevas est vide ; téléversez d'abord une image d'arrière-plan",
     de: 'Die Leinwand ist leer; lade zuerst ein Hintergrundbild hoch'
   }),
   'itemCard.emote.search.placeholder': msg({
@@ -503,7 +503,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Emote data has not been generated yet',
     ja: 'エモートデータはまだ生成されていません',
     ko: '감정 표현 데이터가 아직 생성되지 않았습니다',
-    fr: 'Les données d\'emotes n\'ont pas encore été générées',
+    fr: "Les données d'emotes n'ont pas encore été générées",
     de: 'Emote-Daten wurden noch nicht erstellt'
   }),
   'itemCard.equipment.removeRow': msg({
@@ -586,7 +586,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Recognizing equipment text...',
     ja: '装備テキストを認識中……',
     ko: '장비 텍스트 인식 중……',
-    fr: 'Reconnaissance du texte d\'équipement...',
+    fr: "Reconnaissance du texte d'équipement...",
     de: 'Ausrüstungstext wird erkannt...'
   }),
   'itemCard.status.readingConfig': msg({
@@ -602,7 +602,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Import failed',
     ja: '読み込み失敗',
     ko: '가져오기 실패',
-    fr: 'Échec de l\'import',
+    fr: "Échec de l'import",
     de: 'Import fehlgeschlagen'
   }),
   'itemCard.status.linkRequired': same('请输入石之家或 Eorzea Collection 幻化链接'),
@@ -612,7 +612,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Enter equipment text',
     ja: '装備テキストを入力してください',
     ko: '장비 텍스트를 입력하세요',
-    fr: 'Saisissez le texte d\'équipement',
+    fr: "Saisissez le texte d'équipement",
     de: 'Ausrüstungstext eingeben'
   }),
   'itemCard.status.invalidLocalFile': msg({
@@ -732,7 +732,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Local font access is unavailable',
     ja: 'ローカルフォントを読み込めません',
     ko: '로컬 글꼴을 읽을 수 없습니다',
-    fr: 'L\'accès aux polices locales est indisponible',
+    fr: "L'accès aux polices locales est indisponible",
     de: 'Zugriff auf lokale Schriften nicht verfügbar'
   }),
   'itemCard.card.localFontsLoaded': msg({
@@ -756,7 +756,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Item name size',
     ja: '装備名サイズ',
     ko: '장비 이름 크기',
-    fr: 'Taille du nom d\'objet',
+    fr: "Taille du nom d'objet",
     de: 'Größe des Gegenstandsnamens'
   }),
   'itemCard.card.titleWeight': msg({
@@ -764,7 +764,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Item name weight',
     ja: '装備名ウェイト',
     ko: '장비 이름 굵기',
-    fr: 'Graisse du nom d\'objet',
+    fr: "Graisse du nom d'objet",
     de: 'Stärke des Gegenstandsnamens'
   }),
   'itemCard.card.dyeSize': msg({
@@ -872,7 +872,7 @@ export const itemCardUiMessages: UiMessageMap = {
     en: 'Waiting for equipment',
     ja: '装備データ待ち',
     ko: '장비 데이터 대기 중',
-    fr: 'En attente d\'équipement',
+    fr: "En attente d'équipement",
     de: 'Warte auf Ausrüstung'
   }),
   'itemCard.preview.list': msg({
