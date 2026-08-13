@@ -57,7 +57,7 @@ export default defineConfig(({ command, mode }) => {
       }
     },
     server: {
-      host: '100.74.24.101',
+      host: '0.0.0.0',
       port: 5175,
       strictPort: true,
       proxy: {

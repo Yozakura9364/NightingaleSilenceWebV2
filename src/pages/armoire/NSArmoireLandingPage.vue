@@ -131,7 +131,10 @@ const downloadIconStyle = {
   width: 100%;
   max-width: 520px;
   overflow: hidden;
-  background: #fff;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-soft);
   line-height: 0;
 }
 

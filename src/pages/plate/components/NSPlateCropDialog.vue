@@ -447,7 +447,8 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
 
 .nsplate-crop-dialog__setup {
   display: grid;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid);
 }
 
@@ -471,7 +472,7 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
 }
 
 .nsplate-crop-dialog__modes button + button {
-  border-left: 2px solid var(--ns-pixel-border);
+  border-left: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .nsplate-crop-dialog__modes button:hover,
@@ -483,7 +484,7 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
 .nsplate-crop-dialog__files {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  border-top: 2px solid var(--ns-pixel-border);
+  border-top: var(--ns-line-width) solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
 }
 
@@ -507,7 +508,7 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
 }
 
 .nsplate-crop-dialog__file + .nsplate-crop-dialog__file {
-  border-left: 2px solid var(--ns-pixel-border);
+  border-left: var(--ns-line-width) solid var(--ns-color-border);
 }
 
 .nsplate-crop-dialog__file:hover,
@@ -577,7 +578,8 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
   place-self: center;
   place-items: center;
   overflow: hidden;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background:
     linear-gradient(45deg, rgba(88, 68, 105, 0.13) 25%, transparent 25%),
     linear-gradient(-45deg, rgba(88, 68, 105, 0.13) 25%, transparent 25%),
@@ -622,7 +624,8 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 8px 18px;
   padding: 8px 10px;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid);
 }
 
@@ -762,7 +765,7 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
   }
 
   .nsplate-crop-dialog__file + .nsplate-crop-dialog__file {
-    border-top: 2px solid var(--ns-pixel-border);
+    border-top: var(--ns-line-width) solid var(--ns-color-border);
     border-left: 0;
   }
 

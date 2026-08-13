@@ -8,7 +8,7 @@
     gap: 8px;
     min-height: 42px;
     padding: 0 18px;
-    border: 2px solid var(--ns-pixel-border);
+    border: 1px solid var(--ns-color-border);
     border-radius: var(--ns-radius-pill);
     background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
@@ -16,7 +16,7 @@
     font-size: 14px;
     font-weight: 800;
     line-height: 1;
-    box-shadow: var(--ns-pixel-soft-shadow);
+    box-shadow: var(--ns-shadow-soft);
     cursor: pointer;
     text-decoration: none;
     user-select: none;
@@ -190,7 +190,7 @@
   }
 
   .ns-range--pixel:disabled::-webkit-slider-thumb {
-    border-color: var(--ns-pixel-border-soft);
+    border-color: var(--ns-color-border);
   }
 
   .ns-range--pixel:disabled::-moz-range-thumb {
@@ -231,13 +231,13 @@
 
   .ns-button:focus-visible {
     outline: 0;
-    box-shadow: var(--ns-pixel-button-shadow-hover), var(--ns-focus-ring);
+    box-shadow: var(--ns-shadow-soft), var(--ns-focus-ring);
   }
 
   .ns-button:disabled,
   .ns-button[aria-disabled='true'] {
     transform: none;
-    border-color: var(--ns-pixel-border-soft);
+    border-color: var(--ns-color-border);
     background: var(--ns-color-surface-tint);
     color: var(--ns-pixel-disabled);
     box-shadow: none;
@@ -248,14 +248,14 @@
   .ns-button--primary {
     --ns-button-interactive-color: var(--ns-color-text);
 
-    border-color: var(--ns-pixel-border);
+    border-color: var(--ns-color-border-strong);
     background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
     text-shadow: none;
   }
 
   .ns-button--secondary {
-    background: var(--ns-pixel-cyan-surface);
+    background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
   }
 
@@ -302,11 +302,11 @@
     min-height: 34px;
     place-items: center;
     padding: 0;
-    border: 2px solid var(--ns-pixel-border);
-    border-radius: 0;
+    border: 1px solid var(--ns-color-border);
+    border-radius: var(--ns-radius-md);
     background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
-    box-shadow: var(--ns-pixel-soft-shadow);
+    box-shadow: var(--ns-shadow-soft);
     cursor: pointer;
     transition:
       transform var(--ns-transition-fast),
@@ -317,20 +317,20 @@
 
   .ns-icon-button:hover,
   .ns-icon-button[data-open='true'] {
-    border-color: var(--ns-pixel-border-accent);
-    background: var(--ns-pixel-hover-surface);
-    box-shadow: var(--ns-pixel-button-shadow-hover);
+    border-color: var(--ns-color-border-strong);
+    background: var(--ns-color-surface-solid);
+    box-shadow: var(--ns-shadow-soft);
   }
 
   .ns-icon-button:focus-visible {
     outline: 0;
-    box-shadow: var(--ns-pixel-button-shadow-hover), var(--ns-focus-ring);
+    box-shadow: var(--ns-shadow-soft), var(--ns-focus-ring);
   }
 
   .ns-icon-button:disabled,
   .ns-icon-button[aria-disabled='true'] {
     transform: none;
-    border-color: var(--ns-pixel-border-soft);
+    border-color: var(--ns-color-border);
     background: var(--ns-color-surface-tint);
     color: var(--ns-pixel-disabled);
     box-shadow: none;
@@ -376,8 +376,8 @@
     justify-content: center;
     gap: 8px;
     padding: 0 10px;
-    border: 2px solid var(--ns-pixel-border);
-    border-radius: 0;
+    border: 1px solid var(--ns-color-border);
+    border-radius: var(--ns-radius-md);
     background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
     font-family: var(--ns-font-ui);
@@ -397,8 +397,8 @@
   .ns-compact-action:hover,
   .ns-compact-action:focus-visible,
   .ns-compact-action[data-active='true'] {
-    border-color: var(--ns-pixel-border-accent);
-    background: var(--ns-pixel-hover-surface);
+    border-color: var(--ns-color-border-strong);
+    background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
     outline: 0;
   }
@@ -426,7 +426,7 @@
     padding: 4px 8px;
     border: 1px solid var(--ns-color-border);
     border-right: 0;
-    border-radius: 0;
+    border-radius: var(--ns-radius-sm);
     background: var(--ns-color-surface);
     color: var(--ns-color-text-muted);
     font: 700 11px var(--ns-font-ui);
@@ -445,8 +445,8 @@
   }
 
   .ns-segmented-control button[aria-pressed='true'] {
-    background: var(--ns-color-accent);
-    color: var(--ns-color-on-accent);
+    background: var(--ns-color-surface-tint);
+    color: var(--ns-color-accent-strong);
   }
 
   .ns-segmented-control button:disabled {
@@ -467,9 +467,9 @@
     padding: 16px;
     border: var(--ns-large-panel-border-width) solid var(--ns-large-panel-border-color);
     border-radius: var(--ns-large-panel-border-radius);
-    background: var(--ns-pixel-surface);
+    background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
-    box-shadow: var(--ns-pixel-soft-shadow);
+    box-shadow: var(--ns-shadow-panel);
   }
 
   .ns-workbench-panel--soft {
@@ -498,7 +498,7 @@
     min-width: 0;
     margin: 0;
     color: var(--ns-heading-bloom-color);
-    font-family: var(--ns-font-pixel);
+    font-family: var(--ns-font-ui);
     font-size: 16px;
     font-weight: 950;
     line-height: 1.35;
@@ -507,7 +507,7 @@
 
   .ns-heading-bloom {
     color: var(--ns-heading-bloom-color);
-    font-family: var(--ns-font-pixel);
+    font-family: var(--ns-font-ui);
     text-shadow: var(--ns-heading-bloom-shadow);
   }
 
@@ -520,11 +520,11 @@
   }
 
   .ns-floating-panel {
-    border: 2px solid var(--ns-pixel-border);
-    border-radius: 0;
-    background: var(--ns-pixel-window-bg);
+    border: 1px solid var(--ns-color-border);
+    border-radius: var(--ns-radius-md);
+    background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
-    box-shadow: none;
+    box-shadow: var(--ns-shadow-panel);
   }
 
   .ns-transparency-grid {
@@ -549,9 +549,10 @@
   .ns-recent-panel--popover {
     width: min(320px, calc(100vw - 48px));
     padding: 10px;
-    border: 2px solid var(--ns-pixel-border-soft);
-    background: var(--ns-pixel-window-bg);
-    box-shadow: var(--ns-pixel-window-shadow);
+    border: 1px solid var(--ns-color-border);
+    border-radius: var(--ns-radius-md);
+    background: var(--ns-color-surface-solid);
+    box-shadow: var(--ns-shadow-panel);
   }
 
   .ns-recent-panel__header {
@@ -564,7 +565,7 @@
 
   .ns-recent-panel__header h2 {
     margin: 0;
-    font-family: var(--ns-font-pixel);
+    font-family: var(--ns-font-ui);
     font-size: 16px;
     font-weight: 950;
   }
@@ -672,11 +673,11 @@
     gap: 12px;
     padding: 16px;
     overflow-y: auto;
-    border: 2px solid var(--ns-pixel-border);
-    border-radius: 0;
-    background: var(--ns-pixel-window-bg);
+    border: 1px solid var(--ns-color-border);
+    border-radius: var(--ns-radius-md);
+    background: var(--ns-color-surface-solid);
     color: var(--ns-color-text);
-    box-shadow: none;
+    box-shadow: var(--ns-shadow-panel);
   }
 
   .ns-form-dialog--wide {
@@ -695,7 +696,7 @@
   .ns-form-dialog__title {
     min-width: 0;
     margin: 0;
-    font-family: var(--ns-font-pixel);
+    font-family: var(--ns-font-ui);
     font-size: 16px;
     font-weight: 950;
   }
@@ -742,7 +743,7 @@
 
   .ns-tool-card__title {
     margin: 0;
-    font-family: var(--ns-font-pixel);
+    font-family: var(--ns-font-ui);
     font-size: 24px;
     font-weight: 900;
   }

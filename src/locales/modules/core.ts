@@ -138,10 +138,10 @@ export const coreUiMessages: UiMessageMap = {
   'site.menu.silenceAngel': same('不语·silence'),
   'site.menu.silenceGlitch': same('幽灵·silence'),
   'ffxiv.workshop.title': msg({
-    zh: '狒狒14工房',
-    en: 'FFXIV Workshop',
-    ja: 'FFXIV工房',
-    ko: 'FFXIV 공방'
+    zh: '艾欧泽亚日历',
+    en: 'Eorzea Calendar',
+    ja: 'エオルゼアカレンダー',
+    ko: '에오르제아 달력'
   }),
   'ffxiv.workshop.short': msg({ zh: '狒狒14', en: 'FFXIV', ja: 'FFXIV', ko: 'FFXIV' }),
   'ffxiv.workshop.kicker': msg({

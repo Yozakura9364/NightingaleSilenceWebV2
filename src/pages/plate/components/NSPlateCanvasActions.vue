@@ -127,10 +127,11 @@ async function clearMaterials() {
   max-width: 100%;
   margin: 0;
   padding: 0;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
+  box-shadow: var(--ns-shadow-soft);
+  overflow: hidden;
 }
 
 .nsplate-canvas-status__button {
@@ -169,7 +170,7 @@ async function clearMaterials() {
   min-width: 50px;
   min-height: 28px;
   place-items: center;
-  border-left: 2px solid var(--ns-pixel-border);
+  border-left: 1px solid var(--ns-color-border);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-data);
@@ -180,7 +181,7 @@ async function clearMaterials() {
 
 .nsplate-canvas-status__button + .nsplate-canvas-status__button,
 .nsplate-canvas-status__zoom + .nsplate-canvas-status__button {
-  border-left: 2px solid var(--ns-pixel-border);
+  border-left: 1px solid var(--ns-color-border);
 }
 
 .nsplate-canvas-status__button:hover:not(:disabled) {

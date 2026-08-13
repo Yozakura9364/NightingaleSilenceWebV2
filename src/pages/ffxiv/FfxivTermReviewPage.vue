@@ -258,8 +258,9 @@ function uniqueOptions<T extends string>(values: T[]) {
 
 .ffxiv-term-review-page__filters,
 .ffxiv-term-review-page__summary {
-  border: 2px solid var(--ns-pixel-border-soft);
-  background: var(--ns-color-surface);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
   box-shadow: var(--ns-shadow-panel);
 }
 
@@ -286,7 +287,8 @@ function uniqueOptions<T extends string>(values: T[]) {
   width: 100%;
   min-width: 0;
   min-height: 38px;
-  border: 2px solid var(--ns-pixel-border-soft);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background-color: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: 700 14px/1.3 var(--ns-font-ui);
@@ -309,7 +311,8 @@ function uniqueOptions<T extends string>(values: T[]) {
 }
 
 .ffxiv-term-review-page__summary span {
-  border: 1px solid var(--ns-pixel-border-soft);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   padding: 4px 8px;
 }
@@ -317,7 +320,8 @@ function uniqueOptions<T extends string>(values: T[]) {
 .ffxiv-term-review-page__table-wrap {
   max-height: calc(100vh - 340px);
   margin-top: 14px;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid);
 }
 
@@ -331,7 +335,7 @@ function uniqueOptions<T extends string>(values: T[]) {
 
 .ffxiv-term-review-page__table th,
 .ffxiv-term-review-page__table td {
-  border: 1px solid var(--ns-pixel-border-soft);
+  border: var(--ns-line-width) solid var(--ns-color-border);
   padding: 10px;
   text-align: left;
   vertical-align: top;
@@ -341,7 +345,7 @@ function uniqueOptions<T extends string>(values: T[]) {
   position: sticky;
   top: 0;
   z-index: 1;
-  background: var(--ns-pixel-window-bar-bg);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
   font-size: 12px;
@@ -391,11 +395,12 @@ function uniqueOptions<T extends string>(values: T[]) {
 .ffxiv-term-review-page__badge {
   display: inline-block;
   margin-bottom: 6px;
-  border: 1px solid var(--ns-pixel-border-soft);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface);
   padding: 4px 6px;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 11px;
   font-weight: 900;
 }

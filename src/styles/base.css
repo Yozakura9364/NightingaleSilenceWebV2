@@ -100,7 +100,7 @@
   .ns-eyebrow {
     margin: 0 0 8px;
     color: var(--ns-color-accent-strong);
-    font-family: var(--ns-font-pixel);
+    font-family: var(--ns-font-ui);
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 0;
@@ -109,7 +109,7 @@
   .ns-title {
     margin: 0;
     color: var(--ns-heading-bloom-color);
-    font-family: var(--ns-font-pixel);
+    font-family: var(--ns-font-ui);
     font-size: 64px;
     font-weight: 900;
     line-height: 1.02;

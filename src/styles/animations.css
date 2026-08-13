@@ -93,6 +93,43 @@
   }
 }
 
+/* Route changes emulate a browser window closing before the next page opens. */
+.app-window-enter-active,
+.app-window-leave-active {
+  transform-origin: center top;
+  will-change: opacity, transform;
+}
+
+.app-window-enter-active {
+  animation: ns-window-open 180ms steps(4, end) both;
+}
+
+.app-window-leave-active {
+  animation: ns-window-close 120ms steps(3, end) both;
+}
+
+@keyframes ns-window-open {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.986);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ns-window-close {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(5px) scale(0.986);
+  }
+}
+
 /* ── Animation utility classes ──
  *
  * IMPORTANT: Use !important to override Vue scoped CSS attribute selectors.
@@ -165,18 +202,42 @@
   animation-play-state: running !important;
 }
 
-.ns-stagger > *:nth-child(1)  { animation-delay: 40ms !important; }
-.ns-stagger > *:nth-child(2)  { animation-delay: 80ms !important; }
-.ns-stagger > *:nth-child(3)  { animation-delay: 120ms !important; }
-.ns-stagger > *:nth-child(4)  { animation-delay: 160ms !important; }
-.ns-stagger > *:nth-child(5)  { animation-delay: 200ms !important; }
-.ns-stagger > *:nth-child(6)  { animation-delay: 240ms !important; }
-.ns-stagger > *:nth-child(7)  { animation-delay: 280ms !important; }
-.ns-stagger > *:nth-child(8)  { animation-delay: 320ms !important; }
-.ns-stagger > *:nth-child(9)  { animation-delay: 360ms !important; }
-.ns-stagger > *:nth-child(10) { animation-delay: 400ms !important; }
-.ns-stagger > *:nth-child(11) { animation-delay: 440ms !important; }
-.ns-stagger > *:nth-child(12) { animation-delay: 480ms !important; }
+.ns-stagger > *:nth-child(1) {
+  animation-delay: 40ms !important;
+}
+.ns-stagger > *:nth-child(2) {
+  animation-delay: 80ms !important;
+}
+.ns-stagger > *:nth-child(3) {
+  animation-delay: 120ms !important;
+}
+.ns-stagger > *:nth-child(4) {
+  animation-delay: 160ms !important;
+}
+.ns-stagger > *:nth-child(5) {
+  animation-delay: 200ms !important;
+}
+.ns-stagger > *:nth-child(6) {
+  animation-delay: 240ms !important;
+}
+.ns-stagger > *:nth-child(7) {
+  animation-delay: 280ms !important;
+}
+.ns-stagger > *:nth-child(8) {
+  animation-delay: 320ms !important;
+}
+.ns-stagger > *:nth-child(9) {
+  animation-delay: 360ms !important;
+}
+.ns-stagger > *:nth-child(10) {
+  animation-delay: 400ms !important;
+}
+.ns-stagger > *:nth-child(11) {
+  animation-delay: 440ms !important;
+}
+.ns-stagger > *:nth-child(12) {
+  animation-delay: 480ms !important;
+}
 
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
@@ -190,5 +251,10 @@
     animation-delay: 0s !important;
     transition: none !important;
     pointer-events: auto;
+  }
+
+  .app-window-enter-active,
+  .app-window-leave-active {
+    animation: none;
   }
 }

@@ -61,7 +61,7 @@ const activeTab = computed({
   flex: 0 0 var(--nsplate-panel-width, clamp(340px, 31vw, 460px));
   flex-direction: column;
   overflow: hidden;
-  border-left: 2px solid var(--ns-pixel-divider);
+  border-left: var(--ns-line-width) solid var(--ns-color-border);
   background: color-mix(in srgb, var(--ns-color-surface-solid) 84%, transparent);
 }
 
@@ -74,7 +74,7 @@ const activeTab = computed({
   align-items: start;
   gap: 8px;
   padding: 10px;
-  border-bottom: 2px solid var(--ns-pixel-divider);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
   background: color-mix(in srgb, var(--ns-color-surface-solid) 88%, transparent);
 }
 

@@ -132,9 +132,10 @@ function handleKeydown(event: KeyboardEvent, index: number) {
   align-items: stretch;
   flex-wrap: wrap;
   gap: 0;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
-  box-shadow: var(--ns-pixel-soft-shadow);
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-soft);
 }
 
 .app-tabs--stretch {
@@ -150,7 +151,7 @@ function handleKeydown(event: KeyboardEvent, index: number) {
   gap: 2px;
   padding: 6px 14px;
   border: 0;
-  border-right: 2px solid var(--ns-pixel-border);
+  border-right: 1px solid var(--ns-color-border);
   background: transparent;
   color: var(--ns-pixel-muted, var(--ns-color-text-muted));
   font-family: var(--ns-font-ui);
@@ -192,7 +193,7 @@ function handleKeydown(event: KeyboardEvent, index: number) {
 
 .app-tabs__tab:hover,
 .app-tabs__tab--active {
-  background: var(--ns-pixel-cyan-surface);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-accent-strong);
 }
 
@@ -203,7 +204,7 @@ function handleKeydown(event: KeyboardEvent, index: number) {
 }
 
 .app-tabs__tab--active {
-  box-shadow: inset 0 -3px 0 var(--ns-color-accent);
+  box-shadow: inset 0 -2px 0 var(--ns-color-accent);
 }
 
 .app-tabs__tab:disabled {

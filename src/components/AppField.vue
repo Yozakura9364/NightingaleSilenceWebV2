@@ -91,10 +91,10 @@ const labelFor = computed(() => props.forId || undefined)
   width: 100%;
   min-height: 40px;
   padding: 0 10px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-pixel-surface, var(--ns-color-surface-solid));
-  color: var(--ns-pixel-ink, var(--ns-color-text));
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
   font: inherit;
   font-family: var(--ns-font-ui);
   font-size: 14px;
@@ -121,7 +121,7 @@ const labelFor = computed(() => props.forId || undefined)
   -webkit-appearance: none;
   padding-inline-start: var(--ns-select-padding-start);
   padding-inline-end: var(--ns-select-padding-end);
-  background-color: var(--ns-pixel-surface, var(--ns-color-surface-solid));
+  background-color: var(--ns-color-surface-solid);
   background-image: var(--ns-select-caret-icon);
   background-position: right var(--ns-select-caret-right) center;
   background-repeat: no-repeat;
@@ -147,7 +147,7 @@ const labelFor = computed(() => props.forId || undefined)
 .app-field__control :deep(select:focus),
 .app-field__control :deep(textarea:focus) {
   outline: 0;
-  border-color: var(--ns-pixel-border-cyan);
+  border-color: var(--ns-color-accent);
   box-shadow: var(--ns-control-inset-shadow), var(--ns-focus-ring);
 }
 

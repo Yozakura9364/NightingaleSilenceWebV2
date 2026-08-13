@@ -19,6 +19,7 @@ export type RoutePath =
   | '/silence/angel'
   | '/silence/glitch'
   | '/about'
+  | '/settings'
   | '/blog'
   | '/blog/:id'
 
@@ -118,6 +119,7 @@ export const siteRoutes = {
   silenceAngel: '/silence/angel',
   silenceGlitch: '/silence/glitch',
   about: '/about',
+  settings: '/settings',
   blogIndex: '/blog',
   blogDetail: '/blog/:id'
 } as const satisfies Record<string, RoutePath>
@@ -278,4 +280,12 @@ export function formatDocumentTitle(
   }
 
   return `${title} - ${siteName}`
+}
+
+export function formatWindowTitle(siteName: string, pageTitle?: string): string {
+  if (!pageTitle || pageTitle === siteName) {
+    return siteName
+  }
+
+  return `${siteName} - ${pageTitle}`
 }

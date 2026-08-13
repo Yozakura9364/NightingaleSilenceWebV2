@@ -159,10 +159,11 @@ function onOverlayClick() {
   display: grid;
   min-width: 300px;
   max-width: 420px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-pixel-window-bg);
-  box-shadow: var(--ns-pixel-window-shadow);
+  overflow: hidden;
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-panel);
   animation: app-dialog-slide-in 180ms ease;
 }
 
@@ -184,8 +185,8 @@ function onOverlayClick() {
   gap: 10px;
   min-height: 42px;
   padding: 0 10px;
-  border-bottom: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-window-bar-bg);
+  border-bottom: 1px solid var(--ns-color-border);
+  background: var(--ns-color-surface);
 }
 
 .app-dialog-window__title {
@@ -193,23 +194,24 @@ function onOverlayClick() {
   min-width: 0;
   align-items: center;
   gap: 8px;
-  color: var(--ns-pixel-window-title-color);
-  font-family: var(--ns-font-pixel);
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  text-shadow: var(--ns-pixel-window-title-shadow);
+  text-shadow: none;
 }
 
 .app-dialog-window__icon {
   flex: 0 0 auto;
   width: 16px;
   height: 16px;
-  border: var(--ns-pixel-window-icon-border);
-  background: var(--ns-pixel-window-icon-bg);
-  box-shadow: var(--ns-pixel-window-icon-shadow);
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-xs);
+  background: var(--ns-color-accent-soft);
+  box-shadow: none;
 }
 
 .app-dialog-window__body {
@@ -231,8 +233,8 @@ function onOverlayClick() {
 .app-dialog-window__input {
   width: 100%;
   padding: 8px 10px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
@@ -244,8 +246,8 @@ function onOverlayClick() {
 }
 
 .app-dialog-window__input:focus {
-  border-color: var(--ns-pixel-border-cyan);
-  box-shadow: var(--ns-control-inset-shadow), 0 0 0 3px rgba(99, 217, 220, 0.22);
+  border-color: var(--ns-color-accent);
+  box-shadow: var(--ns-control-inset-shadow), var(--ns-focus-ring);
 }
 
 .app-dialog-window__actions {
@@ -265,15 +267,15 @@ function onOverlayClick() {
   gap: 8px;
   min-height: 36px;
   padding: 0 18px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-pixel-surface);
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 800;
   line-height: 1;
-  box-shadow: var(--ns-pixel-soft-shadow);
+  box-shadow: var(--ns-shadow-soft);
   cursor: pointer;
   user-select: none;
   text-decoration: none;
@@ -285,24 +287,18 @@ function onOverlayClick() {
 }
 
 .app-dialog-window__btn:hover {
-  transform: translate(-1px, -1px);
-  border-color: var(--ns-pixel-border-accent);
-  background: var(--ns-pixel-hover-surface);
-  box-shadow: var(--ns-pixel-button-shadow-hover);
-}
-
-.app-dialog-window__btn:active {
-  transform: translate(1px, 1px);
-  box-shadow: none;
+  border-color: var(--ns-color-border-strong);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-soft);
 }
 
 .app-dialog-window__btn:focus-visible {
   outline: 0;
-  box-shadow: var(--ns-pixel-button-shadow-hover), var(--ns-focus-ring);
+  box-shadow: var(--ns-shadow-soft), var(--ns-focus-ring);
 }
 
 .app-dialog-window__btn--primary {
-  border-color: var(--ns-pixel-border);
+  border-color: var(--ns-color-border-strong);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   text-shadow: none;
@@ -310,6 +306,6 @@ function onOverlayClick() {
 
 .app-dialog-window__btn--primary:hover {
   background: var(--ns-color-surface-solid);
-  border-color: var(--ns-pixel-border);
+  border-color: var(--ns-color-border-strong);
 }
 </style>

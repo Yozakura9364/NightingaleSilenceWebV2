@@ -17,54 +17,49 @@
   :root {
     color-scheme: light;
 
-    --ns-body-background:
-      linear-gradient(
-        115deg,
-        rgba(255, 244, 251, 0.92) 0%,
-        rgba(247, 251, 255, 0.96) 52%,
-        rgba(217, 251, 251, 0.72) 100%
-      ),
-      linear-gradient(135deg, var(--ns-color-bg) 0%, #f7fbff 100%);
-    --ns-color-bg: #fbf8ff;
-    --ns-color-bg-soft: #fff4fb;
-    --ns-color-surface: rgba(255, 255, 255, 0.82);
+    --ns-body-background: #f3f5f7;
+    --ns-color-bg: #f3f5f7;
+    --ns-color-bg-soft: #eef1f4;
+    --ns-color-surface: #ffffff;
     --ns-color-surface-solid: #ffffff;
-    --ns-color-surface-tint: #f7efff;
+    --ns-color-surface-tint: #edf0f8;
     --ns-color-surface-muted: var(--ns-color-surface-tint);
-    --ns-color-text: #241b2f;
-    --ns-color-text-muted: #584b66;
-    --ns-color-border: rgba(88, 68, 105, 0.18);
-    --ns-color-border-strong: rgba(88, 68, 105, 0.32);
+    --ns-color-text: #2d3142;
+    --ns-color-text-muted: #737b8c;
+    --ns-color-border: #d8dce3;
+    --ns-color-border-strong: #c3c9d3;
+    --ns-line-width: 1px;
     --ns-large-panel-border-width: 1px;
     --ns-large-panel-border-color: var(--ns-color-border);
-    --ns-large-panel-border-radius: 0;
-    --ns-color-accent: #ef6fb2;
-    --ns-color-accent-strong: #d94d9d;
-    --ns-color-accent-soft: #ffe1f1;
+    --ns-large-panel-border-radius: 8px;
+    --ns-color-accent: #b94173;
+    --ns-color-accent-strong: #972b5b;
+    --ns-color-accent-soft: #f8e7ee;
     --ns-color-on-accent: #ffffff;
-    --ns-color-cyan: #63d9dc;
-    --ns-color-cyan-soft: #d9fbfb;
+    --ns-color-cyan: #287f83;
+    --ns-color-cyan-soft: #e2f1f1;
     --ns-color-warning: #f1a748;
     --ns-color-danger: #d64f72;
     --ns-color-success: #39a887;
-    --ns-glamour-workspace-bg: #fff9fd;
-    --ns-glamour-template-preview-bg: #fff9fd;
+    --ns-glamour-workspace-bg: var(--ns-body-background);
+    --ns-glamour-template-preview-bg: var(--ns-color-bg-soft);
     --ns-glamour-template-canvas-bg: #ffffff;
 
     --ns-font-sans: 'Trebuchet MS', Tahoma, 'Microsoft YaHei', 'PingFang SC', sans-serif;
     --ns-font-decorative:
-      'NS Fusion Pixel Korean', 'NS Fusion Pixel Trial', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+      'NS Fusion Pixel Korean', 'NS Fusion Pixel Trial', 'Microsoft YaHei', 'PingFang SC',
+      system-ui, sans-serif;
     --ns-font-mono: 'Cascadia Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
     --ns-font-ui: var(--ns-font-sans);
     --ns-font-pixel: var(--ns-font-decorative);
     --ns-font-data: var(--ns-font-ui);
     --ns-font-display: var(--ns-font-pixel);
 
-    --ns-radius-xs: 0;
-    --ns-radius-sm: 0;
-    --ns-radius-md: 0;
-    --ns-radius-lg: 0;
-    --ns-radius-pill: 0;
+    --ns-radius-xs: 6px;
+    --ns-radius-sm: 6px;
+    --ns-radius-md: 8px;
+    --ns-radius-lg: 8px;
+    --ns-radius-pill: 8px;
 
     --ns-space-1: 4px;
     --ns-space-2: 8px;
@@ -75,9 +70,9 @@
     --ns-space-7: 48px;
     --ns-space-8: 64px;
 
-    --ns-shadow-soft: 0 0 0 transparent;
-    --ns-shadow-panel: 0 0 0 transparent;
-    --ns-focus-ring: 0 0 0 3px rgba(99, 217, 220, 0.72);
+    --ns-shadow-soft: 0 2px 8px rgba(45, 49, 66, 0.08);
+    --ns-shadow-panel: 0 2px 8px rgba(45, 49, 66, 0.06);
+    --ns-focus-ring: 0 0 0 3px rgba(185, 65, 115, 0.28);
     --ns-control-inset-shadow: 0 0 0 transparent;
     --ns-heading-bloom-color: var(--ns-color-text);
     --ns-heading-bloom-shadow: none;
@@ -97,8 +92,6 @@
     --ns-top-nav-bg:
       linear-gradient(90deg, rgba(255, 233, 246, 0.9), rgba(224, 249, 255, 0.92)),
       rgba(255, 255, 255, 0.88);
-    --ns-top-nav-popup-gap: 12px;
-    --ns-top-nav-config-width: 320px;
     --ns-pixel-border: rgba(42, 33, 56, 0.9);
     --ns-pixel-border-soft: rgba(42, 33, 56, 0.36);
     --ns-pixel-border-accent: rgba(239, 111, 178, 0.6);
@@ -125,11 +118,10 @@
     --ns-pixel-muted: rgba(88, 68, 105, 0.72);
     --ns-pixel-disabled: rgba(88, 68, 105, 0.56);
     --ns-pixel-nav-shadow: 0 0 0 transparent;
-    --ns-pixel-button-shadow: 0 0 0 transparent;
-    --ns-pixel-button-shadow-hover: 0 0 0 transparent;
-    --ns-pixel-soft-shadow: 0 0 0 transparent;
+    --ns-pixel-button-shadow: var(--ns-shadow-soft);
+    --ns-pixel-button-shadow-hover: 0 3px 10px rgba(45, 49, 66, 0.12);
+    --ns-pixel-soft-shadow: var(--ns-shadow-panel);
     --ns-pixel-window-shadow: 0 0 0 transparent;
-    --ns-top-nav-menu-icon-filter: none;
     --ns-notebook-ink: #141414;
     --ns-notebook-muted: #655f6f;
     --ns-notebook-line: rgba(0, 0, 0, 0.58);
@@ -192,5 +184,4 @@
     --ns-font-sans:
       'Trebuchet MS', Tahoma, 'Malgun Gothic', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
   }
-
 }

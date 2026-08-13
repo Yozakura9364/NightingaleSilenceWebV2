@@ -319,7 +319,7 @@ function isEmptyProfileValue(value: string) {
 .silence-character-section__header h2 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: clamp(26px, 3.4vw, 42px);
   font-weight: 850;
   line-height: 1.08;
@@ -361,7 +361,7 @@ function isEmptyProfileValue(value: string) {
 .silence-character-note h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 20px;
   font-weight: 820;
   line-height: 1.2;
@@ -462,7 +462,7 @@ function isEmptyProfileValue(value: string) {
 .silence-character-lore-block h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 18px;
   font-weight: 820;
   line-height: 1.25;

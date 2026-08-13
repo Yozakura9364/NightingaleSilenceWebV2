@@ -54,10 +54,10 @@ const resolvedAriaLabel = computed(() => props.ariaLabel || props.title || t(tex
   flex-wrap: wrap;
   gap: 10px;
   padding: 10px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-pixel-surface, var(--ns-color-surface));
-  box-shadow: var(--ns-pixel-soft-shadow);
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-soft);
 }
 
 .app-toolbar--compact {
@@ -93,8 +93,8 @@ const resolvedAriaLabel = computed(() => props.ariaLabel || props.title || t(tex
 
 .app-toolbar__title {
   min-width: 0;
-  color: var(--ns-pixel-ink, var(--ns-color-text));
-  font-family: var(--ns-font-pixel);
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
   line-height: 1;

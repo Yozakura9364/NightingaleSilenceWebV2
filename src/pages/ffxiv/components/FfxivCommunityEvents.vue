@@ -14,13 +14,15 @@
     <AppStatus v-else-if="loading" compact tone="loading" :message="t(textKeys.communityLoading)" />
     <AppStatus v-else-if="!hasVisibleEvents" compact :message="t(textKeys.communityEmpty)" />
 
-    <div
-      ref="timelineHost"
-      class="ffxiv-calendar-timeline"
-      tabindex="0"
-      role="region"
-      :aria-label="t(textKeys.clocksCommunity)"
-    ></div>
+    <div class="ffxiv-calendar-timeline-card">
+      <div
+        ref="timelineHost"
+        class="ffxiv-calendar-timeline"
+        tabindex="0"
+        role="region"
+        :aria-label="t(textKeys.clocksCommunity)"
+      ></div>
+    </div>
   </section>
 </template>
 
@@ -440,7 +442,7 @@ onBeforeUnmount(() => {
 
 .ffxiv-calendar-section__title {
   margin: 0;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 22px;
   font-weight: 950;
   line-height: 1.2;
@@ -448,11 +450,20 @@ onBeforeUnmount(() => {
 
 .ffxiv-calendar-section__range {
   color: var(--ns-color-text-muted);
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-data);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
   font-weight: 800;
   white-space: nowrap;
+}
+
+.ffxiv-calendar-timeline-card {
+  min-width: 0;
+  overflow: hidden;
+  border: var(--ns-line-width) solid var(--ffxiv-line, var(--ns-color-border));
+  border-radius: 8px;
+  background: var(--ffxiv-card-bg, var(--ns-color-surface-solid));
+  box-shadow: 0 2px 8px rgba(45, 49, 66, 0.04);
 }
 
 .ffxiv-calendar-timeline {
@@ -465,9 +476,9 @@ onBeforeUnmount(() => {
 }
 
 .ffxiv-calendar-section :deep(.vis-timeline) {
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: var(--ns-large-panel-border-radius);
-  background: var(--ns-color-surface-solid);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
   box-shadow: none;
@@ -482,17 +493,17 @@ onBeforeUnmount(() => {
 }
 
 .ffxiv-calendar-section :deep(.vis-panel) {
-  border-color: var(--ns-pixel-border-soft);
+  border-color: var(--ffxiv-line, var(--ns-color-border));
 }
 
 .ffxiv-calendar-section :deep(.vis-panel.vis-left) {
-  border-color: color-mix(in srgb, var(--ns-pixel-border-soft) 55%, transparent);
+  border-color: color-mix(in srgb, var(--ffxiv-line, var(--ns-color-border)) 72%, transparent);
   background: color-mix(in srgb, var(--ns-color-surface-muted) 58%, transparent);
 }
 
 .ffxiv-calendar-section :deep(.vis-labelset .vis-label) {
   min-height: 3.4rem;
-  border-color: color-mix(in srgb, var(--ns-pixel-border-soft) 55%, transparent);
+  border-color: color-mix(in srgb, var(--ffxiv-line, var(--ns-color-border)) 72%, transparent);
   color: color-mix(in srgb, var(--ns-color-text-muted) 72%, transparent);
 }
 
@@ -504,7 +515,7 @@ onBeforeUnmount(() => {
   width: 7.5rem;
   height: 100%;
   padding: var(--ns-space-2);
-  font: 600 0.72rem/1.35 var(--ns-font-pixel);
+  font: 600 0.72rem/1.35 var(--ns-font-ui);
   text-align: center;
   white-space: normal;
 }
@@ -517,15 +528,15 @@ onBeforeUnmount(() => {
 
 .ffxiv-calendar-section :deep(.vis-group) {
   min-height: 3.4rem;
-  border-color: color-mix(in srgb, var(--ns-pixel-border-soft) 55%, transparent);
+  border-color: color-mix(in srgb, var(--ffxiv-line, var(--ns-color-border)) 72%, transparent);
 }
 
 .ffxiv-calendar-section :deep(.vis-grid.vis-minor) {
-  border-color: color-mix(in srgb, var(--ns-pixel-border-soft) 75%, transparent);
+  border-color: color-mix(in srgb, var(--ffxiv-line, var(--ns-color-border)) 75%, transparent);
 }
 
 .ffxiv-calendar-section :deep(.vis-grid.vis-major) {
-  border-color: var(--ns-pixel-border);
+  border-color: var(--ffxiv-line, var(--ns-color-border));
 }
 
 .ffxiv-calendar-section :deep(.vis-time-axis .vis-text) {
@@ -536,15 +547,15 @@ onBeforeUnmount(() => {
 
 .ffxiv-calendar-section :deep(.vis-time-axis .vis-text.vis-major) {
   color: var(--ns-color-text);
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-data);
   font-size: 0.82rem;
 }
 
 .ffxiv-calendar-section :deep(.vis-item) {
   z-index: 2;
   min-height: 3.2rem;
-  border-width: 2px;
-  border-radius: 0;
+  border-width: var(--ns-line-width);
+  border-radius: var(--ns-radius-sm);
   color: var(--ns-color-text);
   box-shadow: none;
   font: 800 0.98rem/1.2 var(--ns-font-ui);
@@ -635,7 +646,7 @@ onBeforeUnmount(() => {
 
 .ffxiv-calendar-section :deep(.vis-item.timeline-item--cn) {
   border-color: var(--ns-color-warning);
-  background: var(--ns-pixel-warm-surface);
+  background: color-mix(in srgb, var(--ns-color-warning) 12%, var(--ns-color-surface-solid));
 }
 
 .ffxiv-calendar-section :deep(.vis-item.timeline-item--global) {

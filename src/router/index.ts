@@ -27,7 +27,11 @@ const snapshotShortUrl = snapshotHashRoute
   ? `${window.location.pathname}${window.location.search}`
   : ''
 if (snapshotHashRoute) {
-  window.history.replaceState(null, document.title, `${window.location.pathname}${snapshotHashRoute}`)
+  window.history.replaceState(
+    null,
+    document.title,
+    `${window.location.pathname}${snapshotHashRoute}`
+  )
 }
 
 function loadLocalizedPage<T>(
@@ -45,7 +49,10 @@ const armoireRoutes: RouteRecordRaw[] = [
     path: siteRoutes.armoire,
     name: 'ffxiv-armoire',
     meta: { titleKey: armoireTool?.titleKey ?? textKeys.armoireTitle },
-    component: loadLocalizedPage(['armoire'], () => import('@/pages/armoire/NSArmoireLandingPage.vue'))
+    component: loadLocalizedPage(
+      ['armoire'],
+      () => import('@/pages/armoire/NSArmoireLandingPage.vue')
+    )
   }
 ]
 
@@ -115,6 +122,17 @@ const internalRoutes: RouteRecordRaw[] = areInternalRoutesEnabled
           ['home', 'plate', 'glamour', 'armoire', 'silence', 'styleLab'],
           () => import('@/pages/style-lab/StyleLabPage.vue')
         )
+      },
+      {
+        path: '/style-lab/os-shell',
+        name: 'style-lab-os-shell',
+        redirect: siteRoutes.home
+      },
+      {
+        path: '/style-lab/legacy-home',
+        name: 'style-lab-legacy-home',
+        meta: { titleKey: siteMeta.zhNameKey, hideTopNav: true, showTaskbar: true },
+        component: loadLocalizedPage(['home'], () => import('@/pages/home/HomePage.vue'))
       }
     ]
   : []
@@ -126,7 +144,10 @@ const router = createRouter({
       path: siteRoutes.home,
       name: 'home',
       meta: { titleKey: siteMeta.zhNameKey },
-      component: loadLocalizedPage(['home'], () => import('@/pages/home/HomePage.vue'))
+      component: loadLocalizedPage(
+        ['ffxiv'],
+        () => import('@/pages/style-lab/OsShellPrototype.vue')
+      )
     },
     {
       path: siteRoutes.ffxiv,
@@ -204,6 +225,12 @@ const router = createRouter({
       meta: { titleKey: textKeys.about },
       component: loadLocalizedPage(['about'], () => import('@/pages/about/AboutPage.vue'))
     },
+    {
+      path: siteRoutes.settings,
+      name: 'settings',
+      meta: { titleKey: textKeys.config },
+      component: () => import('@/pages/settings/SettingsPage.vue')
+    },
     ...internalRoutes,
     ...(isContentStudioEnabled
       ? [
@@ -211,7 +238,10 @@ const router = createRouter({
             path: '/content-studio',
             name: 'content-studio',
             meta: { title: 'Content Studio', hideTopNav: true },
-            component: loadLocalizedPage(['contentStudio'], () => import('@/pages/content-studio/ContentStudioPage.vue'))
+            component: loadLocalizedPage(
+              ['contentStudio'],
+              () => import('@/pages/content-studio/ContentStudioPage.vue')
+            )
           } satisfies RouteRecordRaw
         ]
       : []),
@@ -220,14 +250,20 @@ const router = createRouter({
       path: siteRoutes.blogIndex,
       name: 'blog-index',
       meta: { titleKey: 'publicBlog.pageTitle' },
-      component: loadLocalizedPage(['publicBlog'], () => import('@/pages/content/ContentIndexPage.vue'))
+      component: loadLocalizedPage(
+        ['publicBlog'],
+        () => import('@/pages/content/ContentIndexPage.vue')
+      )
     },
     {
       // :id must be a positive integer; anything else falls through to 404
       path: `${siteRoutes.blogIndex}/:id([1-9]\\d*)`,
       name: 'blog-detail',
       meta: { titleKey: 'publicBlog.pageTitle' },
-      component: loadLocalizedPage(['publicBlog'], () => import('@/pages/content/ContentDetailPage.vue'))
+      component: loadLocalizedPage(
+        ['publicBlog'],
+        () => import('@/pages/content/ContentDetailPage.vue')
+      )
     },
     {
       path: '/:pathMatch(.*)*',

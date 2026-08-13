@@ -178,7 +178,8 @@ function useFriendIconFallback(event: Event) {
 
 .about-profile,
 .about-site-info {
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-pixel-border);
+  border-radius: 0;
   box-shadow: none;
 }
 
@@ -200,7 +201,7 @@ function useFriendIconFallback(event: Event) {
   width: 100%;
   margin: 0;
   overflow: hidden;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-pixel-border);
   background: var(--ns-pixel-window-bg);
   box-shadow: none;
 }
@@ -222,7 +223,7 @@ function useFriendIconFallback(event: Event) {
 
 .about-profile__sns h3 {
   margin: 0;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 18px;
   letter-spacing: 0;
 }
@@ -242,7 +243,7 @@ function useFriendIconFallback(event: Event) {
   min-width: 0;
   min-height: 62px;
   padding: 9px 11px;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-pixel-border);
   background: var(--ns-pixel-surface);
   box-shadow: none;
   color: var(--ns-color-text);
@@ -301,7 +302,7 @@ function useFriendIconFallback(event: Event) {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  border-bottom: 2px solid var(--ns-pixel-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-pixel-border);
   padding-bottom: 10px;
 }
 
@@ -325,7 +326,7 @@ function useFriendIconFallback(event: Event) {
   grid-template-columns: 72px minmax(0, 1fr);
   gap: 12px;
   padding: 12px 14px;
-  border-top: 1px solid var(--ns-pixel-border-soft);
+  border-top: var(--ns-line-width) solid var(--ns-pixel-border-soft);
 }
 
 .about-site-info dl > div:first-child {
@@ -369,7 +370,7 @@ function useFriendIconFallback(event: Event) {
   gap: 12px;
   min-height: 76px;
   padding: 12px;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-pixel-border);
   background: var(--ns-pixel-surface);
   box-shadow: none;
   color: var(--ns-color-text);
@@ -396,7 +397,7 @@ function useFriendIconFallback(event: Event) {
   height: 48px;
   place-items: center;
   overflow: hidden;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-pixel-border);
   background: var(--ns-pixel-window-bg);
 }
 

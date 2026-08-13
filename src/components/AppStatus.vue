@@ -50,11 +50,11 @@ const resolvedAriaLive = computed(
   align-items: flex-start;
   gap: 10px;
   padding: 10px;
-  border: 2px solid var(--ns-pixel-border-soft);
-  border-radius: 0;
-  background: var(--ns-pixel-surface, var(--ns-color-surface));
-  color: var(--ns-pixel-ink, var(--ns-color-text));
-  box-shadow: var(--ns-pixel-soft-shadow);
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface);
+  color: var(--ns-color-text);
+  box-shadow: var(--ns-shadow-soft);
 }
 
 .app-status--compact {
@@ -69,8 +69,9 @@ const resolvedAriaLive = computed(
   width: 12px;
   height: 12px;
   margin-top: 4px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-muted, var(--ns-color-text-muted));
+  border: 1px solid var(--ns-color-border-strong);
+  border-radius: var(--ns-radius-xs);
+  background: var(--ns-color-text-muted);
 }
 
 .app-status--compact .app-status__mark {
@@ -97,7 +98,7 @@ const resolvedAriaLive = computed(
 .app-status__message,
 .app-status__content :deep(p) {
   margin: 0;
-  color: var(--ns-pixel-muted, var(--ns-color-text-muted));
+  color: var(--ns-color-text-muted);
   font-size: 12px;
   line-height: 1.45;
 }

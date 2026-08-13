@@ -1,182 +1,180 @@
 <template>
   <main class="ns-page ffxiv-page">
     <div class="ns-page-shell">
-      <h1 class="ffxiv-section-title ns-heading-bloom ns-animate ns-animate--fade-in-down ns-animate-visible">
-        {{ t(textKeys.workshops) }}
-      </h1>
-
-      <div class="ns-tool-grid ns-stagger ns-animate-visible">
-        <RouterLink
-          v-for="tool in toolCards"
-          :key="tool.id"
-          class="ffxiv-tool-card"
-          :class="`ffxiv-tool-card--${tool.id}`"
-          :to="tool.route"
-        >
-          <img
-            class="ffxiv-tool-card__icon"
-            :class="{ 'ffxiv-tool-card__icon--full-color': tool.fullColorIcon }"
-            :src="tool.icon"
-            alt=""
-            aria-hidden="true"
-          />
-          <h2 class="ffxiv-tool-card__title ns-heading-bloom">
-            {{ tool.title }}
-          </h2>
-        </RouterLink>
-      </div>
-
       <FfxivClockPanel />
     </div>
   </main>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
-import platePortraitIcon from '@/assets/icons/plate/portrait-64.webp'
-import armoireIcon from '@/assets/icons/site/armoire-64.png'
-import fashionCheckIcon from '@/assets/icons/site/fashion-check-64.png'
-import glamourIcon from '@/assets/icons/site/glamour-64.png'
-import itemCardIcon from '@/assets/icons/site/item-card-64.png'
 import FfxivClockPanel from '@/pages/ffxiv/components/FfxivClockPanel.vue'
-import { ffxivTools } from '@/config/site'
-import { ffxivTextKeys as textKeys } from '@/locales/keys/ffxiv'
-import { useLocale } from '@/stores/locale'
-
-const { t } = useLocale()
-
-const toolIcons: Record<string, string> = {
-  itemCard: itemCardIcon,
-  glamour: glamourIcon,
-  plate: platePortraitIcon,
-  armoire: armoireIcon,
-  fashionCheck: fashionCheckIcon
-}
-const toolCardOrder = ['plate', 'glamour', 'armoire', 'fashionCheck', 'itemCard']
-const toolCards = computed(() =>
-  [...ffxivTools]
-    .sort((left, right) => toolCardOrder.indexOf(left.id) - toolCardOrder.indexOf(right.id))
-    .map((tool) => ({
-      ...tool,
-      icon: toolIcons[tool.id] ?? pixelSparklesIcon,
-      fullColorIcon: tool.id in toolIcons,
-      title: t(tool.titleKey).trim()
-    }))
-)
 </script>
 
 <style scoped>
 .ffxiv-page {
-  background: var(--ns-body-background);
+  --ffxiv-page-bg: #f3f5f7;
+  --ffxiv-card-bg: #ffffff;
+  --ffxiv-ink: #2d3142;
+  --ffxiv-muted: #737b8c;
+  --ffxiv-line: #d8dce3;
+  --ffxiv-accent: var(--ns-color-accent-strong);
+  min-height: 100%;
+  background: var(--ffxiv-page-bg);
+  color: var(--ffxiv-ink);
 }
 
 .ffxiv-page :deep(.ns-page-shell) {
   width: min(1280px, calc(100vw - 32px));
-  padding-top: 24px;
+  padding-top: 28px;
+  padding-bottom: 48px;
 }
 
-.ffxiv-section-title {
-  margin: 0;
-  font-family: var(--ns-font-pixel);
-  font-size: 22px;
-  font-weight: 950;
-  line-height: 1.2;
+.ffxiv-page :deep(.ffxiv-clock-panel) {
+  gap: 24px;
+  margin-top: 0;
+  color: var(--ffxiv-ink);
 }
 
-.ffxiv-page :deep(.ns-tool-grid) {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 14px;
-  margin-top: 14px;
-}
-
-.ffxiv-tool-card {
-  --ffxiv-card-ink: var(--ns-color-text);
-  position: relative;
-  display: grid;
-  grid-template-rows: auto auto;
-  align-content: center;
-  justify-items: center;
-  min-width: 0;
-  min-height: 0;
+.ffxiv-page :deep(.ffxiv-clock-section),
+.ffxiv-page :deep(.ffxiv-calendar-section) {
   gap: 12px;
-  padding: 18px 8px;
-  color: var(--ffxiv-card-ink);
-  text-decoration: none;
-  transition:
-    color var(--ns-transition-fast),
-    transform var(--ns-transition-fast);
 }
 
-.ffxiv-tool-card:hover {
-  color: var(--ns-color-accent-strong);
-  transform: translateY(-2px);
-}
-
-.ffxiv-tool-card:active {
-  transform: translateY(0);
-}
-
-.ffxiv-tool-card__icon {
-  width: 48px;
-  height: 48px;
-  filter: var(--ns-pixel-icon-filter);
-  image-rendering: pixelated;
-}
-
-.ffxiv-tool-card__icon--full-color {
-  width: 64px;
-  height: 64px;
-  filter: none;
-}
-
-.ffxiv-tool-card__title {
-  margin: 0;
-  color: var(--ffxiv-card-ink);
-  font-family: var(--ns-font-pixel);
-  font-size: 26px;
-  font-weight: 950;
-  line-height: 1.08;
+.ffxiv-page :deep(.ffxiv-clock-section__title),
+.ffxiv-page :deep(.ffxiv-calendar-section__title) {
+  color: var(--ffxiv-ink);
+  font-family: var(--ns-font-ui);
+  font-size: 20px;
+  font-weight: 800;
   letter-spacing: 0;
-  text-align: center;
-  text-wrap: balance;
-  overflow-wrap: anywhere;
 }
 
-@media (max-width: 900px) {
-  .ffxiv-tool-card {
-    gap: 8px;
-    padding: 10px;
-  }
+.ffxiv-page :deep(.ffxiv-mechanism-grid) {
+  gap: 16px;
+}
 
-  .ffxiv-tool-card__icon {
-    width: 42px;
-    height: 42px;
-  }
+.ffxiv-page :deep(.ffxiv-clock-card) {
+  gap: 14px;
+  padding: 20px;
+  border: var(--ns-line-width) solid var(--ffxiv-line);
+  border-radius: 8px;
+  background: var(--ffxiv-card-bg);
+  box-shadow: 0 2px 8px rgba(45, 49, 66, 0.04);
+}
 
-  .ffxiv-tool-card__icon--full-color {
-    width: 54px;
-    height: 54px;
-  }
+.ffxiv-page :deep(.ffxiv-clock-card__header h3),
+.ffxiv-page :deep(.ffxiv-clock-card__primary-value),
+.ffxiv-page :deep(.ffxiv-clock-card__facts dd) {
+  color: var(--ffxiv-ink);
+}
 
-  .ffxiv-tool-card__title {
-    font-size: 18px;
-  }
+.ffxiv-page :deep(.ffxiv-clock-card__header h3) {
+  font-family: var(--ns-font-ui);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.ffxiv-page :deep(.ffxiv-clock-card__primary-value) {
+  font-family: var(--ns-font-ui);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.ffxiv-page :deep(.ffxiv-clock-card__countdown > span),
+.ffxiv-page :deep(.ffxiv-clock-card__facts dt),
+.ffxiv-page :deep(.ffxiv-calendar-section__range) {
+  color: var(--ffxiv-muted);
+}
+
+.ffxiv-page :deep(.ffxiv-clock-card__facts dd) {
+  font-family: var(--ns-font-ui);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ffxiv-page :deep(.ffxiv-region-switch) {
+  border: var(--ns-line-width) solid var(--ffxiv-line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ffxiv-page :deep(.ffxiv-region-switch button) {
+  min-height: 30px;
+  border-left: var(--ns-line-width) solid var(--ffxiv-line);
+  color: var(--ffxiv-muted);
+  font-family: var(--ns-font-ui);
+  font-weight: 700;
+}
+
+.ffxiv-page :deep(.ffxiv-region-switch button[aria-pressed='true']) {
+  background: var(--ns-color-accent-soft);
+  color: var(--ffxiv-accent);
+}
+
+.ffxiv-page :deep(.ffxiv-clock-card__banner) {
+  border-radius: 6px;
+  background: #eef0f3;
+}
+
+.ffxiv-page :deep(.ffxiv-calendar-section__header) {
+  align-items: baseline;
+}
+
+.ffxiv-page
+  :deep(
+    .ffxiv-calendar-section
+      :is(.vis-panel.vis-center, .vis-panel.vis-background, .vis-panel.vis-top)
+  ) {
+  background: var(--ffxiv-card-bg);
+}
+
+.ffxiv-page :deep(.ffxiv-calendar-section .vis-panel.vis-left) {
+  background: #f7f8fa;
+}
+
+.ffxiv-page :deep(.ffxiv-calendar-section .vis-item.timeline-item--common) {
+  background: var(--ns-color-accent-soft);
+  border-color: color-mix(in srgb, var(--ns-color-accent) 42%, var(--ffxiv-line));
+  border-radius: 6px;
+}
+
+.ffxiv-page :deep(.ffxiv-calendar-section .vis-item.timeline-item--cn) {
+  background: var(--ns-color-cyan-soft);
+  border-color: color-mix(in srgb, var(--ns-color-cyan) 42%, var(--ffxiv-line));
+  border-radius: 6px;
+}
+
+.ffxiv-page :deep(.ffxiv-calendar-section .vis-item.timeline-item--global) {
+  background: #edf0f5;
+  border-color: #cbd1dc;
+  border-radius: 6px;
+}
+
+.ffxiv-page :deep(.ffxiv-calendar-section .vis-current-time),
+.ffxiv-page :deep(.ffxiv-calendar-section .vis-current-time::before) {
+  background: var(--ffxiv-accent);
+}
+
+.ffxiv-page :deep(.ffxiv-calendar-section .timeline-event-copy__title),
+.ffxiv-page :deep(.ffxiv-calendar-section .timeline-event-copy__end),
+.ffxiv-page :deep(.ffxiv-calendar-section .vis-time-axis .vis-text),
+.ffxiv-page :deep(.ffxiv-calendar-section .vis-labelset .vis-label .vis-inner) {
+  color: var(--ffxiv-ink);
+}
+
+:global(:root[data-theme='night'] .ffxiv-page) {
+  --ffxiv-page-bg: #1e232b;
+  --ffxiv-card-bg: #282f39;
+  --ffxiv-ink: #eef1f5;
+  --ffxiv-muted: #aeb7c4;
+  --ffxiv-line: #48515e;
+  --ffxiv-accent: var(--ns-color-accent-strong);
 }
 
 @media (max-width: 680px) {
   .ffxiv-page :deep(.ns-page-shell) {
     width: min(100%, calc(100vw - 24px));
-  }
-
-  .ffxiv-page :deep(.ns-tool-grid) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .ffxiv-tool-card__title {
-    font-size: 20px;
+    padding-top: 20px;
   }
 }
 </style>

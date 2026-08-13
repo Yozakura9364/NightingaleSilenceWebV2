@@ -233,9 +233,11 @@ function exportLayeredZip() {
 .nsplate-workbench-actions__group {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  border: 2px solid var(--ns-pixel-border);
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
   background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
+  box-shadow: var(--ns-shadow-soft);
+  overflow: hidden;
 }
 
 .nsplate-workbench-actions__button,
@@ -255,12 +257,12 @@ function exportLayeredZip() {
 .nsplate-workbench-actions__button:nth-child(2n),
 .nsplate-workbench-actions__toggle + .nsplate-workbench-actions__button,
 .nsplate-workbench-actions__button + .nsplate-workbench-actions__toggle {
-  border-left: 2px solid var(--ns-pixel-border);
+  border-left: 1px solid var(--ns-color-border);
 }
 
 .nsplate-workbench-actions__button:nth-child(n + 3),
 .nsplate-workbench-actions__toggle:nth-child(n + 3) {
-  border-top: 2px solid var(--ns-pixel-border);
+  border-top: 1px solid var(--ns-color-border);
 }
 
 .nsplate-workbench-actions__button:hover:not(:disabled) {
@@ -301,7 +303,7 @@ function exportLayeredZip() {
 
   .nsplate-workbench-actions__button + .nsplate-workbench-actions__button,
   .nsplate-workbench-actions__toggle + .nsplate-workbench-actions__button {
-    border-top: 2px solid var(--ns-pixel-border);
+    border-top: 1px solid var(--ns-color-border);
   }
 }
 </style>

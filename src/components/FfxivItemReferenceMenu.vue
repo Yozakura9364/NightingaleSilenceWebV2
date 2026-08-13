@@ -139,7 +139,7 @@ function openKrGuide(): void {
   border-radius: 0;
   background: transparent;
   color: var(--ns-color-text);
-  font: 900 13px/1.25 var(--ns-font-pixel);
+  font: 900 13px/1.25 var(--ns-font-ui);
   text-align: left;
   box-shadow: none;
   cursor: pointer;

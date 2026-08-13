@@ -249,7 +249,7 @@ function createFormRoute(formId: string): RouteLocationRaw {
 .silence-form-outfit__outfit-card h3 {
   margin: 0;
   color: #2c2338;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 22px;
   font-weight: 820;
   line-height: 1.2;

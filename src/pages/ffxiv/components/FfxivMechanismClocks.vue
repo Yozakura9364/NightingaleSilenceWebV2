@@ -196,7 +196,7 @@ function isoTime(timestamp: number): string {
 
 .ffxiv-clock-section__title {
   margin: 0;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 22px;
   font-weight: 950;
   line-height: 1.2;
@@ -213,8 +213,9 @@ function isoTime(timestamp: number): string {
   min-width: 0;
   gap: 16px;
   padding: 18px;
-  border: 2px solid var(--ns-pixel-border);
-  box-shadow: none;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  box-shadow: var(--ns-shadow-panel);
 }
 
 .ffxiv-clock-card__header {
@@ -229,7 +230,7 @@ function isoTime(timestamp: number): string {
 .ffxiv-clock-card__header h3 {
   margin: 0;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 18px;
   font-weight: 950;
   line-height: 1.25;
@@ -259,14 +260,15 @@ function isoTime(timestamp: number): string {
   display: inline-grid;
   grid-template-columns: repeat(3, auto);
   flex: 0 0 auto;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
 }
 
 .ffxiv-region-switch button {
   min-height: 30px;
   padding: 0 9px;
   border: 0;
-  border-left: 2px solid var(--ns-pixel-border);
+  border-left: var(--ns-line-width) solid var(--ns-color-border);
   background: transparent;
   color: var(--ns-color-text-muted);
   font-family: var(--ns-font-ui);
@@ -281,7 +283,7 @@ function isoTime(timestamp: number): string {
 }
 
 .ffxiv-region-switch button[aria-pressed='true'] {
-  background: var(--ns-pixel-cyan-surface);
+  background: var(--ns-color-surface-tint);
   color: var(--ns-color-text);
 }
 
@@ -312,7 +314,7 @@ function isoTime(timestamp: number): string {
 .ffxiv-clock-card__primary-value {
   margin: 0;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-data);
   font-size: 26px;
   font-weight: 950;
   line-height: 1.2;
@@ -340,7 +342,7 @@ function isoTime(timestamp: number): string {
   min-width: 0;
   margin: 0;
   color: var(--ns-color-text);
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 800;
   overflow-wrap: anywhere;

@@ -2,39 +2,32 @@
   :root[data-theme='night'] {
     color-scheme: dark;
 
-    --ns-body-background:
-      linear-gradient(
-        115deg,
-        rgba(240, 128, 189, 0.14) 0%,
-        rgba(19, 22, 42, 0.96) 48%,
-        rgba(127, 217, 227, 0.14) 100%
-      ),
-      linear-gradient(135deg, var(--ns-color-bg) 0%, #111d32 100%);
-    --ns-color-bg: #111426;
-    --ns-color-bg-soft: #171b32;
-    --ns-color-surface: rgba(26, 30, 50, 0.9);
-    --ns-color-surface-solid: #1c2036;
-    --ns-color-surface-tint: #24203f;
-    --ns-color-text: #f7f1fb;
-    --ns-color-text-muted: #bdb3ca;
-    --ns-color-border: rgba(236, 196, 229, 0.2);
-    --ns-color-border-strong: rgba(144, 213, 221, 0.32);
-    --ns-color-accent: #f080bd;
-    --ns-color-accent-strong: #ffacd6;
-    --ns-color-accent-soft: #332236;
+    --ns-body-background: #1f252d;
+    --ns-color-bg: #1f252d;
+    --ns-color-bg-soft: #252c35;
+    --ns-color-surface: #2a323c;
+    --ns-color-surface-solid: #2a323c;
+    --ns-color-surface-tint: #323b47;
+    --ns-color-text: #eef1f5;
+    --ns-color-text-muted: #aeb7c4;
+    --ns-color-border: #48515e;
+    --ns-color-border-strong: #5b6674;
+    --ns-color-accent: #e984ad;
+    --ns-color-accent-strong: #f3a2c1;
+    --ns-color-accent-soft: #4a2d3d;
     --ns-color-on-accent: #fff8fd;
-    --ns-color-cyan: #7fd9e3;
-    --ns-color-cyan-soft: #173943;
+    --ns-color-cyan: #76c6c4;
+    --ns-color-cyan-soft: #24494d;
     --ns-color-warning: #f2c86b;
     --ns-color-danger: #f47ca1;
     --ns-color-success: #7bd8bc;
-    --ns-glamour-workspace-bg: #101426;
-    --ns-glamour-template-preview-bg: #0d1120;
+    --ns-glamour-workspace-bg: var(--ns-body-background);
+    --ns-glamour-template-preview-bg: var(--ns-color-bg-soft);
     --ns-glamour-template-canvas-bg: #111426;
 
-    --ns-shadow-soft: 0 0 0 transparent;
-    --ns-shadow-panel: 0 0 0 transparent;
-    --ns-focus-ring: 0 0 0 3px rgba(127, 217, 227, 0.68);
+    --ns-shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.24);
+    --ns-shadow-panel: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --ns-focus-ring: 0 0 0 3px rgba(233, 132, 173, 0.34);
     --ns-control-inset-shadow: 0 0 0 transparent;
     --ns-heading-bloom-color: var(--ns-color-text);
     --ns-heading-bloom-shadow: none;
@@ -54,8 +47,7 @@
     --ns-pixel-icon-filter: invert(1);
     --ns-pixel-window-bg: rgba(24, 28, 48, 0.98);
     --ns-pixel-window-bar-bg:
-      linear-gradient(90deg, rgba(255, 95, 184, 0.24), rgba(94, 234, 255, 0.2)),
-      #10131d;
+      linear-gradient(90deg, rgba(255, 95, 184, 0.24), rgba(94, 234, 255, 0.2)), #10131d;
     --ns-pixel-window-title-color: #fff6ff;
     --ns-pixel-window-title-shadow: none;
     --ns-pixel-window-icon-bg:
@@ -75,11 +67,10 @@
     --ns-pixel-muted: rgba(209, 197, 218, 0.72);
     --ns-pixel-disabled: rgba(209, 197, 218, 0.46);
     --ns-pixel-nav-shadow: 0 0 0 transparent;
-    --ns-pixel-button-shadow: 0 0 0 transparent;
-    --ns-pixel-button-shadow-hover: 0 0 0 transparent;
-    --ns-pixel-soft-shadow: 0 0 0 transparent;
+    --ns-pixel-button-shadow: var(--ns-shadow-soft);
+    --ns-pixel-button-shadow-hover: 0 3px 10px rgba(0, 0, 0, 0.3);
+    --ns-pixel-soft-shadow: var(--ns-shadow-panel);
     --ns-pixel-window-shadow: 0 0 0 transparent;
-    --ns-top-nav-menu-icon-filter: none;
     --ns-notebook-ink: #f0eefc;
     --ns-notebook-muted: #8f98b8;
     --ns-notebook-line: rgba(102, 244, 255, 0.48);

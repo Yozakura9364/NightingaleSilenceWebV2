@@ -94,7 +94,7 @@ withDefaults(
 
 .ffxiv-tool-panel h2 {
   margin: 0 0 16px;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 18px;
   font-weight: 900;
 }
@@ -160,7 +160,7 @@ withDefaults(
 .ffxiv-tool-placeholder span {
   display: block;
   height: 42px;
-  border: 1px dashed var(--ns-color-border-strong);
+  border: var(--ns-line-width) dashed var(--ns-color-border-strong);
   border-radius: var(--ns-radius-sm);
   background: var(--ns-pixel-surface);
 }

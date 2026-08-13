@@ -301,11 +301,13 @@ function isCurrentRender(serial: number) {
 
 @media (max-width: 560px) {
   .nsplate-canvas-area {
-    min-height: 46vh;
+    /* 手机端贴合画布内容高度，避免上下大留白挤占控制台面积 */
+    min-height: 0;
+    padding: 6px 8px 4px;
   }
 
   .nsplate-canvas-viewport {
-    padding: 10px 0 4px;
+    padding: 6px 0 4px;
   }
 
   .nsplate-canvas-frame--nameplate {

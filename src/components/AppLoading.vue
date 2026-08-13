@@ -76,9 +76,10 @@ const resolvedAriaLabel = computed(() => props.ariaLabel || props.title || props
   justify-items: center;
   gap: 10px;
   padding: 14px;
-  border: 2px solid var(--ns-pixel-border);
-  background: var(--ns-pixel-window-bg, var(--ns-color-surface));
-  box-shadow: var(--ns-pixel-window-shadow, var(--ns-pixel-soft-shadow));
+  border: 1px solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-panel);
 }
 
 .app-loading--compact .app-loading__card {
@@ -121,7 +122,7 @@ const resolvedAriaLabel = computed(() => props.ariaLabel || props.title || props
 .app-loading__title {
   min-width: 0;
   color: var(--ns-heading-bloom-color, var(--ns-color-text));
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   font-weight: 950;
   line-height: 1.2;

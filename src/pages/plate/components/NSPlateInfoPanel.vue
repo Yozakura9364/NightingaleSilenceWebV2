@@ -420,7 +420,8 @@ const {
 
 .nsplate-info-panel__select {
   min-height: 34px;
-  border: 2px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
   color: var(--ns-color-text);
   font: inherit;
