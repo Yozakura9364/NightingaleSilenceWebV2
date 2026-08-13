@@ -82,3 +82,6 @@ server/glamour/data/*.sqlite3
 
 # local config backups
 vite.config.ts.bak-*
+
+# local agent harness
+.omo/

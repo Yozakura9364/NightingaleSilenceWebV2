@@ -1,5 +1,6 @@
 import argparse
 import csv
+import html
 from http.client import IncompleteRead
 import io
 import json
@@ -7,6 +8,7 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from collections import defaultdict
 from dataclasses import asdict, dataclass
@@ -36,6 +38,9 @@ DEFAULT_CACHE_DIR = (
 DEFAULT_OUTPUT = REPOSITORY_ROOT / "public" / "data" / "ffxiv" / "kr-guide-id-map.json"
 DEFAULT_REPORT = (
     REPOSITORY_ROOT / "server" / "glamour" / ".runtime" / "kr-guide-item-map-report.json"
+)
+DEFAULT_SEARCH_STATE = (
+    REPOSITORY_ROOT / "server" / "glamour" / ".runtime" / "kr-guide-search-state.json"
 )
 KNOWN_ITEM_HASHES = {49658: "5398978e726"}
 
@@ -336,6 +341,210 @@ def build_output_map(mapping: Dict[int, GuideItem]) -> Dict[str, Dict[str, str]]
     }
 
 
+def build_search_candidates(
+    reference_item_ids: Iterable[int],
+    existing_item_ids: Iterable[int],
+    candidates: Iterable[ItemCandidate],
+) -> List[ItemCandidate]:
+    existing = set(existing_item_ids)
+    by_item_id = {candidate.item_id: candidate for candidate in candidates}
+    return [
+        by_item_id[item_id]
+        for item_id in sorted(set(reference_item_ids) - existing)
+        if item_id in by_item_id
+    ]
+
+
+def select_exact_search_match(
+    candidate: ItemCandidate,
+    records: Iterable[GuideItem],
+) -> Optional[GuideItem]:
+    matches = [
+        record
+        for record in records
+        if record.name == candidate.name
+        and record.icon == candidate.icon
+        and (record.item_level <= 0 or record.item_level == candidate.item_level)
+        and (record.equip_level <= 0 or record.equip_level == candidate.equip_level)
+    ]
+    unique_by_hash = {record.hash_id: record for record in matches}
+    if len(matches) != 1 or len(unique_by_hash) != 1:
+        return None
+    return matches[0]
+
+
+class _OfficialSearchResultParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.results: List[Tuple[str, str]] = []
+        self.current_hash = ""
+        self.anchor_depth = 0
+        self.text_parts: List[str] = []
+
+    def handle_starttag(
+        self, tag: str, attrs: List[Tuple[str, Optional[str]]]
+    ) -> None:
+        if self.current_hash:
+            self.anchor_depth += 1
+            return
+        if tag.lower() != "a":
+            return
+        attributes = {key.lower(): value or "" for key, value in attrs}
+        match = re.match(
+            r"^https://guide\.ff14\.co\.kr/lodestone/db/item/([0-9a-f]{11})/?$",
+            html.unescape(attributes.get("href", "")),
+            re.IGNORECASE,
+        )
+        if match:
+            self.current_hash = match.group(1).lower()
+            self.anchor_depth = 1
+            self.text_parts = []
+
+    def handle_data(self, data: str) -> None:
+        if self.current_hash:
+            self.text_parts.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if not self.current_hash:
+            return
+        self.anchor_depth -= 1
+        if self.anchor_depth > 0:
+            return
+        self.results.append(
+            (self.current_hash, normalize_text("".join(self.text_parts)))
+        )
+        self.current_hash = ""
+        self.text_parts = []
+
+
+def extract_naver_exact_hashes(search_html: str, item_name: str) -> List[str]:
+    parser = _OfficialSearchResultParser()
+    parser.feed(search_html)
+    parser.close()
+    expected_title = f"{normalize_text(item_name)} - 공식 가이드"
+    accessibility_suffix = "새 창 열림"
+    return sorted(
+        {
+            hash_id
+            for hash_id, title in parser.results
+            if (
+                normalize_text(title)[: -len(accessibility_suffix)].rstrip()
+                if normalize_text(title).endswith(accessibility_suffix)
+                else normalize_text(title)
+            )
+            == expected_title
+        }
+    )
+
+
+def _load_item_id_map(path: Path) -> Dict[str, Dict[str, str]]:
+    payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"Item ID map must be a JSON object: {path}")
+    return payload
+
+
+def _load_search_state(path: Path) -> Dict[str, object]:
+    if not path.is_file():
+        return {"version": 1, "results": {}}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("version") != 1 or not isinstance(payload.get("results"), dict):
+        raise ValueError(f"Invalid KR guide search state: {path}")
+    return payload
+
+
+def recover_missing_hashes_from_naver(
+    reference_map_path: Path,
+    item_csv_text: str,
+    output_path: Path,
+    search_state_path: Path,
+    delay_seconds: float,
+    timeout_seconds: float,
+    max_retries: int,
+    retry_base_seconds: float,
+    sleep_fn: Callable[[float], None] = time.sleep,
+) -> Dict[str, object]:
+    reference_map = _load_item_id_map(reference_map_path)
+    output = _load_item_id_map(output_path)
+    candidates = load_item_candidates_from_csv_text(item_csv_text)
+    all_candidates_by_name: Dict[str, List[ItemCandidate]] = defaultdict(list)
+    for candidate in candidates:
+        all_candidates_by_name[candidate.name].append(candidate)
+
+    missing = build_search_candidates(
+        (parse_int(item_id) for item_id in reference_map),
+        (parse_int(item_id) for item_id in output),
+        candidates,
+    )
+    state = _load_search_state(search_state_path)
+    results = state["results"]
+    recovered = 0
+    skipped_non_unique_name = 0
+    queried = 0
+    for index, candidate in enumerate(missing):
+        item_key = str(candidate.item_id)
+        if len(all_candidates_by_name[candidate.name]) != 1:
+            skipped_non_unique_name += 1
+            results.setdefault(
+                item_key,
+                {"name": candidate.name, "status": "non-unique-name", "hashes": []},
+            )
+            continue
+
+        cached = results.get(item_key)
+        if cached is None:
+            query = f'site:guide.ff14.co.kr/lodestone/db/item "{candidate.name}"'
+            url = "https://search.naver.com/search.naver?" + urllib.parse.urlencode(
+                {"where": "web", "query": query}
+            )
+            search_html = fetch_text(
+                url,
+                timeout_seconds=timeout_seconds,
+                max_retries=max_retries,
+                retry_base_seconds=retry_base_seconds,
+                headers={"User-Agent": "Mozilla/5.0", "Accept-Language": "ko-KR,ko;q=0.9"},
+                sleep_fn=sleep_fn,
+            )
+            hashes = extract_naver_exact_hashes(search_html, candidate.name)
+            cached = {
+                "name": candidate.name,
+                "status": "matched" if len(hashes) == 1 else "not-unique",
+                "hashes": hashes,
+            }
+            results[item_key] = cached
+            queried += 1
+            _write_json_atomic(search_state_path, state)
+            if index + 1 < len(missing) and delay_seconds:
+                sleep_fn(delay_seconds)
+
+        hashes = cached.get("hashes", [])
+        if cached.get("status") != "matched" or len(hashes) != 1:
+            continue
+        hash_id = str(hashes[0]).lower()
+        if any(value.get("id") == hash_id for value in output.values()):
+            cached["status"] = "hash-already-mapped"
+            continue
+        output[item_key] = {"id": hash_id, "name": candidate.name}
+        recovered += 1
+
+    _write_json_atomic(output_path, dict(sorted(output.items(), key=lambda item: int(item[0]))), compact=True)
+    summary = {
+        "referenceCandidates": len(missing),
+        "queriedNow": queried,
+        "recovered": recovered,
+        "skippedNonUniqueName": skipped_non_unique_name,
+        "outputEntries": len(output),
+        "unresolved": sum(
+            1
+            for candidate in missing
+            if results.get(str(candidate.item_id), {}).get("status") != "matched"
+        ),
+    }
+    state["summary"] = summary
+    _write_json_atomic(search_state_path, state)
+    return summary
+
+
 def _page_cache_path(cache_dir: Path, page: int) -> Path:
     return cache_dir / f"page-{page:05d}.json"
 
@@ -457,6 +666,7 @@ def fetch_text(
     timeout_seconds: float = 30,
     max_retries: int = 4,
     retry_base_seconds: float = 3,
+    headers: Optional[Dict[str, str]] = None,
     open_url: Callable = urllib.request.urlopen,
     sleep_fn: Callable[[float], None] = time.sleep,
 ) -> str:
@@ -464,13 +674,13 @@ def fetch_text(
         raise ValueError("timeout_seconds must be positive")
     if max_retries < 0:
         raise ValueError("max_retries cannot be negative")
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": USER_AGENT,
-            "Accept-Language": "ko-KR,ko;q=0.9",
-        },
-    )
+    request_headers = {
+        "User-Agent": USER_AGENT,
+        "Accept-Language": "ko-KR,ko;q=0.9",
+    }
+    if headers:
+        request_headers.update(headers)
+    request = urllib.request.Request(url, headers=request_headers)
     for attempt in range(max_retries + 1):
         try:
             with open_url(request, timeout=timeout_seconds) as response:
@@ -660,6 +870,18 @@ def main() -> int:
     parser.add_argument("--max-pages", type=int, default=2500)
     parser.add_argument("--max-scans", type=int, default=20)
     parser.add_argument("--minimum-match-rate", type=_match_rate, default=0.95)
+    parser.add_argument(
+        "--build-current-cache",
+        action="store_true",
+        help="Build an explicitly incomplete map from the current crawl state without fetching pages",
+    )
+    parser.add_argument(
+        "--search-missing",
+        action="store_true",
+        help="Recover missing KR hashes from exact Naver results for a reference Lodestone Item ID map",
+    )
+    parser.add_argument("--reference-item-map")
+    parser.add_argument("--search-state", default=str(DEFAULT_SEARCH_STATE))
     args = parser.parse_args()
 
     cache_dir = Path(args.cache_dir)
@@ -677,13 +899,36 @@ def main() -> int:
         )
 
     try:
-        crawl = crawl_guide_pages(
-            cache_dir,
-            fetch_page,
-            max_pages=args.max_pages,
-            max_scans=args.max_scans,
-            delay_seconds=args.delay_seconds,
-        )
+        if args.search_missing:
+            if not args.reference_item_map:
+                raise ValueError("--reference-item-map is required with --search-missing")
+            if not output_path.is_file():
+                raise ValueError(f"KR guide output map does not exist: {output_path}")
+            summary = recover_missing_hashes_from_naver(
+                Path(args.reference_item_map),
+                read_source_text(args.item_csv),
+                output_path,
+                Path(args.search_state),
+                args.delay_seconds,
+                args.timeout_seconds,
+                args.max_retries,
+                args.retry_base_seconds,
+            )
+            json.dump(summary, sys.stdout, ensure_ascii=False, indent=2)
+            sys.stdout.write("\n")
+            return 0
+        if args.build_current_cache:
+            crawl = _read_crawl_state(cache_dir, PAGE_SIZE)
+            if crawl is None or not crawl.records:
+                raise ValueError("KR guide crawl state is empty")
+        else:
+            crawl = crawl_guide_pages(
+                cache_dir,
+                fetch_page,
+                max_pages=args.max_pages,
+                max_scans=args.max_scans,
+                delay_seconds=args.delay_seconds,
+            )
         candidates = load_item_candidates_from_csv_text(read_source_text(args.item_csv))
         resolution = resolve_guide_records(crawl.records, candidates)
         report = _build_report(
@@ -694,6 +939,10 @@ def main() -> int:
             expected_total=crawl.expected_total,
             scan_count=crawl.scan_count,
             duplicate_count=crawl.duplicate_count,
+        )
+        report["complete"] = crawl.complete
+        report["missingFromExpectedTotal"] = max(
+            0, crawl.expected_total - len(crawl.records)
         )
         _write_json_atomic(report_path, report)
         if not crawl.records:

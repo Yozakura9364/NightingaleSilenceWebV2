@@ -8,13 +8,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from server.glamour.tools.build_kr_guide_item_map import (
     GuideItem,
+    ItemCandidate,
     build_output_map,
+    build_search_candidates,
     crawl_guide_pages,
     fetch_text,
+    extract_naver_exact_hashes,
     load_cached_pages,
     load_item_candidates_from_csv_text,
     parse_guide_item_page,
     resolve_guide_records,
+    select_exact_search_match,
     write_page_cache,
 )
 
@@ -108,6 +112,50 @@ class ResolveGuideRecordsTests(unittest.TestCase):
         self.assertEqual(
             build_output_map(result.mapping),
             {"49658": {"id": "5398978e726", "name": "그랜드 챔피언 언월도"}},
+        )
+
+    def test_builds_search_candidates_from_reference_ids_missing_in_current_map(self):
+        candidates = load_item_candidates_from_csv_text(ITEM_CSV)
+
+        missing = build_search_candidates(
+            reference_item_ids={49658, 100, 999999},
+            existing_item_ids={49658},
+            candidates=candidates,
+        )
+
+        self.assertEqual([candidate.item_id for candidate in missing], [100])
+
+    def test_selects_only_a_unique_name_icon_and_level_search_match(self):
+        candidate = ItemCandidate(100, "같은 이름", 40000, 10, 1)
+        exact = GuideItem("11111111111", "같은 이름", 40000, 10, 1, "")
+        wrong_level = GuideItem("22222222222", "같은 이름", 40000, 20, 1, "")
+
+        self.assertEqual(
+            select_exact_search_match(candidate, [wrong_level, exact]),
+            exact,
+        )
+        self.assertIsNone(
+            select_exact_search_match(candidate, [exact, exact]),
+        )
+
+    def test_extracts_only_exact_official_guide_titles_from_naver_results(self):
+        html = """
+          <div class="fds-web-doc-root">
+            <a href="https://guide.ff14.co.kr/lodestone/db/item/11111111111">
+              <span><mark>같은 이름</mark> - 공식 가이드</span>
+              <span>새 창 열림</span>
+            </a>
+          </div>
+          <div class="fds-web-doc-root">
+            <a href="https://guide.ff14.co.kr/lodestone/db/item/22222222222">
+              <span>같은 이름과 비슷한 물품 - 공식 가이드</span>
+            </a>
+          </div>
+        """
+
+        self.assertEqual(
+            extract_naver_exact_hashes(html, "같은 이름"),
+            ["11111111111"],
         )
 
 
