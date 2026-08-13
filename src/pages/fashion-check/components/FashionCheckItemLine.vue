@@ -19,7 +19,7 @@
         :src="iconUrl"
         alt=""
         loading="lazy"
-        @error="imageFailed = true"
+        @error="onIconError"
       />
     </div>
     <b v-if="slotLabel" class="fashion-check-item-line__slot">{{ slotLabel }}</b>
@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import FfxivItemReferenceMenu from '@/components/FfxivItemReferenceMenu.vue'
-import { getFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
+import { getFfxivItemIconUrl, getFfxivItemIconHr1Url } from '@/lib/ffxiv/itemIcon'
 import type { FashionCheckItem, FashionCheckLocaleCatalog } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
 import { useLocale } from '@/stores/locale'
@@ -81,8 +81,19 @@ const props = defineProps<{
 }>()
 
 const resolvedIconId = computed(() => props.item?.iconId ?? props.iconId)
-const iconUrl = computed(() => getFfxivItemIconUrl(resolvedIconId.value))
+const iconUrl = ref(getFfxivItemIconUrl(resolvedIconId.value))
+const fallbackIconUrl = computed(() => getFfxivItemIconHr1Url(resolvedIconId.value))
 const imageFailed = ref(false)
+let usedFallback = false
+
+function onIconError() {
+  if (!usedFallback && fallbackIconUrl.value) {
+    usedFallback = true
+    iconUrl.value = fallbackIconUrl.value
+  } else {
+    imageFailed.value = true
+  }
+}
 const itemActionMenu = ref<{ x: number; y: number } | null>(null)
 let longPressState: LongPressState | null = null
 const { t } = useLocale()
@@ -99,6 +110,8 @@ const referenceLabels = computed(() => ({
 
 watch(resolvedIconId, () => {
   imageFailed.value = false
+  usedFallback = false
+  iconUrl.value = getFfxivItemIconUrl(resolvedIconId.value)
 })
 
 function closeItemMenu() {
@@ -204,7 +217,7 @@ onBeforeUnmount(() => {
   width: 10px;
   height: 10px;
   flex: 0 0 auto;
-  border: 1px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border-strong);
 }
 
 .fashion-check-item-line--stacked-slot {

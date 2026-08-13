@@ -72,6 +72,11 @@ if (locales.schemaVersion !== 'fashion-check.current-locales.v3') {
 if (!isPositiveInt(current.globalIssue)) fail('globalIssue 必须是正整数')
 if (!isPositiveInt(current.cnIssue)) fail('cnIssue 必须是正整数')
 if (!isNonEmptyString(current.theme)) fail('theme 不能为空')
+checkLocaleNames(locales.themes, current.globalIssue, 'globalIssue')
+for (const themeId of Object.keys(locales.themes ?? {})) {
+  if (!isPositiveInt(Number(themeId))) fail(`themes 存在无效期号 ${JSON.stringify(themeId)}`)
+  else checkLocaleNames(locales.themes, Number(themeId), 'theme')
+}
 
 const startsAt = Date.parse(current.challengeWindow?.startsAt ?? '')
 const endsAt = Date.parse(current.challengeWindow?.endsAt ?? '')

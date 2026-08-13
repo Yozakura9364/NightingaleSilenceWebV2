@@ -187,14 +187,14 @@
           <span>{{ t(keys.faqParticipationRewardBeforeFirstAmount) }}</span>
           {{ ' ' }}
           <span class="fashion-check-showcase__mgp-amount">
-            <img :src="mgpIconUrl" alt="" aria-hidden="true" />
+            <img :src="mgpIconUrl" alt="" aria-hidden="true" @error="onMgpIconError" />
             <span>10,000</span>
           </span>
           {{ ' ' }}
           <span>{{ t(keys.faqParticipationRewardBetweenAmounts) }}</span>
           {{ ' ' }}
           <span class="fashion-check-showcase__mgp-amount">
-            <img :src="mgpIconUrl" alt="" aria-hidden="true" />
+            <img :src="mgpIconUrl" alt="" aria-hidden="true" @error="onMgpIconError" />
             <span>50,000</span>
           </span>
           {{ ' ' }}
@@ -210,7 +210,7 @@
 import { computed, onMounted, ref } from 'vue'
 import FashionCheckItemLine from '@/pages/fashion-check/components/FashionCheckItemLine.vue'
 import FashionCheckGoldItemsView from '@/pages/fashion-check/views/FashionCheckGoldItemsView.vue'
-import { getFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
+import { getFfxivItemIconUrl, getFfxivItemIconHr1Url } from '@/lib/ffxiv/itemIcon'
 import { resolveFashionCheckName } from '@/lib/fashion-check/localization'
 import { buildDyeColorMap, resolveEntryDyeColor, type FfxivDyeCatalog } from '@/lib/fashion-check/dyeCatalog'
 import { useFetch } from '@/composables/useFetch'
@@ -260,7 +260,11 @@ const faqEntries = [
   { kind: 'text', question: keys.faqFacewearQuestion, answer: keys.faqFacewearAnswer },
   { kind: 'text', question: keys.faqDualDyeQuestion, answer: keys.faqDualDyeAnswer }
 ] as const
-const mgpIconUrl = getFfxivItemIconUrl(65025)
+const mgpIconUrl = ref(getFfxivItemIconUrl(65025))
+const mgpIconFallbackUrl = getFfxivItemIconHr1Url(65025)
+function onMgpIconError() {
+  if (mgpIconFallbackUrl) mgpIconUrl.value = mgpIconFallbackUrl
+}
 const itemById = computed(
   () =>
     new Map(props.week.slots.flatMap((slot) => slot.gold.items).map((item) => [item.itemId, item]))
@@ -345,23 +349,20 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   margin-top: 16px;
 }
 .fashion-check-weekly__gold {
-  margin-top: -2px;
+  margin-top: 16px;
 }
 .fashion-check-showcase {
   display: grid;
-}
-.fashion-check-showcase {
-  gap: 0;
+  gap: 16px;
 }
 .fashion-check-showcase__overview {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  row-gap: 0;
-  column-gap: 0;
+  gap: 16px;
   align-items: stretch;
 }
 .fashion-check-showcase__gold {
-  margin-top: -2px;
+  margin-top: 0;
 }
 .fashion-check-showcase__solution {
   align-content: start;
@@ -381,7 +382,7 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
 }
 .fashion-check-showcase__variant + .fashion-check-showcase__variant {
   padding-top: 10px;
-  border-top: 1px solid var(--ns-pixel-border);
+  border-top: var(--ns-line-width) solid var(--ns-color-border);
 }
 .fashion-check-showcase__variant h3,
 .fashion-check-showcase__variant-description {
@@ -403,7 +404,9 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   display: grid;
   gap: 2px;
   padding: 8px;
-  border: 1px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface);
 }
 .fashion-check-showcase__entry > p {
   display: flex;
@@ -428,7 +431,9 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   gap: 5px;
   min-width: 0;
   padding: 8px;
-  border: 1px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface);
 }
 .fashion-check-showcase__dye-slot {
   font-size: 12px;
@@ -457,7 +462,7 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   width: 10px;
   height: 10px;
   justify-self: center;
-  border: 1px solid var(--ns-pixel-border);
+  border: var(--ns-line-width) solid var(--ns-color-border-strong);
 }
 .fashion-check-showcase__dyes small {
   color: var(--ns-color-text-muted);
@@ -493,7 +498,7 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   font-size: 16px;
 }
 .fashion-check-showcase__faq {
-  margin-top: -2px;
+  margin-top: 0;
 }
 .fashion-check-showcase__faq-list {
   display: grid;
@@ -503,7 +508,7 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
   display: grid;
   gap: 4px;
   padding: 12px 0;
-  border-bottom: 1px solid var(--ns-pixel-border);
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
 }
 .fashion-check-showcase__faq-list > div:first-child {
   padding-top: 0;
@@ -591,18 +596,10 @@ function familyName(familyId: FashionCheckDyeFamilyId | undefined, fallback: str
 .fashion-check-solution__items p b {
   color: var(--ns-color-text);
 }
-@media (min-width: 761px) {
-  .fashion-check-showcase__overview > .ns-workbench-panel:not(:first-child) {
-    border-left: 0;
-  }
-}
 @media (max-width: 760px) {
   .fashion-check-showcase__overview,
   .fashion-check-solutions {
     grid-template-columns: 1fr;
-  }
-  .fashion-check-showcase__overview > .ns-workbench-panel:not(:first-child) {
-    border-top: 0;
   }
 }
 </style>

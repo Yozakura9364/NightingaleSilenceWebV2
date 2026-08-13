@@ -27,7 +27,7 @@ const localizedMessage = (
 })
 
 export const fashionCheckUiMessages: UiMessageMap = {
-  'fashionCheck.title': message('时尚品鉴', 'Fashion Check'),
+  'fashionCheck.title': localizedMessage('时尚品鉴', 'Fashion Check', 'ファッションチェック', '패션 체크'),
   'fashionCheck.theme': message('本周主题', 'Theme'),
   'fashionCheck.target80': message('目标 80 分', '80-point target'),
   'fashionCheck.gold': message('金牌', 'Gold'),

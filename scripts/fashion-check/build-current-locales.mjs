@@ -25,10 +25,11 @@ const categoryPaths = {
   ja: path.join(referenceRoot, 'official/ja/FashionCheckThemeCategory.csv'),
   ko: path.join(referenceRoot, 'official/ko/FashionCheckThemeCategory.csv')
 }
-// 主题名本地化：只有 chs/en 有 FashionCheckWeeklyTheme.csv（ja/ko 缺，前端回退 zh-CN）
 const themePaths = {
   'zh-CN': path.join(referenceRoot, 'official/chs/FashionCheckWeeklyTheme.csv'),
-  en: path.join(referenceRoot, 'official/en/FashionCheckWeeklyTheme.csv')
+  en: path.join(referenceRoot, 'official/en/FashionCheckWeeklyTheme.csv'),
+  ja: path.join(referenceRoot, 'official/ja/FashionCheckWeeklyTheme.csv'),
+  ko: path.join(referenceRoot, 'official/ko/FashionCheckWeeklyTheme.csv')
 }
 const mergedDyeItemIds = {
   general: 52254,
@@ -142,10 +143,12 @@ async function main() {
       ])
     )
   ])
-  // 主题名表：key=期号（CSV 行 #），值={zh-CN,en}（ja/ko 无 CSV，留空由前端回退）
+  // 主题名表：key=期号（CSV 行 #），预载所有有效周次的四语官方名称。
   const themeRows = new Map(themeRowsEntries)
   const themeIds = new Set(
-    (themeRows.get('zh-CN') ?? []).map((row) => Number(row['#']))
+    (themeRows.get('zh-CN') ?? [])
+      .map((row) => Number(row['#']))
+      .filter((issue) => Number.isInteger(issue) && issue > 0)
   )
   const themes = new Map()
   for (const issue of themeIds) {
@@ -154,7 +157,10 @@ async function main() {
       const row = rows.find((r) => Number(r['#']) === issue)
       names[locale] = String(row?.Name ?? '').trim()
     }
-    themes.set(String(issue), { 'zh-CN': names['zh-CN'] || '', en: names.en || '' })
+    if (['zh-CN', 'en', 'ja', 'ko'].some((locale) => !names[locale])) {
+      throw new Error(`Missing localized theme name for issue ${issue}`)
+    }
+    themes.set(String(issue), names)
   }
   const itemIds = new Set()
   const dyeIds = new Set()

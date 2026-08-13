@@ -1,10 +1,10 @@
 {
   "schemaVersion": "fashion-check.tag-database.v1",
-  "generatedAt": "2026-07-28T08:12:00.000Z",
+  "generatedAt": "2026-08-13T08:29:40.000Z",
   "summary": {
     "categories": 250,
-    "categorySlotPairs": 440,
-    "items": 3393
+    "categorySlotPairs": 441,
+    "items": 3407
   },
   "categories": [
     {
@@ -7959,6 +7959,26 @@
             23672,
             23678,
             23684
+          ]
+        },
+        {
+          "slotId": "head",
+          "goldPoints": 8,
+          "itemIds": [
+            23582,
+            23588,
+            23594,
+            23600,
+            23606,
+            23612,
+            23618,
+            23644,
+            23650,
+            23656,
+            23662,
+            23668,
+            23674,
+            23680
           ]
         }
       ]
@@ -46499,6 +46519,160 @@
       },
       "iconId": 57881,
       "rarity": 1
+    },
+    "23582": {
+      "itemId": 23582,
+      "names": {
+        "zh-CN": "欧米茄御敌头冠",
+        "en": "Omega Circlet of Fending",
+        "ja": "オメガ・ディフェンダーサークレット",
+        "ko": "오메가 수호자 머리장식"
+      },
+      "iconId": 40809,
+      "rarity": 3
+    },
+    "23588": {
+      "itemId": 23588,
+      "names": {
+        "zh-CN": "欧米茄制敌头冠",
+        "en": "Omega Circlet of Maiming",
+        "ja": "オメガ・スレイヤーサークレット",
+        "ko": "오메가 학살자 머리장식"
+      },
+      "iconId": 40811,
+      "rarity": 3
+    },
+    "23594": {
+      "itemId": 23594,
+      "names": {
+        "zh-CN": "欧米茄强袭头冠",
+        "en": "Omega Circlet of Striking",
+        "ja": "オメガ・ストライカーサークレット",
+        "ko": "오메가 타격대 머리장식"
+      },
+      "iconId": 40812,
+      "rarity": 3
+    },
+    "23600": {
+      "itemId": 23600,
+      "names": {
+        "zh-CN": "欧米茄精准头冠",
+        "en": "Omega Circlet of Aiming",
+        "ja": "オメガ・レンジャーサークレット",
+        "ko": "오메가 유격대 머리장식"
+      },
+      "iconId": 40813,
+      "rarity": 3
+    },
+    "23606": {
+      "itemId": 23606,
+      "names": {
+        "zh-CN": "欧米茄游击头冠",
+        "en": "Omega Circlet of Scouting",
+        "ja": "オメガ・スカウトサークレット",
+        "ko": "오메가 정찰대 머리장식"
+      },
+      "iconId": 40814,
+      "rarity": 3
+    },
+    "23612": {
+      "itemId": 23612,
+      "names": {
+        "zh-CN": "欧米茄治愈帽",
+        "en": "Omega Cap of Healing",
+        "ja": "オメガ・ヒーラーキャップ",
+        "ko": "오메가 치유사 모자"
+      },
+      "iconId": 40810,
+      "rarity": 3
+    },
+    "23618": {
+      "itemId": 23618,
+      "names": {
+        "zh-CN": "欧米茄咏咒眼罩",
+        "en": "Omega Eye Mask of Casting",
+        "ja": "オメガ・キャスターアイマスク",
+        "ko": "오메가 마술사 눈가리개"
+      },
+      "iconId": 40808,
+      "rarity": 3
+    },
+    "23644": {
+      "itemId": 23644,
+      "names": {
+        "zh-CN": "奥密克戎御敌头冠",
+        "en": "Omicron Circlet of Fending",
+        "ja": "オミクロン・ディフェンダーサークレット",
+        "ko": "오미크론 수호자 머리장식"
+      },
+      "iconId": 40809,
+      "rarity": 3
+    },
+    "23650": {
+      "itemId": 23650,
+      "names": {
+        "zh-CN": "奥密克戎制敌头冠",
+        "en": "Omicron Circlet of Maiming",
+        "ja": "オミクロン・スレイヤーサークレット",
+        "ko": "오미크론 학살자 머리장식"
+      },
+      "iconId": 40811,
+      "rarity": 3
+    },
+    "23656": {
+      "itemId": 23656,
+      "names": {
+        "zh-CN": "奥密克戎强袭头冠",
+        "en": "Omicron Circlet of Striking",
+        "ja": "オミクロン・ストライカーサークレット",
+        "ko": "오미크론 타격대 머리장식"
+      },
+      "iconId": 40812,
+      "rarity": 3
+    },
+    "23662": {
+      "itemId": 23662,
+      "names": {
+        "zh-CN": "奥密克戎精准头冠",
+        "en": "Omicron Circlet of Aiming",
+        "ja": "オミクロン・レンジャーサークレット",
+        "ko": "오미크론 유격대 머리장식"
+      },
+      "iconId": 40813,
+      "rarity": 3
+    },
+    "23668": {
+      "itemId": 23668,
+      "names": {
+        "zh-CN": "奥密克戎游击头冠",
+        "en": "Omicron Circlet of Scouting",
+        "ja": "オミクロン・スカウトサークレット",
+        "ko": "오미크론 정찰대 머리장식"
+      },
+      "iconId": 40814,
+      "rarity": 3
+    },
+    "23674": {
+      "itemId": 23674,
+      "names": {
+        "zh-CN": "奥密克戎治愈帽",
+        "en": "Omicron Cap of Healing",
+        "ja": "オミクロン・ヒーラーキャップ",
+        "ko": "오미크론 치유사 모자"
+      },
+      "iconId": 40810,
+      "rarity": 3
+    },
+    "23680": {
+      "itemId": 23680,
+      "names": {
+        "zh-CN": "奥密克戎咏咒眼罩",
+        "en": "Omicron Eye Mask of Casting",
+        "ja": "オミクロン・キャスターアイマスク",
+        "ko": "오미크론 마술사 눈가리개"
+      },
+      "iconId": 40808,
+      "rarity": 3
     }
   }
 }

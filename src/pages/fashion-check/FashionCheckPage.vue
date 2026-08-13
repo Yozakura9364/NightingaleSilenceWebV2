@@ -83,15 +83,14 @@ const challengePeriod = computed(() => {
   return `${formatChallengeDate(challengeWindow.startsAt)} - ${formatChallengeDate(challengeWindow.endsAt)}`
 })
 
-// 主题名本地化：localeCatalog.themes[globalIssue] → 当前语言名；无则回退数据里的中文 theme
+// 主题名本地化：localeCatalog.themes[globalIssue] → 当前语言名；法德暂回退英文。
 const localizedTheme = computed(() => {
   const fallback = week.value?.theme ?? ''
   const issue = String(week.value?.referenceShowcase?.globalIssue ?? '')
   const themeNames = localeCatalog.value?.themes?.[issue]
   if (!themeNames) return fallback
-  // themes 表只有 zh-CN/en（ja/ko 无 CSV 源），其他语言回退 zh-CN
-  if (current.value === 'en') return themeNames.en || themeNames['zh-CN'] || fallback
-  return themeNames['zh-CN'] || fallback
+  const themeLocale = current.value === 'fr' || current.value === 'de' ? 'en' : current.value
+  return themeNames[themeLocale] || themeNames.en || themeNames['zh-CN'] || fallback
 })
 
 function selectView(value: string) {
@@ -177,17 +176,13 @@ onMounted(async () => {
 .fashion-check-page {
   font-family: var(--ns-font-ui);
 }
-.fashion-check-page :deep(.ns-workbench-panel) {
-  border: 2px solid var(--ns-pixel-border);
-  box-shadow: none;
-}
 .fashion-check-page__header {
   display: grid;
   gap: 5px;
 }
 .fashion-check-page__header h1 {
   margin: 0;
-  font-family: var(--ns-font-pixel);
+  font-family: var(--ns-font-ui);
   font-size: 28px;
 }
 .fashion-check-page__week {

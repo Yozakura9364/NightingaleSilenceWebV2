@@ -68,10 +68,9 @@ onMounted(async () => {
 }
 .fashion-check-sources__item:hover,
 .fashion-check-sources__item:focus-visible {
-  transform: translate(-1px, -1px);
-  border-color: var(--ns-pixel-border-accent);
-  background: var(--ns-pixel-hover-surface);
-  box-shadow: var(--ns-pixel-button-shadow-hover);
+  border-color: var(--ns-color-border-strong);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-panel);
   outline: 0;
 }
 .fashion-check-sources__item strong {

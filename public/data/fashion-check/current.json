@@ -1,109 +1,289 @@
 {
   "schemaVersion": "fashion-check.public-current.v5",
-  "globalIssue": 445,
-  "cnIssue": 430,
-  "theme": "鳞铠小丑",
+  "globalIssue": 446,
+  "cnIssue": 431,
+  "theme": "穿及膝裤的空贼",
   "challengeWindow": {
-    "startsAt": "2026-08-07T16:00:00+08:00",
-    "endsAt": "2026-08-14T16:00:00+08:00"
+    "startsAt": "2026-08-14T16:00:00+08:00",
+    "endsAt": "2026-08-21T16:00:00+08:00"
   },
   "solutions": [],
   "slots": [
     {
       "slotId": "head",
       "label": "头部",
-      "tag": "小丑",
-      "categoryId": 32,
+      "tag": "欧米茄",
+      "categoryId": 233,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 2702,
-            "name": "旧化小丑帽",
-            "iconId": 41098,
-            "rarity": 1
-          },
-          {
-            "itemId": 2855,
-            "name": "古典小丑帽",
-            "iconId": 41074,
-            "rarity": 1
-          },
-          {
-            "itemId": 2906,
-            "name": "滑稽帽",
-            "iconId": 41075,
-            "rarity": 2
-          },
-          {
-            "itemId": 2934,
-            "name": "特务小丑帽",
-            "iconId": 41146,
-            "rarity": 2
-          },
-          {
-            "itemId": 7340,
-            "name": "昏光魔术帽",
-            "iconId": 41198,
+            "itemId": 23582,
+            "name": "欧米茄御敌头冠",
+            "iconId": 40809,
             "rarity": 3
           },
           {
-            "itemId": 7474,
-            "name": "魔术师法帽",
-            "iconId": 41199,
-            "rarity": 2
+            "itemId": 23588,
+            "name": "欧米茄制敌头冠",
+            "iconId": 40811,
+            "rarity": 3
           },
           {
-            "itemId": 10796,
-            "name": "虹布精准小丑帽",
-            "iconId": 41260,
-            "rarity": 1
+            "itemId": 23594,
+            "name": "欧米茄强袭头冠",
+            "iconId": 40812,
+            "rarity": 3
           },
           {
-            "itemId": 10880,
-            "name": "虹布治愈小丑帽",
-            "iconId": 41261,
-            "rarity": 1
+            "itemId": 23600,
+            "name": "欧米茄精准头冠",
+            "iconId": 40813,
+            "rarity": 3
           },
           {
-            "itemId": 10922,
-            "name": "虹布咏咒小丑帽",
-            "iconId": 41262,
-            "rarity": 1
+            "itemId": 23606,
+            "name": "欧米茄游击头冠",
+            "iconId": 40814,
+            "rarity": 3
           },
           {
-            "itemId": 10927,
-            "name": "奇美纤维咏咒魔术帽",
-            "iconId": 41267,
-            "rarity": 1
+            "itemId": 23612,
+            "name": "欧米茄治愈帽",
+            "iconId": 40810,
+            "rarity": 3
           },
           {
-            "itemId": 35863,
-            "name": "小丑帽",
-            "iconId": 41521,
-            "rarity": 1
+            "itemId": 23618,
+            "name": "欧米茄咏咒眼罩",
+            "iconId": 40808,
+            "rarity": 3
+          },
+          {
+            "itemId": 23644,
+            "name": "奥密克戎御敌头冠",
+            "iconId": 40809,
+            "rarity": 3
+          },
+          {
+            "itemId": 23650,
+            "name": "奥密克戎制敌头冠",
+            "iconId": 40811,
+            "rarity": 3
+          },
+          {
+            "itemId": 23656,
+            "name": "奥密克戎强袭头冠",
+            "iconId": 40812,
+            "rarity": 3
+          },
+          {
+            "itemId": 23662,
+            "name": "奥密克戎精准头冠",
+            "iconId": 40813,
+            "rarity": 3
+          },
+          {
+            "itemId": 23668,
+            "name": "奥密克戎游击头冠",
+            "iconId": 40814,
+            "rarity": 3
+          },
+          {
+            "itemId": 23674,
+            "name": "奥密克戎治愈帽",
+            "iconId": 40810,
+            "rarity": 3
+          },
+          {
+            "itemId": 23680,
+            "name": "奥密克戎咏咒眼罩",
+            "iconId": 40808,
+            "rarity": 3
           }
         ]
       }
     },
     {
-      "slotId": "body",
-      "label": "身体",
-      "tag": "鳞铠",
-      "categoryId": 163,
+      "slotId": "hands",
+      "label": "手部",
+      "tag": "空贼",
+      "categoryId": 33,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 3006,
-            "name": "定制鳞铠",
-            "iconId": 43170,
+            "itemId": 13642,
+            "name": "空贼御敌手铠",
+            "iconId": 48527,
             "rarity": 1
           },
           {
-            "itemId": 3057,
-            "name": "黑铁鳞铠",
-            "iconId": 43063,
+            "itemId": 13648,
+            "name": "空贼制敌手铠",
+            "iconId": 48528,
+            "rarity": 1
+          },
+          {
+            "itemId": 13654,
+            "name": "空贼强袭手套",
+            "iconId": 44402,
+            "rarity": 1
+          },
+          {
+            "itemId": 13660,
+            "name": "空贼精准手套",
+            "iconId": 44404,
+            "rarity": 1
+          },
+          {
+            "itemId": 13666,
+            "name": "空贼游击手套",
+            "iconId": 44403,
+            "rarity": 1
+          },
+          {
+            "itemId": 13672,
+            "name": "空贼治愈手套",
+            "iconId": 44405,
+            "rarity": 1
+          },
+          {
+            "itemId": 13678,
+            "name": "空贼咏咒手套",
+            "iconId": 44406,
+            "rarity": 1
+          },
+          {
+            "itemId": 13988,
+            "name": "坦塔罗斯护袖",
+            "iconId": 44419,
+            "rarity": 1
+          },
+          {
+            "itemId": 17308,
+            "name": "空鼠御敌铁钩护臂",
+            "iconId": 48573,
+            "rarity": 1
+          },
+          {
+            "itemId": 17313,
+            "name": "空鼠制敌铁钩护臂",
+            "iconId": 48575,
+            "rarity": 1
+          },
+          {
+            "itemId": 17318,
+            "name": "空鼠强袭半指护手",
+            "iconId": 48576,
+            "rarity": 1
+          },
+          {
+            "itemId": 17323,
+            "name": "空鼠精准半指护手",
+            "iconId": 48577,
+            "rarity": 1
+          },
+          {
+            "itemId": 17328,
+            "name": "空鼠游击铁钩护臂",
+            "iconId": 48578,
+            "rarity": 1
+          },
+          {
+            "itemId": 17333,
+            "name": "空鼠治愈铁钩护臂",
+            "iconId": 48574,
+            "rarity": 1
+          },
+          {
+            "itemId": 17338,
+            "name": "空鼠咏咒半指护手",
+            "iconId": 48572,
+            "rarity": 1
+          },
+          {
+            "itemId": 28810,
+            "name": "空贼御敌手铠（复制品）",
+            "iconId": 48527,
+            "rarity": 1
+          },
+          {
+            "itemId": 28815,
+            "name": "空贼制敌手铠（复制品）",
+            "iconId": 48528,
+            "rarity": 1
+          },
+          {
+            "itemId": 28820,
+            "name": "空贼强袭手套（复制品）",
+            "iconId": 44402,
+            "rarity": 1
+          },
+          {
+            "itemId": 28825,
+            "name": "空贼精准手套（复制品）",
+            "iconId": 44404,
+            "rarity": 1
+          },
+          {
+            "itemId": 28830,
+            "name": "空贼游击手套（复制品）",
+            "iconId": 44403,
+            "rarity": 1
+          },
+          {
+            "itemId": 28835,
+            "name": "空贼治愈手套（复制品）",
+            "iconId": 44405,
+            "rarity": 1
+          },
+          {
+            "itemId": 28840,
+            "name": "空贼咏咒手套（复制品）",
+            "iconId": 44406,
+            "rarity": 1
+          },
+          {
+            "itemId": 28845,
+            "name": "空鼠御敌铁钩护臂（复制品）",
+            "iconId": 48573,
+            "rarity": 1
+          },
+          {
+            "itemId": 28850,
+            "name": "空鼠制敌铁钩护臂（复制品）",
+            "iconId": 48575,
+            "rarity": 1
+          },
+          {
+            "itemId": 28855,
+            "name": "空鼠强袭半指护手（复制品）",
+            "iconId": 48576,
+            "rarity": 1
+          },
+          {
+            "itemId": 28860,
+            "name": "空鼠精准半指护手（复制品）",
+            "iconId": 48577,
+            "rarity": 1
+          },
+          {
+            "itemId": 28865,
+            "name": "空鼠游击铁钩护臂（复制品）",
+            "iconId": 48578,
+            "rarity": 1
+          },
+          {
+            "itemId": 28870,
+            "name": "空鼠治愈铁钩护臂（复制品）",
+            "iconId": 48574,
+            "rarity": 1
+          },
+          {
+            "itemId": 28875,
+            "name": "空鼠咏咒半指护手（复制品）",
+            "iconId": 48572,
             "rarity": 1
           }
         ]
@@ -112,180 +292,78 @@
     {
       "slotId": "legs",
       "label": "腿部",
-      "tag": "腿套",
-      "categoryId": 126,
+      "tag": "及膝裤",
+      "categoryId": 180,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 3313,
-            "name": "草布腿套",
-            "iconId": 45062,
+            "itemId": 3310,
+            "name": "鞣革及膝裤",
+            "iconId": 45127,
             "rarity": 1
           },
           {
-            "itemId": 3345,
-            "name": "棉布腿套",
-            "iconId": 45099,
+            "itemId": 3369,
+            "name": "巨蟾蜍革及膝裤",
+            "iconId": 45281,
             "rarity": 1
           },
           {
-            "itemId": 3374,
-            "name": "牙兵腿套",
-            "iconId": 45234,
-            "rarity": 2
-          },
-          {
-            "itemId": 3392,
-            "name": "漩兵腿套",
-            "iconId": 45162,
-            "rarity": 2
-          },
-          {
-            "itemId": 3421,
-            "name": "呢绒腿套",
-            "iconId": 45176,
-            "rarity": 1
-          },
-          {
-            "itemId": 3454,
-            "name": "纤维腿套",
-            "iconId": 45177,
-            "rarity": 1
-          },
-          {
-            "itemId": 3500,
-            "name": "骏鹰革腿套",
-            "iconId": 45342,
-            "rarity": 2
-          },
-          {
-            "itemId": 6764,
-            "name": "饿狼腿套",
-            "iconId": 45177,
+            "itemId": 3426,
+            "name": "野猪革及膝裤",
+            "iconId": 45169,
             "rarity": 1
           }
         ]
       }
     },
     {
-      "slotId": "feet",
-      "label": "脚部",
-      "tag": "短靴",
-      "categoryId": 75,
+      "slotId": "wrists",
+      "label": "手饰",
+      "tag": "浴衣",
+      "categoryId": 135,
       "gold": {
-        "points": 8,
+        "points": 6,
         "items": [
           {
-            "itemId": 13271,
-            "name": "高贵皮靴",
-            "iconId": 46567,
-            "rarity": 1
-          },
-          {
-            "itemId": 13687,
-            "name": "古鸟革皮靴",
-            "iconId": 46567,
-            "rarity": 1
-          },
-          {
-            "itemId": 16281,
-            "name": "田园混斗者短靴",
-            "iconId": 46655,
+            "itemId": 21467,
+            "name": "大龙脉豪士念珠",
+            "iconId": 55794,
             "rarity": 3
           },
           {
-            "itemId": 16357,
-            "name": "改良型田园混斗者短靴",
-            "iconId": 46655,
+            "itemId": 21468,
+            "name": "大龙脉斗士念珠",
+            "iconId": 55794,
             "rarity": 3
           },
           {
-            "itemId": 17494,
-            "name": "血盟冒险者矮靴",
-            "iconId": 46672,
-            "rarity": 1
+            "itemId": 21469,
+            "name": "大龙脉弓士念珠",
+            "iconId": 55794,
+            "rarity": 3
+          },
+          {
+            "itemId": 21470,
+            "name": "大龙脉学士念珠",
+            "iconId": 55794,
+            "rarity": 3
+          },
+          {
+            "itemId": 21471,
+            "name": "大龙脉术士念珠",
+            "iconId": 55794,
+            "rarity": 3
           }
         ]
       }
     }
   ],
   "referenceShowcase": {
-    "globalIssue": 445,
-    "theme": "鳞铠小丑",
-    "dyeProvider": "AllGameStaff（自动翻译）",
-    "solutions": [
-      {
-        "id": "100",
-        "score": 100,
-        "entries": [
-          {
-            "slotId": "head",
-            "item": {
-              "itemId": 2702,
-              "name": "旧化小丑帽",
-              "iconId": 41098,
-              "rarity": 1
-            }
-          },
-          {
-            "slotId": "body",
-            "item": {
-              "itemId": 3057,
-              "name": "黑铁鳞铠",
-              "iconId": 43063,
-              "rarity": 1
-            }
-          },
-          {
-            "slotId": "legs",
-            "item": {
-              "itemId": 3313,
-              "name": "草布腿套",
-              "iconId": 45062,
-              "rarity": 1
-            }
-          },
-          {
-            "slotId": "feet",
-            "item": {
-              "itemId": 17494,
-              "name": "血盟冒险者矮靴",
-              "iconId": 46672,
-              "rarity": 1
-            }
-          }
-        ]
-      },
-      {
-        "id": "80",
-        "score": 80,
-        "entries": [
-          {
-            "slotId": "head",
-            "iconId": 41227,
-            "labelKey": "fashionCheck.anyDyeableHead",
-            "dye": {
-              "dyeId": 15,
-              "name": "鲑鱼粉"
-            }
-          },
-          {
-            "slotId": "legs",
-            "item": {
-              "itemId": 3313,
-              "name": "草布腿套",
-              "iconId": 45062,
-              "rarity": 1
-            },
-            "dye": {
-              "dyeId": 15,
-              "name": "鲑鱼粉"
-            }
-          }
-        ]
-      }
-    ],
+    "globalIssue": 446,
+    "theme": "穿及膝裤的空贼",
+    "solutions": [],
     "dyes": []
   }
 }

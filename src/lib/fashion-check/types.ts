@@ -18,7 +18,7 @@ export interface FashionCheckLocaleCatalog {
   dyes: Record<string, FashionCheckLocalizedNames>
   dyeItems?: Record<string, FashionCheckDyeItem>
   tags?: Record<string, FashionCheckLocalizedNames>
-  /** 主题名本地化：key=期号（如 "454"），值={zh-CN,en}（ja/ko 无源，前端回退 zh-CN） */
+  /** 主题名本地化：key=期号（如 "454"），预载的有效周次均含中英日韩名称。 */
   themes?: Record<string, FashionCheckLocalizedNames>
 }
 
