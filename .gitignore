@@ -41,15 +41,17 @@ Thumbs.db
 /icon-drafts/
 /com_icon_clear.svg
 /style-experiments/
+# unreferenced generated icon list (kept local)
+/public/icon-hd-list.json
 
 # local AI / IDE settings
 .claude/settings.local.json
 /.codex-tmp/
-/.codex/agent-sessions/
-/.codex/agent-locks/
+/.codex/
 
 # local-only temporary directories
 /.tmp-*/
+/tmp/
 
 # AI agent collab messages (local-only)
 /.collab/
