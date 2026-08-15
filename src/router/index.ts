@@ -143,7 +143,7 @@ const router = createRouter({
     {
       path: siteRoutes.home,
       name: 'home',
-      meta: { titleKey: siteMeta.zhNameKey },
+      meta: { titleKey: siteMeta.zhNameKey, showTaskbar: true },
       component: loadLocalizedPage(
         ['ffxiv'],
         () => import('@/pages/style-lab/OsShellPrototype.vue')

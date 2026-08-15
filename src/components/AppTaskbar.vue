@@ -97,35 +97,34 @@ function modeIconStyle(icon: string): CSSProperties {
   display: flex;
   min-width: 0;
   align-items: center;
-  gap: 6px;
-  min-height: 46px;
-  padding: 5px 7px;
-  border-top: 2px solid var(--ns-pixel-border);
+  gap: 4px;
+  min-height: 28px;
+  padding: 0 4px;
+  border-top: var(--ns-line-width) solid var(--ns-pixel-border);
   background: var(--ns-top-nav-bg);
-  box-shadow: var(--ns-pixel-nav-shadow);
   font-family: var(--ns-font-pixel);
 }
 
-/* ---- Base button / link style (matching top nav) ---- */
+/* ---- Base button / link style ---- */
 .app-taskbar__start,
 .app-taskbar__window,
 .app-taskbar__clock {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 34px;
-  padding: 0 10px;
-  border: 2px solid var(--ns-pixel-border);
-  border-radius: 0;
-  background: var(--ns-pixel-surface);
+  gap: 4px;
+  min-height: 26px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: var(--ns-radius-xs);
+  background: transparent;
   color: var(--ns-color-text);
   font-family: var(--ns-font-ui);
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
   text-decoration: none;
-  box-shadow: var(--ns-pixel-button-shadow);
+  box-shadow: none;
   cursor: pointer;
   transition:
     background var(--ns-transition-fast),
@@ -137,17 +136,18 @@ function modeIconStyle(icon: string): CSSProperties {
 .app-taskbar__start:hover,
 .app-taskbar__window:hover,
 .app-taskbar__clock:hover {
-  background: var(--ns-pixel-hover-surface);
+  background: color-mix(in srgb, var(--ns-pixel-surface) 72%, transparent);
   color: var(--ns-color-text);
-  transform: translate(-1px, -1px);
-  box-shadow: var(--ns-pixel-button-shadow-hover);
+  transform: none;
+  box-shadow: none;
 }
 
 .app-taskbar__start:active,
 .app-taskbar__window:active,
 .app-taskbar__clock:active {
-  transform: translate(1px, 1px);
-  box-shadow: var(--ns-pixel-soft-shadow);
+  background: color-mix(in srgb, var(--ns-color-accent) 18%, var(--ns-pixel-surface));
+  transform: none;
+  box-shadow: none;
 }
 
 /* ---- Start button ---- */
@@ -157,19 +157,18 @@ function modeIconStyle(icon: string): CSSProperties {
 }
 
 .app-taskbar__command {
-  padding: 3px 5px;
+  padding: 2px 4px;
   margin-left: 2px;
-  border-left: 1px solid var(--ns-pixel-divider);
   color: var(--ns-color-text-muted);
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.02em;
 }
 
 .app-taskbar__start-icon {
   display: block;
   flex: 0 0 auto;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   background: currentColor;
   color: var(--ns-color-accent);
   image-rendering: pixelated;
@@ -183,7 +182,7 @@ function modeIconStyle(icon: string): CSSProperties {
   flex: 1 1 auto;
   min-width: 0;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .app-taskbar__windows {
@@ -191,25 +190,42 @@ function modeIconStyle(icon: string): CSSProperties {
   flex: 1 1 auto;
   min-width: 0;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
 .app-taskbar__window {
+  position: relative;
   flex: 0 1 auto;
   max-width: 200px;
   justify-content: flex-start;
 }
 
+.app-taskbar__window::after {
+  position: absolute;
+  right: 8px;
+  bottom: 2px;
+  left: 8px;
+  height: 2px;
+  border-radius: 1px;
+  background: transparent;
+  content: '';
+}
+
+.app-taskbar__window:hover::after,
+.app-taskbar__window:focus-visible::after {
+  background: var(--ns-color-accent-strong);
+}
+
 .app-taskbar__window--social img {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   flex: 0 0 auto;
   image-rendering: pixelated;
 }
 
 .app-taskbar__social-icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   flex: 0 0 auto;
   image-rendering: pixelated;
 }
@@ -223,10 +239,10 @@ function modeIconStyle(icon: string): CSSProperties {
 /* ---- ICP text ---- */
 .app-taskbar__icp {
   flex: 0 0 auto;
-  padding: 0 6px;
+  padding: 0 4px;
   color: var(--ns-color-text-muted);
   font-family: var(--ns-font-ui);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 900;
   line-height: 1;
   white-space: nowrap;
@@ -245,8 +261,8 @@ function modeIconStyle(icon: string): CSSProperties {
   position: relative;
   display: block;
   flex: 0 0 auto;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .app-taskbar__mode-icon {
