@@ -27,7 +27,10 @@
         aria-hidden="true"
       ></div>
 
-      <nav class="home-desktop__icons ns-stagger ns-animate-visible" :aria-label="t(textKeys.primaryNavigation)">
+      <nav
+        class="home-desktop__icons ns-stagger ns-animate-visible"
+        :aria-label="t(textKeys.primaryNavigation)"
+      >
         <RouterLink
           v-for="item in desktopIcons"
           :key="item.id"
@@ -67,8 +70,14 @@
               <span>{{ t(siteMeta.enNameKey) }}</span>
             </span>
             <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
-              <span class="home-window__control home-window__control--max" aria-hidden="true"></span>
+              <span
+                class="home-window__control home-window__control--min"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="home-window__control home-window__control--max"
+                aria-hidden="true"
+              ></span>
               <button
                 type="button"
                 class="home-window__control home-window__control--close"
@@ -80,7 +89,11 @@
 
           <div class="home-window__body home-window__body--main">
             <div class="home-profile">
-              <div class="home-profile__art" :style="homeCharacterArtStyle" aria-hidden="true"></div>
+              <div
+                class="home-profile__art"
+                :style="homeCharacterArtStyle"
+                aria-hidden="true"
+              ></div>
               <div class="home-profile__copy">
                 <h1 id="home-title">
                   <span
@@ -109,7 +122,10 @@
               <span>{{ t(textKeys.homeAdventureClockWindow) }}</span>
             </span>
             <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
+              <span
+                class="home-window__control home-window__control--min"
+                aria-hidden="true"
+              ></span>
               <button
                 type="button"
                 class="home-window__control home-window__control--close"
@@ -122,7 +138,10 @@
           <div class="home-window__body home-adventure-clock">
             <div class="home-adventure-clock__eorzea">
               <span>{{ t(textKeys.homeAdventureClockEorzeaTime) }}</span>
-              <strong><small>{{ t(textKeys.homeAdventureClockEtLabel) }}</small>{{ eorzeaTime }}</strong>
+              <strong
+                ><small>{{ t(textKeys.homeAdventureClockEtLabel) }}</small
+                >{{ eorzeaTime }}</strong
+              >
             </div>
             <dl class="home-adventure-clock__details">
               <div>
@@ -132,7 +151,9 @@
               <div>
                 <dt>{{ t(textKeys.homeAdventureClockWeeklyReset) }}</dt>
                 <dd>
-                  <span v-if="weeklyReset.days">{{ weeklyReset.days }}{{ t(textKeys.homeAdventureClockDayUnit) }} </span>{{ weeklyReset.clock }}
+                  <span v-if="weeklyReset.days"
+                    >{{ weeklyReset.days }}{{ t(textKeys.homeAdventureClockDayUnit) }} </span
+                  >{{ weeklyReset.clock }}
                 </dd>
               </div>
             </dl>
@@ -152,7 +173,10 @@
               <span>{{ t(textKeys.homeAvatarYoine) }}</span>
             </span>
             <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
+              <span
+                class="home-window__control home-window__control--min"
+                aria-hidden="true"
+              ></span>
               <button
                 type="button"
                 class="home-window__control home-window__control--close"
@@ -179,7 +203,10 @@
               <span>{{ t(textKeys.homeNightStatusWindow) }}</span>
             </span>
             <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
+              <span
+                class="home-window__control home-window__control--min"
+                aria-hidden="true"
+              ></span>
               <button
                 type="button"
                 class="home-window__control home-window__control--close"
@@ -191,7 +218,9 @@
           <div class="home-night-status">
             <div v-for="metric in nightMetrics" :key="metric.id" class="home-night-status__item">
               <span>{{ t(metric.labelKey) }}</span>
-              <strong :key="metric.value" :class="`home-night-status__value--${metric.trend}`">{{ metric.value }}</strong>
+              <strong :key="metric.value" :class="`home-night-status__value--${metric.trend}`">{{
+                metric.value
+              }}</strong>
               <i :style="{ '--home-progress-size': metric.size }"></i>
             </div>
           </div>
@@ -210,7 +239,10 @@
               <span>{{ t(textKeys.homeNightDialogueWindow) }}</span>
             </span>
             <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
+              <span
+                class="home-window__control home-window__control--min"
+                aria-hidden="true"
+              ></span>
               <button
                 type="button"
                 class="home-window__control home-window__control--close"
@@ -250,7 +282,10 @@
               <span>{{ t(textKeys.homeNightChatWindow) }}</span>
             </span>
             <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
+              <span
+                class="home-window__control home-window__control--min"
+                aria-hidden="true"
+              ></span>
               <button
                 type="button"
                 class="home-window__control home-window__control--close"
@@ -260,14 +295,22 @@
             </span>
           </div>
           <div class="home-night-chat">
-            <p v-for="message in nightFragmentRecords" :key="message.id" :class="`home-night-chat__message--${message.side}`">
+            <p
+              v-for="message in nightFragmentRecords"
+              :key="message.id"
+              :class="`home-night-chat__message--${message.side}`"
+            >
               <span
                 class="home-night-chat__avatar home-night-chat__avatar--portrait"
                 :style="homeChatAvatarStyle(message.avatar)"
                 aria-hidden="true"
               ></span>
               <strong>{{ t(message.nameKey) }}</strong>
-              <span class="home-night-fragment-stability" v-for="meter in message.meters" :key="meter.id">
+              <span
+                class="home-night-fragment-stability"
+                v-for="meter in message.meters"
+                :key="meter.id"
+              >
                 <span>{{ t(meter.labelKey) }}</span>
                 <i :style="{ '--home-progress-size': meter.size }"></i>
               </span>
@@ -292,7 +335,10 @@
               <span>{{ t(textKeys.homeArchiveWindow) }}</span>
             </span>
             <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
+              <span
+                class="home-window__control home-window__control--min"
+                aria-hidden="true"
+              ></span>
               <button
                 type="button"
                 class="home-window__control home-window__control--close"
@@ -308,7 +354,11 @@
               class="home-avatar-card"
               :class="`home-avatar-card--${avatar.tone}`"
             >
-              <span class="home-avatar-card__portrait" :style="homeAvatarStyle(avatar.image)" aria-hidden="true"></span>
+              <span
+                class="home-avatar-card__portrait"
+                :style="homeAvatarStyle(avatar.image)"
+                aria-hidden="true"
+              ></span>
               <span class="home-avatar-card__name">{{ t(avatar.nameKey) }}</span>
               <span class="home-avatar-card__state">{{ t(avatar.stateKey) }}</span>
             </div>
@@ -328,8 +378,14 @@
               <span>{{ t(textKeys.homeNightControlWindow) }}</span>
             </span>
             <span class="home-window__controls">
-              <span class="home-window__control home-window__control--min" aria-hidden="true"></span>
-              <span class="home-window__control home-window__control--max" aria-hidden="true"></span>
+              <span
+                class="home-window__control home-window__control--min"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="home-window__control home-window__control--max"
+                aria-hidden="true"
+              ></span>
               <button
                 type="button"
                 class="home-window__control home-window__control--close"
@@ -344,10 +400,18 @@
             </div>
             <div class="home-night-player__pad" aria-hidden="true">
               <span class="home-night-player__pad-button home-night-player__pad-button--up"></span>
-              <span class="home-night-player__pad-button home-night-player__pad-button--left"></span>
-              <span class="home-night-player__pad-button home-night-player__pad-button--center">Ⅱ</span>
-              <span class="home-night-player__pad-button home-night-player__pad-button--right"></span>
-              <span class="home-night-player__pad-button home-night-player__pad-button--down"></span>
+              <span
+                class="home-night-player__pad-button home-night-player__pad-button--left"
+              ></span>
+              <span class="home-night-player__pad-button home-night-player__pad-button--center"
+                >Ⅱ</span
+              >
+              <span
+                class="home-night-player__pad-button home-night-player__pad-button--right"
+              ></span>
+              <span
+                class="home-night-player__pad-button home-night-player__pad-button--down"
+              ></span>
             </div>
             <div class="home-night-player__screen">
               <div class="home-night-player__meta">
@@ -378,7 +442,6 @@
           </div>
         </aside>
       </div>
-
     </section>
   </main>
 </template>
@@ -407,6 +470,7 @@ import fashionCheckIcon from '@/assets/icons/site/fashion-check-64.png'
 import ffxivWorkshopIcon from '@/assets/icons/site/ffxiv-workshop-64.png'
 import glamourIcon from '@/assets/icons/site/glamour-64.png'
 import itemCardIcon from '@/assets/icons/site/item-card-64.png'
+import blogIcon from '@/assets/icons/pixelarticons/note.svg'
 import { ffxivTools, siteMeta, siteRoutes } from '@/config/site'
 import { homeTextKeys as textKeys } from '@/locales/keys/home'
 import { homeUiMessages } from '@/locales/modules/home'
@@ -415,7 +479,10 @@ import { useTheme } from '@/stores/theme'
 import { useHomeDragWindow } from './composables/useHomeDragWindow'
 import { useHomeEffects } from './composables/useHomeEffects'
 import { useHomeAdventureClock } from './composables/useHomeAdventureClock'
-import { useHomeStatusPanel, type NightFragmentStabilityConfig } from './composables/useHomeStatusPanel'
+import {
+  useHomeStatusPanel,
+  type NightFragmentStabilityConfig
+} from './composables/useHomeStatusPanel'
 
 loadMessages(homeUiMessages)
 
@@ -440,7 +507,7 @@ const {
   hiddenDayWindowIds,
   hiddenNightWindowIds,
   clearDayWindowRespawnTimers,
-  clearNightWindowRespawnTimers,
+  clearNightWindowRespawnTimers
 } = useHomeDragWindow()
 
 const {
@@ -450,7 +517,7 @@ const {
   startHomeThemeTransition,
   handleHomePointerMove,
   resetHomePointer,
-  cleanupEffects,
+  cleanupEffects
 } = useHomeEffects()
 
 const { eorzeaTime, dailyReset, weeklyReset } = useHomeAdventureClock()
@@ -511,20 +578,37 @@ const nightFragmentStabilityConfigs: readonly NightFragmentStabilityConfig[] = [
 ] as const
 
 const nightMetricBases = [
-  { id: 'heart-rate', labelKey: textKeys.homeNightHeartRate, baseValue: 72, baseSize: 64, valueJitter: 3, sizeJitter: 12 },
-  { id: 'oxygen-saturation', labelKey: textKeys.homeNightOxygenSaturation, baseValue: 98, baseSize: 77, valueJitter: 1, sizeJitter: 9 },
-  { id: 'neural-activity', labelKey: textKeys.homeNightNeuralActivity, baseValue: 63, baseSize: 42, valueJitter: 4, sizeJitter: 15 }
+  {
+    id: 'heart-rate',
+    labelKey: textKeys.homeNightHeartRate,
+    baseValue: 72,
+    baseSize: 64,
+    valueJitter: 3,
+    sizeJitter: 12
+  },
+  {
+    id: 'oxygen-saturation',
+    labelKey: textKeys.homeNightOxygenSaturation,
+    baseValue: 98,
+    baseSize: 77,
+    valueJitter: 1,
+    sizeJitter: 9
+  },
+  {
+    id: 'neural-activity',
+    labelKey: textKeys.homeNightNeuralActivity,
+    baseValue: 63,
+    baseSize: 42,
+    valueJitter: 4,
+    sizeJitter: 15
+  }
 ] as const
 
-const {
-  nightMetrics,
-  nightFragmentRecords,
-  nightWorldStability,
-  nightDialogueMessages,
-} = useHomeStatusPanel(nightFragmentStabilityConfigs, nightMetricBases, {
-  existenceStability: textKeys.homeNightExistenceStability,
-  mentalStability: textKeys.homeNightMentalStability,
-})
+const { nightMetrics, nightFragmentRecords, nightWorldStability, nightDialogueMessages } =
+  useHomeStatusPanel(nightFragmentStabilityConfigs, nightMetricBases, {
+    existenceStability: textKeys.homeNightExistenceStability,
+    mentalStability: textKeys.homeNightMentalStability
+  })
 
 // ---- Art style computed ----
 const homeCharacterArtStyle = computed(
@@ -590,6 +674,13 @@ const desktopIcons = [
     icon: workshopIconFor(tool.id),
     tone: workshopToneFor(tool.id)
   })),
+  {
+    id: 'blog',
+    labelKey: textKeys.blog,
+    route: siteRoutes.blogIndex,
+    icon: blogIcon,
+    tone: 'violet'
+  },
   {
     id: 'about',
     labelKey: textKeys.about,
@@ -731,7 +822,13 @@ onBeforeUnmount(() => {
     radial-gradient(ellipse 58% 54% at 50% 72%, rgba(94, 234, 255, 0.13) 0 14%, transparent 45%),
     radial-gradient(ellipse 46% 74% at 88% 42%, rgba(255, 95, 184, 0.11) 0 8%, transparent 42%),
     radial-gradient(ellipse 36% 68% at 10% 62%, rgba(94, 234, 255, 0.08) 0 10%, transparent 48%),
-    linear-gradient(90deg, rgba(255, 95, 184, 0.1), transparent 18%, transparent 78%, rgba(94, 234, 255, 0.1)),
+    linear-gradient(
+      90deg,
+      rgba(255, 95, 184, 0.1),
+      transparent 18%,
+      transparent 78%,
+      rgba(94, 234, 255, 0.1)
+    ),
     linear-gradient(180deg, rgba(94, 234, 255, 0.08), transparent 24%, rgba(255, 95, 184, 0.05));
   mix-blend-mode: screen;
 }
@@ -777,10 +874,8 @@ onBeforeUnmount(() => {
   z-index: 12;
   display: block;
   height: min(104svh, 940px);
-  filter:
-    drop-shadow(10px 10px 0 rgba(5, 9, 18, 0.5))
-    drop-shadow(-3px 0 0 rgba(255, 95, 184, 0.18))
-    drop-shadow(3px 0 0 rgba(94, 234, 255, 0.18));
+  filter: drop-shadow(10px 10px 0 rgba(5, 9, 18, 0.5))
+    drop-shadow(-3px 0 0 rgba(255, 95, 184, 0.18)) drop-shadow(3px 0 0 rgba(94, 234, 255, 0.18));
   pointer-events: none;
   transform: translate(
     calc(-50% + (var(--home-pointer-x) * 10px)),
@@ -827,12 +922,8 @@ onBeforeUnmount(() => {
 }
 
 :global(:root[data-theme='night'] .home-night-foreground) {
-  --home-night-portrait-light-filter:
-    brightness(0.66)
-    saturate(0.84)
-    contrast(1.14)
-    drop-shadow(12px 12px 0 rgba(5, 9, 18, 0.64))
-    drop-shadow(5px -2px 0 rgba(94, 234, 255, 0.34))
+  --home-night-portrait-light-filter: brightness(0.66) saturate(0.84) contrast(1.14)
+    drop-shadow(12px 12px 0 rgba(5, 9, 18, 0.64)) drop-shadow(5px -2px 0 rgba(94, 234, 255, 0.34))
     drop-shadow(13px -8px 0 rgba(94, 234, 255, 0.16))
     drop-shadow(-5px 4px 0 rgba(255, 95, 184, 0.2))
     drop-shadow(-10px 16px 0 rgba(255, 95, 184, 0.12))
@@ -1239,8 +1330,16 @@ button.home-window__control:focus-visible {
   overflow: hidden;
   padding: 0;
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--home-pink) 9%, transparent) 1px, transparent 1px),
-    linear-gradient(0deg, color-mix(in srgb, var(--home-blue) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--home-pink) 9%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--home-blue) 9%, transparent) 1px,
+      transparent 1px
+    ),
     color-mix(in srgb, var(--home-surface) 92%, var(--home-blue-soft));
   background-size:
     16px 16px,
@@ -1261,8 +1360,7 @@ button.home-window__control:focus-visible {
   left: 22%;
   height: calc(100% + 44px);
   background: var(--home-character-art-url, none) center bottom / contain no-repeat;
-  filter:
-    drop-shadow(8px 8px 0 color-mix(in srgb, var(--home-shadow) 72%, transparent))
+  filter: drop-shadow(8px 8px 0 color-mix(in srgb, var(--home-shadow) 72%, transparent))
     drop-shadow(-3px 0 0 color-mix(in srgb, var(--home-pink) 22%, transparent))
     drop-shadow(3px 0 0 color-mix(in srgb, var(--home-blue) 22%, transparent));
   opacity: 0;
@@ -1286,27 +1384,22 @@ button.home-window__control:focus-visible {
 }
 
 :global(:root[data-theme='night'] .home-night-foreground::before) {
-  filter:
-    sepia(100%)
-    saturate(245%)
-    hue-rotate(285deg)
-    brightness(86%)
-    contrast(132%)
+  filter: sepia(100%) saturate(245%) hue-rotate(285deg) brightness(86%) contrast(132%)
     drop-shadow(-5px 3px 0 rgba(255, 95, 184, 0.24))
     drop-shadow(4px -2px 0 rgba(94, 234, 255, 0.12));
-  transform: translate(calc(var(--home-pointer-x) * 7px - 10px), calc(var(--home-pointer-y) * -3px));
+  transform: translate(
+    calc(var(--home-pointer-x) * 7px - 10px),
+    calc(var(--home-pointer-y) * -3px)
+  );
 }
 
 :global(:root[data-theme='night'] .home-night-foreground::after) {
-  filter:
-    sepia(100%)
-    saturate(245%)
-    hue-rotate(150deg)
-    brightness(88%)
-    contrast(132%)
-    drop-shadow(6px -3px 0 rgba(94, 234, 255, 0.28))
-    drop-shadow(-3px 4px 0 rgba(255, 95, 184, 0.1));
-  transform: translate(calc(var(--home-pointer-x) * -6px + 10px), calc(var(--home-pointer-y) * 3px));
+  filter: sepia(100%) saturate(245%) hue-rotate(150deg) brightness(88%) contrast(132%)
+    drop-shadow(6px -3px 0 rgba(94, 234, 255, 0.28)) drop-shadow(-3px 4px 0 rgba(255, 95, 184, 0.1));
+  transform: translate(
+    calc(var(--home-pointer-x) * -6px + 10px),
+    calc(var(--home-pointer-y) * 3px)
+  );
 }
 
 :global(:root[data-theme='night'] .home-night-foreground.home-night-foreground--glitching::before) {
@@ -1531,8 +1624,7 @@ button.home-window__control:focus-visible {
   background:
     var(--home-avatar-url, none) center / contain no-repeat,
     linear-gradient(135deg, var(--home-pink-soft), var(--home-violet-soft));
-  filter:
-    drop-shadow(2px 0 0 color-mix(in srgb, var(--home-pink) 44%, transparent))
+  filter: drop-shadow(2px 0 0 color-mix(in srgb, var(--home-pink) 44%, transparent))
     drop-shadow(-2px 0 0 color-mix(in srgb, var(--home-blue) 34%, transparent));
 }
 
@@ -1715,12 +1807,11 @@ button.home-window__control:focus-visible {
   position: absolute;
   inset: 2px auto 2px 2px;
   inline-size: min(var(--home-progress-size, 50%), calc(100% - 4px));
-  background:
-    repeating-linear-gradient(
-      90deg,
-      var(--home-pink) 0 8px,
-      color-mix(in srgb, var(--home-pink) 54%, transparent) 8px 10px
-    );
+  background: repeating-linear-gradient(
+    90deg,
+    var(--home-pink) 0 8px,
+    color-mix(in srgb, var(--home-pink) 54%, transparent) 8px 10px
+  );
   content: '';
   transform: scaleX(1);
   transform-origin: left center;
@@ -1878,12 +1969,11 @@ button.home-window__control:focus-visible {
   position: absolute;
   inset: 2px auto 2px 2px;
   inline-size: min(var(--home-progress-size, 50%), calc(100% - 4px));
-  background:
-    repeating-linear-gradient(
-      90deg,
-      var(--home-pink) 0 8px,
-      color-mix(in srgb, var(--home-pink) 54%, transparent) 8px 10px
-    );
+  background: repeating-linear-gradient(
+    90deg,
+    var(--home-pink) 0 8px,
+    color-mix(in srgb, var(--home-pink) 54%, transparent) 8px 10px
+  );
   content: '';
   transition: inline-size 280ms steps(5, end);
 }
@@ -1952,9 +2042,7 @@ button.home-window__control:focus-visible {
   position: absolute;
   inset: 25px;
   border: 2px solid color-mix(in srgb, var(--home-border) 74%, #050711);
-  background:
-    linear-gradient(135deg, rgba(255, 95, 184, 0.12), transparent 45%),
-    #14182a;
+  background: linear-gradient(135deg, rgba(255, 95, 184, 0.12), transparent 45%), #14182a;
   content: '';
 }
 
@@ -1966,9 +2054,7 @@ button.home-window__control:focus-visible {
   height: 24px;
   place-items: center;
   border: 2px solid color-mix(in srgb, var(--home-border) 78%, #050711);
-  background:
-    linear-gradient(135deg, rgba(94, 234, 255, 0.14), transparent 42%),
-    #20283a;
+  background: linear-gradient(135deg, rgba(94, 234, 255, 0.14), transparent 42%), #20283a;
   color: var(--home-blue);
   font-size: 12px;
   font-weight: 950;
@@ -1990,9 +2076,7 @@ button.home-window__control:focus-visible {
 .home-night-player__pad-button--center {
   grid-column: 2;
   grid-row: 2;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 42%),
-    var(--home-pink);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 42%), var(--home-pink);
   color: #12071d;
 }
 
@@ -2093,12 +2177,7 @@ button.home-window__control:focus-visible {
 .home-night-player__equalizer i {
   display: block;
   width: 8px;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      #ff5abf 0 3px,
-      transparent 3px 5px
-    );
+  background: repeating-linear-gradient(0deg, #ff5abf 0 3px, transparent 3px 5px);
   animation: home-player-eq 900ms steps(3, end) infinite;
 }
 
@@ -2132,11 +2211,7 @@ button.home-window__control:focus-visible {
   border: 2px solid rgba(136, 248, 255, 0.32);
   overflow: hidden;
   background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(136, 248, 255, 0.2) 0 8px,
-      transparent 8px 10px
-    ),
+    repeating-linear-gradient(90deg, rgba(136, 248, 255, 0.2) 0 8px, transparent 8px 10px),
     rgba(136, 248, 255, 0.1);
 }
 
@@ -2144,12 +2219,7 @@ button.home-window__control:focus-visible {
   position: absolute;
   inset: 2px auto 2px 2px;
   inline-size: min(48%, calc(100% - 4px));
-  background:
-    repeating-linear-gradient(
-      90deg,
-      #88f8ff 0 8px,
-      rgba(136, 248, 255, 0.42) 8px 10px
-    );
+  background: repeating-linear-gradient(90deg, #88f8ff 0 8px, rgba(136, 248, 255, 0.42) 8px 10px);
   animation: home-player-progress 3.2s steps(12, end) infinite;
 }
 
@@ -2171,9 +2241,7 @@ button.home-window__control:focus-visible {
   min-height: 26px;
   place-items: center;
   border: 2px solid color-mix(in srgb, var(--home-border) 78%, #050711);
-  background:
-    linear-gradient(135deg, rgba(94, 234, 255, 0.14), transparent 45%),
-    #1b2233;
+  background: linear-gradient(135deg, rgba(94, 234, 255, 0.14), transparent 45%), #1b2233;
   color: var(--home-ink);
   font-family: var(--ns-font-pixel);
   font-size: 11px;
@@ -2273,7 +2341,11 @@ button.home-window__control:focus-visible {
   padding: 5px 7px;
   border-top: 2px solid var(--home-border);
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--home-surface) 88%, transparent), var(--home-pink-soft)),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--home-surface) 88%, transparent),
+      var(--home-pink-soft)
+    ),
     var(--home-surface);
 }
 
@@ -2284,7 +2356,12 @@ button.home-window__control:focus-visible {
   max-width: none;
   border-top-color: color-mix(in srgb, var(--home-border) 82%, var(--home-y2k-cyan));
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(201, 214, 231, 0.8) 46%, rgba(255, 228, 244, 0.92)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.86),
+      rgba(201, 214, 231, 0.8) 46%,
+      rgba(255, 228, 244, 0.92)
+    ),
     var(--home-surface);
   box-shadow:
     inset 0 2px 0 rgba(255, 255, 255, 0.78),
@@ -2572,10 +2649,8 @@ button.home-window__control:focus-visible {
     width: 100%;
     height: clamp(230px, 36svh, 310px);
     background: var(--home-mobile-night-art-url, none) center bottom / contain no-repeat;
-    filter:
-      drop-shadow(7px 7px 0 rgba(5, 9, 18, 0.5))
-      drop-shadow(-2px 0 0 rgba(255, 95, 184, 0.16))
-      drop-shadow(2px 0 0 rgba(94, 234, 255, 0.18));
+    filter: drop-shadow(7px 7px 0 rgba(5, 9, 18, 0.5))
+      drop-shadow(-2px 0 0 rgba(255, 95, 184, 0.16)) drop-shadow(2px 0 0 rgba(94, 234, 255, 0.18));
     pointer-events: none;
   }
 

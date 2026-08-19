@@ -1,3 +1,8 @@
+// agent-session.mjs — AI 会话协作辅助（本地会话日志/文件声明），可选用例。
+// 归类说明（2026-08 架构整改 Phase 6）：本脚本属于会话协作工具域，与 build-*/check-*
+// 构建校验脚本无关；因被 AGENTS.md 路由表、scripts/agent-session.test.mjs 与 specs 文档
+// 引用，按引用规则保留原位，不移动目录、不接入构建流程。
+
 import { createHash, randomBytes } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import {

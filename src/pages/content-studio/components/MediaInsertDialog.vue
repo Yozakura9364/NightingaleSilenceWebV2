@@ -1,47 +1,77 @@
 <template>
   <div class="media-dialog-backdrop" @click.self="$emit('close')">
-    <div class="media-dialog">
-      <h3>{{ t(keys.insertImage) }}</h3>
-      <input ref="fileInput" type="file" accept="image/jpeg,image/png,image/webp" @change="onFileSelect" />
-      <p v-if="error" class="error">{{ error }}</p>
-      <p v-if="uploading">{{ t(keys.uploading) }}</p>
-      <div v-if="uploadedMedia" class="uploaded-info">
-        <p>{{ t(keys.uploadedLabel) }}: {{ uploadedMedia.publicObjectKey }} ({{ uploadedMedia.width }}×{{ uploadedMedia.height }})</p>
-        <label>{{ t(keys.imageAlt) }} <input v-model="imageAlt" /></label>
-        <label>{{ t(keys.imageCaption) }} <input v-model="imageCaption" /></label>
-        <label>{{ t(keys.imageAlign) }}
-          <select v-model="imageAlign">
-            <option value="left">⇤ {{ t(keys.alignLeft) }}</option>
-            <option value="center">⇔ {{ t(keys.alignCenter) }}</option>
-            <option value="right">⇥ {{ t(keys.alignRight) }}</option>
-          </select>
-        </label>
-        <label>{{ t(keys.imageWidth) }}
-          <select v-model.number="imageWidth">
-            <option :value="25">25%</option>
-            <option :value="50">50%</option>
-            <option :value="75">75%</option>
-            <option :value="100">100%</option>
-          </select>
-        </label>
-        <div class="insert-actions">
-          <button @click="insertSingleImage">{{ t(keys.insertToEditor) }}</button>
-          <button @click="addToGallery">{{ t(keys.addToGallery) }}</button>
+    <section class="media-dialog" role="dialog" aria-modal="true" :aria-label="t(keys.insertImage)">
+      <header class="media-dialog__bar">
+        <span class="media-dialog__title">{{ t(keys.insertImage) }}</span>
+      </header>
+      <div class="media-dialog__body">
+        <input
+          ref="fileInput"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          @change="onFileSelect"
+        />
+        <p v-if="error" class="error">{{ error }}</p>
+        <p v-if="uploading" class="uploading">{{ t(keys.uploading) }}</p>
+        <div v-if="uploadedMedia" class="uploaded-info">
+          <p class="uploaded-info__meta">
+            {{ t(keys.uploadedLabel) }}: {{ uploadedMedia.publicObjectKey }} ({{
+              uploadedMedia.width
+            }}×{{ uploadedMedia.height }})
+          </p>
+          <AppField :label="t(keys.imageAlt)" for-id="media-dialog-alt" density="compact">
+            <input id="media-dialog-alt" v-model="imageAlt" />
+          </AppField>
+          <AppField :label="t(keys.imageCaption)" for-id="media-dialog-caption" density="compact">
+            <input id="media-dialog-caption" v-model="imageCaption" />
+          </AppField>
+          <AppField :label="t(keys.imageAlign)" for-id="media-dialog-align" density="compact">
+            <select id="media-dialog-align" v-model="imageAlign">
+              <option value="left">⇤ {{ t(keys.alignLeft) }}</option>
+              <option value="center">⇔ {{ t(keys.alignCenter) }}</option>
+              <option value="right">⇥ {{ t(keys.alignRight) }}</option>
+            </select>
+          </AppField>
+          <AppField :label="t(keys.imageWidth)" for-id="media-dialog-width" density="compact">
+            <select id="media-dialog-width" v-model.number="imageWidth">
+              <option :value="25">25%</option>
+              <option :value="50">50%</option>
+              <option :value="75">75%</option>
+              <option :value="100">100%</option>
+            </select>
+          </AppField>
+          <div class="insert-actions">
+            <AppButton size="compact" @click="insertSingleImage">{{
+              t(keys.insertToEditor)
+            }}</AppButton>
+            <AppButton variant="primary" size="compact" @click="addToGallery">{{
+              t(keys.addToGallery)
+            }}</AppButton>
+          </div>
+        </div>
+        <div class="dialog-actions">
+          <AppButton v-if="error && !uploading" size="compact" @click="retryUpload">{{
+            t(keys.retry)
+          }}</AppButton>
+          <AppButton size="compact" @click="$emit('close')">{{ t(keys.cancel) }}</AppButton>
         </div>
       </div>
-      <div class="dialog-actions">
-        <button @click="retryUpload" v-if="error && !uploading">{{ t(keys.retry) }}</button>
-        <button @click="$emit('close')">{{ t(keys.cancel) }}</button>
-      </div>
-    </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useLocale } from '@/stores/locale'
-import { ApiError, useFetch } from '@/composables/useFetch'
+import { ApiError } from '@/composables/useFetch'
+import { contentStudioToken } from '@/config/env'
+import {
+  uploadContentStudioMedia,
+  type ContentStudioMediaUpload
+} from '@/services/contentStudio/contentStudioApi'
 import { contentStudioKeys } from '@/locales/keys/content'
+import AppButton from '@/components/AppButton.vue'
+import AppField from '@/components/AppField.vue'
 
 const { t } = useLocale()
 const keys = {
@@ -58,7 +88,7 @@ const keys = {
   addToGallery: contentStudioKeys.addToGallery,
   alignLeft: contentStudioKeys.alignLeft,
   alignCenter: contentStudioKeys.alignCenter,
-  alignRight: contentStudioKeys.alignRight,
+  alignRight: contentStudioKeys.alignRight
 }
 
 const emit = defineEmits<{
@@ -67,10 +97,10 @@ const emit = defineEmits<{
   (e: 'addToGallery', mediaId: string, attrs: Record<string, unknown>): void
 }>()
 
-const token = import.meta.env.VITE_CONTENT_STUDIO_TOKEN || ''
+const token = contentStudioToken
 const error = ref('')
 const uploading = ref(false)
-const uploadedMedia = ref<any>(null)
+const uploadedMedia = ref<ContentStudioMediaUpload | null>(null)
 const imageAlt = ref('')
 const imageCaption = ref('')
 const imageAlign = ref('center')
@@ -81,17 +111,7 @@ async function uploadFile(file: File) {
   uploading.value = true
   error.value = ''
   try {
-    const data = await file.arrayBuffer()
-    const obj = await useFetch().request<any>('/api/content-studio/media', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'X-File-Name': file.name,
-        'X-Content-Studio-Token': token
-      },
-      body: data,
-      timeoutMs: 30000
-    })
+    const obj = await uploadContentStudioMedia(file, token)
     uploadedMedia.value = obj
     imageAlt.value = obj.publicObjectKey || ''
     imageCaption.value = ''
@@ -129,7 +149,7 @@ function buildAttrs(): Record<string, unknown> {
     alt: imageAlt.value,
     caption: imageCaption.value || undefined,
     align: imageAlign.value,
-    displayWidth: imageWidth.value,
+    displayWidth: imageWidth.value
   }
 }
 
@@ -147,14 +167,80 @@ function addToGallery() {
 </script>
 
 <style scoped>
-.media-dialog-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; z-index: 100; }
-.media-dialog { background: var(--bg-primary,#fff); padding: 24px; border-radius: 8px; min-width: 380px; max-height: 90vh; overflow-y: auto; }
-.error { color: red; font-size: 13px; }
-.uploaded-info { margin-top: 12px; padding: 8px; background: #f0f0f0; border-radius: 4px; }
-.uploaded-info label { display: block; margin: 4px 0; font-size: 13px; }
-.uploaded-info input, .uploaded-info select { padding: 4px; border: 1px solid #ccc; border-radius: 3px; width: 100%; }
-.insert-actions { margin-top: 8px; display: flex; gap: 4px; }
-.dialog-actions { margin-top: 16px; display: flex; gap: 8px; justify-content: flex-end; }
-button { padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; }
-button:hover { background: #f5f5f5; }
+.media-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  background: color-mix(in srgb, var(--ns-color-bg) 62%, transparent);
+  backdrop-filter: blur(4px);
+}
+.media-dialog {
+  display: flex;
+  flex-direction: column;
+  min-width: 380px;
+  max-width: min(480px, 92vw);
+  max-height: 90vh;
+  overflow: hidden;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-md);
+  background: var(--ns-color-surface-solid);
+  box-shadow: var(--ns-shadow-panel);
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-ui);
+}
+.media-dialog__bar {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border-bottom: var(--ns-line-width) solid var(--ns-color-border);
+  background: var(--ns-color-surface);
+}
+.media-dialog__title {
+  font-size: 13px;
+  font-weight: 950;
+}
+.media-dialog__body {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  overflow-y: auto;
+}
+.error {
+  margin: 0;
+  color: var(--ns-status-danger-text);
+  font-size: 13px;
+}
+.uploading {
+  margin: 0;
+  color: var(--ns-color-text-muted);
+  font-size: 13px;
+}
+.uploaded-info {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface-tint);
+}
+.uploaded-info__meta {
+  margin: 0;
+  color: var(--ns-color-text-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.insert-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.dialog-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
 </style>

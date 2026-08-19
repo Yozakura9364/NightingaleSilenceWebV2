@@ -1,4 +1,4 @@
-import type { SilenceCharacterForm } from '@/data/silence/types'
+import type { SilenceCharacterForm } from '@/lib/silence/types'
 
 const salvanceForms: SilenceCharacterForm[] = [
   {

@@ -45,8 +45,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppStatus from '@/components/AppStatus.vue'
 import AppTabs from '@/components/AppTabs.vue'
-import { useFetch } from '@/composables/useFetch'
-import { safeSetSessionItem } from '@/services/browserStorage'
+import { loadFashionCheckWeekBundle, readFashionCheckWeekCache } from '@/services/fashionCheck/fashionCheckApi'
 import { siteRoutes } from '@/config/site'
 import type { FashionCheckLocaleCatalog, FashionCheckWeek } from '@/lib/fashion-check/types'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
@@ -54,15 +53,12 @@ import FashionCheckSolutionsView from '@/pages/fashion-check/views/FashionCheckS
 import { useLocale } from '@/stores/locale'
 
 const { t, current } = useLocale()
-const { api } = useFetch()
 const route = useRoute()
 const router = useRouter()
 const week = ref<FashionCheckWeek | null>(null)
 const localeCatalog = ref<FashionCheckLocaleCatalog>({ items: {}, dyes: {} })
 const loading = ref(true)
 const headerRef = ref<HTMLElement | null>(null)
-const FASHION_CACHE_KEY = 'ns_fashion_check_week'
-const FASHION_CATALOG_CACHE_KEY = 'ns_fashion_check_catalog'
 const tabRoutes = {
   solutions: siteRoutes.fashionCheck,
   tags: siteRoutes.fashionCheckTags,
@@ -115,47 +111,19 @@ function formatChallengeDate(value: string) {
 
 onMounted(async () => {
   let hasCachedData = false
+  const cached = readFashionCheckWeekCache()
+
+  if (cached) {
+    week.value = cached.week
+    localeCatalog.value = cached.localeCatalog
+    hasCachedData = true
+    loading.value = false
+  }
+
   try {
-    const cached = sessionStorage.getItem(FASHION_CACHE_KEY)
-    const cachedCatalog = sessionStorage.getItem(FASHION_CATALOG_CACHE_KEY)
-    const now = Date.now()
-
-    if (cached && cachedCatalog) {
-      try {
-        const { data, timestamp } = JSON.parse(cached) as {
-          data: FashionCheckWeek
-          timestamp: number
-        }
-        const { data: catData } = JSON.parse(cachedCatalog) as { data: FashionCheckLocaleCatalog }
-        if (now - timestamp < 30 * 60 * 1000) {
-          week.value = data
-          localeCatalog.value = catData
-          hasCachedData = true
-          loading.value = false
-        }
-      } catch {
-        /* invalid cache */
-      }
-    }
-
-    const dataVersion = now
-    const [currentWeek, currentLocaleCatalog] = await Promise.all([
-      api<FashionCheckWeek>('/data/fashion-check/current.json', {
-        cache: 'no-store',
-        query: { v: dataVersion }
-      }),
-      api<FashionCheckLocaleCatalog>('/data/fashion-check/current-locales.json', {
-        cache: 'no-store',
-        query: { v: dataVersion }
-      })
-    ])
-    week.value = currentWeek
-    localeCatalog.value = currentLocaleCatalog
-    safeSetSessionItem(FASHION_CACHE_KEY, JSON.stringify({ data: currentWeek, timestamp: now }))
-    safeSetSessionItem(
-      FASHION_CATALOG_CACHE_KEY,
-      JSON.stringify({ data: currentLocaleCatalog })
-    )
+    const bundle = await loadFashionCheckWeekBundle()
+    week.value = bundle.week
+    localeCatalog.value = bundle.localeCatalog
   } catch {
     if (!hasCachedData) {
       week.value = null

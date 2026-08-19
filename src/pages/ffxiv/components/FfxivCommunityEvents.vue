@@ -32,14 +32,13 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { Timeline } from 'vis-timeline/standalone'
 import type { DataGroup, DataItem, TimelineAnimationOptions, TimelineOptions } from 'vis-timeline'
 import AppStatus from '@/components/AppStatus.vue'
-import { useFetch } from '@/composables/useFetch'
 import {
   getCommunityEventStatuses,
-  parseCommunityEventsDocument,
   type CommunityEventRegion,
   type CommunityEventStatus,
   type CommunityEventsDocument
 } from '@/lib/ffxiv/time/communityEvents'
+import { loadCommunityEventsDocument } from '@/services/ffxiv/communityEventsApi'
 import { ffxivTextKeys as textKeys } from '@/locales/keys/ffxiv'
 import { useLocale } from '@/stores/locale'
 
@@ -52,7 +51,6 @@ interface CommunityTimelineItem extends DataItem {
   displayEndsAtMs: number
 }
 
-const STATIC_EVENTS_URL = '/data/ffxiv/community-events.json'
 const REFRESH_INTERVAL_MS = 5 * 60 * 1000
 const DAY_MS = 24 * 60 * 60 * 1000
 const DESKTOP_VISIBLE_DAYS = 35
@@ -70,7 +68,6 @@ const regionOptions: ReadonlyArray<{
 ]
 const regionOrder = regionOptions.map(({ region }) => region)
 
-const { api } = useFetch()
 const { current: locale, t } = useLocale()
 const eventsDocument = ref<CommunityEventsDocument | null>(null)
 const timelineHost = ref<HTMLElement | null>(null)
@@ -104,27 +101,15 @@ function getEventDisplayEndAt(event: CommunityEventStatus) {
   return event.endsAtMs ?? event.startsAtMs + DAY_MS
 }
 
-function getSourceUrls(): string[] {
-  const runtimeUrl = import.meta.env.VITE_FFXIV_COMMUNITY_EVENTS_URL?.trim()
-  return [...new Set([runtimeUrl, STATIC_EVENTS_URL].filter((url): url is string => Boolean(url)))]
-}
-
 async function loadEvents() {
-  for (const url of getSourceUrls()) {
-    try {
-      eventsDocument.value = parseCommunityEventsDocument(
-        await api<unknown>(url, { cache: 'no-store' })
-      )
-      dataError.value = false
-      loading.value = false
-      return
-    } catch {
-      // Try the checked-in fallback before exposing an error state.
-    }
+  try {
+    eventsDocument.value = await loadCommunityEventsDocument()
+    dataError.value = false
+    loading.value = false
+  } catch {
+    dataError.value = true
+    loading.value = false
   }
-
-  dataError.value = true
-  loading.value = false
 }
 
 function createGroups(): DataGroup[] {

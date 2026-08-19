@@ -13,7 +13,7 @@ import { ApiError } from '@/composables/useFetch'
 import { glamourTextKeys as textKeys } from '@/locales/keys/glamour'
 import type { GlamourSnapshot } from '@/lib/glamour/types'
 import NSGlamourSnapshotView from '@/pages/glamour/components/NSGlamourSnapshotView.vue'
-import { useNSGlamourSnapshots } from '@/pages/glamour/services/nsglamourSnapshots'
+import { useNSGlamourSnapshots } from '@/services/glamour/nsglamourSnapshots'
 import type { ApiBoundary } from '@/services/apiBoundaries'
 import { useLocale } from '@/stores/locale'
 

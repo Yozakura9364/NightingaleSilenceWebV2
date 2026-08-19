@@ -2,7 +2,7 @@
   <Teleport to="body">
     <div
       v-if="visible"
-      class="editor-slash-menu"
+      class="ns-floating-panel editor-slash-menu"
       :style="{ left: `${position.left}px`, top: `${position.top}px` }"
       role="listbox"
     >
@@ -16,7 +16,9 @@
         :aria-selected="i === selectedIndex"
         @mousedown.prevent
         @click="choose(item)"
-      >{{ t(item.labelKey) }}</button>
+      >
+        {{ t(item.labelKey) }}
+      </button>
     </div>
   </Teleport>
 </template>
@@ -28,7 +30,7 @@ import {
   unregisterSlashView,
   type SlashView,
   type SlashViewProps,
-  type SlashSuggestionItem,
+  type SlashSuggestionItem
 } from '@/lib/content/editor/slashCommandExtension'
 import { useLocale } from '@/stores/locale'
 
@@ -91,7 +93,7 @@ const view: SlashView = {
     visible.value = false
     current = null
     selectedIndex.value = 0
-  },
+  }
 }
 
 onMounted(() => registerSlashView(view))
@@ -99,18 +101,13 @@ onBeforeUnmount(() => unregisterSlashView(view))
 </script>
 
 <style>
-/* 非 scoped：Teleport 挂 body */
+/* 非 scoped：Teleport 挂 body。外壳复用全局 .ns-floating-panel（纯白圆角浮层）。 */
 .editor-slash-menu {
   position: fixed;
   z-index: 1000;
   min-width: 180px;
   max-height: 320px;
   overflow-y: auto;
-  background: var(--surface, #fff);
-  color: var(--text-primary, #333);
-  border: 1px solid var(--border-color, #ddd);
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   padding: 4px;
   display: flex;
   flex-direction: column;
@@ -118,15 +115,17 @@ onBeforeUnmount(() => unregisterSlashView(view))
 .editor-slash-menu__item {
   padding: 6px 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   cursor: pointer;
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   text-align: left;
   color: inherit;
+  transition: background var(--ns-transition-fast);
 }
 .editor-slash-menu__item:hover,
 .editor-slash-menu__item--active {
-  background: var(--bg-active, #d7e3ff);
+  background: var(--ns-color-surface-tint);
 }
 </style>

@@ -8,11 +8,13 @@ spec = importlib.util.spec_from_file_location("nsglamour_app", app_path)
 app = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(app)
 
+from services.search import record_matches_query
+
 record = {"key": 123, "names": {"zh": "占星长袍", "en": "Star Velvet Robe"}}
 
-assert app.record_matches_query(record, "占星", "zh")
-assert not app.record_matches_query(record, "s", "zh")
-assert app.record_matches_query(record, "st", "zh")
-assert app.record_matches_query(record, "s", "en")
+assert record_matches_query(record, "占星", "zh")
+assert not record_matches_query(record, "s", "zh")
+assert record_matches_query(record, "st", "zh")
+assert record_matches_query(record, "s", "en")
 
 print("search fallback ok")

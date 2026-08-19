@@ -16,6 +16,7 @@
     "check:content": "node scripts/content/check-public-content.mjs && node scripts/content/check-local-boundary.mjs",
     "build:glamour-mapping": "python server/glamour/tools/build_item_mapping.py",
     "build:glamour-item-catalog": "python server/glamour/tools/build_item_catalog.py",
+    "build:glamour-contract": "node scripts/glamour/generate-shared-contract.mjs",
     "build:kr-guide-item-map": "python server/glamour/tools/build_kr_guide_item_map.py",
     "build:ffxiv-csv-structure": "node scripts/build-ffxiv-csv-structure.mjs",
     "build:item-card-emotes": "node scripts/build-item-card-emotes.mjs",

@@ -4,6 +4,7 @@ import { mkdir, readFile, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { basename, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { assert } from './lib/check-utils.mjs'
 
 const rootDir = dirname(dirname(fileURLToPath(import.meta.url)))
 const manifestDir = join(rootDir, 'public/data/plate')
@@ -598,12 +599,22 @@ async function runPairedUploadValidationCase(browser, url) {
       })
     const overlayInput = uploadCards.nth(1).locator('input[type="file"]')
 
+    // 等待底图异步加载完成（base 卡片 data-has-file），避免出框图尺寸比对与底图就绪竞态。
+    await page.waitForFunction(
+      () => {
+        const base = document.querySelector('.nsplate-crop-dialog__file')
+        return base?.dataset.hasFile === 'true'
+      },
+      undefined,
+      { timeout: 30_000 }
+    )
+
     await overlayInput.setInputFiles({
       name: 'paired-upload-mismatch.svg',
       mimeType: 'image/svg+xml',
       buffer: createUploadSvgBuffer(256, 840, '#ff66b3')
     })
-    await dialog.getByRole('alert').filter({ hasText: '尺寸必须与底图完全相同' }).waitFor()
+    await dialog.getByRole('alert').filter({ hasText: '出框图尺寸必须与底图完全相同' }).waitFor()
 
     await overlayInput.setInputFiles({
       name: 'paired-upload-popout.svg',
@@ -1411,12 +1422,6 @@ function escapeXml(value) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
-}
-
-function assert(condition, message) {
-  if (!condition) {
-    throw new Error(message)
-  }
 }
 
 main().catch((error) => {

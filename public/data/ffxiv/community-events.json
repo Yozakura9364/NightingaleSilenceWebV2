@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-04T13:30:00+08:00",
+  "updatedAt": "2026-08-18T09:30:00+08:00",
   "events": [
     {
       "id": "fanfestival-2026-store-sale",
@@ -46,6 +46,15 @@
       "endsAt": "2026-08-26T22:59:00+08:00",
       "timezone": "Asia/Shanghai",
       "region": "common"
+    },
+    {
+      "id": "cn-anniversary-2026",
+      "title": "国服周年庆（主城喊话/礼品码Y26C/商城满赠）",
+      "url": "https://actff1.web.sdo.com/project/20260803banneranniv/a0jg3fmf4my9/index.html",
+      "startsAt": "2026-08-18T00:00:00+08:00",
+      "endsAt": "2026-09-06T23:59:00+08:00",
+      "timezone": "Asia/Shanghai",
+      "region": "cn"
     }
   ]
 }

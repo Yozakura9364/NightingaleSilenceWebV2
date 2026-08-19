@@ -13,6 +13,7 @@ import {
   resolveLocalized,
   updateCandidateDyeDisplay
 } from '@/lib/glamour/equipment'
+import { GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY } from '@/lib/glamour/contract.generated'
 import type {
   GlamourCandidate,
   GlamourDyeEntry,
@@ -383,7 +384,7 @@ function normalizeDraftSlotList(draft: GlamourDraft, entries: GlamourEquipmentEn
   const mainHand = entries.find((entry) => entry.slot === 'MainHand')
   const mainHandCandidate = getSelectedCandidate(mainHand)
 
-  if (Number(mainHandCandidate?.equip_slot_category || 0) !== 13) {
+  if (Number(mainHandCandidate?.equip_slot_category || 0) !== GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY) {
     return entries
   }
 

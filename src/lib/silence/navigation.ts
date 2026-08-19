@@ -1,6 +1,6 @@
 import { siteRoutes } from '@/config/site'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
-import { getSilenceCharacterRoute, getSilenceCharactersByGroup } from '@/data/silence/characters'
+import { getSilenceCharacterRoute, getSilenceCharactersByGroup } from '@/lib/silence/characters'
 
 export interface SilenceTurnNode {
   id: string

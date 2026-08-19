@@ -113,6 +113,7 @@ export const coreUiMessages: UiMessageMap = {
   'site.nav.configCommand': same('CONFIG'),
   'site.nav.about': msg({ zh: '关于', en: 'About', ja: 'About', ko: 'About' }),
   'site.nav.aboutCommand': same('ABOUT'),
+  'site.nav.blog': msg({ zh: '博客', en: 'Blog', ja: 'ブログ', ko: '블로그' }),
   'site.nav.silenceCommand': same('SILENCE'),
   'site.nav.home': msg({ zh: '回到主页', en: 'Home', ja: 'ホームへ', ko: '홈으로' }),
   'site.window.menuTitle': same('MENU.EXE'),

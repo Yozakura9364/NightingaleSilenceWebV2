@@ -100,4 +100,38 @@ export const contentStudioKeys = {
   lossTableHeaderDegraded: 'contentStudio.export.loss.tableHeaderDegraded',
   lossTableSpanDegraded: 'contentStudio.export.loss.tableSpanDegraded',
   lossUnstableImageUrl: 'contentStudio.export.loss.unstableImageUrl',
+  // Publication (T046)
+  publicationTitle: 'contentStudio.publication.title',
+  statusDraft: 'contentStudio.status.draft',
+  statusPublished: 'contentStudio.status.published',
+  statusArchived: 'contentStudio.status.archived',
+  publicationPreview: 'contentStudio.publication.preview',
+  publicationPublish: 'contentStudio.publication.publish',
+  publicationWithdraw: 'contentStudio.publication.withdraw',
+  publicationArchive: 'contentStudio.publication.archive',
+  publicationRestore: 'contentStudio.publication.restore',
+  publicationViewPublic: 'contentStudio.publication.viewPublic',
+  publicationPublishedAt: 'contentStudio.publication.publishedAt',
+  publicationPublishConfirm: 'contentStudio.publication.publishConfirm',
+  publicationWithdrawConfirm: 'contentStudio.publication.withdrawConfirm',
+  publicationArchiveConfirm: 'contentStudio.publication.archiveConfirm',
+  publicationRestoreConfirm: 'contentStudio.publication.restoreConfirm',
+  publicationOperationFailed: 'contentStudio.publication.operationFailed',
+  publicationSaveFirst: 'contentStudio.publication.saveFirst',
+  publicationPreviewInvalid: 'contentStudio.publication.previewInvalid',
+  // Publication error codes (server publishing.py 422/409)
+  pubErrEmptyDocument: 'contentStudio.publication.error.EMPTY_DOCUMENT',
+  pubErrMetadataInvalid: 'contentStudio.publication.error.METADATA_INVALID',
+  pubErrDocumentInvalid: 'contentStudio.publication.error.DOCUMENT_INVALID',
+  pubErrMediaNotFound: 'contentStudio.publication.error.MEDIA_NOT_FOUND',
+  pubErrMediaNotVerified: 'contentStudio.publication.error.MEDIA_NOT_VERIFIED',
+  pubErrMediaUrlUnstable: 'contentStudio.publication.error.MEDIA_URL_UNSTABLE',
+  pubErrMediaNotPublic: 'contentStudio.publication.error.MEDIA_NOT_PUBLIC',
+  pubErrConflict: 'contentStudio.publication.error.CONFLICT',
+  pubErrStateConflict: 'contentStudio.publication.error.STATE_CONFLICT',
+  // Draft list
+  deleteDraft: 'contentStudio.deleteDraft',
+  deleteDraftConfirm: 'contentStudio.deleteDraftConfirm',
+  // Preview dialog
+  previewDialogTitle: 'contentStudio.preview.title'
 } as const

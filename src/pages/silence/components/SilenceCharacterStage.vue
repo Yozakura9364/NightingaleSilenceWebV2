@@ -98,7 +98,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
-import type { SilenceCharacter } from '@/data/silence/types'
+import type { SilenceCharacter } from '@/lib/silence/types'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { useLocale } from '@/stores/locale'
 

@@ -225,7 +225,7 @@ export function useGlamourTemplateWorkspace(draft: { value: GlamourDraft }) {
   }
 
   watch(
-    () => currentUiLocale.value,
+    [() => currentUiLocale.value, () => templateId.value],
     () => {
       syncCurrentTemplateLocalesWithUiLanguage()
     },

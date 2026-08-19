@@ -70,104 +70,28 @@
       {{ t(textKeys.canvasDropContentHint) }}
     </p>
 
-    <Teleport to="#item-card-canvas-layer-menu-host">
-      <section
-        v-if="layerMenuOpen"
-        id="item-card-canvas-layer-menu"
-        class="canvas-board__layers"
-        :aria-label="t(textKeys.canvasLayers)"
-        @click.stop
-      >
-        <ol class="canvas-board__layer-list">
-          <li
-            v-for="layer in displayLayers"
-            :key="layer.id"
-            draggable="true"
-            :class="{
-              'canvas-board__layer-row--selected': layer.id === selectedLayerId,
-              'canvas-board__layer-row--dragging': layer.id === layerListDragSourceId,
-              'canvas-board__layer-row--drag-over': layer.id === layerListDragTargetId
-            }"
-            @click="selectLayer(layer.id)"
-            @dragstart="onLayerListDragStart($event, layer)"
-            @dragover.prevent="onLayerListDragOver($event, layer)"
-            @drop.prevent="onLayerListDrop(layer)"
-            @dragend="clearLayerListDrag"
-          >
-            <div class="canvas-board__layer-head">
-              <span class="canvas-board__layer-name">{{ layer.name }}</span>
-              <span class="canvas-board__layer-ops">
-                <button
-                  type="button"
-                  class="canvas-board__layer-ops--danger"
-                  :aria-label="t(textKeys.canvasLayerDelete)"
-                  :title="t(textKeys.canvasLayerDelete)"
-                  @click.stop="removeLayer(layer.id)"
-                >
-                  ×
-                </button>
-              </span>
-            </div>
-            <div class="canvas-board__layer-controls" @click.stop>
-              <div class="canvas-board__layer-scale">
-                <span>{{ t(textKeys.canvasLayerScale) }}</span>
-                <input
-                  class="ns-range ns-range--pixel"
-                  type="range"
-                  min="0.1"
-                  max="4"
-                  step="0.05"
-                  :value="layer.scale"
-                  :aria-label="`${t(textKeys.canvasLayerScale)}: ${layer.name}`"
-                  @input="onLayerScaleInput(layer, $event)"
-                />
-                <label class="canvas-board__layer-scale-value">
-                  <span class="ns-sr-only">{{ t(textKeys.canvasLayerScale) }}</span>
-                  <input
-                    type="number"
-                    min="10"
-                    max="400"
-                    step="1"
-                    :value="Math.round(layer.scale * 100)"
-                    :aria-label="`${t(textKeys.canvasLayerScale)}: ${layer.name}`"
-                    @change="onLayerScaleValueChange(layer, $event)"
-                  />
-                  <span aria-hidden="true">%</span>
-                </label>
-              </div>
-              <div class="canvas-board__layer-position">
-                <label>
-                  <span aria-hidden="true">{{ t(textKeys.canvasLayerAxisX) }}</span>
-                  <input
-                    type="number"
-                    :value="layer.x"
-                    :aria-label="`${t(textKeys.canvasLayerX)}: ${layer.name}`"
-                    @input="onLayerCoordinateInput(layer, 'x', $event)"
-                  />
-                </label>
-                <label>
-                  <span aria-hidden="true">{{ t(textKeys.canvasLayerAxisY) }}</span>
-                  <input
-                    type="number"
-                    :value="layer.y"
-                    :aria-label="`${t(textKeys.canvasLayerY)}: ${layer.name}`"
-                    @input="onLayerCoordinateInput(layer, 'y', $event)"
-                  />
-                </label>
-              </div>
-            </div>
-          </li>
-        </ol>
-        <p v-if="!layers.length" class="canvas-board__layers-empty">
-          {{ t(textKeys.canvasEmpty) }}
-        </p>
-      </section>
-    </Teleport>
+    <ItemCardCanvasLayerMenu
+      :open="layerMenuOpen"
+      :display-layers="displayLayers"
+      :selected-layer-id="selectedLayerId"
+      :drag-source-id="layerListDragSourceId"
+      :drag-target-id="layerListDragTargetId"
+      @select="selectLayer"
+      @remove="removeLayer"
+      @scale-input="onLayerScaleInput"
+      @scale-value-change="onLayerScaleValueChange"
+      @coordinate-input="onLayerCoordinateInput"
+      @list-drag-start="onLayerListDragStart"
+      @list-drag-over="onLayerListDragOver"
+      @list-drop="onLayerListDrop"
+      @list-drag-end="clearLayerListDrag"
+    />
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import ItemCardCanvasLayerMenu from '@/pages/item-card/components/ItemCardCanvasLayerMenu.vue'
 import { canvasToBlob, renderItemCardCanvas } from '@/pages/item-card/lib/cardRenderer'
 import {
   fitViewport,
@@ -195,21 +119,10 @@ import type {
   ItemCardRenderSettings
 } from '@/pages/item-card/lib/types'
 import { useItemCardCanvas } from '@/pages/item-card/composables/useItemCardCanvas'
+import { useItemCardCanvasPointer } from '@/pages/item-card/composables/useItemCardCanvasPointer'
 import { useItemCardCustomText } from '@/pages/item-card/composables/useItemCardCustomText'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
 import { useLocale } from '@/stores/locale'
-
-interface CanvasDragState {
-  pointerId: number
-  layerId: string
-  mode: 'move' | 'scale'
-  layerStartX: number
-  layerStartY: number
-  startImageX: number
-  startImageY: number
-  startScale: number
-  startDistance: number
-}
 
 const { t } = useLocale()
 const props = defineProps<{
@@ -244,7 +157,6 @@ const dragActive = ref(false)
 const layerListDragSourceId = ref('')
 const layerListDragTargetId = ref('')
 let dragDepth = 0
-let dragState: CanvasDragState | null = null
 let resizeObserver: ResizeObserver | null = null
 let layerRenderId = 0
 
@@ -257,6 +169,20 @@ const selectedLayer = computed(
 const viewport = computed(() => canvasDocument.value.viewport)
 // 列表从上到下按“最上层优先”展示，与画布中的遮挡关系一致。
 const displayLayers = computed(() => [...orderedLayers.value].reverse())
+
+const {
+  viewportPoint,
+  onLayerPointerDown,
+  onScaleHandlePointerDown,
+  onPointerMove,
+  onPointerUp
+} = useItemCardCanvasPointer({
+  viewportElement,
+  viewport,
+  selectLayer,
+  updateLayer,
+  setLayerScale
+})
 
 const sceneStyle = computed(() => ({
   width: `${background.value?.width || 0}px`,
@@ -424,9 +350,7 @@ function layerPositionAtDrop(
     x: dropPoint.x - displaySize.width / 2,
     y: dropPoint.y - displaySize.height / 2
   }
-}
-
-async function addEntryToCanvas(entry: GlamourEquipmentEntry, dropPoint?: ItemCardCanvasPoint) {
+}async function addEntryToCanvas(entry: GlamourEquipmentEntry, dropPoint?: ItemCardCanvasPoint) {
   if (!background.value) {
     return
   }
@@ -473,14 +397,6 @@ async function addCustomTextToCanvas(item: ItemCardCustomText, dropPoint?: ItemC
     statusKey.value = ''
   } catch {
     statusKey.value = textKeys.canvasErrorRead
-  }
-}
-
-function viewportPoint(event: PointerEvent | DragEvent): ItemCardCanvasPoint {
-  const rect = viewportElement.value?.getBoundingClientRect()
-  return {
-    x: event.clientX - (rect?.left || 0),
-    y: event.clientY - (rect?.top || 0)
   }
 }
 
@@ -589,77 +505,6 @@ function fitToView() {
 // 图层与缩放手柄的 pointerdown 都已 stop 冒泡，能走到这里的就是空白区域点击。
 function onViewportPointerDown() {
   selectLayer(undefined)
-}
-
-function onLayerPointerDown(event: PointerEvent, layer: ItemCardCanvasLayer) {
-  if (event.button !== 0) {
-    return
-  }
-  selectLayer(layer.id)
-  const imagePoint = viewportToImage(viewportPoint(event), viewport.value)
-  dragState = {
-    pointerId: event.pointerId,
-    layerId: layer.id,
-    mode: 'move',
-    layerStartX: layer.x,
-    layerStartY: layer.y,
-    startImageX: imagePoint.x,
-    startImageY: imagePoint.y,
-    startScale: layer.scale,
-    startDistance: 0
-  }
-  viewportElement.value?.setPointerCapture(event.pointerId)
-}
-
-function onScaleHandlePointerDown(event: PointerEvent, layer: ItemCardCanvasLayer) {
-  if (event.button !== 0) {
-    return
-  }
-  selectLayer(layer.id)
-  const imagePoint = viewportToImage(viewportPoint(event), viewport.value)
-  const distance = Math.hypot(imagePoint.x - layer.x, imagePoint.y - layer.y)
-  if (!distance) {
-    return
-  }
-  dragState = {
-    pointerId: event.pointerId,
-    layerId: layer.id,
-    mode: 'scale',
-    layerStartX: layer.x,
-    layerStartY: layer.y,
-    startImageX: imagePoint.x,
-    startImageY: imagePoint.y,
-    startScale: layer.scale,
-    startDistance: distance
-  }
-  viewportElement.value?.setPointerCapture(event.pointerId)
-}
-
-function onPointerMove(event: PointerEvent) {
-  if (!dragState || dragState.pointerId !== event.pointerId) {
-    return
-  }
-  const imagePoint = viewportToImage(viewportPoint(event), viewport.value)
-  if (dragState.mode === 'scale') {
-    const distance = Math.hypot(
-      imagePoint.x - dragState.layerStartX,
-      imagePoint.y - dragState.layerStartY
-    )
-    const nextScale = dragState.startScale * (distance / dragState.startDistance)
-    setLayerScale(dragState.layerId, Math.round(nextScale * 1000) / 1000)
-    return
-  }
-  updateLayer(dragState.layerId, {
-    x: Math.round(dragState.layerStartX + imagePoint.x - dragState.startImageX),
-    y: Math.round(dragState.layerStartY + imagePoint.y - dragState.startImageY)
-  })
-}
-
-function onPointerUp(event: PointerEvent) {
-  if (!dragState || dragState.pointerId !== event.pointerId) {
-    return
-  }
-  dragState = null
 }
 
 function onLayerScaleInput(layer: ItemCardCanvasLayer, event: Event) {
@@ -857,221 +702,5 @@ function clearLayerListDrag() {
   background: var(--ns-color-danger, #b4453c);
   color: var(--ns-color-surface-solid);
   outline: 0;
-}
-
-.canvas-board__layers {
-  position: absolute;
-  z-index: 20;
-  top: calc(100% + 4px);
-  right: 0;
-  display: grid;
-  gap: 6px;
-  width: min(420px, calc(100vw - 24px));
-  padding: 8px;
-  border: 1px solid var(--ns-color-border-strong);
-  background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
-}
-
-.canvas-board__layer-list {
-  display: grid;
-  gap: 4px;
-  max-height: min(52vh, 360px);
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  scrollbar-gutter: auto;
-  list-style: none;
-}
-
-.canvas-board__layer-list li {
-  display: grid;
-  gap: 6px;
-  min-width: 0;
-  padding: 6px 8px;
-  border: 1px solid var(--ns-color-border);
-  background: var(--ns-color-surface);
-  font-size: 12px;
-  cursor: grab;
-  transition:
-    border-color var(--ns-transition-fast),
-    background var(--ns-transition-fast);
-}
-
-.canvas-board__layer-list li:hover {
-  border-color: var(--ns-color-accent);
-}
-
-.canvas-board__layer-list li.canvas-board__layer-row--dragging {
-  opacity: 0.5;
-  cursor: grabbing;
-}
-
-.canvas-board__layer-list li.canvas-board__layer-row--drag-over {
-  border-color: var(--ns-color-accent-strong);
-  box-shadow: inset 0 2px 0 var(--ns-color-accent-strong);
-}
-
-.canvas-board__layer-list li.canvas-board__layer-row--selected,
-.canvas-board__layer-list li.canvas-board__layer-row--selected:hover {
-  border-color: var(--ns-color-accent);
-  background: var(--ns-color-accent-soft);
-}
-
-.canvas-board__layer-name {
-  overflow: hidden;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.canvas-board__layer-head {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.canvas-board__layer-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 12px;
-  min-width: 0;
-}
-
-.canvas-board__layers-empty {
-  margin: 0;
-  padding: 4px 2px;
-  color: var(--ns-color-text-muted);
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-.canvas-board__layer-scale {
-  display: flex;
-  flex: 1 1 180px;
-  min-width: 168px;
-  align-items: center;
-  gap: 6px;
-}
-
-.canvas-board__layer-scale > span {
-  color: var(--ns-color-text-muted);
-  font-size: 11px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.canvas-board__layer-scale input[type='range'] {
-  flex: 1 1 80px;
-  width: 80px;
-  min-width: 0;
-  accent-color: var(--ns-color-accent-strong);
-}
-
-.canvas-board__layer-scale-value {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 2px;
-  color: var(--ns-color-text-muted);
-  font-size: 11px;
-}
-
-.canvas-board__layer-scale-value input {
-  width: 48px;
-  min-height: 24px;
-  padding: 2px 4px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font: 11px var(--ns-font-data);
-  text-align: right;
-}
-
-.canvas-board__layer-scale-value input:focus,
-.canvas-board__layer-position input:focus {
-  border-color: var(--ns-color-accent-strong);
-  outline: 0;
-}
-
-.canvas-board__layer-position {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 8px;
-}
-
-.canvas-board__layer-position label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.canvas-board__layer-position label > span {
-  color: var(--ns-color-text-muted);
-  font: 700 11px var(--ns-font-data);
-}
-
-.canvas-board__layer-position input {
-  width: 54px;
-  min-height: 24px;
-  padding: 2px 4px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
-  background: var(--ns-color-surface-solid);
-  color: var(--ns-color-text);
-  font: 11px var(--ns-font-data);
-}
-
-.canvas-board__layer-ops {
-  display: flex;
-  flex: 0 0 auto;
-  gap: 3px;
-}
-
-.canvas-board__layer-ops button {
-  min-width: 22px;
-  min-height: 22px;
-  padding: 0 5px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  color: var(--ns-color-text-muted);
-  font: 700 11px/1 var(--ns-font-ui);
-  cursor: pointer;
-  transition:
-    border-color var(--ns-transition-fast),
-    color var(--ns-transition-fast),
-    background var(--ns-transition-fast);
-}
-
-.canvas-board__layer-ops button:hover,
-.canvas-board__layer-ops button:focus-visible {
-  border-color: var(--ns-color-accent);
-  background: var(--ns-pixel-hover-surface);
-  color: var(--ns-color-text);
-  outline: 0;
-}
-
-.canvas-board__layer-ops button.canvas-board__layer-ops--danger:hover,
-.canvas-board__layer-ops button.canvas-board__layer-ops--danger:focus-visible {
-  border-color: var(--ns-color-danger, #b4453c);
-  background: transparent;
-  color: var(--ns-color-danger, #b4453c);
-}
-
-@media (max-width: 720px) {
-  .canvas-board__layers {
-    width: min(420px, calc(100vw - 24px));
-  }
-
-  .canvas-board__layer-position {
-    justify-content: space-between;
-  }
 }
 </style>

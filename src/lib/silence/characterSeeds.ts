@@ -1,3 +1,5 @@
+import { isDev } from '@/config/env'
+
 type SilenceAngelCharacterId =
   | 'goelia'
   | 'glynne'
@@ -14,7 +16,7 @@ export interface SilenceCharacterSeed {
 }
 
 const localPreviewPortraits: Partial<Record<SilenceAngelCharacterId, string>> =
-  import.meta.env.DEV
+  isDev
     ? {
         goelia: '/local-assets/goelia-art-1.png',
         glynne: '/local-assets/glynne-art-1.png',

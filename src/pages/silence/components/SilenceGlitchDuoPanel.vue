@@ -38,7 +38,7 @@ import { computed } from 'vue'
 import type {
   SilenceGlitchConceptNote,
   SilenceGlitchDuoMember
-} from '@/data/silence/glitchDuo'
+} from '@/lib/silence/glitchDuo'
 
 const props = defineProps<{
   members: SilenceGlitchDuoMember[]

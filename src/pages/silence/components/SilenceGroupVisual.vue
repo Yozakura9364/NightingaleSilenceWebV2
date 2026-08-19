@@ -98,7 +98,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import type { SilenceCharacter, SilenceGroupId } from '@/data/silence/types'
+import type { SilenceCharacter, SilenceGroupId } from '@/lib/silence/types'
 
 interface SilenceGroupVisualItem {
   id: string

@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import type { SilenceCharacterGalleryItem } from '@/data/silence/types'
+import type { SilenceCharacterGalleryItem } from '@/lib/silence/types'
 import { useLocale } from '@/stores/locale'
 
 defineProps<{

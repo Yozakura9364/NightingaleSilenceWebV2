@@ -42,6 +42,13 @@ DEFAULT_REPORT = (
 DEFAULT_SEARCH_STATE = (
     REPOSITORY_ROOT / "server" / "glamour" / ".runtime" / "kr-guide-search-state.json"
 )
+DEFAULT_DIRECT_SEARCH_STATE = (
+    REPOSITORY_ROOT
+    / "server"
+    / "glamour"
+    / ".runtime"
+    / "kr-guide-direct-search-state.json"
+)
 KNOWN_ITEM_HASHES = {49658: "5398978e726"}
 
 
@@ -62,6 +69,7 @@ class ItemCandidate:
     icon: int
     item_level: int
     equip_level: int
+    is_internal_set_container: bool = False
 
 
 @dataclass(frozen=True)
@@ -263,6 +271,21 @@ def parse_guide_item_page(html: str) -> List[GuideItem]:
     return parser.records
 
 
+def parse_guide_search_page(html: str) -> List[GuideItem]:
+    parser = _GuideItemListParser()
+    parser.feed(html)
+    parser.close()
+    if not parser.saw_result_list:
+        if "공식 가이드 통합 검색" in html and "/lodestone/search" in html:
+            return []
+        raise ValueError("KR guide HTML does not contain a recognizable search result")
+
+    hashes = [record.hash_id for record in parser.records]
+    if len(hashes) != len(set(hashes)):
+        raise ValueError("KR guide search contains duplicate item hashes")
+    return parser.records
+
+
 def _sheet_rows_from_text(text: str) -> Iterable[Dict[str, str]]:
     rows = list(csv.reader(io.StringIO(text)))
     if len(rows) < 4:
@@ -290,9 +313,17 @@ def load_item_candidates_from_csv_text(text: str) -> List[ItemCandidate]:
                 icon=icon,
                 item_level=parse_int(row.get("Level{Item}", "0")),
                 equip_level=parse_int(row.get("Level{Equip}", "0")),
+                is_internal_set_container=(
+                    parse_int(row.get("FilterGroup", "0")) == 51
+                    and parse_int(row.get("ItemUICategory", "0")) == 112
+                ),
             )
         )
     return candidates
+
+
+def normalize_item_match_name(value: str) -> str:
+    return normalize_text(value).replace("–", "-").replace("—", "-")
 
 
 def resolve_guide_records(
@@ -300,12 +331,18 @@ def resolve_guide_records(
     candidates: Iterable[ItemCandidate],
 ) -> ResolutionResult:
     by_name_icon: Dict[tuple[str, int], List[ItemCandidate]] = defaultdict(list)
+    by_normalized_name: Dict[str, List[ItemCandidate]] = defaultdict(list)
     for candidate in candidates:
         by_name_icon[(candidate.name, candidate.icon)].append(candidate)
+        by_normalized_name[normalize_item_match_name(candidate.name)].append(candidate)
 
     result = ResolutionResult(mapping={}, unmatched=[], ambiguous=[])
     for guide in guide_records:
         matches = list(by_name_icon.get((guide.name, guide.icon), []))
+        if not matches:
+            matches = list(
+                by_normalized_name.get(normalize_item_match_name(guide.name), [])
+            )
         if not matches:
             result.unmatched.append(guide)
             continue
@@ -317,6 +354,12 @@ def resolve_guide_records(
             equip_matches = [item for item in matches if item.equip_level == guide.equip_level]
             if equip_matches:
                 matches = equip_matches
+        if len(matches) > 1:
+            public_matches = [
+                item for item in matches if not item.is_internal_set_container
+            ]
+            if public_matches:
+                matches = public_matches
         if len(matches) != 1:
             result.ambiguous.append(
                 AmbiguousMatch(guide=guide, candidate_ids=sorted(item.item_id for item in matches))
@@ -371,6 +414,17 @@ def select_exact_search_match(
     if len(matches) != 1 or len(unique_by_hash) != 1:
         return None
     return matches[0]
+
+
+def select_resolved_search_match(
+    candidate: ItemCandidate,
+    records: Iterable[GuideItem],
+) -> Optional[GuideItem]:
+    try:
+        resolution = resolve_guide_records(records, [candidate])
+    except ValueError:
+        return None
+    return resolution.mapping.get(candidate.item_id)
 
 
 class _OfficialSearchResultParser(HTMLParser):
@@ -533,6 +587,94 @@ def recover_missing_hashes_from_naver(
         "queriedNow": queried,
         "recovered": recovered,
         "skippedNonUniqueName": skipped_non_unique_name,
+        "outputEntries": len(output),
+        "unresolved": sum(
+            1
+            for candidate in missing
+            if results.get(str(candidate.item_id), {}).get("status") != "matched"
+        ),
+    }
+    state["summary"] = summary
+    _write_json_atomic(search_state_path, state)
+    return summary
+
+
+def recover_missing_hashes_from_kr_search(
+    reference_map_path: Path,
+    item_csv_text: str,
+    output_path: Path,
+    search_state_path: Path,
+    delay_seconds: float,
+    timeout_seconds: float,
+    max_retries: int,
+    retry_base_seconds: float,
+    base_url: str = DEFAULT_BASE_URL,
+    sleep_fn: Callable[[float], None] = time.sleep,
+) -> Dict[str, object]:
+    reference_map = _load_item_id_map(reference_map_path)
+    output = _load_item_id_map(output_path)
+    candidates = load_item_candidates_from_csv_text(item_csv_text)
+    missing = build_search_candidates(
+        (parse_int(item_id) for item_id in reference_map),
+        (parse_int(item_id) for item_id in output),
+        candidates,
+    )
+    state = _load_search_state(search_state_path)
+    results = state["results"]
+    recovered = 0
+    queried = 0
+    search_url = base_url.rsplit("/db/item", 1)[0] + "/search"
+
+    for index, candidate in enumerate(missing):
+        item_key = str(candidate.item_id)
+        cached = results.get(item_key)
+        if cached is None:
+            url = search_url + "?" + urllib.parse.urlencode(
+                {
+                    "search": "item",
+                    "newonly": "false",
+                    "keyword": candidate.name,
+                }
+            )
+            search_html = fetch_text(
+                url,
+                timeout_seconds=timeout_seconds,
+                max_retries=max_retries,
+                retry_base_seconds=retry_base_seconds,
+                sleep_fn=sleep_fn,
+            )
+            records = parse_guide_search_page(search_html)
+            match = select_resolved_search_match(candidate, records)
+            cached = {
+                "name": candidate.name,
+                "status": "matched" if match else "not-found",
+                "hashes": [match.hash_id] if match else [],
+            }
+            results[item_key] = cached
+            queried += 1
+            _write_json_atomic(search_state_path, state)
+            if index + 1 < len(missing) and delay_seconds:
+                sleep_fn(delay_seconds)
+
+        hashes = cached.get("hashes", [])
+        if cached.get("status") != "matched" or len(hashes) != 1:
+            continue
+        hash_id = str(hashes[0]).lower()
+        if any(value.get("id") == hash_id for value in output.values()):
+            cached["status"] = "hash-already-mapped"
+            continue
+        output[item_key] = {"id": hash_id, "name": candidate.name}
+        recovered += 1
+
+    _write_json_atomic(
+        output_path,
+        dict(sorted(output.items(), key=lambda item: int(item[0]))),
+        compact=True,
+    )
+    summary = {
+        "referenceCandidates": len(missing),
+        "queriedNow": queried,
+        "recovered": recovered,
         "outputEntries": len(output),
         "unresolved": sum(
             1
@@ -840,8 +982,8 @@ def _build_report(
 
 def _positive_delay(value: str) -> float:
     parsed = float(value)
-    if parsed < 1:
-        raise argparse.ArgumentTypeError("delay must be at least 1 second")
+    if parsed < 0:
+        raise argparse.ArgumentTypeError("delay cannot be negative")
     return parsed
 
 
@@ -880,8 +1022,16 @@ def main() -> int:
         action="store_true",
         help="Recover missing KR hashes from exact Naver results for a reference Lodestone Item ID map",
     )
+    parser.add_argument(
+        "--search-missing-direct",
+        action="store_true",
+        help="Recover missing KR hashes from the official guide name search",
+    )
     parser.add_argument("--reference-item-map")
     parser.add_argument("--search-state", default=str(DEFAULT_SEARCH_STATE))
+    parser.add_argument(
+        "--direct-search-state", default=str(DEFAULT_DIRECT_SEARCH_STATE)
+    )
     args = parser.parse_args()
 
     cache_dir = Path(args.cache_dir)
@@ -899,21 +1049,36 @@ def main() -> int:
         )
 
     try:
-        if args.search_missing:
+        if args.search_missing or args.search_missing_direct:
             if not args.reference_item_map:
-                raise ValueError("--reference-item-map is required with --search-missing")
+                raise ValueError(
+                    "--reference-item-map is required with missing-hash search"
+                )
             if not output_path.is_file():
                 raise ValueError(f"KR guide output map does not exist: {output_path}")
-            summary = recover_missing_hashes_from_naver(
-                Path(args.reference_item_map),
-                read_source_text(args.item_csv),
-                output_path,
-                Path(args.search_state),
-                args.delay_seconds,
-                args.timeout_seconds,
-                args.max_retries,
-                args.retry_base_seconds,
-            )
+            if args.search_missing_direct:
+                summary = recover_missing_hashes_from_kr_search(
+                    Path(args.reference_item_map),
+                    read_source_text(args.item_csv),
+                    output_path,
+                    Path(args.direct_search_state),
+                    args.delay_seconds,
+                    args.timeout_seconds,
+                    args.max_retries,
+                    args.retry_base_seconds,
+                    base_url=base_url,
+                )
+            else:
+                summary = recover_missing_hashes_from_naver(
+                    Path(args.reference_item_map),
+                    read_source_text(args.item_csv),
+                    output_path,
+                    Path(args.search_state),
+                    args.delay_seconds,
+                    args.timeout_seconds,
+                    args.max_retries,
+                    args.retry_base_seconds,
+                )
             json.dump(summary, sys.stdout, ensure_ascii=False, indent=2)
             sys.stdout.write("\n")
             return 0

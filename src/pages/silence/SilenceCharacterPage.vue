@@ -47,17 +47,18 @@ import {
   getSilenceCharacterById,
   getSilenceCharacterRoute,
   isSilenceGroupId
-} from '@/data/silence/characters'
+} from '@/lib/silence/characters'
 import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilenceTurnNavigation'
 import SilenceCharacterDetails from '@/pages/silence/components/SilenceCharacterDetails.vue'
 import SilenceCharacterStage from '@/pages/silence/components/SilenceCharacterStage.vue'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
 import { loadMessages, useLocale } from '@/stores/locale'
 import AppLoading from '@/components/AppLoading.vue'
+import { isDev } from '@/config/env'
 
 loadMessages(silenceUiMessages)
 
-const SilenceViiokoPrototype = import.meta.env.DEV
+const SilenceViiokoPrototype = isDev
   ? defineAsyncComponent({
       loader: () => import('@/pages/silence/components/SilenceViiokoPrototype.vue'),
       loadingComponent: AppLoading,

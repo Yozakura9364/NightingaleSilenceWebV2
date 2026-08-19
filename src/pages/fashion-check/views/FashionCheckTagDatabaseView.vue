@@ -82,8 +82,8 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { useFetch } from '@/composables/useFetch'
 import { resolveFashionCheckName } from '@/lib/fashion-check/localization'
+import { loadFashionCheckTagDatabase } from '@/services/fashionCheck/fashionCheckApi'
 import type {
   FashionCheckItem,
   FashionCheckTagDatabase,
@@ -106,7 +106,6 @@ const slotLabelKeys = {
   ring: keys.slotRing
 } as const
 
-const { api } = useFetch()
 const { current, t } = useLocale()
 const database = ref<FashionCheckTagDatabase | null>(null)
 const loading = ref(true)
@@ -183,10 +182,7 @@ function fashionCheckItem(itemId: number): FashionCheckItem {
 
 onMounted(async () => {
   try {
-    database.value = await api<FashionCheckTagDatabase>('/data/fashion-check/tag-database.json', {
-      cache: 'no-store',
-      query: { v: Date.now() }
-    })
+    database.value = await loadFashionCheckTagDatabase()
   } finally {
     loading.value = false
   }

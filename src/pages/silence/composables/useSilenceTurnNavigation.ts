@@ -2,7 +2,7 @@ import { computed, toValue, type MaybeRefOrGetter } from 'vue'
 import {
   getSilenceTurnNeighbors,
   getSilenceTurnNodeLabel
-} from '@/data/silence/navigation'
+} from '@/lib/silence/navigation'
 import { useLocale } from '@/stores/locale'
 
 export function useSilenceTurnNavigation(path: MaybeRefOrGetter<string>) {

@@ -61,6 +61,9 @@ export default defineConfig(({ command, mode }) => {
       port: 5175,
       strictPort: true,
       proxy: {
+        // 开发代理的后端端口与目标（进程级变量，不注入前端包）：
+        // NSGLAMOUR_PROXY_PORT / NSGLAMOUR_SNAPSHOT_PROXY_TARGET / CONTENT_STUDIO_PORT /
+        // ICON_COMPOSER_API_TOKEN / NSPLATE_EXPORT_API_TOKEN 的默认值与说明见 .env.example。
         '/api/plate': {
           target: 'http://localhost:3456',
           changeOrigin: true,

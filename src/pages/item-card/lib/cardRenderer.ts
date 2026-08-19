@@ -1,5 +1,4 @@
 import {
-  buildGlamourIconUrl,
   getCandidateDyeCount,
   getCandidateName,
   getDisplayDyeEntries,
@@ -10,6 +9,7 @@ import {
   resolveLocalized,
   shouldRenderItemCardDyeDetails
 } from '@/pages/item-card/lib/equipment'
+import { buildGlamourIconUrl } from '@/lib/glamour/equipment'
 import { getItemCardLocaleStyle } from '@/pages/item-card/lib/cardSettings'
 import type {
   GlamourDraft,

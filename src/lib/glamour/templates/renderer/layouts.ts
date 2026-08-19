@@ -120,8 +120,8 @@ export const DOUBLE_PIC_TEMPLATE = {
     underlineOffsetRatio: 1.13,
     underlineWidth: 4,
     outerGlowColor: '#000000',
-    outerGlowOpacity: 0.62,
-    outerGlowSpread: 0.19,
+    outerGlowOpacity: 0.36,
+    outerGlowSpread: 0.08,
     outerGlowSize: 24
   },
   copyright: {

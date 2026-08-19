@@ -1,6 +1,6 @@
 <template>
   <Teleport to="body">
-    <div ref="menuEl" class="editor-bubble-menu">
+    <div ref="menuEl" class="ns-floating-panel editor-bubble-menu">
       <div class="editor-bubble-menu__row">
         <button
           v-for="item in items"
@@ -12,7 +12,9 @@
           :title="labelFor(item.id)"
           @mousedown.prevent
           @click="onItemClick(item)"
-        >{{ iconFor(item.id) }}</button>
+        >
+          {{ iconFor(item.id) }}
+        </button>
       </div>
       <div v-if="linkOpen" class="editor-bubble-menu__bar">
         <input
@@ -35,7 +37,9 @@
           :style="swatchStyle(opt)"
           @mousedown.prevent
           @click="applyPicker(opt)"
-        >{{ optionLabel(opt) }}</button>
+        >
+          {{ optionLabel(opt) }}
+        </button>
       </div>
     </div>
   </Teleport>
@@ -45,7 +49,11 @@
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import type { Editor } from '@tiptap/core'
 import { BubbleMenuPlugin } from '@tiptap/extension-bubble-menu'
-import { computeBubbleMenuItems, isBubbleEligible, type BubbleMenuItem } from '../editor/bubbleMenuModel'
+import {
+  computeBubbleMenuItems,
+  isBubbleEligible,
+  type BubbleMenuItem
+} from '../editor/bubbleMenuModel'
 import { useLocale } from '@/stores/locale'
 import { contentStudioKeys } from '@/locales/keys/content'
 
@@ -67,31 +75,51 @@ const cleanups: Array<() => void> = []
 
 function labelFor(id: string): string {
   switch (id) {
-    case 'bold': return t(contentStudioKeys.bold)
-    case 'italic': return t(contentStudioKeys.italic)
-    case 'underline': return t(contentStudioKeys.underline)
-    case 'strike': return t(contentStudioKeys.strike)
-    case 'code': return t(contentStudioKeys.bubbleCode)
-    case 'link': return t(contentStudioKeys.bubbleLink)
-    case 'color': return t(contentStudioKeys.bubbleColor)
-    case 'size': return t(contentStudioKeys.bubbleSize)
-    case 'align': return t(contentStudioKeys.bubbleAlign)
-    default: return id
+    case 'bold':
+      return t(contentStudioKeys.bold)
+    case 'italic':
+      return t(contentStudioKeys.italic)
+    case 'underline':
+      return t(contentStudioKeys.underline)
+    case 'strike':
+      return t(contentStudioKeys.strike)
+    case 'code':
+      return t(contentStudioKeys.bubbleCode)
+    case 'link':
+      return t(contentStudioKeys.bubbleLink)
+    case 'color':
+      return t(contentStudioKeys.bubbleColor)
+    case 'size':
+      return t(contentStudioKeys.bubbleSize)
+    case 'align':
+      return t(contentStudioKeys.bubbleAlign)
+    default:
+      return id
   }
 }
 
 function iconFor(id: string): string {
   switch (id) {
-    case 'bold': return 'B'
-    case 'italic': return 'I'
-    case 'underline': return 'U'
-    case 'strike': return 'S'
-    case 'code': return '</>'
-    case 'link': return '🔗'
-    case 'color': return 'A'
-    case 'size': return 'A%'
-    case 'align': return '≡'
-    default: return id
+    case 'bold':
+      return 'B'
+    case 'italic':
+      return 'I'
+    case 'underline':
+      return 'U'
+    case 'strike':
+      return 'S'
+    case 'code':
+      return '</>'
+    case 'link':
+      return '🔗'
+    case 'color':
+      return 'A'
+    case 'size':
+      return 'A%'
+    case 'align':
+      return '≡'
+    default:
+      return id
   }
 }
 
@@ -174,7 +202,7 @@ watch(
         editor: instance,
         element: menuEl.value,
         // 完整规则：eligibility（非空选区+可编辑+非 codeBlock）+ 编辑器聚焦
-        shouldShow: ({ editor }) => isBubbleEligible(editor) && editor.isFocused,
+        shouldShow: ({ editor }) => isBubbleEligible(editor) && editor.isFocused
       })
     )
     registered = instance
@@ -198,50 +226,64 @@ onBeforeUnmount(() => {
 </script>
 
 <style>
-/* 非 scoped：元素经 Teleport 挂到 body，定位由 floating-ui 内联设置 */
+/* 非 scoped：元素经 Teleport 挂到 body，定位由 floating-ui 内联设置。
+   外壳复用全局 .ns-floating-panel（纯白圆角浮层），此处只补菜单细节。 */
 .editor-bubble-menu {
   z-index: 1000;
-  background: var(--surface, #fff);
-  color: var(--text-primary, #333);
-  border: 1px solid var(--border-color, #ddd);
-  border-radius: 8px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   padding: 4px;
 }
-.editor-bubble-menu__row { display: flex; gap: 2px; }
+.editor-bubble-menu__row {
+  display: flex;
+  gap: 2px;
+}
 .editor-bubble-menu__btn {
   min-width: 28px;
   padding: 4px 6px;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--ns-radius-sm);
   background: transparent;
   cursor: pointer;
   font-size: 13px;
   color: inherit;
+  transition: background var(--ns-transition-fast);
 }
-.editor-bubble-menu__btn:hover { background: var(--bg-hover, #eee); }
-.editor-bubble-menu__btn--active { background: var(--bg-active, #d7e3ff); }
+.editor-bubble-menu__btn:hover {
+  background: var(--ns-color-surface-tint);
+}
+.editor-bubble-menu__btn--active {
+  background: var(--ns-color-accent-soft);
+}
 .editor-bubble-menu__bar {
   display: flex;
   gap: 4px;
   padding-top: 4px;
   margin-top: 4px;
-  border-top: 1px solid var(--border-color, #e5e5e5);
+  border-top: var(--ns-line-width) solid var(--ns-color-border);
 }
 .editor-bubble-menu__input {
-  border: 1px solid var(--border-color, #ccc);
-  border-radius: 4px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   padding: 4px 8px;
+  background: var(--ns-color-surface-solid);
+  color: var(--ns-color-text);
+  font-family: var(--ns-font-ui);
   font-size: 13px;
   min-width: 220px;
+}
+.editor-bubble-menu__input:focus {
+  outline: none;
+  border-color: var(--ns-color-accent);
 }
 .editor-bubble-menu__opt {
   min-width: 24px;
   height: 24px;
-  border: 1px solid var(--border-color, #ccc);
-  border-radius: 4px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-sm);
   cursor: pointer;
   font-size: 12px;
-  background: #fff;
+  background: var(--ns-color-surface-solid);
+}
+.editor-bubble-menu__opt:hover {
+  border-color: var(--ns-color-border-strong);
 }
 </style>

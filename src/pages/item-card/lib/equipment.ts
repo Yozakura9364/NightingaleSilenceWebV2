@@ -11,7 +11,7 @@ import type {
   GlamourSlotKey,
   LocalizedTextMap
 } from '@/pages/item-card/lib/types'
-import { normalizeFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
+import { GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY } from '@/lib/glamour/contract.generated'
 
 export const GLAMOUR_DEFAULT_LOCALE = 'zh'
 export const ITEM_CARD_GENERIC_SLOT = 'Item'
@@ -524,10 +524,6 @@ export function getEquipmentModelCode(entry: GlamourEquipmentEntry): string {
   return ''
 }
 
-export function buildGlamourIconUrl(_apiBase: string, iconId: unknown): string {
-  return normalizeFfxivItemIconUrl(iconId)
-}
-
 function normalizeLocalizedTextMap(value: unknown): LocalizedTextMap | undefined {
   if (!isRecord(value)) {
     return undefined
@@ -638,7 +634,7 @@ function normalizeEquipmentEntry(value: unknown): GlamourEquipmentEntry | undefi
 }
 
 function mainHandBlocksOffHand(candidate: GlamourCandidate | undefined): boolean {
-  return toNumber(candidate?.equip_slot_category) === 13
+  return toNumber(candidate?.equip_slot_category) === GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY
 }
 
 let cachedIgnoreEmperor: boolean | null = null

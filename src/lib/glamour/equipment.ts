@@ -1,4 +1,5 @@
 import { normalizeFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
+import { GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY } from '@/lib/glamour/contract.generated'
 import type {
   GlamourCandidate,
   GlamourDyeEntry,
@@ -505,7 +506,7 @@ function normalizeEquipmentEntry(value: unknown): GlamourEquipmentEntry | undefi
 }
 
 function mainHandBlocksOffHand(candidate: GlamourCandidate | undefined): boolean {
-  return toNumber(candidate?.equip_slot_category) === 13
+  return toNumber(candidate?.equip_slot_category) === GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY
 }
 
 let cachedIgnoreEmperor: boolean | null = null

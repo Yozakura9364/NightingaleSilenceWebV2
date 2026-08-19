@@ -105,7 +105,7 @@ import { useNSPlateConfigTransfer } from '@/pages/plate/composables/useNSPlateCo
 import { useNSPlateDraftPersistence } from '@/pages/plate/composables/useNSPlateDraftPersistence'
 import { useNSPlatePanelResize } from '@/pages/plate/composables/useNSPlatePanelResize'
 import { useNSPlateSelectionNote } from '@/pages/plate/composables/useNSPlateSelectionNote'
-import { useNSPlateDataSource } from '@/pages/plate/services/nsplateDataSource'
+import { useNSPlateDataSource } from '@/services/plate/nsplateDataSource'
 import AppLoading from '@/components/AppLoading.vue'
 import NSPlateAssetPanel from '@/pages/plate/components/NSPlateAssetPanel.vue'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'

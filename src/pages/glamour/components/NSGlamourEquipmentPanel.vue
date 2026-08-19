@@ -119,7 +119,7 @@ import { normalizeGlamourConfigName } from '@/lib/glamour/recent'
 import {
   findGlamourRecentSnapshotLink,
   recordGlamourRecentSnapshotLink
-} from '@/pages/glamour/services/glamourRecentStorage'
+} from '@/services/glamour/glamourRecentStorage'
 import type {
   GlamourCandidate,
   GlamourDraft,
@@ -131,7 +131,7 @@ import { useGlamourEquipInfoEditor } from '@/pages/glamour/composables/useGlamou
 import {
   createGlamourSnapshotKey,
   useNSGlamourSnapshotApi
-} from '@/pages/glamour/services/nsglamourSnapshots'
+} from '@/services/glamour/nsglamourSnapshots'
 import { createGlamourSnapshotUrl } from '@/lib/glamour/snapshotLinks'
 import type {
   GlamourEquipmentSearch,

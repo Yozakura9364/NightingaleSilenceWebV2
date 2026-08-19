@@ -20,6 +20,12 @@ export function getDoublePicFont(size: number): string {
   return `${DOUBLE_PIC_TEMPLATE.fontWeight} ${size}px ${DOUBLE_PIC_TEMPLATE.fontFamily}`
 }
 
+function getDoublePicStoryTextPalette(renderData: GlamourTemplateRenderData) {
+  return renderData.style.storyTextColorMode === 'black'
+    ? { text: '#111111', glow: '#ffffff' }
+    : { text: '#ffffff', glow: '#000000' }
+}
+
 export function getDoublePicEquipmentLines(renderData: GlamourTemplateRenderData): string[] {
   return renderData.rows
     .map((row) => {
@@ -106,7 +112,8 @@ export function drawDoublePicMaskOuterGlow(
   renderData: GlamourTemplateRenderData,
   maskCanvas: HTMLCanvasElement,
   x: number,
-  y: number
+  y: number,
+  glowColor: string
 ) {
   const area = DOUBLE_PIC_TEMPLATE.equipment
   const glowSize = doublePicUnit(renderData, area.outerGlowSize)
@@ -121,7 +128,7 @@ export function drawDoublePicMaskOuterGlow(
   const shadowOffset = Math.ceil(renderData.canvas.width + spreadCanvas.width + glowSize * 4 + 16)
 
   ctx.save()
-  ctx.shadowColor = colorWithAlpha(area.outerGlowColor, opacity)
+  ctx.shadowColor = colorWithAlpha(glowColor, opacity)
   ctx.shadowBlur = glowSize
   ctx.shadowOffsetX = shadowOffset
   ctx.shadowOffsetY = 0
@@ -147,6 +154,7 @@ export function drawDoublePicEquipmentText(ctx: CanvasRenderingContext2D, render
   const maxLines = Math.max(1, Math.floor((maxHeight - underlineOffset - underlineWidth) / lineHeight) + 1)
   const visibleLines = lines.slice(0, maxLines)
   const textBlockHeight = lineHeight * Math.max(0, visibleLines.length - 1) + underlineOffset + underlineWidth
+  const palette = getDoublePicStoryTextPalette(renderData)
   const layout = {
     font: getDoublePicFont(maxSize),
     centerX,
@@ -176,12 +184,12 @@ export function drawDoublePicEquipmentText(ctx: CanvasRenderingContext2D, render
         centerX: maskCanvas.width / 2,
         startY: padding
       },
-      '#000000'
+      palette.glow
     )
-    drawDoublePicMaskOuterGlow(ctx, renderData, maskCanvas, centerX - maskCanvas.width / 2, layout.startY - padding)
+    drawDoublePicMaskOuterGlow(ctx, renderData, maskCanvas, centerX - maskCanvas.width / 2, layout.startY - padding, palette.glow)
   }
 
-  drawDoublePicEquipmentTextShape(ctx, visibleLines, layout, '#ffffff')
+  drawDoublePicEquipmentTextShape(ctx, visibleLines, layout, palette.text)
   ctx.restore()
 }
 
@@ -224,6 +232,7 @@ export function drawDoublePicCopyright(ctx: CanvasRenderingContext2D, renderData
 
   const font = getDoublePicFont(Math.max(fontSize, minSize))
   const area = DOUBLE_PIC_TEMPLATE.equipment
+  const palette = getDoublePicStoryTextPalette(renderData)
   const glowSize = doublePicUnit(renderData, area.outerGlowSize)
   const spreadRadius = Math.max(0, glowSize * Number(area.outerGlowSpread || 0))
   const padding = Math.ceil(glowSize * 2.5 + spreadRadius * 3)
@@ -238,13 +247,13 @@ export function drawDoublePicCopyright(ctx: CanvasRenderingContext2D, renderData
       text,
       { x: padding, y: padding, width: box.width, height: box.height },
       font,
-      '#000000'
+      palette.glow
     )
-    drawDoublePicMaskOuterGlow(ctx, renderData, maskCanvas, box.x - padding, box.y - padding)
+    drawDoublePicMaskOuterGlow(ctx, renderData, maskCanvas, box.x - padding, box.y - padding, palette.glow)
   }
 
   ctx.save()
-  drawDoublePicCenteredTextShape(ctx, text, box, font, '#ffffff')
+  drawDoublePicCenteredTextShape(ctx, text, box, font, palette.text)
   ctx.restore()
 }
 

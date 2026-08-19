@@ -21,29 +21,17 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import AppStatus from '@/components/AppStatus.vue'
-import { useFetch } from '@/composables/useFetch'
+import { loadFashionCheckSources, type FashionCheckSource } from '@/services/fashionCheck/fashionCheckApi'
 import { fashionCheckTextKeys as keys } from '@/locales/keys/fashionCheck'
 import { useLocale } from '@/stores/locale'
 
-interface FashionCheckSource {
-  author: string
-  title: string
-  url: string
-}
-
-interface FashionCheckSourcesPayload {
-  sources: FashionCheckSource[]
-}
-
 const { t } = useLocale()
-const { api } = useFetch()
 const sources = ref<FashionCheckSource[]>([])
 const loading = ref(true)
 
 onMounted(async () => {
   try {
-    const payload = await api<FashionCheckSourcesPayload>('/data/fashion-check/sources.json')
-    sources.value = payload.sources
+    sources.value = await loadFashionCheckSources()
   } finally {
     loading.value = false
   }

@@ -7,7 +7,7 @@ import { entryGenerationHash } from '../../../scripts/content/lib/canonical-hash
 
 // Import AFTER mocking fetch so useFetch() reads the stub.
 function loadClient() {
-  return import('@/pages/content/services/publicContent')
+  return import('@/services/content/publicContent')
 }
 
 const CDN = 'https://img.nightingalesilence.com/content/'

@@ -61,6 +61,15 @@ export interface SaveDraftInput {
   document: unknown
 }
 
+export interface Publication {
+  entryId: string
+  revision: number
+  publicId: number
+  publicPath: string
+  publishedAt: string
+  generationHash: string
+}
+
 export interface ContentStudioError {
   error: {
     code: string
@@ -70,5 +79,4 @@ export interface ContentStudioError {
 }
 
 export type ApiResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: ContentStudioError; status: number }
+  { ok: true; data: T } | { ok: false; error: ContentStudioError; status: number }

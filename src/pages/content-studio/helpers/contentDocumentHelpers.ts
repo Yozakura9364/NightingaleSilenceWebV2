@@ -25,7 +25,10 @@ export function buildSaveDraftBody(
 ) {
   return {
     expectedRevision,
-    document: { schemaVersion: 'content.document.v1' as const, doc: toCanonicalDocument(bareDoc as any) },
+    document: {
+      schemaVersion: 'content.document.v1' as const,
+      doc: toCanonicalDocument(bareDoc as any)
+    },
     metadata
   }
 }

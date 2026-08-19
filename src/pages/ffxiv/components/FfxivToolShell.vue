@@ -29,7 +29,7 @@
             <dl class="ffxiv-tool-meta">
               <div>
                 <dt>{{ t(textKeys.placeholder) }}</dt>
-                <dd>{{ boundary?.sourcePath ?? tool.sourcePath }}</dd>
+                <dd>{{ boundary?.sourcePath ?? '' }}</dd>
               </div>
             </dl>
           </section>

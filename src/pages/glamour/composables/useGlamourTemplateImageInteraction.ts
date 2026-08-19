@@ -8,7 +8,7 @@ import {
   clearGlamourTemplateRecentImages as clearStoredGlamourTemplateRecentImages,
   loadGlamourTemplateRecentImages,
   saveGlamourTemplateRecentImage
-} from '@/pages/glamour/services/glamourTemplateImageStorage'
+} from '@/services/glamour/glamourTemplateImageStorage'
 import type { GlamourTemplateImageSlot } from '@/lib/glamour/templates/definitions'
 import type { GlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
 import {

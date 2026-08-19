@@ -237,6 +237,24 @@ export const glamourUiMessages: UiMessageMap = {
     ja: '染色スタイル2',
     ko: '염료 스타일 2'
   }),
+  'nsglamour.template.storyTextColor': msg({
+    zh: '故事文字色',
+    en: 'Story text color',
+    ja: 'ストーリーテキスト色',
+    ko: '스토리 텍스트 색'
+  }),
+  'nsglamour.template.storyTextWhite': msg({
+    zh: '白色',
+    en: 'White',
+    ja: '白',
+    ko: '흰색'
+  }),
+  'nsglamour.template.storyTextBlack': msg({
+    zh: '黑色',
+    en: 'Black',
+    ja: '黒',
+    ko: '검정'
+  }),
   'nsglamour.template.equipmentData': msg({
     zh: '装备数据',
     en: 'Equipment data',

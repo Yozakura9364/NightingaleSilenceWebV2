@@ -29,14 +29,17 @@ defineProps<{ losses: ExportLoss[] }>()
 const { t } = useLocale()
 const lossKeys = {
   heading: contentStudioKeys.exportLossHeading,
-  none: contentStudioKeys.exportLossNone,
+  none: contentStudioKeys.exportLossNone
 }
 
 function severityLabel(severity: ExportLoss['severity']): string {
   switch (severity) {
-    case 'BLOCKING': return '!'
-    case 'WARNING': return '△'
-    default: return 'i'
+    case 'BLOCKING':
+      return '!'
+    case 'WARNING':
+      return '△'
+    default:
+      return 'i'
   }
 }
 </script>

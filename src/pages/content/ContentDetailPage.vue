@@ -13,8 +13,8 @@ import {
   isPositiveIntId,
   toRenderViewModel,
   type PublicContentError,
-  type PublicEntry,
-} from './services/publicContent'
+  type PublicEntry
+} from '@/services/content/publicContent'
 import type { SafeDocumentViewModel } from '@/lib/content/render/contentViewModel'
 import './content.css'
 
@@ -62,30 +62,44 @@ watch(() => route.params.id, load)
 function formatDate(iso: string): string {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return iso
-  return new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' }).format(d)
+  return new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(d)
 }
 </script>
 
 <template>
   <main class="ns-page blog-detail-page">
-    <p v-if="loading" class="blog-status">{{ t(publicBlogKeys.loading) }}</p>
-    <section v-else-if="notFound" class="blog-not-found">
-      <h1 class="blog-not-found-title">{{ t(publicBlogKeys.notFoundTitle) }}</h1>
-      <p class="blog-not-found-text">{{ t(publicBlogKeys.notFoundText) }}</p>
-      <RouterLink class="blog-back-link" to="/blog">{{ t(publicBlogKeys.backToIndex) }}</RouterLink>
-    </section>
-    <p v-else-if="error" class="blog-status blog-status-error">
-      {{ t(publicBlogKeys.loadFailed) }}
-    </p>
-    <article v-else-if="entry && viewModel" class="blog-article">
-      <header class="blog-article-header">
-        <h1 class="blog-article-title">{{ entry.title }}</h1>
-        <div class="blog-entry-meta">
-          <time class="blog-entry-date" :datetime="entry.publishedAt">{{ formatDate(entry.publishedAt) }}</time>
-          <span v-for="tag in entry.tags" :key="tag" class="blog-entry-tag">{{ tag }}</span>
-        </div>
-      </header>
-      <ContentRichText :document="viewModel" />
-    </article>
+    <div
+      class="ns-page-shell blog-detail-page__shell ns-animate ns-animate--fade-in-up ns-animate-visible"
+    >
+      <article class="blog-article">
+        <p v-if="loading" class="blog-status">{{ t(publicBlogKeys.loading) }}</p>
+        <section v-else-if="notFound" class="blog-not-found">
+          <h1 class="blog-not-found-title">{{ t(publicBlogKeys.notFoundTitle) }}</h1>
+          <p class="blog-not-found-text">{{ t(publicBlogKeys.notFoundText) }}</p>
+          <RouterLink class="blog-back-link" to="/blog">{{
+            t(publicBlogKeys.backToIndex)
+          }}</RouterLink>
+        </section>
+        <p v-else-if="error" class="blog-status blog-status-error">
+          {{ t(publicBlogKeys.loadFailed) }}
+        </p>
+        <template v-else-if="entry && viewModel">
+          <header class="blog-article-header">
+            <h1 class="blog-article-title">{{ entry.title }}</h1>
+            <div class="blog-entry-meta">
+              <time class="blog-entry-date" :datetime="entry.publishedAt">{{
+                formatDate(entry.publishedAt)
+              }}</time>
+              <span v-for="tag in entry.tags" :key="tag" class="blog-entry-tag">{{ tag }}</span>
+            </div>
+          </header>
+          <ContentRichText :document="viewModel" />
+        </template>
+      </article>
+    </div>
   </main>
 </template>

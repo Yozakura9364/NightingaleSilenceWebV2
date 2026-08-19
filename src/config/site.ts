@@ -46,9 +46,6 @@ export interface ToolEntry {
   projectName: string
   route: RoutePath
   summaryKey: string
-  sourcePath: string
-  apiBase?: string
-  devPort?: number
   statusLabelKey: string
 }
 
@@ -205,9 +202,6 @@ export const ffxivTools: ToolEntry[] = [
     projectName: 'NSPlate',
     route: siteRoutes.plate,
     summaryKey: textKeys.placeholder,
-    sourcePath: '../NSPortable',
-    apiBase: '/api/plate',
-    devPort: 3456,
     statusLabelKey: textKeys.placeholder
   },
   {
@@ -216,9 +210,6 @@ export const ffxivTools: ToolEntry[] = [
     projectName: 'NSGlamour',
     route: siteRoutes.glamour,
     summaryKey: textKeys.placeholder,
-    sourcePath: 'server/glamour',
-    apiBase: '/api/glamour',
-    devPort: 8766,
     statusLabelKey: textKeys.placeholder
   },
   {
@@ -227,7 +218,6 @@ export const ffxivTools: ToolEntry[] = [
     projectName: 'NSArmoire',
     route: siteRoutes.armoire,
     summaryKey: textKeys.placeholder,
-    sourcePath: 'src/pages/armoire/NSArmoireLandingPage.vue',
     statusLabelKey: textKeys.placeholder
   },
   {
@@ -236,7 +226,6 @@ export const ffxivTools: ToolEntry[] = [
     projectName: 'Fashion Check',
     route: siteRoutes.fashionCheck,
     summaryKey: textKeys.fashionCheckSummary,
-    sourcePath: 'data/fashion-check',
     statusLabelKey: 'fashionCheck.verified'
   },
   {
@@ -245,9 +234,6 @@ export const ffxivTools: ToolEntry[] = [
     projectName: '物品卡片',
     route: siteRoutes.itemCard,
     summaryKey: textKeys.placeholder,
-    sourcePath: 'server/glamour',
-    apiBase: '/api/glamour',
-    devPort: 8766,
     statusLabelKey: textKeys.placeholder
   }
 ]

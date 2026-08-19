@@ -19,7 +19,7 @@ import type {
   NSPlatePresetSummary,
   NSPlatePresetsResponse
 } from '@/lib/plate/types'
-import { normalizeFiles, normalizePresets } from '@/pages/plate/services/nsplateAdapters'
+import { normalizeFiles, normalizePresets } from '@/services/plate/nsplateAdapters'
 
 export function useNSPlateData(dataSource: NSPlateCatalogDataSource) {
   const { current } = useLocale()

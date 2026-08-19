@@ -1,339 +1,129 @@
 {
   "schemaVersion": "fashion-check.current-locales.v3",
   "items": {
-    "3310": {
-      "zh-CN": "鞣革及膝裤",
-      "en": "Leather Culottes",
-      "ja": "キュロット",
-      "ko": "치마바지"
+    "3775": {
+      "zh-CN": "青铜铠靴",
+      "en": "Bronze Sabatons",
+      "ja": "サバトン",
+      "ko": "판금장화"
     },
-    "3369": {
-      "zh-CN": "巨蟾蜍革及膝裤",
-      "en": "Toadskin Culottes",
-      "ja": "トードキュロット",
-      "ko": "두꺼비 치마바지"
+    "3781": {
+      "zh-CN": "掠夺铠靴",
+      "en": "Plundered Sabatons",
+      "ja": "プランダードサバトン",
+      "ko": "약탈자의 판금장화"
     },
-    "3426": {
-      "zh-CN": "野猪革及膝裤",
-      "en": "Boarskin Culottes",
-      "ja": "ボアキュロット",
-      "ko": "멧돼지 치마바지"
+    "3793": {
+      "zh-CN": "黑铁铠靴",
+      "en": "Iron Sabatons",
+      "ja": "アイアンサバトン",
+      "ko": "철제 판금장화"
     },
-    "13642": {
-      "zh-CN": "空贼御敌手铠",
-      "en": "Sky Pirate's Gauntlets of Fending",
-      "ja": "スカイパイレーツ・ディフェンダーガントレット",
-      "ko": "하늘도적 수호자 건틀릿"
+    "3812": {
+      "zh-CN": "牙兵铠靴",
+      "en": "Serpent Private's Sabatons",
+      "ja": "グリダニアンプライベート・サバトン",
+      "ko": "그리다니아 사병의 판금장화"
     },
-    "13648": {
-      "zh-CN": "空贼制敌手铠",
-      "en": "Sky Pirate's Gauntlets of Maiming",
-      "ja": "スカイパイレーツ・スレイヤーガントレット",
-      "ko": "하늘도적 학살자 건틀릿"
+    "3815": {
+      "zh-CN": "漩兵铠靴",
+      "en": "Storm Private's Sabatons",
+      "ja": "ロミンサンプライベート・サバトン",
+      "ko": "림사 로민사 사병의 판금장화"
     },
-    "13654": {
-      "zh-CN": "空贼强袭手套",
-      "en": "Sky Pirate's Gloves of Striking",
-      "ja": "スカイパイレーツ・ストライカーグローブ",
-      "ko": "하늘도적 타격대 장갑"
+    "3818": {
+      "zh-CN": "耀兵铠靴",
+      "en": "Flame Private's Sabatons",
+      "ja": "ウルダハンプライベート・サバトン",
+      "ko": "울다하 사병의 판금장화"
     },
-    "13660": {
-      "zh-CN": "空贼精准手套",
-      "en": "Sky Pirate's Gloves of Aiming",
-      "ja": "スカイパイレーツ・レンジャーグローブ",
-      "ko": "하늘도적 유격대 장갑"
+    "3825": {
+      "zh-CN": "白钢铠靴",
+      "en": "Steel Sabatons",
+      "ja": "スチールサバトン",
+      "ko": "강철 판금장화"
     },
-    "13666": {
-      "zh-CN": "空贼游击手套",
-      "en": "Sky Pirate's Gloves of Scouting",
-      "ja": "スカイパイレーツ・スカウトグローブ",
-      "ko": "하늘도적 정찰대 장갑"
+    "3854": {
+      "zh-CN": "秘银铠靴",
+      "en": "Mythril Sabatons",
+      "ja": "ミスリルサバトン",
+      "ko": "미스릴 판금장화"
     },
-    "13672": {
-      "zh-CN": "空贼治愈手套",
-      "en": "Sky Pirate's Gloves of Healing",
-      "ja": "スカイパイレーツ・ヒーラーグローブ",
-      "ko": "하늘도적 치유사 장갑"
+    "3912": {
+      "zh-CN": "钴铁铠靴",
+      "en": "Cobalt Sabatons",
+      "ja": "コバルトサバトン",
+      "ko": "코발트 판금장화"
     },
-    "13678": {
-      "zh-CN": "空贼咏咒手套",
-      "en": "Sky Pirate's Gloves of Casting",
-      "ja": "スカイパイレーツ・キャスターグローブ",
-      "ko": "하늘도적 마술사 장갑"
+    "3921": {
+      "zh-CN": "民兵铠靴",
+      "en": "Militia Sabatons",
+      "ja": "ミリシアサバトン",
+      "ko": "민병대 판금장화"
     },
-    "13988": {
-      "zh-CN": "坦塔罗斯护袖",
-      "en": "Tantalus Cuffs",
-      "ja": "タンタラスカフス",
-      "ko": "탄탈로스 소맷동"
+    "4274": {
+      "zh-CN": "深红龙船耳章",
+      "en": "Crimson Standard Earrings",
+      "ja": "クリムゾンスタンダード・イヤリング",
+      "ko": "용선기 귀걸이"
     },
-    "17308": {
-      "zh-CN": "空鼠御敌铁钩护臂",
-      "en": "Sky Rat Hook of Fending",
-      "ja": "スカイラット・ディフェンダーフック",
-      "ko": "하늘쥐 수호자 갈고리 장갑"
+    "4275": {
+      "zh-CN": "金边天平耳章",
+      "en": "Tipping Scales Earrings",
+      "ja": "ティッピングスケール・イヤリング",
+      "ko": "양팔저울 귀걸이"
     },
-    "17313": {
-      "zh-CN": "空鼠制敌铁钩护臂",
-      "en": "Sky Rat Hook of Maiming",
-      "ja": "スカイラット・スレイヤーフック",
-      "ko": "하늘쥐 학살자 갈고리 장갑"
+    "4276": {
+      "zh-CN": "双蛇百合耳章",
+      "en": "Lily and Serpent Earrings",
+      "ja": "リリー・アンド・サーペント・イヤリング",
+      "ko": "백합과 뱀 귀걸이"
     },
-    "17318": {
-      "zh-CN": "空鼠强袭半指护手",
-      "en": "Sky Rat Fingerless Gloves of Striking",
-      "ja": "スカイラット・ストライカーフィンガレスグローブ",
-      "ko": "하늘쥐 타격대 반장갑"
+    "6773": {
+      "zh-CN": "饿狼铠靴",
+      "en": "Wolf Sabatons",
+      "ja": "ウルフサバトン",
+      "ko": "늑대 판금장화"
     },
-    "17323": {
-      "zh-CN": "空鼠精准半指护手",
-      "en": "Sky Rat Fingerless Gloves of Aiming",
-      "ja": "スカイラット・レンジャーフィンガレスグローブ",
-      "ko": "하늘쥐 유격대 반장갑"
+    "21941": {
+      "zh-CN": "阿拉米格长外衣",
+      "en": "Ala Mhigan Gown",
+      "ja": "アラミガンガウン",
+      "ko": "알라미고 가운"
     },
-    "17328": {
-      "zh-CN": "空鼠游击铁钩护臂",
-      "en": "Sky Rat Hook of Scouting",
-      "ja": "スカイラット・スカウトフック",
-      "ko": "하늘쥐 정찰대 갈고리 장갑"
-    },
-    "17333": {
-      "zh-CN": "空鼠治愈铁钩护臂",
-      "en": "Sky Rat Hook of Healing",
-      "ja": "スカイラット・ヒーラーフック",
-      "ko": "하늘쥐 치유사 갈고리 장갑"
-    },
-    "17338": {
-      "zh-CN": "空鼠咏咒半指护手",
-      "en": "Sky Rat Fingerless Gloves of Casting",
-      "ja": "スカイラット・キャスターフィンガレスグローブ",
-      "ko": "하늘쥐 마술사 반장갑"
-    },
-    "21467": {
-      "zh-CN": "大龙脉豪士念珠",
-      "en": "Dai-ryumyaku Bracelet of Fending",
-      "ja": "大龍脈数珠【武士】",
-      "ko": "대용맥 수호자 염주"
-    },
-    "21468": {
-      "zh-CN": "大龙脉斗士念珠",
-      "en": "Dai-ryumyaku Bracelet of Slaying",
-      "ja": "大龍脈数珠【闘士】",
-      "ko": "대용맥 공격대 염주"
-    },
-    "21469": {
-      "zh-CN": "大龙脉弓士念珠",
-      "en": "Dai-ryumyaku Bracelet of Aiming",
-      "ja": "大龍脈数珠【弓士】",
-      "ko": "대용맥 유격대 염주"
-    },
-    "21470": {
-      "zh-CN": "大龙脉学士念珠",
-      "en": "Dai-ryumyaku Bracelet of Healing",
-      "ja": "大龍脈数珠【学士】",
-      "ko": "대용맥 치유사 염주"
-    },
-    "21471": {
-      "zh-CN": "大龙脉术士念珠",
-      "en": "Dai-ryumyaku Bracelet of Casting",
-      "ja": "大龍脈数珠【術士】",
-      "ko": "대용맥 마술사 염주"
-    },
-    "23582": {
-      "zh-CN": "欧米茄御敌头冠",
-      "en": "Omega Circlet of Fending",
-      "ja": "オメガ・ディフェンダーサークレット",
-      "ko": "오메가 수호자 머리장식"
-    },
-    "23588": {
-      "zh-CN": "欧米茄制敌头冠",
-      "en": "Omega Circlet of Maiming",
-      "ja": "オメガ・スレイヤーサークレット",
-      "ko": "오메가 학살자 머리장식"
-    },
-    "23594": {
-      "zh-CN": "欧米茄强袭头冠",
-      "en": "Omega Circlet of Striking",
-      "ja": "オメガ・ストライカーサークレット",
-      "ko": "오메가 타격대 머리장식"
-    },
-    "23600": {
-      "zh-CN": "欧米茄精准头冠",
-      "en": "Omega Circlet of Aiming",
-      "ja": "オメガ・レンジャーサークレット",
-      "ko": "오메가 유격대 머리장식"
-    },
-    "23606": {
-      "zh-CN": "欧米茄游击头冠",
-      "en": "Omega Circlet of Scouting",
-      "ja": "オメガ・スカウトサークレット",
-      "ko": "오메가 정찰대 머리장식"
-    },
-    "23612": {
-      "zh-CN": "欧米茄治愈帽",
-      "en": "Omega Cap of Healing",
-      "ja": "オメガ・ヒーラーキャップ",
-      "ko": "오메가 치유사 모자"
-    },
-    "23618": {
-      "zh-CN": "欧米茄咏咒眼罩",
-      "en": "Omega Eye Mask of Casting",
-      "ja": "オメガ・キャスターアイマスク",
-      "ko": "오메가 마술사 눈가리개"
-    },
-    "23644": {
-      "zh-CN": "奥密克戎御敌头冠",
-      "en": "Omicron Circlet of Fending",
-      "ja": "オミクロン・ディフェンダーサークレット",
-      "ko": "오미크론 수호자 머리장식"
-    },
-    "23650": {
-      "zh-CN": "奥密克戎制敌头冠",
-      "en": "Omicron Circlet of Maiming",
-      "ja": "オミクロン・スレイヤーサークレット",
-      "ko": "오미크론 학살자 머리장식"
-    },
-    "23656": {
-      "zh-CN": "奥密克戎强袭头冠",
-      "en": "Omicron Circlet of Striking",
-      "ja": "オミクロン・ストライカーサークレット",
-      "ko": "오미크론 타격대 머리장식"
-    },
-    "23662": {
-      "zh-CN": "奥密克戎精准头冠",
-      "en": "Omicron Circlet of Aiming",
-      "ja": "オミクロン・レンジャーサークレット",
-      "ko": "오미크론 유격대 머리장식"
-    },
-    "23668": {
-      "zh-CN": "奥密克戎游击头冠",
-      "en": "Omicron Circlet of Scouting",
-      "ja": "オミクロン・スカウトサークレット",
-      "ko": "오미크론 정찰대 머리장식"
-    },
-    "23674": {
-      "zh-CN": "奥密克戎治愈帽",
-      "en": "Omicron Cap of Healing",
-      "ja": "オミクロン・ヒーラーキャップ",
-      "ko": "오미크론 치유사 모자"
-    },
-    "23680": {
-      "zh-CN": "奥密克戎咏咒眼罩",
-      "en": "Omicron Eye Mask of Casting",
-      "ja": "オミクロン・キャスターアイマスク",
-      "ko": "오미크론 마술사 눈가리개"
-    },
-    "28810": {
-      "zh-CN": "空贼御敌手铠（复制品）",
-      "en": "Replica Sky Pirate's Gauntlets of Fending",
-      "ja": "レプリカ・スカイパイレーツ・ディフェンダーガントレット",
-      "ko": "모조 하늘도적 수호자 건틀릿"
-    },
-    "28815": {
-      "zh-CN": "空贼制敌手铠（复制品）",
-      "en": "Replica Sky Pirate's Gauntlets of Maiming",
-      "ja": "レプリカ・スカイパイレーツ・スレイヤーガントレット",
-      "ko": "모조 하늘도적 학살자 건틀릿"
-    },
-    "28820": {
-      "zh-CN": "空贼强袭手套（复制品）",
-      "en": "Replica Sky Pirate's Gloves of Striking",
-      "ja": "レプリカ・スカイパイレーツ・ストライカーグローブ",
-      "ko": "모조 하늘도적 타격대 장갑"
-    },
-    "28825": {
-      "zh-CN": "空贼精准手套（复制品）",
-      "en": "Replica Sky Pirate's Gloves of Aiming",
-      "ja": "レプリカ・スカイパイレーツ・レンジャーグローブ",
-      "ko": "모조 하늘도적 유격대 장갑"
-    },
-    "28830": {
-      "zh-CN": "空贼游击手套（复制品）",
-      "en": "Replica Sky Pirate's Gloves of Scouting",
-      "ja": "レプリカ・スカイパイレーツ・スカウトグローブ",
-      "ko": "모조 하늘도적 정찰대 장갑"
-    },
-    "28835": {
-      "zh-CN": "空贼治愈手套（复制品）",
-      "en": "Replica Sky Pirate's Gloves of Healing",
-      "ja": "レプリカ・スカイパイレーツ・ヒーラーグローブ",
-      "ko": "모조 하늘도적 치유사 장갑"
-    },
-    "28840": {
-      "zh-CN": "空贼咏咒手套（复制品）",
-      "en": "Replica Sky Pirate's Gloves of Casting",
-      "ja": "レプリカ・スカイパイレーツ・キャスターグローブ",
-      "ko": "모조 하늘도적 마술사 장갑"
-    },
-    "28845": {
-      "zh-CN": "空鼠御敌铁钩护臂（复制品）",
-      "en": "Replica Sky Rat Hook of Fending",
-      "ja": "レプリカ・スカイラット・ディフェンダーフック",
-      "ko": "모조 하늘쥐 수호자 갈고리 장갑"
-    },
-    "28850": {
-      "zh-CN": "空鼠制敌铁钩护臂（复制品）",
-      "en": "Replica Sky Rat Hook of Maiming",
-      "ja": "レプリカ・スカイラット・スレイヤーフック",
-      "ko": "모조 하늘쥐 학살자 갈고리 장갑"
-    },
-    "28855": {
-      "zh-CN": "空鼠强袭半指护手（复制品）",
-      "en": "Replica Sky Rat Fingerless Gloves of Striking",
-      "ja": "レプリカ・スカイラット・ストライカーフィンガレスグローブ",
-      "ko": "모조 하늘쥐 타격대 반장갑"
-    },
-    "28860": {
-      "zh-CN": "空鼠精准半指护手（复制品）",
-      "en": "Replica Sky Rat Fingerless Gloves of Aiming",
-      "ja": "レプリカ・スカイラット・レンジャーフィンガレスグローブ",
-      "ko": "모조 하늘쥐 유격대 반장갑"
-    },
-    "28865": {
-      "zh-CN": "空鼠游击铁钩护臂（复制品）",
-      "en": "Replica Sky Rat Hook of Scouting",
-      "ja": "レプリカ・スカイラット・スカウトフック",
-      "ko": "모조 하늘쥐 정찰대 갈고리 장갑"
-    },
-    "28870": {
-      "zh-CN": "空鼠治愈铁钩护臂（复制品）",
-      "en": "Replica Sky Rat Hook of Healing",
-      "ja": "レプリカ・スカイラット・ヒーラーフック",
-      "ko": "모조 하늘쥐 치유사 갈고리 장갑"
-    },
-    "28875": {
-      "zh-CN": "空鼠咏咒半指护手（复制品）",
-      "en": "Replica Sky Rat Fingerless Gloves of Casting",
-      "ja": "レプリカ・スカイラット・キャスターフィンガレスグローブ",
-      "ko": "모조 하늘쥐 마술사 반장갑"
+    "24594": {
+      "zh-CN": "血盟旅行者面罩",
+      "en": "Scion Traveler's Mask",
+      "ja": "サイオンズトラベラー・マスク",
+      "ko": "새벽의 여행자 가면"
     }
   },
   "dyes": {},
   "dyeItems": {},
   "tags": {
-    "33": {
-      "zh-CN": "空贼",
-      "en": "Pirates in the Sky",
-      "ja": "空賊",
-      "ko": "하늘도적"
+    "12": {
+      "zh-CN": "大国防联军",
+      "en": "Keeping Company",
+      "ja": "カンパニー",
+      "ko": "사령부"
     },
-    "135": {
-      "zh-CN": "浴衣",
-      "en": "Yukata",
-      "ja": "浴衣",
-      "ko": "유카타"
+    "101": {
+      "zh-CN": "阿拉米格货",
+      "en": "Ala Mhigan",
+      "ja": "アラミガンガウン",
+      "ko": "알라미고 가운"
     },
-    "180": {
-      "zh-CN": "及膝裤",
-      "en": "Cast Your Culottes",
-      "ja": "キュロット",
-      "ko": "치마바지"
+    "158": {
+      "zh-CN": "金属板",
+      "en": "On the Plate",
+      "ja": "プレートアーマー",
+      "ko": "판금 갑옷"
     },
-    "233": {
-      "zh-CN": "欧米茄",
-      "en": "Omega Ornamentation",
-      "ja": "オメガ",
-      "ko": "오메가"
+    "245": {
+      "zh-CN": "血盟旅行者",
+      "en": "Traveling Dawn",
+      "ja": "サイオンズトラベラー",
+      "ko": "새벽의 여행자"
     }
   }
 }

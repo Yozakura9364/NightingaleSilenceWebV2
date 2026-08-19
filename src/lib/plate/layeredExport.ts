@@ -4,7 +4,6 @@ import {
   traceCustomPortraitInFrameClipPath,
   traceCustomPortraitPopoutClipPath
 } from '@/lib/plate/customPortrait'
-import { createNSPlateLayeredZipFilename } from '@/lib/plate/downloadFilenames'
 import { getNSPlateInfoBar48Bounds } from '@/lib/plate/infoLayerRenderDefinitions'
 import {
   NSPLATE_INFO_ACTIVITY_ICON_GAP_PX,
@@ -26,6 +25,14 @@ import {
 } from '@/lib/plate/infoLayerImageUtils'
 import { renderNSPlateInfoTextLayersToCanvas } from '@/lib/plate/infoLayerTextRenderer'
 import {
+  canvasToBlobUrl,
+  createLayerCanvas,
+  getLayerContext,
+  loadLayerImage,
+  loadLayerImageWithFallback,
+  normalizeExportScale
+} from '@/lib/plate/layerCanvasTools'
+import {
   NSPLATE_CANVAS_DIMENSIONS,
   getNameplateRenderSegments,
   getPlateLayerImageUrls,
@@ -41,13 +48,14 @@ import type {
   NSPlateLayeredExportOptions,
   NSPlateLayeredExportPayload
 } from '@/lib/plate/types'
-import { createStoredZipBlob, type StoredZipFileEntry } from '@/lib/plate/zipArchive'
+
+// 分层 ZIP 打包/下载实现已拆至 layeredZip.ts；此处 re-export 保持既有 import 路径。
+export { createLayeredZipBlobOnClient, downloadPlateLayeredZip } from '@/lib/plate/layeredZip'
 
 const CUSTOM_PORTRAIT_LAYER_NAME = '自定义图片'
 const CUSTOM_PORTRAIT_POPOUT_LAYER_NAME = '自定义图片（出框）'
 const CUSTOM_PORTRAIT_PAIRED_BASE_LAYER_NAME = '自定义图片（底图）'
 const INFO_LAYER_NAME = '信息层'
-const LAYERED_ZIP_TEXT_ENCODER = new TextEncoder()
 
 export async function createNameplateLayeredExportPayload(
   plan: NSPlateNameplateRenderPlan,
@@ -489,102 +497,6 @@ async function createInfoActivityIconLayerData(
   } satisfies NSPlateLayeredExportLayer
 }
 
-export function downloadPlateLayeredZip(blob: Blob, scale: number) {
-  const filename = createNSPlateLayeredZipFilename(scale)
-  const url = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-
-  link.download = filename
-  link.href = url
-  link.click()
-  window.setTimeout(() => URL.revokeObjectURL(url), 0)
-  return filename
-}
-
-export async function createLayeredZipBlobOnClient(
-  payload: NSPlateLayeredExportPayload
-): Promise<Blob> {
-  const canvasWidth = normalizeCanvasSize(payload.canvasWidth)
-  const canvasHeight = normalizeCanvasSize(payload.canvasHeight)
-  const files: StoredZipFileEntry[] = []
-  const composerConfig = normalizeComposerConfig(payload.composerConfigFull)
-
-  if (composerConfig) {
-    files.push({
-      name: 'composer-config.json',
-      bytes: encodeJsonFile(composerConfig)
-    })
-  }
-
-  const layerManifest = createLayeredZipManifest(payload.layers, canvasWidth, canvasHeight)
-  const layerManifestBytes = encodeJsonFile(layerManifest)
-
-  files.push(
-    {
-      name: 'layers.json',
-      bytes: layerManifestBytes
-    },
-    {
-      name: 'manifest.json',
-      bytes: layerManifestBytes
-    }
-  )
-
-  for (let index = 0; index < payload.layers.length; index += 1) {
-    const layer = payload.layers[index]
-    const fullCanvasBlob = await placeLayerOnFullCanvas(layer, canvasWidth, canvasHeight)
-    const bytes = new Uint8Array(await fullCanvasBlob.arrayBuffer())
-
-    files.push({
-      name: createLayeredZipLayerEntryName(index),
-      bytes
-    })
-
-    // Free blob URL memory for this layer
-    revokeCanvasBlobUrl(layer.rgbaData)
-  }
-
-  return createStoredZipBlob(files)
-}
-
-function createLayeredZipManifest(
-  layers: NSPlateLayeredExportLayer[],
-  canvasWidth: number,
-  canvasHeight: number
-) {
-  return {
-    app: 'NSPlate',
-    format: 'nsplate-layered-zip-manifest',
-    version: 2,
-    coordinateSpace: 'fullCanvasTopLeft',
-    canvasWidth,
-    canvasHeight,
-    generatedAt: new Date().toISOString(),
-    layers: layers.map((layer, index) => ({
-      index,
-      file: createLayeredZipLayerEntryName(index),
-      name: layer.name,
-      x: Math.round(layer.x),
-      y: Math.round(layer.y),
-      width: Math.round(layer.width),
-      height: Math.round(layer.height),
-      sourceType: layer.sourceType ?? 'unknown'
-    }))
-  }
-}
-
-function createLayeredZipLayerEntryName(index: number) {
-  return `L${String(index).padStart(3, '0')}.png`
-}
-
-function normalizeComposerConfig(value: unknown): Record<string, unknown> | null {
-  return isRecord(value) && Number(value.version) === 1 ? value : null
-}
-
-function encodeJsonFile(value: unknown) {
-  return LAYERED_ZIP_TEXT_ENCODER.encode(`${JSON.stringify(value, null, 2)}\n`)
-}
-
 async function pushSystemLayers(
   output: NSPlateLayeredExportLayer[],
   layers: NSPlateRenderImageLayer[],
@@ -858,150 +770,4 @@ async function createCustomPortraitPopoutLayer(
     rgbaData: await canvasToBlobUrl(canvas),
     sourceType: 'custom'
   } satisfies NSPlateLayeredExportLayer
-}
-
-function createLayerCanvas(width: number, height: number): HTMLCanvasElement | OffscreenCanvas {
-  if (typeof OffscreenCanvas !== 'undefined') {
-    return new OffscreenCanvas(Math.max(1, width), Math.max(1, height))
-  }
-  const canvas = document.createElement('canvas')
-  canvas.width = Math.max(1, width)
-  canvas.height = Math.max(1, height)
-  return canvas
-}
-
-function getLayerContext(canvas: HTMLCanvasElement | OffscreenCanvas, smoothing: boolean) {
-  const context = canvas.getContext('2d')
-
-  if (!context) {
-    throw new Error('canvas-context')
-  }
-
-  context.clearRect(0, 0, canvas.width, canvas.height)
-  context.imageSmoothingEnabled = smoothing
-
-  if (smoothing && 'imageSmoothingQuality' in context) {
-    context.imageSmoothingQuality = 'high'
-  }
-
-  return context
-}
-
-function normalizeExportScale(scale: number) {
-  if (!Number.isFinite(scale) || scale <= 0) {
-    throw new Error('invalid-scale')
-  }
-
-  return scale
-}
-
-/** Create a Blob URL from a canvas, avoiding base64 data URL overhead. Free with revokeCanvasBlobUrl(). */
-function canvasToBlobUrl(canvas: HTMLCanvasElement | OffscreenCanvas): Promise<string> {
-  if (canvas instanceof OffscreenCanvas) {
-    return canvas.convertToBlob({ type: 'image/png' }).then((blob) => URL.createObjectURL(blob))
-  }
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      if (!blob) {
-        // Fallback to data URL if toBlob fails
-        resolve(canvas.toDataURL('image/png'))
-        return
-      }
-      resolve(URL.createObjectURL(blob))
-    }, 'image/png')
-  })
-}
-
-function revokeCanvasBlobUrl(url: string): void {
-  if (url.startsWith('blob:')) {
-    URL.revokeObjectURL(url)
-  }
-}
-
-function loadLayerImage(source: string) {
-  if (!source) {
-    return Promise.resolve(null)
-  }
-
-  return new Promise<HTMLImageElement | null>((resolve) => {
-    const image = new Image()
-
-    image.crossOrigin = 'anonymous'
-    image.onload = () => {
-      const finish = () => resolve(image)
-
-      if (typeof image.decode === 'function') {
-        void image.decode().then(finish).catch(finish)
-      } else {
-        finish()
-      }
-    }
-    image.onerror = () => resolve(null)
-    image.src = source
-  })
-}
-
-async function loadLayerImageWithFallback(sources: string[]) {
-  for (const source of sources) {
-    const image = await loadLayerImage(source)
-
-    if (image) {
-      return image
-    }
-  }
-
-  return null
-}
-
-async function placeLayerOnFullCanvas(
-  layer: NSPlateLayeredExportLayer,
-  canvasWidth: number,
-  canvasHeight: number
-) {
-  const image = await loadLayerImage(layer.rgbaData)
-
-  if (!image) {
-    throw new Error('layer-image-decode')
-  }
-
-  const canvas = createLayerCanvas(canvasWidth, canvasHeight)
-  const context = getLayerContext(canvas, false)
-
-  context.drawImage(image, Math.round(layer.x), Math.round(layer.y))
-  return canvasToPngBlob(canvas)
-}
-
-function canvasToPngBlob(canvas: HTMLCanvasElement | OffscreenCanvas): Promise<Blob> {
-  if (canvas instanceof OffscreenCanvas) {
-    return canvas.convertToBlob({ type: 'image/png' })
-  }
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => {
-      if (blob) {
-        resolve(blob)
-        return
-      }
-
-      // Fallback: generate blob from data URL
-      const dataUrl = canvas.toDataURL('image/png')
-      const binary = atob(dataUrl.split(',')[1])
-      const array = new Uint8Array(binary.length)
-      for (let i = 0; i < binary.length; i++) {
-        array[i] = binary.charCodeAt(i)
-      }
-      resolve(new Blob([array], { type: 'image/png' }))
-    }, 'image/png')
-  })
-}
-
-function normalizeCanvasSize(value: number) {
-  if (!Number.isFinite(value) || value <= 0) {
-    throw new Error('invalid-canvas-size')
-  }
-
-  return Math.max(1, Math.round(value))
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }

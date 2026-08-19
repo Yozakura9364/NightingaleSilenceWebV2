@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { basename, resolve } from 'node:path'
 import { TextEncoder } from 'node:util'
+import { assert, parsePositiveInt } from './lib/check-utils.mjs'
 
 const DEFAULT_BASE_URL = 'http://127.0.0.1:8766/api'
 const DEFAULT_TIMEOUT_MS = 15000
@@ -12,6 +13,7 @@ const TEMPLATE_SOURCE_FILES = [
   'src/lib/glamour/templates/renderProfiles.ts',
   'src/lib/glamour/templates/imageSlots.ts',
   'src/lib/glamour/templates/imageProcessing.ts',
+  'src/services/glamour/glamourTemplateImageStorage.ts',
   'src/lib/glamour/templates/settings.ts',
   'src/lib/glamour/templates/rows.ts',
   'src/lib/glamour/templates/renderData.ts',
@@ -38,7 +40,7 @@ const TEMPLATE_SOURCE_FILES = [
   'src/pages/glamour/composables/useGlamourEquipInfoEditor.ts',
   'src/pages/glamour/composables/useGlamourEquipmentSearch.ts',
   'src/pages/glamour/composables/useGlamourTemplateCanvas.ts',
-  'src/pages/glamour/services/nsglamourApi.ts',
+  'src/services/glamour/nsglamourApi.ts',
   'src/pages/glamour/composables/useGlamourTemplateEquipmentEditor.ts',
   'src/pages/glamour/composables/useGlamourTemplateImageInteraction.ts',
   'src/pages/glamour/composables/useGlamourTemplateImageStore.ts',
@@ -343,6 +345,7 @@ async function checkLocalTemplateDataLayer() {
     renderProfiles,
     imageSlots,
     imageProcessing,
+    templateImageStorageSource,
     settings,
     rows,
     renderData,
@@ -427,18 +430,21 @@ async function checkLocalTemplateDataLayer() {
   validateEcTemplateColors(renderer, legacyTemplate)
   validateCanvasRendererConstants(renderer, legacyTemplate)
   validateTemplateSettingsDefaults(settings, legacyTemplate)
-  validateTemplateImageSlots(imageSlots, legacyDefinitions)
+  // 图片备份/IndexedDB 存储实现位于独立服务模块（非 imageSlots.ts），
+  // 校验时聚合两者，保持对 legacy 存储键与持久化边界的完整断言。
+  validateTemplateImageSlots([imageSlots, templateImageStorageSource].join('\n'), legacyDefinitions)
+  await validateSharedContract()
   validateNsglamourVisibleText(uiLocaleSource)
   await validateTemplatePublicAssets()
 
   assert(
     glamourPage.includes('--ns-ffxiv-workspace-bg: var(--ns-glamour-workspace-bg)') &&
       !glamourPage.includes('#fff8fc') &&
-      glamourWorkspace.includes('background: #fff;') &&
-      templateWorkspaceStyles.includes('background: #fff;') &&
+      glamourWorkspace.includes('background: var(--ns-glamour-workspace-bg);') &&
       !glamourWorkspace.includes('#fff8fc') &&
+      !templateWorkspaceStyles.includes('background: #fff;') &&
       !templateWorkspaceStyles.includes('#fff8fc'),
-    'NSGlamour page shell must keep the shared theme background while equipinfo/template workspaces stay pure white'
+    'NSGlamour page shell must keep the shared theme background while equipinfo/template workspaces follow the body background token (WORKBENCH_STYLE_CONTRACT 第 40 条：工房页只继承正文主题 token)'
   )
   assert(
     countSubstring(glamourWorkspace, 'defineAsyncComponent(') === 4 &&
@@ -467,21 +473,21 @@ async function checkLocalTemplateDataLayer() {
     'selected NSGlamour equipment without dye rows must center the selected item and must not render an empty-slot search box'
   )
   assert(
-    /nsglamour-slot__candidate-panel[\s\S]*?width:\s*min\(420px, calc\(100vw - 42px\)\)/.test(equipmentSlotStyles) &&
-      /nsglamour-slot__candidate-option[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*52px/.test(equipmentSlotStyles) &&
+    /nsglamour-slot__candidate-panel[\s\S]*?width:\s*min\(360px, calc\(100vw - 42px\)\)/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__candidate-option[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*48px/.test(equipmentSlotStyles) &&
       /nsglamour-slot__candidate-option img[\s\S]*?width:\s*42px[\s\S]*?height:\s*42px/.test(equipmentSlotStyles) &&
-      /nsglamour-slot__candidate-option span[\s\S]*?font-size:\s*14px/.test(equipmentSlotStyles) &&
-      /nsglamour-slot__search-result[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*52px/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__candidate-option span[\s\S]*?font-size:\s*13px/.test(equipmentSlotStyles) &&
+      /nsglamour-slot__search-result[\s\S]*?grid-template-columns:\s*42px minmax\(0, 1fr\)[\s\S]*?min-height:\s*48px/.test(equipmentSlotStyles) &&
       /nsglamour-slot__search-result img[\s\S]*?width:\s*42px[\s\S]*?height:\s*42px/.test(equipmentSlotStyles) &&
-      /nsglamour-slot__search-result[\s\S]*?font-size:\s*14px/.test(equipmentSlotStyles),
+      /nsglamour-slot__search-result[\s\S]*?font-size:\s*13px/.test(equipmentSlotStyles),
     'NSGlamour equipment candidates/search results must stay aligned with selected equipment icon and text sizing'
   )
   assert(
-    /nsglamour-slot__dye-chip[\s\S]*?radial-gradient\(\s*circle at 11px center,\s*var\(--nsglamour-dye-color, #000000\) 0 5px,\s*transparent 6px\s*\)/.test(equipmentSlotStyles) &&
-      /nsglamour-slot__dye-chip\.empty-dye[\s\S]*?com_icon_clear\.svg'\) 6px center \/ 10px 10px no-repeat/.test(equipmentSlotStyles) &&
-      /nsglamour-template__dye-chip::before[\s\S]*?width:\s*10px[\s\S]*?height:\s*10px/.test(templateEditorSource) &&
+    /nsglamour-slot__dye-swatch[\s\S]*?width:\s*12px[\s\S]*?height:\s*12px/.test(equipmentSlotStyles) &&
+      equipmentSlotStyles.includes('.nsglamour-slot__dye-chip.empty-dye') &&
+      /nsglamour-template__dye-chip::before[\s\S]*?width:\s*12px[\s\S]*?height:\s*12px/.test(templateEditorSource) &&
       /nsglamour-template__dye-chip\.empty-dye::before[\s\S]*?com_icon_clear\.svg'\) center \/ 10px 10px no-repeat/.test(templateEditorSource),
-    'NSGlamour clear dye icon must occupy the same 10px box as normal dye swatches in equipinfo and template editors'
+    'NSGlamour dye swatches must stay 12px in equipinfo/template editors with the clear icon occupying the same box'
   )
   assert(
     equipmentPanel.includes('v-if="!isMobileLayout"') &&
@@ -735,7 +741,8 @@ async function checkLocalTemplateDataLayer() {
   assert(
     templateComposable.includes('getDefaultTemplateLocalesForUiLanguage') &&
       templateComposable.includes('currentUiLocale') &&
-      templateComposable.includes('locales: getDefaultTemplateLocalesForUiLanguage'),
+      templateComposable.includes('const nextLocales = getDefaultTemplateLocalesForUiLanguage') &&
+      templateComposable.includes('updateTemplateSettings({ locales: nextLocales, dyeLocales: nextLocales })'),
     'template switching must preserve legacy UI-language/default locale reset'
   )
   assert(
@@ -748,14 +755,15 @@ async function checkLocalTemplateDataLayer() {
   )
   assert(
     templateComposable.includes('syncCurrentTemplateLocalesWithUiLanguage') &&
-      templateComposable.includes('[currentUiLocale.value, templateId.value]') &&
+      templateComposable.includes('() => currentUiLocale.value') &&
+      templateComposable.includes('() => templateId.value') &&
       templateComposable.includes('areSameLocales'),
     'template workspace must preserve legacy init/UI-language locale synchronization'
   )
   assert(
     templateComposable.includes('syncTemplateLinkImportLocales') &&
       templateComposable.includes('template.value.localeOrder.includes(draftLocale)') &&
-      templateComposable.includes('updateTemplateSettings({ locales: nextLocales })') &&
+      templateComposable.includes('updateTemplateSettings({ locales: nextLocales, dyeLocales: nextLocales })') &&
       templateComposable.includes('syncTemplateLinkImportLocales()'),
     'template link imports must reset template output locales to the imported edit locale'
   )
@@ -870,9 +878,8 @@ async function checkLocalTemplateDataLayer() {
     templateComposable.includes('selectedLocales.value.includes(draftLocale)') &&
       templateWorkspace.includes("'update-locale': [locale: string]") &&
       templateLanguageControls.includes('function setActiveLocale') &&
-      templateLanguageControls.includes('setNormalizedLocales([...selected, locale])') &&
-      templateLanguageControls.includes('options.activeLocale.value !== locale') &&
-      templateLanguageControls.includes('watch(\n    options.activeLocale') &&
+      templateLanguageControls.includes('options.template.value.localeOrder.includes(locale)') &&
+      templateLanguageControls.includes('options.updateLocale(locale)') &&
       templateLanguageControls.includes('options.activeLocale.value || options.draftLocale.value') &&
       templateWorkspace.includes(':editor-locale="editorLocale"') &&
       equipmentSearchComposable.includes('locale: options.editorLocale.value'),
@@ -1037,10 +1044,127 @@ function validateTemplateControls(v2Block, legacyBlock, templateId) {
   }
 }
 
+async function validateSharedContract() {
+  const contractPath = resolve('server/glamour/contracts/shared-rules.json')
+  const generatedPath = resolve('src/lib/glamour/contract.generated.ts')
+  const mappingPath = resolve('server/glamour/services/mapping.py')
+  const apiPath = resolve('server/glamour/routes/api.py')
+  const itemIconPath = resolve('src/lib/ffxiv/itemIcon.ts')
+  const glamourEquipmentPath = resolve('src/lib/glamour/equipment.ts')
+  const glamourDraftPath = resolve('src/lib/glamour/draft.ts')
+  const itemCardEquipmentPath = resolve('src/pages/item-card/lib/equipment.ts')
+
+  const [
+    contractSource,
+    generatedSource,
+    mappingSource,
+    apiSource,
+    itemIconSource,
+    glamourEquipmentSource,
+    glamourDraftSource,
+    itemCardEquipmentSource
+  ] = await Promise.all([
+    readFile(contractPath, 'utf8'),
+    readFile(generatedPath, 'utf8'),
+    readFile(mappingPath, 'utf8'),
+    readFile(apiPath, 'utf8'),
+    readFile(itemIconPath, 'utf8'),
+    readFile(glamourEquipmentPath, 'utf8'),
+    readFile(glamourDraftPath, 'utf8'),
+    readFile(itemCardEquipmentPath, 'utf8')
+  ])
+  const contract = JSON.parse(contractSource)
+
+  // Python 侧必须从契约加载，不得硬编码共享规则。
+  assert(
+    mappingSource.includes('contracts/shared-rules.json'),
+    'python mapping service must load shared rules from contracts/shared-rules.json'
+  )
+  assert(
+    mappingSource.includes('SHARED_EQUIP_SLOT_CATEGORY') &&
+      mappingSource.includes('slotByEquipSlotCategory'),
+    'python mapping service must derive slot mapping and matching rules from the shared contract'
+  )
+  assert(
+    apiSource.includes('SHARED_CONTRACT'),
+    'python icon route must read icon rules from the shared contract'
+  )
+  assert(
+    !/20000 <= folder_id < 60000/.test(apiSource) && !/folder_id == 200000/.test(apiSource),
+    'python icon route must not hardcode HD folder ranges'
+  )
+
+  // 生成 TS 必须与 JSON 数值一致。
+  assert(
+    generatedSource.includes(`GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY = ${contract.equipSlotCategory.mainHandCategory}`),
+    'generated TS mainHandCategory must match shared-rules.json'
+  )
+  assert(
+    generatedSource.includes(`GLAMOUR_CONTRACT_OFF_HAND_CATEGORY = ${contract.equipSlotCategory.offHandCategory}`),
+    'generated TS offHandCategory must match shared-rules.json'
+  )
+  for (const [category, slot] of Object.entries(contract.slotByEquipSlotCategory)) {
+    assert(
+      generatedSource.includes(`${Number(category)}: '${slot}'`),
+      `generated TS slotByEquipSlotCategory[${category}] must match shared-rules.json`
+    )
+  }
+  assert(
+    generatedSource.includes(`GLAMOUR_CONTRACT_HD_FOLDER_MIN = ${contract.itemIcon.hdFolderMin}`) &&
+      generatedSource.includes(
+        `GLAMOUR_CONTRACT_HD_FOLDER_MAX_EXCLUSIVE = ${contract.itemIcon.hdFolderMaxExclusive}`
+      ) &&
+      generatedSource.includes(
+        `GLAMOUR_CONTRACT_HD_FOLDER_EXTRA = [${contract.itemIcon.hdFolderExtra.join(', ')}]`
+      ),
+    'generated TS itemIcon rules must match shared-rules.json'
+  )
+
+  // 前端主手类别判定必须引用生成常量，不得硬编码 13。
+  const frontendMainHandSources = [glamourEquipmentSource, glamourDraftSource, itemCardEquipmentSource]
+  assert(
+    !/=== 13\b/.test(frontendMainHandSources.join('\n')),
+    'frontend must not hardcode main-hand category 13; use GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY'
+  )
+  for (const source of frontendMainHandSources) {
+    assert(
+      source.includes('GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY'),
+      'frontend main-hand checks must read GLAMOUR_CONTRACT_MAIN_HAND_CATEGORY'
+    )
+  }
+
+  // 前端图标 HD 段必须由契约常量构建。
+  assert(
+    itemIconSource.includes('GLAMOUR_CONTRACT_HD_FOLDER_MIN') &&
+      !/for \(let i = 20; i < 60; i\+\+\)/.test(itemIconSource),
+    'frontend item icon must build HD segments from the shared contract'
+  )
+
+  // 工作台背景 token 必须指向正文主题背景（WORKBENCH_STYLE_CONTRACT 第 40 条），昼夜各自定义。
+  const themeSource = await readFile(resolve('src/styles/theme.css'), 'utf8')
+  const themeNightSource = await readFile(resolve('src/styles/theme-night.css'), 'utf8')
+  assert(
+    themeSource.includes('--ns-glamour-workspace-bg: var(--ns-body-background)'),
+    'day theme must define --ns-glamour-workspace-bg from the body background token'
+  )
+  assert(
+    themeNightSource.includes('--ns-glamour-workspace-bg: var(--ns-body-background)'),
+    'night theme must define --ns-glamour-workspace-bg from the body background token'
+  )
+}
+
 function validateTemplateLanguageOptions(v2Block, legacyBlock, templateId) {
+  // languageOptions 是 V2 特有的语言选择器 UI 元数据（legacy 模板从未定义该字段）；
+  // 只有 legacy 显式声明时才要求逐项一致，否则视为 V2 扩展，仅要求不改变 legacy 语言语义。
+  const legacyOptions = extractOptionalQuotedArray(legacyBlock, 'languageOptions')
+
+  if (!legacyOptions.length) {
+    return
+  }
+
   assertSameArray(
     extractOptionalQuotedArray(v2Block, 'languageOptions'),
-    extractOptionalQuotedArray(legacyBlock, 'languageOptions'),
+    legacyOptions,
     `template ${templateId} languageOptions must match legacy /template`
   )
 }
@@ -1516,9 +1640,14 @@ function validateCanvasRendererConstants(renderer, legacyTemplate) {
     ],
     'Silence Fashion zh equipment'
   )
+  // legacy 双语布局块名为 `bilingual`（primary/secondary 按输出语言顺序取值），
+  // V2 对应块名为 `enJa`（ja/en 专属尺寸）；两侧数值一致（45/45/54/54），
+  // 这里按语义映射 primary→ja、secondary→en 做显式比对。
+  const v2EnJa = extractObjectPropertyBlock(v2SilenceFashion, 'enJa')
+  const legacyBilingual = extractObjectPropertyBlock(legacySilenceFashion, 'bilingual')
   assertSameNumericProperties(
-    extractObjectPropertyBlock(v2SilenceFashion, 'enJa'),
-    extractObjectPropertyBlock(legacySilenceFashion, 'enJa'),
+    v2EnJa,
+    legacyBilingual,
     [
       'maxRows',
       'itemX',
@@ -1527,18 +1656,26 @@ function validateCanvasRendererConstants(renderer, legacyTemplate) {
       'y',
       'bottom',
       'rowStep',
-      'jaSize',
-      'enSize',
       'dyeSize',
-      'jaLineHeight',
-      'enLineHeight',
       'dyeLineHeight',
       'lineGap',
       'groupGap',
       'weight'
     ],
-    'Silence Fashion enJa equipment'
+    'Silence Fashion enJa/bilingual shared equipment'
   )
+  const enJaLocaleSizePairs = [
+    ['jaSize', 'primarySize'],
+    ['enSize', 'secondarySize'],
+    ['jaLineHeight', 'primaryLineHeight'],
+    ['enLineHeight', 'secondaryLineHeight']
+  ]
+  for (const [enJaKey, bilingualKey] of enJaLocaleSizePairs) {
+    assert(
+      extractNumericProperty(v2EnJa, enJaKey) === extractNumericProperty(legacyBilingual, bilingualKey),
+      `Silence Fashion enJa.${enJaKey} must match legacy bilingual.${bilingualKey}`
+    )
+  }
 }
 
 function validateEcCanvasConstants(renderer, legacyTemplate) {
@@ -2428,12 +2565,6 @@ function expectStatus(response, statuses) {
   }
 }
 
-function assert(condition, message) {
-  if (!condition) {
-    throw new Error(message)
-  }
-}
-
 function assertPlainObject(value, message) {
   assert(value !== null && typeof value === 'object' && !Array.isArray(value), message)
 }
@@ -2494,11 +2625,6 @@ function parseArgs(argv) {
   }
 
   return parsed
-}
-
-function parsePositiveInt(value, fallback) {
-  const parsed = Number.parseInt(String(value ?? ''), 10)
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
 }
 
 function printHelp() {

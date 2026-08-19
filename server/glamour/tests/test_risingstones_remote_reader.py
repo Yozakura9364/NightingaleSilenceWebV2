@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import sys
+import urllib.request
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import mock
@@ -10,6 +11,8 @@ sys.path.insert(0, str(app_path.parent))
 spec = importlib.util.spec_from_file_location("nsglamour_app", app_path)
 app = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(app)
+
+from services import risingstones as rs
 
 
 class FakeResponse:
@@ -49,10 +52,10 @@ def test_remote_reader_request_and_response():
             assert timeout == 45
             return FakeResponse(payload)
 
-        with mock.patch.object(app, "RS_REMOTE_READER_URL", "http://127.0.0.1:18770"):
-            with mock.patch.object(app, "RS_REMOTE_READER_TOKEN_FILE", token_path):
-                with mock.patch.object(app.urllib.request, "urlopen", side_effect=fake_urlopen):
-                    result = app.read_risingstones_details_via_remote_reader(["274729"])
+        with mock.patch.object(rs, "RS_REMOTE_READER_URL", "http://127.0.0.1:18770"):
+            with mock.patch.object(rs, "RS_REMOTE_READER_TOKEN_FILE", token_path):
+                with mock.patch.object(urllib.request, "urlopen", side_effect=fake_urlopen):
+                    result = rs.read_risingstones_details_via_remote_reader(["274729"])
         assert result["mode"] == "remote-reader"
         assert result["details"] == [{"id": 274729}]
 
@@ -62,11 +65,11 @@ def test_remote_reader_rejects_mismatched_ids():
         token_path = Path(directory) / "token"
         token_path.write_text("reader-secret", encoding="utf-8")
         payload = {"ok": True, "ids": ["999999"], "details": [], "failures": []}
-        with mock.patch.object(app, "RS_REMOTE_READER_URL", "http://127.0.0.1:18770"):
-            with mock.patch.object(app, "RS_REMOTE_READER_TOKEN_FILE", token_path):
-                with mock.patch.object(app.urllib.request, "urlopen", return_value=FakeResponse(payload)):
+        with mock.patch.object(rs, "RS_REMOTE_READER_URL", "http://127.0.0.1:18770"):
+            with mock.patch.object(rs, "RS_REMOTE_READER_TOKEN_FILE", token_path):
+                with mock.patch.object(urllib.request, "urlopen", return_value=FakeResponse(payload)):
                     try:
-                        app.read_risingstones_details_via_remote_reader(["274729"])
+                        rs.read_risingstones_details_via_remote_reader(["274729"])
                     except RuntimeError as exc:
                         assert "ID 不匹配" in str(exc)
                     else:
@@ -74,22 +77,22 @@ def test_remote_reader_rejects_mismatched_ids():
 
 
 def test_remote_reader_is_the_only_supported_path():
-    with mock.patch.object(app, "RS_REMOTE_READER_URL", ""):
+    with mock.patch.object(rs, "RS_REMOTE_READER_URL", ""):
         try:
-            app.read_risingstones_details(["274729"])
+            rs.read_risingstones_details(["274729"])
         except RuntimeError as exc:
             assert "Reader 尚未配置" in str(exc)
         else:
             raise AssertionError("missing remote reader configuration should fail")
 
-    with mock.patch.object(app, "RS_REMOTE_READER_URL", "http://127.0.0.1:18770"):
+    with mock.patch.object(rs, "RS_REMOTE_READER_URL", "http://127.0.0.1:18770"):
         with mock.patch.object(
-            app,
+            rs,
             "read_risingstones_details_via_remote_reader",
             side_effect=RuntimeError("offline"),
         ):
             try:
-                app.read_risingstones_details(["274729"])
+                rs.read_risingstones_details(["274729"])
             except RuntimeError as exc:
                 assert str(exc) == "offline"
             else:

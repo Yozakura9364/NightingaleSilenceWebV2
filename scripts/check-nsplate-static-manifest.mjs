@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
+import { parsePositiveInt } from './lib/check-utils.mjs'
 
 const DEFAULT_MANIFEST_DIR = 'public/data/plate'
 const DEFAULT_EXPECTED_IMG_BASE = 'https://img.nightingalesilence.com'
@@ -236,11 +237,6 @@ function parseBooleanEnv(value, fallback = false) {
 function normalizePreviewFormat(value, fallback = DEFAULT_EXPECTED_PREVIEW_FORMAT) {
   const format = String(value ?? '').trim().toLowerCase()
   return ['png', 'webp', 'avif'].includes(format) ? format : fallback
-}
-
-function parsePositiveInt(value, fallback) {
-  const parsed = Number.parseInt(String(value ?? ''), 10)
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback
 }
 
 function normalizeBase(value) {

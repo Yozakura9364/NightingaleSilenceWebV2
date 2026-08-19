@@ -1,32 +1,23 @@
 /* content.css — public blog + reader styles (T044).
-   Day/night via :root[data-theme], responsive tables, image grids,
-   long title/URL/code wrapping, no page-level horizontal overflow on mobile. */
+   Follows the shared tool-page design language: pure-white surfaces,
+   1px borders, rounded corners, soft shadows (all via --ns-* tokens),
+   so day/night themes and future token tweaks apply automatically.
+   Responsive tables, image grids, long title/URL/code wrapping,
+   no page-level horizontal overflow on mobile. */
 
-/* ---- theme tokens (page scope) ---- */
+/* ---- theme tokens (page scope, mapped to global design tokens) ---- */
 .blog-index-page,
 .blog-detail-page {
-  --blog-bg: #fffdf6;
-  --blog-surface: #ffffff;
-  --blog-ink: #2a2138;
-  --blog-muted: #6f637a;
-  --blog-border: rgba(42, 33, 56, 0.16);
-  --blog-accent: #ff7cc2;
-  --blog-accent-2: #5edceb;
-  --blog-shadow: rgba(42, 33, 56, 0.14);
-  --blog-code-bg: #f6f0e8;
-}
-
-:root[data-theme='night'] .blog-index-page,
-:root[data-theme='night'] .blog-detail-page {
-  --blog-bg: #0d1018;
-  --blog-surface: #131826;
-  --blog-ink: #f5f1fb;
-  --blog-muted: #cac2d0;
-  --blog-border: rgba(245, 241, 251, 0.18);
-  --blog-accent: #ff5fb8;
-  --blog-accent-2: #5eeaff;
-  --blog-shadow: rgba(0, 0, 0, 0.4);
-  --blog-code-bg: #1c2233;
+  --blog-bg: transparent;
+  --blog-surface: var(--ns-color-surface-solid);
+  --blog-ink: var(--ns-color-text);
+  --blog-muted: var(--ns-color-text-muted);
+  --blog-border: var(--ns-color-border);
+  --blog-accent: var(--ns-color-accent);
+  --blog-accent-2: var(--ns-color-accent);
+  --blog-shadow: var(--ns-shadow-panel);
+  --blog-shadow-hover: var(--ns-shadow-soft);
+  --blog-code-bg: var(--ns-color-surface-tint);
 }
 
 /* ---- page shell ---- */
@@ -37,24 +28,34 @@
   max-width: 100%;
   overflow-x: hidden;
   margin: 0 auto;
-  padding: 32px 20px 64px;
+  padding: 0;
   color: var(--blog-ink);
   background: var(--blog-bg);
   font-family: inherit;
   line-height: 1.75;
 }
 
+.blog-index-page__shell,
+.blog-detail-page__shell {
+  display: grid;
+  gap: 20px;
+}
+
 /* ---- index ---- */
 .blog-index-header {
-  margin-bottom: 28px;
+  margin-bottom: 8px;
   padding-bottom: 16px;
-  border-bottom: 3px solid var(--blog-ink);
+  border-bottom: var(--ns-line-width) solid var(--blog-border);
 }
 
 .blog-index-title {
   margin: 0 0 4px;
+  color: var(--ns-heading-bloom-color);
+  font-family: var(--ns-font-ui);
   font-size: 28px;
-  letter-spacing: 0.08em;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-shadow: var(--ns-heading-bloom-shadow);
 }
 
 .blog-index-subtitle {
@@ -70,11 +71,7 @@
 }
 
 .blog-status-error {
-  color: #d33;
-}
-
-:root[data-theme='night'] .blog-status-error {
-  color: #ff8f8f;
+  color: var(--ns-status-danger-text);
 }
 
 .blog-entry-list {
@@ -87,10 +84,18 @@
 
 .blog-entry-card {
   overflow: hidden;
-  border: 2px solid var(--blog-ink);
-  border-radius: 0;
+  border: var(--ns-line-width) solid var(--blog-border);
+  border-radius: var(--ns-radius-md);
   background: var(--blog-surface);
-  box-shadow: none;
+  box-shadow: var(--blog-shadow);
+  transition:
+    border-color var(--ns-transition-fast),
+    box-shadow var(--ns-transition-fast);
+}
+
+.blog-entry-card:hover {
+  border-color: var(--ns-color-border-strong);
+  box-shadow: var(--blog-shadow-hover);
 }
 
 .blog-entry-link {
@@ -102,11 +107,12 @@
 }
 
 .blog-entry-link:hover {
-  background: color-mix(in srgb, var(--blog-accent) 12%, transparent);
+  background: var(--ns-color-surface-tint);
 }
 
 .blog-entry-title {
   margin: 0 0 6px;
+  font-family: var(--ns-font-ui);
   font-size: 20px;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -130,26 +136,30 @@
 
 .blog-entry-tag {
   padding: 1px 8px;
-  border: 1px solid var(--blog-border);
-  border-radius: 999px;
+  border: var(--ns-line-width) solid var(--blog-border);
+  border-radius: var(--ns-radius-pill);
+  background: var(--ns-color-surface-tint);
   overflow-wrap: anywhere;
 }
 
 /* ---- detail ---- */
 .blog-article {
-  max-width: 780px;
+  max-width: 1020px;
   margin: 0 auto;
 }
 
 .blog-article-header {
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 3px solid var(--blog-ink);
+  border-bottom: var(--ns-line-width) solid var(--blog-border);
 }
 
 .blog-article-title {
   margin: 0 0 10px;
+  color: var(--ns-heading-bloom-color);
+  font-family: var(--ns-font-ui);
   font-size: 30px;
+  font-weight: 900;
   line-height: 1.35;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -162,6 +172,7 @@
 
 .blog-not-found-title {
   margin: 0 0 8px;
+  font-family: var(--ns-font-ui);
   font-size: 24px;
 }
 
@@ -173,14 +184,20 @@
 .blog-back-link {
   display: inline-block;
   padding: 8px 18px;
-  border: 2px solid var(--blog-ink);
+  border: var(--ns-line-width) solid var(--blog-border);
+  border-radius: var(--ns-radius-pill);
+  background: var(--blog-surface);
   color: inherit;
   text-decoration: none;
-  box-shadow: none;
+  box-shadow: var(--blog-shadow);
+  transition:
+    border-color var(--ns-transition-fast),
+    box-shadow var(--ns-transition-fast);
 }
 
 .blog-back-link:hover {
-  background: color-mix(in srgb, var(--blog-accent-2) 18%, transparent);
+  border-color: var(--ns-color-border-strong);
+  box-shadow: var(--blog-shadow-hover);
 }
 
 /* ---- reader (ContentRichText + sub-components) ---- */
@@ -217,9 +234,10 @@
 
 .ns-blockquote {
   margin: 1em 0;
-  padding: 6px 16px;
-  border-left: 4px solid var(--blog-accent);
-  background: color-mix(in srgb, var(--blog-accent) 8%, transparent);
+  padding: 8px 16px;
+  border-left: 3px solid var(--blog-accent);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-accent-soft);
 }
 
 .ns-list {
@@ -235,9 +253,10 @@
   overflow-x: auto;
   max-width: 100%;
   padding: 14px 16px;
-  border: 1px solid var(--blog-border);
+  border: var(--ns-line-width) solid var(--blog-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--blog-code-bg);
-  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-family: var(--ns-font-mono);
   font-size: 13px;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -254,25 +273,21 @@
 
 .ns-hr {
   border: none;
-  border-top: 2px dashed var(--blog-border);
+  border-top: var(--ns-line-width) solid var(--blog-border);
   margin: 2em 0;
 }
 
 /* text marks */
 .ns-content a {
-  color: var(--blog-accent-2);
+  color: var(--ns-color-accent-strong);
   text-decoration: underline;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
-:root[data-theme='night'] .ns-content a {
-  color: #5eeaff;
-}
-
 .ns-content code {
   padding: 0.1em 0.35em;
-  border-radius: 3px;
+  border-radius: var(--ns-radius-xs);
   background: var(--blog-code-bg);
   font-size: 0.9em;
 }
@@ -317,7 +332,8 @@
   max-width: 100%;
   height: auto;
   margin: 0 auto;
-  border: 2px solid var(--blog-ink);
+  border: var(--ns-line-width) solid var(--blog-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--blog-surface);
 }
 
@@ -356,7 +372,8 @@
   overflow-x: auto;
   max-width: 100%;
   margin: 1.2em 0;
-  border: 2px solid var(--blog-ink);
+  border: var(--ns-line-width) solid var(--blog-border);
+  border-radius: var(--ns-radius-sm);
 }
 
 .ns-table {
@@ -369,21 +386,22 @@
 .ns-table th,
 .ns-table td {
   padding: 8px 12px;
-  border: 1px solid var(--blog-border);
+  border: var(--ns-line-width) solid var(--blog-border);
   vertical-align: top;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
 .ns-table th {
-  background: color-mix(in srgb, var(--blog-accent-2) 14%, transparent);
+  background: var(--ns-color-surface-tint);
   font-weight: 600;
 }
 
 /* ---- collapse ---- */
 .ns-collapse {
   margin: 1em 0;
-  border: 2px solid var(--blog-ink);
+  border: var(--ns-line-width) solid var(--blog-border);
+  border-radius: var(--ns-radius-sm);
   background: var(--blog-surface);
 }
 
@@ -400,11 +418,6 @@
 
 /* ---- mobile: no page-level horizontal overflow ---- */
 @media (max-width: 720px) {
-  .blog-index-page,
-  .blog-detail-page {
-    padding: 20px 14px 48px;
-  }
-
   .blog-article-title {
     font-size: 24px;
   }

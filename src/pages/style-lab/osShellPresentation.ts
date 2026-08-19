@@ -6,6 +6,7 @@ import glamourIcon from '@/assets/icons/site/glamour-64.png'
 import itemCardIcon from '@/assets/icons/site/item-card-64.png'
 import platePortraitIcon from '@/assets/icons/plate/portrait-64.webp'
 import homeIcon from '@/assets/icons/pixelarticons/home.svg'
+import blogIcon from '@/assets/icons/pixelarticons/note.svg'
 import { ffxivTools, siteMeta, siteRoutes, type RoutePath } from '@/config/site'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
 
@@ -29,6 +30,12 @@ export const osShellPrimaryPresentations: OsShellToolPresentation[] = [
     icon: ffxivWorkshopIcon,
     titleKey: textKeys.ffxivWorkshop,
     route: siteRoutes.ffxiv
+  },
+  {
+    id: 'blog',
+    icon: blogIcon,
+    titleKey: textKeys.blog,
+    route: siteRoutes.blogIndex
   },
   {
     id: 'about',

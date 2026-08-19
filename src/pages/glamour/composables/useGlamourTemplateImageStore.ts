@@ -5,7 +5,7 @@ import {
   loadGlamourTemplateImageStoreRecords,
   saveGlamourTemplateImageStoreSlot,
   writeGlamourTemplateImageSessionSlot
-} from '@/pages/glamour/services/glamourTemplateImageStorage'
+} from '@/services/glamour/glamourTemplateImageStorage'
 import {
   createGlamourTemplateImageCoverDataUrl,
   loadGlamourTemplateImage,

@@ -28,7 +28,7 @@ import {
   readGlamourRecentSnapshots,
   removeGlamourRecentSnapshot,
   upsertGlamourRecentSnapshot
-} from '@/pages/glamour/services/glamourRecentStorage'
+} from '@/services/glamour/glamourRecentStorage'
 import type {
   GlamourCandidate,
   GlamourDraft,

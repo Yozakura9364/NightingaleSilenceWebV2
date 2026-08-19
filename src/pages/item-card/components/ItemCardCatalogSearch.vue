@@ -36,7 +36,8 @@
 import { ref } from 'vue'
 import GlamourSearchField from '@/components/glamour/GlamourSearchField.vue'
 import type { GlamourSearchCandidate } from '@/components/glamour/GlamourSearchField.vue'
-import { buildGlamourIconUrl, getCandidateName } from '@/pages/item-card/lib/equipment'
+import { getCandidateName } from '@/pages/item-card/lib/equipment'
+import { buildGlamourIconUrl } from '@/lib/glamour/equipment'
 import type {
   GlamourCandidate,
   ItemCardCatalogCategory,

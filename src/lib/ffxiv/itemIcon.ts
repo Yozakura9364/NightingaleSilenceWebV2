@@ -1,12 +1,26 @@
+import {
+  GLAMOUR_CONTRACT_HD_FOLDER_EXTRA,
+  GLAMOUR_CONTRACT_HD_FOLDER_MAX_EXCLUSIVE,
+  GLAMOUR_CONTRACT_HD_FOLDER_MIN
+} from '@/lib/glamour/contract.generated'
+
 const FFXIV_ITEM_ICON_BASE_URL = 'https://img.nightingalesilence.com'
 const FFXIV_ITEM_ICON_CDN_PATTERN =
   /^https:\/\/img\.nightingalesilence\.com\/ui\/icon\/\d{6}\/(\d{6})_(?:hd|hr1)\.png(?:[?#].*)?$/i
 const FFXIV_GLAMOUR_ICON_PROXY_PATTERN = /(?:^|\/)api\/glamour\/icon\/(\d+)(?:[/?#].*)?$/i
 
-// hd 覆盖的段 (020000-059000 + 200000, 桶内存在 _hd.png 的段)
+// hd 覆盖的段（区间与附加段来自 shared-rules.json 契约，勿手改）
 const HD_SEGMENTS = new Set<string>()
-for (let i = 20; i < 60; i++) HD_SEGMENTS.add(String(i).padStart(3, '0') + '000')
-HD_SEGMENTS.add('200000')
+for (
+  let folder = GLAMOUR_CONTRACT_HD_FOLDER_MIN;
+  folder < GLAMOUR_CONTRACT_HD_FOLDER_MAX_EXCLUSIVE;
+  folder += 1000
+) {
+  HD_SEGMENTS.add(folder.toString().padStart(6, '0'))
+}
+for (const folder of GLAMOUR_CONTRACT_HD_FOLDER_EXTRA) {
+  HD_SEGMENTS.add(folder.toString().padStart(6, '0'))
+}
 
 function resolveIconPath(iconId: number) {
   const normalizedIconId = Math.trunc(iconId)

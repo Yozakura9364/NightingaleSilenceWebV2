@@ -421,7 +421,7 @@
 
 <script setup lang="ts">
 import { toRef } from 'vue'
-import type { SilenceCharacter } from '@/data/silence/types'
+import type { SilenceCharacter } from '@/lib/silence/types'
 import { useSilenceViiokoPrototypeModel } from '@/pages/silence/composables/useSilenceViiokoPrototypeModel'
 import { useLocale } from '@/stores/locale'
 

@@ -141,6 +141,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { isDev } from '@/config/env'
 import languagesIcon from '@/assets/icons/languages-regular.svg'
 import listIcon from '@/assets/icons/list-regular.svg'
 import moonIcon from '@/assets/icons/moon-regular.svg'
@@ -179,7 +180,7 @@ const LAYOUT_STORAGE_KEY = 'nsglamour.snapshotLayout'
 const LONG_PRESS_MS = 650
 const LONG_PRESS_MOVE_TOLERANCE = 12
 const ITEM_MENU_OPEN_EVENT = 'ffxiv-item-reference-menu-open'
-const editorUrl = import.meta.env.DEV
+const editorUrl = isDev
   ? 'http://127.0.0.1:8765/glamour/template'
   : 'https://www.nightingalesilence.com/glamour/template'
 const localeLabelKeys: Record<string, string> = {

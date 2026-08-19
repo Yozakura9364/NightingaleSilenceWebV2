@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import AppButton from '@/components/AppButton.vue'
 import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
-import { formatGlamourText } from '@/pages/item-card/lib/formatText'
+import { formatGlamourText } from '@/lib/glamour/formatText'
 import {
   formatGlamourRecentTime,
   getGlamourRecentSnapshotCount,

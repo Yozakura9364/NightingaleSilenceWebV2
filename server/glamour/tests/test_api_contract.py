@@ -34,6 +34,8 @@ write_item_catalog(
 )
 os.environ["NSGLAMOUR_ITEM_CATALOG_PATH"] = str(catalog_path)
 
+from services.mapping import _item_catalog, get_mapping
+
 spec = importlib.util.spec_from_file_location("nsglamour_app", app_path)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
@@ -74,7 +76,7 @@ def test_search_text_and_chara_parsing():
     assert equipment_result["item_card_slot"] == "Body"
     assert equipment_result["dye_count"] >= 0
 
-    mapping = module.get_mapping()
+    mapping = get_mapping()
     facewear = next(iter((mapping.get("glasses") or {}).values()))
     facewear_search = client.get(
         f"/api/search-catalog-items?q={facewear['name']}&locale=zh&limit=1&category=facewear"
@@ -138,16 +140,16 @@ def test_search_text_and_chara_parsing():
 
 
 def test_catalog_search_reports_unavailable_index():
-    original_path = module._item_catalog.path
+    original_path = _item_catalog.path
     try:
-        module._item_catalog.path = Path(catalog_directory.name) / "missing.sqlite3"
+        _item_catalog.path = Path(catalog_directory.name) / "missing.sqlite3"
         response = client.get(
             "/api/search-catalog-items?q=碎晶&locale=zh&limit=12&category=other"
         )
         assert response.status_code == 503
         assert response.get_json() == {"error": "item catalog unavailable"}
     finally:
-        module._item_catalog.path = original_path
+        _item_catalog.path = original_path
 
 
 def test_input_errors_are_stable():

@@ -41,6 +41,7 @@ export interface GlamourTemplateSettings {
   textColor: string
   panelColor: string
   storySwatchColors: string[]
+  storyTextColorMode: 'white' | 'black'
 }
 
 export interface GlamourTemplateWorkspaceSettings {
@@ -84,6 +85,10 @@ function normalizeSubtitleSymbol(value: unknown): string {
 function normalizeHexColor(value: unknown, fallback: string): string {
   const text = String(value ?? '').trim()
   return /^#[0-9a-f]{6}$/i.test(text) ? text : fallback
+}
+
+function normalizeStoryTextColorMode(value: unknown): 'white' | 'black' {
+  return String(value || '').trim() === 'black' ? 'black' : 'white'
 }
 
 function normalizeTemplateAspect(value: unknown): '1:1' {
@@ -484,7 +489,8 @@ export function getDefaultGlamourTemplateSettings(
     dyeLocales: getDefaultLocaleList(template),
     textColor: '#1c2130',
     panelColor: '#ffffff',
-    storySwatchColors: [...DEFAULT_STORY_SWATCH_COLORS]
+    storySwatchColors: [...DEFAULT_STORY_SWATCH_COLORS],
+    storyTextColorMode: 'white'
   }
 }
 
@@ -575,7 +581,8 @@ export function normalizeGlamourTemplateSettings(
     dyeLocales,
     textColor: normalizeHexColor(source.textColor, defaults.textColor),
     panelColor: normalizeHexColor(source.panelColor, defaults.panelColor),
-    storySwatchColors: swatches.length ? swatches.slice(0, 3) : defaults.storySwatchColors
+    storySwatchColors: swatches.length ? swatches.slice(0, 3) : defaults.storySwatchColors,
+    storyTextColorMode: normalizeStoryTextColorMode(source.storyTextColorMode)
   }
 }
 

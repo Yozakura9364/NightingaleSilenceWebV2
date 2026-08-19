@@ -188,7 +188,6 @@ import { reactive, ref } from 'vue'
 import ItemCardCatalogSearch from '@/pages/item-card/components/ItemCardCatalogSearch.vue'
 import GlamourDyePicker from '@/components/glamour/GlamourDyePicker.vue'
 import {
-  buildGlamourIconUrl,
   getCandidateDyeCount,
   getCandidateName,
   getDisplayDyeEntries,
@@ -200,6 +199,7 @@ import {
   isItemCardEmote,
   isItemCardPlainItem
 } from '@/pages/item-card/lib/equipment'
+import { buildGlamourIconUrl } from '@/lib/glamour/equipment'
 import { getFfxivItemIconHr1Url } from '@/lib/ffxiv/itemIcon'
 import {
   ITEM_CARD_CANVAS_DRAG_MIME,

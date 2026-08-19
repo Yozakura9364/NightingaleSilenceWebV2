@@ -45,6 +45,7 @@ export const coreTextKeys = {
   configCommand: 'site.nav.configCommand',
   about: 'site.nav.about',
   aboutCommand: 'site.nav.aboutCommand',
+  blog: 'site.nav.blog',
   silenceCommand: 'site.nav.silenceCommand',
   home: 'site.nav.home',
   menuTitle: 'site.window.menuTitle',

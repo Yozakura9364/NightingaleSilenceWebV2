@@ -1,22 +1,21 @@
 import type { NSPlateDataSource } from '@/lib/plate/dataSource'
 import type { NSPlateFilesResponse, NSPlatePresetsResponse } from '@/lib/plate/types'
+import { nsplateDataSource } from '@/config/env'
 import { useFetch } from '@/composables/useFetch'
-import { useNSPlateApi } from '@/pages/plate/services/nsplateApi'
+import { resolveNSPlateManifestBase } from '@/services/dataAccess'
+import { useNSPlateApi } from '@/services/plate/nsplateApi'
 
 const STATIC_MANIFEST_SOURCE = 'static-manifest'
 const LEGACY_API_SOURCE = 'legacy-api'
-const DEFAULT_STATIC_MANIFEST_BASE = '/data/plate'
 
 export function useNSPlateDataSource(apiBase: string): NSPlateDataSource {
-  const sourceMode = normalizeNSPlateDataSourceMode(import.meta.env.VITE_NSPLATE_DATA_SOURCE)
+  const sourceMode = normalizeNSPlateDataSourceMode(nsplateDataSource)
 
   if (sourceMode === LEGACY_API_SOURCE) {
     return useLegacyNSPlateApiDataSource(apiBase)
   }
 
-  return useStaticNSPlateManifestDataSource(
-    String(import.meta.env.VITE_NSPLATE_MANIFEST_BASE ?? DEFAULT_STATIC_MANIFEST_BASE)
-  )
+  return useStaticNSPlateManifestDataSource(resolveNSPlateManifestBase())
 }
 
 export function useLegacyNSPlateApiDataSource(apiBase: string): NSPlateDataSource {

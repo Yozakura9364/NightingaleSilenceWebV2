@@ -5,7 +5,7 @@ import {
   deleteNSPlatePairedPortrait,
   loadNSPlatePairedPortrait,
   saveNSPlatePairedPortrait
-} from '@/pages/plate/services/customPortraitStore'
+} from '@/services/plate/customPortraitStore'
 import type {
   NSPlateCustomPortraitImage,
   NSPlateCustomPortraitMode,

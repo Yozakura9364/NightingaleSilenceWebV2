@@ -37,6 +37,7 @@ export interface GlamourTemplateRenderStyle {
   showIcons: boolean
   dyeFrameMode: 'psd' | 'color'
   storySwatchColors: string[]
+  storyTextColorMode: 'white' | 'black'
 }
 
 export interface GlamourTemplateLocalizedRows {
@@ -218,7 +219,8 @@ export function createGlamourTemplateRenderData(
       dyeSize: settings.dyeSize,
       showIcons: settings.showIcons || profile.forceIcons,
       dyeFrameMode: settings.dyeFrameMode,
-      storySwatchColors: [...settings.storySwatchColors]
+      storySwatchColors: [...settings.storySwatchColors],
+      storyTextColorMode: settings.storyTextColorMode
     }
   }
 }

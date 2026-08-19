@@ -1,4 +1,4 @@
-import type { SilenceCharacterProfileContent } from '@/data/silence/types'
+import type { SilenceCharacterProfileContent } from '@/lib/silence/types'
 
 const salvanceProfile: SilenceCharacterProfileContent = {
   sourceRefs: [

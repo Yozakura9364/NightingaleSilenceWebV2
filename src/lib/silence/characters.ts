@@ -1,16 +1,16 @@
 import {
   silenceAngelCharacterSeeds,
   type SilenceCharacterSeed
-} from '@/data/silence/characterSeeds'
-import { getSilenceCharacterForms } from '@/data/silence/characterForms'
-import { getSilenceCharacterProfileContent } from '@/data/silence/characterProfiles'
-import { createDraftAngelCharacterContent } from '@/data/silence/draftCharacterContent'
+} from '@/lib/silence/characterSeeds'
+import { getSilenceCharacterForms } from '@/lib/silence/characterForms'
+import { getSilenceCharacterProfileContent } from '@/lib/silence/characterProfiles'
+import { createDraftAngelCharacterContent } from '@/lib/silence/draftCharacterContent'
 import type {
   SilenceCharacter,
   SilenceCharacterProfileContent,
   SilenceCharacterTextFact,
   SilenceGroupId
-} from '@/data/silence/types'
+} from '@/lib/silence/types'
 
 export type {
   SilenceCharacter,
@@ -29,7 +29,7 @@ export type {
   SilenceCharacterVisibility,
   SilenceCharacterWorld,
   SilenceGroupId
-} from '@/data/silence/types'
+} from '@/lib/silence/types'
 
 export const silenceCharacters: SilenceCharacter[] = silenceAngelCharacterSeeds.map(
   (character, index) => createAngelCharacter(character, index + 1)

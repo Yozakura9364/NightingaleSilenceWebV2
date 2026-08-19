@@ -1,5 +1,7 @@
 import importlib.util
 import sys
+import urllib.error
+import urllib.request
 from email.message import Message
 from io import BytesIO
 from pathlib import Path
@@ -10,6 +12,16 @@ sys.path.insert(0, str(app_path.parent))
 spec = importlib.util.spec_from_file_location("nsglamour_app", app_path)
 app = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(app)
+
+from adapters.ec_scraper import (
+    ec_access_blocked_error,
+    extract_ec_author,
+    extract_ec_character,
+    fetch_ec_html,
+    is_ec_access_blocked_page,
+    parse_ec_equipment,
+)
+from services.risingstones import extract_risingstones_glamour_ids
 
 EC_URL = "https://ffxiv.eorzeacollection.com/glamour/23881/titanias-embrace"
 EC_BLOCKED_HTML = """
@@ -48,9 +60,9 @@ class FakeEcOpener:
 
 
 def assert_ec_fetch_blocked(result):
-    with mock.patch.object(app.urllib.request, "build_opener", return_value=FakeEcOpener(result)):
+    with mock.patch.object(urllib.request, "build_opener", return_value=FakeEcOpener(result)):
         try:
-            app.fetch_ec_html(EC_URL)
+            fetch_ec_html(EC_URL)
         except ValueError as exc:
             assert "拒绝此服务器访问" in str(exc)
         else:
@@ -58,31 +70,31 @@ def assert_ec_fetch_blocked(result):
 
 
 def test_ec_cloudflare_block_page():
-    assert app.is_ec_access_blocked_page(EC_BLOCKED_HTML)
-    assert "拒绝此服务器访问" in str(app.ec_access_blocked_error())
-    assert not app.is_ec_access_blocked_page("<html><body><div>Equipment</div></body></html>")
+    assert is_ec_access_blocked_page(EC_BLOCKED_HTML)
+    assert "拒绝此服务器访问" in str(ec_access_blocked_error())
+    assert not is_ec_access_blocked_page("<html><body><div>Equipment</div></body></html>")
 
     body = EC_BLOCKED_HTML.encode("utf-8")
     assert_ec_fetch_blocked(FakeEcResponse(body))
 
     headers = Message()
     headers["Content-Type"] = "text/html; charset=utf-8"
-    error = app.urllib.error.HTTPError(EC_URL, 403, "Forbidden", headers, BytesIO(body))
+    error = urllib.error.HTTPError(EC_URL, 403, "Forbidden", headers, BytesIO(body))
     assert_ec_fetch_blocked(error)
 
 
 def test_risingstones_detail_id_forms():
     expected = ["274729"]
-    assert app.extract_risingstones_glamour_ids(
+    assert extract_risingstones_glamour_ids(
         "https://ff14risingstones.web.sdo.com/pc/index.html#/glamour/detail/274729"
     ) == expected
-    assert app.extract_risingstones_glamour_ids(
+    assert extract_risingstones_glamour_ids(
         "https://ff14risingstones.web.sdo.com/pc/index.html#/publish/glamour/detail/274729"
     ) == expected
-    assert app.extract_risingstones_glamour_ids(
+    assert extract_risingstones_glamour_ids(
         "https://ff14risingstones.web.sdo.com/pc/index.html?id=274729"
     ) == expected
-    assert app.extract_risingstones_glamour_ids("274729") == expected
+    assert extract_risingstones_glamour_ids("274729") == expected
 
 
 def test_ec_legacy_equipment_layout():
@@ -99,7 +111,7 @@ def test_ec_legacy_equipment_layout():
       </div>
     </section>
     """
-    equipment = app.parse_ec_equipment(document)
+    equipment = parse_ec_equipment(document)
     assert [(entry["slot"], entry["item_name"], entry["icon"]) for entry in equipment] == [
         ("HeadGear", "Makai Markswoman's Ribbon", 41668),
         ("Body", "Birdliege Coat", 43212),
@@ -133,7 +145,7 @@ def test_ec_legacy_accessory_slots():
       {blocks}
     </section>
     """
-    equipment = app.parse_ec_equipment(document)
+    equipment = parse_ec_equipment(document)
     assert [(entry["slot"], entry["item_name"]) for entry in equipment] == [
         ("Ears", "Legacy Earrings"),
         ("Neck", "Legacy Necklace"),
@@ -151,12 +163,12 @@ def test_ec_legacy_author_and_gender():
     <img class="c-set-fitting-icon c-set-fitting-icon-unfit" src="/resources/icons/genders/gender-male.png">
     <img class="c-set-fitting-icon" src="/resources/icons/genders/gender-female.png">
     """
-    assert app.extract_ec_author(document) == {
+    assert extract_ec_author(document) == {
         "name": "Xil Ventus",
         "world": "Siren",
         "label": "Xil Ventus «Siren»",
     }
-    assert app.extract_ec_character(document) == {"race": "", "gender": "Female"}
+    assert extract_ec_character(document) == {"race": "", "gender": "Female"}
 
 
 test_ec_cloudflare_block_page()

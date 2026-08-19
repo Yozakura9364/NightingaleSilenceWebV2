@@ -1,8 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { getFfxivItemIconHr1Url, getFfxivItemIconUrl } from '@/lib/ffxiv/itemIcon'
-import { buildGlamourIconUrl as buildWorkspaceGlamourIconUrl } from '@/lib/glamour/equipment'
-import { buildGlamourIconUrl } from '@/pages/item-card/lib/equipment'
+import { buildGlamourIconUrl } from '@/lib/glamour/equipment'
 
 describe('getFfxivItemIconUrl', () => {
   it('uses HD files for item icon segments that provide them', () => {
@@ -39,7 +38,7 @@ describe('getFfxivItemIconUrl', () => {
     )
   })
 
-  it('normalizes legacy CDN and API proxy URLs through both glamour entry points', () => {
+  it('normalizes legacy CDN and API proxy URLs through the shared glamour icon entry point', () => {
     const expected = 'https://img.nightingalesilence.com/ui/icon/042000/042585_hd.png'
     const legacyUrls = [
       'https://img.nightingalesilence.com/ui/icon/042000/042585_hr1.png',
@@ -48,7 +47,6 @@ describe('getFfxivItemIconUrl', () => {
 
     for (const icon of legacyUrls) {
       expect(buildGlamourIconUrl('/api/glamour', icon)).toBe(expected)
-      expect(buildWorkspaceGlamourIconUrl('/api/glamour', icon)).toBe(expected)
     }
   })
 })

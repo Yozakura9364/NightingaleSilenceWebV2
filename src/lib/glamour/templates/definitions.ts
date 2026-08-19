@@ -36,6 +36,7 @@ export interface GlamourTemplateControls {
   ecSubtitle: boolean
   dyeFrame: boolean
   storySwatches?: boolean
+  storyTextColor?: boolean
 }
 
 export interface GlamourTemplateDyeFormat {
@@ -208,7 +209,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
     renderMode: 'double-pic',
     defaultLocale: 'zh',
     localeOrder: ['zh', 'tc'],
-    controls: { title: false, ecSubtitle: false, dyeFrame: false, storySwatches: false },
+    controls: { title: false, ecSubtitle: false, dyeFrame: false, storySwatches: false, storyTextColor: true },
     equipmentFormat: {
       source: 'default',
       itemName: { inlineDye: true, wrap: false, shrink: false },
@@ -364,7 +365,7 @@ export const GLAMOUR_TEMPLATE_DEFINITIONS: Record<GlamourTemplateId, GlamourTemp
       }
     ],
     legacyPreviewPath: '/template-preview/6-Silence Fashion/6-preview.webp',
-    summary: 'Silence Fashion 模板，支持单语和任意双语排版。',
+    summary: 'Silence Fashion 模板，支持单语和可配置双语排版。',
     sourceWidth: 3000,
     sourceHeight: 3000,
     renderMode: 'silence-fashion',

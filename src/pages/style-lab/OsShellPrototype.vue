@@ -82,7 +82,9 @@ const settingsIconStyle = {
   min-height: 100vh;
   background: var(--ns-body-background);
   color: var(--ns-color-text);
-  transition: background-color var(--ns-transition) ease, color var(--ns-transition) ease;
+  transition:
+    background-color var(--ns-transition) ease,
+    color var(--ns-transition) ease;
 }
 
 .os-shell-window {
@@ -163,7 +165,27 @@ const settingsIconStyle = {
 
 .os-shell-primary-launcher {
   position: relative;
-  min-height: 92px;
+  display: grid;
+  grid-template-columns: repeat(2, 92px);
+  grid-template-rows: repeat(2, 92px);
+  grid-auto-flow: column;
+  column-gap: 12px;
+  row-gap: 12px;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 196px;
+}
+
+.os-shell-primary-launcher .os-shell-launcher__item--ffxiv {
+  grid-area: 1 / 1;
+}
+
+.os-shell-primary-launcher .os-shell-launcher__item--blog {
+  grid-area: 1 / 2;
+}
+
+.os-shell-primary-launcher .os-shell-launcher__item--about {
+  grid-area: 2 / 2;
 }
 
 .os-shell-launcher {
@@ -174,17 +196,8 @@ const settingsIconStyle = {
 }
 
 .os-shell-primary-launcher .os-shell-launcher__item {
-  position: absolute;
-  top: 0;
+  position: static;
   width: 92px;
-}
-
-.os-shell-launcher__item--ffxiv {
-  left: 0;
-}
-
-.os-shell-launcher__item--about {
-  right: 0;
 }
 
 .os-shell-launcher__item {

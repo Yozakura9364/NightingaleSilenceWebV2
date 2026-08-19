@@ -8,11 +8,15 @@ spec = importlib.util.spec_from_file_location("nsglamour_app", app_path)
 app = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(app)
 
+from adapters.ec_scraper import parse_ec_dyes
+from resolve_chara import DEFAULT_SLOT_NAMES, SLOT_LABELS as RESOLVER_SLOT_LABELS
+from services.text_import import build_ec_resolved_entry
+
 
 def build_mapping():
     return {
         "locales": ["zh", "en"],
-        "slot_names": app.DEFAULT_SLOT_NAMES,
+        "slot_names": DEFAULT_SLOT_NAMES,
         "stains_by_locale": {
             "zh": {"0": "无染色", "101": "无瑕白", "102": "煤玉黑"},
             "en": {"0": "No Color", "101": "Pure White", "102": "Jet Black"},
@@ -27,7 +31,7 @@ def build_mapping():
                 "key": 40000,
                 "names": {"zh": "测试上衣", "en": "Test Top"},
                 "name": "测试上衣",
-                "slot_label": app.RESOLVER_SLOT_LABELS["Body"],
+                "slot_label": RESOLVER_SLOT_LABELS["Body"],
                 "equip_slot_category": 4,
                 "dye_count": 2,
                 "model_main": {"primary": 1000, "secondary": 1, "tertiary": 0, "quaternary": 0, "raw": "1000, 1, 0, 0"},
@@ -37,13 +41,13 @@ def build_mapping():
 
 
 def test_duplicate_ec_dyes_are_preserved():
-    parsed = app.parse_ec_dyes(
+    parsed = parse_ec_dyes(
         '<div class="tag">Pure White Dye</div>'
         '<div class="tag">Pure White Dye</div>'
     )
     assert parsed == ["Pure White", "Pure White"]
 
-    resolved = app.build_ec_resolved_entry(
+    resolved = build_ec_resolved_entry(
         {"slot": "Body", "item_name": "Test Top", "dyes": parsed},
         build_mapping(),
     )
@@ -54,13 +58,13 @@ def test_duplicate_ec_dyes_are_preserved():
 
 
 def test_ec_no_color_first_slot_does_not_shift_second_slot():
-    parsed = app.parse_ec_dyes(
+    parsed = parse_ec_dyes(
         '<div class="tag">No Color</div>'
         '<div class="tag">Jet Black Dye</div>'
     )
     assert parsed == ["No Color", "Jet Black"]
 
-    resolved = app.build_ec_resolved_entry(
+    resolved = build_ec_resolved_entry(
         {"slot": "Body", "item_name": "Test Top", "dyes": parsed},
         build_mapping(),
     )

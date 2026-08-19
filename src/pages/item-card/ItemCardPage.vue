@@ -28,9 +28,9 @@ import { ApiError } from '@/composables/useFetch'
 import ItemCardWorkspace from '@/pages/item-card/components/ItemCardWorkspace.vue'
 import { getRequiredFfxivTool } from '@/config/site'
 import { normalizeGlamourLocale } from '@/pages/item-card/lib/equipment'
-import { formatGlamourText } from '@/pages/item-card/lib/formatText'
+import { formatGlamourText } from '@/lib/glamour/formatText'
 import { searchItemCardEmotes } from '@/pages/item-card/lib/emotes'
-import { isSupportedGlamourLinkUrl } from '@/pages/item-card/lib/links'
+import { isSupportedGlamourLinkUrl } from '@/lib/glamour/links'
 import {
   normalizeItemCardImportText,
   prepareItemCardTextPayload
@@ -40,7 +40,7 @@ import { itemCardTextKeys as textKeys } from '@/pages/item-card/locales/keys'
 import { itemCardUiMessages } from '@/pages/item-card/locales/messages'
 import FfxivToolShell from '@/pages/ffxiv/components/FfxivToolShell.vue'
 import { useItemCardDraft } from '@/pages/item-card/composables/useItemCardDraft'
-import { useItemCardApi } from '@/pages/item-card/services/itemCardApi'
+import { useItemCardApi } from '@/services/itemCard/itemCardApi'
 import { getApiBoundary } from '@/services/apiBoundaries'
 import { loadMessages, useLocale } from '@/stores/locale'
 

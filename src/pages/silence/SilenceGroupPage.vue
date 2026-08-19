@@ -40,14 +40,15 @@ import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { RouterLink } from 'vue-router'
 import { silenceGroups, siteRoutes } from '@/config/site'
+import { isDev } from '@/config/env'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import { silenceUiMessages } from '@/locales/modules/silence'
-import { silenceGlitchDuoMembers } from '@/data/silence/glitchDuo'
+import { silenceGlitchDuoMembers } from '@/lib/silence/glitchDuo'
 import {
   getSilenceCharacterRoute,
   getSilenceCharactersByGroup
-} from '@/data/silence/characters'
-import type { SilenceCharacter } from '@/data/silence/types'
+} from '@/lib/silence/characters'
+import type { SilenceCharacter } from '@/lib/silence/types'
 import { useSilenceTurnNavigation } from '@/pages/silence/composables/useSilenceTurnNavigation'
 import SilenceGroupVisual from '@/pages/silence/components/SilenceGroupVisual.vue'
 import SilenceTurnHint from '@/pages/silence/components/SilenceTurnHint.vue'
@@ -61,7 +62,7 @@ const route = useRoute()
 const router = useRouter()
 const { t } = useLocale()
 const selectedVisualId = ref('')
-const localGlitchPortraits: Partial<Record<'yoin' | 'yoine', string>> = import.meta.env.DEV
+const localGlitchPortraits: Partial<Record<'yoin' | 'yoine', string>> = isDev
   ? {
       yoin: '/local-assets/%E5%B9%BD%E7%81%B5-banner/yoin-banner.webp',
       yoine: '/local-assets/%E5%B9%BD%E7%81%B5-banner/yoine-banner.webp'
@@ -156,7 +157,7 @@ const angelGroupStagePlacements: Record<string, AngelGroupStagePlacement> = {
   }
 }
 
-const localAngelGroupPortraits: Record<string, string> = import.meta.env.DEV
+const localAngelGroupPortraits: Record<string, string> = isDev
   ? {
       goelia:
         '/local-assets/%E4%B8%8D%E8%AF%AD-banner/%E6%97%A7%E6%A8%A1%E5%9E%8B-%E6%AD%8C%E8%8E%89%E4%BA%9A%20%E6%8B%B7%E8%B4%9D.png',

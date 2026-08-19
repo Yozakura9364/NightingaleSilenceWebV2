@@ -1,3 +1,4 @@
+import argparse
 import tempfile
 import unittest
 from http.client import IncompleteRead
@@ -17,9 +18,12 @@ from server.glamour.tools.build_kr_guide_item_map import (
     load_cached_pages,
     load_item_candidates_from_csv_text,
     parse_guide_item_page,
+    parse_guide_search_page,
     resolve_guide_records,
     select_exact_search_match,
+    select_resolved_search_match,
     write_page_cache,
+    _positive_delay,
 )
 
 
@@ -68,6 +72,17 @@ int32,str,Image,ItemLevel,uint16
 """
 
 
+ITEM_CSV_WITH_INTERNAL_ROWS = """key,0,1,2,3,4,5
+#,Name,Icon,Level{Item},Level{Equip},FilterGroup,ItemUICategory
+int32,str,Image,ItemLevel,uint16,byte,ItemUICategory
+30045,토끼 의상,43583,1,1,4,35
+45393,토끼 의상,43583,1,1,51,112
+50723,이야기 애독자 의상,57318,1,1,51,112
+36370,오케스트리온 악보: Endwalker – Footfalls,25945,1,1,32,94
+51813,팬텀 환영 수호자 완갑,56451,780,100,4,37
+"""
+
+
 class ParseGuideItemPageTests(unittest.TestCase):
     def test_parses_hash_icon_levels_and_excludes_nested_new_badge(self):
         records = parse_guide_item_page(GUIDE_PAGE_HTML)
@@ -83,6 +98,21 @@ class ParseGuideItemPageTests(unittest.TestCase):
     def test_rejects_html_without_the_item_result_list(self):
         with self.assertRaisesRegex(ValueError, "item result list"):
             parse_guide_item_page("<html><body>maintenance</body></html>")
+
+    def test_search_accepts_a_recognizable_page_without_item_results(self):
+        html = """
+          <html><body>
+            <h2>공식 가이드 통합 검색</h2>
+            <form action="/lodestone/search"></form>
+            <strong>검색 결과 <span>0 건</span></strong>
+          </body></html>
+        """
+
+        self.assertEqual(parse_guide_search_page(html), [])
+
+    def test_search_rejects_an_unrecognized_error_page(self):
+        with self.assertRaisesRegex(ValueError, "recognizable search result"):
+            parse_guide_search_page("<html><body>maintenance</body></html>")
 
 
 class ResolveGuideRecordsTests(unittest.TestCase):
@@ -114,6 +144,54 @@ class ResolveGuideRecordsTests(unittest.TestCase):
             {"49658": {"id": "5398978e726", "name": "그랜드 챔피언 언월도"}},
         )
 
+    def test_ignores_internal_set_container_rows_when_resolving_equipment(self):
+        candidates = load_item_candidates_from_csv_text(ITEM_CSV_WITH_INTERNAL_ROWS)
+
+        result = resolve_guide_records(
+            [GuideItem("11111111111", "토끼 의상", 43583, 1, 1, "")],
+            candidates,
+        )
+
+        self.assertEqual(list(result.mapping), [30045])
+        self.assertEqual(result.ambiguous, [])
+
+    def test_keeps_a_set_container_when_it_is_the_only_candidate(self):
+        candidates = load_item_candidates_from_csv_text(ITEM_CSV_WITH_INTERNAL_ROWS)
+
+        result = resolve_guide_records(
+            [GuideItem("44444444444", "이야기 애독자 의상", 57318, 0, 0, "")],
+            candidates,
+        )
+
+        self.assertEqual(list(result.mapping), [50723])
+
+    def test_uses_unique_normalized_name_and_levels_for_source_drift(self):
+        candidates = load_item_candidates_from_csv_text(ITEM_CSV_WITH_INTERNAL_ROWS)
+        records = [
+            GuideItem(
+                "22222222222",
+                "오케스트리온 악보: Endwalker - Footfalls",
+                25945,
+                0,
+                0,
+                "",
+            ),
+            GuideItem(
+                "33333333333",
+                "팬텀 환영 수호자 완갑",
+                56449,
+                780,
+                100,
+                "",
+            ),
+        ]
+
+        result = resolve_guide_records(records, candidates)
+
+        self.assertEqual(result.mapping[36370].hash_id, "22222222222")
+        self.assertEqual(result.mapping[51813].hash_id, "33333333333")
+        self.assertEqual(result.unmatched, [])
+
     def test_builds_search_candidates_from_reference_ids_missing_in_current_map(self):
         candidates = load_item_candidates_from_csv_text(ITEM_CSV)
 
@@ -136,6 +214,68 @@ class ResolveGuideRecordsTests(unittest.TestCase):
         )
         self.assertIsNone(
             select_exact_search_match(candidate, [exact, exact]),
+        )
+
+    def test_resolves_direct_search_results_with_normalized_name_or_icon_drift(self):
+        dash_candidate = ItemCandidate(
+            36370,
+            "오케스트리온 악보: Endwalker – Footfalls",
+            25945,
+            1,
+            1,
+        )
+        icon_candidate = ItemCandidate(
+            51813,
+            "팬텀 환영 수호자 완갑",
+            56451,
+            780,
+            100,
+        )
+
+        self.assertEqual(
+            select_resolved_search_match(
+                dash_candidate,
+                [
+                    GuideItem(
+                        "22222222222",
+                        "오케스트리온 악보: Endwalker - Footfalls",
+                        25945,
+                        0,
+                        0,
+                        "",
+                    )
+                ],
+            ).hash_id,
+            "22222222222",
+        )
+        self.assertEqual(
+            select_resolved_search_match(
+                icon_candidate,
+                [
+                    GuideItem(
+                        "33333333333",
+                        "팬텀 환영 수호자 완갑",
+                        56449,
+                        780,
+                        100,
+                        "",
+                    )
+                ],
+            ).hash_id,
+            "33333333333",
+        )
+
+    def test_rejects_ambiguous_direct_search_results_instead_of_raising(self):
+        candidate = ItemCandidate(51813, "팬텀 환영 수호자 완갑", 56451, 780, 100)
+
+        self.assertIsNone(
+            select_resolved_search_match(
+                candidate,
+                [
+                    GuideItem("33333333333", "팬텀 환영 수호자 완갑", 56449, 780, 100, ""),
+                    GuideItem("44444444444", "팬텀 환영 수호자 완갑", 56449, 780, 100, ""),
+                ],
+            )
         )
 
     def test_extracts_only_exact_official_guide_titles_from_naver_results(self):
@@ -214,6 +354,11 @@ class PageCacheTests(unittest.TestCase):
 
 
 class CrawlBoundaryTests(unittest.TestCase):
+    def test_cli_delay_accepts_zero_but_rejects_negative_values(self):
+        self.assertEqual(_positive_delay("0"), 0)
+        with self.assertRaisesRegex(argparse.ArgumentTypeError, "negative"):
+            _positive_delay("-0.1")
+
     def test_fetch_retries_incomplete_http_reads(self):
         attempts = []
         waits = []

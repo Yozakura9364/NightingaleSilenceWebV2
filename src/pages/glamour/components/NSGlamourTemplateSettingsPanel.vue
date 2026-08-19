@@ -129,6 +129,26 @@
         {{ t(textKeys.nsglamourTemplateDyeStyleTwo) }}
       </button>
     </div>
+
+    <div v-if="template.controls.storyTextColor" class="nsglamour-template__field">
+      <span>{{ t(textKeys.nsglamourTemplateStoryTextColor) }}</span>
+      <div class="nsglamour-template__segmented">
+        <button
+          type="button"
+          :class="{ active: templateSettings.storyTextColorMode === 'white' }"
+          @click="setStoryTextColorMode('white')"
+        >
+          {{ t(textKeys.nsglamourTemplateStoryTextWhite) }}
+        </button>
+        <button
+          type="button"
+          :class="{ active: templateSettings.storyTextColorMode === 'black' }"
+          @click="setStoryTextColorMode('black')"
+        >
+          {{ t(textKeys.nsglamourTemplateStoryTextBlack) }}
+        </button>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -188,6 +208,10 @@ function updateSubtitleSetting(
 
 function setDyeFrameMode(dyeFrameMode: 'psd' | 'color'): void {
   emit('update-settings', { dyeFrameMode })
+}
+
+function setStoryTextColorMode(storyTextColorMode: 'white' | 'black'): void {
+  emit('update-settings', { storyTextColorMode })
 }
 
 function toggleAuthorLinks(): void {

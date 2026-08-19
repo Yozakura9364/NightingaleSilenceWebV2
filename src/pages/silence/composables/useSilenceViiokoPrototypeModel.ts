@@ -1,4 +1,5 @@
 import { computed, shallowRef, watch, type CSSProperties, type Ref } from 'vue'
+import { isDev, silenceLayoutBase } from '@/config/env'
 import { ApiError, useFetch } from '@/composables/useFetch'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
 import {
@@ -10,13 +11,13 @@ import {
   type SilenceViiokoLayoutPreset,
   type SilenceViiokoPageLayout,
   type SilenceViiokoRowLayout
-} from '@/data/silence/viiokoPageLayouts'
+} from '@/lib/silence/viiokoPageLayouts'
 import type {
   SilenceCharacter,
   SilenceCharacterForm,
   SilenceCharacterOutfit,
   SilenceCharacterTextFact
-} from '@/data/silence/types'
+} from '@/lib/silence/types'
 
 interface UseSilenceViiokoPrototypeModelOptions {
   character: Readonly<Ref<SilenceCharacter>>
@@ -42,8 +43,8 @@ export function useSilenceViiokoPrototypeModel(options: UseSilenceViiokoPrototyp
     (characterId, _previousCharacterId, onCleanup) => {
       localPageLayouts.value = undefined
 
-      const localLayoutBase = import.meta.env.DEV
-        ? import.meta.env.VITE_SILENCE_LAYOUT_BASE?.trim()
+      const localLayoutBase = isDev
+        ? silenceLayoutBase.trim()
         : ''
 
       if (!localLayoutBase) {

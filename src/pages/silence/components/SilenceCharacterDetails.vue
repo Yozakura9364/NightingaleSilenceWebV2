@@ -238,7 +238,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { silenceTextKeys as textKeys } from '@/locales/keys/silence'
-import type { SilenceCharacter } from '@/data/silence/types'
+import type { SilenceCharacter } from '@/lib/silence/types'
 import SilenceFormOutfitPanel from '@/pages/silence/components/SilenceFormOutfitPanel.vue'
 import SilenceGallery from '@/pages/silence/components/SilenceGallery.vue'
 import SilenceProfilePanel from '@/pages/silence/components/SilenceProfilePanel.vue'

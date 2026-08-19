@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "description": "NSGlamour 前后端共享业务规则唯一事实源。改动本文件后运行 npm run build:glamour-contract 重新生成 TS 常量，并用 check:nsglamour-contract 校验两侧一致。",
+  "equipSlotCategory": {
+    "mainHandCategory": 13,
+    "offHandCategory": 2
+  },
+  "slotByEquipSlotCategory": {
+    "1": "MainHand",
+    "2": "OffHand",
+    "3": "HeadGear",
+    "4": "Body",
+    "5": "Hands",
+    "7": "Legs",
+    "8": "Feet",
+    "9": "Ears",
+    "10": "Neck",
+    "11": "Wrists",
+    "12": "LeftRing",
+    "13": "MainHand",
+    "15": "Body",
+    "16": "Body",
+    "18": "Legs",
+    "19": "Body",
+    "20": "Body",
+    "22": "Body",
+    "23": "Body"
+  },
+  "itemIcon": {
+    "hdFolderMin": 20000,
+    "hdFolderMaxExclusive": 60000,
+    "hdFolderExtra": [200000]
+  }
+}

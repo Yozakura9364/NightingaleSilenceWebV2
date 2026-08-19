@@ -1,4 +1,4 @@
-import type { Locale } from '@/stores/locale'
+import type { Locale } from '@/locales/types'
 
 export type FfxivTermModule = 'NSPlate' | 'NSGlamour' | 'NSArmoire' | 'Common'
 export type FfxivTermStatus = 'confirmed' | 'needs-check' | 'layout'

@@ -212,8 +212,8 @@ import FashionCheckItemLine from '@/pages/fashion-check/components/FashionCheckI
 import FashionCheckGoldItemsView from '@/pages/fashion-check/views/FashionCheckGoldItemsView.vue'
 import { getFfxivItemIconUrl, getFfxivItemIconHr1Url } from '@/lib/ffxiv/itemIcon'
 import { resolveFashionCheckName } from '@/lib/fashion-check/localization'
-import { buildDyeColorMap, resolveEntryDyeColor, type FfxivDyeCatalog } from '@/lib/fashion-check/dyeCatalog'
-import { useFetch } from '@/composables/useFetch'
+import { resolveEntryDyeColor } from '@/lib/fashion-check/dyeCatalog'
+import { loadFashionCheckDyeColorMap } from '@/services/fashionCheck/fashionCheckApi'
 import type {
   FashionCheckItem,
   FashionCheckLocaleCatalog,
@@ -232,16 +232,10 @@ const props = defineProps<{
   localeCatalog: FashionCheckLocaleCatalog
 }>()
 const { current, t } = useLocale()
-const { api } = useFetch()
 const dyeColors = ref<ReadonlyMap<number, string>>()
 onMounted(async () => {
-  try {
-    const catalog = await api<FfxivDyeCatalog>('/data/ffxiv/dye-catalog.json')
-    dyeColors.value = buildDyeColorMap(catalog)
-  } catch {
-    // 目录加载失败时保持无回退（与旧行为一致），不阻塞页面
-    dyeColors.value = undefined
-  }
+  // 目录加载失败时服务返回 undefined（与旧行为一致），不阻塞页面
+  dyeColors.value = await loadFashionCheckDyeColorMap()
 })
 const faqEntries = [
   { kind: 'text', question: keys.faqAttemptsQuestion, answer: keys.faqAttemptsAnswer },
