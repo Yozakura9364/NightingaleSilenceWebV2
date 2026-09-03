@@ -21,7 +21,7 @@ export const homeUiMessages: UiMessageMap = {
   'home.desktop.links': msg({ zh: '站外链接', en: 'Links', ja: '外部リンク', ko: '외부 링크' }),
   'home.desktop.clock': msg({ zh: '白昼 / 夜色', en: 'Day / Night', ja: '昼 / 夜', ko: '낮 / 밤' }),
   'home.icpRecord': same('鄂ICP备2026019415号'),
-  'home.timeCommand': same('TIME'),
+  'home.timeCommand': same('ET'),
   'home.adventureClock.window': msg({
     zh: '冒险时钟',
     en: 'Adventure clock',

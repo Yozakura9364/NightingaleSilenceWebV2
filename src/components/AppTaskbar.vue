@@ -38,14 +38,14 @@
         <span class="app-taskbar__mode-icon app-taskbar__mode-icon--day" :style="modeIconStyle(sunIcon)"></span>
         <span class="app-taskbar__mode-icon app-taskbar__mode-icon--night" :style="modeIconStyle(moonIcon)"></span>
       </span>
-      <span>{{ clockLabel }}</span>
+      <span>{{ eorzeaTime }}</span>
       <span class="app-taskbar__command" aria-hidden="true">{{ t(textKeys.homeTimeCommand) }}</span>
     </button>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { computed, type CSSProperties } from 'vue'
+import { type CSSProperties } from 'vue'
 // 以下 import 仅供已注释的“入梦”开始按钮使用，暂保留注释
 // import { RouterLink } from 'vue-router'
 // import pixelSparklesIcon from '@/assets/icons/pixelarticons/sparkles.svg'
@@ -57,13 +57,14 @@ import { homeTextKeys as textKeys } from '@/locales/keys/home'
 import { homeUiMessages } from '@/locales/modules/home'
 import { loadMessages, useLocale } from '@/stores/locale'
 import { useTheme } from '@/stores/theme'
+import { useHomeAdventureClock } from '@/pages/home/composables/useHomeAdventureClock'
 
 loadMessages(homeUiMessages)
 
 const { t } = useLocale()
 const { current: themeMode, setThemeMode } = useTheme()
 
-const clockLabel = computed(() => (themeMode.value === 'night' ? '00:29' : '06:29'))
+const { eorzeaTime } = useHomeAdventureClock()
 
 const homeSocialLinks = siteSocialLinks.map((link) => ({
   ...link,
