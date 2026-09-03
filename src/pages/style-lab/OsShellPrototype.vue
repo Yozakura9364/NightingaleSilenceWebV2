@@ -74,8 +74,8 @@
 import { RouterLink } from 'vue-router'
 import { onBeforeUnmount, watch, type CSSProperties } from 'vue'
 import settingsIcon from '@/assets/icons/pixelarticons/settings-2.svg'
-import yoineArt from '@/assets/home/yoine-1.webp'
-import yoinArt from '@/assets/home/yoin-1.webp'
+import yoineArt from '@/assets/home/day-art.webp'
+import yoinArt from '@/assets/home/night-art.webp'
 import { siteRoutes } from '@/config/site'
 import {
   osShellDesktopPresentation,
@@ -336,7 +336,6 @@ onBeforeUnmount(() => {
 }
 
 .home-night-foreground {
-  height: min(52svh, 520px);
   background: var(--home-night-art-url, none) center bottom / contain no-repeat;
   opacity: 0;
   transition:
