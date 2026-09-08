@@ -55,4 +55,4 @@ python server/glamour/tests/compare_api.py
 gunicorn --workers 2 --bind 127.0.0.1:8766 server.glamour.app:app
 ```
 
-生产环境从进程环境或未跟踪的 `server/glamour/.env.local` 读取配置。石之家导入只调用外部 Reader；Token 只通过 `NSGLAMOUR_RS_READER_TOKEN_FILE` 指向仓库外文件，不得写入仓库。
+生产环境从进程环境或未跟踪的 `server/glamour/.env.local` 读取配置。石之家导入只调用外部 Reader；Token 只通过 `NSGLAMOUR_RS_READER_TOKEN_FILE` 指向仓库外文件，不得写入仓库。Linux Reader 的可部署源码和 systemd 安装器位于 `server/glamour/reader/linux/`；浏览器 profile、二维码与 token 均必须保留在该机器的私有运行目录。

@@ -64,6 +64,7 @@ RS_REMOTE_READER_TOKEN_FILE = Path(
     os.environ.get("NSGLAMOUR_RS_READER_TOKEN_FILE", str(Path(__file__).resolve().parent.parent / ".runtime" / "risingstones-reader-token"))
 )
 RS_REMOTE_READER_MAX_BYTES = 2 * 1024 * 1024
+RS_REMOTE_READER_TIMEOUT_SECONDS = 25
 RS_READABLE_ERROR_PATTERNS = [
     (
         re.compile(r"请先登录", re.IGNORECASE),
@@ -490,7 +491,7 @@ def read_risingstones_details_via_remote_reader(ids: List[str]) -> Dict[str, Any
         },
     )
     try:
-        with urllib.request.urlopen(request_obj, timeout=45) as response:
+        with urllib.request.urlopen(request_obj, timeout=RS_REMOTE_READER_TIMEOUT_SECONDS) as response:
             raw_body = response.read(RS_REMOTE_READER_MAX_BYTES + 1)
             status_code = int(getattr(response, "status", response.getcode()))
     except urllib.error.HTTPError as exc:

@@ -1,0 +1,28 @@
+[Unit]
+Description=NSGlamour Rising Stones Reader
+Wants=network-online.target
+After=network-online.target tailscaled.service nsglamour-risingstones-reader-xvfb.service
+
+[Service]
+Type=simple
+User=nsglamour-reader
+Group=nsglamour-reader
+Environment=NSGLAMOUR_READER_ROOT=/var/lib/nsglamour-risingstones-reader
+Environment=NSGLAMOUR_READER_CONFIG=/etc/nsglamour-risingstones-reader/config.json
+Environment=DISPLAY=:99
+Environment=XDG_RUNTIME_DIR=/run/nsglamour-risingstones-reader
+RuntimeDirectory=nsglamour-risingstones-reader
+RuntimeDirectoryMode=0700
+ExecStart=/usr/bin/node /opt/nsglamour-risingstones-reader/risingstones-reader.js
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+ProtectHome=true
+ProtectSystem=full
+ReadWritePaths=/var/lib/nsglamour-risingstones-reader
+ReadOnlyPaths=/etc/nsglamour-risingstones-reader
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

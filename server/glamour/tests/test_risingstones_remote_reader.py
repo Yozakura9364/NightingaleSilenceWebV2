@@ -49,7 +49,7 @@ def test_remote_reader_request_and_response():
             assert request.full_url == "http://127.0.0.1:18770/v1/glamour-detail"
             assert request.headers["Authorization"] == "Bearer reader-secret"
             assert json.loads(request.data.decode("utf-8")) == {"ids": ["274729"]}
-            assert timeout == 45
+            assert timeout == rs.RS_REMOTE_READER_TIMEOUT_SECONDS
             return FakeResponse(payload)
 
         with mock.patch.object(rs, "RS_REMOTE_READER_URL", "http://127.0.0.1:18770"):
