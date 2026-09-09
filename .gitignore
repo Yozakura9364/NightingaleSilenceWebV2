@@ -34,7 +34,10 @@ Thumbs.db
 # local-only large reference assets
 /local-assets/
 
-# local-only content-studio drafts, staging, and audit
+# local-only content-studio runtime drafts, staging, and audit (pending-publish creative data)
+/.content-studio/
+
+# legacy content-studio path (kept for stale local dirs; live data now in /.content-studio/)
 /local-assets/content-studio/
 
 # local-only icon experiments and draft exports
@@ -85,3 +88,7 @@ vite.config.ts.bak-*
 
 # local agent harness
 .omo/
+
+# debug image dumps (local only)
+/dbg_*.png
+/dbg_*.webp
