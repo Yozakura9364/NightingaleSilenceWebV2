@@ -54,7 +54,11 @@ const slotLabelKeys = {
   body: keys.dyeBody,
   hands: keys.dyeHands,
   legs: keys.dyeLegs,
-  feet: keys.dyeFeet
+  feet: keys.dyeFeet,
+  ears: keys.slotEars,
+  neck: keys.slotNeck,
+  wrists: keys.slotWrists,
+  ring: keys.slotRing
 } as const
 
 function slotLabel(slotId: string) {

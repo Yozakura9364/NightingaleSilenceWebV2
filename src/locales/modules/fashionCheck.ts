@@ -212,7 +212,7 @@ export const fashionCheckUiMessages: UiMessageMap = {
     '부위 필터'
   ),
   'fashionCheck.slotEars': localizedMessage('耳部', 'Earrings', '耳飾り', '귀걸이'),
-  'fashionCheck.slotNeck': localizedMessage('颈部', 'Necklace', '首飾り', '목걸이'),
+  'fashionCheck.slotNeck': localizedMessage('项链', 'Necklace', '首飾り', '목걸이'),
   'fashionCheck.slotWrists': localizedMessage('手腕', 'Bracelets', '腕輪', '팔찌'),
   'fashionCheck.slotRing': localizedMessage('戒指', 'Ring', '指輪', '반지'),
   'fashionCheck.faq': message('FAQ', 'FAQ'),

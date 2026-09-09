@@ -269,7 +269,11 @@ const dyeLabelKeys = {
   body: keys.dyeBody,
   hands: keys.dyeHands,
   legs: keys.dyeLegs,
-  feet: keys.dyeFeet
+  feet: keys.dyeFeet,
+  ears: keys.slotEars,
+  neck: keys.slotNeck,
+  wrists: keys.slotWrists,
+  ring: keys.slotRing
 } as const
 function findItem(itemId: number): FashionCheckItem {
   return itemById.value.get(itemId) ?? { itemId, name: String(itemId), iconId: 0, rarity: 1 }
