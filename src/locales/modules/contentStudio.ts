@@ -195,6 +195,43 @@ export const contentStudioUiMessages: UiMessageMap = {
     ja: 'アップロード済み',
     ko: '업로드됨'
   }),
+
+  'contentStudio.mediaSyncTitle': msg({
+    zh: '图片同步',
+    en: 'Media Sync',
+    ja: '画像同期',
+    ko: '이미지 동기화'
+  }),
+  'contentStudio.mediaSyncButton': msg({
+    zh: '上传图片到 CDN',
+    en: 'Upload Images to CDN',
+    ja: '画像をCDNへアップロード',
+    ko: 'CDN에 이미지 업로드'
+  }),
+  'contentStudio.mediaSyncBusy': msg({
+    zh: '同步中…',
+    en: 'Syncing…',
+    ja: '同期中…',
+    ko: '동기화 중…'
+  }),
+  'contentStudio.mediaSyncSummaryOk': msg({
+    zh: '全部已同步',
+    en: 'all synced',
+    ja: 'すべて同期済み',
+    ko: '모두 동기화됨'
+  }),
+  'contentStudio.mediaSyncSummaryPartial': msg({
+    zh: '部分失败',
+    en: 'some failed',
+    ja: '一部失敗',
+    ko: '일부 실패'
+  }),
+  'contentStudio.mediaSyncSummaryEmpty': msg({
+    zh: '没有待同步的图片',
+    en: 'nothing to sync',
+    ja: '同期する画像はありません',
+    ko: '동기화할 이미지 없음'
+  }),
   'contentStudio.insertToEditor': msg({ zh: '插入到编辑器', en: 'Insert', ja: '挿入', ko: '삽입' }),
   'contentStudio.retry': msg({ zh: '重试', en: 'Retry', ja: '再試行', ko: '재시도' }),
   'contentStudio.cancel': msg({ zh: '取消', en: 'Cancel', ja: 'キャンセル', ko: '취소' }),

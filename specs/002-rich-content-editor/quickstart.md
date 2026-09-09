@@ -7,7 +7,7 @@ This guide describes the runnable acceptance path expected after implementation.
 - Repository dependencies installed from the committed `package-lock.json`.
 - Python environment satisfying `server/content/requirements.txt`.
 - System Chrome or Edge available for Playwright.
-- A local authoring media directory under ignored `local-assets/content-studio/`.
+- A local authoring media directory under ignored `.content-studio/` (staging subdirectory; drafts and audit live alongside).
 - For publication checks, approved sample images synchronized manually to the configured content CDN prefix. No COS credentials are required by the app.
 
 ## 1. Start the Authoring Build
@@ -64,11 +64,23 @@ Attempt these uploads:
 
 Expected:
 
-- Only server-decoded allowed images enter staging.
+- Only server-decoded allowed images enter staging (`.content-studio/staging/`).
 - Staged files use generated IDs, not user names.
 - Error responses contain stable codes and no absolute path/stack.
 - Publication remains blocked until every referenced image has a permanent anonymous HTTPS URL on the configured host and returns an allowed image response type.
 - A representative image URL is tested with NGA preview and the configured anti-hotlink policy; CORS is not required for ordinary external image display.
+
+### One-click COS upload (dedicated blog bucket)
+
+With `.env.local` providing `CONTENT_COS_SECRET_ID/SECRET_KEY/REGION/BUCKET` and
+`CONTENT_MEDIA_PUBLIC_BASE_URL` (loaded by `npm run dev:content-studio`), the studio
+media panel offers a one-click "upload to CDN" action:
+
+- All staged images not yet served from the configured base are uploaded
+  (`PutObject`, content-type + immutable cache headers) and CDN-checked in one request.
+- `publish` also retries the upload for referenced media automatically; failures still
+  surface through the original `MEDIA_NOT_VERIFIED` gate.
+- Credentials stay in the untracked `.env.local`; the helper is loopback-only.
 
 ## 5. Validate Exports
 

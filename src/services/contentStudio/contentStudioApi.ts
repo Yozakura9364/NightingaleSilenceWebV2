@@ -127,6 +127,20 @@ export interface ContentStudioMediaUpload {
   height: number
 }
 
+export interface ContentStudioMediaSyncItem {
+  id: string
+  publicObjectKey?: string
+  ok: boolean
+  status?: string
+  detail?: string
+}
+
+export interface ContentStudioMediaSyncResult {
+  count: number
+  uploaded: number
+  results: ContentStudioMediaSyncItem[]
+}
+
 /** 上传媒体文件（二进制流 + token 头）；错误按 useFetch 语义抛出，由调用方处理。 */
 export async function uploadContentStudioMedia(
   file: File,
@@ -144,4 +158,16 @@ export async function uploadContentStudioMedia(
     body: data,
     timeoutMs: 30000
   })
+}
+
+/** 一键同步：把所有未验证的暂存图片上传到 COS 并做 CDN 校验。 */
+export async function syncContentStudioMedia(token: string): Promise<ContentStudioMediaSyncResult> {
+  return useFetch().request<ContentStudioMediaSyncResult>(
+    '/api/content-studio/media/upload-pending',
+    {
+      method: 'POST',
+      headers: { 'X-Content-Studio-Token': token },
+      timeoutMs: 120000
+    }
+  )
 }

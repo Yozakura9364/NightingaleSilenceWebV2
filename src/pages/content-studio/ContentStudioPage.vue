@@ -10,6 +10,7 @@
       />
       <div class="studio-main">
         <ContentMetadataPanel v-if="currentDraftId" v-model="metadata" :publicId="publicId" />
+        <MediaSyncPanel v-if="currentDraftId" />
         <PublicationPanel
           v-if="currentDraftId"
           :status="status"
@@ -102,6 +103,7 @@ import {
 import DraftList from './components/DraftList.vue'
 import ContentEditor from './components/ContentEditor.vue'
 import ContentMetadataPanel from './components/ContentMetadataPanel.vue'
+import MediaSyncPanel from './components/MediaSyncPanel.vue'
 import PublicationPanel from './components/PublicationPanel.vue'
 import ContentPreview from './components/ContentPreview.vue'
 import TableToolbar from './components/TableToolbar.vue'

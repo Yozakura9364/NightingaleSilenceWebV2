@@ -69,6 +69,13 @@ export const contentStudioKeys = {
   retry: 'contentStudio.retry',
   cancel: 'contentStudio.cancel',
 
+  mediaSyncTitle: 'contentStudio.mediaSyncTitle',
+  mediaSyncButton: 'contentStudio.mediaSyncButton',
+  mediaSyncBusy: 'contentStudio.mediaSyncBusy',
+  mediaSyncSummaryOk: 'contentStudio.mediaSyncSummaryOk',
+  mediaSyncSummaryPartial: 'contentStudio.mediaSyncSummaryPartial',
+  mediaSyncSummaryEmpty: 'contentStudio.mediaSyncSummaryEmpty',
+
   imageAlt: 'contentStudio.imageAlt',
   imageCaption: 'contentStudio.imageCaption',
   imageAlign: 'contentStudio.imageAlign',
