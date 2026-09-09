@@ -1,129 +1,315 @@
 {
   "schemaVersion": "fashion-check.current-locales.v3",
   "items": {
-    "3775": {
-      "zh-CN": "青铜铠靴",
-      "en": "Bronze Sabatons",
-      "ja": "サバトン",
-      "ko": "판금장화"
+    "7201": {
+      "zh-CN": "亚拉戈高位治愈喇叭裤",
+      "en": "High Allagan Pantaloons of Healing",
+      "ja": "ハイアラガン・ヒーラーパンタロン",
+      "ko": "상급 알라그 치유사 나팔바지"
     },
-    "3781": {
-      "zh-CN": "掠夺铠靴",
-      "en": "Plundered Sabatons",
-      "ja": "プランダードサバトン",
-      "ko": "약탈자의 판금장화"
+    "7472": {
+      "zh-CN": "朝圣者皮靴",
+      "en": "Pilgrim's Shoes",
+      "ja": "ピルグリムシューズ",
+      "ko": "순례자 신발"
     },
-    "3793": {
-      "zh-CN": "黑铁铠靴",
-      "en": "Iron Sabatons",
-      "ja": "アイアンサバトン",
-      "ko": "철제 판금장화"
+    "7478": {
+      "zh-CN": "魔术师皮靴",
+      "en": "Magician's Shoes",
+      "ja": "マジシャンシューズ",
+      "ko": "마술사 신발"
     },
-    "3812": {
-      "zh-CN": "牙兵铠靴",
-      "en": "Serpent Private's Sabatons",
-      "ja": "グリダニアンプライベート・サバトン",
-      "ko": "그리다니아 사병의 판금장화"
+    "7514": {
+      "zh-CN": "蛟蜥咏咒尖头靴",
+      "en": "Saurian Crakows of Casting",
+      "ja": "ソーリアンキャスタークラコー",
+      "ko": "원시룡 마술사 뾰족신"
     },
-    "3815": {
-      "zh-CN": "漩兵铠靴",
-      "en": "Storm Private's Sabatons",
-      "ja": "ロミンサンプライベート・サバトン",
-      "ko": "림사 로민사 사병의 판금장화"
+    "8714": {
+      "zh-CN": "怪诞尖头靴",
+      "en": "Eerie Crakows",
+      "ja": "イアリクラコー",
+      "ko": "마녀 뾰족신"
     },
-    "3818": {
-      "zh-CN": "耀兵铠靴",
-      "en": "Flame Private's Sabatons",
-      "ja": "ウルダハンプライベート・サバトン",
-      "ko": "울다하 사병의 판금장화"
+    "10007": {
+      "zh-CN": "胜负师长裤",
+      "en": "Gambler's Trousers",
+      "ja": "ギャンブラートラウザー",
+      "ko": "도박사 긴바지"
     },
-    "3825": {
-      "zh-CN": "白钢铠靴",
-      "en": "Steel Sabatons",
-      "ja": "スチールサバトン",
-      "ko": "강철 판금장화"
+    "10831": {
+      "zh-CN": "古鸟革精准尖头靴",
+      "en": "Archaeoskin Shoes of Aiming",
+      "ja": "アルケオーニスレンジャーシューズ",
+      "ko": "아르케오니스 유격대 신발"
     },
-    "3854": {
-      "zh-CN": "秘银铠靴",
-      "en": "Mythril Sabatons",
-      "ja": "ミスリルサバトン",
-      "ko": "미스릴 판금장화"
+    "10915": {
+      "zh-CN": "古鸟革治愈尖头靴",
+      "en": "Archaeoskin Shoes of Healing",
+      "ja": "アルケオーニスヒーラーシューズ",
+      "ko": "아르케오니스 치유사 신발"
     },
-    "3912": {
-      "zh-CN": "钴铁铠靴",
-      "en": "Cobalt Sabatons",
-      "ja": "コバルトサバトン",
-      "ko": "코발트 판금장화"
+    "10957": {
+      "zh-CN": "古鸟革咏咒尖头靴",
+      "en": "Archaeoskin Shoes of Casting",
+      "ja": "アルケオーニスキャスターシューズ",
+      "ko": "아르케오니스 마술사 신발"
     },
-    "3921": {
-      "zh-CN": "民兵铠靴",
-      "en": "Militia Sabatons",
-      "ja": "ミリシアサバトン",
-      "ko": "민병대 판금장화"
+    "10973": {
+      "zh-CN": "蛋白石御敌手镯",
+      "en": "Opal Bracelet of Fending",
+      "ja": "オパールディフェンダーブレスレット",
+      "ko": "단백석 수호자 팔찌"
     },
-    "4274": {
-      "zh-CN": "深红龙船耳章",
-      "en": "Crimson Standard Earrings",
-      "ja": "クリムゾンスタンダード・イヤリング",
-      "ko": "용선기 귀걸이"
+    "10997": {
+      "zh-CN": "蛋白石强攻手镯",
+      "en": "Opal Bracelet of Slaying",
+      "ja": "オパールアタッカーブレスレット",
+      "ko": "단백석 공격대 팔찌"
     },
-    "4275": {
-      "zh-CN": "金边天平耳章",
-      "en": "Tipping Scales Earrings",
-      "ja": "ティッピングスケール・イヤリング",
-      "ko": "양팔저울 귀걸이"
+    "11021": {
+      "zh-CN": "蛋白石精准手镯",
+      "en": "Opal Bracelet of Aiming",
+      "ja": "オパールレンジャーブレスレット",
+      "ko": "단백석 유격대 팔찌"
     },
-    "4276": {
-      "zh-CN": "双蛇百合耳章",
-      "en": "Lily and Serpent Earrings",
-      "ja": "リリー・アンド・サーペント・イヤリング",
-      "ko": "백합과 뱀 귀걸이"
+    "11045": {
+      "zh-CN": "蛋白石治愈手镯",
+      "en": "Opal Bracelet of Healing",
+      "ja": "オパールヒーラーブレスレット",
+      "ko": "단백석 치유사 팔찌"
     },
-    "6773": {
-      "zh-CN": "饿狼铠靴",
-      "en": "Wolf Sabatons",
-      "ja": "ウルフサバトン",
-      "ko": "늑대 판금장화"
+    "11047": {
+      "zh-CN": "贵橄榄石治愈手镯",
+      "en": "Chrysolite Bracelet of Healing",
+      "ja": "クリソライトヒーラーブレスレット",
+      "ko": "귀감람석 치유사 팔찌"
     },
-    "21941": {
-      "zh-CN": "阿拉米格长外衣",
-      "en": "Ala Mhigan Gown",
-      "ja": "アラミガンガウン",
-      "ko": "알라미고 가운"
+    "11069": {
+      "zh-CN": "蛋白石咏咒手镯",
+      "en": "Opal Bracelet of Casting",
+      "ja": "オパールキャスターブレスレット",
+      "ko": "단백석 마술사 팔찌"
     },
-    "24594": {
-      "zh-CN": "血盟旅行者面罩",
-      "en": "Scion Traveler's Mask",
-      "ja": "サイオンズトラベラー・マスク",
-      "ko": "새벽의 여행자 가면"
+    "13303": {
+      "zh-CN": "樟木御敌腕环",
+      "en": "Camphorwood Armillae of Fending",
+      "ja": "カンファーディフェンダーアルミラ",
+      "ko": "녹나무 수호자 손목고리"
+    },
+    "13307": {
+      "zh-CN": "樟木强攻腕环",
+      "en": "Camphorwood Armillae of Slaying",
+      "ja": "カンファーアタッカーアルミラ",
+      "ko": "녹나무 공격대 손목고리"
+    },
+    "13311": {
+      "zh-CN": "樟木精准腕环",
+      "en": "Camphorwood Armillae of Aiming",
+      "ja": "カンファーレンジャーアルミラ",
+      "ko": "녹나무 유격대 손목고리"
+    },
+    "13315": {
+      "zh-CN": "樟木治愈腕环",
+      "en": "Camphorwood Armillae of Healing",
+      "ja": "カンファーヒーラーアルミラ",
+      "ko": "녹나무 치유사 손목고리"
+    },
+    "13319": {
+      "zh-CN": "樟木咏咒腕环",
+      "en": "Camphorwood Armillae of Casting",
+      "ja": "カンファーキャスターアルミラ",
+      "ko": "녹나무 마술사 손목고리"
+    },
+    "13871": {
+      "zh-CN": "亚拉戈高位治愈喇叭裤（复制品）",
+      "en": "Replica High Allagan Pantaloons of Healing",
+      "ja": "レプリカ・ハイアラガン・ヒーラーパンタロン",
+      "ko": "모조 상급 알라그 치유사 나팔바지"
+    },
+    "16394": {
+      "zh-CN": "改良型田园混斗者手镯",
+      "en": "Augmented Shire Pankratiast's Bracelets",
+      "ja": "イディル・パンクラティアストブレスレットRE",
+      "ko": "보강된 이딜샤이어 격투가 팔찌"
+    },
+    "18831": {
+      "zh-CN": "罗汉豪士笼手",
+      "en": "Arhat Kote of Fending",
+      "ja": "羅漢篭手【武士】",
+      "ko": "아라한 수호자 팔보호대"
+    },
+    "18837": {
+      "zh-CN": "罗汉枪士笼手",
+      "en": "Arhat Kote of Maiming",
+      "ja": "羅漢篭手【槍士】",
+      "ko": "아라한 학살자 팔보호대"
+    },
+    "18843": {
+      "zh-CN": "罗汉拳士手甲",
+      "en": "Arhat Tekko of Striking",
+      "ja": "羅漢手甲【拳士】",
+      "ko": "아라한 타격대 완갑"
+    },
+    "18849": {
+      "zh-CN": "罗汉弓士手甲",
+      "en": "Arhat Tekko of Aiming",
+      "ja": "羅漢手甲【弓士】",
+      "ko": "아라한 유격대 완갑"
+    },
+    "18855": {
+      "zh-CN": "罗汉间士手甲",
+      "en": "Arhat Tekko of Scouting",
+      "ja": "羅漢手甲【間士】",
+      "ko": "아라한 정찰대 완갑"
+    },
+    "18861": {
+      "zh-CN": "罗汉学士手甲",
+      "en": "Arhat Tekko of Healing",
+      "ja": "羅漢手甲【学士】",
+      "ko": "아라한 치유사 완갑"
+    },
+    "18867": {
+      "zh-CN": "罗汉术士手甲",
+      "en": "Arhat Tekko of Casting",
+      "ja": "羅漢手甲【術士】",
+      "ko": "아라한 마술사 완갑"
+    },
+    "19144": {
+      "zh-CN": "阿拉米格御敌打底裤",
+      "en": "Ala Mhigan Bottoms of Fending",
+      "ja": "アラミガンディフェンダー・ボトム",
+      "ko": "알라미고 수호자 하의"
+    },
+    "19150": {
+      "zh-CN": "阿拉米格制敌打底裤",
+      "en": "Ala Mhigan Bottoms of Maiming",
+      "ja": "アラミガンスレイヤー・ボトム",
+      "ko": "알라미고 학살자 하의"
+    },
+    "21561": {
+      "zh-CN": "钻石御敌手镯",
+      "en": "Diamond Bracelet of Fending",
+      "ja": "ダイヤ・ディフェンダーブレスレット",
+      "ko": "다이아몬드 수호자 팔찌"
+    },
+    "21562": {
+      "zh-CN": "钻石强攻手镯",
+      "en": "Diamond Bracelet of Slaying",
+      "ja": "ダイヤ・アタッカーブレスレット",
+      "ko": "다이아몬드 공격대 팔찌"
+    },
+    "21563": {
+      "zh-CN": "钻石精准手镯",
+      "en": "Diamond Bracelet of Aiming",
+      "ja": "ダイヤ・レンジャーブレスレット",
+      "ko": "다이아몬드 유격대 팔찌"
+    },
+    "21564": {
+      "zh-CN": "钻石治愈手镯",
+      "en": "Diamond Bracelet of Healing",
+      "ja": "ダイヤ・ヒーラーブレスレット",
+      "ko": "다이아몬드 치유사 팔찌"
+    },
+    "21565": {
+      "zh-CN": "钻石咏咒手镯",
+      "en": "Diamond Bracelet of Casting",
+      "ja": "ダイヤ・キャスターブレスレット",
+      "ko": "다이아몬드 마술사 팔찌"
+    },
+    "21623": {
+      "zh-CN": "碳硅晶御敌手镯",
+      "en": "Carborundum Bracelet of Fending",
+      "ja": "カーボランダム・ディフェンダーブレスレット",
+      "ko": "탄화규소 수호자 팔찌"
+    },
+    "21624": {
+      "zh-CN": "碳硅晶强攻手镯",
+      "en": "Carborundum Bracelet of Slaying",
+      "ja": "カーボランダム・アタッカーブレスレット",
+      "ko": "탄화규소 공격대 팔찌"
+    },
+    "21625": {
+      "zh-CN": "碳硅晶精准手镯",
+      "en": "Carborundum Bracelet of Aiming",
+      "ja": "カーボランダム・レンジャーブレスレット",
+      "ko": "탄화규소 유격대 팔찌"
+    },
+    "21626": {
+      "zh-CN": "碳硅晶治愈手镯",
+      "en": "Carborundum Bracelet of Healing",
+      "ja": "カーボランダム・ヒーラーブレスレット",
+      "ko": "탄화규소 치유사 팔찌"
+    },
+    "21627": {
+      "zh-CN": "碳硅晶咏咒手镯",
+      "en": "Carborundum Bracelet of Casting",
+      "ja": "カーボランダム・キャスターブレスレット",
+      "ko": "탄화규소 마술사 팔찌"
+    },
+    "21763": {
+      "zh-CN": "黑柳御敌腕环",
+      "en": "Black Willow Armillae of Fending",
+      "ja": "ブラックウィロー・ディフェンダーアルミラ",
+      "ko": "흑버드나무 수호자 손목고리"
+    },
+    "21764": {
+      "zh-CN": "黑柳强攻腕环",
+      "en": "Black Willow Armillae of Slaying",
+      "ja": "ブラックウィロー・アタッカーアルミラ",
+      "ko": "흑버드나무 공격대 손목고리"
+    },
+    "21765": {
+      "zh-CN": "黑柳精准腕环",
+      "en": "Black Willow Armillae of Aiming",
+      "ja": "ブラックウィロー・レンジャーアルミラ",
+      "ko": "흑버드나무 유격대 손목고리"
+    },
+    "21766": {
+      "zh-CN": "黑柳治愈腕环",
+      "en": "Black Willow Armillae of Healing",
+      "ja": "ブラックウィロー・ヒーラーアルミラ",
+      "ko": "흑버드나무 치유사 손목고리"
+    },
+    "21767": {
+      "zh-CN": "黑柳咏咒腕环",
+      "en": "Black Willow Armillae of Casting",
+      "ja": "ブラックウィロー・キャスターアルミラ",
+      "ko": "흑버드나무 마술사 손목고리"
+    },
+    "32801": {
+      "zh-CN": "小牛皮骑手打底裤",
+      "en": "Calfskin Rider's Bottoms",
+      "ja": "カーフスキン・ライダースボトム",
+      "ko": "송아지 가죽 라이더 하의"
     }
   },
   "dyes": {},
   "dyeItems": {},
   "tags": {
-    "12": {
-      "zh-CN": "大国防联军",
-      "en": "Keeping Company",
-      "ja": "カンパニー",
-      "ko": "사령부"
+    "22": {
+      "zh-CN": "帅气",
+      "en": "Too Cool",
+      "ja": "クール",
+      "ko": "쿨"
     },
-    "101": {
-      "zh-CN": "阿拉米格货",
-      "en": "Ala Mhigan",
-      "ja": "アラミガンガウン",
-      "ko": "알라미고 가운"
+    "34": {
+      "zh-CN": "魔法",
+      "en": "I Believe in Magic",
+      "ja": "魔術",
+      "ko": "마술사"
     },
-    "158": {
-      "zh-CN": "金属板",
-      "en": "On the Plate",
-      "ja": "プレートアーマー",
-      "ko": "판금 갑옷"
+    "51": {
+      "zh-CN": "华丽",
+      "en": "Simply Gorgeous",
+      "ja": "ゴージャス",
+      "ko": "고저스"
     },
-    "245": {
-      "zh-CN": "血盟旅行者",
-      "en": "Traveling Dawn",
-      "ja": "サイオンズトラベラー",
-      "ko": "새벽의 여행자"
+    "172": {
+      "zh-CN": "罗汉",
+      "en": "Tip o' the Arhat",
+      "ja": "羅漢",
+      "ko": "아라한"
     }
   }
 }

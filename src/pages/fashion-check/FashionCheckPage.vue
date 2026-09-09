@@ -11,9 +11,7 @@
         </div>
       </header>
       <Transition name="fade" mode="out-in">
-        <div v-if="loading" key="loading">
-          <AppStatus tone="info" :message="t(keys.loading)" />
-        </div>
+        <div v-if="loading" key="loading" hidden></div>
         <div v-else-if="!week" key="unavailable">
           <AppStatus tone="warning" :message="t(keys.unavailable)" />
         </div>

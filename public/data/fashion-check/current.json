@@ -1,43 +1,109 @@
 {
   "schemaVersion": "fashion-check.public-current.v5",
-  "globalIssue": 447,
-  "cnIssue": 432,
-  "theme": "阿拉米格旅行者",
+  "globalIssue": 450,
+  "cnIssue": 435,
+  "theme": "帅气的魔法师",
   "challengeWindow": {
-    "startsAt": "2026-08-21T16:00:00+08:00",
-    "endsAt": "2026-08-28T16:00:00+08:00"
+    "startsAt": "2026-09-11T16:00:00+08:00",
+    "endsAt": "2026-09-18T16:00:00+08:00"
   },
   "solutions": [],
   "slots": [
     {
-      "slotId": "head",
-      "label": "头部",
-      "tag": "血盟旅行者",
-      "categoryId": 245,
+      "slotId": "hands",
+      "label": "手部",
+      "tag": "罗汉",
+      "categoryId": 172,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 24594,
-            "name": "血盟旅行者面罩",
-            "iconId": 41747,
-            "rarity": 1
+            "itemId": 18831,
+            "name": "罗汉豪士笼手",
+            "iconId": 48652,
+            "rarity": 2
+          },
+          {
+            "itemId": 18837,
+            "name": "罗汉枪士笼手",
+            "iconId": 48653,
+            "rarity": 2
+          },
+          {
+            "itemId": 18843,
+            "name": "罗汉拳士手甲",
+            "iconId": 44551,
+            "rarity": 2
+          },
+          {
+            "itemId": 18849,
+            "name": "罗汉弓士手甲",
+            "iconId": 44552,
+            "rarity": 2
+          },
+          {
+            "itemId": 18855,
+            "name": "罗汉间士手甲",
+            "iconId": 44560,
+            "rarity": 2
+          },
+          {
+            "itemId": 18861,
+            "name": "罗汉学士手甲",
+            "iconId": 44550,
+            "rarity": 2
+          },
+          {
+            "itemId": 18867,
+            "name": "罗汉术士手甲",
+            "iconId": 44549,
+            "rarity": 2
           }
         ]
       }
     },
     {
-      "slotId": "body",
-      "label": "身体",
-      "tag": "阿拉米格货",
-      "categoryId": 101,
+      "slotId": "legs",
+      "label": "腿部",
+      "tag": "帅气",
+      "categoryId": 22,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 21941,
-            "name": "阿拉米格长外衣",
-            "iconId": 42596,
+            "itemId": 7201,
+            "name": "亚拉戈高位治愈喇叭裤",
+            "iconId": 45441,
+            "rarity": 3
+          },
+          {
+            "itemId": 10007,
+            "name": "胜负师长裤",
+            "iconId": 45532,
+            "rarity": 1
+          },
+          {
+            "itemId": 13871,
+            "name": "亚拉戈高位治愈喇叭裤（复制品）",
+            "iconId": 45441,
+            "rarity": 3
+          },
+          {
+            "itemId": 19144,
+            "name": "阿拉米格御敌打底裤",
+            "iconId": 45923,
+            "rarity": 3
+          },
+          {
+            "itemId": 19150,
+            "name": "阿拉米格制敌打底裤",
+            "iconId": 45924,
+            "rarity": 3
+          },
+          {
+            "itemId": 32801,
+            "name": "小牛皮骑手打底裤",
+            "iconId": 47782,
             "rarity": 1
           }
         ]
@@ -46,113 +112,233 @@
     {
       "slotId": "feet",
       "label": "脚部",
-      "tag": "金属板",
-      "categoryId": 158,
+      "tag": "魔法",
+      "categoryId": 34,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 3775,
-            "name": "青铜铠靴",
-            "iconId": 46801,
-            "rarity": 1
-          },
-          {
-            "itemId": 3781,
-            "name": "掠夺铠靴",
-            "iconId": 46863,
+            "itemId": 7472,
+            "name": "朝圣者皮靴",
+            "iconId": 46398,
             "rarity": 2
           },
           {
-            "itemId": 3793,
-            "name": "黑铁铠靴",
-            "iconId": 46806,
-            "rarity": 1
-          },
-          {
-            "itemId": 3812,
-            "name": "牙兵铠靴",
-            "iconId": 46867,
+            "itemId": 7478,
+            "name": "魔术师皮靴",
+            "iconId": 46397,
             "rarity": 2
           },
           {
-            "itemId": 3815,
-            "name": "漩兵铠靴",
-            "iconId": 46868,
+            "itemId": 7514,
+            "name": "蛟蜥咏咒尖头靴",
+            "iconId": 46392,
             "rarity": 2
           },
           {
-            "itemId": 3818,
-            "name": "耀兵铠靴",
-            "iconId": 46865,
-            "rarity": 2
-          },
-          {
-            "itemId": 3825,
-            "name": "白钢铠靴",
-            "iconId": 46807,
+            "itemId": 8714,
+            "name": "怪诞尖头靴",
+            "iconId": 46408,
             "rarity": 1
           },
           {
-            "itemId": 3854,
-            "name": "秘银铠靴",
-            "iconId": 46885,
+            "itemId": 10831,
+            "name": "古鸟革精准尖头靴",
+            "iconId": 46512,
             "rarity": 1
           },
           {
-            "itemId": 3912,
-            "name": "钴铁铠靴",
-            "iconId": 46838,
+            "itemId": 10915,
+            "name": "古鸟革治愈尖头靴",
+            "iconId": 46513,
             "rarity": 1
           },
           {
-            "itemId": 3921,
-            "name": "民兵铠靴",
-            "iconId": 46810,
-            "rarity": 2
-          },
-          {
-            "itemId": 6773,
-            "name": "饿狼铠靴",
-            "iconId": 46838,
+            "itemId": 10957,
+            "name": "古鸟革咏咒尖头靴",
+            "iconId": 46514,
             "rarity": 1
           }
         ]
       }
     },
     {
-      "slotId": "ears",
-      "label": "耳坠",
-      "tag": "大国防联军",
-      "categoryId": 12,
+      "slotId": "wrists",
+      "label": "手饰",
+      "tag": "华丽",
+      "categoryId": 51,
       "gold": {
         "points": 6,
         "items": [
           {
-            "itemId": 4274,
-            "name": "深红龙船耳章",
-            "iconId": 55238,
+            "itemId": 10973,
+            "name": "蛋白石御敌手镯",
+            "iconId": 55732,
+            "rarity": 1
+          },
+          {
+            "itemId": 10997,
+            "name": "蛋白石强攻手镯",
+            "iconId": 55732,
+            "rarity": 1
+          },
+          {
+            "itemId": 11021,
+            "name": "蛋白石精准手镯",
+            "iconId": 55732,
+            "rarity": 1
+          },
+          {
+            "itemId": 11045,
+            "name": "蛋白石治愈手镯",
+            "iconId": 55732,
+            "rarity": 1
+          },
+          {
+            "itemId": 11047,
+            "name": "贵橄榄石治愈手镯",
+            "iconId": 55733,
+            "rarity": 1
+          },
+          {
+            "itemId": 11069,
+            "name": "蛋白石咏咒手镯",
+            "iconId": 55732,
+            "rarity": 1
+          },
+          {
+            "itemId": 13303,
+            "name": "樟木御敌腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 13307,
+            "name": "樟木强攻腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 13311,
+            "name": "樟木精准腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 13315,
+            "name": "樟木治愈腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 13319,
+            "name": "樟木咏咒腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 16394,
+            "name": "改良型田园混斗者手镯",
+            "iconId": 55755,
             "rarity": 3
           },
           {
-            "itemId": 4275,
-            "name": "金边天平耳章",
-            "iconId": 55239,
+            "itemId": 21561,
+            "name": "钻石御敌手镯",
+            "iconId": 55793,
             "rarity": 3
           },
           {
-            "itemId": 4276,
-            "name": "双蛇百合耳章",
-            "iconId": 55240,
+            "itemId": 21562,
+            "name": "钻石强攻手镯",
+            "iconId": 55793,
             "rarity": 3
+          },
+          {
+            "itemId": 21563,
+            "name": "钻石精准手镯",
+            "iconId": 55793,
+            "rarity": 3
+          },
+          {
+            "itemId": 21564,
+            "name": "钻石治愈手镯",
+            "iconId": 55793,
+            "rarity": 3
+          },
+          {
+            "itemId": 21565,
+            "name": "钻石咏咒手镯",
+            "iconId": 55793,
+            "rarity": 3
+          },
+          {
+            "itemId": 21623,
+            "name": "碳硅晶御敌手镯",
+            "iconId": 55793,
+            "rarity": 3
+          },
+          {
+            "itemId": 21624,
+            "name": "碳硅晶强攻手镯",
+            "iconId": 55793,
+            "rarity": 3
+          },
+          {
+            "itemId": 21625,
+            "name": "碳硅晶精准手镯",
+            "iconId": 55793,
+            "rarity": 3
+          },
+          {
+            "itemId": 21626,
+            "name": "碳硅晶治愈手镯",
+            "iconId": 55793,
+            "rarity": 3
+          },
+          {
+            "itemId": 21627,
+            "name": "碳硅晶咏咒手镯",
+            "iconId": 55793,
+            "rarity": 3
+          },
+          {
+            "itemId": 21763,
+            "name": "黑柳御敌腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 21764,
+            "name": "黑柳强攻腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 21765,
+            "name": "黑柳精准腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 21766,
+            "name": "黑柳治愈腕环",
+            "iconId": 55734,
+            "rarity": 2
+          },
+          {
+            "itemId": 21767,
+            "name": "黑柳咏咒腕环",
+            "iconId": 55734,
+            "rarity": 2
           }
         ]
       }
     }
   ],
   "referenceShowcase": {
-    "globalIssue": 447,
-    "theme": "阿拉米格旅行者",
+    "globalIssue": 450,
+    "theme": "帅气的魔法师",
     "solutions": [],
     "dyes": []
   }

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-08-18T09:30:00+08:00",
+  "updatedAt": "2026-09-01T01:54:51.372Z",
   "events": [
     {
       "id": "fanfestival-2026-store-sale",
@@ -55,6 +55,24 @@
       "endsAt": "2026-09-06T23:59:00+08:00",
       "timezone": "Asia/Shanghai",
       "region": "cn"
+    },
+    {
+      "id": "756pvp",
+      "title": "7.56版本（PVP通行证结束）",
+      "url": "https://nightingalesilence.com",
+      "startsAt": "2026-08-01T00:00:00+08:00",
+      "endsAt": "2026-09-08T18:00:00+08:00",
+      "timezone": "Asia/Shanghai",
+      "region": "cn"
+    },
+    {
+      "id": "2026",
+      "title": "新生庆典 2026",
+      "url": "https://actff1.web.sdo.com/project/20260817The_Rising/7rzrnb48uiw9/index.html",
+      "startsAt": "2026-08-27T15:00:00+08:00",
+      "endsAt": "2026-09-10T22:59:00+08:00",
+      "timezone": "Asia/Shanghai",
+      "region": "common"
     }
   ]
 }

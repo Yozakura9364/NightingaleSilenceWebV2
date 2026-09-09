@@ -1,7 +1,6 @@
 <template>
   <section class="fashion-check-sources" :aria-label="t(keys.sources)">
-    <AppStatus v-if="loading" tone="info" :message="t(keys.loading)" />
-    <AppStatus v-else-if="!sources.length" tone="warning" :message="t(keys.sourcesUnavailable)" />
+    <AppStatus v-if="!loading && !sources.length" tone="warning" :message="t(keys.sourcesUnavailable)" />
     <template v-else>
       <a
         v-for="source in sources"

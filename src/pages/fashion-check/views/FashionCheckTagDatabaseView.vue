@@ -21,8 +21,7 @@
       </label>
     </div>
 
-    <AppStatus v-if="loading" tone="info" :message="t(keys.tagDatabaseLoading)" />
-    <AppStatus v-else-if="!database" tone="warning" :message="t(keys.tagDatabaseUnavailable)" />
+    <AppStatus v-if="!loading && !database" tone="warning" :message="t(keys.tagDatabaseUnavailable)" />
     <AppStatus
       v-else-if="filteredCategories.length === 0"
       tone="info"

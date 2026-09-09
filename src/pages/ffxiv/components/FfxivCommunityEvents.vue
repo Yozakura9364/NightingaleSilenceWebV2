@@ -11,8 +11,7 @@
     </header>
 
     <AppStatus v-if="dataError" compact tone="warning" :message="t(textKeys.communityDataError)" />
-    <AppStatus v-else-if="loading" compact tone="loading" :message="t(textKeys.communityLoading)" />
-    <AppStatus v-else-if="!hasVisibleEvents" compact :message="t(textKeys.communityEmpty)" />
+    <AppStatus v-else-if="!loading && !hasVisibleEvents" compact :message="t(textKeys.communityEmpty)" />
 
     <div class="ffxiv-calendar-timeline-card">
       <div
