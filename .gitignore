@@ -92,3 +92,6 @@ vite.config.ts.bak-*
 # debug image dumps (local only)
 /dbg_*.png
 /dbg_*.webp
+
+# local agent tooling
+/.openchamber/
