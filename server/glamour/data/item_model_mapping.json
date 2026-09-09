@@ -19,6 +19,7 @@
       "fr": "fr",
       "de": "de"
     },
+    "source_mode": "remote-default",
     "item_sources": {
       "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs/Item.csv",
       "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/en/Item.csv",
@@ -12623,6 +12624,210 @@
       "icon": 200742,
       "dye_count": 0
     },
+    "637": {
+      "key": 637,
+      "key_label": "编号",
+      "name": "泪滴形眼镜",
+      "names": {
+        "zh": "泪滴形眼镜",
+        "en": "Teardrop Glasses",
+        "ja": "ティアドロップグラス",
+        "ko": "눈물방울 안경",
+        "tc": "泪滴形眼镜",
+        "fr": "Lunettes aviateur",
+        "de": "Tränenbrille"
+      },
+      "is_emperor": false,
+      "icon": 200697,
+      "dye_count": 0
+    },
+    "638": {
+      "key": 638,
+      "key_label": "编号",
+      "name": "银色泪滴形眼镜",
+      "names": {
+        "zh": "银色泪滴形眼镜",
+        "en": "Silver Teardrop Glasses",
+        "ja": "ティアドロップグラス:シルバー",
+        "ko": "은색 눈물방울 안경",
+        "tc": "银色泪滴形眼镜",
+        "fr": "Lunettes aviateur (argent)",
+        "de": "Tränenbrille - Silber"
+      },
+      "is_emperor": false,
+      "icon": 200701,
+      "dye_count": 0
+    },
+    "639": {
+      "key": 639,
+      "key_label": "编号",
+      "name": "金色泪滴形眼镜",
+      "names": {
+        "zh": "金色泪滴形眼镜",
+        "en": "Gold Teardrop Glasses",
+        "ja": "ティアドロップグラス:ゴールド",
+        "ko": "금색 눈물방울 안경",
+        "tc": "金色泪滴形眼镜",
+        "fr": "Lunettes aviateur (or)",
+        "de": "Tränenbrille - Gold"
+      },
+      "is_emperor": false,
+      "icon": 200700,
+      "dye_count": 0
+    },
+    "640": {
+      "key": 640,
+      "key_label": "编号",
+      "name": "黑色泪滴形眼镜",
+      "names": {
+        "zh": "黑色泪滴形眼镜",
+        "en": "Black Teardrop Glasses",
+        "ja": "ティアドロップグラス:ブラック",
+        "ko": "검은색 눈물방울 안경",
+        "tc": "黑色泪滴形眼镜",
+        "fr": "Lunettes aviateur (noires)",
+        "de": "Tränenbrille - Schwarz"
+      },
+      "is_emperor": false,
+      "icon": 200702,
+      "dye_count": 0
+    },
+    "641": {
+      "key": 641,
+      "key_label": "编号",
+      "name": "白色泪滴形眼镜",
+      "names": {
+        "zh": "白色泪滴形眼镜",
+        "en": "White Teardrop Glasses",
+        "ja": "ティアドロップグラス:ホワイト",
+        "ko": "흰색 눈물방울 안경",
+        "tc": "白色泪滴形眼镜",
+        "fr": "Lunettes aviateur (blanches)",
+        "de": "Tränenbrille - Weiß"
+      },
+      "is_emperor": false,
+      "icon": 200707,
+      "dye_count": 0
+    },
+    "642": {
+      "key": 642,
+      "key_label": "编号",
+      "name": "灰色泪滴形眼镜",
+      "names": {
+        "zh": "灰色泪滴形眼镜",
+        "en": "Grey Teardrop Glasses",
+        "ja": "ティアドロップグラス:グレー",
+        "ko": "회색 눈물방울 안경",
+        "tc": "灰色泪滴形眼镜",
+        "fr": "Lunettes aviateur (grises)",
+        "de": "Tränenbrille - Grau"
+      },
+      "is_emperor": false,
+      "icon": 200698,
+      "dye_count": 0
+    },
+    "643": {
+      "key": 643,
+      "key_label": "编号",
+      "name": "红色泪滴形眼镜",
+      "names": {
+        "zh": "红色泪滴形眼镜",
+        "en": "Red Teardrop Glasses",
+        "ja": "ティアドロップグラス:レッド",
+        "ko": "빨간색 눈물방울 안경",
+        "tc": "红色泪滴形眼镜",
+        "fr": "Lunettes aviateur (rouges)",
+        "de": "Tränenbrille - Rot"
+      },
+      "is_emperor": false,
+      "icon": 200705,
+      "dye_count": 0
+    },
+    "644": {
+      "key": 644,
+      "key_label": "编号",
+      "name": "蓝色泪滴形眼镜",
+      "names": {
+        "zh": "蓝色泪滴形眼镜",
+        "en": "Blue Teardrop Glasses",
+        "ja": "ティアドロップグラス:ブルー",
+        "ko": "파란색 눈물방울 안경",
+        "tc": "蓝色泪滴形眼镜",
+        "fr": "Lunettes aviateur (bleues)",
+        "de": "Tränenbrille - Blau"
+      },
+      "is_emperor": false,
+      "icon": 200704,
+      "dye_count": 0
+    },
+    "645": {
+      "key": 645,
+      "key_label": "编号",
+      "name": "绿色泪滴形眼镜",
+      "names": {
+        "zh": "绿色泪滴形眼镜",
+        "en": "Green Teardrop Glasses",
+        "ja": "ティアドロップグラス:グリーン",
+        "ko": "초록색 눈물방울 안경",
+        "tc": "绿色泪滴形眼镜",
+        "fr": "Lunettes aviateur (vertes)",
+        "de": "Tränenbrille - Grün"
+      },
+      "is_emperor": false,
+      "icon": 200708,
+      "dye_count": 0
+    },
+    "646": {
+      "key": 646,
+      "key_label": "编号",
+      "name": "铜色泪滴形眼镜",
+      "names": {
+        "zh": "铜色泪滴形眼镜",
+        "en": "Brass Teardrop Glasses",
+        "ja": "ティアドロップグラス:ブラス",
+        "ko": "구리색 눈물방울 안경",
+        "tc": "铜色泪滴形眼镜",
+        "fr": "Lunettes aviateur (bronze)",
+        "de": "Tränenbrille - Messing"
+      },
+      "is_emperor": false,
+      "icon": 200699,
+      "dye_count": 0
+    },
+    "647": {
+      "key": 647,
+      "key_label": "编号",
+      "name": "紫色泪滴形眼镜",
+      "names": {
+        "zh": "紫色泪滴形眼镜",
+        "en": "Purple Teardrop Glasses",
+        "ja": "ティアドロップグラス:パープル",
+        "ko": "보라색 눈물방울 안경",
+        "tc": "紫色泪滴形眼镜",
+        "fr": "Lunettes aviateur (violettes)",
+        "de": "Tränenbrille - Violett"
+      },
+      "is_emperor": false,
+      "icon": 200703,
+      "dye_count": 0
+    },
+    "648": {
+      "key": 648,
+      "key_label": "编号",
+      "name": "棕色泪滴形眼镜",
+      "names": {
+        "zh": "棕色泪滴形眼镜",
+        "en": "Brown Teardrop Glasses",
+        "ja": "ティアドロップグラス:ブラウン",
+        "ko": "갈색 눈물방울 안경",
+        "tc": "棕色泪滴形眼镜",
+        "fr": "Lunettes aviateur (marron)",
+        "de": "Tränenbrille - Braun"
+      },
+      "is_emperor": false,
+      "icon": 200706,
+      "dye_count": 0
+    },
     "649": {
       "key": 649,
       "key_label": "编号",
@@ -13437,6 +13642,210 @@
       },
       "is_emperor": false,
       "icon": 200694,
+      "dye_count": 0
+    },
+    "697": {
+      "key": 697,
+      "key_label": "编号",
+      "name": "古董单眼镜",
+      "names": {
+        "zh": "古董单眼镜",
+        "en": "Antique Monocle",
+        "ja": "アンティーク・モノクル",
+        "ko": "고풍스러운 단안경",
+        "tc": "古董单眼镜",
+        "fr": "Monocle antique",
+        "de": "Antikes Monokel"
+      },
+      "is_emperor": false,
+      "icon": 200709,
+      "dye_count": 0
+    },
+    "698": {
+      "key": 698,
+      "key_label": "编号",
+      "name": "银框古董单眼镜",
+      "names": {
+        "zh": "银框古董单眼镜",
+        "en": "Silver Antique Monocle",
+        "ja": "アンティーク・モノクル:シルバー",
+        "ko": "은색 고풍스러운 단안경",
+        "tc": "银框古董单眼镜",
+        "fr": "Monocle antique (argent)",
+        "de": "Antikes Monokel - Silber"
+      },
+      "is_emperor": false,
+      "icon": 200713,
+      "dye_count": 0
+    },
+    "699": {
+      "key": 699,
+      "key_label": "编号",
+      "name": "金框古董单眼镜",
+      "names": {
+        "zh": "金框古董单眼镜",
+        "en": "Gold Antique Monocle",
+        "ja": "アンティーク・モノクル:ゴールド",
+        "ko": "금색 고풍스러운 단안경",
+        "tc": "金框古董单眼镜",
+        "fr": "Monocle antique (or)",
+        "de": "Antikes Monokel - Gold"
+      },
+      "is_emperor": false,
+      "icon": 200712,
+      "dye_count": 0
+    },
+    "700": {
+      "key": 700,
+      "key_label": "编号",
+      "name": "黑框古董单眼镜",
+      "names": {
+        "zh": "黑框古董单眼镜",
+        "en": "Black Antique Monocle",
+        "ja": "アンティーク・モノクル:ブラック",
+        "ko": "검은색 고풍스러운 단안경",
+        "tc": "黑框古董单眼镜",
+        "fr": "Monocle antique (noir)",
+        "de": "Antikes Monokel - Schwarz"
+      },
+      "is_emperor": false,
+      "icon": 200714,
+      "dye_count": 0
+    },
+    "701": {
+      "key": 701,
+      "key_label": "编号",
+      "name": "白框古董单眼镜",
+      "names": {
+        "zh": "白框古董单眼镜",
+        "en": "White Antique Monocle",
+        "ja": "アンティーク・モノクル:ホワイト",
+        "ko": "흰색 고풍스러운 단안경",
+        "tc": "白框古董单眼镜",
+        "fr": "Monocle antique (blanc)",
+        "de": "Antikes Monokel - Weiß"
+      },
+      "is_emperor": false,
+      "icon": 200719,
+      "dye_count": 0
+    },
+    "702": {
+      "key": 702,
+      "key_label": "编号",
+      "name": "灰框古董单眼镜",
+      "names": {
+        "zh": "灰框古董单眼镜",
+        "en": "Grey Antique Monocle",
+        "ja": "アンティーク・モノクル:グレー",
+        "ko": "회색 고풍스러운 단안경",
+        "tc": "灰框古董单眼镜",
+        "fr": "Monocle antique (gris)",
+        "de": "Antikes Monokel - Grau"
+      },
+      "is_emperor": false,
+      "icon": 200710,
+      "dye_count": 0
+    },
+    "703": {
+      "key": 703,
+      "key_label": "编号",
+      "name": "红框古董单眼镜",
+      "names": {
+        "zh": "红框古董单眼镜",
+        "en": "Red Antique Monocle",
+        "ja": "アンティーク・モノクル:レッド",
+        "ko": "빨간색 고풍스러운 단안경",
+        "tc": "红框古董单眼镜",
+        "fr": "Monocle antique (rouge)",
+        "de": "Antikes Monokel - Rot"
+      },
+      "is_emperor": false,
+      "icon": 200717,
+      "dye_count": 0
+    },
+    "704": {
+      "key": 704,
+      "key_label": "编号",
+      "name": "蓝框古董单眼镜",
+      "names": {
+        "zh": "蓝框古董单眼镜",
+        "en": "Blue Antique Monocle",
+        "ja": "アンティーク・モノクル:ブルー",
+        "ko": "파란색 고풍스러운 단안경",
+        "tc": "蓝框古董单眼镜",
+        "fr": "Monocle antique (bleu)",
+        "de": "Antikes Monokel - Blau"
+      },
+      "is_emperor": false,
+      "icon": 200716,
+      "dye_count": 0
+    },
+    "705": {
+      "key": 705,
+      "key_label": "编号",
+      "name": "绿框古董单眼镜",
+      "names": {
+        "zh": "绿框古董单眼镜",
+        "en": "Green Antique Monocle",
+        "ja": "アンティーク・モノクル:グリーン",
+        "ko": "초록색 고풍스러운 단안경",
+        "tc": "绿框古董单眼镜",
+        "fr": "Monocle antique (vert)",
+        "de": "Antikes Monokel - Grün"
+      },
+      "is_emperor": false,
+      "icon": 200720,
+      "dye_count": 0
+    },
+    "706": {
+      "key": 706,
+      "key_label": "编号",
+      "name": "铜框古董单眼镜",
+      "names": {
+        "zh": "铜框古董单眼镜",
+        "en": "Brass Antique Monocle",
+        "ja": "アンティーク・モノクル:ブラス",
+        "ko": "구리색 고풍스러운 단안경",
+        "tc": "铜框古董单眼镜",
+        "fr": "Monocle antique (bronze)",
+        "de": "Antikes Monokel - Messing"
+      },
+      "is_emperor": false,
+      "icon": 200711,
+      "dye_count": 0
+    },
+    "707": {
+      "key": 707,
+      "key_label": "编号",
+      "name": "紫框古董单眼镜",
+      "names": {
+        "zh": "紫框古董单眼镜",
+        "en": "Purple Antique Monocle",
+        "ja": "アンティーク・モノクル:パープル",
+        "ko": "보라색 고풍스러운 단안경",
+        "tc": "紫框古董单眼镜",
+        "fr": "Monocle antique (violet)",
+        "de": "Antikes Monokel - Violett"
+      },
+      "is_emperor": false,
+      "icon": 200715,
+      "dye_count": 0
+    },
+    "708": {
+      "key": 708,
+      "key_label": "编号",
+      "name": "棕框古董单眼镜",
+      "names": {
+        "zh": "棕框古董单眼镜",
+        "en": "Brown Antique Monocle",
+        "ja": "アンティーク・モノクル:ブラウン",
+        "ko": "갈색 고풍스러운 단안경",
+        "tc": "棕框古董单眼镜",
+        "fr": "Monocle antique (marron)",
+        "de": "Antikes Monokel - Braun"
+      },
+      "is_emperor": false,
+      "icon": 200718,
       "dye_count": 0
     },
     "709": {
@@ -15005,6 +15414,24 @@
       "is_emperor": false,
       "icon": 8054,
       "model_chara": 4919,
+      "dye_count": 0
+    },
+    "56": {
+      "key": 56,
+      "key_label": "编号",
+      "name": "干草叉",
+      "names": {
+        "zh": "干草叉",
+        "en": "Pitchfork",
+        "ja": "ピッチフォーク",
+        "ko": "쇠스랑",
+        "tc": "干草叉",
+        "fr": "Fourche",
+        "de": "Heugabel"
+      },
+      "is_emperor": false,
+      "icon": 8055,
+      "model_chara": 4935,
       "dye_count": 0
     },
     "57": {
@@ -34517,6 +34944,34 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "250, 6, 0, 0"
+          }
+        }
+      ],
+      "头部防具|250|7": [
+        {
+          "key": 50727,
+          "name": "兽牧头冠",
+          "names": {
+            "zh": "兽牧头冠",
+            "en": "Beast Herder's Circlet",
+            "ja": "ビーストハーダー・サークレット",
+            "ko": "마수사육사 머리장식",
+            "tc": "兽牧头冠",
+            "fr": "Diadème de soigneur de bêtes",
+            "de": "Bestienpfleger-Haarreif"
+          },
+          "is_emperor": false,
+          "icon": 56960,
+          "rarity": 1,
+          "equip_slot_category": 3,
+          "slot_label": "头部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 250,
+            "secondary": 7,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "250, 7, 0, 0"
           }
         }
       ],
@@ -80752,6 +81207,34 @@
           }
         }
       ],
+      "头部防具|6262|1": [
+        {
+          "key": 52428,
+          "name": "继承者兜帽",
+          "names": {
+            "zh": "继承者兜帽",
+            "en": "Successor's Hood",
+            "ja": "サクセサー・フード",
+            "ko": "계승자의 두건",
+            "tc": "继承者兜帽",
+            "fr": "Capuche de successeur",
+            "de": "Kapuze des Erben"
+          },
+          "is_emperor": false,
+          "icon": 56956,
+          "rarity": 1,
+          "equip_slot_category": 3,
+          "slot_label": "头部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 6262,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "6262, 1, 0, 0"
+          }
+        }
+      ],
       "头部防具|6263|1": [
         {
           "key": 52424,
@@ -103971,6 +104454,138 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "964, 2, 0, 0"
+          }
+        }
+      ],
+      "头部防具|968|1": [
+        {
+          "key": 50744,
+          "name": "兽主独角冠",
+          "names": {
+            "zh": "兽主独角冠",
+            "en": "Beastmaster's Horns",
+            "ja": "ビーストマスター・ホーン",
+            "ko": "마수전문가 뿔장식",
+            "tc": "兽主独角冠",
+            "fr": "Cornes de dresseur de bêtes",
+            "de": "Bestienbändiger-Hörner"
+          },
+          "is_emperor": false,
+          "icon": 56936,
+          "rarity": 3,
+          "equip_slot_category": 3,
+          "slot_label": "头部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50751,
+          "name": "兽主独角冠+1",
+          "names": {
+            "zh": "兽主独角冠+1",
+            "en": "Beastmaster's Horns +1",
+            "ja": "ビーストマスター・ホーン+1",
+            "ko": "마수전문가 뿔장식 +1",
+            "tc": "兽主独角冠+1",
+            "fr": "Cornes de dresseur de bêtes +1",
+            "de": "Bestienbändiger-Hörner +1"
+          },
+          "is_emperor": false,
+          "icon": 56936,
+          "rarity": 3,
+          "equip_slot_category": 3,
+          "slot_label": "头部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50758,
+          "name": "兽主独角冠+2",
+          "names": {
+            "zh": "兽主独角冠+2",
+            "en": "Beastmaster's Horns +2",
+            "ja": "ビーストマスター・ホーン+2",
+            "ko": "마수전문가 뿔장식 +2",
+            "tc": "兽主独角冠+2",
+            "fr": "Cornes de dresseur de bêtes +2",
+            "de": "Bestienbändiger-Hörner +2"
+          },
+          "is_emperor": false,
+          "icon": 56936,
+          "rarity": 3,
+          "equip_slot_category": 3,
+          "slot_label": "头部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50765,
+          "name": "兽主独角冠+3",
+          "names": {
+            "zh": "兽主独角冠+3",
+            "en": "Beastmaster's Horns +3",
+            "ja": "ビーストマスター・ホーン+3",
+            "ko": "마수전문가 뿔장식 +3",
+            "tc": "兽主独角冠+3",
+            "fr": "Cornes de dresseur de bêtes +3",
+            "de": "Bestienbändiger-Hörner +3"
+          },
+          "is_emperor": false,
+          "icon": 56936,
+          "rarity": 3,
+          "equip_slot_category": 3,
+          "slot_label": "头部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50772,
+          "name": "兽主独角冠+4",
+          "names": {
+            "zh": "兽主独角冠+4",
+            "en": "Beastmaster's Horns +4",
+            "ja": "ビーストマスター・ホーン+4",
+            "ko": "마수전문가 뿔장식 +4",
+            "tc": "兽主独角冠+4",
+            "fr": "Cornes de dresseur de bêtes +4",
+            "de": "Bestienbändiger-Hörner +4"
+          },
+          "is_emperor": false,
+          "icon": 56936,
+          "rarity": 3,
+          "equip_slot_category": 3,
+          "slot_label": "头部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
           }
         }
       ],
@@ -190796,6 +191411,34 @@
           }
         }
       ],
+      "手部防具|6262|1": [
+        {
+          "key": 52430,
+          "name": "继承者半指护手",
+          "names": {
+            "zh": "继承者半指护手",
+            "en": "Successor's Fingerless Gloves",
+            "ja": "サクセサー・フィンガレスグローブ",
+            "ko": "계승자의 반장갑",
+            "tc": "继承者半指护手",
+            "fr": "Mitaines de successeur",
+            "de": "Fingerlinge des Erben"
+          },
+          "is_emperor": false,
+          "icon": 56462,
+          "rarity": 1,
+          "equip_slot_category": 5,
+          "slot_label": "手部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 6262,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "6262, 1, 0, 0"
+          }
+        }
+      ],
       "手部防具|6263|1": [
         {
           "key": 52426,
@@ -199131,6 +199774,34 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "732, 7, 0, 0"
+          }
+        }
+      ],
+      "手部防具|732|8": [
+        {
+          "key": 50729,
+          "name": "兽牧手套",
+          "names": {
+            "zh": "兽牧手套",
+            "en": "Beast Herder's Gloves",
+            "ja": "ビーストハーダー・グローブ",
+            "ko": "마수사육사 장갑",
+            "tc": "兽牧手套",
+            "fr": "Gants de soigneur de bêtes",
+            "de": "Bestienpfleger-Handschuhe"
+          },
+          "is_emperor": false,
+          "icon": 56466,
+          "rarity": 1,
+          "equip_slot_category": 5,
+          "slot_label": "手部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 732,
+            "secondary": 8,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "732, 8, 0, 0"
           }
         }
       ],
@@ -214755,6 +215426,138 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "964, 2, 0, 0"
+          }
+        }
+      ],
+      "手部防具|968|1": [
+        {
+          "key": 50746,
+          "name": "兽主护臂",
+          "names": {
+            "zh": "兽主护臂",
+            "en": "Beastmaster's Armguards",
+            "ja": "ビーストマスター・アームガード",
+            "ko": "마수전문가 팔보호구",
+            "tc": "兽主护臂",
+            "fr": "Garde-bras de dresseur de bêtes",
+            "de": "Bestienbändiger-Armschützer"
+          },
+          "is_emperor": false,
+          "icon": 56439,
+          "rarity": 3,
+          "equip_slot_category": 5,
+          "slot_label": "手部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50753,
+          "name": "兽主护臂+1",
+          "names": {
+            "zh": "兽主护臂+1",
+            "en": "Beastmaster's Armguards +1",
+            "ja": "ビーストマスター・アームガード+1",
+            "ko": "마수전문가 팔보호구 +1",
+            "tc": "兽主护臂+1",
+            "fr": "Garde-bras de dresseur de bêtes +1",
+            "de": "Bestienbändiger-Armschützer +1"
+          },
+          "is_emperor": false,
+          "icon": 56439,
+          "rarity": 3,
+          "equip_slot_category": 5,
+          "slot_label": "手部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50760,
+          "name": "兽主护臂+2",
+          "names": {
+            "zh": "兽主护臂+2",
+            "en": "Beastmaster's Armguards +2",
+            "ja": "ビーストマスター・アームガード+2",
+            "ko": "마수전문가 팔보호구 +2",
+            "tc": "兽主护臂+2",
+            "fr": "Garde-bras de dresseur de bêtes +2",
+            "de": "Bestienbändiger-Armschützer +2"
+          },
+          "is_emperor": false,
+          "icon": 56439,
+          "rarity": 3,
+          "equip_slot_category": 5,
+          "slot_label": "手部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50767,
+          "name": "兽主护臂+3",
+          "names": {
+            "zh": "兽主护臂+3",
+            "en": "Beastmaster's Armguards +3",
+            "ja": "ビーストマスター・アームガード+3",
+            "ko": "마수전문가 팔보호구 +3",
+            "tc": "兽主护臂+3",
+            "fr": "Garde-bras de dresseur de bêtes +3",
+            "de": "Bestienbändiger-Armschützer +3"
+          },
+          "is_emperor": false,
+          "icon": 56439,
+          "rarity": 3,
+          "equip_slot_category": 5,
+          "slot_label": "手部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50774,
+          "name": "兽主护臂+4",
+          "names": {
+            "zh": "兽主护臂+4",
+            "en": "Beastmaster's Armguards +4",
+            "ja": "ビーストマスター・アームガード+4",
+            "ko": "마수전문가 팔보호구 +4",
+            "tc": "兽主护臂+4",
+            "fr": "Garde-bras de dresseur de bêtes +4",
+            "de": "Bestienbändiger-Armschützer +4"
+          },
+          "is_emperor": false,
+          "icon": 56439,
+          "rarity": 3,
+          "equip_slot_category": 5,
+          "slot_label": "手部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
           }
         }
       ],
@@ -262508,6 +263311,34 @@
           }
         }
       ],
+      "耳饰|190|1": [
+        {
+          "key": 51745,
+          "name": "兽主耳环",
+          "names": {
+            "zh": "兽主耳环",
+            "en": "Beastmaster's Earrings",
+            "ja": "ビーストマスター・イヤリング",
+            "ko": "마수전문가 귀걸이",
+            "tc": "兽主耳环",
+            "fr": "Boucles d'oreilles de dresseur de bêtes",
+            "de": "Bestienbändiger-Ohrringe"
+          },
+          "is_emperor": false,
+          "icon": 55570,
+          "rarity": 3,
+          "equip_slot_category": 9,
+          "slot_label": "耳饰",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 190,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "190, 1, 0, 0"
+          }
+        }
+      ],
       "耳饰|191|1": [
         {
           "key": 52327,
@@ -299247,6 +300078,34 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "259, 6, 0, 0"
+          }
+        }
+      ],
+      "脚部防具|259|8": [
+        {
+          "key": 50731,
+          "name": "兽牧靴",
+          "names": {
+            "zh": "兽牧靴",
+            "en": "Beast Herder's Boots",
+            "ja": "ビーストハーダー・ブーツ",
+            "ko": "마수사육사 장화",
+            "tc": "兽牧靴",
+            "fr": "Bottes de soigneur de bêtes",
+            "de": "Bestienpfleger-Stiefel"
+          },
+          "is_emperor": false,
+          "icon": 57986,
+          "rarity": 1,
+          "equip_slot_category": 8,
+          "slot_label": "脚部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 259,
+            "secondary": 8,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "259, 8, 0, 0"
           }
         }
       ],
@@ -339346,6 +340205,34 @@
           }
         }
       ],
+      "脚部防具|6262|1": [
+        {
+          "key": 52432,
+          "name": "继承者高筒靴",
+          "names": {
+            "zh": "继承者高筒靴",
+            "en": "Successor's Highboots",
+            "ja": "サクセサー・ハイブーツ",
+            "ko": "계승자의 무릎장화",
+            "tc": "继承者高筒靴",
+            "fr": "Bottes de successeur",
+            "de": "Kniestiefel des Erben"
+          },
+          "is_emperor": false,
+          "icon": 57972,
+          "rarity": 1,
+          "equip_slot_category": 8,
+          "slot_label": "脚部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 6262,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "6262, 1, 0, 0"
+          }
+        }
+      ],
       "脚部防具|6263|1": [
         {
           "key": 52427,
@@ -363513,6 +364400,138 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "964, 2, 0, 0"
+          }
+        }
+      ],
+      "脚部防具|968|1": [
+        {
+          "key": 50748,
+          "name": "兽主靴",
+          "names": {
+            "zh": "兽主靴",
+            "en": "Beastmaster's Boots",
+            "ja": "ビーストマスター・ブーツ",
+            "ko": "마수전문가 장화",
+            "tc": "兽主靴",
+            "fr": "Bottes de dresseur de bêtes",
+            "de": "Bestienbändiger-Stiefel"
+          },
+          "is_emperor": false,
+          "icon": 57949,
+          "rarity": 3,
+          "equip_slot_category": 8,
+          "slot_label": "脚部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50755,
+          "name": "兽主靴+1",
+          "names": {
+            "zh": "兽主靴+1",
+            "en": "Beastmaster's Boots +1",
+            "ja": "ビーストマスター・ブーツ+1",
+            "ko": "마수전문가 장화 +1",
+            "tc": "兽主靴+1",
+            "fr": "Bottes de dresseur de bêtes +1",
+            "de": "Bestienbändiger-Stiefel +1"
+          },
+          "is_emperor": false,
+          "icon": 57949,
+          "rarity": 3,
+          "equip_slot_category": 8,
+          "slot_label": "脚部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50762,
+          "name": "兽主靴+2",
+          "names": {
+            "zh": "兽主靴+2",
+            "en": "Beastmaster's Boots +2",
+            "ja": "ビーストマスター・ブーツ+2",
+            "ko": "마수전문가 장화 +2",
+            "tc": "兽主靴+2",
+            "fr": "Bottes de dresseur de bêtes +2",
+            "de": "Bestienbändiger-Stiefel +2"
+          },
+          "is_emperor": false,
+          "icon": 57949,
+          "rarity": 3,
+          "equip_slot_category": 8,
+          "slot_label": "脚部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50769,
+          "name": "兽主靴+3",
+          "names": {
+            "zh": "兽主靴+3",
+            "en": "Beastmaster's Boots +3",
+            "ja": "ビーストマスター・ブーツ+3",
+            "ko": "마수전문가 장화 +3",
+            "tc": "兽主靴+3",
+            "fr": "Bottes de dresseur de bêtes +3",
+            "de": "Bestienbändiger-Stiefel +3"
+          },
+          "is_emperor": false,
+          "icon": 57949,
+          "rarity": 3,
+          "equip_slot_category": 8,
+          "slot_label": "脚部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50776,
+          "name": "兽主靴+4",
+          "names": {
+            "zh": "兽主靴+4",
+            "en": "Beastmaster's Boots +4",
+            "ja": "ビーストマスター・ブーツ+4",
+            "ko": "마수전문가 장화 +4",
+            "tc": "兽主靴+4",
+            "fr": "Bottes de dresseur de bêtes +4",
+            "de": "Bestienbändiger-Stiefel +4"
+          },
+          "is_emperor": false,
+          "icon": 57949,
+          "rarity": 3,
+          "equip_slot_category": 8,
+          "slot_label": "脚部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
           }
         }
       ],
@@ -400044,6 +401063,34 @@
           }
         }
       ],
+      "腿部防具|459|10": [
+        {
+          "key": 50730,
+          "name": "兽牧打底裤",
+          "names": {
+            "zh": "兽牧打底裤",
+            "en": "Beast Herder's Bottoms",
+            "ja": "ビーストハーダー・ボトム",
+            "ko": "마수사육사 하의",
+            "tc": "兽牧打底裤",
+            "fr": "Bas-de-corps de soigneur de bêtes",
+            "de": "Bestienpfleger-Hose"
+          },
+          "is_emperor": false,
+          "icon": 57483,
+          "rarity": 1,
+          "equip_slot_category": 7,
+          "slot_label": "腿部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 459,
+            "secondary": 10,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "459, 10, 0, 0"
+          }
+        }
+      ],
       "腿部防具|459|2": [
         {
           "key": 19168,
@@ -419811,6 +420858,34 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "6261, 1, 0, 0"
+          }
+        }
+      ],
+      "腿部防具|6262|1": [
+        {
+          "key": 52431,
+          "name": "继承者马裤",
+          "names": {
+            "zh": "继承者马裤",
+            "en": "Successor's Breeches",
+            "ja": "サクセサー・ブリーチ",
+            "ko": "계승자의 바지",
+            "tc": "继承者马裤",
+            "fr": "Braies de successeur",
+            "de": "Reiterhose des Erben"
+          },
+          "is_emperor": false,
+          "icon": 57479,
+          "rarity": 1,
+          "equip_slot_category": 7,
+          "slot_label": "腿部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 6262,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "6262, 1, 0, 0"
           }
         }
       ],
@@ -444169,6 +445244,138 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "964, 2, 0, 0"
+          }
+        }
+      ],
+      "腿部防具|968|1": [
+        {
+          "key": 50747,
+          "name": "兽主工作裤",
+          "names": {
+            "zh": "兽主工作裤",
+            "en": "Beastmaster's Slops",
+            "ja": "ビーストマスター・スロップ",
+            "ko": "마수전문가 일자바지",
+            "tc": "兽主工作裤",
+            "fr": "Trousses de dresseur de bêtes",
+            "de": "Bestienbändiger-Beinlinge"
+          },
+          "is_emperor": false,
+          "icon": 57457,
+          "rarity": 3,
+          "equip_slot_category": 7,
+          "slot_label": "腿部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50754,
+          "name": "兽主工作裤+1",
+          "names": {
+            "zh": "兽主工作裤+1",
+            "en": "Beastmaster's Slops +1",
+            "ja": "ビーストマスター・スロップ+1",
+            "ko": "마수전문가 일자바지 +1",
+            "tc": "兽主工作裤+1",
+            "fr": "Trousses de dresseur de bêtes +1",
+            "de": "Bestienbändiger-Beinlinge +1"
+          },
+          "is_emperor": false,
+          "icon": 57457,
+          "rarity": 3,
+          "equip_slot_category": 7,
+          "slot_label": "腿部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50761,
+          "name": "兽主工作裤+2",
+          "names": {
+            "zh": "兽主工作裤+2",
+            "en": "Beastmaster's Slops +2",
+            "ja": "ビーストマスター・スロップ+2",
+            "ko": "마수전문가 일자바지 +2",
+            "tc": "兽主工作裤+2",
+            "fr": "Trousses de dresseur de bêtes +2",
+            "de": "Bestienbändiger-Beinlinge +2"
+          },
+          "is_emperor": false,
+          "icon": 57457,
+          "rarity": 3,
+          "equip_slot_category": 7,
+          "slot_label": "腿部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50768,
+          "name": "兽主工作裤+3",
+          "names": {
+            "zh": "兽主工作裤+3",
+            "en": "Beastmaster's Slops +3",
+            "ja": "ビーストマスター・スロップ+3",
+            "ko": "마수전문가 일자바지 +3",
+            "tc": "兽主工作裤+3",
+            "fr": "Trousses de dresseur de bêtes +3",
+            "de": "Bestienbändiger-Beinlinge +3"
+          },
+          "is_emperor": false,
+          "icon": 57457,
+          "rarity": 3,
+          "equip_slot_category": 7,
+          "slot_label": "腿部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50775,
+          "name": "兽主工作裤+4",
+          "names": {
+            "zh": "兽主工作裤+4",
+            "en": "Beastmaster's Slops +4",
+            "ja": "ビーストマスター・スロップ+4",
+            "ko": "마수전문가 일자바지 +4",
+            "tc": "兽主工作裤+4",
+            "fr": "Trousses de dresseur de bêtes +4",
+            "de": "Bestienbändiger-Beinlinge +4"
+          },
+          "is_emperor": false,
+          "icon": 57457,
+          "rarity": 3,
+          "equip_slot_category": 7,
+          "slot_label": "腿部防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
           }
         }
       ],
@@ -488206,6 +489413,34 @@
           }
         }
       ],
+      "身体防具|456|7": [
+        {
+          "key": 50728,
+          "name": "兽牧外套",
+          "names": {
+            "zh": "兽牧外套",
+            "en": "Beast Herder's Coat",
+            "ja": "ビーストハーダー・コート",
+            "ko": "마수사육사 외투",
+            "tc": "兽牧外套",
+            "fr": "Manteau de soigneur de bêtes",
+            "de": "Bestienpfleger-Mantel"
+          },
+          "is_emperor": false,
+          "icon": 57398,
+          "rarity": 1,
+          "equip_slot_category": 4,
+          "slot_label": "身体防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 456,
+            "secondary": 7,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "456, 7, 0, 0"
+          }
+        }
+      ],
       "身体防具|457|1": [
         {
           "key": 19154,
@@ -511077,6 +512312,34 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "6261, 1, 0, 0"
+          }
+        }
+      ],
+      "身体防具|6262|1": [
+        {
+          "key": 52429,
+          "name": "继承者束腰衣",
+          "names": {
+            "zh": "继承者束腰衣",
+            "en": "Successor's Tunic",
+            "ja": "サクセサー・チュニック",
+            "ko": "계승자의 튜닉",
+            "tc": "继承者束腰衣",
+            "fr": "Tunique de successeur",
+            "de": "Tunika des Erben"
+          },
+          "is_emperor": false,
+          "icon": 57393,
+          "rarity": 1,
+          "equip_slot_category": 4,
+          "slot_label": "身体防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 6262,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "6262, 1, 0, 0"
           }
         }
       ],
@@ -537559,6 +538822,138 @@
             "tertiary": 0,
             "quaternary": 0,
             "raw": "964, 2, 0, 0"
+          }
+        }
+      ],
+      "身体防具|968|1": [
+        {
+          "key": 50745,
+          "name": "兽主裘皮衣",
+          "names": {
+            "zh": "兽主裘皮衣",
+            "en": "Beastmaster's Furs",
+            "ja": "ビーストマスター・ファーズ",
+            "ko": "마수전문가 모피옷",
+            "tc": "兽主裘皮衣",
+            "fr": "Fourrure de dresseur de bêtes",
+            "de": "Bestienbändiger-Fell"
+          },
+          "is_emperor": false,
+          "icon": 57364,
+          "rarity": 3,
+          "equip_slot_category": 4,
+          "slot_label": "身体防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50752,
+          "name": "兽主裘皮衣+1",
+          "names": {
+            "zh": "兽主裘皮衣+1",
+            "en": "Beastmaster's Furs +1",
+            "ja": "ビーストマスター・ファーズ+1",
+            "ko": "마수전문가 모피옷 +1",
+            "tc": "兽主裘皮衣+1",
+            "fr": "Fourrure de dresseur de bêtes +1",
+            "de": "Bestienbändiger-Fell +1"
+          },
+          "is_emperor": false,
+          "icon": 57364,
+          "rarity": 3,
+          "equip_slot_category": 4,
+          "slot_label": "身体防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50759,
+          "name": "兽主裘皮衣+2",
+          "names": {
+            "zh": "兽主裘皮衣+2",
+            "en": "Beastmaster's Furs +2",
+            "ja": "ビーストマスター・ファーズ+2",
+            "ko": "마수전문가 모피옷 +2",
+            "tc": "兽主裘皮衣+2",
+            "fr": "Fourrure de dresseur de bêtes +2",
+            "de": "Bestienbändiger-Fell +2"
+          },
+          "is_emperor": false,
+          "icon": 57364,
+          "rarity": 3,
+          "equip_slot_category": 4,
+          "slot_label": "身体防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50766,
+          "name": "兽主裘皮衣+3",
+          "names": {
+            "zh": "兽主裘皮衣+3",
+            "en": "Beastmaster's Furs +3",
+            "ja": "ビーストマスター・ファーズ+3",
+            "ko": "마수전문가 모피옷 +3",
+            "tc": "兽主裘皮衣+3",
+            "fr": "Fourrure de dresseur de bêtes +3",
+            "de": "Bestienbändiger-Fell +3"
+          },
+          "is_emperor": false,
+          "icon": 57364,
+          "rarity": 3,
+          "equip_slot_category": 4,
+          "slot_label": "身体防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
+          }
+        },
+        {
+          "key": 50773,
+          "name": "兽主裘皮衣+4",
+          "names": {
+            "zh": "兽主裘皮衣+4",
+            "en": "Beastmaster's Furs +4",
+            "ja": "ビーストマスター・ファーズ+4",
+            "ko": "마수전문가 모피옷 +4",
+            "tc": "兽主裘皮衣+4",
+            "fr": "Fourrure de dresseur de bêtes +4",
+            "de": "Bestienbändiger-Fell +4"
+          },
+          "is_emperor": false,
+          "icon": 57364,
+          "rarity": 3,
+          "equip_slot_category": 4,
+          "slot_label": "身体防具",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 968,
+            "secondary": 1,
+            "tertiary": 0,
+            "quaternary": 0,
+            "raw": "968, 1, 0, 0"
           }
         }
       ],
@@ -581004,6 +582399,62 @@
           }
         }
       ],
+      "武器|101|114|2": [
+        {
+          "key": 50778,
+          "name": "科纳格青铜重盾",
+          "names": {
+            "zh": "科纳格青铜重盾",
+            "en": "Kornago Hoplon",
+            "ja": "コルナゴホプロン",
+            "ko": "코르나고 전통방패",
+            "tc": "科纳格青铜重盾",
+            "fr": "Hoplon du cornago",
+            "de": "Kornago-Hoplon"
+          },
+          "is_emperor": false,
+          "icon": 39954,
+          "rarity": 4,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 101,
+            "secondary": 114,
+            "tertiary": 2,
+            "quaternary": 0,
+            "raw": "101, 114, 2, 0"
+          }
+        }
+      ],
+      "武器|101|114|3": [
+        {
+          "key": 51740,
+          "name": "改良型科纳格青铜重盾",
+          "names": {
+            "zh": "改良型科纳格青铜重盾",
+            "en": "Augmented Kornago Hoplon",
+            "ja": "コルナゴホプロンRE",
+            "ko": "보강된 코르나고 전통방패",
+            "tc": "改良型科纳格青铜重盾",
+            "fr": "Hoplon du cornago amélioré",
+            "de": "Modifiziertes Kornago-Hoplon"
+          },
+          "is_emperor": false,
+          "icon": 39954,
+          "rarity": 4,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 101,
+            "secondary": 114,
+            "tertiary": 3,
+            "quaternary": 0,
+            "raw": "101, 114, 3, 0"
+          }
+        }
+      ],
       "武器|101|115|1": [
         {
           "key": 37950,
@@ -583514,6 +584965,32 @@
           "is_emperor": false,
           "icon": 30060,
           "rarity": 2,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 101,
+            "secondary": 2,
+            "tertiary": 4,
+            "quaternary": 0,
+            "raw": "101, 2, 4, 0"
+          }
+        },
+        {
+          "key": 50737,
+          "name": "兽语圆盾",
+          "names": {
+            "zh": "兽语圆盾",
+            "en": "Beast Whisperer's Round Shield",
+            "ja": "ビーストウィスパラー・ラウンドシールド",
+            "ko": "마수소통자 원형방패",
+            "tc": "兽语圆盾",
+            "fr": "Bouclier rond de chuchoteur de bêtes",
+            "de": "Bestienflüsterer-Rundschild"
+          },
+          "is_emperor": false,
+          "icon": 30011,
+          "rarity": 1,
           "equip_slot_category": 2,
           "slot_label": "武器",
           "dye_count": 0,
@@ -587078,6 +588555,32 @@
             "quaternary": 0,
             "raw": "101, 5, 8, 0"
           }
+        },
+        {
+          "key": 50741,
+          "name": "兽卫小圆盾",
+          "names": {
+            "zh": "兽卫小圆盾",
+            "en": "Beastwarden's Buckler",
+            "ja": "ビーストワーデン・バックラー",
+            "ko": "마수관리자 전투방패",
+            "tc": "兽卫小圆盾",
+            "fr": "Rondache de gardien de bêtes",
+            "de": "Bestienwärter-Faustschild"
+          },
+          "is_emperor": false,
+          "icon": 39952,
+          "rarity": 1,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 101,
+            "secondary": 5,
+            "tertiary": 8,
+            "quaternary": 0,
+            "raw": "101, 5, 8, 0"
+          }
         }
       ],
       "武器|101|5|9": [
@@ -589860,6 +591363,32 @@
             "quaternary": 0,
             "raw": "101, 8, 3, 0"
           }
+        },
+        {
+          "key": 50733,
+          "name": "兽育青铜重盾",
+          "names": {
+            "zh": "兽育青铜重盾",
+            "en": "Beast Tender's Hoplon",
+            "ja": "ビーストテンダー・ホプロン",
+            "ko": "마수보호사 전통방패",
+            "tc": "兽育青铜重盾",
+            "fr": "Hoplon d'éleveur de bêtes",
+            "de": "Bestienhirten-Hoplon"
+          },
+          "is_emperor": false,
+          "icon": 30023,
+          "rarity": 1,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 101,
+            "secondary": 8,
+            "tertiary": 3,
+            "quaternary": 0,
+            "raw": "101, 8, 3, 0"
+          }
         }
       ],
       "武器|101|8|4": [
@@ -589904,6 +591433,32 @@
           "is_emperor": false,
           "icon": 30057,
           "rarity": 2,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 101,
+            "secondary": 8,
+            "tertiary": 4,
+            "quaternary": 0,
+            "raw": "101, 8, 4, 0"
+          }
+        },
+        {
+          "key": 50735,
+          "name": "兽练青铜轻盾",
+          "names": {
+            "zh": "兽练青铜轻盾",
+            "en": "Beast Handler's Pelta",
+            "ja": "ビーストハンドラー・ペルタ",
+            "ko": "마수훈련사 타원방패",
+            "tc": "兽练青铜轻盾",
+            "fr": "Pelte de dompteur de bêtes",
+            "de": "Bestienführer-Pelte"
+          },
+          "is_emperor": false,
+          "icon": 30024,
+          "rarity": 1,
           "equip_slot_category": 2,
           "slot_label": "武器",
           "dye_count": 0,
@@ -590020,6 +591575,32 @@
             "quaternary": 0,
             "raw": "101, 8, 5, 0"
           }
+        },
+        {
+          "key": 47472,
+          "name": "兽牧青铜重盾",
+          "names": {
+            "zh": "兽牧青铜重盾",
+            "en": "Beast Herder's Hoplon",
+            "ja": "ビーストハーダー・ホプロン",
+            "ko": "마수사육사 전통방패",
+            "tc": "兽牧青铜重盾",
+            "fr": "Hoplon de soigneur de bêtes",
+            "de": "Bestienpfleger-Hoplon"
+          },
+          "is_emperor": false,
+          "icon": 30025,
+          "rarity": 1,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 101,
+            "secondary": 8,
+            "tertiary": 5,
+            "quaternary": 0,
+            "raw": "101, 8, 5, 0"
+          }
         }
       ],
       "武器|101|8|6": [
@@ -590122,6 +591703,32 @@
           "is_emperor": false,
           "icon": 30054,
           "rarity": 2,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 101,
+            "secondary": 8,
+            "tertiary": 9,
+            "quaternary": 0,
+            "raw": "101, 8, 9, 0"
+          }
+        },
+        {
+          "key": 50739,
+          "name": "兽驯青铜重盾",
+          "names": {
+            "zh": "兽驯青铜重盾",
+            "en": "Beast Tamer's Hoplon",
+            "ja": "ビーストテイマー・ホプロン",
+            "ko": "마수육성가 전통방패",
+            "tc": "兽驯青铜重盾",
+            "fr": "Hoplon d'apprivoiseur de bêtes",
+            "de": "Bestienbesänftiger-Hoplon"
+          },
+          "is_emperor": false,
+          "icon": 39951,
+          "rarity": 1,
           "equip_slot_category": 2,
           "slot_label": "武器",
           "dye_count": 0,
@@ -594471,6 +596078,166 @@
             "tertiary": 2,
             "quaternary": 0,
             "raw": "114, 25, 2, 0"
+          }
+        }
+      ],
+      "武器|114|26|1": [
+        {
+          "key": 50743,
+          "name": "兽主青铜重盾",
+          "names": {
+            "zh": "兽主青铜重盾",
+            "en": "Beastmaster's Hoplon",
+            "ja": "ビーストマスター・ホプロン",
+            "ko": "마수전문가 전통방패",
+            "tc": "兽主青铜重盾",
+            "fr": "Hoplon de dresseur de bêtes",
+            "de": "Bestienbändiger-Hoplon"
+          },
+          "is_emperor": false,
+          "icon": 39953,
+          "rarity": 3,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 114,
+            "secondary": 26,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "114, 26, 1, 0"
+          }
+        },
+        {
+          "key": 50750,
+          "name": "兽主青铜重盾+1",
+          "names": {
+            "zh": "兽主青铜重盾+1",
+            "en": "Beastmaster's Hoplon +1",
+            "ja": "ビーストマスター・ホプロン+1",
+            "ko": "마수전문가 전통방패 +1",
+            "tc": "兽主青铜重盾+1",
+            "fr": "Hoplon de dresseur de bêtes +1",
+            "de": "Bestienbändiger-Hoplon +1"
+          },
+          "is_emperor": false,
+          "icon": 39953,
+          "rarity": 3,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 114,
+            "secondary": 26,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "114, 26, 1, 0"
+          }
+        },
+        {
+          "key": 50757,
+          "name": "兽主青铜重盾+2",
+          "names": {
+            "zh": "兽主青铜重盾+2",
+            "en": "Beastmaster's Hoplon +2",
+            "ja": "ビーストマスター・ホプロン+2",
+            "ko": "마수전문가 전통방패 +2",
+            "tc": "兽主青铜重盾+2",
+            "fr": "Hoplon de dresseur de bêtes +2",
+            "de": "Bestienbändiger-Hoplon +2"
+          },
+          "is_emperor": false,
+          "icon": 39953,
+          "rarity": 3,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 114,
+            "secondary": 26,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "114, 26, 1, 0"
+          }
+        },
+        {
+          "key": 50764,
+          "name": "兽主青铜重盾+3",
+          "names": {
+            "zh": "兽主青铜重盾+3",
+            "en": "Beastmaster's Hoplon +3",
+            "ja": "ビーストマスター・ホプロン+3",
+            "ko": "마수전문가 전통방패 +3",
+            "tc": "兽主青铜重盾+3",
+            "fr": "Hoplon de dresseur de bêtes +3",
+            "de": "Bestienbändiger-Hoplon +3"
+          },
+          "is_emperor": false,
+          "icon": 39953,
+          "rarity": 3,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 114,
+            "secondary": 26,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "114, 26, 1, 0"
+          }
+        },
+        {
+          "key": 50771,
+          "name": "兽主青铜重盾+4",
+          "names": {
+            "zh": "兽主青铜重盾+4",
+            "en": "Beastmaster's Hoplon +4",
+            "ja": "ビーストマスター・ホプロン+4",
+            "ko": "마수전문가 전통방패 +4",
+            "tc": "兽主青铜重盾+4",
+            "fr": "Hoplon de dresseur de bêtes +4",
+            "de": "Bestienbändiger-Hoplon +4"
+          },
+          "is_emperor": false,
+          "icon": 39953,
+          "rarity": 3,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 114,
+            "secondary": 26,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "114, 26, 1, 0"
+          }
+        }
+      ],
+      "武器|114|26|2": [
+        {
+          "key": 51737,
+          "name": "兽王青铜重盾",
+          "names": {
+            "zh": "兽王青铜重盾",
+            "en": "Beastliege's Hoplon",
+            "ja": "ビーストリージュ・ホプロン",
+            "ko": "마수군주 전통방패",
+            "tc": "兽王青铜重盾",
+            "fr": "Hoplon de seigneur belliciste",
+            "de": "Bestienherrscher-Hoplon"
+          },
+          "is_emperor": false,
+          "icon": 39953,
+          "rarity": 3,
+          "equip_slot_category": 2,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 114,
+            "secondary": 26,
+            "tertiary": 2,
+            "quaternary": 0,
+            "raw": "114, 26, 2, 0"
           }
         }
       ],
@@ -713887,6 +715654,390 @@
             "tertiary": 1,
             "quaternary": 0,
             "raw": "339, 1, 1, 0"
+          }
+        }
+      ],
+      "武器|3401|1|1": [
+        {
+          "key": 50742,
+          "name": "兽主手斧",
+          "names": {
+            "zh": "兽主手斧",
+            "en": "Beastmaster's Hand Axe",
+            "ja": "ビーストマスター・ハンドアクス",
+            "ko": "마수전문가 한손도끼",
+            "tc": "兽主手斧",
+            "fr": "Hachette de dresseur de bêtes",
+            "de": "Bestienbändiger-Handaxt"
+          },
+          "is_emperor": false,
+          "icon": 39931,
+          "rarity": 3,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 1,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 1, 1, 0"
+          }
+        },
+        {
+          "key": 50749,
+          "name": "兽主手斧+1",
+          "names": {
+            "zh": "兽主手斧+1",
+            "en": "Beastmaster's Hand Axe +1",
+            "ja": "ビーストマスター・ハンドアクス+1",
+            "ko": "마수전문가 한손도끼 +1",
+            "tc": "兽主手斧+1",
+            "fr": "Hachette de dresseur de bêtes +1",
+            "de": "Bestienbändiger-Handaxt +1"
+          },
+          "is_emperor": false,
+          "icon": 39931,
+          "rarity": 3,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 1,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 1, 1, 0"
+          }
+        },
+        {
+          "key": 50756,
+          "name": "兽主手斧+2",
+          "names": {
+            "zh": "兽主手斧+2",
+            "en": "Beastmaster's Hand Axe +2",
+            "ja": "ビーストマスター・ハンドアクス+2",
+            "ko": "마수전문가 한손도끼 +2",
+            "tc": "兽主手斧+2",
+            "fr": "Hachette de dresseur de bêtes +2",
+            "de": "Bestienbändiger-Handaxt +2"
+          },
+          "is_emperor": false,
+          "icon": 39931,
+          "rarity": 3,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 1,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 1, 1, 0"
+          }
+        },
+        {
+          "key": 50763,
+          "name": "兽主手斧+3",
+          "names": {
+            "zh": "兽主手斧+3",
+            "en": "Beastmaster's Hand Axe +3",
+            "ja": "ビーストマスター・ハンドアクス+3",
+            "ko": "마수전문가 한손도끼 +3",
+            "tc": "兽主手斧+3",
+            "fr": "Hachette de dresseur de bêtes +3",
+            "de": "Bestienbändiger-Handaxt +3"
+          },
+          "is_emperor": false,
+          "icon": 39931,
+          "rarity": 3,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 1,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 1, 1, 0"
+          }
+        },
+        {
+          "key": 50770,
+          "name": "兽主手斧+4",
+          "names": {
+            "zh": "兽主手斧+4",
+            "en": "Beastmaster's Hand Axe +4",
+            "ja": "ビーストマスター・ハンドアクス+4",
+            "ko": "마수전문가 한손도끼 +4",
+            "tc": "兽主手斧+4",
+            "fr": "Hachette de dresseur de bêtes +4",
+            "de": "Bestienbändiger-Handaxt +4"
+          },
+          "is_emperor": false,
+          "icon": 39931,
+          "rarity": 3,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 1,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 1, 1, 0"
+          }
+        }
+      ],
+      "武器|3401|1|2": [
+        {
+          "key": 51736,
+          "name": "兽王手斧",
+          "names": {
+            "zh": "兽王手斧",
+            "en": "Beastliege's Hand Axe",
+            "ja": "ビーストリージュ・ハンドアクス",
+            "ko": "마수군주 한손도끼",
+            "tc": "兽王手斧",
+            "fr": "Hachette de seigneur belliciste",
+            "de": "Bestienherrscher-Handaxt"
+          },
+          "is_emperor": false,
+          "icon": 39931,
+          "rarity": 3,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 2,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 1,
+            "tertiary": 2,
+            "quaternary": 0,
+            "raw": "3401, 1, 2, 0"
+          }
+        }
+      ],
+      "武器|3401|3|1": [
+        {
+          "key": 50777,
+          "name": "加特勒",
+          "names": {
+            "zh": "加特勒",
+            "en": "Guttler",
+            "ja": "ガトラー",
+            "ko": "거틀러",
+            "tc": "加特勒",
+            "fr": "Dévoreuse",
+            "de": "Guttler"
+          },
+          "is_emperor": false,
+          "icon": 39933,
+          "rarity": 4,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 3,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 3, 1, 0"
+          }
+        }
+      ],
+      "武器|3401|3|2": [
+        {
+          "key": 51739,
+          "name": "改良型加特勒",
+          "names": {
+            "zh": "改良型加特勒",
+            "en": "Guttler Unleashed",
+            "ja": "ガトラーRE",
+            "ko": "보강된 거틀러",
+            "tc": "改良型加特勒",
+            "fr": "Dévoreuse affranchie",
+            "de": "Entfesselter Guttler"
+          },
+          "is_emperor": false,
+          "icon": 39933,
+          "rarity": 4,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 3,
+            "tertiary": 2,
+            "quaternary": 0,
+            "raw": "3401, 3, 2, 0"
+          }
+        }
+      ],
+      "武器|3401|4|1": [
+        {
+          "key": 47470,
+          "name": "兽牧手斧",
+          "names": {
+            "zh": "兽牧手斧",
+            "en": "Beast Herder's Hand Axe",
+            "ja": "ビーストハーダー・ハンドアクス",
+            "ko": "마수사육사 한손도끼",
+            "tc": "兽牧手斧",
+            "fr": "Hachette de soigneur de bêtes",
+            "de": "Bestienpfleger-Handaxt"
+          },
+          "is_emperor": false,
+          "icon": 39932,
+          "rarity": 1,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 4,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 4, 1, 0"
+          }
+        }
+      ],
+      "武器|3401|5|1": [
+        {
+          "key": 50732,
+          "name": "兽育手斧",
+          "names": {
+            "zh": "兽育手斧",
+            "en": "Beast Tender's Hand Axe",
+            "ja": "ビーストテンダー・ハンドアクス",
+            "ko": "마수보호사 한손도끼",
+            "tc": "兽育手斧",
+            "fr": "Hachette d'éleveur de bêtes",
+            "de": "Bestienhirten-Handaxt"
+          },
+          "is_emperor": false,
+          "icon": 39930,
+          "rarity": 1,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 5,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 5, 1, 0"
+          }
+        }
+      ],
+      "武器|3401|6|1": [
+        {
+          "key": 50734,
+          "name": "兽练塔巴斧",
+          "names": {
+            "zh": "兽练塔巴斧",
+            "en": "Beast Handler's Tabar",
+            "ja": "ビーストハンドラー・タバール",
+            "ko": "마수훈련사 안장도끼",
+            "tc": "兽练塔巴斧",
+            "fr": "Tabar de dompteur de bêtes",
+            "de": "Bestienführer-Tabar"
+          },
+          "is_emperor": false,
+          "icon": 39926,
+          "rarity": 1,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 6,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 6, 1, 0"
+          }
+        }
+      ],
+      "武器|3401|7|1": [
+        {
+          "key": 50736,
+          "name": "兽语手斧",
+          "names": {
+            "zh": "兽语手斧",
+            "en": "Beast Whisperer's Hand Axe",
+            "ja": "ビーストウィスパラー・ハンドアクス",
+            "ko": "마수소통자 한손도끼",
+            "tc": "兽语手斧",
+            "fr": "Hachette de chuchoteur de bêtes",
+            "de": "Bestienflüsterer-Handaxt"
+          },
+          "is_emperor": false,
+          "icon": 39927,
+          "rarity": 1,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 7,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 7, 1, 0"
+          }
+        }
+      ],
+      "武器|3401|8|1": [
+        {
+          "key": 50738,
+          "name": "兽驯塔巴斧",
+          "names": {
+            "zh": "兽驯塔巴斧",
+            "en": "Beast Tamer's Tabar",
+            "ja": "ビーストテイマー・タバール",
+            "ko": "마수육성가 안장도끼",
+            "tc": "兽驯塔巴斧",
+            "fr": "Tabar d'apprivoiseur de bêtes",
+            "de": "Bestienbesänftiger-Tabar"
+          },
+          "is_emperor": false,
+          "icon": 39928,
+          "rarity": 1,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 8,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 8, 1, 0"
+          }
+        }
+      ],
+      "武器|3401|9|1": [
+        {
+          "key": 50740,
+          "name": "兽卫手斧",
+          "names": {
+            "zh": "兽卫手斧",
+            "en": "Beastwarden's Hand Axe",
+            "ja": "ビーストワーデン・ハンドアクス",
+            "ko": "마수관리자 한손도끼",
+            "tc": "兽卫手斧",
+            "fr": "Hachette de gardien de bêtes",
+            "de": "Bestienwärter-Handaxt"
+          },
+          "is_emperor": false,
+          "icon": 39929,
+          "rarity": 1,
+          "equip_slot_category": 1,
+          "slot_label": "武器",
+          "dye_count": 0,
+          "model_main": {
+            "primary": 3401,
+            "secondary": 9,
+            "tertiary": 1,
+            "quaternary": 0,
+            "raw": "3401, 9, 1, 0"
           }
         }
       ],
@@ -1529898,6 +1532049,58 @@
       }
     },
     {
+      "key": 47470,
+      "name": "兽牧手斧",
+      "names": {
+        "zh": "兽牧手斧",
+        "en": "Beast Herder's Hand Axe",
+        "ja": "ビーストハーダー・ハンドアクス",
+        "ko": "마수사육사 한손도끼",
+        "tc": "兽牧手斧",
+        "fr": "Hachette de soigneur de bêtes",
+        "de": "Bestienpfleger-Handaxt"
+      },
+      "is_emperor": false,
+      "icon": 39932,
+      "rarity": 1,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 4,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 4, 1, 0"
+      }
+    },
+    {
+      "key": 47472,
+      "name": "兽牧青铜重盾",
+      "names": {
+        "zh": "兽牧青铜重盾",
+        "en": "Beast Herder's Hoplon",
+        "ja": "ビーストハーダー・ホプロン",
+        "ko": "마수사육사 전통방패",
+        "tc": "兽牧青铜重盾",
+        "fr": "Hoplon de soigneur de bêtes",
+        "de": "Bestienpfleger-Hoplon"
+      },
+      "is_emperor": false,
+      "icon": 30025,
+      "rarity": 1,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 101,
+        "secondary": 8,
+        "tertiary": 5,
+        "quaternary": 0,
+        "raw": "101, 8, 5, 0"
+      }
+    },
+    {
       "key": 47758,
       "name": "月航员御敌头盔",
       "names": {
@@ -1554988,6 +1557191,1358 @@
       }
     },
     {
+      "key": 50727,
+      "name": "兽牧头冠",
+      "names": {
+        "zh": "兽牧头冠",
+        "en": "Beast Herder's Circlet",
+        "ja": "ビーストハーダー・サークレット",
+        "ko": "마수사육사 머리장식",
+        "tc": "兽牧头冠",
+        "fr": "Diadème de soigneur de bêtes",
+        "de": "Bestienpfleger-Haarreif"
+      },
+      "is_emperor": false,
+      "icon": 56960,
+      "rarity": 1,
+      "equip_slot_category": 3,
+      "slot_label": "头部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 250,
+        "secondary": 7,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "250, 7, 0, 0"
+      }
+    },
+    {
+      "key": 50728,
+      "name": "兽牧外套",
+      "names": {
+        "zh": "兽牧外套",
+        "en": "Beast Herder's Coat",
+        "ja": "ビーストハーダー・コート",
+        "ko": "마수사육사 외투",
+        "tc": "兽牧外套",
+        "fr": "Manteau de soigneur de bêtes",
+        "de": "Bestienpfleger-Mantel"
+      },
+      "is_emperor": false,
+      "icon": 57398,
+      "rarity": 1,
+      "equip_slot_category": 4,
+      "slot_label": "身体防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 456,
+        "secondary": 7,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "456, 7, 0, 0"
+      }
+    },
+    {
+      "key": 50729,
+      "name": "兽牧手套",
+      "names": {
+        "zh": "兽牧手套",
+        "en": "Beast Herder's Gloves",
+        "ja": "ビーストハーダー・グローブ",
+        "ko": "마수사육사 장갑",
+        "tc": "兽牧手套",
+        "fr": "Gants de soigneur de bêtes",
+        "de": "Bestienpfleger-Handschuhe"
+      },
+      "is_emperor": false,
+      "icon": 56466,
+      "rarity": 1,
+      "equip_slot_category": 5,
+      "slot_label": "手部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 732,
+        "secondary": 8,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "732, 8, 0, 0"
+      }
+    },
+    {
+      "key": 50730,
+      "name": "兽牧打底裤",
+      "names": {
+        "zh": "兽牧打底裤",
+        "en": "Beast Herder's Bottoms",
+        "ja": "ビーストハーダー・ボトム",
+        "ko": "마수사육사 하의",
+        "tc": "兽牧打底裤",
+        "fr": "Bas-de-corps de soigneur de bêtes",
+        "de": "Bestienpfleger-Hose"
+      },
+      "is_emperor": false,
+      "icon": 57483,
+      "rarity": 1,
+      "equip_slot_category": 7,
+      "slot_label": "腿部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 459,
+        "secondary": 10,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "459, 10, 0, 0"
+      }
+    },
+    {
+      "key": 50731,
+      "name": "兽牧靴",
+      "names": {
+        "zh": "兽牧靴",
+        "en": "Beast Herder's Boots",
+        "ja": "ビーストハーダー・ブーツ",
+        "ko": "마수사육사 장화",
+        "tc": "兽牧靴",
+        "fr": "Bottes de soigneur de bêtes",
+        "de": "Bestienpfleger-Stiefel"
+      },
+      "is_emperor": false,
+      "icon": 57986,
+      "rarity": 1,
+      "equip_slot_category": 8,
+      "slot_label": "脚部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 259,
+        "secondary": 8,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "259, 8, 0, 0"
+      }
+    },
+    {
+      "key": 50732,
+      "name": "兽育手斧",
+      "names": {
+        "zh": "兽育手斧",
+        "en": "Beast Tender's Hand Axe",
+        "ja": "ビーストテンダー・ハンドアクス",
+        "ko": "마수보호사 한손도끼",
+        "tc": "兽育手斧",
+        "fr": "Hachette d'éleveur de bêtes",
+        "de": "Bestienhirten-Handaxt"
+      },
+      "is_emperor": false,
+      "icon": 39930,
+      "rarity": 1,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 5,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 5, 1, 0"
+      }
+    },
+    {
+      "key": 50733,
+      "name": "兽育青铜重盾",
+      "names": {
+        "zh": "兽育青铜重盾",
+        "en": "Beast Tender's Hoplon",
+        "ja": "ビーストテンダー・ホプロン",
+        "ko": "마수보호사 전통방패",
+        "tc": "兽育青铜重盾",
+        "fr": "Hoplon d'éleveur de bêtes",
+        "de": "Bestienhirten-Hoplon"
+      },
+      "is_emperor": false,
+      "icon": 30023,
+      "rarity": 1,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 101,
+        "secondary": 8,
+        "tertiary": 3,
+        "quaternary": 0,
+        "raw": "101, 8, 3, 0"
+      }
+    },
+    {
+      "key": 50734,
+      "name": "兽练塔巴斧",
+      "names": {
+        "zh": "兽练塔巴斧",
+        "en": "Beast Handler's Tabar",
+        "ja": "ビーストハンドラー・タバール",
+        "ko": "마수훈련사 안장도끼",
+        "tc": "兽练塔巴斧",
+        "fr": "Tabar de dompteur de bêtes",
+        "de": "Bestienführer-Tabar"
+      },
+      "is_emperor": false,
+      "icon": 39926,
+      "rarity": 1,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 6,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 6, 1, 0"
+      }
+    },
+    {
+      "key": 50735,
+      "name": "兽练青铜轻盾",
+      "names": {
+        "zh": "兽练青铜轻盾",
+        "en": "Beast Handler's Pelta",
+        "ja": "ビーストハンドラー・ペルタ",
+        "ko": "마수훈련사 타원방패",
+        "tc": "兽练青铜轻盾",
+        "fr": "Pelte de dompteur de bêtes",
+        "de": "Bestienführer-Pelte"
+      },
+      "is_emperor": false,
+      "icon": 30024,
+      "rarity": 1,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 101,
+        "secondary": 8,
+        "tertiary": 4,
+        "quaternary": 0,
+        "raw": "101, 8, 4, 0"
+      }
+    },
+    {
+      "key": 50736,
+      "name": "兽语手斧",
+      "names": {
+        "zh": "兽语手斧",
+        "en": "Beast Whisperer's Hand Axe",
+        "ja": "ビーストウィスパラー・ハンドアクス",
+        "ko": "마수소통자 한손도끼",
+        "tc": "兽语手斧",
+        "fr": "Hachette de chuchoteur de bêtes",
+        "de": "Bestienflüsterer-Handaxt"
+      },
+      "is_emperor": false,
+      "icon": 39927,
+      "rarity": 1,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 7,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 7, 1, 0"
+      }
+    },
+    {
+      "key": 50737,
+      "name": "兽语圆盾",
+      "names": {
+        "zh": "兽语圆盾",
+        "en": "Beast Whisperer's Round Shield",
+        "ja": "ビーストウィスパラー・ラウンドシールド",
+        "ko": "마수소통자 원형방패",
+        "tc": "兽语圆盾",
+        "fr": "Bouclier rond de chuchoteur de bêtes",
+        "de": "Bestienflüsterer-Rundschild"
+      },
+      "is_emperor": false,
+      "icon": 30011,
+      "rarity": 1,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 101,
+        "secondary": 2,
+        "tertiary": 4,
+        "quaternary": 0,
+        "raw": "101, 2, 4, 0"
+      }
+    },
+    {
+      "key": 50738,
+      "name": "兽驯塔巴斧",
+      "names": {
+        "zh": "兽驯塔巴斧",
+        "en": "Beast Tamer's Tabar",
+        "ja": "ビーストテイマー・タバール",
+        "ko": "마수육성가 안장도끼",
+        "tc": "兽驯塔巴斧",
+        "fr": "Tabar d'apprivoiseur de bêtes",
+        "de": "Bestienbesänftiger-Tabar"
+      },
+      "is_emperor": false,
+      "icon": 39928,
+      "rarity": 1,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 8,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 8, 1, 0"
+      }
+    },
+    {
+      "key": 50739,
+      "name": "兽驯青铜重盾",
+      "names": {
+        "zh": "兽驯青铜重盾",
+        "en": "Beast Tamer's Hoplon",
+        "ja": "ビーストテイマー・ホプロン",
+        "ko": "마수육성가 전통방패",
+        "tc": "兽驯青铜重盾",
+        "fr": "Hoplon d'apprivoiseur de bêtes",
+        "de": "Bestienbesänftiger-Hoplon"
+      },
+      "is_emperor": false,
+      "icon": 39951,
+      "rarity": 1,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 101,
+        "secondary": 8,
+        "tertiary": 9,
+        "quaternary": 0,
+        "raw": "101, 8, 9, 0"
+      }
+    },
+    {
+      "key": 50740,
+      "name": "兽卫手斧",
+      "names": {
+        "zh": "兽卫手斧",
+        "en": "Beastwarden's Hand Axe",
+        "ja": "ビーストワーデン・ハンドアクス",
+        "ko": "마수관리자 한손도끼",
+        "tc": "兽卫手斧",
+        "fr": "Hachette de gardien de bêtes",
+        "de": "Bestienwärter-Handaxt"
+      },
+      "is_emperor": false,
+      "icon": 39929,
+      "rarity": 1,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 9,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 9, 1, 0"
+      }
+    },
+    {
+      "key": 50741,
+      "name": "兽卫小圆盾",
+      "names": {
+        "zh": "兽卫小圆盾",
+        "en": "Beastwarden's Buckler",
+        "ja": "ビーストワーデン・バックラー",
+        "ko": "마수관리자 전투방패",
+        "tc": "兽卫小圆盾",
+        "fr": "Rondache de gardien de bêtes",
+        "de": "Bestienwärter-Faustschild"
+      },
+      "is_emperor": false,
+      "icon": 39952,
+      "rarity": 1,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 101,
+        "secondary": 5,
+        "tertiary": 8,
+        "quaternary": 0,
+        "raw": "101, 5, 8, 0"
+      }
+    },
+    {
+      "key": 50742,
+      "name": "兽主手斧",
+      "names": {
+        "zh": "兽主手斧",
+        "en": "Beastmaster's Hand Axe",
+        "ja": "ビーストマスター・ハンドアクス",
+        "ko": "마수전문가 한손도끼",
+        "tc": "兽主手斧",
+        "fr": "Hachette de dresseur de bêtes",
+        "de": "Bestienbändiger-Handaxt"
+      },
+      "is_emperor": false,
+      "icon": 39931,
+      "rarity": 3,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 1,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 1, 1, 0"
+      }
+    },
+    {
+      "key": 50743,
+      "name": "兽主青铜重盾",
+      "names": {
+        "zh": "兽主青铜重盾",
+        "en": "Beastmaster's Hoplon",
+        "ja": "ビーストマスター・ホプロン",
+        "ko": "마수전문가 전통방패",
+        "tc": "兽主青铜重盾",
+        "fr": "Hoplon de dresseur de bêtes",
+        "de": "Bestienbändiger-Hoplon"
+      },
+      "is_emperor": false,
+      "icon": 39953,
+      "rarity": 3,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 114,
+        "secondary": 26,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "114, 26, 1, 0"
+      }
+    },
+    {
+      "key": 50744,
+      "name": "兽主独角冠",
+      "names": {
+        "zh": "兽主独角冠",
+        "en": "Beastmaster's Horns",
+        "ja": "ビーストマスター・ホーン",
+        "ko": "마수전문가 뿔장식",
+        "tc": "兽主独角冠",
+        "fr": "Cornes de dresseur de bêtes",
+        "de": "Bestienbändiger-Hörner"
+      },
+      "is_emperor": false,
+      "icon": 56936,
+      "rarity": 3,
+      "equip_slot_category": 3,
+      "slot_label": "头部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50745,
+      "name": "兽主裘皮衣",
+      "names": {
+        "zh": "兽主裘皮衣",
+        "en": "Beastmaster's Furs",
+        "ja": "ビーストマスター・ファーズ",
+        "ko": "마수전문가 모피옷",
+        "tc": "兽主裘皮衣",
+        "fr": "Fourrure de dresseur de bêtes",
+        "de": "Bestienbändiger-Fell"
+      },
+      "is_emperor": false,
+      "icon": 57364,
+      "rarity": 3,
+      "equip_slot_category": 4,
+      "slot_label": "身体防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50746,
+      "name": "兽主护臂",
+      "names": {
+        "zh": "兽主护臂",
+        "en": "Beastmaster's Armguards",
+        "ja": "ビーストマスター・アームガード",
+        "ko": "마수전문가 팔보호구",
+        "tc": "兽主护臂",
+        "fr": "Garde-bras de dresseur de bêtes",
+        "de": "Bestienbändiger-Armschützer"
+      },
+      "is_emperor": false,
+      "icon": 56439,
+      "rarity": 3,
+      "equip_slot_category": 5,
+      "slot_label": "手部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50747,
+      "name": "兽主工作裤",
+      "names": {
+        "zh": "兽主工作裤",
+        "en": "Beastmaster's Slops",
+        "ja": "ビーストマスター・スロップ",
+        "ko": "마수전문가 일자바지",
+        "tc": "兽主工作裤",
+        "fr": "Trousses de dresseur de bêtes",
+        "de": "Bestienbändiger-Beinlinge"
+      },
+      "is_emperor": false,
+      "icon": 57457,
+      "rarity": 3,
+      "equip_slot_category": 7,
+      "slot_label": "腿部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50748,
+      "name": "兽主靴",
+      "names": {
+        "zh": "兽主靴",
+        "en": "Beastmaster's Boots",
+        "ja": "ビーストマスター・ブーツ",
+        "ko": "마수전문가 장화",
+        "tc": "兽主靴",
+        "fr": "Bottes de dresseur de bêtes",
+        "de": "Bestienbändiger-Stiefel"
+      },
+      "is_emperor": false,
+      "icon": 57949,
+      "rarity": 3,
+      "equip_slot_category": 8,
+      "slot_label": "脚部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50749,
+      "name": "兽主手斧+1",
+      "names": {
+        "zh": "兽主手斧+1",
+        "en": "Beastmaster's Hand Axe +1",
+        "ja": "ビーストマスター・ハンドアクス+1",
+        "ko": "마수전문가 한손도끼 +1",
+        "tc": "兽主手斧+1",
+        "fr": "Hachette de dresseur de bêtes +1",
+        "de": "Bestienbändiger-Handaxt +1"
+      },
+      "is_emperor": false,
+      "icon": 39931,
+      "rarity": 3,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 1,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 1, 1, 0"
+      }
+    },
+    {
+      "key": 50750,
+      "name": "兽主青铜重盾+1",
+      "names": {
+        "zh": "兽主青铜重盾+1",
+        "en": "Beastmaster's Hoplon +1",
+        "ja": "ビーストマスター・ホプロン+1",
+        "ko": "마수전문가 전통방패 +1",
+        "tc": "兽主青铜重盾+1",
+        "fr": "Hoplon de dresseur de bêtes +1",
+        "de": "Bestienbändiger-Hoplon +1"
+      },
+      "is_emperor": false,
+      "icon": 39953,
+      "rarity": 3,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 114,
+        "secondary": 26,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "114, 26, 1, 0"
+      }
+    },
+    {
+      "key": 50751,
+      "name": "兽主独角冠+1",
+      "names": {
+        "zh": "兽主独角冠+1",
+        "en": "Beastmaster's Horns +1",
+        "ja": "ビーストマスター・ホーン+1",
+        "ko": "마수전문가 뿔장식 +1",
+        "tc": "兽主独角冠+1",
+        "fr": "Cornes de dresseur de bêtes +1",
+        "de": "Bestienbändiger-Hörner +1"
+      },
+      "is_emperor": false,
+      "icon": 56936,
+      "rarity": 3,
+      "equip_slot_category": 3,
+      "slot_label": "头部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50752,
+      "name": "兽主裘皮衣+1",
+      "names": {
+        "zh": "兽主裘皮衣+1",
+        "en": "Beastmaster's Furs +1",
+        "ja": "ビーストマスター・ファーズ+1",
+        "ko": "마수전문가 모피옷 +1",
+        "tc": "兽主裘皮衣+1",
+        "fr": "Fourrure de dresseur de bêtes +1",
+        "de": "Bestienbändiger-Fell +1"
+      },
+      "is_emperor": false,
+      "icon": 57364,
+      "rarity": 3,
+      "equip_slot_category": 4,
+      "slot_label": "身体防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50753,
+      "name": "兽主护臂+1",
+      "names": {
+        "zh": "兽主护臂+1",
+        "en": "Beastmaster's Armguards +1",
+        "ja": "ビーストマスター・アームガード+1",
+        "ko": "마수전문가 팔보호구 +1",
+        "tc": "兽主护臂+1",
+        "fr": "Garde-bras de dresseur de bêtes +1",
+        "de": "Bestienbändiger-Armschützer +1"
+      },
+      "is_emperor": false,
+      "icon": 56439,
+      "rarity": 3,
+      "equip_slot_category": 5,
+      "slot_label": "手部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50754,
+      "name": "兽主工作裤+1",
+      "names": {
+        "zh": "兽主工作裤+1",
+        "en": "Beastmaster's Slops +1",
+        "ja": "ビーストマスター・スロップ+1",
+        "ko": "마수전문가 일자바지 +1",
+        "tc": "兽主工作裤+1",
+        "fr": "Trousses de dresseur de bêtes +1",
+        "de": "Bestienbändiger-Beinlinge +1"
+      },
+      "is_emperor": false,
+      "icon": 57457,
+      "rarity": 3,
+      "equip_slot_category": 7,
+      "slot_label": "腿部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50755,
+      "name": "兽主靴+1",
+      "names": {
+        "zh": "兽主靴+1",
+        "en": "Beastmaster's Boots +1",
+        "ja": "ビーストマスター・ブーツ+1",
+        "ko": "마수전문가 장화 +1",
+        "tc": "兽主靴+1",
+        "fr": "Bottes de dresseur de bêtes +1",
+        "de": "Bestienbändiger-Stiefel +1"
+      },
+      "is_emperor": false,
+      "icon": 57949,
+      "rarity": 3,
+      "equip_slot_category": 8,
+      "slot_label": "脚部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50756,
+      "name": "兽主手斧+2",
+      "names": {
+        "zh": "兽主手斧+2",
+        "en": "Beastmaster's Hand Axe +2",
+        "ja": "ビーストマスター・ハンドアクス+2",
+        "ko": "마수전문가 한손도끼 +2",
+        "tc": "兽主手斧+2",
+        "fr": "Hachette de dresseur de bêtes +2",
+        "de": "Bestienbändiger-Handaxt +2"
+      },
+      "is_emperor": false,
+      "icon": 39931,
+      "rarity": 3,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 1,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 1, 1, 0"
+      }
+    },
+    {
+      "key": 50757,
+      "name": "兽主青铜重盾+2",
+      "names": {
+        "zh": "兽主青铜重盾+2",
+        "en": "Beastmaster's Hoplon +2",
+        "ja": "ビーストマスター・ホプロン+2",
+        "ko": "마수전문가 전통방패 +2",
+        "tc": "兽主青铜重盾+2",
+        "fr": "Hoplon de dresseur de bêtes +2",
+        "de": "Bestienbändiger-Hoplon +2"
+      },
+      "is_emperor": false,
+      "icon": 39953,
+      "rarity": 3,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 114,
+        "secondary": 26,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "114, 26, 1, 0"
+      }
+    },
+    {
+      "key": 50758,
+      "name": "兽主独角冠+2",
+      "names": {
+        "zh": "兽主独角冠+2",
+        "en": "Beastmaster's Horns +2",
+        "ja": "ビーストマスター・ホーン+2",
+        "ko": "마수전문가 뿔장식 +2",
+        "tc": "兽主独角冠+2",
+        "fr": "Cornes de dresseur de bêtes +2",
+        "de": "Bestienbändiger-Hörner +2"
+      },
+      "is_emperor": false,
+      "icon": 56936,
+      "rarity": 3,
+      "equip_slot_category": 3,
+      "slot_label": "头部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50759,
+      "name": "兽主裘皮衣+2",
+      "names": {
+        "zh": "兽主裘皮衣+2",
+        "en": "Beastmaster's Furs +2",
+        "ja": "ビーストマスター・ファーズ+2",
+        "ko": "마수전문가 모피옷 +2",
+        "tc": "兽主裘皮衣+2",
+        "fr": "Fourrure de dresseur de bêtes +2",
+        "de": "Bestienbändiger-Fell +2"
+      },
+      "is_emperor": false,
+      "icon": 57364,
+      "rarity": 3,
+      "equip_slot_category": 4,
+      "slot_label": "身体防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50760,
+      "name": "兽主护臂+2",
+      "names": {
+        "zh": "兽主护臂+2",
+        "en": "Beastmaster's Armguards +2",
+        "ja": "ビーストマスター・アームガード+2",
+        "ko": "마수전문가 팔보호구 +2",
+        "tc": "兽主护臂+2",
+        "fr": "Garde-bras de dresseur de bêtes +2",
+        "de": "Bestienbändiger-Armschützer +2"
+      },
+      "is_emperor": false,
+      "icon": 56439,
+      "rarity": 3,
+      "equip_slot_category": 5,
+      "slot_label": "手部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50761,
+      "name": "兽主工作裤+2",
+      "names": {
+        "zh": "兽主工作裤+2",
+        "en": "Beastmaster's Slops +2",
+        "ja": "ビーストマスター・スロップ+2",
+        "ko": "마수전문가 일자바지 +2",
+        "tc": "兽主工作裤+2",
+        "fr": "Trousses de dresseur de bêtes +2",
+        "de": "Bestienbändiger-Beinlinge +2"
+      },
+      "is_emperor": false,
+      "icon": 57457,
+      "rarity": 3,
+      "equip_slot_category": 7,
+      "slot_label": "腿部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50762,
+      "name": "兽主靴+2",
+      "names": {
+        "zh": "兽主靴+2",
+        "en": "Beastmaster's Boots +2",
+        "ja": "ビーストマスター・ブーツ+2",
+        "ko": "마수전문가 장화 +2",
+        "tc": "兽主靴+2",
+        "fr": "Bottes de dresseur de bêtes +2",
+        "de": "Bestienbändiger-Stiefel +2"
+      },
+      "is_emperor": false,
+      "icon": 57949,
+      "rarity": 3,
+      "equip_slot_category": 8,
+      "slot_label": "脚部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50763,
+      "name": "兽主手斧+3",
+      "names": {
+        "zh": "兽主手斧+3",
+        "en": "Beastmaster's Hand Axe +3",
+        "ja": "ビーストマスター・ハンドアクス+3",
+        "ko": "마수전문가 한손도끼 +3",
+        "tc": "兽主手斧+3",
+        "fr": "Hachette de dresseur de bêtes +3",
+        "de": "Bestienbändiger-Handaxt +3"
+      },
+      "is_emperor": false,
+      "icon": 39931,
+      "rarity": 3,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 1,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 1, 1, 0"
+      }
+    },
+    {
+      "key": 50764,
+      "name": "兽主青铜重盾+3",
+      "names": {
+        "zh": "兽主青铜重盾+3",
+        "en": "Beastmaster's Hoplon +3",
+        "ja": "ビーストマスター・ホプロン+3",
+        "ko": "마수전문가 전통방패 +3",
+        "tc": "兽主青铜重盾+3",
+        "fr": "Hoplon de dresseur de bêtes +3",
+        "de": "Bestienbändiger-Hoplon +3"
+      },
+      "is_emperor": false,
+      "icon": 39953,
+      "rarity": 3,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 114,
+        "secondary": 26,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "114, 26, 1, 0"
+      }
+    },
+    {
+      "key": 50765,
+      "name": "兽主独角冠+3",
+      "names": {
+        "zh": "兽主独角冠+3",
+        "en": "Beastmaster's Horns +3",
+        "ja": "ビーストマスター・ホーン+3",
+        "ko": "마수전문가 뿔장식 +3",
+        "tc": "兽主独角冠+3",
+        "fr": "Cornes de dresseur de bêtes +3",
+        "de": "Bestienbändiger-Hörner +3"
+      },
+      "is_emperor": false,
+      "icon": 56936,
+      "rarity": 3,
+      "equip_slot_category": 3,
+      "slot_label": "头部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50766,
+      "name": "兽主裘皮衣+3",
+      "names": {
+        "zh": "兽主裘皮衣+3",
+        "en": "Beastmaster's Furs +3",
+        "ja": "ビーストマスター・ファーズ+3",
+        "ko": "마수전문가 모피옷 +3",
+        "tc": "兽主裘皮衣+3",
+        "fr": "Fourrure de dresseur de bêtes +3",
+        "de": "Bestienbändiger-Fell +3"
+      },
+      "is_emperor": false,
+      "icon": 57364,
+      "rarity": 3,
+      "equip_slot_category": 4,
+      "slot_label": "身体防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50767,
+      "name": "兽主护臂+3",
+      "names": {
+        "zh": "兽主护臂+3",
+        "en": "Beastmaster's Armguards +3",
+        "ja": "ビーストマスター・アームガード+3",
+        "ko": "마수전문가 팔보호구 +3",
+        "tc": "兽主护臂+3",
+        "fr": "Garde-bras de dresseur de bêtes +3",
+        "de": "Bestienbändiger-Armschützer +3"
+      },
+      "is_emperor": false,
+      "icon": 56439,
+      "rarity": 3,
+      "equip_slot_category": 5,
+      "slot_label": "手部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50768,
+      "name": "兽主工作裤+3",
+      "names": {
+        "zh": "兽主工作裤+3",
+        "en": "Beastmaster's Slops +3",
+        "ja": "ビーストマスター・スロップ+3",
+        "ko": "마수전문가 일자바지 +3",
+        "tc": "兽主工作裤+3",
+        "fr": "Trousses de dresseur de bêtes +3",
+        "de": "Bestienbändiger-Beinlinge +3"
+      },
+      "is_emperor": false,
+      "icon": 57457,
+      "rarity": 3,
+      "equip_slot_category": 7,
+      "slot_label": "腿部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50769,
+      "name": "兽主靴+3",
+      "names": {
+        "zh": "兽主靴+3",
+        "en": "Beastmaster's Boots +3",
+        "ja": "ビーストマスター・ブーツ+3",
+        "ko": "마수전문가 장화 +3",
+        "tc": "兽主靴+3",
+        "fr": "Bottes de dresseur de bêtes +3",
+        "de": "Bestienbändiger-Stiefel +3"
+      },
+      "is_emperor": false,
+      "icon": 57949,
+      "rarity": 3,
+      "equip_slot_category": 8,
+      "slot_label": "脚部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50770,
+      "name": "兽主手斧+4",
+      "names": {
+        "zh": "兽主手斧+4",
+        "en": "Beastmaster's Hand Axe +4",
+        "ja": "ビーストマスター・ハンドアクス+4",
+        "ko": "마수전문가 한손도끼 +4",
+        "tc": "兽主手斧+4",
+        "fr": "Hachette de dresseur de bêtes +4",
+        "de": "Bestienbändiger-Handaxt +4"
+      },
+      "is_emperor": false,
+      "icon": 39931,
+      "rarity": 3,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 1,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 1, 1, 0"
+      }
+    },
+    {
+      "key": 50771,
+      "name": "兽主青铜重盾+4",
+      "names": {
+        "zh": "兽主青铜重盾+4",
+        "en": "Beastmaster's Hoplon +4",
+        "ja": "ビーストマスター・ホプロン+4",
+        "ko": "마수전문가 전통방패 +4",
+        "tc": "兽主青铜重盾+4",
+        "fr": "Hoplon de dresseur de bêtes +4",
+        "de": "Bestienbändiger-Hoplon +4"
+      },
+      "is_emperor": false,
+      "icon": 39953,
+      "rarity": 3,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 114,
+        "secondary": 26,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "114, 26, 1, 0"
+      }
+    },
+    {
+      "key": 50772,
+      "name": "兽主独角冠+4",
+      "names": {
+        "zh": "兽主独角冠+4",
+        "en": "Beastmaster's Horns +4",
+        "ja": "ビーストマスター・ホーン+4",
+        "ko": "마수전문가 뿔장식 +4",
+        "tc": "兽主独角冠+4",
+        "fr": "Cornes de dresseur de bêtes +4",
+        "de": "Bestienbändiger-Hörner +4"
+      },
+      "is_emperor": false,
+      "icon": 56936,
+      "rarity": 3,
+      "equip_slot_category": 3,
+      "slot_label": "头部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50773,
+      "name": "兽主裘皮衣+4",
+      "names": {
+        "zh": "兽主裘皮衣+4",
+        "en": "Beastmaster's Furs +4",
+        "ja": "ビーストマスター・ファーズ+4",
+        "ko": "마수전문가 모피옷 +4",
+        "tc": "兽主裘皮衣+4",
+        "fr": "Fourrure de dresseur de bêtes +4",
+        "de": "Bestienbändiger-Fell +4"
+      },
+      "is_emperor": false,
+      "icon": 57364,
+      "rarity": 3,
+      "equip_slot_category": 4,
+      "slot_label": "身体防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50774,
+      "name": "兽主护臂+4",
+      "names": {
+        "zh": "兽主护臂+4",
+        "en": "Beastmaster's Armguards +4",
+        "ja": "ビーストマスター・アームガード+4",
+        "ko": "마수전문가 팔보호구 +4",
+        "tc": "兽主护臂+4",
+        "fr": "Garde-bras de dresseur de bêtes +4",
+        "de": "Bestienbändiger-Armschützer +4"
+      },
+      "is_emperor": false,
+      "icon": 56439,
+      "rarity": 3,
+      "equip_slot_category": 5,
+      "slot_label": "手部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50775,
+      "name": "兽主工作裤+4",
+      "names": {
+        "zh": "兽主工作裤+4",
+        "en": "Beastmaster's Slops +4",
+        "ja": "ビーストマスター・スロップ+4",
+        "ko": "마수전문가 일자바지 +4",
+        "tc": "兽主工作裤+4",
+        "fr": "Trousses de dresseur de bêtes +4",
+        "de": "Bestienbändiger-Beinlinge +4"
+      },
+      "is_emperor": false,
+      "icon": 57457,
+      "rarity": 3,
+      "equip_slot_category": 7,
+      "slot_label": "腿部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50776,
+      "name": "兽主靴+4",
+      "names": {
+        "zh": "兽主靴+4",
+        "en": "Beastmaster's Boots +4",
+        "ja": "ビーストマスター・ブーツ+4",
+        "ko": "마수전문가 장화 +4",
+        "tc": "兽主靴+4",
+        "fr": "Bottes de dresseur de bêtes +4",
+        "de": "Bestienbändiger-Stiefel +4"
+      },
+      "is_emperor": false,
+      "icon": 57949,
+      "rarity": 3,
+      "equip_slot_category": 8,
+      "slot_label": "脚部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 968,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "968, 1, 0, 0"
+      }
+    },
+    {
+      "key": 50777,
+      "name": "加特勒",
+      "names": {
+        "zh": "加特勒",
+        "en": "Guttler",
+        "ja": "ガトラー",
+        "ko": "거틀러",
+        "tc": "加特勒",
+        "fr": "Dévoreuse",
+        "de": "Guttler"
+      },
+      "is_emperor": false,
+      "icon": 39933,
+      "rarity": 4,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 3,
+        "tertiary": 1,
+        "quaternary": 0,
+        "raw": "3401, 3, 1, 0"
+      }
+    },
+    {
+      "key": 50778,
+      "name": "科纳格青铜重盾",
+      "names": {
+        "zh": "科纳格青铜重盾",
+        "en": "Kornago Hoplon",
+        "ja": "コルナゴホプロン",
+        "ko": "코르나고 전통방패",
+        "tc": "科纳格青铜重盾",
+        "fr": "Hoplon du cornago",
+        "de": "Kornago-Hoplon"
+      },
+      "is_emperor": false,
+      "icon": 39954,
+      "rarity": 4,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 101,
+        "secondary": 114,
+        "tertiary": 2,
+        "quaternary": 0,
+        "raw": "101, 114, 2, 0"
+      }
+    },
+    {
       "key": 50811,
       "name": "头狼王冠",
       "names": {
@@ -1563958,6 +1567513,136 @@
       }
     },
     {
+      "key": 51736,
+      "name": "兽王手斧",
+      "names": {
+        "zh": "兽王手斧",
+        "en": "Beastliege's Hand Axe",
+        "ja": "ビーストリージュ・ハンドアクス",
+        "ko": "마수군주 한손도끼",
+        "tc": "兽王手斧",
+        "fr": "Hachette de seigneur belliciste",
+        "de": "Bestienherrscher-Handaxt"
+      },
+      "is_emperor": false,
+      "icon": 39931,
+      "rarity": 3,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 1,
+        "tertiary": 2,
+        "quaternary": 0,
+        "raw": "3401, 1, 2, 0"
+      }
+    },
+    {
+      "key": 51737,
+      "name": "兽王青铜重盾",
+      "names": {
+        "zh": "兽王青铜重盾",
+        "en": "Beastliege's Hoplon",
+        "ja": "ビーストリージュ・ホプロン",
+        "ko": "마수군주 전통방패",
+        "tc": "兽王青铜重盾",
+        "fr": "Hoplon de seigneur belliciste",
+        "de": "Bestienherrscher-Hoplon"
+      },
+      "is_emperor": false,
+      "icon": 39953,
+      "rarity": 3,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 114,
+        "secondary": 26,
+        "tertiary": 2,
+        "quaternary": 0,
+        "raw": "114, 26, 2, 0"
+      }
+    },
+    {
+      "key": 51739,
+      "name": "改良型加特勒",
+      "names": {
+        "zh": "改良型加特勒",
+        "en": "Guttler Unleashed",
+        "ja": "ガトラーRE",
+        "ko": "보강된 거틀러",
+        "tc": "改良型加特勒",
+        "fr": "Dévoreuse affranchie",
+        "de": "Entfesselter Guttler"
+      },
+      "is_emperor": false,
+      "icon": 39933,
+      "rarity": 4,
+      "equip_slot_category": 1,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 3401,
+        "secondary": 3,
+        "tertiary": 2,
+        "quaternary": 0,
+        "raw": "3401, 3, 2, 0"
+      }
+    },
+    {
+      "key": 51740,
+      "name": "改良型科纳格青铜重盾",
+      "names": {
+        "zh": "改良型科纳格青铜重盾",
+        "en": "Augmented Kornago Hoplon",
+        "ja": "コルナゴホプロンRE",
+        "ko": "보강된 코르나고 전통방패",
+        "tc": "改良型科纳格青铜重盾",
+        "fr": "Hoplon du cornago amélioré",
+        "de": "Modifiziertes Kornago-Hoplon"
+      },
+      "is_emperor": false,
+      "icon": 39954,
+      "rarity": 4,
+      "equip_slot_category": 2,
+      "slot_label": "武器",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 101,
+        "secondary": 114,
+        "tertiary": 3,
+        "quaternary": 0,
+        "raw": "101, 114, 3, 0"
+      }
+    },
+    {
+      "key": 51745,
+      "name": "兽主耳环",
+      "names": {
+        "zh": "兽主耳环",
+        "en": "Beastmaster's Earrings",
+        "ja": "ビーストマスター・イヤリング",
+        "ko": "마수전문가 귀걸이",
+        "tc": "兽主耳环",
+        "fr": "Boucles d'oreilles de dresseur de bêtes",
+        "de": "Bestienbändiger-Ohrringe"
+      },
+      "is_emperor": false,
+      "icon": 55570,
+      "rarity": 3,
+      "equip_slot_category": 9,
+      "slot_label": "耳饰",
+      "dye_count": 0,
+      "model_main": {
+        "primary": 190,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "190, 1, 0, 0"
+      }
+    },
+    {
       "key": 51756,
       "name": "超空间手锯v1.1",
       "names": {
@@ -1571235,6 +1574920,136 @@
         "tertiary": 0,
         "quaternary": 0,
         "raw": "6263, 1, 0, 0"
+      }
+    },
+    {
+      "key": 52428,
+      "name": "继承者兜帽",
+      "names": {
+        "zh": "继承者兜帽",
+        "en": "Successor's Hood",
+        "ja": "サクセサー・フード",
+        "ko": "계승자의 두건",
+        "tc": "继承者兜帽",
+        "fr": "Capuche de successeur",
+        "de": "Kapuze des Erben"
+      },
+      "is_emperor": false,
+      "icon": 56956,
+      "rarity": 1,
+      "equip_slot_category": 3,
+      "slot_label": "头部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 6262,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "6262, 1, 0, 0"
+      }
+    },
+    {
+      "key": 52429,
+      "name": "继承者束腰衣",
+      "names": {
+        "zh": "继承者束腰衣",
+        "en": "Successor's Tunic",
+        "ja": "サクセサー・チュニック",
+        "ko": "계승자의 튜닉",
+        "tc": "继承者束腰衣",
+        "fr": "Tunique de successeur",
+        "de": "Tunika des Erben"
+      },
+      "is_emperor": false,
+      "icon": 57393,
+      "rarity": 1,
+      "equip_slot_category": 4,
+      "slot_label": "身体防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 6262,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "6262, 1, 0, 0"
+      }
+    },
+    {
+      "key": 52430,
+      "name": "继承者半指护手",
+      "names": {
+        "zh": "继承者半指护手",
+        "en": "Successor's Fingerless Gloves",
+        "ja": "サクセサー・フィンガレスグローブ",
+        "ko": "계승자의 반장갑",
+        "tc": "继承者半指护手",
+        "fr": "Mitaines de successeur",
+        "de": "Fingerlinge des Erben"
+      },
+      "is_emperor": false,
+      "icon": 56462,
+      "rarity": 1,
+      "equip_slot_category": 5,
+      "slot_label": "手部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 6262,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "6262, 1, 0, 0"
+      }
+    },
+    {
+      "key": 52431,
+      "name": "继承者马裤",
+      "names": {
+        "zh": "继承者马裤",
+        "en": "Successor's Breeches",
+        "ja": "サクセサー・ブリーチ",
+        "ko": "계승자의 바지",
+        "tc": "继承者马裤",
+        "fr": "Braies de successeur",
+        "de": "Reiterhose des Erben"
+      },
+      "is_emperor": false,
+      "icon": 57479,
+      "rarity": 1,
+      "equip_slot_category": 7,
+      "slot_label": "腿部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 6262,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "6262, 1, 0, 0"
+      }
+    },
+    {
+      "key": 52432,
+      "name": "继承者高筒靴",
+      "names": {
+        "zh": "继承者高筒靴",
+        "en": "Successor's Highboots",
+        "ja": "サクセサー・ハイブーツ",
+        "ko": "계승자의 무릎장화",
+        "tc": "继承者高筒靴",
+        "fr": "Bottes de successeur",
+        "de": "Kniestiefel des Erben"
+      },
+      "is_emperor": false,
+      "icon": 57972,
+      "rarity": 1,
+      "equip_slot_category": 8,
+      "slot_label": "脚部防具",
+      "dye_count": 2,
+      "model_main": {
+        "primary": 6262,
+        "secondary": 1,
+        "tertiary": 0,
+        "quaternary": 0,
+        "raw": "6262, 1, 0, 0"
       }
     },
     {
