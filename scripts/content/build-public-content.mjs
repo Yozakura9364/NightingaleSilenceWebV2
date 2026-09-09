@@ -17,9 +17,10 @@ import {
   deriveEntryView,
   deriveIndexView,
   DEFAULT_MEDIA_HOST,
+  resolveMediaHosts,
 } from './lib/public-content-core.mjs'
 
-export function buildPublicContent({ publishedDir, outDir, mediaHost = DEFAULT_MEDIA_HOST, log = () => {} }) {
+export function buildPublicContent({ publishedDir, outDir, mediaHost = resolveMediaHosts(), log = () => {} }) {
   let snapshots
   try {
     snapshots = loadSnapshots(publishedDir)

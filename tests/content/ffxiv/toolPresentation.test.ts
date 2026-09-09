@@ -14,11 +14,12 @@ describe('OS shell prototype presentation', () => {
     })
   })
 
-  it('exposes the FFXIV workshop and About as routed desktop entries', () => {
+  it('exposes the FFXIV workshop, About and Blog as routed desktop entries', () => {
     expect(osShellPrimaryPresentations).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: 'ffxiv', route: '/ffxiv' }),
-        expect.objectContaining({ id: 'about', route: '/about' })
+        expect.objectContaining({ id: 'about', route: '/about' }),
+        expect.objectContaining({ id: 'blog', route: '/blog' })
       ])
     )
   })

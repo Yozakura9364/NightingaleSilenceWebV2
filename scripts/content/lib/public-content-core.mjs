@@ -16,10 +16,26 @@ export const SNAPSHOT_SCHEMA = 'content.publication.v1'
 
 export const DEFAULT_MEDIA_HOST = 'https://img.nightingalesilence.com/content/'
 
+/**
+ * Allowed media host prefixes: default plus comma-separated CONTENT_MEDIA_HOSTS
+ * (transition support while published entries move from the legacy shared
+ * content/ prefix to the dedicated blog bucket domain).
+ */
+export function resolveMediaHosts() {
+  const raw = String(process.env.CONTENT_MEDIA_HOSTS || '').trim()
+  if (!raw) return [DEFAULT_MEDIA_HOST]
+  const list = raw
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean)
+  return list.length ? list : [DEFAULT_MEDIA_HOST]
+}
+
 /** A stable public media URL: exact configured HTTPS host prefix, no query/credential params. */
 export function isStableMediaUrl(url, mediaHost = DEFAULT_MEDIA_HOST) {
   if (typeof url !== 'string' || !url) return false
-  if (!url.startsWith(mediaHost)) return false
+  const hosts = Array.isArray(mediaHost) ? mediaHost : [mediaHost]
+  if (!hosts.some((host) => url.startsWith(host))) return false
   if (url.includes('?')) return false // signed/expiring/credential params
   return true
 }

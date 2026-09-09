@@ -16,7 +16,7 @@ function fail(label, detail) {
 const gi = readFileSync(resolve(root, '.gitignore'), 'utf-8')
 const requiredLines = [
   'local-assets/',
-  'local-assets/content-studio/',
+  '.content-studio/',
   'content-studio',
 ]
 for (const line of requiredLines) {

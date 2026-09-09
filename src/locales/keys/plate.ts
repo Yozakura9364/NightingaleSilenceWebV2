@@ -54,6 +54,9 @@ export const plateTextKeys = {
     'nsplate.customPortrait.crop.mode.popoutDetail',
   nsplateCustomPortraitCropModeFree: 'nsplate.customPortrait.crop.mode.free',
   nsplateCustomPortraitCropModeFreeDetail: 'nsplate.customPortrait.crop.mode.freeDetail',
+  nsplateCustomPortraitCropModePaired: 'nsplate.customPortrait.crop.mode.paired',
+  nsplateCustomPortraitCropModePairedDetail:
+    'nsplate.customPortrait.crop.mode.pairedDetail',
   nsplateCustomPortraitCropImage: 'nsplate.customPortrait.crop.image',
   nsplateCustomPortraitCropPairedBase: 'nsplate.customPortrait.crop.paired.base',
   nsplateCustomPortraitCropPairedOverlay: 'nsplate.customPortrait.crop.paired.overlay',

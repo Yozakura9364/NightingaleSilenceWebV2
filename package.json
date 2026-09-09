@@ -18,6 +18,8 @@
     "build:glamour-item-catalog": "python server/glamour/tools/build_item_catalog.py",
     "build:glamour-contract": "node scripts/glamour/generate-shared-contract.mjs",
     "build:kr-guide-item-map": "python server/glamour/tools/build_kr_guide_item_map.py",
+    "sync:kr-item-icons": "python server/glamour/tools/sync_kr_item_icons.py",
+    "crawl:kr-guide-item-icons": "python server/glamour/tools/crawl_kr_guide_item_icons.py",
     "build:ffxiv-csv-structure": "node scripts/build-ffxiv-csv-structure.mjs",
     "build:item-card-emotes": "node scripts/build-item-card-emotes.mjs",
     "check:item-card-emotes": "node scripts/check-item-card-emotes.mjs",

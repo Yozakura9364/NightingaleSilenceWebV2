@@ -578,6 +578,18 @@ export const plateUiMessages: UiMessageMap = {
     ko: '전체 프레임 밖 이미지'
   }),
   'nsplate.customPortrait.crop.mode.freeDetail': msg({
+    zh: '单图自由出框',
+    en: 'One freely positioned image',
+    ja: '1枚画像を自由配置',
+    ko: '단일 이미지 자유 배치'
+  }),
+  'nsplate.customPortrait.crop.mode.paired': msg({
+    zh: '双图全出框',
+    en: 'Dual-image popout',
+    ja: '2枚画像全枠外',
+    ko: '2이미지 전체 돌출'
+  }),
+  'nsplate.customPortrait.crop.mode.pairedDetail': msg({
     zh: '底图 + 出框图',
     en: 'Base + popout images',
     ja: 'ベース + 枠外画像',

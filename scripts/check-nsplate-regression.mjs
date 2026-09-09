@@ -49,6 +49,7 @@ async function main() {
 
     results.push(await runStaticDefaultCase(browser, url))
     results.push(await runV2DraftCase(browser, url, manifests))
+    results.push(await runFreePopoutUploadCase(browser, url))
     results.push(await runPairedUploadValidationCase(browser, url))
     results.push(await runCropRotationControlsCase(browser, url, tmpDir))
     results.push(await runPairedPopoutCase(browser, url, manifests, tmpDir))
@@ -489,7 +490,7 @@ async function runPairedPopoutCase(browser, url, manifests, tmpDir) {
       standardModeSamples[0]?.[0] > 200 && standardModeSamples[2]?.[2] > 200,
       'paired-to-standard mode switch reused free-transform scale instead of fitting the portrait crop'
     )
-    await cropDialog.getByRole('button', { name: '全出框图片' }).click()
+    await cropDialog.getByRole('button', { name: '双图全出框' }).click()
     await cropDialog.locator('canvas[data-mode="paired"]').waitFor({ state: 'visible' })
     const pairedScaleAfter = await cropDialog.locator('input[type="range"]').first().inputValue()
     assert(
@@ -587,7 +588,7 @@ async function runPairedUploadValidationCase(browser, url) {
     await page.locator('.nsplate-portrait-upload__pick').click()
     const dialog = page.locator('.nsplate-crop-dialog')
     await dialog.waitFor({ state: 'visible' })
-    await dialog.getByRole('button', { name: '全出框图片' }).click()
+    await dialog.getByRole('button', { name: '双图全出框' }).click()
     const uploadCards = dialog.locator('.nsplate-crop-dialog__file')
     await uploadCards
       .nth(0)
@@ -640,6 +641,60 @@ async function runPairedUploadValidationCase(browser, url) {
     return {
       name: 'v2-paired-upload-validation',
       detail: 'dimension mismatch rejected and same-size pair applied'
+    }
+  } finally {
+    await close()
+  }
+}
+
+async function runFreePopoutUploadCase(browser, url) {
+  const { page, consoleErrors, pageErrors, requestFailures, close } = await openPlatePage(
+    browser,
+    url,
+    {
+      viewport: { width: 1440, height: 900 },
+      locale: 'zh-CN',
+      theme: 'day'
+    }
+  )
+
+  try {
+    await page.locator('.nsplate-portrait-upload__pick').click()
+    const dialog = page.locator('.nsplate-crop-dialog')
+    await dialog.waitFor({ state: 'visible' })
+    await dialog.getByRole('button', { name: '全出框图片', exact: true }).click()
+
+    const uploadCards = dialog.locator('.nsplate-crop-dialog__file')
+    assert((await uploadCards.count()) === 1, 'single-image full popout exposed paired file inputs')
+    await uploadCards.locator('input[type="file"]').setInputFiles({
+      name: 'free-popout.svg',
+      mimeType: 'image/svg+xml',
+      buffer: createUploadSvgBuffer(1920, 1080, '#ff3366')
+    })
+    await dialog.locator('canvas[data-mode="free"]').waitFor({ state: 'visible' })
+
+    const previewPixel = await sampleCanvasPixel(dialog.locator('canvas'), 1100, 720)
+    assert(
+      isOpaquePinkPixel(previewPixel),
+      'full-popout crop preview clipped the image to portrait'
+    )
+
+    await dialog.getByRole('button', { name: '应用' }).click()
+    await page.waitForFunction(
+      (key) => localStorage.getItem(key)?.includes('"mode":"free"'),
+      DRAFT_KEY
+    )
+    const outputPixel = await sampleCanvasPixel(
+      page.locator('.nsplate-canvas-frame__canvas'),
+      1100,
+      720
+    )
+    assert(isOpaquePinkPixel(outputPixel), 'full-popout output clipped the image to portrait')
+    assertNoBrowserErrors({ consoleErrors, pageErrors, requestFailures })
+
+    return {
+      name: 'v2-free-popout-upload',
+      detail: 'single image remains visible outside the portrait frame'
     }
   } finally {
     await close()
@@ -720,6 +775,22 @@ async function runCropRotationControlsCase(browser, url, tmpDir) {
       .locator('input[type="range"]')
     await zoomRange.fill('1.4')
     await rotationNumber.fill('18')
+    await rotationNumber.focus()
+    const numberInputFocusStyle = await rotationNumber.evaluate((input) => {
+      const wrapper = input.parentElement
+      return {
+        inputShadow: getComputedStyle(input).boxShadow,
+        wrapperShadow: wrapper ? getComputedStyle(wrapper).boxShadow : 'none'
+      }
+    })
+    assert(
+      numberInputFocusStyle.inputShadow === 'none',
+      `number input drew a nested focus ring: ${numberInputFocusStyle.inputShadow}`
+    )
+    assert(
+      numberInputFocusStyle.wrapperShadow !== 'none',
+      'number input wrapper did not receive the composite focus ring'
+    )
     const zoomBeforeRotationReset = await zoomRange.inputValue()
     const zoomLabelBeforeRotationReset = await dialog
       .locator('.nsplate-crop-dialog__control')
@@ -820,7 +891,8 @@ async function runCropRotationControlsCase(browser, url, tmpDir) {
 
     return {
       name: 'crop-rotation-controls',
-      detail: 'standard/popout rotation, independent split angle and one-row desktop controls'
+      detail:
+        'standard/popout rotation, composite number focus, independent split angle and one-row desktop controls'
     }
   } finally {
     await close()
@@ -1390,6 +1462,18 @@ function createPairedOverlayDataUrl(label) {
 
 function createBase64SvgDataUrl(svg) {
   return `data:image/svg+xml;base64,${Buffer.from(svg, 'utf8').toString('base64')}`
+}
+
+async function sampleCanvasPixel(canvasLocator, x, y) {
+  return canvasLocator.evaluate(
+    (canvas, point) =>
+      Array.from(canvas.getContext('2d').getImageData(point.x, point.y, 1, 1).data),
+    { x, y }
+  )
+}
+
+function isOpaquePinkPixel(pixel) {
+  return pixel[0] > 220 && pixel[1] < 100 && pixel[2] > 70 && pixel[3] > 240
 }
 
 function createUploadSvgBuffer(width, height, color, transparent = false) {

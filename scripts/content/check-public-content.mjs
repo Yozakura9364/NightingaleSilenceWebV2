@@ -15,10 +15,11 @@ import {
   findLeaks,
   isStableMediaUrl,
   DEFAULT_MEDIA_HOST,
+  resolveMediaHosts,
 } from './lib/public-content-core.mjs'
 import { entryGenerationHash } from './lib/canonical-hash.mjs'
 
-export function checkPublicContent({ publishedDir, outDir, mediaHost = DEFAULT_MEDIA_HOST, log = () => {} }) {
+export function checkPublicContent({ publishedDir, outDir, mediaHost = resolveMediaHosts(), log = () => {} }) {
   const errors = []
 
   // 0. leftover build staging/backup dirs next to the output tree
