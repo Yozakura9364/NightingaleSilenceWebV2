@@ -313,8 +313,8 @@ onBeforeUnmount(() => {
   top: 50%;
   z-index: 12;
   display: block;
-  height: min(78svh, 720px);
-  width: min(52vw, 720px);
+  height: min(58.5svh, 540px);
+  width: min(39vw, 540px);
   filter: drop-shadow(10px 10px 0 rgba(5, 9, 18, 0.5))
     drop-shadow(-3px 0 0 rgba(255, 95, 184, 0.18)) drop-shadow(3px 0 0 rgba(94, 234, 255, 0.18));
   pointer-events: none;

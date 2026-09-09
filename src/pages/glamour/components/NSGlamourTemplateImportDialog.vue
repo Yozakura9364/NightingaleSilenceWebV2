@@ -38,13 +38,13 @@
       </label>
 
       <AppStatus
-        v-if="statusMessage"
+        v-if="statusMessage && statusTone !== 'loading'"
         compact
         class="nsglamour-template-import__status"
         :tone="statusTone"
         :message="statusMessage"
       />
-      <p v-else class="nsglamour-template-import__hint">
+      <p v-else-if="statusTone !== 'loading'" class="nsglamour-template-import__hint">
         {{ t(textKeys.nsglamourTemplateImportHint) }}
       </p>
 

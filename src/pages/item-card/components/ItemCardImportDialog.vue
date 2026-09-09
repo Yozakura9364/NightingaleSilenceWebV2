@@ -39,8 +39,15 @@
         />
       </AppField>
 
-      <AppStatus v-if="statusMessage" compact :tone="statusTone" :message="statusMessage" />
-      <p v-else class="ns-form-dialog__hint">{{ t(textKeys.importHint) }}</p>
+      <AppStatus
+        v-if="statusMessage && statusTone !== 'loading'"
+        compact
+        :tone="statusTone"
+        :message="statusMessage"
+      />
+      <p v-else-if="statusTone !== 'loading'" class="ns-form-dialog__hint">
+        {{ t(textKeys.importHint) }}
+      </p>
 
       <footer class="ns-form-dialog__footer">
         <button

@@ -54,7 +54,12 @@
         />
       </AppField>
 
-      <AppStatus v-if="statusMessage" compact :tone="statusTone" :message="statusMessage" />
+      <AppStatus
+        v-if="statusMessage && statusTone !== 'loading'"
+        compact
+        :tone="statusTone"
+        :message="statusMessage"
+      />
 
       <footer class="ns-form-dialog__footer">
         <button

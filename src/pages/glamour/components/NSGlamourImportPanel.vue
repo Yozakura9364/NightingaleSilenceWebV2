@@ -91,7 +91,7 @@
     </form>
 
     <AppStatus
-      v-if="props.statusMessage"
+      v-if="props.statusMessage && props.statusTone !== 'loading'"
       class="nsglamour-import__status"
       compact
       :tone="props.statusTone"
@@ -316,12 +316,6 @@ onBeforeUnmount(() => {
   border: 0;
   background: transparent;
   box-shadow: none;
-}
-
-.nsglamour-import__status :deep(.app-status__mark) {
-  width: 8px;
-  height: 8px;
-  border-width: var(--ns-line-width);
 }
 
 .nsglamour-import__status :deep(.app-status__message) {

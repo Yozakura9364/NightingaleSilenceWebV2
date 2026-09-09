@@ -5,8 +5,6 @@
     :role="resolvedRole"
     :aria-live="resolvedAriaLive"
   >
-    <span class="app-status__mark" aria-hidden="true"></span>
-
     <div class="app-status__content">
       <strong v-if="title" class="app-status__title">{{ title }}</strong>
       <p v-if="message" class="app-status__message">{{ message }}</p>
@@ -45,37 +43,12 @@ const resolvedAriaLive = computed(
 
 <style scoped>
 .app-status {
-  display: flex;
   min-width: 0;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px;
-  border: 1px solid var(--ns-color-border);
-  border-radius: var(--ns-radius-sm);
-  background: var(--ns-color-surface);
-  color: var(--ns-color-text);
-  box-shadow: var(--ns-shadow-soft);
+  color: var(--ns-color-text-muted);
 }
 
 .app-status--compact {
-  align-items: center;
-  gap: 8px;
-  min-height: 32px;
-  padding: 6px 8px;
-}
-
-.app-status__mark {
-  flex: 0 0 auto;
-  width: 12px;
-  height: 12px;
-  margin-top: 4px;
-  border: 1px solid var(--ns-color-border-strong);
-  border-radius: var(--ns-radius-xs);
-  background: var(--ns-color-text-muted);
-}
-
-.app-status--compact .app-status__mark {
-  margin-top: 0;
+  font-size: 12px;
 }
 
 .app-status__content {
@@ -98,7 +71,7 @@ const resolvedAriaLive = computed(
 .app-status__message,
 .app-status__content :deep(p) {
   margin: 0;
-  color: var(--ns-color-text-muted);
+  color: inherit;
   font-size: 12px;
   line-height: 1.45;
 }
@@ -110,79 +83,18 @@ const resolvedAriaLive = computed(
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
-  margin-left: auto;
-}
-
-.app-status--info {
-  border-color: var(--ns-status-info-border);
-  background: var(--ns-status-info-bg);
-}
-
-.app-status--info .app-status__mark {
-  background: var(--ns-color-cyan);
+  margin-top: 6px;
 }
 
 .app-status--success {
-  border-color: var(--ns-status-success-border);
-  background: var(--ns-status-success-bg);
-}
-
-.app-status--success .app-status__mark {
-  background: var(--ns-color-success);
+  color: var(--ns-color-success);
 }
 
 .app-status--warning {
-  border-color: var(--ns-status-warning-border);
-  background: var(--ns-status-warning-bg);
-}
-
-.app-status--warning .app-status__mark {
-  background: var(--ns-color-warning);
+  color: var(--ns-color-warning);
 }
 
 .app-status--danger {
-  border-color: var(--ns-status-danger-border);
-  background: var(--ns-status-danger-bg);
-}
-
-.app-status--danger .app-status__mark {
-  background: var(--ns-color-danger);
-}
-
-.app-status--loading .app-status__mark {
-  background: repeating-linear-gradient(
-    90deg,
-    var(--ns-color-accent) 0 4px,
-    var(--ns-color-cyan) 4px 8px
-  );
-  animation: app-status-loading 680ms steps(2, end) infinite;
-}
-
-@keyframes app-status-loading {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 8px 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .app-status--loading .app-status__mark {
-    animation: none;
-  }
-}
-
-@media (max-width: 520px) {
-  .app-status {
-    flex-wrap: wrap;
-  }
-
-  .app-status__actions {
-    width: 100%;
-    margin-left: 22px;
-    justify-content: flex-start;
-  }
+  color: var(--ns-color-danger);
 }
 </style>

@@ -413,7 +413,23 @@ export function getEquipmentModelCode(entry: GlamourEquipmentEntry): string {
   return ''
 }
 
-export function buildGlamourIconUrl(_apiBase: string, iconId: unknown): string {
+export function buildGlamourIconUrl(apiBase: string, iconId: unknown): string {
+  const normalizedApiBase = String(apiBase || '').trim().replace(/\/+$/, '')
+  const rawIcon = String(iconId ?? '').trim()
+  const numericIconId = Number(rawIcon)
+
+  if (normalizedApiBase && Number.isFinite(numericIconId) && numericIconId > 0) {
+    return `${normalizedApiBase}/icon/${Math.trunc(numericIconId)}`
+  }
+
+  const knownIconMatch = rawIcon.match(
+    /(?:^|\/)(?:api\/glamour\/icon\/|ui\/icon\/\d{6}\/(\d{6})_(?:hd|hr1)\.png)(\d+)?(?:[/?#].*)?$/i
+  )
+  const knownIconId = knownIconMatch?.[1] || knownIconMatch?.[2]
+  if (normalizedApiBase && knownIconId) {
+    return `${normalizedApiBase}/icon/${knownIconId}`
+  }
+
   return normalizeFfxivItemIconUrl(iconId)
 }
 

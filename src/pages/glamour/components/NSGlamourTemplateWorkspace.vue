@@ -37,54 +37,10 @@
           }"
           :style="getCanvasUploadLayerStyle(slot)"
           :data-template-image-slot="slot.id"
-          @click.stop="openImageUploadMenu(slot.id)"
+          @click.stop="chooseImageUpload(slot.id)"
         >
           <span>{{ slot.uploadText }}</span>
         </button>
-        <div
-          v-if="imageUploadMenuSlot"
-          class="nsglamour-template__image-menu"
-          :style="getImageUploadMenuStyle(imageUploadMenuSlot)"
-          role="dialog"
-          :aria-label="t(textKeys.nsglamourTemplateRecentImages)"
-          @click.stop
-        >
-          <div class="nsglamour-template__image-menu-actions">
-            <button type="button" @click="chooseImageUpload(imageUploadMenuSlot.id)">
-              {{ t(textKeys.nsglamourTemplateUploadImage) }}
-            </button>
-            <button
-              v-if="recentTemplateImages.length"
-              type="button"
-              @click="clearRecentTemplateImages"
-            >
-              {{ t(textKeys.nsglamourTemplateRecentImagesClear) }}
-            </button>
-          </div>
-          <div class="nsglamour-template__image-menu-title">
-            {{ t(textKeys.nsglamourTemplateRecentImages) }}
-          </div>
-          <div v-if="recentTemplateImages.length" class="nsglamour-template__recent-images">
-            <button
-              v-for="record in recentTemplateImages"
-              :key="record.id"
-              type="button"
-              class="nsglamour-template__recent-image"
-              @click="useRecentTemplateImage(imageUploadMenuSlot.id, record)"
-            >
-              <img :src="record.thumbnailUrl" :alt="record.imageName" loading="lazy" />
-              <span>
-                <strong>{{
-                  record.imageName || t(textKeys.nsglamourTemplateRecentImageFallback)
-                }}</strong>
-                <small>{{ formatRecentTemplateImageTime(record.updatedAt) }}</small>
-              </span>
-            </button>
-          </div>
-          <div v-else class="nsglamour-template__image-menu-empty">
-            {{ t(textKeys.nsglamourTemplateRecentImagesEmpty) }}
-          </div>
-        </div>
       </div>
     </div>
 
@@ -392,21 +348,12 @@ const { imageStateVersion, getTemplateImage, hasTemplateImage, setTemplateImageD
 const {
   canvasShellEl,
   imageInputEl,
-  imageUploadMenuSlotId,
   activeDropSlotId,
-  recentTemplateImages,
   pendingCrop,
   pendingCropSlot,
-  imageUploadMenuSlot,
   getCanvasUploadLayerStyle,
-  getImageUploadMenuStyle,
-  openImageUploadMenu,
-  closeImageUploadMenu,
   chooseImageUpload,
   handleImageInputChange,
-  clearRecentTemplateImages,
-  useRecentTemplateImage,
-  formatRecentTemplateImageTime,
   applyImageCrop,
   closeImageCropper,
   handleCanvasDrag,
@@ -415,7 +362,6 @@ const {
 } = useGlamourTemplateImageInteraction({
   renderData: templateRenderData,
   slots: canvasUploadLayers,
-  currentLocale: current,
   setTemplateImageData
 })
 const { templateCanvasEl, previewCanvasSize, drawTemplateCanvas, downloadTemplateCanvas } =
@@ -507,17 +453,8 @@ function submitImport() {
 }
 
 function closeFloatingTemplatePanels() {
-  closeImageUploadMenu()
   settingsPanelRef.value?.closeAuthorLinks()
   equipmentPanelRef.value?.closeRecent()
-}
-
-function handleDocumentClick(event: MouseEvent) {
-  const target = event.target as Node
-
-  if (canvasShellEl.value && !canvasShellEl.value.contains(target)) {
-    closeImageUploadMenu()
-  }
 }
 
 function handleDocumentKeydown(event: KeyboardEvent) {
@@ -532,11 +469,6 @@ function handleDocumentKeydown(event: KeyboardEvent) {
 
   if (templateSelectorOpen.value) {
     closeTemplateSelector()
-    return
-  }
-
-  if (imageUploadMenuSlotId.value) {
-    closeImageUploadMenu()
     return
   }
 
@@ -593,7 +525,6 @@ function observePreviewSize() {
 }
 
 onMounted(() => {
-  document.addEventListener('click', handleDocumentClick)
   document.addEventListener('keydown', handleDocumentKeydown)
   document.addEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)
   window.addEventListener('pageshow', redrawTemplateCanvasAfterPageResume)
@@ -603,7 +534,6 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', handleDocumentClick)
   document.removeEventListener('keydown', handleDocumentKeydown)
   document.removeEventListener('visibilitychange', redrawTemplateCanvasAfterPageResume)
   window.removeEventListener('pageshow', redrawTemplateCanvasAfterPageResume)

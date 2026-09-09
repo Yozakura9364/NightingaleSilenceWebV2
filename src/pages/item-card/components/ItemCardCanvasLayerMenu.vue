@@ -122,10 +122,7 @@ const emit = defineEmits<{
 const { t } = useLocale()
 
 function onDragStart(event: DragEvent, layer: ItemCardCanvasLayer) {
-  if (
-    event.target instanceof HTMLInputElement ||
-    event.target instanceof HTMLButtonElement
-  ) {
+  if (event.target instanceof HTMLInputElement || event.target instanceof HTMLButtonElement) {
     event.preventDefault()
     return
   }
@@ -252,7 +249,49 @@ function onDragOver(event: DragEvent, layer: ItemCardCanvasLayer) {
   flex: 1 1 80px;
   width: 80px;
   min-width: 0;
-  accent-color: var(--ns-color-accent-strong);
+  height: 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.canvas-board__layer-scale input[type='range']::-webkit-slider-runnable-track {
+  height: 8px;
+  border: 1px solid var(--ns-color-border);
+  border-radius: 4px;
+  background: var(--ns-color-surface-solid);
+}
+
+.canvas-board__layer-scale input[type='range']::-webkit-slider-thumb {
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  margin-top: -5px;
+  border: 1px solid var(--ns-color-border-strong);
+  border-radius: var(--ns-radius-sm);
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--ns-color-surface-solid);
+  box-shadow: none;
+}
+
+.canvas-board__layer-scale input[type='range']::-moz-range-track {
+  height: 8px;
+  border: 1px solid var(--ns-color-border);
+  border-radius: 4px;
+  background: var(--ns-color-surface-solid);
+}
+
+.canvas-board__layer-scale input[type='range']::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--ns-color-border-strong);
+  border-radius: var(--ns-radius-sm);
+  background: var(--ns-color-surface-solid);
+  box-shadow: none;
 }
 
 .canvas-board__layer-scale-value {

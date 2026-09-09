@@ -417,7 +417,6 @@ function updateViewportSize() {
 
 .nsglamour-template-crop__zoom input[type='range'] {
   width: 100%;
-  accent-color: var(--ns-color-accent);
   cursor: pointer;
 }
 

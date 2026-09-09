@@ -39,17 +39,17 @@
   }
 
   .ns-range {
-    --ns-range-track-height: 6px;
-    --ns-range-thumb-size: 18px;
-    --ns-range-track-color: var(--ns-color-border);
-    --ns-range-track-shadow: none;
-    --ns-range-thumb-color: var(--ns-color-accent);
-    --ns-range-thumb-color-hover: var(--ns-color-accent-strong);
-    --ns-range-thumb-border-width: 0;
-    --ns-range-thumb-border-color: transparent;
-    --ns-range-thumb-radius: 50%;
-    --ns-range-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.2);
-    --ns-range-thumb-shadow-hover: var(--ns-range-thumb-shadow);
+    --ns-range-track-height: 8px;
+    --ns-range-thumb-size: 16px;
+    --ns-range-track-color: var(--ns-color-surface-solid);
+    --ns-range-track-shadow: inset 0 0 0 1px var(--ns-color-border);
+    --ns-range-thumb-color: var(--ns-color-surface-solid);
+    --ns-range-thumb-color-hover: var(--ns-color-surface-muted);
+    --ns-range-thumb-border-width: 1px;
+    --ns-range-thumb-border-color: var(--ns-color-border-strong);
+    --ns-range-thumb-radius: var(--ns-radius-sm);
+    --ns-range-thumb-shadow: none;
+    --ns-range-thumb-shadow-hover: none;
 
     display: block;
     width: 100%;
@@ -159,42 +159,7 @@
   }
 
   .ns-range--pixel {
-    --ns-range-track-height: 10px;
-    --ns-range-track-color: var(--ns-color-surface-solid);
-    --ns-range-track-shadow: inset 0 0 0 2px var(--ns-pixel-border);
-    --ns-range-thumb-border-width: 2px;
-    --ns-range-thumb-border-color: var(--ns-pixel-border);
-    --ns-range-thumb-radius: 0;
-    --ns-range-thumb-shadow: var(--ns-pixel-soft-shadow);
-    --ns-range-thumb-shadow-hover: var(--ns-pixel-button-shadow-hover);
-  }
-
-  .ns-range--pixel::-webkit-slider-runnable-track {
-    border-radius: 0;
-  }
-
-  .ns-range--pixel::-moz-range-track {
-    border-radius: 0;
-  }
-
-  .ns-range--pixel::-moz-range-progress {
-    border-radius: 0;
-  }
-
-  .ns-range--pixel:hover::-webkit-slider-thumb {
-    border-color: var(--ns-pixel-border-accent);
-  }
-
-  .ns-range--pixel:hover::-moz-range-thumb {
-    border-color: var(--ns-pixel-border-accent);
-  }
-
-  .ns-range--pixel:disabled::-webkit-slider-thumb {
-    border-color: var(--ns-color-border);
-  }
-
-  .ns-range--pixel:disabled::-moz-range-thumb {
-    border-color: var(--ns-pixel-border-soft);
+    --ns-range-track-height: 8px;
   }
 
   .ns-scroll-area {

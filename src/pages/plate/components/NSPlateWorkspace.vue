@@ -7,14 +7,7 @@
       </button>
     </p>
 
-    <AppLoading
-      v-if="isLoading"
-      class="nsplate-workspace__loading"
-      size="lg"
-      :aria-label="t(textKeys.checking)"
-    />
-
-    <div v-else class="nsplate-main" :style="panelStyle">
+    <div v-else-if="!isLoading" class="nsplate-main" :style="panelStyle">
       <NSPlateCanvasArea
         ref="canvasAreaRef"
         :layered-export-data-source="dataSource"
@@ -106,7 +99,6 @@ import { useNSPlateDraftPersistence } from '@/pages/plate/composables/useNSPlate
 import { useNSPlatePanelResize } from '@/pages/plate/composables/useNSPlatePanelResize'
 import { useNSPlateSelectionNote } from '@/pages/plate/composables/useNSPlateSelectionNote'
 import { useNSPlateDataSource } from '@/services/plate/nsplateDataSource'
-import AppLoading from '@/components/AppLoading.vue'
 import NSPlateAssetPanel from '@/pages/plate/components/NSPlateAssetPanel.vue'
 import NSPlateCanvasArea from '@/pages/plate/components/NSPlateCanvasArea.vue'
 import NSPlateConfigPanel from '@/pages/plate/components/NSPlateConfigPanel.vue'
@@ -333,18 +325,9 @@ interface NSPlateCanvasAreaExpose {
 
 .nsplate-workspace__status {
   margin: 0;
-  padding: 10px 12px;
-  border: 1px solid var(--ns-status-danger-border);
-  border-radius: var(--ns-radius-sm);
-  background: var(--ns-status-danger-bg);
   color: var(--ns-color-danger);
   font-size: 13px;
   font-weight: 850;
-}
-
-.nsplate-workspace__loading {
-  flex: 1;
-  background: var(--ns-color-bg-soft);
 }
 
 .nsplate-workspace__file-input {

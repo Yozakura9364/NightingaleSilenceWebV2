@@ -1,14 +1,5 @@
-import { computed, onBeforeUnmount, onMounted, ref, watch, type ComputedRef, type Ref } from 'vue'
-import {
-  isGlamourTemplatePersistentImageUrl,
-  type GlamourTemplateRecentImageRecord
-} from '@/lib/glamour/templates/imageSlots'
-import {
-  GLAMOUR_TEMPLATE_RECENT_IMAGE_LIMIT,
-  clearGlamourTemplateRecentImages as clearStoredGlamourTemplateRecentImages,
-  loadGlamourTemplateRecentImages,
-  saveGlamourTemplateRecentImage
-} from '@/services/glamour/glamourTemplateImageStorage'
+import { computed, onBeforeUnmount, onMounted, ref, watch, type ComputedRef } from 'vue'
+import { isGlamourTemplatePersistentImageUrl } from '@/lib/glamour/templates/imageSlots'
 import type { GlamourTemplateImageSlot } from '@/lib/glamour/templates/definitions'
 import type { GlamourTemplateRenderData } from '@/lib/glamour/templates/renderData'
 import {
@@ -17,7 +8,6 @@ import {
   getGlamourDroppedImageUrl,
   loadGlamourTemplateImage,
   normalizeGlamourDraggedImageUrl,
-  readGlamourImageBlobAsDataUrl,
   readGlamourImageFileAsDataUrl
 } from '@/lib/glamour/templates/imageProcessing'
 import type { TemplateImageCropRequest } from '@/pages/glamour/types/templateWorkspace'
@@ -33,7 +23,6 @@ interface TemplateImageData {
 interface GlamourTemplateImageInteractionOptions {
   renderData: ComputedRef<GlamourTemplateRenderData>
   slots: ComputedRef<GlamourTemplateImageSlot[]>
-  currentLocale: Readonly<Ref<string>>
   setTemplateImageData: (slotId: string, imageData: TemplateImageData) => Promise<void>
 }
 
@@ -42,10 +31,8 @@ export function useGlamourTemplateImageInteraction(
 ) {
   const canvasShellEl = ref<HTMLElement | null>(null)
   const imageInputEl = ref<HTMLInputElement | null>(null)
-  const imageUploadMenuSlotId = ref('')
   const activeImageSlotId = ref('')
   const activeDropSlotId = ref('')
-  const recentTemplateImages = ref<GlamourTemplateRecentImageRecord[]>([])
   const pendingCrop = ref<TemplateImageCropRequest | null>(null)
   const pendingCropQueue: TemplateImageCropRequest[] = []
   const canvasUploadLayers = options.slots
@@ -53,9 +40,6 @@ export function useGlamourTemplateImageInteraction(
     pendingCrop.value
       ? canvasUploadLayers.value.find((slot) => slot.id === pendingCrop.value?.slotId) || null
       : null
-  )
-  const imageUploadMenuSlot = computed(
-    () => canvasUploadLayers.value.find((slot) => slot.id === imageUploadMenuSlotId.value) || null
   )
 
   watch(
@@ -78,46 +62,7 @@ export function useGlamourTemplateImageInteraction(
     }
   }
 
-  function getImageUploadMenuStyle(slot: GlamourTemplateImageSlot) {
-    const rect = slot.uploadRegion || slot.region
-    const canvas = options.renderData.value.canvas
-    const style: Record<string, string> = {}
-    const anchorTop = rect.y + rect.height
-    const anchorBottom = canvas.height - rect.y
-
-    if (rect.x + rect.width / 2 > canvas.width / 2) {
-      style.right = `${Math.max(0, ((canvas.width - rect.x - rect.width) / canvas.width) * 100)}%`
-    } else {
-      style.left = `${Math.max(0, (rect.x / canvas.width) * 100)}%`
-    }
-
-    // A full-canvas upload region has no usable edge to anchor against. Keep
-    // its menu centered inside the shell; other lower slots open upward.
-    if (rect.height >= canvas.height * 0.9) {
-      style.left = '50%'
-      style.top = '50%'
-      style.transform = 'translate(-50%, -50%)'
-    } else if (rect.y + rect.height > canvas.height * 0.58) {
-      style.bottom = `${Math.max(0, (anchorBottom / canvas.height) * 100)}%`
-    } else {
-      style.top = `${Math.max(0, (anchorTop / canvas.height) * 100)}%`
-    }
-
-    return style
-  }
-
-  function openImageUploadMenu(slotId: string): void {
-    activeImageSlotId.value = slotId
-    imageUploadMenuSlotId.value = imageUploadMenuSlotId.value === slotId ? '' : slotId
-    void refreshRecentTemplateImages()
-  }
-
-  function closeImageUploadMenu(): void {
-    imageUploadMenuSlotId.value = ''
-  }
-
   function chooseImageUpload(slotId: string): void {
-    closeImageUploadMenu()
     activeImageSlotId.value = slotId
     imageInputEl.value?.click()
   }
@@ -167,7 +112,6 @@ export function useGlamourTemplateImageInteraction(
       return
     }
 
-    await storeRecentTemplateImage(file, image)
     openImageCropper({
       slotId,
       image,
@@ -176,68 +120,6 @@ export function useGlamourTemplateImageInteraction(
       sourceUrl: imageUrl,
       sourceName: file.name
     })
-  }
-
-  async function storeRecentTemplateImage(file: File, image: HTMLImageElement): Promise<void> {
-    const thumbnailUrl = createGlamourTemplateImageCoverDataUrl(image, 96, 96)
-    if (!thumbnailUrl) {
-      return
-    }
-
-    const saved = await saveGlamourTemplateRecentImage({
-      imageName: file.name,
-      thumbnailUrl,
-      blob: file
-    })
-    if (saved) {
-      await refreshRecentTemplateImages()
-    }
-  }
-
-  async function refreshRecentTemplateImages(): Promise<void> {
-    recentTemplateImages.value = (await loadGlamourTemplateRecentImages()).slice(
-      0,
-      GLAMOUR_TEMPLATE_RECENT_IMAGE_LIMIT
-    )
-  }
-
-  async function clearRecentTemplateImages(): Promise<void> {
-    await clearStoredGlamourTemplateRecentImages()
-    recentTemplateImages.value = []
-  }
-
-  async function useRecentTemplateImage(
-    slotId: string,
-    record: GlamourTemplateRecentImageRecord
-  ): Promise<void> {
-    closeImageUploadMenu()
-    const imageUrl = await readGlamourImageBlobAsDataUrl(record.blob)
-    const image = imageUrl ? await loadGlamourTemplateImage(imageUrl) : null
-    if (!image || !imageUrl) {
-      return
-    }
-
-    openImageCropper({
-      slotId,
-      image,
-      imageUrl,
-      imageName: record.imageName,
-      sourceUrl: imageUrl,
-      sourceName: record.imageName
-    })
-  }
-
-  function formatRecentTemplateImageTime(updatedAt: number): string {
-    if (!Number.isFinite(updatedAt) || updatedAt <= 0) {
-      return ''
-    }
-
-    return new Intl.DateTimeFormat(options.currentLocale.value, {
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(new Date(updatedAt))
   }
 
   async function setTemplateImageFromUrl(slotId: string, imageUrl: string): Promise<void> {
@@ -278,7 +160,6 @@ export function useGlamourTemplateImageInteraction(
     }
 
     activeImageSlotId.value = slot.id
-    closeImageUploadMenu()
     pendingCrop.value = normalizedRequest
   }
 
@@ -467,7 +348,6 @@ export function useGlamourTemplateImageInteraction(
         })
       })
     })
-    void refreshRecentTemplateImages()
   })
 
   onBeforeUnmount(() => {
@@ -483,22 +363,13 @@ export function useGlamourTemplateImageInteraction(
   return {
     canvasShellEl,
     imageInputEl,
-    imageUploadMenuSlotId,
     activeDropSlotId,
-    recentTemplateImages,
     pendingCrop,
     canvasUploadLayers,
     pendingCropSlot,
-    imageUploadMenuSlot,
     getCanvasUploadLayerStyle,
-    getImageUploadMenuStyle,
-    openImageUploadMenu,
-    closeImageUploadMenu,
     chooseImageUpload,
     handleImageInputChange,
-    clearRecentTemplateImages,
-    useRecentTemplateImage,
-    formatRecentTemplateImageTime,
     applyImageCrop,
     closeImageCropper,
     handleCanvasDrag,

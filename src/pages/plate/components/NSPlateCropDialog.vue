@@ -232,7 +232,7 @@ import type {
 import { useNSPlateCropInteraction } from '@/pages/plate/composables/useNSPlateCropInteraction'
 import { useLocale } from '@/stores/locale'
 
-type SelectableMode = Exclude<NSPlateCustomPortraitMode, 'free'>
+type SelectableMode = NSPlateCustomPortraitMode
 
 const props = defineProps<{
   initialImage: NSPlateCustomPortraitImage | null
@@ -260,8 +260,12 @@ const modeOptions = [
     labelKey: textKeys.nsplateCustomPortraitCropModePopout
   },
   {
-    value: 'paired',
+    value: 'free',
     labelKey: textKeys.nsplateCustomPortraitCropModeFree
+  },
+  {
+    value: 'paired',
+    labelKey: textKeys.nsplateCustomPortraitCropModePaired
   }
 ] as const satisfies ReadonlyArray<{
   value: SelectableMode
@@ -348,10 +352,6 @@ function chooseMode(mode: SelectableMode) {
     return
   }
 
-  if (currentCropState.mode === 'free' && mode === 'paired') {
-    return
-  }
-
   setCropMode(mode)
 }
 
@@ -411,11 +411,7 @@ function confirmCrop() {
 }
 
 function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): SelectableMode {
-  return mode === 'popout' || mode === 'paired' || mode === 'free'
-    ? mode === 'free'
-      ? 'paired'
-      : mode
-    : 'standard'
+  return mode === 'popout' || mode === 'paired' || mode === 'free' ? mode : 'standard'
 }
 </script>
 
@@ -454,7 +450,7 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
 
 .nsplate-crop-dialog__modes {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   background: var(--ns-color-surface-solid);
 }
 
@@ -682,6 +678,11 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
   background: var(--ns-color-surface-solid);
 }
 
+.nsplate-crop-dialog__number-input:focus-within {
+  border-color: var(--ns-color-accent);
+  box-shadow: var(--ns-focus-ring);
+}
+
 .nsplate-crop-dialog__number-input input {
   box-sizing: border-box;
   width: 100%;
@@ -696,6 +697,10 @@ function getSelectableMode(mode: NSPlateCustomPortraitMode | undefined): Selecta
   font-variant-numeric: tabular-nums;
   appearance: textfield;
   -moz-appearance: textfield;
+}
+
+.nsplate-crop-dialog__number-input input:focus-visible {
+  box-shadow: none;
 }
 
 .nsplate-crop-dialog__number-input input::-webkit-inner-spin-button,
