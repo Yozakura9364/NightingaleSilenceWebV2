@@ -5,15 +5,22 @@ from datetime import datetime,timezone
 from io import BytesIO
 from pathlib import Path
 from typing import Any,Dict,Optional
+from urllib.parse import urlparse
 from PIL import Image,UnidentifiedImageError
 
 MAX_UPLOAD_BYTES=20*1024*1024; MAX_WIDTH=16384; MAX_HEIGHT=16384; MAX_PIXELS=64_000_000
 ALLOWED_FORMATS={"JPEG","PNG","GIF","WebP"}
 _MIME={"JPEG":"image/jpeg","PNG":"image/png","GIF":"image/gif","WebP":"image/webp"}
 # Stable public CDN base; publishing only accepts URLs below this host.
-PUBLIC_BASE_URL="https://img.nightingalesilence.com/content/"
+# Env-driven so the dedicated blog bucket (separate from FFXIV asset buckets)
+# can be pointed at via local .env.local without code changes.
+PUBLIC_BASE_URL=(os.environ.get("CONTENT_MEDIA_PUBLIC_BASE_URL") or "https://img.nightingalesilence.com/content/").strip()
+if not PUBLIC_BASE_URL.endswith("/"): PUBLIC_BASE_URL+="/"
+# COS object key prefix derived from the public base URL path
+# (dedicated bucket → empty prefix; legacy shared bucket → "content/").
+_KEY_PREFIX=urlparse(PUBLIC_BASE_URL).path.strip("/")
 _R=Path(__file__).resolve().parent.parent.parent
-_S=_R/"local-assets"/"content-studio"/"staging"
+_S=_R/".content-studio"/"staging"
 _I=_S/"_media.json"
 _L=_S/".index.lock"
 
@@ -101,3 +108,69 @@ def _apply_check(d,mid,url,result,ts):
     if result["ok"]: o["remoteCheckedAt"]=ts
     o["publiclyReadable"]=result["publiclyReadable"]
     o["stableUrl"]=result["stableUrl"]
+
+
+class MediaUploadError(Exception):
+    def __init__(s,c,m): s.code=c; s.message=m; super().__init__(m)
+
+def _cos_client():
+    from qcloud_cos import CosConfig as QcloudCosConfig, CosS3Client
+    from . import config
+    cfg=config.get_cos_config()
+    client=CosS3Client(QcloudCosConfig(Region=cfg["region"],SecretId=cfg["secretId"],SecretKey=cfg["secretKey"]))
+    return client,cfg
+
+def _object_key(obj): return (_KEY_PREFIX+"/" if _KEY_PREFIX else "")+obj["publicObjectKey"]
+
+def upload_to_cdn(mid):
+    """Upload one staged media file to the configured COS bucket, then run the
+    public CDN HEAD check so the media becomes REMOTE_VERIFIED (publish gate).
+    Never raises for CDN-check failures — those surface via media status."""
+    obj=get_media(mid)
+    if not obj: raise FileNotFoundError(f"Media {mid} not found")
+    if obj.get("status")=="REMOTE_VERIFIED" and str(obj.get("publicUrl","")).startswith(PUBLIC_BASE_URL):
+        return {"media":obj,"uploaded":False,"result":{"ok":True,"skipReason":"already-verified"}}
+    fp=_S/obj["publicObjectKey"]
+    if not fp.is_file(): raise MediaUploadError("FILE_MISSING","Staged media file is missing")
+    try:
+        client,cfg=_cos_client()
+    except RuntimeError as e:
+        raise MediaUploadError("COS_NOT_CONFIGURED",str(e))
+    except ImportError:
+        raise MediaUploadError("COS_NOT_CONFIGURED","cos-python-sdk-v5 is not installed (pip install -r server/content/requirements.txt)")
+    try:
+        with fp.open("rb") as body:
+            client.put_object(Bucket=cfg["bucket"],Key=_object_key(obj),Body=body,
+                              ContentType=str(obj.get("mediaType") or "application/octet-stream"),
+                              CacheControl="public, max-age=31536000, immutable")
+    except MediaUploadError: raise
+    except Exception as e:
+        raise MediaUploadError("UPLOAD_FAILED",f"COS upload failed: {type(e).__name__}")
+    checked=check_cdn_accessibility(mid)
+    return {"media":checked["media"],"uploaded":True,"result":checked["result"]}
+
+def upload_pending():
+    """One-click sync: upload every staged media that is not yet served from the
+    configured public base, then CDN-check each. Per-item failures are reported,
+    never raised, so the caller always gets a full result list."""
+    pending=[o for o in _load().values()
+             if o.get("status")!="REMOTE_VERIFIED" or not str(o.get("publicUrl","")).startswith(PUBLIC_BASE_URL)]
+    results=[]
+    for o in pending:
+        r={"id":o["id"],"publicObjectKey":o.get("publicObjectKey"),"ok":False}
+        try:
+            out=upload_to_cdn(o["id"])
+            m=out["media"]
+            r["ok"]=m.get("status")=="REMOTE_VERIFIED"
+            r["status"]=m.get("status")
+            if out.get("uploaded") is False:
+                r["detail"]="already-verified"
+            else:
+                res=out.get("result") or {}
+                r["detail"]="cdn check ok" if r["ok"] else f"cdn check failed (HTTP {res.get('statusCode',0) or 'unreachable'})"
+        except MediaUploadError as e:
+            r["status"]=e.code; r["detail"]=e.message
+        except FileNotFoundError:
+            r["status"]="NOT_FOUND"; r["detail"]="media record missing"
+        results.append(r)
+    return {"count":len(results),"uploaded":sum(1 for r in results if r["ok"]),"results":results}

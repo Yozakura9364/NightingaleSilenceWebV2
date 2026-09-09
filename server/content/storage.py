@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any,Dict,Optional
 
 _R=Path(__file__).resolve().parent.parent.parent
-_S=_R/"local-assets"/"content-studio"/"drafts"
+_S=_R/".content-studio"/"drafts"
 _E=_S/"_entries.json"
 _V=_S/"revisions"
 _L=_S/".global.lock"

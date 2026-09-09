@@ -267,6 +267,27 @@ def check_media(media_id):
     except FileNotFoundError:
         return jsonify({"error":{"code":"NOT_FOUND","message":"Media not found"}}),404
 
+@app.route("/api/content-studio/media/<media_id>/upload",methods=["POST"])
+@require_security
+def upload_media_to_cdn(media_id):
+    try:
+        out=media_handler.upload_to_cdn(media_id)
+        return jsonify(out),201
+    except FileNotFoundError:
+        return jsonify({"error":{"code":"NOT_FOUND","message":"Media not found"}}),404
+    except media_handler.MediaUploadError as e:
+        status=409 if e.code=="COS_NOT_CONFIGURED" else 502
+        return jsonify({"error":{"code":e.code,"message":e.message}}),status
+
+@app.route("/api/content-studio/media/upload-pending",methods=["POST"])
+@require_security
+def upload_pending_media():
+    try:
+        return jsonify(media_handler.upload_pending()),201
+    except media_handler.MediaUploadError as e:
+        status=409 if e.code=="COS_NOT_CONFIGURED" else 502
+        return jsonify({"error":{"code":e.code,"message":e.message}}),status
+
 @app.route("/api/content-studio/media/<media_id>/raw", methods=["GET"])
 @require_security
 def raw_media(media_id):

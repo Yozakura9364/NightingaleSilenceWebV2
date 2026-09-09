@@ -118,6 +118,16 @@ def _validate_media(media_id: str) -> None:
     obj = media.get_media(media_id)
     if not obj:
         raise PublicationError("MEDIA_NOT_FOUND", f"referenced media {media_id} does not exist")
+    # One-click convenience: if this media is not yet served from the public
+    # base, attempt a COS upload + CDN check before validating. Any upload
+    # failure falls through to the original validation errors below, so the
+    # publish gate semantics (and existing tests) stay unchanged.
+    if obj.get("status") != "REMOTE_VERIFIED" or not str(obj.get("publicUrl") or "").startswith(media.PUBLIC_BASE_URL):
+        try:
+            media.upload_to_cdn(media_id)
+        except Exception:
+            pass
+        obj = media.get_media(media_id) or obj
     if obj.get("status") != "REMOTE_VERIFIED":
         raise PublicationError("MEDIA_NOT_VERIFIED", "media must pass the remote check before publishing")
     url = obj.get("publicUrl") or ""

@@ -62,3 +62,25 @@ def get_token() -> str:
 
 def get_port() -> int:
     return _resolved_port
+
+
+# ---- COS media upload (one-click publish-to-CDN) ----
+# Credentials live only in the local untracked .env.local; never logged or committed.
+_COS_ENV_VARS = (
+    ("CONTENT_COS_SECRET_ID", "secretId"),
+    ("CONTENT_COS_SECRET_KEY", "secretKey"),
+    ("CONTENT_COS_REGION", "region"),
+    ("CONTENT_COS_BUCKET", "bucket"),
+)
+
+
+class CosConfigError(RuntimeError):
+    """Media upload requested but the local COS environment is incomplete."""
+
+
+def get_cos_config() -> dict:
+    values = {name: os.environ.get(env, "").strip() for env, name in _COS_ENV_VARS}
+    missing = [env for env, name in _COS_ENV_VARS if not values[name]]
+    if missing:
+        raise CosConfigError("COS env missing: " + ", ".join(missing))
+    return values
