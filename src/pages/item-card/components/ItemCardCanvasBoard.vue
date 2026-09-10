@@ -653,8 +653,10 @@ function clearLayerListDrag() {
 }
 
 .canvas-board__layer--selected {
-  outline: 2px solid var(--ns-color-accent);
-  outline-offset: 1px;
+  outline: 1px solid var(--ns-color-border-strong);
+  outline-offset: 2px;
+  border-radius: var(--ns-radius-sm);
+  box-shadow: 0 0 0 3px var(--ns-color-accent-soft);
 }
 
 .canvas-board__scale-handle {
@@ -663,10 +665,10 @@ function clearLayerListDrag() {
   width: 16px;
   height: 16px;
   padding: 0;
-  border: 2px solid var(--ns-color-accent);
-  border-radius: 0;
+  border: 1px solid var(--ns-color-border-strong);
+  border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
+  box-shadow: var(--ns-shadow-soft);
   cursor: nwse-resize;
   touch-action: none;
   transform: translate(-50%, -50%);
@@ -674,7 +676,8 @@ function clearLayerListDrag() {
 
 .canvas-board__scale-handle:hover,
 .canvas-board__scale-handle:focus-visible {
-  background: var(--ns-color-accent);
+  border-color: var(--ns-color-accent);
+  background: var(--ns-color-accent-soft);
   outline: 0;
 }
 
@@ -685,11 +688,11 @@ function clearLayerListDrag() {
   width: 16px;
   height: 16px;
   padding: 0;
-  border: 2px solid var(--ns-color-danger, #b4453c);
-  border-radius: 0;
+  border: 1px solid var(--ns-color-border-strong);
+  border-radius: var(--ns-radius-sm);
   place-items: center;
   background: var(--ns-color-surface-solid);
-  box-shadow: var(--ns-pixel-soft-shadow);
+  box-shadow: var(--ns-shadow-soft);
   color: var(--ns-color-danger, #b4453c);
   font: 700 14px/1 var(--ns-font-ui);
   cursor: pointer;
@@ -699,6 +702,7 @@ function clearLayerListDrag() {
 
 .canvas-board__delete-handle:hover,
 .canvas-board__delete-handle:focus-visible {
+  border-color: var(--ns-color-danger, #b4453c);
   background: var(--ns-color-danger, #b4453c);
   color: var(--ns-color-surface-solid);
   outline: 0;

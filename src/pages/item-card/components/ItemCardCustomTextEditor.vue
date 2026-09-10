@@ -28,13 +28,20 @@
     </header>
 
     <div v-if="items.length" class="custom-text-editor__items">
-      <article v-for="(item, index) in items" :key="item.id" class="custom-text-item">
+      <article
+        v-for="(item, index) in items"
+        :key="item.id"
+        class="custom-text-item"
+        draggable="true"
+        :title="t(textKeys.canvasDragHint)"
+        @dragstart="startTextDrag($event, item)"
+      >
         <span
           class="custom-text-item__drag-handle"
           draggable="true"
           :title="t(textKeys.canvasDragHint)"
           aria-hidden="true"
-          @dragstart="startTextDrag($event, item)"
+          @dragstart.stop="startTextDrag($event, item)"
         >
           ⋮⋮
         </span>
@@ -43,6 +50,7 @@
           :aria-label="`${t(textKeys.customTextInputLabel)} ${index + 1}`"
           rows="2"
           draggable="false"
+          @dragstart.stop
           @input="updateText(item.id, $event)"
         />
         <div
@@ -50,6 +58,7 @@
           role="img"
           :aria-label="item.text"
           draggable="false"
+          @dragstart.stop
         >
           <canvas :ref="(element) => setCanvasRef(item.id, element)" draggable="false" />
         </div>
@@ -58,6 +67,7 @@
             type="button"
             class="ns-button ns-button--compact"
             draggable="false"
+            @dragstart.stop
             @click="remove(item.id)"
           >
             {{ t(textKeys.customTextDelete) }}
@@ -210,6 +220,12 @@ async function renderAll() {
   border: var(--ns-line-width) solid var(--ns-color-border);
   border-radius: var(--ns-radius-sm);
   background: var(--ns-color-surface);
+  cursor: grab;
+  user-select: none;
+}
+
+.custom-text-item:active {
+  cursor: grabbing;
 }
 
 .custom-text-item__drag-handle {
@@ -224,6 +240,11 @@ async function renderAll() {
 
 .custom-text-item__drag-handle:active {
   cursor: grabbing;
+}
+
+.custom-text-item textarea,
+.custom-text-item button {
+  user-select: text;
 }
 
 .custom-text-item__preview {
