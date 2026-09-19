@@ -17,7 +17,10 @@ import { fileURLToPath } from 'node:url'
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(scriptDirectory, '../..')
-const PUBLISH_FILES = ['current-locales.json', 'current.json']
+// 发布白名单与顺序：先 locales 后 current；tag-database/sources 为低频聚合产物，
+// 通过 --files 显式选择发布（默认只发双文件，周管线行为不变）。
+const PUBLISHABLE_FILES = ['current-locales.json', 'current.json', 'tag-database.json', 'sources.json']
+const DEFAULT_PUBLISH_FILES = ['current-locales.json', 'current.json']
 
 function argValue(flag) {
   const index = process.argv.indexOf(flag)
@@ -28,9 +31,14 @@ const sourceDir = path.resolve(projectRoot, argValue('--source') ?? 'public/data
 const targetDir = argValue('--target') ? path.resolve(argValue('--target')) : null
 const verifyUrl = argValue('--verify-url')?.replace(/\/$/, '')
 const isRepoSource = sourceDir === path.join(projectRoot, 'public/data/fashion-check')
+const requestedFiles = argValue('--files')
+const PUBLISH_FILES = requestedFiles
+  ? PUBLISHABLE_FILES.filter((file) => requestedFiles.split(',').map((name) => name.trim()).includes(file))
+  : DEFAULT_PUBLISH_FILES
 
-if (!targetDir) {
-  console.error('用法：node scripts/fashion-check/publish-current.mjs --target <目录> [--source <目录>] [--verify-url <base>]')
+if (!targetDir || PUBLISH_FILES.length === 0) {
+  console.error('用法：node scripts/fashion-check/publish-current.mjs --target <目录> [--source <目录>] [--files <逗号分隔>] [--verify-url <base>]')
+  console.error(`可发布文件：${PUBLISHABLE_FILES.join(', ')}（默认 ${DEFAULT_PUBLISH_FILES.join(', ')}）`)
   process.exit(2)
 }
 
@@ -84,7 +92,7 @@ for (const file of PUBLISH_FILES) {
   source[file] = { content, hash: sha256(content) }
 }
 
-if (isRepoSource) {
+if (isRepoSource && PUBLISH_FILES.includes('current.json')) {
   try {
     execFileSync('node', [path.join(scriptDirectory, 'check-current.mjs')], {
       cwd: projectRoot,
@@ -95,7 +103,7 @@ if (isRepoSource) {
     fail(`check:fashion-check-current 未通过，禁止发布：\n${error.stderr?.toString() || error.stdout?.toString() || error.message}`)
   }
 } else {
-  log('[check] 非仓库源，跳过 check-current（仅已做 JSON/schemaVersion 校验）')
+  log(`[check] ${isRepoSource ? '本次不发 current.json，' : '非仓库源，'}跳过 check-current（仅已做 JSON/schemaVersion 校验）`)
 }
 
 // ---- 2. 目标现状与幂等 ----

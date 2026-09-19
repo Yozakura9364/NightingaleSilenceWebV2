@@ -126,7 +126,7 @@ export function collectQqEvidence(weeks, itemCatalog, retrievedAt) {
           locator: `Global issue ${week.globalIssue}; source row ${week.sourceRows[0]}; ${slot.slotId}; Item ID ${item.itemId}`,
           claim: "gold-item",
           resolutionMethod: "exact",
-          retrievedAt,
+          retrievedAt: week.retrievedAt || retrievedAt,
         });
       }
       itemResolution.push({
@@ -235,14 +235,25 @@ export function buildAnswerCatalog({ weeks, evidenceCatalog, itemCatalog, catego
     }
   }
 
+  // 发射 = 周次必需对 ∪ 证据覆盖对。证据里有、但历史/intake 周次没出现过的
+  // categoryId×slotId（如 tracker 的新类别、未用槽位）也进 answers，让新
+  // tag/新槽位组合能随版本进入 tagdb，而不是被静默丢弃。
+  const emittedPairs = new Map(requiredPairs);
+  for (const [key, pair] of evidenceCatalog) {
+    if (!emittedPairs.has(key)) {
+      emittedPairs.set(key, { categoryId: pair.categoryId, slotId: pair.slotId });
+    }
+  }
+
   const categoryRecords = new Map();
   const unresolved = [];
   const referencedItemIds = new Set();
 
-  for (const required of requiredPairs.values()) {
-    const pair = evidenceCatalog.get(pairKey(required.categoryId, required.slotId));
+  for (const required of emittedPairs.values()) {
+    const key = pairKey(required.categoryId, required.slotId);
+    const pair = evidenceCatalog.get(key);
     const itemIds = sortUniqueNumbers(pair ? [...pair.items.keys()] : []);
-    if (itemIds.length === 0) unresolved.push(required);
+    if (itemIds.length === 0 && requiredPairs.has(key)) unresolved.push(required);
 
     const category = categoryRecords.get(required.categoryId) ?? {
       categoryId: required.categoryId,
@@ -278,5 +289,5 @@ export function buildAnswerCatalog({ weeks, evidenceCatalog, itemCatalog, catego
     };
   }
 
-  return { categories, items, unresolved, requiredPairCount: requiredPairs.size };
+  return { categories, items, unresolved, requiredPairCount: requiredPairs.size, emittedPairCount: emittedPairs.size };
 }

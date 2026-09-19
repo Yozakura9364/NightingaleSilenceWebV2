@@ -95,6 +95,16 @@ export function findForbiddenGeneratedKeys(value, currentPath = "$") {
   return findings;
 }
 
+// 只替换登记表中指定 sourceId 条目的 retrievedAt，保留文件原有排版（单行数组等）。
+// `[^}]*?` 保证匹配不越过该条目对象边界。
+export async function patchRegistryRetrievedAt(filePath, sourceId, retrievedAt) {
+  const text = await readFile(filePath, "utf8");
+  const pattern = new RegExp(`("sourceId"\\s*:\\s*"${sourceId}"[^}]*?"retrievedAt"\\s*:\\s*")[^"]*(")`);
+  const next = text.replace(pattern, `$1${retrievedAt}$2`);
+  invariant(next !== text, `${filePath}: ${sourceId} 的 retrievedAt 未找到`);
+  await writeFile(filePath, next, "utf8");
+}
+
 export function generatedAtFromSources(sources) {
   const timestamps = sources.map((source) => source.retrievedAt).filter(Boolean).sort();
   invariant(timestamps.length > 0, "At least one source must have retrievedAt");

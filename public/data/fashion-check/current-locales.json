@@ -1,315 +1,227 @@
 {
   "schemaVersion": "fashion-check.current-locales.v3",
   "items": {
-    "7201": {
-      "zh-CN": "亚拉戈高位治愈喇叭裤",
-      "en": "High Allagan Pantaloons of Healing",
-      "ja": "ハイアラガン・ヒーラーパンタロン",
-      "ko": "상급 알라그 치유사 나팔바지"
+    "2887": {
+      "zh-CN": "海盗三角帽",
+      "en": "Buccaneer's Tricorne",
+      "ja": "バッカニアトライコーン",
+      "ko": "해적 삼각모자"
     },
-    "7472": {
-      "zh-CN": "朝圣者皮靴",
-      "en": "Pilgrim's Shoes",
-      "ja": "ピルグリムシューズ",
-      "ko": "순례자 신발"
+    "2915": {
+      "zh-CN": "白银三角帽",
+      "en": "Silver Tricorne",
+      "ja": "シルバートライコーン",
+      "ko": "은장식 삼각모자"
     },
-    "7478": {
-      "zh-CN": "魔术师皮靴",
-      "en": "Magician's Shoes",
-      "ja": "マジシャンシューズ",
-      "ko": "마술사 신발"
+    "2933": {
+      "zh-CN": "特务三角帽",
+      "en": "Imperial Operative Tricorne",
+      "ja": "オペレーティブトライコーン",
+      "ko": "공작원 삼각모자"
     },
-    "7514": {
-      "zh-CN": "蛟蜥咏咒尖头靴",
-      "en": "Saurian Crakows of Casting",
-      "ja": "ソーリアンキャスタークラコー",
-      "ko": "원시룡 마술사 뾰족신"
+    "2965": {
+      "zh-CN": "梦幻装",
+      "en": "Dream Tunic",
+      "ja": "ドリームチュニック",
+      "ko": "꿈빛 튜닉"
     },
-    "8714": {
-      "zh-CN": "怪诞尖头靴",
-      "en": "Eerie Crakows",
-      "ja": "イアリクラコー",
-      "ko": "마녀 뾰족신"
+    "6979": {
+      "zh-CN": "高地罩衫",
+      "en": "Highland Smock",
+      "ja": "ハイランドスモック",
+      "ko": "고원 작업복"
     },
-    "10007": {
-      "zh-CN": "胜负师长裤",
-      "en": "Gambler's Trousers",
-      "ja": "ギャンブラートラウザー",
-      "ko": "도박사 긴바지"
+    "6982": {
+      "zh-CN": "冰河外套",
+      "en": "Glacial Coat",
+      "ja": "グレイシャルコート",
+      "ko": "빙하 외투"
     },
-    "10831": {
-      "zh-CN": "古鸟革精准尖头靴",
-      "en": "Archaeoskin Shoes of Aiming",
-      "ja": "アルケオーニスレンジャーシューズ",
-      "ko": "아르케오니스 유격대 신발"
+    "7471": {
+      "zh-CN": "朝圣者长裤",
+      "en": "Pilgrim's Slops",
+      "ja": "ピルグリムスロップ",
+      "ko": "순례자 일자바지"
     },
-    "10915": {
-      "zh-CN": "古鸟革治愈尖头靴",
-      "en": "Archaeoskin Shoes of Healing",
-      "ja": "アルケオーニスヒーラーシューズ",
-      "ko": "아르케오니스 치유사 신발"
+    "9052": {
+      "zh-CN": "奇蜥三角帽",
+      "en": "Kirimu Tricorne",
+      "ja": "キリムトライコーン",
+      "ko": "키리무 삼각모자"
     },
-    "10957": {
-      "zh-CN": "古鸟革咏咒尖头靴",
-      "en": "Archaeoskin Shoes of Casting",
-      "ja": "アルケオーニスキャスターシューズ",
-      "ko": "아르케오니스 마술사 신발"
+    "9273": {
+      "zh-CN": "星芒装",
+      "en": "Starlight Tunic",
+      "ja": "スターライトチュニック",
+      "ko": "별빛 튜닉"
     },
-    "10973": {
-      "zh-CN": "蛋白石御敌手镯",
-      "en": "Opal Bracelet of Fending",
-      "ja": "オパールディフェンダーブレスレット",
-      "ko": "단백석 수호자 팔찌"
+    "10394": {
+      "zh-CN": "萨维奈臂纱",
+      "en": "Thavnairian Armlets",
+      "ja": "サベネアンアームレット",
+      "ko": "사베네어 팔덮개"
     },
-    "10997": {
-      "zh-CN": "蛋白石强攻手镯",
-      "en": "Opal Bracelet of Slaying",
-      "ja": "オパールアタッカーブレスレット",
-      "ko": "단백석 공격대 팔찌"
+    "10760": {
+      "zh-CN": "狮鹫革强袭三角帽",
+      "en": "Griffin Leather Tricorne of Striking",
+      "ja": "グリフィンストライカー・トライコーン",
+      "ko": "그리핀 타격대 삼각모자"
     },
-    "11021": {
-      "zh-CN": "蛋白石精准手镯",
-      "en": "Opal Bracelet of Aiming",
-      "ja": "オパールレンジャーブレスレット",
-      "ko": "단백석 유격대 팔찌"
+    "10824": {
+      "zh-CN": "虹布精准长裤",
+      "en": "Rainbow Slops of Aiming",
+      "ja": "レインボークロス・レンジャースロップ",
+      "ko": "무지개 유격대 일자바지"
     },
-    "11045": {
-      "zh-CN": "蛋白石治愈手镯",
-      "en": "Opal Bracelet of Healing",
-      "ja": "オパールヒーラーブレスレット",
-      "ko": "단백석 치유사 팔찌"
+    "10844": {
+      "zh-CN": "狮鹫革游击三角帽",
+      "en": "Griffin Leather Tricorne of Scouting",
+      "ja": "グリフィンスカウト・トライコーン",
+      "ko": "그리핀 정찰대 삼각모자"
     },
-    "11047": {
-      "zh-CN": "贵橄榄石治愈手镯",
-      "en": "Chrysolite Bracelet of Healing",
-      "ja": "クリソライトヒーラーブレスレット",
-      "ko": "귀감람석 치유사 팔찌"
+    "10908": {
+      "zh-CN": "虹布治愈长裤",
+      "en": "Rainbow Slops of Healing",
+      "ja": "レインボークロス・ヒーラースロップ",
+      "ko": "무지개 치유사 일자바지"
     },
-    "11069": {
-      "zh-CN": "蛋白石咏咒手镯",
-      "en": "Opal Bracelet of Casting",
-      "ja": "オパールキャスターブレスレット",
-      "ko": "단백석 마술사 팔찌"
+    "10950": {
+      "zh-CN": "虹布咏咒长裤",
+      "en": "Rainbow Slops of Casting",
+      "ja": "レインボークロス・キャスタースロップ",
+      "ko": "무지개 마술사 일자바지"
     },
-    "13303": {
-      "zh-CN": "樟木御敌腕环",
-      "en": "Camphorwood Armillae of Fending",
-      "ja": "カンファーディフェンダーアルミラ",
-      "ko": "녹나무 수호자 손목고리"
+    "16612": {
+      "zh-CN": "星芒长袍",
+      "en": "Starlight Robe",
+      "ja": "スターライトローブ",
+      "ko": "별빛 로브"
     },
-    "13307": {
-      "zh-CN": "樟木强攻腕环",
-      "en": "Camphorwood Armillae of Slaying",
-      "ja": "カンファーアタッカーアルミラ",
-      "ko": "녹나무 공격대 손목고리"
+    "16673": {
+      "zh-CN": "星绒治愈长手套",
+      "en": "Star Velvet Long Gloves of Healing",
+      "ja": "スタービロード・ヒーラーロンググローブ",
+      "ko": "별우단 치유사 긴 장갑"
     },
-    "13311": {
-      "zh-CN": "樟木精准腕环",
-      "en": "Camphorwood Armillae of Aiming",
-      "ja": "カンファーレンジャーアルミラ",
-      "ko": "녹나무 유격대 손목고리"
+    "16679": {
+      "zh-CN": "星绒咏咒长手套",
+      "en": "Star Velvet Long Gloves of Casting",
+      "ja": "スタービロード・キャスターロンググローブ",
+      "ko": "별우단 마술사 긴 장갑"
     },
-    "13315": {
-      "zh-CN": "樟木治愈腕环",
-      "en": "Camphorwood Armillae of Healing",
-      "ja": "カンファーヒーラーアルミラ",
-      "ko": "녹나무 치유사 손목고리"
+    "17804": {
+      "zh-CN": "旧化的星座护臂",
+      "en": "Antiquated Constellation Armlets",
+      "ja": "ウェザード・コンステレーションアームレット",
+      "ko": "낡은 별자리 팔덮개"
     },
-    "13319": {
-      "zh-CN": "樟木咏咒腕环",
-      "en": "Camphorwood Armillae of Casting",
-      "ja": "カンファーキャスターアルミラ",
-      "ko": "녹나무 마술사 손목고리"
+    "18153": {
+      "zh-CN": "鬼船游击长手套",
+      "en": "Ghost Barque Long Gloves of Scouting",
+      "ja": "ゴーストバーク・スカウトロンググローブ",
+      "ko": "유령선 정찰대 긴 장갑"
     },
-    "13871": {
-      "zh-CN": "亚拉戈高位治愈喇叭裤（复制品）",
-      "en": "Replica High Allagan Pantaloons of Healing",
-      "ja": "レプリカ・ハイアラガン・ヒーラーパンタロン",
-      "ko": "모조 상급 알라그 치유사 나팔바지"
+    "21936": {
+      "zh-CN": "冬意毛衣",
+      "en": "Winter Sweater",
+      "ja": "ウィンターセーター",
+      "ko": "겨울 스웨터"
     },
-    "16394": {
-      "zh-CN": "改良型田园混斗者手镯",
-      "en": "Augmented Shire Pankratiast's Bracelets",
-      "ja": "イディル・パンクラティアストブレスレットRE",
-      "ko": "보강된 이딜샤이어 격투가 팔찌"
+    "21937": {
+      "zh-CN": "冒险者毛衣",
+      "en": "Adventuring Sweater",
+      "ja": "アドベンチャラーセーター",
+      "ko": "모험가의 스웨터"
     },
-    "18831": {
-      "zh-CN": "罗汉豪士笼手",
-      "en": "Arhat Kote of Fending",
-      "ja": "羅漢篭手【武士】",
-      "ko": "아라한 수호자 팔보호대"
+    "25660": {
+      "zh-CN": "白麻强袭长手套",
+      "en": "Brightlinen Long Gloves of Striking",
+      "ja": "ホワイトヘンプ・ストライカーロンググローブ",
+      "ko": "백아마 타격대 긴 장갑"
     },
-    "18837": {
-      "zh-CN": "罗汉枪士笼手",
-      "en": "Arhat Kote of Maiming",
-      "ja": "羅漢篭手【槍士】",
-      "ko": "아라한 학살자 팔보호대"
-    },
-    "18843": {
-      "zh-CN": "罗汉拳士手甲",
-      "en": "Arhat Tekko of Striking",
-      "ja": "羅漢手甲【拳士】",
-      "ko": "아라한 타격대 완갑"
-    },
-    "18849": {
-      "zh-CN": "罗汉弓士手甲",
-      "en": "Arhat Tekko of Aiming",
-      "ja": "羅漢手甲【弓士】",
-      "ko": "아라한 유격대 완갑"
-    },
-    "18855": {
-      "zh-CN": "罗汉间士手甲",
-      "en": "Arhat Tekko of Scouting",
-      "ja": "羅漢手甲【間士】",
-      "ko": "아라한 정찰대 완갑"
-    },
-    "18861": {
-      "zh-CN": "罗汉学士手甲",
-      "en": "Arhat Tekko of Healing",
-      "ja": "羅漢手甲【学士】",
-      "ko": "아라한 치유사 완갑"
-    },
-    "18867": {
-      "zh-CN": "罗汉术士手甲",
-      "en": "Arhat Tekko of Casting",
-      "ja": "羅漢手甲【術士】",
-      "ko": "아라한 마술사 완갑"
-    },
-    "19144": {
-      "zh-CN": "阿拉米格御敌打底裤",
-      "en": "Ala Mhigan Bottoms of Fending",
-      "ja": "アラミガンディフェンダー・ボトム",
-      "ko": "알라미고 수호자 하의"
-    },
-    "19150": {
-      "zh-CN": "阿拉米格制敌打底裤",
-      "en": "Ala Mhigan Bottoms of Maiming",
-      "ja": "アラミガンスレイヤー・ボトム",
-      "ko": "알라미고 학살자 하의"
-    },
-    "21561": {
-      "zh-CN": "钻石御敌手镯",
-      "en": "Diamond Bracelet of Fending",
-      "ja": "ダイヤ・ディフェンダーブレスレット",
-      "ko": "다이아몬드 수호자 팔찌"
-    },
-    "21562": {
-      "zh-CN": "钻石强攻手镯",
-      "en": "Diamond Bracelet of Slaying",
-      "ja": "ダイヤ・アタッカーブレスレット",
-      "ko": "다이아몬드 공격대 팔찌"
-    },
-    "21563": {
-      "zh-CN": "钻石精准手镯",
-      "en": "Diamond Bracelet of Aiming",
-      "ja": "ダイヤ・レンジャーブレスレット",
-      "ko": "다이아몬드 유격대 팔찌"
-    },
-    "21564": {
-      "zh-CN": "钻石治愈手镯",
-      "en": "Diamond Bracelet of Healing",
-      "ja": "ダイヤ・ヒーラーブレスレット",
-      "ko": "다이아몬드 치유사 팔찌"
-    },
-    "21565": {
-      "zh-CN": "钻石咏咒手镯",
-      "en": "Diamond Bracelet of Casting",
-      "ja": "ダイヤ・キャスターブレスレット",
-      "ko": "다이아몬드 마술사 팔찌"
-    },
-    "21623": {
-      "zh-CN": "碳硅晶御敌手镯",
-      "en": "Carborundum Bracelet of Fending",
-      "ja": "カーボランダム・ディフェンダーブレスレット",
-      "ko": "탄화규소 수호자 팔찌"
-    },
-    "21624": {
-      "zh-CN": "碳硅晶强攻手镯",
-      "en": "Carborundum Bracelet of Slaying",
-      "ja": "カーボランダム・アタッカーブレスレット",
-      "ko": "탄화규소 공격대 팔찌"
-    },
-    "21625": {
-      "zh-CN": "碳硅晶精准手镯",
-      "en": "Carborundum Bracelet of Aiming",
-      "ja": "カーボランダム・レンジャーブレスレット",
-      "ko": "탄화규소 유격대 팔찌"
-    },
-    "21626": {
-      "zh-CN": "碳硅晶治愈手镯",
-      "en": "Carborundum Bracelet of Healing",
-      "ja": "カーボランダム・ヒーラーブレスレット",
-      "ko": "탄화규소 치유사 팔찌"
-    },
-    "21627": {
-      "zh-CN": "碳硅晶咏咒手镯",
-      "en": "Carborundum Bracelet of Casting",
-      "ja": "カーボランダム・キャスターブレスレット",
-      "ko": "탄화규소 마술사 팔찌"
-    },
-    "21763": {
-      "zh-CN": "黑柳御敌腕环",
-      "en": "Black Willow Armillae of Fending",
-      "ja": "ブラックウィロー・ディフェンダーアルミラ",
-      "ko": "흑버드나무 수호자 손목고리"
-    },
-    "21764": {
-      "zh-CN": "黑柳强攻腕环",
-      "en": "Black Willow Armillae of Slaying",
-      "ja": "ブラックウィロー・アタッカーアルミラ",
-      "ko": "흑버드나무 공격대 손목고리"
-    },
-    "21765": {
-      "zh-CN": "黑柳精准腕环",
-      "en": "Black Willow Armillae of Aiming",
-      "ja": "ブラックウィロー・レンジャーアルミラ",
-      "ko": "흑버드나무 유격대 손목고리"
-    },
-    "21766": {
-      "zh-CN": "黑柳治愈腕环",
-      "en": "Black Willow Armillae of Healing",
-      "ja": "ブラックウィロー・ヒーラーアルミラ",
-      "ko": "흑버드나무 치유사 손목고리"
-    },
-    "21767": {
-      "zh-CN": "黑柳咏咒腕环",
-      "en": "Black Willow Armillae of Casting",
-      "ja": "ブラックウィロー・キャスターアルミラ",
-      "ko": "흑버드나무 마술사 손목고리"
-    },
-    "32801": {
-      "zh-CN": "小牛皮骑手打底裤",
-      "en": "Calfskin Rider's Bottoms",
-      "ja": "カーフスキン・ライダースボトム",
-      "ko": "송아지 가죽 라이더 하의"
+    "25666": {
+      "zh-CN": "白麻精准长手套",
+      "en": "Brightlinen Long Gloves of Aiming",
+      "ja": "ホワイトヘンプ・レンジャーロンググローブ",
+      "ko": "백아마 유격대 긴 장갑"
     }
   },
-  "dyes": {},
-  "dyeItems": {},
+  "dyes": {
+    "7": {
+      "zh-CN": "玫瑰粉",
+      "en": "Rose Pink",
+      "ja": "カララント:ローズピンク",
+      "ko": "염료: 장미색"
+    },
+    "60": {
+      "zh-CN": "寒冰蓝",
+      "en": "Ice Blue",
+      "ja": "カララント:アイスブルー",
+      "ko": "염료: 옅은 하늘색"
+    },
+    "78": {
+      "zh-CN": "忧郁紫",
+      "en": "Gloom Purple",
+      "ja": "カララント:グルームパープル",
+      "ko": "염료: 어두운 보라색"
+    }
+  },
+  "dyeItems": {
+    "7": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "60": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    },
+    "78": {
+      "itemId": 52254,
+      "iconId": 22811,
+      "names": {
+        "zh-CN": "通用染剂",
+        "en": "Standard Spectrum Dye",
+        "ja": "カララント:ノーマルカラー",
+        "ko": "염료: 기본 색상"
+      }
+    }
+  },
   "tags": {
-    "22": {
-      "zh-CN": "帅气",
-      "en": "Too Cool",
-      "ja": "クール",
-      "ko": "쿨"
+    "5": {
+      "zh-CN": "适合冬天",
+      "en": "Winter Wonderland",
+      "ja": "冬向け",
+      "ko": "겨울"
     },
-    "34": {
-      "zh-CN": "魔法",
-      "en": "I Believe in Magic",
-      "ja": "魔術",
-      "ko": "마술사"
+    "9": {
+      "zh-CN": "戏法",
+      "en": "Sleight of Hand",
+      "ja": "手品",
+      "ko": "교묘한 손재주"
     },
-    "51": {
-      "zh-CN": "华丽",
-      "en": "Simply Gorgeous",
-      "ja": "ゴージャス",
-      "ko": "고저스"
+    "11": {
+      "zh-CN": "海贼",
+      "en": "Shivering Timbers",
+      "ja": "海賊",
+      "ko": "해적"
     },
-    "172": {
-      "zh-CN": "罗汉",
-      "en": "Tip o' the Arhat",
-      "ja": "羅漢",
-      "ko": "아라한"
+    "39": {
+      "zh-CN": "妖艳",
+      "en": "Bewitched",
+      "ja": "妖艶",
+      "ko": "요염함"
     }
   }
 }

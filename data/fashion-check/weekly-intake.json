@@ -1,0 +1,341 @@
+{
+  "schemaVersion": "fashion-check.weekly-intake.v1",
+  "syncedAt": "2026-09-19T05:20:48.521Z",
+  "source": {
+    "host": "opencloudos",
+    "snapshotDir": "/opt/nightingale/NightingaleOpsBot/.local/fashion-check/snapshots/qq-cn-history",
+    "currentFile": "/opt/nightingale/NightingaleOpsBot/.local/fashion-check/current.json"
+  },
+  "records": [
+    {
+      "globalIssue": 442,
+      "cnIssue": 427,
+      "startDate": "2026-07-14",
+      "theme": "亚拉戈高位装扮",
+      "retrievedAt": "2026-07-14T11:47:23.000Z",
+      "slots": [
+        {
+          "slotId": "body",
+          "tag": "亚拉戈高位",
+          "answerText": ""
+        },
+        {
+          "slotId": "hands",
+          "tag": "亚拉戈高位",
+          "answerText": ""
+        },
+        {
+          "slotId": "legs",
+          "tag": "亚拉戈高位",
+          "answerText": ""
+        },
+        {
+          "slotId": "feet",
+          "tag": "亚拉戈高位",
+          "answerText": ""
+        }
+      ],
+      "sourceFiles": [
+        "ae86312bc87a86985ba3560e3b60c11efc5bd6fef14b081987c2d410f070801e.json"
+      ]
+    },
+    {
+      "globalIssue": 443,
+      "cnIssue": 428,
+      "startDate": "2026-07-21",
+      "theme": "真麻正式装",
+      "retrievedAt": "2026-07-24T08:05:05.000Z",
+      "slots": [
+        {
+          "slotId": "head",
+          "tag": "野兽",
+          "answerText": "波奇头套 人狼耳朵 狮鬃战盔 熊口战盔 飞龙革御敌鬃盔 降神节（除了鼠/牛/虎以外的）武士盔"
+        },
+        {
+          "slotId": "body",
+          "tag": "真麻",
+          "answerText": "夜钢制敌战铠/御敌战甲 真麻强袭长衣 真麻精准/游击外套 真麻治愈/咏咒长袍"
+        },
+        {
+          "slotId": "hands",
+          "tag": "正式",
+          "answerText": "草布短手套 瘟疫医生手套 呢绒礼服手套 纯情/激情/钟情永结手套"
+        },
+        {
+          "slotId": "legs",
+          "tag": "垮裆",
+          "answerText": "棉布垮裤 呢绒垮裤 萨维奈垮裤"
+        }
+      ],
+      "sourceFiles": [
+        "3183b9f384ad905d1b567ffce02cf1a859f72264eba87681371a7ee49deb0ded.json",
+        "c430b5d68acf55b231f0caa7715d57ecdaf95cf9d972db3e246f3a2d5a3196e2.json"
+      ]
+    },
+    {
+      "globalIssue": 444,
+      "cnIssue": 429,
+      "startDate": "2026-07-28",
+      "theme": "风信子冒险者",
+      "retrievedAt": "2026-07-28T13:05:01.000Z",
+      "slots": [
+        {
+          "slotId": "head",
+          "tag": "风信子",
+          "answerText": "X色风信子头花"
+        },
+        {
+          "slotId": "body",
+          "tag": "西格玛",
+          "answerText": "碳硅晶XX战甲/长衣/长袍 钻石XX战甲/长衣/长袍"
+        },
+        {
+          "slotId": "hands",
+          "tag": "冒险的开始",
+          "answerText": "各种族初始装备"
+        },
+        {
+          "slotId": "legs",
+          "tag": "装饰钉扣",
+          "answerText": "青麻强袭/精准/游击软甲裤 歹徒制敌/强袭/游击软甲裤"
+        }
+      ],
+      "sourceFiles": [
+        "26d2f6258406d063d3a42593f2cf33cd700f20af70ebc79103c378d41fb059fb.json",
+        "ab250a1d3d625219aa3b1b9ab96de93e2a5fba4005c8db6e8f7a7294d7ab5bf2.json"
+      ]
+    },
+    {
+      "globalIssue": 445,
+      "cnIssue": 430,
+      "startDate": "2026-08-04",
+      "theme": "鳞铠小丑",
+      "retrievedAt": "2026-08-07T08:05:06.000Z",
+      "slots": [
+        {
+          "slotId": "head",
+          "tag": "小丑",
+          "answerText": "旧化小丑帽 古典小丑帽 特务小丑帽 魔术师法帽 虹布xx小丑帽 滑稽帽 小丑帽"
+        },
+        {
+          "slotId": "body",
+          "tag": "鳞铠",
+          "answerText": "定制鳞铠 黑铁鳞铠 白钢鳞铠 兽骨鳞铠"
+        },
+        {
+          "slotId": "legs",
+          "tag": "腿套",
+          "answerText": "草布腿套 棉布腿套 呢绒腿套 纤维腿套 饿狼腿套"
+        },
+        {
+          "slotId": "feet",
+          "tag": "短靴",
+          "answerText": "血盟冒险者矮靴 高贵皮靴 古鸟革皮靴 改良型田园混斗者短靴"
+        }
+      ],
+      "sourceFiles": [
+        "7e91ad1eba164962a09007872e045025184450b18fa41767bc4073c7ccfa679e.json",
+        "0c7d685abbc4543b1b1ab910dd0a6e90023344b7a780bb7787414e85ed4e9756.json",
+        "629fa6f1b3c64db2d678a046a08d06f1817cf27864625e98680f1a4990c93ccf.json"
+      ]
+    },
+    {
+      "globalIssue": 446,
+      "cnIssue": 431,
+      "startDate": "2026-08-11",
+      "theme": "穿及膝裤的空贼",
+      "retrievedAt": "2026-08-14T08:05:05.000Z",
+      "slots": [
+        {
+          "slotId": "head",
+          "tag": "欧米茄",
+          "answerText": "奥密克戎XX头冠/眼罩/帽 欧米茄XX头冠/眼罩/帽"
+        },
+        {
+          "slotId": "hands",
+          "tag": "空贼",
+          "answerText": "空贼XX手套/手铠（复制品） 坦塔罗斯护袖"
+        },
+        {
+          "slotId": "legs",
+          "tag": "及膝裤",
+          "answerText": "鞣革及膝裤 巨蟾蜍革及膝裤 野猪革及膝裤"
+        },
+        {
+          "slotId": "wrists",
+          "tag": "浴衣",
+          "answerText": "大龙脉XX念珠"
+        }
+      ],
+      "sourceFiles": [
+        "abadb32193dc61fe69078b6b759e8a73bac3de4af2fc3b35e3ce26fbe650aeec.json",
+        "4289742be3ece11656ae4d1fb9a1cd212b2cba4fce71b837fb88f3a1be2437ce.json"
+      ]
+    },
+    {
+      "globalIssue": 447,
+      "cnIssue": 432,
+      "startDate": "2026-08-18",
+      "theme": "阿拉米格旅行者",
+      "retrievedAt": "2026-08-18T12:05:02.000Z",
+      "slots": [
+        {
+          "slotId": "head",
+          "tag": "血盟旅行者",
+          "answerText": "血盟旅行者面罩"
+        },
+        {
+          "slotId": "body",
+          "tag": "阿拉米格货",
+          "answerText": "阿拉米格长外衣"
+        },
+        {
+          "slotId": "feet",
+          "tag": "金属板",
+          "answerText": "青铜铠靴 黑铁铠靴 白钢铠靴 秘银铠靴 钴铁铠靴 民兵铠靴"
+        },
+        {
+          "slotId": "ears",
+          "tag": "大国防联军",
+          "answerText": "双蛇百合耳章/金边天平耳章/深红龙船耳章"
+        }
+      ],
+      "sourceFiles": [
+        "b1576d811b9b46ad3bd09415965a2de0179c8dc26ed71325f93372a19ca2dd2f.json"
+      ]
+    },
+    {
+      "globalIssue": 448,
+      "cnIssue": 433,
+      "startDate": "2026-08-25",
+      "theme": "盛夏探险家",
+      "retrievedAt": "2026-08-28T08:05:03.000Z",
+      "slots": [
+        {
+          "slotId": "head",
+          "tag": "皇都最前沿",
+          "answerText": "伊修加德新型XX军帽/礼帽 迷彩绒XX军帽/礼帽"
+        },
+        {
+          "slotId": "body",
+          "tag": "耐热装备",
+          "answerText": "纯黑男式/女式夏衣"
+        },
+        {
+          "slotId": "hands",
+          "tag": "半指护手",
+          "answerText": "鞣革半指护手"
+        },
+        {
+          "slotId": "legs",
+          "tag": "探险",
+          "answerText": "幸存者七分裤 亚麻幸存者七分裤 极限幸存者长裤"
+        }
+      ],
+      "sourceFiles": [
+        "cf225b8d0379b5668fbc0964b43b81506642212bfc37f5667947e0b7f391200e.json",
+        "792838bb43adfd589c4671f80f680965cc28cf44ec9e4c8e8570fc1fc51e99bf.json"
+      ]
+    },
+    {
+      "globalIssue": 449,
+      "cnIssue": 434,
+      "startDate": "2026-09-01",
+      "theme": "远东猎人",
+      "retrievedAt": "2026-09-04T08:05:03.000Z",
+      "slots": [
+        {
+          "slotId": "body",
+          "tag": "东洋服",
+          "answerText": "旧化的明珍羽织 旧化的春日羽织 早乙女阵羽织 风雅长羽织 大召唤士礼服 苍炎/白炎/黑炎/青蓝/碧绿/墨黑君子浴衣 苍蝶/桃蝶/红蝶/青蓝/丹红/墨黑淑女浴衣"
+        },
+        {
+          "slotId": "hands",
+          "tag": "长手套",
+          "answerText": "初学者手套 改良型暴冰咏咒/治愈手套 游牧咏咒护臂 正教咏咒/治愈护臂 荒神布治愈袖套 星绒咏咒/治愈长手套 萨维奈臂纱 魔女手套 恶魔手套 白祈半指护手/黑咒手套 魔戒导师之手·阴/【众】"
+        },
+        {
+          "slotId": "feet",
+          "tag": "怪物猎人",
+          "answerText": "（改良型）火龙护腿【男/女】 希望护腿【男/女】"
+        },
+        {
+          "slotId": "neck",
+          "tag": "空贼",
+          "answerText": "赤喙围巾"
+        }
+      ],
+      "sourceFiles": [
+        "5728f10499191dfcf50a3eb68d3bd8170a8ed0f1c2dfbdbe13bd1a4246968fc8.json",
+        "73721b825f09a16975c0fead92181224e89c9707a8148776ce990e837760997d.json",
+        "dfd66c7e2fdf1219fc13673ed37dacad2a497e03286c8087c1ab5335f143b27a.json"
+      ]
+    },
+    {
+      "globalIssue": 450,
+      "cnIssue": 435,
+      "startDate": "2026-09-08",
+      "theme": "帅气的魔法师",
+      "retrievedAt": "2026-09-08T14:05:02.000Z",
+      "slots": [
+        {
+          "slotId": "hands",
+          "tag": "罗汉",
+          "answerText": "罗汉XX笼手/手甲"
+        },
+        {
+          "slotId": "legs",
+          "tag": "帅气",
+          "answerText": "胜负师长裤 阿拉米格御敌/制敌打底裤 亚拉戈高位治愈喇叭裤/（复制品） 小牛皮骑手打底裤"
+        },
+        {
+          "slotId": "feet",
+          "tag": "魔法",
+          "answerText": "魔术师皮靴 朝圣者皮靴 古鸟革xx尖头靴 怪诞尖头靴"
+        },
+        {
+          "slotId": "wrists",
+          "tag": "华丽",
+          "answerText": "樟木XX腕环 改良型/黑柳xx腕环 改良型田园混斗者手镯"
+        }
+      ],
+      "sourceFiles": [
+        "fabd9e44dd00ab6005beed6642e7afbf5c120bfa0cee48973dff2e37a6353f07.json"
+      ]
+    },
+    {
+      "globalIssue": 451,
+      "cnIssue": 436,
+      "startDate": "2026-09-15",
+      "theme": "冬天的海贼",
+      "retrievedAt": "2026-09-19T05:05:01.852Z",
+      "slots": [
+        {
+          "slotId": "head",
+          "tag": "海贼",
+          "answerText": "海盗三角帽 白银三角帽 特务三角帽 奇蜥三角帽 狮鹫革强袭/游击三角帽"
+        },
+        {
+          "slotId": "body",
+          "tag": "适合冬天",
+          "answerText": "冬意毛衣 冰河外套 冒险者毛衣 星芒长袍 梦幻装 高地罩衫"
+        },
+        {
+          "slotId": "hands",
+          "tag": "妖艳",
+          "answerText": "星绒治愈长/咏咒长手套 旧化的星座护臂 鬼船游击长手套 萨维奈臂纱"
+        },
+        {
+          "slotId": "legs",
+          "tag": "戏法",
+          "answerText": "虹布咏咒/治愈/精准长裤"
+        }
+      ],
+      "sourceFiles": [
+        "b896ccbc41b51144c6b34769252813b272c140ec4eb079cfa053942fa43d92d9.json",
+        "e9db263d20ebf9301ec0de9dcecb78edb96c00508d22a176eb675ae47b81a027.json",
+        "current.json"
+      ]
+    }
+  ]
+}

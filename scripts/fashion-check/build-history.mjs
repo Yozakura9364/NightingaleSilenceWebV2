@@ -2,7 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { buildAnswerCatalog, applyItemOverrides, collectQqEvidence, collectTrackerEvidence, loadItemCatalog, mergeEvidenceCatalogs } from "./lib/item-resolver.mjs";
-import { loadNameTable, normalizeHistory, validateEvidence, validateSourceRegistry } from "./lib/source-normalizer.mjs";
+import { loadNameTable, normalizeHistory, normalizeIntake, validateEvidence, validateSourceRegistry } from "./lib/source-normalizer.mjs";
 import { findForbiddenGeneratedKeys, generatedAtFromSources, pairKey, readJson, writeJson } from "./lib/validation.mjs";
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
@@ -16,6 +16,7 @@ const paths = {
   categoryAliases: path.join(projectRoot, "data/fashion-check/category-aliases.json"),
   itemOverrides: path.join(projectRoot, "data/fashion-check/item-expression-overrides.json"),
   acceptedExceptions: path.join(projectRoot, "data/fashion-check/accepted-source-exceptions.json"),
+  weeklyIntake: path.join(projectRoot, "data/fashion-check/weekly-intake.json"),
   qqHistory: path.join(projectRoot, "local-assets/fashion-check/qq-fashion-check-history.json"),
   themesChs: path.join(referenceRoot, "official/chs/FashionCheckWeeklyTheme.csv"),
   themesEn: path.join(referenceRoot, "official/en/FashionCheckWeeklyTheme.csv"),
@@ -46,6 +47,7 @@ function validateConfigSchemas(config) {
   if (config.categoryAliases.schemaVersion !== "fashion-check.category-aliases.v1") throw new Error("Unsupported category alias schemaVersion");
   if (config.itemOverrides.schemaVersion !== "fashion-check.item-expression-overrides.v1") throw new Error("Unsupported item override schemaVersion");
   if (config.acceptedExceptions.schemaVersion !== "fashion-check.accepted-source-exceptions.v1") throw new Error("Unsupported accepted exception schemaVersion");
+  if (config.weeklyIntake && config.weeklyIntake.schemaVersion !== "fashion-check.weekly-intake.v1") throw new Error("Unsupported weekly intake schemaVersion");
 }
 
 async function main() {
@@ -55,6 +57,7 @@ async function main() {
     categoryAliases,
     itemOverrides,
     acceptedExceptions,
+    weeklyIntake,
     rawHistory,
     themesChs,
     themesEn,
@@ -67,6 +70,7 @@ async function main() {
     readJson(paths.categoryAliases),
     readJson(paths.itemOverrides),
     readJson(paths.acceptedExceptions),
+    readJson(paths.weeklyIntake).catch(() => null),
     readJson(paths.qqHistory),
     loadNameTable(paths.themesChs),
     loadNameTable(paths.themesEn),
@@ -75,7 +79,7 @@ async function main() {
     loadItemCatalog(paths.itemsChs, paths.itemsEn),
   ]);
 
-  validateConfigSchemas({ themeAliases, categoryAliases, itemOverrides, acceptedExceptions });
+  validateConfigSchemas({ themeAliases, categoryAliases, itemOverrides, acceptedExceptions, weeklyIntake });
   const sources = validateSourceRegistry(sourceDocument);
   const sourceById = new Map(sources.map((source) => [source.sourceId, source]));
   const generatedAt = generatedAtFromSources(sources);
@@ -88,19 +92,27 @@ async function main() {
     themeAliases: themeAliases.aliases,
     categoryAliases: categoryAliases.aliases,
   });
+  const intake = normalizeIntake({
+    records: weeklyIntake?.records ?? [],
+    themes: themesChs,
+    categories: categoriesChs,
+    themeAliases: themeAliases.aliases,
+    categoryAliases: categoryAliases.aliases,
+  });
 
   const qq = collectQqEvidence(normalized.weeks, itemCatalog, retrievedAt["qq-cn-history"]);
+  const intakeQq = collectQqEvidence(intake.weeks, itemCatalog, retrievedAt["qq-cn-history"]);
   const tracker = await collectTrackerEvidence({
     trackerPath: paths.tracker,
     itemCatalog,
     englishCategories: categoriesEn,
     retrievedAt: retrievedAt["avantgarde-tracker"],
   });
-  const evidenceCatalog = mergeEvidenceCatalogs(qq.catalog, tracker.catalog);
+  const evidenceCatalog = mergeEvidenceCatalogs(qq.catalog, intakeQq.catalog, tracker.catalog);
   applyItemOverrides(evidenceCatalog, itemOverrides.overrides, itemCatalog, retrievedAt);
 
   const answers = buildAnswerCatalog({
-    weeks: normalized.weeks,
+    weeks: [...normalized.weeks, ...intake.weeks],
     evidenceCatalog,
     itemCatalog,
     categoriesChs,
@@ -110,6 +122,30 @@ async function main() {
   for (const category of Object.values(answers.categories)) {
     for (const entries of Object.values(category.evidenceByItemId)) {
       entries.forEach((evidence) => validateEvidence(evidence, sourceById));
+    }
+  }
+
+  // intake 复核清单：答案文本中无法由 emitted 物品名直接解释的片段。
+  // 非阻断——片段可能已被 tracker/override 证据覆盖，但无法解释时多半需要
+  // 新增 namePatterns override（确定性扩展 + 人工确认）。
+  const intakeReview = [];
+  for (const week of intake.weeks) {
+    for (const slot of week.slots) {
+      const emittedIds = answers.categories[String(slot.categoryId)]?.goldItemIdsBySlot?.[slot.slotId] ?? [];
+      const emittedNames = emittedIds.map((itemId) => answers.items[String(itemId)]?.names?.["zh-CN"]).filter(Boolean);
+      const unexplained = String(slot.sourceAnswer ?? "")
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter((segment) => !emittedNames.some((name) => segment.includes(name)));
+      if (unexplained.length > 0) {
+        intakeReview.push({
+          globalIssue: week.globalIssue,
+          slotId: slot.slotId,
+          categoryId: slot.categoryId,
+          sourceTag: slot.sourceTag,
+          unexplainedSegments: unexplained,
+        });
+      }
     }
   }
 
@@ -137,18 +173,23 @@ async function main() {
     generatedAt,
     summary: {
       weeks: normalized.weeks.length,
+      intakeWeeks: intake.weeks.length,
       themes: new Set(normalized.weeks.map((week) => week.themeId)).size,
       categories: Object.keys(answers.categories).length,
       requiredCategorySlots: answers.requiredPairCount,
+      emittedCategorySlots: answers.emittedPairCount,
+      catalogOnlyCategorySlots: answers.emittedPairCount - answers.requiredPairCount,
       items: Object.keys(answers.items).length,
       unresolvedCategorySlots: answers.unresolved.length,
       trackerRows: tracker.rowCount,
       trackerUnresolvedRows: tracker.unresolvedRows.length,
     },
+    intakeIssues: intake.weeks.map((week) => week.globalIssue),
+    intakeReview,
     sourceAnomalies: normalized.sourceAnomalies,
     acceptedSourceExceptions: acceptedExceptions.exceptions,
-    aliasUsage: normalized.aliasUsage,
-    itemResolution: qq.itemResolution,
+    aliasUsage: [...normalized.aliasUsage, ...intake.aliasUsage],
+    itemResolution: [...qq.itemResolution, ...intakeQq.itemResolution],
     sourceDisagreements: tracker.disagreements,
     trackerUnresolvedRows: tracker.unresolvedRows,
     unresolvedCategorySlots: answers.unresolved,
@@ -168,8 +209,8 @@ async function main() {
     writeJson(path.join(outputRoot, "audit.json"), auditDocument),
   ]);
 
-  console.log(`Fashion Check history: ${normalized.weeks.length} weeks`);
-  console.log(`Gold answer pairs: ${answers.requiredPairCount - answers.unresolved.length}/${answers.requiredPairCount}`);
+  console.log(`Fashion Check history: ${normalized.weeks.length} weeks (+${intake.weeks.length} intake issues)`);
+  console.log(`Gold answer pairs: ${answers.requiredPairCount - answers.unresolved.length}/${answers.requiredPairCount} required, ${answers.emittedPairCount} emitted`);
   console.log(`Referenced items: ${Object.keys(answers.items).length}`);
   console.log(`Audit errors: ${validationErrors.length}`);
 }

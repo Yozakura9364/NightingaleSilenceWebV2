@@ -1,63 +1,163 @@
 {
   "schemaVersion": "fashion-check.public-current.v5",
-  "globalIssue": 450,
-  "cnIssue": 435,
-  "theme": "帅气的魔法师",
+  "globalIssue": 451,
+  "cnIssue": 436,
+  "theme": "冬天的海贼",
   "challengeWindow": {
-    "startsAt": "2026-09-11T16:00:00+08:00",
-    "endsAt": "2026-09-18T16:00:00+08:00"
+    "startsAt": "2026-09-18T16:00:00+08:00",
+    "endsAt": "2026-09-25T16:00:00+08:00"
   },
   "solutions": [],
   "slots": [
     {
-      "slotId": "hands",
-      "label": "手部",
-      "tag": "罗汉",
-      "categoryId": 172,
+      "slotId": "head",
+      "label": "头部",
+      "tag": "海贼",
+      "categoryId": 11,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 18831,
-            "name": "罗汉豪士笼手",
-            "iconId": 48652,
+            "itemId": 2887,
+            "name": "海盗三角帽",
+            "iconId": 41099,
             "rarity": 2
           },
           {
-            "itemId": 18837,
-            "name": "罗汉枪士笼手",
-            "iconId": 48653,
+            "itemId": 2915,
+            "name": "白银三角帽",
+            "iconId": 41105,
             "rarity": 2
           },
           {
-            "itemId": 18843,
-            "name": "罗汉拳士手甲",
-            "iconId": 44551,
+            "itemId": 2933,
+            "name": "特务三角帽",
+            "iconId": 41145,
             "rarity": 2
           },
           {
-            "itemId": 18849,
-            "name": "罗汉弓士手甲",
-            "iconId": 44552,
+            "itemId": 9052,
+            "name": "奇蜥三角帽",
+            "iconId": 41219,
             "rarity": 2
           },
           {
-            "itemId": 18855,
-            "name": "罗汉间士手甲",
-            "iconId": 44560,
+            "itemId": 10760,
+            "name": "狮鹫革强袭三角帽",
+            "iconId": 41268,
             "rarity": 2
           },
           {
-            "itemId": 18861,
-            "name": "罗汉学士手甲",
-            "iconId": 44550,
+            "itemId": 10844,
+            "name": "狮鹫革游击三角帽",
+            "iconId": 41269,
+            "rarity": 2
+          }
+        ]
+      }
+    },
+    {
+      "slotId": "body",
+      "label": "身体",
+      "tag": "适合冬天",
+      "categoryId": 5,
+      "gold": {
+        "points": 8,
+        "items": [
+          {
+            "itemId": 2965,
+            "name": "梦幻装",
+            "iconId": 42192,
+            "rarity": 1
+          },
+          {
+            "itemId": 6979,
+            "name": "高地罩衫",
+            "iconId": 42352,
+            "rarity": 1
+          },
+          {
+            "itemId": 6982,
+            "name": "冰河外套",
+            "iconId": 43638,
+            "rarity": 1
+          },
+          {
+            "itemId": 9273,
+            "name": "星芒装",
+            "iconId": 42403,
+            "rarity": 1
+          },
+          {
+            "itemId": 16612,
+            "name": "星芒长袍",
+            "iconId": 42531,
+            "rarity": 1
+          },
+          {
+            "itemId": 21936,
+            "name": "冬意毛衣",
+            "iconId": 42593,
+            "rarity": 1
+          },
+          {
+            "itemId": 21937,
+            "name": "冒险者毛衣",
+            "iconId": 42592,
+            "rarity": 1
+          }
+        ]
+      }
+    },
+    {
+      "slotId": "hands",
+      "label": "手部",
+      "tag": "妖艳",
+      "categoryId": 39,
+      "gold": {
+        "points": 8,
+        "items": [
+          {
+            "itemId": 10394,
+            "name": "萨维奈臂纱",
+            "iconId": 48263,
+            "rarity": 1
+          },
+          {
+            "itemId": 16673,
+            "name": "星绒治愈长手套",
+            "iconId": 44472,
             "rarity": 2
           },
           {
-            "itemId": 18867,
-            "name": "罗汉术士手甲",
-            "iconId": 44549,
+            "itemId": 16679,
+            "name": "星绒咏咒长手套",
+            "iconId": 44473,
             "rarity": 2
+          },
+          {
+            "itemId": 17804,
+            "name": "旧化的星座护臂",
+            "iconId": 48269,
+            "rarity": 3
+          },
+          {
+            "itemId": 18153,
+            "name": "鬼船游击长手套",
+            "iconId": 44545,
+            "rarity": 2
+          },
+          {
+            "itemId": 25660,
+            "name": "白麻强袭长手套",
+            "iconId": 44697,
+            "rarity": 1
+          },
+          {
+            "itemId": 25666,
+            "name": "白麻精准长手套",
+            "iconId": 44698,
+            "rarity": 1
           }
         ]
       }
@@ -65,281 +165,141 @@
     {
       "slotId": "legs",
       "label": "腿部",
-      "tag": "帅气",
-      "categoryId": 22,
+      "tag": "戏法",
+      "categoryId": 9,
       "gold": {
         "points": 8,
         "items": [
           {
-            "itemId": 7201,
-            "name": "亚拉戈高位治愈喇叭裤",
-            "iconId": 45441,
-            "rarity": 3
+            "itemId": 7471,
+            "name": "朝圣者长裤",
+            "iconId": 45439,
+            "rarity": 2
           },
           {
-            "itemId": 10007,
-            "name": "胜负师长裤",
-            "iconId": 45532,
+            "itemId": 10824,
+            "name": "虹布精准长裤",
+            "iconId": 45644,
             "rarity": 1
           },
           {
-            "itemId": 13871,
-            "name": "亚拉戈高位治愈喇叭裤（复制品）",
-            "iconId": 45441,
-            "rarity": 3
-          },
-          {
-            "itemId": 19144,
-            "name": "阿拉米格御敌打底裤",
-            "iconId": 45923,
-            "rarity": 3
-          },
-          {
-            "itemId": 19150,
-            "name": "阿拉米格制敌打底裤",
-            "iconId": 45924,
-            "rarity": 3
-          },
-          {
-            "itemId": 32801,
-            "name": "小牛皮骑手打底裤",
-            "iconId": 47782,
-            "rarity": 1
-          }
-        ]
-      }
-    },
-    {
-      "slotId": "feet",
-      "label": "脚部",
-      "tag": "魔法",
-      "categoryId": 34,
-      "gold": {
-        "points": 8,
-        "items": [
-          {
-            "itemId": 7472,
-            "name": "朝圣者皮靴",
-            "iconId": 46398,
-            "rarity": 2
-          },
-          {
-            "itemId": 7478,
-            "name": "魔术师皮靴",
-            "iconId": 46397,
-            "rarity": 2
-          },
-          {
-            "itemId": 7514,
-            "name": "蛟蜥咏咒尖头靴",
-            "iconId": 46392,
-            "rarity": 2
-          },
-          {
-            "itemId": 8714,
-            "name": "怪诞尖头靴",
-            "iconId": 46408,
+            "itemId": 10908,
+            "name": "虹布治愈长裤",
+            "iconId": 45645,
             "rarity": 1
           },
           {
-            "itemId": 10831,
-            "name": "古鸟革精准尖头靴",
-            "iconId": 46512,
+            "itemId": 10950,
+            "name": "虹布咏咒长裤",
+            "iconId": 45646,
             "rarity": 1
-          },
-          {
-            "itemId": 10915,
-            "name": "古鸟革治愈尖头靴",
-            "iconId": 46513,
-            "rarity": 1
-          },
-          {
-            "itemId": 10957,
-            "name": "古鸟革咏咒尖头靴",
-            "iconId": 46514,
-            "rarity": 1
-          }
-        ]
-      }
-    },
-    {
-      "slotId": "wrists",
-      "label": "手饰",
-      "tag": "华丽",
-      "categoryId": 51,
-      "gold": {
-        "points": 6,
-        "items": [
-          {
-            "itemId": 10973,
-            "name": "蛋白石御敌手镯",
-            "iconId": 55732,
-            "rarity": 1
-          },
-          {
-            "itemId": 10997,
-            "name": "蛋白石强攻手镯",
-            "iconId": 55732,
-            "rarity": 1
-          },
-          {
-            "itemId": 11021,
-            "name": "蛋白石精准手镯",
-            "iconId": 55732,
-            "rarity": 1
-          },
-          {
-            "itemId": 11045,
-            "name": "蛋白石治愈手镯",
-            "iconId": 55732,
-            "rarity": 1
-          },
-          {
-            "itemId": 11047,
-            "name": "贵橄榄石治愈手镯",
-            "iconId": 55733,
-            "rarity": 1
-          },
-          {
-            "itemId": 11069,
-            "name": "蛋白石咏咒手镯",
-            "iconId": 55732,
-            "rarity": 1
-          },
-          {
-            "itemId": 13303,
-            "name": "樟木御敌腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 13307,
-            "name": "樟木强攻腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 13311,
-            "name": "樟木精准腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 13315,
-            "name": "樟木治愈腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 13319,
-            "name": "樟木咏咒腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 16394,
-            "name": "改良型田园混斗者手镯",
-            "iconId": 55755,
-            "rarity": 3
-          },
-          {
-            "itemId": 21561,
-            "name": "钻石御敌手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21562,
-            "name": "钻石强攻手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21563,
-            "name": "钻石精准手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21564,
-            "name": "钻石治愈手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21565,
-            "name": "钻石咏咒手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21623,
-            "name": "碳硅晶御敌手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21624,
-            "name": "碳硅晶强攻手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21625,
-            "name": "碳硅晶精准手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21626,
-            "name": "碳硅晶治愈手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21627,
-            "name": "碳硅晶咏咒手镯",
-            "iconId": 55793,
-            "rarity": 3
-          },
-          {
-            "itemId": 21763,
-            "name": "黑柳御敌腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 21764,
-            "name": "黑柳强攻腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 21765,
-            "name": "黑柳精准腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 21766,
-            "name": "黑柳治愈腕环",
-            "iconId": 55734,
-            "rarity": 2
-          },
-          {
-            "itemId": 21767,
-            "name": "黑柳咏咒腕环",
-            "iconId": 55734,
-            "rarity": 2
           }
         ]
       }
     }
   ],
   "referenceShowcase": {
-    "globalIssue": 450,
-    "theme": "帅气的魔法师",
-    "solutions": [],
+    "globalIssue": 451,
+    "theme": "冬天的海贼",
+    "dyeProvider": "AllGameStaff（自动翻译）",
+    "solutions": [
+      {
+        "id": "100",
+        "score": 100,
+        "entries": [
+          {
+            "slotId": "head",
+            "item": {
+              "itemId": 2887,
+              "name": "海盗三角帽",
+              "iconId": 41099,
+              "rarity": 2
+            },
+            "dye": {
+              "dyeId": 7,
+              "name": "玫瑰粉"
+            }
+          },
+          {
+            "slotId": "body",
+            "iconId": 42422,
+            "labelKey": "fashionCheck.anyDyeableBody",
+            "dye": {
+              "dyeId": 78,
+              "name": "忧郁紫"
+            }
+          },
+          {
+            "slotId": "hands",
+            "item": {
+              "itemId": 25660,
+              "name": "白麻强袭长手套",
+              "iconId": 44697,
+              "rarity": 1
+            },
+            "dye": {
+              "dyeId": 78,
+              "name": "忧郁紫"
+            }
+          },
+          {
+            "slotId": "legs",
+            "item": {
+              "itemId": 10824,
+              "name": "虹布精准长裤",
+              "iconId": 45644,
+              "rarity": 1
+            },
+            "dye": {
+              "dyeId": 60,
+              "name": "寒冰蓝"
+            }
+          },
+          {
+            "slotId": "feet",
+            "iconId": 46446,
+            "labelKey": "fashionCheck.anyDyeableFeet",
+            "dye": {
+              "dyeId": 78,
+              "name": "忧郁紫"
+            }
+          }
+        ]
+      },
+      {
+        "id": "80",
+        "score": 80,
+        "entries": [
+          {
+            "slotId": "body",
+            "iconId": 42422,
+            "labelKey": "fashionCheck.anyDyeableBody",
+            "dye": {
+              "dyeId": 78,
+              "name": "忧郁紫"
+            }
+          },
+          {
+            "slotId": "hands",
+            "iconId": 44305,
+            "labelKey": "fashionCheck.anyDyeableHands",
+            "dye": {
+              "dyeId": 78,
+              "name": "忧郁紫"
+            }
+          },
+          {
+            "slotId": "legs",
+            "item": {
+              "itemId": 10824,
+              "name": "虹布精准长裤",
+              "iconId": 45644,
+              "rarity": 1
+            }
+          }
+        ]
+      }
+    ],
     "dyes": []
   }
 }

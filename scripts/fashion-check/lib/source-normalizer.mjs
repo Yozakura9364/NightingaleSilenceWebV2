@@ -182,3 +182,76 @@ export function normalizeHistory({
 
   return { weeks, aliasUsage, sourceAnomalies };
 }
+
+// 周答案 intake（>GLOBAL_ISSUE_MAX 的补充记录，来自 sync-weekly-intake.mjs）。
+// 与 normalizeHistory 走同一套主题/类别别名解析，但记录已是结构化槽位（canonical slotId）。
+export function normalizeIntake({ records, themes, categories, themeAliases, categoryAliases }) {
+  invariant(Array.isArray(records), "Weekly intake records are missing");
+  const aliasUsage = [];
+  const seenIssues = new Set();
+
+  const weeks = records.map((record) => {
+    const globalIssue = Number(record.globalIssue);
+    invariant(
+      Number.isInteger(globalIssue) && globalIssue > GLOBAL_ISSUE_MAX,
+      `Intake issue ${record.globalIssue} must be newer than frozen history ${GLOBAL_ISSUE_MAX}`,
+    );
+    invariant(!seenIssues.has(globalIssue), `Duplicate intake issue ${globalIssue}`);
+    seenIssues.add(globalIssue);
+
+    const themeId = expectedThemeId(globalIssue);
+    const officialTheme = themes.byId.get(themeId);
+    invariant(officialTheme !== undefined, `Intake issue ${globalIssue}: official theme ID ${themeId} is missing`);
+    if (officialTheme !== record.theme) {
+      const alias = findAlias(themeAliases, record.theme, globalIssue, null);
+      invariant(
+        alias?.targetId === themeId,
+        `Intake issue ${globalIssue}: theme ${record.theme} does not match official theme ${officialTheme}`,
+      );
+      aliasUsage.push({ type: "theme", globalIssue, sourceLabel: record.theme, targetId: themeId, reason: alias.reason });
+    }
+
+    const slots = (record.slots ?? []).map((slot) => {
+      const slotId = String(slot.slotId ?? "");
+      invariant(SLOT_IDS.includes(slotId), `Intake issue ${globalIssue}: unsupported slot ${slotId}`);
+      const sourceTag = String(slot.tag ?? "").trim();
+      invariant(sourceTag.length > 0, `Intake issue ${globalIssue}/${slotId}: empty tag`);
+
+      const contextualAlias = findAlias(categoryAliases, sourceTag, globalIssue, slotId);
+      const directIds = categories.byName.get(sourceTag) ?? [];
+      let categoryId;
+      if (contextualAlias) {
+        categoryId = contextualAlias.targetId;
+        invariant(categories.byId.has(categoryId), `Intake issue ${globalIssue}/${slotId}: category ID ${categoryId} is missing`);
+        aliasUsage.push({ type: "category", globalIssue, slotId, sourceLabel: sourceTag, targetId: categoryId, reason: contextualAlias.reason });
+      } else {
+        invariant(
+          directIds.length === 1,
+          `Intake issue ${globalIssue}/${slotId}: unresolved or ambiguous category ${sourceTag || "<empty>"}`,
+        );
+        [categoryId] = directIds;
+      }
+
+      return {
+        slotId,
+        categoryId,
+        sourceTag,
+        sourceAnswer: String(slot.answerText ?? ""),
+      };
+    });
+
+    return {
+      globalIssue,
+      cnIssue: Number.isInteger(record.cnIssue) ? record.cnIssue : globalIssue - 15,
+      startDate: String(record.startDate ?? ""),
+      themeId,
+      sourceTheme: String(record.theme ?? ""),
+      sourceRows: (record.sourceFiles ?? []).map(String),
+      retrievedAt: String(record.retrievedAt ?? ""),
+      slots,
+      anomalies: [],
+    };
+  }).sort((left, right) => left.globalIssue - right.globalIssue);
+
+  return { weeks, aliasUsage };
+}

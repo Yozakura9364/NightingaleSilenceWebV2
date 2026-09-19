@@ -19,6 +19,8 @@
     { "categoryId": 55, "slotId": "wrists", "namePatterns": ["^灵银.+手镯$"], "sourceId": "qq-cn-history", "locator": "Global issue 240; source expression 灵银XX手镯", "resolutionMethod": "deterministic-expansion" },
     { "categoryId": 53, "slotId": "neck", "namePatterns": ["^(伊修加德|战女神).+项环$"], "sourceId": "qq-cn-history", "locator": "Global issue 253; source expression 伊修加德/战女神XX项环", "resolutionMethod": "deterministic-expansion" },
     { "categoryId": 231, "slotId": "ears", "namePatterns": ["色紫灯花耳环$"], "sourceId": "qq-cn-history", "locator": "Global issue 282; source expression XX紫灯花耳环", "resolutionMethod": "deterministic-expansion" },
-    { "categoryId": 53, "slotId": "wrists", "namePatterns": ["^(伊修加德|战女神).+手镯$"], "sourceId": "qq-cn-history", "locator": "Global issue 291; source expression 伊修加德/战女神XX手镯", "resolutionMethod": "deterministic-expansion" }
+    { "categoryId": 53, "slotId": "wrists", "namePatterns": ["^(伊修加德|战女神).+手镯$"], "sourceId": "qq-cn-history", "locator": "Global issue 291; source expression 伊修加德/战女神XX手镯", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 42, "slotId": "legs", "namePatterns": ["^歹徒(制敌|强袭|游击)软甲裤$"], "sourceId": "qq-cn-history", "locator": "Global issue 444; source expression 歹徒制敌/强袭/游击软甲裤", "resolutionMethod": "deterministic-expansion" },
+    { "categoryId": 11, "slotId": "head", "namePatterns": ["^狮鹫革(强袭|游击)三角帽$"], "sourceId": "qq-cn-history", "locator": "Global issue 451; source expression 狮鹫革强袭/游击三角帽", "resolutionMethod": "deterministic-expansion" }
   ]
 }
