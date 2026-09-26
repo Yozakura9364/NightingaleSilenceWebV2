@@ -1,4 +1,3 @@
-import armoireIcon from '@/assets/icons/site/armoire-64.png'
 import aboutIcon from '@/assets/icons/site/about-64.png'
 import blogIcon from '@/assets/icons/site/blog-64.svg'
 import fashionCheckIcon from '@/assets/icons/site/fashion-check-64.png'
@@ -49,16 +48,17 @@ const toolIcons: Record<string, string> = {
   itemCard: itemCardIcon,
   glamour: glamourIcon,
   plate: platePortraitIcon,
-  armoire: armoireIcon,
   fashionCheck: fashionCheckIcon
 }
 
-export const osShellToolPresentations: OsShellToolPresentation[] = ffxivTools.map((tool) => ({
-  id: tool.id,
-  icon: toolIcons[tool.id],
-  titleKey: tool.titleKey,
-  route: tool.route
-}))
+export const osShellToolPresentations: OsShellToolPresentation[] = ffxivTools
+  .filter((tool) => tool.id !== 'armoire')
+  .map((tool) => ({
+    id: tool.id,
+    icon: toolIcons[tool.id],
+    titleKey: tool.titleKey,
+    route: tool.route
+  }))
 
 export function getOsShellToolPresentation(id: string): OsShellToolPresentation | undefined {
   return osShellToolPresentations.find((presentation) => presentation.id === id)
