@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-01T01:54:51.372Z",
+  "updatedAt": "2026-09-17T08:39:19Z",
   "events": [
     {
       "id": "fanfestival-2026-store-sale",
@@ -71,6 +71,15 @@
       "url": "https://actff1.web.sdo.com/project/20260817The_Rising/7rzrnb48uiw9/index.html",
       "startsAt": "2026-08-27T15:00:00+08:00",
       "endsAt": "2026-09-10T22:59:00+08:00",
+      "timezone": "Asia/Shanghai",
+      "region": "common"
+    },
+    {
+      "id": "ff15-crossover-2026",
+      "title": "《最终幻想15》联动复刻",
+      "url": "http://ff.sdo.com/web8/index.html#/newstab/newscont/393210",
+      "startsAt": "2026-09-24T16:00:00+08:00",
+      "endsAt": "2026-10-13T22:59:00+08:00",
       "timezone": "Asia/Shanghai",
       "region": "common"
     }
