@@ -131,19 +131,22 @@ function multilingualDyeGap(settings: ItemCardRenderSettings, style: ItemCardLoc
   )
 }
 
-function getItemCardMetrics(settings: ItemCardRenderSettings): ItemCardMetrics {
+function getItemCardMetrics(
+  settings: ItemCardRenderSettings,
+  dyeSlotCount = 0
+): ItemCardMetrics {
   if (settings.mode !== 'compact') {
     const styles = settings.outputLocales.map((locale) => getItemCardLocaleStyle(settings, locale))
     const titleBlockHeight = styles.reduce((height, style) => height + titleLineHeight(style), 0)
     const dyeBlockHeight = styles.reduce((height, style) => height + dyeLineHeight(style), 0)
+    const dyeGap = multilingualDyeGap(settings, styles[0])
+    const dyeAreaHeight =
+      dyeSlotCount > 0 ? dyeSlotCount * dyeBlockHeight + dyeSlotCount * dyeGap : 0
     const height =
       styles.length > 1
         ? Math.max(
             ITEM_CARD_HEIGHT,
-            titleBlockHeight +
-              dyeBlockHeight +
-              multilingualDyeGap(settings, styles[0]) +
-              MULTILINGUAL_FULL_CARD_PADDING
+            titleBlockHeight + dyeAreaHeight + MULTILINGUAL_FULL_CARD_PADDING
           )
         : ITEM_CARD_HEIGHT
 
@@ -405,7 +408,8 @@ function drawMultilingualDyes(
   left: number,
   right: number,
   y: number,
-  align: CanvasTextAlign
+  align: CanvasTextAlign,
+  slotGap: number
 ) {
   const dyesByLocale = localeStyles.map(({ locale }) => dyeRows(request, locale))
   const sharedDyes = dyesByLocale[0] || []
@@ -415,18 +419,12 @@ function drawMultilingualDyes(
 
   const totalHeight = localeStyles.reduce((height, item) => height + dyeLineHeight(item.style), 0)
   const radius = Math.max(4, ...localeStyles.map((item) => Math.round(item.style.dyeSize * 0.42)))
-  const columnGap = Math.max(12, radius * 2)
-  const available = Math.max(1, right - left)
-  const columnWidth = Math.max(
-    1,
-    (available - columnGap * (sharedDyes.length - 1)) / sharedDyes.length
-  )
-  const circleY = y + totalHeight / 2
+  const textWidth = Math.max(1, right - left - radius * 2 - 8)
 
   sharedDyes.forEach((sharedDye, dyeIndex) => {
-    const columnLeft = left + dyeIndex * (columnWidth + columnGap)
-    const columnRight = columnLeft + columnWidth
-    const circleX = align === 'right' ? columnRight - radius : columnLeft + radius
+    const blockY = y + dyeIndex * (totalHeight + slotGap)
+    const circleX = align === 'right' ? right - radius : left + radius
+    const circleY = blockY + totalHeight / 2
 
     ctx.beginPath()
     ctx.arc(circleX, circleY, radius, 0, Math.PI * 2)
@@ -436,7 +434,7 @@ function drawMultilingualDyes(
     ctx.lineWidth = 1
     ctx.stroke()
 
-    let rowY = y
+    let rowY = blockY
     localeStyles.forEach(({ style }, localeIndex) => {
       const dye = dyesByLocale[localeIndex]?.[dyeIndex] || sharedDye
       ctx.font = dyeFont(style)
@@ -449,7 +447,7 @@ function drawMultilingualDyes(
         dye.name,
         textX,
         rowY + dyeLineHeight(style) / 2,
-        Math.max(1, columnWidth - radius * 2 - 8),
+        textWidth,
         align,
         request.settings
       )
@@ -462,7 +460,19 @@ export async function renderItemCardCanvas(
   request: ItemCardRenderRequest
 ): Promise<HTMLCanvasElement> {
   await ensureFonts(request.settings)
-  const metrics = getItemCardMetrics(request.settings)
+  const localeStyles = request.settings.outputLocales.map((locale) => ({
+    locale,
+    style: getItemCardLocaleStyle(request.settings, locale)
+  }))
+  const compact = request.settings.mode === 'compact'
+  const multilingualFull = !compact && localeStyles.length > 1
+  const dyeSlotCount = multilingualFull
+    ? localeStyles.reduce(
+        (count, { locale }) => Math.max(count, dyeRows(request, locale).length),
+        0
+      )
+    : 0
+  const metrics = getItemCardMetrics(request.settings, dyeSlotCount)
   const canvas = createCanvas(ITEM_CARD_WIDTH, metrics.height)
   const ctx = canvas.getContext('2d')
   if (!ctx) {
@@ -483,10 +493,6 @@ export async function renderItemCardCanvas(
   const dyeRight = request.layout === 'right' ? dyeX : ITEM_CARD_WIDTH
   const candidate = getSelectedCandidate(request.entry)
   const image = await loadImage(buildGlamourIconUrl(request.apiBase, candidate?.icon))
-  const localeStyles = request.settings.outputLocales.map((locale) => ({
-    locale,
-    style: getItemCardLocaleStyle(request.settings, locale)
-  }))
 
   drawIcon(
     ctx,
@@ -501,13 +507,12 @@ export async function renderItemCardCanvas(
     (height, item) => height + titleLineHeight(item.style),
     0
   )
-  const compact = request.settings.mode === 'compact'
-  const multilingualFull = !compact && localeStyles.length > 1
   const dyeBlockHeight = multilingualFull
     ? localeStyles.reduce((height, item) => height + dyeLineHeight(item.style), 0)
     : 0
   const dyeGap = multilingualFull ? multilingualDyeGap(request.settings, localeStyles[0].style) : 0
-  const multilingualContentHeight = titleBlockHeight + dyeBlockHeight + dyeGap
+  const multilingualContentHeight =
+    titleBlockHeight + dyeSlotCount * (dyeBlockHeight + dyeGap)
   let titleY = compact
     ? Math.round((metrics.height - titleBlockHeight) / 2)
     : multilingualFull
@@ -539,7 +544,7 @@ export async function renderItemCardCanvas(
     }
   }
   if (multilingualFull) {
-    drawMultilingualDyes(ctx, request, localeStyles, dyeLeft, dyeRight, dyeY, align)
+    drawMultilingualDyes(ctx, request, localeStyles, dyeLeft, dyeRight, dyeY, align, dyeGap)
   }
   return canvas
 }
@@ -548,9 +553,22 @@ export async function renderItemListCanvas(
   request: ItemCardListRenderRequest
 ): Promise<HTMLCanvasElement> {
   const metrics = getItemCardMetrics(request.settings)
+  const rows: HTMLCanvasElement[] = []
+  for (const entry of request.entries) {
+    rows.push(
+      await renderItemCardCanvas({
+        entry,
+        draft: request.draft,
+        settings: request.settings,
+        layout: resolveItemCardLayout(entry, request.layouts),
+        apiBase: request.apiBase
+      })
+    )
+  }
+
   const height =
-    request.entries.length * metrics.height +
-    Math.max(0, request.entries.length - 1) * metrics.listRowGap
+    rows.reduce((sum, row) => sum + row.height / ITEM_CARD_SCALE, 0) +
+    Math.max(0, rows.length - 1) * metrics.listRowGap
   const canvas = createCanvas(ITEM_CARD_WIDTH, Math.max(1, height))
   const ctx = canvas.getContext('2d')
   if (!ctx) {
@@ -558,16 +576,9 @@ export async function renderItemListCanvas(
   }
 
   let y = 0
-  for (const entry of request.entries) {
-    const row = await renderItemCardCanvas({
-      entry,
-      draft: request.draft,
-      settings: request.settings,
-      layout: resolveItemCardLayout(entry, request.layouts),
-      apiBase: request.apiBase
-    })
+  for (const row of rows) {
     ctx.drawImage(row, 0, y)
-    y += (metrics.height + metrics.listRowGap) * ITEM_CARD_SCALE
+    y += row.height + metrics.listRowGap * ITEM_CARD_SCALE
   }
   return canvas
 }
