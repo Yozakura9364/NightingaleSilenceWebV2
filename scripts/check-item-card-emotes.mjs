@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises'
 
-const fileUrl = new URL('../public/data/ffxiv/item-card-emotes.json', import.meta.url)
+const fileUrl = process.env.ITEM_CARD_EMOTES_PATH || new URL('../public/data/ffxiv/item-card-emotes.json', import.meta.url)
 const data = JSON.parse(await readFile(fileUrl, 'utf8'))
 
 if (data?.version !== 1 || !data?.source?.url || !Array.isArray(data.items)) {

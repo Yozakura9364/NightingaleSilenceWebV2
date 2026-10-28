@@ -6,7 +6,7 @@ import { readJson } from './lib/validation.mjs'
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(scriptDirectory, '../..')
-const tagDatabasePath = path.join(projectRoot, 'public/data/fashion-check/tag-database.json')
+const tagDatabasePath = process.env.FASHION_CHECK_TAG_DATABASE_PATH || path.join(projectRoot, 'public/data/fashion-check/tag-database.json')
 
 const document = await readJson(tagDatabasePath)
 const summary = checkTagDatabase(document)

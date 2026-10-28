@@ -16,7 +16,7 @@ const generatedRoot = path.resolve(
   projectRoot,
   process.env.FASHION_CHECK_OUTPUT_DIR ?? 'local-assets/fashion-check/generated'
 )
-const outputPath = path.join(projectRoot, 'public/data/fashion-check/tag-database.json')
+const outputPath = process.env.FASHION_CHECK_TAG_DATABASE_PATH || path.join(projectRoot, 'public/data/fashion-check/tag-database.json')
 const localeDirectories = {
   'zh-CN': 'chs',
   en: 'en',

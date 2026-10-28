@@ -10,9 +10,9 @@ import { fileURLToPath } from 'node:url'
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(scriptDirectory, '../..')
-const currentPath = path.join(projectRoot, 'public/data/fashion-check/current.json')
-const localesPath = path.join(projectRoot, 'public/data/fashion-check/current-locales.json')
-const tagDatabasePath = path.join(projectRoot, 'public/data/fashion-check/tag-database.json')
+const currentPath = process.env.FASHION_CHECK_CURRENT_PATH || path.join(projectRoot, 'public/data/fashion-check/current.json')
+const localesPath = process.env.FASHION_CHECK_LOCALES_PATH || path.join(projectRoot, 'public/data/fashion-check/current-locales.json')
+const tagDatabasePath = process.env.FASHION_CHECK_TAG_DATABASE_PATH || path.join(projectRoot, 'public/data/fashion-check/tag-database.json')
 
 const KNOWN_SLOT_IDS = new Set(['weapon', 'head', 'body', 'hands', 'legs', 'feet'])
 const LOCALES = ['zh-CN', 'en', 'ja', 'ko']
