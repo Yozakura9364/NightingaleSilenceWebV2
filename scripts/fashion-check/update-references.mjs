@@ -17,6 +17,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { promisify } from 'node:util'
 
+import { loadGameDataBatch, optionValue, publicSource } from '../lib/game-data-batch.mjs'
 import { parseCsv } from './lib/csv.mjs'
 import { patchRegistryRetrievedAt } from './lib/validation.mjs'
 
@@ -26,9 +27,12 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url))
 const projectRoot = path.resolve(scriptDirectory, '../..')
 const referenceRoot = path.resolve(
   projectRoot,
-  process.env.FASHION_CHECK_REFERENCE_DIR ?? 'local-assets/fashion-check/references'
+  optionValue('--output-dir') || process.env.FASHION_CHECK_REFERENCE_DIR || 'local-assets/fashion-check/references'
 )
-const sourcesPath = path.join(projectRoot, 'data/fashion-check/sources.json')
+const sourceRoot = optionValue('--source-root')
+const sourceBatch = optionValue('--source-batch')
+const localMode = Boolean(sourceRoot || sourceBatch)
+const sourcesPath = optionValue('--sources-path') || (localMode ? '' : path.join(projectRoot, 'data/fashion-check/sources.json'))
 
 const OFFICIAL_TABLES = ['Item.csv', 'FashionCheckThemeCategory.csv', 'FashionCheckWeeklyTheme.csv']
 const MIXED_REPO = 'https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master'
@@ -91,26 +95,53 @@ function countDataRows(text, saintCoinach) {
 async function main() {
   const retrievedAt = new Date().toISOString()
   const report = []
+  const batch = localMode ? await loadGameDataBatch({
+    sourceRoot,
+    sourceBatch,
+    requirements: Object.fromEntries(['chs', 'en', 'ja', 'ko'].map((locale) => [locale, OFFICIAL_TABLES.map((table) => table.slice(0, -4))]))
+  }) : null
+  const selected = downloads.filter((item) => !batch || item.saintCoinach || process.argv.includes('--refresh-community'))
+  const prepared = []
 
-  for (const item of downloads) {
-    const text = await fetchText(item.url, item.label)
+  // Validate every official input before replacing any existing reference.
+  for (const item of selected) {
+    const [, locale, table] = item.label.split('/')
+    const record = batch && item.saintCoinach ? batch.sources.get(`${locale}/${table.slice(0, -4)}`) : null
+    const bytes = record ? await readFile(record.file) : Buffer.from(await fetchText(item.url, item.label), 'utf8')
+    const text = bytes.toString('utf8')
     if (item.saintCoinach) {
       const rows = parseCsv(text)
       if (rows.length < 3 || !String(rows[1]?.[1] ?? '').trim()) {
         throw new Error(`${item.label}: 不是有效的 SaintCoinach CSV`)
       }
     }
+    prepared.push({ item, bytes, text, record, rowCount: countDataRows(text, item.saintCoinach) })
+  }
+
+  for (const { item, bytes, text, rowCount } of prepared) {
     await mkdir(path.dirname(item.target), { recursive: true })
     const previous = await readFile(item.target, 'utf8').catch(() => null)
-    await writeFile(item.target, text, 'utf8')
-    const rowCount = countDataRows(text, item.saintCoinach)
+    await writeFile(item.target, bytes)
     report.push(
       `${item.label}: ${rowCount} 行数据（${previous === null ? '新增' : previous === text ? '内容未变' : '已更新'}）`
     )
   }
 
-  for (const sourceId of ['ffxiv-datamining-mixed', 'avantgarde-tracker']) {
-    await patchRegistryRetrievedAt(sourcesPath, sourceId, retrievedAt)
+  if (batch) {
+    await mkdir(referenceRoot, { recursive: true })
+    await writeFile(path.join(referenceRoot, 'game-data-batch.json'), `${JSON.stringify({
+      source_batch_id: batch.batchId,
+      source_mode: batch.sourceMode,
+      retrievedAt,
+      community_refreshed: process.argv.includes('--refresh-community'),
+      sources: prepared.filter(({ record }) => record).map(({ record }) => publicSource(record))
+    }, null, 2)}\n`, 'utf8')
+  }
+  if (sourcesPath) {
+    await patchRegistryRetrievedAt(sourcesPath, 'ffxiv-datamining-mixed', retrievedAt)
+    if (!batch || process.argv.includes('--refresh-community')) {
+      await patchRegistryRetrievedAt(sourcesPath, 'avantgarde-tracker', retrievedAt)
+    }
   }
 
   for (const line of report) console.log(line)

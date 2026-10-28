@@ -1,4 +1,8 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+import { loadGameDataBatch, optionValue, publicSource } from './lib/game-data-batch.mjs'
 
 const DEFAULT_SOURCES = {
   zh: 'https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs/Emote.csv',
@@ -111,6 +115,15 @@ function parseRows(csv) {
 
 const sourceFiles = argumentValues('--source-file')
 const sourceUrlOverrides = argumentValues('--source-url')
+const sourceRoot = optionValue('--source-root')
+const sourceBatch = optionValue('--source-batch')
+const outputPath = optionValue('--output') || fileURLToPath(OUTPUT_PATH)
+if ((sourceRoot || sourceBatch) && (sourceFiles.length || sourceUrlOverrides.length)) {
+  throw new Error('Local batch mode cannot be combined with source-file or source-url overrides')
+}
+const batch = sourceRoot || sourceBatch
+  ? await loadGameDataBatch({ sourceRoot, sourceBatch, requirements: Object.fromEntries(LOCALES.map((locale) => [locale === 'zh' ? 'chs' : locale, ['Emote']])) })
+  : null
 const sourceUrls = { ...DEFAULT_SOURCES }
 for (const value of sourceUrlOverrides) {
   const spec = parseLocaleSpec(value, 'zh')
@@ -118,11 +131,20 @@ for (const value of sourceUrlOverrides) {
 }
 
 const sourceRecords = {}
-if (sourceFiles.length) {
+if (batch) {
+  for (const locale of LOCALES) {
+    const record = batch.sources.get(`${locale === 'zh' ? 'chs' : locale}/Emote`)
+    sourceRecords[locale] = {
+      source: record.url || record.path,
+      provenance: publicSource(record),
+      items: parseRows(await readFile(record.file, 'utf8'))
+    }
+  }
+} else if (sourceFiles.length) {
   for (const value of sourceFiles) {
     const spec = parseLocaleSpec(value, 'zh')
     sourceRecords[spec.locale] = {
-      source: spec.value,
+      source: path.basename(spec.value),
       items: parseRows(await readFile(spec.value, 'utf8'))
     }
   }
@@ -164,16 +186,22 @@ const items = sourceRecords.zh.items.map((item) => {
 const output = {
   version: 1,
   source: {
-    url: sourceUrls.zh,
+    url: sourceRecords.zh.source,
     locale: 'zh',
     locales: Object.keys(sourceRecords),
     urls: Object.fromEntries(
-      Object.keys(sourceRecords).map((locale) => [locale, sourceUrls[locale]])
-    )
+      Object.keys(sourceRecords).map((locale) => [locale, sourceRecords[locale].source])
+    ),
+    ...(batch ? {
+      source_batch_id: batch.batchId,
+      source_mode: batch.sourceMode,
+      files: Object.fromEntries(LOCALES.map((locale) => [locale, sourceRecords[locale].provenance]))
+    } : {})
   },
   generatedAt: new Date().toISOString(),
   items
 }
 
-await writeFile(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`, 'utf8')
-console.log(`Wrote ${output.items.length} emotes to ${OUTPUT_PATH.pathname}`)
+await mkdir(path.dirname(path.resolve(outputPath)), { recursive: true })
+await writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8')
+console.log(`Wrote ${output.items.length} emotes`)
