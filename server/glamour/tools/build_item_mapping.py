@@ -11,6 +11,11 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
 
+if __package__:
+    from .game_data_batch import load_batch, local_source, source_record
+else:
+    from game_data_batch import load_batch, local_source, source_record
+
 
 PRIMARY_LOCALE = "zh"
 DEFAULT_LOCALES = ["zh", "en", "ja", "ko", "tc", "fr", "de"]
@@ -603,10 +608,11 @@ def build_language_sources(
                 raise ValueError(f"Missing local locale directory: {locale_root}")
 
             for source_kind, file_name in LOCAL_SOURCE_FILES.items():
-                source_path = locale_root / file_name
-                if not source_path.is_file():
-                    raise ValueError(f"Missing local {locale} {file_name}: {source_path}")
-                language_sources[locale][source_kind] = str(source_path)
+                language_sources[locale][source_kind] = local_source(root, locale, file_name[:-4])
+
+        for source in (item_csv, stain_csv, addon_csv):
+            if source and "://" in source:
+                raise ValueError("Local source mode forbids remote overrides")
 
     if item_csv:
         language_sources[PRIMARY_LOCALE]["item"] = item_csv
@@ -623,7 +629,17 @@ def build_mapping(
     addon_csv: str,
     locales: List[str],
     source_root: str = "",
+    source_batch: str = "",
 ) -> Dict[str, object]:
+    batch = None
+    if source_batch:
+        requirements = {LOCAL_SOURCE_FOLDERS[locale]: {name[:-4] for name in LOCAL_SOURCE_FILES.values()}
+                        for locale in locales if locale in LOCAL_SOURCE_FOLDERS}
+        batch = load_batch(source_batch, source_root, requirements)
+        source_root = str(batch["root"])
+        for sheet, override in (("Item", item_csv), ("Stain", stain_csv), ("Addon", addon_csv)):
+            if override:
+                local_source(source_root, PRIMARY_LOCALE, sheet, override, batch)
     language_sources = build_language_sources(item_csv, stain_csv, addon_csv, source_root, locales)
     unknown = [locale for locale in locales if locale not in language_sources]
     if unknown:
@@ -678,12 +694,11 @@ def build_mapping(
             "default_locale": PRIMARY_LOCALE,
             "locales": locales,
             "locale_labels": locale_labels,
-            "source_mode": "local-root" if source_root else "remote-default",
-            "item_sources": {locale: LANGUAGE_SOURCES[locale]["item"] for locale in locales},
-            "stain_sources": {locale: LANGUAGE_SOURCES[locale]["stain"] for locale in locales},
-            "addon_sources": {locale: LANGUAGE_SOURCES[locale]["addon"] for locale in locales},
-            "glasses_sources": {locale: LANGUAGE_SOURCES[locale]["glasses"] for locale in locales},
-            "ornament_sources": {locale: LANGUAGE_SOURCES[locale]["ornament"] for locale in locales},
+            "source_mode": ("batch" if batch else "local-root" if source_root else
+                            "overrides" if any((item_csv, stain_csv, addon_csv)) else "remote-default"),
+            **({"source_batch_id": batch["manifest"]["batch_id"]} if batch else {}),
+            **{kind + "_sources": {locale: source_record(language_sources[locale][kind], source_root, batch)
+                                    for locale in locales} for kind in LOCAL_SOURCE_FILES},
         },
         "stains": stains_by_locale.get(PRIMARY_LOCALE, {}),
         "stains_by_locale": stains_by_locale,
@@ -714,6 +729,7 @@ def main() -> int:
         default="",
         help="Local root containing chs/en/ja/ko/tc/fr/de CSV directories; disables remote fallback",
     )
+    parser.add_argument("--source-batch", default="", help="Validated frozen CSV batch manifest")
     parser.add_argument("--locales", default=",".join(DEFAULT_LOCALES), help="Comma-separated locale list")
     parser.add_argument(
         "--output",
@@ -724,7 +740,8 @@ def main() -> int:
 
     locales = parse_locale_list(args.locales)
     try:
-        mapping = build_mapping(args.item_csv, args.stain_csv, args.addon_csv, locales, args.source_root)
+        mapping = build_mapping(args.item_csv, args.stain_csv, args.addon_csv, locales,
+                                args.source_root, args.source_batch)
     except Exception as error:
         print(f"Error building mapping: {error}", file=sys.stderr)
         return 1

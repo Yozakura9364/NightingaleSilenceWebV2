@@ -13,11 +13,11 @@ from build_item_mapping import (  # noqa: E402
     DEFAULT_LOCALES,
     LANGUAGE_SOURCES,
     PRIMARY_LOCALE,
-    build_language_sources,
     clean_text,
     load_sheet_rows,
     parse_int,
 )
+from game_data_batch import LOCALE_FOLDERS, load_batch, local_source, source_record  # noqa: E402
 from item_catalog import write_item_catalog  # noqa: E402
 
 
@@ -193,6 +193,7 @@ def main() -> int:
         default="",
         help="Local root containing chs/en/ja/ko/tc/fr/de Item.csv files; disables remote fallback",
     )
+    parser.add_argument("--source-batch", default="", help="Validated frozen CSV batch manifest")
     parser.add_argument(
         "--housing-furniture-csv",
         default="",
@@ -213,45 +214,34 @@ def main() -> int:
         locales = parse_locale_list(args.locales)
         overrides = parse_item_overrides(args.item_csv)
         mount_overrides = parse_mount_overrides(args.mount_csv)
-        language_sources = build_language_sources(
-            "",
-            "",
-            "",
-            source_root=args.source_root,
-            locales=locales,
-        )
+        batch = None
+        source_root = args.source_root
+        if args.source_batch:
+            requirements = {LOCALE_FOLDERS[locale]: {"Item", "Mount"} for locale in locales}
+            requirements["chs"].update({"HousingFurniture", "HousingYardObject"})
+            batch = load_batch(args.source_batch, source_root, requirements)
+            source_root = str(batch["root"])
         sources = {
-            locale: overrides.get(locale, language_sources[locale]["item"])
+            locale: overrides.get(locale, LANGUAGE_SOURCES[locale]["item"])
             for locale in locales
         }
         mount_sources = {
             locale: mount_overrides.get(locale, DEFAULT_MOUNT_SOURCES[locale])
             for locale in locales
         }
-        if args.source_root:
+        if source_root:
             for locale in locales:
-                local_mount_source = Path(args.source_root) / (
-                    "chs" if locale == PRIMARY_LOCALE else locale
-                ) / "Mount.csv"
-                if local_mount_source.is_file() and locale not in mount_overrides:
-                    mount_sources[locale] = str(local_mount_source)
+                sources[locale] = local_source(source_root, locale, "Item", overrides.get(locale, ""), batch)
+                mount_sources[locale] = local_source(source_root, locale, "Mount", mount_overrides.get(locale, ""), batch)
         housing_furniture_source = args.housing_furniture_csv or DEFAULT_HOUSING_FURNITURE_SOURCE
         housing_yard_object_source = (
             args.housing_yard_object_csv or DEFAULT_HOUSING_YARD_OBJECT_SOURCE
         )
-        if args.source_root:
-            if not args.housing_furniture_csv:
-                local_housing_source = (
-                    Path(args.source_root) / "chs" / "HousingFurniture.csv"
-                )
-                if local_housing_source.is_file():
-                    housing_furniture_source = str(local_housing_source)
-            if not args.housing_yard_object_csv:
-                local_yard_source = (
-                    Path(args.source_root) / "chs" / "HousingYardObject.csv"
-                )
-                if local_yard_source.is_file():
-                    housing_yard_object_source = str(local_yard_source)
+        if source_root:
+            housing_furniture_source = local_source(
+                source_root, "chs", "HousingFurniture", args.housing_furniture_csv, batch)
+            housing_yard_object_source = local_source(
+                source_root, "chs", "HousingYardObject", args.housing_yard_object_csv, batch)
         housing_sources = [housing_furniture_source, housing_yard_object_source]
         items = build_catalog_items(locales, sources, housing_sources)
         mounts = build_catalog_mounts(locales, mount_sources)
@@ -259,7 +249,10 @@ def main() -> int:
         write_item_catalog(
             output,
             items,
-            {"items": sources, "mounts": mount_sources},
+            {"items": {locale: source_record(source, source_root, batch) for locale, source in sources.items()},
+             "mounts": {locale: source_record(source, source_root, batch) for locale, source in mount_sources.items()},
+             "housing": [source_record(source, source_root, batch) for source in housing_sources],
+             **({"source_batch_id": batch["manifest"]["batch_id"]} if batch else {})},
             mounts,
         )
     except Exception as error:
