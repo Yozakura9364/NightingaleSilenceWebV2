@@ -19,6 +19,10 @@ npm run build:glamour-item-catalog
 
 索引包含 `zh/en/ja/ko/tc/fr/de` 名称、物品 ID、图标、品质、`EquipSlotCategory` 和坐骑 ID；只随 Flask 服务部署，不进入 Vite `dist/`。`/api/search-catalog-items` 通过 `category=equipment|facewear|fashion|other|furniture|mount|all` 区分 Item 装备、现有 Glasses.csv 面部配饰、Ornament.csv 时尚配饰、非装备物品、家具、Mount.csv 坐骑和兼容全目录；家具（含庭具与内装建材，不论是否可染色）由 `HousingFurniture.csv`、`HousingYardObject.csv` 的 `Item` 列以及 Item.csv 的 `ItemUICategory`（73=内墙、74=地板、75=屋顶照明）判定，可用 `--housing-furniture-csv` / `--housing-yard-object-csv` 覆盖来源；坐骑来源可用重复的 `--mount-csv locale=path` 参数覆盖，普通物品来源可用重复的 `--item-csv locale=path` 参数覆盖。
 
+与灰机站同步游戏数据时，使用 `npm run update:game-data` 的统一候选生成流程，或给两个生成器传 `--source-batch <manifest.json> --output <临时路径>`。该模式校验批次与文件哈希、禁止远端补取和批次外 override；输出记录 `source_batch_id` 与实际来源，不保存个人绝对路径。详见 [FFXIV 数据指南](../../docs/ai/data/ffxiv/README.md)。
+
+`tools/check_game_data.py --mapping <候选JSON> --catalog <候选SQLite> --batch-id <批次ID>` 用已有 Flask Python 运行，直接请求真实应用的染剂、装备/全物品搜索及输入错误分支，不启动或修改正在运行的生产服务。
+
 ## 韩服官方指南物品映射
 
 韩服官方指南使用站点私有的 11 位详情 ID，不能从游戏 Item ID 直接计算。需要更新映射时，在没有其他韩站爬虫运行的时间执行：

@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
+    "update:game-data": "node scripts/update-game-data.mjs",
     "dev": "node scripts/dev.mjs",
     "dev:web": "vite",
     "dev:glamour-api": "python server/glamour/app.py",
