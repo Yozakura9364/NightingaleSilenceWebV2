@@ -344,11 +344,12 @@ function getImportErrorMessage(error: unknown): string {
   min-height: 0;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   .nsglamour-workspace {
     width: calc(100% + 84px);
     margin-left: -42px;
-    padding: 10px 52px;
+    /* Keep the left page-turn rail without reserving an unused right rail. */
+    padding: 10px 12px 10px 42px;
   }
 }
 </style>

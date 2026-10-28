@@ -185,11 +185,17 @@
 
 @media (max-width: 640px) {
   .nsglamour-equipment__header {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .nsglamour-equipment__actions {
+    flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
+  }
+
+  .nsglamour-equipment__actions :deep(.ns-button) {
+    min-width: 0;
+    flex: 0 0 auto;
   }
 }
