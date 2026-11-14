@@ -1,8 +1,19 @@
 {
   "schemaVersion": "ffxiv.dyeCatalog.v1",
-  "generatedAt": "2026-07-30T15:48:43.826Z",
+  "generatedAt": "2026-11-14T10:56:52.509484+00:00",
   "source": {
-    "note": "FFXIV 染剂分类共享数据（general/extra1/extra2/storeSpecial），供时尚品鉴等模块消费；原 NSArmoire 模块产物，2026-08-01 迁入 ffxiv 共享层。"
+    "note": "FFXIV 染剂分类共享数据（general/extra1/extra2/storeSpecial），供时尚品鉴等模块消费；原 NSArmoire 模块产物，2026-08-01 迁入 ffxiv 共享层。",
+    "source_batch_id": "c4dbf755c35e2fc676771ff512cc27cec7bdb7abb5b2495e35337ee9f890e6df",
+    "stain": {
+      "locale": "chs",
+      "sheet": "Stain",
+      "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Stain.csv",
+      "sha256": "9bebdb42ed46614f8c5cdba09d9e319e5c85a31b88a864c68bb2bdc025cccee0",
+      "repository": "InfSein/ffxiv-datamining-mixed",
+      "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+    },
+    "missing_stain_ids": [],
+    "manual_category_missing": []
   },
   "dyes": {
     "0": {
@@ -294,7 +305,7 @@
     },
     "36": {
       "dyeId": 36,
-      "name": "沙漠黄",
+      "name": "陆行鸟黄",
       "color": "#DBB457",
       "shade": 6,
       "subOrder": 3,

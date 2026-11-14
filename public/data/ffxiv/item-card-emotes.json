@@ -1,7 +1,7 @@
 {
   "version": 1,
   "source": {
-    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs/Emote.csv",
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Emote.csv",
     "locale": "zh",
     "locales": [
       "zh",
@@ -13,16 +13,76 @@
       "de"
     ],
     "urls": {
-      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs/Emote.csv",
-      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/en/Emote.csv",
-      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/ja/Emote.csv",
-      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/master/csv/Emote.csv",
-      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/master/Emote.csv",
-      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/fr/Emote.csv",
-      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/de/Emote.csv"
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Emote.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/Emote.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/Emote.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/Emote.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/1cf1f9fb735bad0748848dbd3f4de05721fe619a/Emote.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/Emote.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/Emote.csv"
+    },
+    "source_batch_id": "c4dbf755c35e2fc676771ff512cc27cec7bdb7abb5b2495e35337ee9f890e6df",
+    "source_mode": "hybrid",
+    "files": {
+      "zh": {
+        "locale": "chs",
+        "sheet": "Emote",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Emote.csv",
+        "sha256": "67f39cee7f88aec9f7c7de1a0369aa4a41a73b5e718cb02180a4278bcad6a897",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "en": {
+        "locale": "en",
+        "sheet": "Emote",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/Emote.csv",
+        "sha256": "c6e0a555779be0ad9077fdab8df3ad6513a8c0448a8f5528837ef0f95f3a8aec",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "ja": {
+        "locale": "ja",
+        "sheet": "Emote",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/Emote.csv",
+        "sha256": "24a3e4d4ede35b6feaf4c336cc9ad88c7dc36be92eac1479818260d3dca2e81e",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "ko": {
+        "locale": "ko",
+        "sheet": "Emote",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/Emote.csv",
+        "sha256": "5bfc4c5ce213319cf607abad31af6dca56db06273056729258b52d883d82c99d",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "tc": {
+        "locale": "tc",
+        "sheet": "Emote",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/1cf1f9fb735bad0748848dbd3f4de05721fe619a/Emote.csv",
+        "sha256": "7d242b70d73b27c77f1d36565b2da51666a6186a3a9596f608f5d5bdf6d144ba",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "1cf1f9fb735bad0748848dbd3f4de05721fe619a"
+      },
+      "fr": {
+        "locale": "fr",
+        "sheet": "Emote",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/Emote.csv",
+        "sha256": "d4796723a5111de5dee82173f46ff964a321ce65fcb08c9429573a798a8137b2",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "de": {
+        "locale": "de",
+        "sheet": "Emote",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/Emote.csv",
+        "sha256": "b7fbc9bbd86c7f58047b51be56ace0cb269b3bab5986a243ce76eb58a0db09c2",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      }
     }
   },
-  "generatedAt": "2026-09-08T10:45:19.098Z",
+  "generatedAt": "2026-11-14T12:04:18.077Z",
   "items": [
     {
       "id": "1",
@@ -4490,6 +4550,7 @@
         "en": "Twirl",
         "ja": "くるっと回る",
         "ko": "빙그르르 돌기",
+        "tc": "轉圈",
         "fr": "Pirouette",
         "de": "Wirbeln"
       }
