@@ -77,7 +77,10 @@ export async function readSaintCoinachCsv(filePath) {
   return rows.slice(3).filter((row) => row.some(Boolean)).map((row, rowIndex) => {
     const record = { __rowNumber: rowIndex + 4 };
     headers.forEach((header, columnIndex) => {
-      if (header && !(header in record)) record[header] = row[columnIndex] ?? "";
+      // 无名列(上游 SaintCoinach 导出的 InlineName 等落位)保留为 col{index} 键,
+      // 消费方按需读取;不改变既有按名读取行为。
+      const key = header || `col${columnIndex}`;
+      if (!(key in record)) record[key] = row[columnIndex] ?? "";
     });
     return record;
   });

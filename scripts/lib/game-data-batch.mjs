@@ -11,6 +11,10 @@ function checkProvenance(record, mode, revisions) {
     if (record.repository !== 'local' || record.revision !== '' || record.url !== '') throw new Error('Local source provenance must not claim a remote repository')
     return
   }
+  if (mode === 'hybrid' && record.repository === 'local') {
+    if (record.revision !== '' || record.url !== '' || typeof record.game_version !== 'string' || !record.game_version) throw new Error('Hybrid local source must carry game_version only')
+    return
+  }
   const [repository, prefix] = record.locale === 'ko' ? ['Ra-Workspace/ffxiv-datamining-ko', 'csv/'] : record.locale === 'tc' ? ['thewakingsands/ffxiv-datamining-tc', ''] : ['InfSein/ffxiv-datamining-mixed', `${record.locale}/`]
   if (!/^[0-9a-f]{40}$/.test(record.revision) || record.repository !== repository || record.url !== `https://raw.githubusercontent.com/${repository}/${record.revision}/${prefix}${record.sheet}.csv`) throw new Error('Remote source provenance must use a pinned official repository')
   if (revisions.has(repository) && revisions.get(repository) !== record.revision) throw new Error('Source provenance mixes revisions of one repository')
@@ -68,7 +72,7 @@ export async function loadGameDataBatch({ sourceBatch = '', sourceRoot = '', req
     const manifestPath = await realpath(path.resolve(sourceBatch))
     batchRoot = path.dirname(manifestPath)
     manifest = JSON.parse(await readFile(manifestPath, 'utf8'))
-    if (manifest.schema_version !== SCHEMA || !['local', 'remote'].includes(manifest.source_mode) || !/^[0-9a-f]{64}$/.test(manifest.batch_id) || !Array.isArray(manifest.sources) || !manifest.sources.length) {
+    if (manifest.schema_version !== SCHEMA || !['local', 'remote', 'hybrid'].includes(manifest.source_mode) || !/^[0-9a-f]{64}$/.test(manifest.batch_id) || !Array.isArray(manifest.sources) || !manifest.sources.length) {
       throw new Error('Invalid game-data batch manifest')
     }
     if (digest(canonicalJson(manifest.sources)) !== manifest.batch_id) throw new Error('Game-data batch identity hash mismatch')
@@ -99,9 +103,12 @@ export async function loadGameDataBatch({ sourceBatch = '', sourceRoot = '', req
       }
     }
   }
-  return { batchId: manifest?.batch_id ?? null, sourceMode: manifest?.source_mode ?? 'local', root, sources }
+  return { batchId: manifest?.batch_id ?? null, createdAt: manifest?.created_at,
+    sourceMode: manifest?.source_mode ?? 'local', root, sources }
 }
 
 export function publicSource(record) {
-  return { locale: record.locale, sheet: record.sheet, source: record.url || record.path, sha256: record.sha256, repository: record.repository, revision: record.revision }
+  const base = { locale: record.locale, sheet: record.sheet, source: record.url || record.path, sha256: record.sha256, repository: record.repository, revision: record.revision }
+  if (record.game_version) base.game_version = record.game_version
+  return base
 }

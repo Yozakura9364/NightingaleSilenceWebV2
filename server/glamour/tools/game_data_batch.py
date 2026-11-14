@@ -15,6 +15,10 @@ def _provenance(entry, mode, revisions):
         if (entry.get("repository"), entry.get("revision"), entry.get("url")) != ("local", "", ""):
             raise ValueError("Local source provenance must not claim a remote repository")
         return
+    if mode == "hybrid" and entry.get("repository") == "local":
+        if (entry.get("revision"), entry.get("url")) != ("", "") or not isinstance(entry.get("game_version"), str) or not entry["game_version"]:
+            raise ValueError("Hybrid local source must carry game_version only")
+        return
     locale, sheet, revision = entry["locale"], entry["sheet"], entry.get("revision")
     repo, prefix = (("Ra-Workspace/ffxiv-datamining-ko", "csv/") if locale == "ko" else
                     ("thewakingsands/ffxiv-datamining-tc", "") if locale == "tc" else
@@ -58,7 +62,7 @@ def load_batch(manifest_path, source_root="", requirements=None):
     manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"), object_pairs_hook=_unique_object)
     if manifest.get("schema_version") != SCHEMA_VERSION:
         raise ValueError("Unsupported source batch schema")
-    if manifest.get("source_mode") not in ("local", "remote"):
+    if manifest.get("source_mode") not in ("local", "remote", "hybrid"):
         raise ValueError("Invalid source batch provenance mode")
     sources = manifest.get("sources")
     if not isinstance(sources, list) or not sources:
