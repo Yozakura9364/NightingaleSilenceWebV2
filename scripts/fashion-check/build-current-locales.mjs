@@ -11,7 +11,7 @@ const referenceRoot = path.resolve(
 )
 const currentPath = process.env.FASHION_CHECK_CURRENT_PATH || path.join(projectRoot, 'public/data/fashion-check/current.json')
 const dyePath = path.join(projectRoot, 'data/fashion-check/current-dye-locales.json')
-const dyeCatalogPath = path.join(projectRoot, 'public/data/ffxiv/dye-catalog.json')
+const dyeCatalogPath = process.env.FASHION_CHECK_DYE_CATALOG_PATH || path.join(projectRoot, 'public/data/ffxiv/dye-catalog.json')
 const outputPath = process.env.FASHION_CHECK_LOCALES_PATH || path.join(projectRoot, 'public/data/fashion-check/current-locales.json')
 const itemPaths = {
   'zh-CN': path.join(referenceRoot, 'official/chs/Item.csv'),
