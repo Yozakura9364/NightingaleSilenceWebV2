@@ -16,6 +16,7 @@ import { useLocale } from '@/stores/locale'
 const ffxivCategory = getCategory('ffxiv')
 const silenceCategory = getCategory('silence')
 const itemCardTool = getFfxivTool('itemCard')
+const housingTool = getFfxivTool('housing')
 const glamourTool = getFfxivTool('glamour')
 const plateTool = getFfxivTool('plate')
 const armoireTool = getFfxivTool('armoire')
@@ -160,6 +161,12 @@ const router = createRouter({
       name: 'ffxiv-item-card',
       meta: { titleKey: itemCardTool?.titleKey ?? textKeys.itemCardTitle },
       component: () => import('@/pages/item-card/ItemCardPage.vue')
+    },
+    {
+      path: siteRoutes.housing,
+      name: 'ffxiv-housing',
+      meta: { titleKey: housingTool?.titleKey ?? 'housing.title' },
+      component: loadLocalizedPage(['housing'], () => import('@/pages/ffxiv/housing/HousingPage.vue'))
     },
     {
       path: siteRoutes.glamour,

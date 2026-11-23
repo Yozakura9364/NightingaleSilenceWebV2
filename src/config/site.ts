@@ -1,12 +1,14 @@
 import type { Locale } from '@/locales/types'
 import { coreUiMessages } from '@/locales/modules/core'
 import { coreTextKeys as textKeys } from '@/locales/keys/core'
+import { housingTextKeys } from '@/locales/keys/housing'
 import { isSilenceEnabled } from '@/config/features'
 
 export type RoutePath =
   | '/'
   | '/ffxiv'
   | '/ffxiv/item-card'
+  | '/ffxiv/housing'
   | '/ffxiv/glamour'
   | '/ffxiv/glamour/template'
   | '/ffxiv/glamour/equipinfo'
@@ -104,6 +106,7 @@ export const siteRoutes = {
   home: '/',
   ffxiv: '/ffxiv',
   itemCard: '/ffxiv/item-card',
+  housing: '/ffxiv/housing',
   glamour: '/ffxiv/glamour',
   glamourTemplate: '/ffxiv/glamour/template',
   glamourEquipInfo: '/ffxiv/glamour/equipinfo',
@@ -196,6 +199,14 @@ export const silenceGroups: SilenceGroupEntry[] = isSilenceEnabled
   : []
 
 export const ffxivTools: ToolEntry[] = [
+  {
+    id: 'housing',
+    titleKey: housingTextKeys.title,
+    projectName: 'Housing Plots',
+    route: siteRoutes.housing,
+    summaryKey: textKeys.placeholder,
+    statusLabelKey: textKeys.placeholder
+  },
   {
     id: 'plate',
     titleKey: textKeys.plateTitle,
