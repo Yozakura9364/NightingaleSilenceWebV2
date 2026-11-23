@@ -47,14 +47,6 @@
           <span class="housing-summary__district-count">{{ group.countText }}</span>
         </span>
         <span class="housing-summary__tools">
-          <button
-            type="button"
-            class="housing-summary__fav"
-            :aria-pressed="favOnly"
-            @click="favOnly = !favOnly"
-          >
-            ★ {{ t(housingTextKeys.favOnly) }} ({{ favorites.length }})
-          </button>
           <label class="housing-summary__sort">
             <span>{{ t(housingTextKeys.sortLabel) }}</span>
             <select v-model="sortBy">
@@ -68,6 +60,20 @@
           </label>
         </span>
       </div>
+
+      <HousingPreferences v-model:preferences="preferences" />
+
+      <section v-if="pinnedPlots.length > 0" class="housing-district housing-district--pinned">
+        <h2 class="housing-district__title">
+          <span>{{ t(housingTextKeys.prefPinnedTitle) }}</span>
+          <span class="housing-district__count">
+            {{ pinnedPlots.length }}{{ t(housingTextKeys.plotCountUnit) }}
+          </span>
+        </h2>
+        <div class="housing-district__list">
+          <HousingPlotBar v-for="plot in pinnedPlots" :key="plot.key" :plot="plot" :now="now" />
+        </div>
+      </section>
 
       <div v-if="error" class="housing-state housing-state--error" role="alert">
         <p>{{ t(housingTextKeys.loadError) }}</p>
@@ -83,10 +89,8 @@
         <p class="housing-state__hint">{{ t(housingTextKeys.emptyHint) }}</p>
       </div>
 
-      <div v-else-if="filteredPlots.length === 0" class="housing-state housing-state--empty">
-        <p class="housing-state__title">
-          {{ favOnly && favorites.length === 0 ? t(housingTextKeys.favEmpty) : t(housingTextKeys.filterEmptyTitle) }}
-        </p>
+      <div v-else-if="baseFilteredPlots.length === 0" class="housing-state housing-state--empty">
+        <p class="housing-state__title">{{ t(housingTextKeys.filterEmptyTitle) }}</p>
       </div>
 
       <template v-else>
@@ -115,8 +119,6 @@
               :key="plot.key"
               :plot="plot"
               :now="now"
-              :favorited="favorites.includes(plot.key)"
-              @toggle-favorite="toggleFavorite(plot.key)"
             />
           </div>
         </section>
@@ -131,7 +133,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { housingTextKeys } from '@/locales/keys/housing'
 import { coreTextKeys } from '@/locales/keys/core'
 import { useLocale } from '@/stores/locale'
@@ -140,15 +142,17 @@ import { fetchCnServerPlots } from '@/lib/housing/cyouAdapter'
 import {
   clearCachedPlots,
   loadCachedPlots,
-  loadFavorites,
+  loadPreferences,
   loadSelectedServer,
   saveCachedPlots,
-  saveFavorites,
+  savePreferences,
   saveSelectedServer
 } from '@/lib/housing/housingCache'
+import type { PlotPreference } from '@/lib/housing/housingCache'
 import {
   cnServers,
   defaultServerIdByRegion,
+  districtNameKeyBySlug,
   getCnServerOrDefault
 } from '@/lib/housing/regions'
 import type {
@@ -166,6 +170,7 @@ import type {
   HousingSizeFilter
 } from './components/HousingFilterBar.vue'
 import HousingPlotBar from './components/HousingPlotBar.vue'
+import HousingPreferences from './components/HousingPreferences.vue'
 
 interface HousingFilters {
   group: HousingGroupFilter
@@ -185,19 +190,13 @@ const error = ref(false)
 const now = ref(Date.now())
 // 三个筛选字段通过 defineModel 双向绑定，整体保持 ref 响应性
 const filters = ref<HousingFilters>({ group: 'district', size: 'all', audience: 'all', cycle: 'all' })
-const favorites = ref<string[]>(loadFavorites())
-const favOnly = ref(false)
+// 心仪地块偏好：命中当前服务器在售地块时自动置顶
+const preferences = ref<PlotPreference[]>(loadPreferences())
+watch(preferences, (value) => savePreferences(value), { deep: true })
 type SortMode = 'default' | 'priceAsc' | 'priceDesc' | 'entriesAsc' | 'entriesDesc' | 'scanDesc'
 const sortBy = ref<SortMode>('default')
 // 大区分组默认折叠（>100 条），用户手动切换覆盖默认值
 const groupCollapseOverrides = ref<Record<string, boolean>>({})
-
-function toggleFavorite(key: string): void {
-  favorites.value = favorites.value.includes(key)
-    ? favorites.value.filter((item) => item !== key)
-    : [...favorites.value, key]
-  saveFavorites(favorites.value)
-}
 
 function isCollapsed(groupKey: string): boolean {
   const override = groupCollapseOverrides.value[groupKey]
@@ -369,12 +368,9 @@ interface PlotGroup {
   plots: HousingServerData['plots']
 }
 
-const filteredPlots = computed<HousingServerData['plots']>(() => {
+const baseFilteredPlots = computed<HousingServerData['plots']>(() => {
   const plots = serverData.value?.plots ?? []
   return plots.filter((plot) => {
-    if (favOnly.value && !favorites.value.includes(plot.key)) {
-      return false
-    }
     if (filters.value.size === 'ml') {
       if (plot.size === 'small') {
         return false
@@ -403,6 +399,24 @@ const filteredPlots = computed<HousingServerData['plots']>(() => {
 })
 
 type Plot = HousingServerData['plots'][number]
+
+/** 命中任一偏好即置顶；ward 为 null 的偏好匹配该区所有小区 */
+const pinnedPlots = computed<Plot[]>(() =>
+  baseFilteredPlots.value.filter((plot) =>
+    preferences.value.some(
+      (pref) =>
+        plot.districtNameKey === districtNameKeyBySlug[pref.district] &&
+        plot.plot === pref.plot &&
+        (pref.ward == null || plot.ward === pref.ward)
+    )
+  )
+)
+
+const pinnedKeys = computed(() => new Set(pinnedPlots.value.map((plot) => plot.key)))
+
+const filteredPlots = computed<Plot[]>(() =>
+  baseFilteredPlots.value.filter((plot) => !pinnedKeys.value.has(plot.key))
+)
 
 function byLocation(a: Plot, b: Plot): number {
   return a.districtId - b.districtId || a.ward - b.ward || a.plot - b.plot
@@ -496,7 +510,7 @@ const plotGroups = computed<PlotGroup[]>(() =>
 )
 
 const summaryText = computed(() => {
-  const count = filteredPlots.value.length
+  const count = baseFilteredPlots.value.length
   return count === 0 ? t(housingTextKeys.summaryEmpty) : `${count}${t(housingTextKeys.plotCountUnit)}`
 })
 </script>
@@ -700,6 +714,11 @@ const summaryText = computed(() => {
   font-family: var(--ns-font-ui);
   font-size: 11px;
   font-weight: 700;
+}
+
+.housing-district--pinned .housing-plot-bar {
+  border-color: color-mix(in srgb, var(--ns-color-accent) 45%, var(--ns-color-border));
+  background: var(--ns-color-accent-soft);
 }
 
 .housing-state {

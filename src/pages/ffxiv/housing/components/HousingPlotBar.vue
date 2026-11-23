@@ -47,20 +47,6 @@
       <template v-if="scanParts">{{ scanParts.value }}{{ t(scanParts.unitKey) }}</template>
       <template v-else>{{ t(housingTextKeys.timeJustNow) }}</template>
     </span>
-
-    <button
-      type="button"
-      class="housing-plot-bar__fav"
-      :class="{ 'housing-plot-bar__fav--active': favorited }"
-      :aria-label="favorited ? t(housingTextKeys.favRemove) : t(housingTextKeys.favAdd)"
-      :title="favorited ? t(housingTextKeys.favRemove) : t(housingTextKeys.favAdd)"
-      :aria-pressed="favorited"
-      @click="emit('toggle-favorite')"
-    >
-      <svg width="15" height="15" viewBox="0 0 24 24" :fill="favorited ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">
-        <path d="m12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6.1-5.4-2.9-5.4 2.9 1.1-6.1L3.2 9.4l6.1-.8Z" />
-      </svg>
-    </button>
   </article>
 </template>
 
@@ -74,11 +60,6 @@ import type { HousingPlot } from '@/lib/housing/types'
 const props = defineProps<{
   plot: HousingPlot
   now: number
-  favorited?: boolean
-}>()
-
-const emit = defineEmits<{
-  (event: 'toggle-favorite'): void
 }>()
 
 const { t } = useLocale()
@@ -300,31 +281,6 @@ const scanParts = computed(() => formatRelativeTime(props.plot.lastUpdatedAt, pr
   text-align: right;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.housing-plot-bar__fav {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  border-radius: var(--ns-radius-xs);
-  background: transparent;
-  color: var(--ns-color-text-muted);
-  cursor: pointer;
-  transition: color 0.15s ease, background-color 0.15s ease;
-}
-
-.housing-plot-bar__fav:hover {
-  background: var(--ns-color-accent-soft);
-  color: var(--ns-color-accent-strong);
-}
-
-.housing-plot-bar__fav--active {
-  color: var(--ns-color-accent-strong);
 }
 
 @media (max-width: 680px) {

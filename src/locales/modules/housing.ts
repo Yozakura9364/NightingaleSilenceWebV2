@@ -218,29 +218,47 @@ export const housingUiMessages: UiMessageMap = {
     ja: '最近スキャン順',
     ko: '최근 스캔 순'
   }),
-  'housing.favOnly': msg({
-    zh: '只看收藏',
-    en: 'Watched only',
-    ja: 'お気に入りのみ',
-    ko: '즐겨찾기만'
+  'housing.prefTitle': msg({
+    zh: '心仪地块',
+    en: 'Watchlist',
+    ja: 'お気に入り区画',
+    ko: '관심 구획'
   }),
-  'housing.favAdd': msg({
-    zh: '收藏该地块',
-    en: 'Watch this plot',
-    ja: 'お気に入りに追加',
-    ko: '즐겨찾기 추가'
+  'housing.prefAdd': msg({
+    zh: '添加',
+    en: 'Add',
+    ja: '追加',
+    ko: '추가'
   }),
-  'housing.favRemove': msg({
-    zh: '取消收藏',
-    en: 'Unwatch this plot',
-    ja: 'お気に入りから削除',
-    ko: '즐겨찾기 해제'
+  'housing.prefWardAll': msg({
+    zh: '全部小区',
+    en: 'Any ward',
+    ja: 'すべての区',
+    ko: '전체 구역'
   }),
-  'housing.favEmpty': msg({
-    zh: '还没有收藏任何地块，点击地块行尾的星标即可收藏',
-    en: 'No watched plots yet. Use the star at the end of a plot row to add one.',
-    ja: 'お気に入りはまだありません。行末の星で追加できます。',
-    ko: '즐겨찾기한 구획이 없습니다. 행 끝의 별을 눌러 추가하세요.'
+  'housing.prefRemove': msg({
+    zh: '删除',
+    en: 'Remove',
+    ja: '削除',
+    ko: '삭제'
+  }),
+  'housing.prefEmptyHint': msg({
+    zh: '添加你心仪的地块，出现时自动置顶显示',
+    en: 'Add plots you like; they are pinned to the top when available.',
+    ja: 'お気に入りの区画を追加すると、出現時に自動で先頭に表示されます。',
+    ko: '원하는 구획을 추가하면 나타날 때 자동으로 상단에 표시됩니다.'
+  }),
+  'housing.prefPinnedTitle': msg({
+    zh: '心仪',
+    en: 'Pinned',
+    ja: 'お気に入り',
+    ko: '관심'
+  }),
+  'housing.prefDistrictLabel': msg({
+    zh: '住宅区',
+    en: 'District',
+    ja: 'エリア',
+    ko: '지역'
   }),
   'housing.groupExpand': msg({
     zh: '展开',
@@ -267,10 +285,10 @@ export const housingUiMessages: UiMessageMap = {
     ko: '자유 부대'
   }),
   'housing.audienceBoth': msg({
-    zh: '个人·部队',
-    en: 'Individual & FC',
-    ja: '個人・FC',
-    ko: '개인·부대'
+    zh: '个人/部队',
+    en: 'Individual / FC',
+    ja: '個人/FC',
+    ko: '개인/부대'
   }),
   'housing.purchaseLottery': msg({
     zh: '抽签',

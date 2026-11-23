@@ -70,21 +70,40 @@ export function saveSelectedServer(region: HousingRegionKey, serverId: number): 
   }
 }
 
-const FAVORITES_KEY = 'ns-housing:favorites'
+const PREFERENCES_KEY = 'ns-housing:preferences'
 
-export function loadFavorites(): string[] {
+/** 心仪地块偏好：district 为区名 slug（mist/lavenderBeds/...），ward 为 null 时匹配所有小区 */
+export interface PlotPreference {
+  district: string
+  ward: number | null
+  plot: number
+}
+
+export function loadPreferences(): PlotPreference[] {
   try {
-    const raw = localStorage.getItem(FAVORITES_KEY)
+    const raw = localStorage.getItem(PREFERENCES_KEY)
     const parsed = raw ? JSON.parse(raw) : []
-    return Array.isArray(parsed) ? parsed.filter((item) => typeof item === 'string') : []
+    if (!Array.isArray(parsed)) {
+      return []
+    }
+    return parsed
+      .filter(
+        (item) =>
+          item && typeof item.district === 'string' && typeof item.plot === 'number'
+      )
+      .map((item) => ({
+        district: item.district,
+        ward: typeof item.ward === 'number' ? item.ward : null,
+        plot: item.plot
+      }))
   } catch {
     return []
   }
 }
 
-export function saveFavorites(keys: string[]): void {
+export function savePreferences(preferences: PlotPreference[]): void {
   try {
-    localStorage.setItem(FAVORITES_KEY, JSON.stringify(keys))
+    localStorage.setItem(PREFERENCES_KEY, JSON.stringify(preferences))
   } catch {
     // ignore
   }
