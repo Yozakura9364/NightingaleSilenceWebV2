@@ -46,6 +46,27 @@
           <span class="housing-summary__district-name">{{ group.label }}</span>
           <span class="housing-summary__district-count">{{ group.countText }}</span>
         </span>
+        <span class="housing-summary__tools">
+          <button
+            type="button"
+            class="housing-summary__fav"
+            :aria-pressed="favOnly"
+            @click="favOnly = !favOnly"
+          >
+            ★ {{ t(housingTextKeys.favOnly) }} ({{ favorites.length }})
+          </button>
+          <label class="housing-summary__sort">
+            <span>{{ t(housingTextKeys.sortLabel) }}</span>
+            <select v-model="sortBy">
+              <option value="default">{{ t(housingTextKeys.sortDefault) }}</option>
+              <option value="priceAsc">{{ t(housingTextKeys.sortPriceAsc) }}</option>
+              <option value="priceDesc">{{ t(housingTextKeys.sortPriceDesc) }}</option>
+              <option value="entriesAsc">{{ t(housingTextKeys.sortEntriesAsc) }}</option>
+              <option value="entriesDesc">{{ t(housingTextKeys.sortEntriesDesc) }}</option>
+              <option value="scanDesc">{{ t(housingTextKeys.sortScanDesc) }}</option>
+            </select>
+          </label>
+        </span>
       </div>
 
       <div v-if="error" class="housing-state housing-state--error" role="alert">
@@ -63,7 +84,9 @@
       </div>
 
       <div v-else-if="filteredPlots.length === 0" class="housing-state housing-state--empty">
-        <p class="housing-state__title">{{ t(housingTextKeys.filterEmptyTitle) }}</p>
+        <p class="housing-state__title">
+          {{ favOnly && favorites.length === 0 ? t(housingTextKeys.favEmpty) : t(housingTextKeys.filterEmptyTitle) }}
+        </p>
       </div>
 
       <template v-else>
@@ -73,11 +96,28 @@
           class="housing-district"
         >
           <h2 class="housing-district__title">
-            <span>{{ group.label }}</span>
-            <span class="housing-district__count">{{ group.countText }}</span>
+            <button
+              type="button"
+              class="housing-district__toggle"
+              :aria-expanded="!isCollapsed(group.key)"
+              @click="toggleGroup(group.key)"
+            >
+              <span>{{ group.label }}</span>
+              <span class="housing-district__count">{{ group.countText }}</span>
+              <span class="housing-district__chevron">
+                {{ isCollapsed(group.key) ? t(housingTextKeys.groupExpand) : t(housingTextKeys.groupCollapse) }}
+              </span>
+            </button>
           </h2>
-          <div class="housing-district__list">
-            <HousingPlotBar v-for="plot in group.plots" :key="plot.key" :plot="plot" :now="now" />
+          <div v-if="!isCollapsed(group.key)" class="housing-district__list">
+            <HousingPlotBar
+              v-for="plot in group.plots"
+              :key="plot.key"
+              :plot="plot"
+              :now="now"
+              :favorited="favorites.includes(plot.key)"
+              @toggle-favorite="toggleFavorite(plot.key)"
+            />
           </div>
         </section>
       </template>
@@ -100,8 +140,10 @@ import { fetchCnServerPlots } from '@/lib/housing/cyouAdapter'
 import {
   clearCachedPlots,
   loadCachedPlots,
+  loadFavorites,
   loadSelectedServer,
   saveCachedPlots,
+  saveFavorites,
   saveSelectedServer
 } from '@/lib/housing/housingCache'
 import {
@@ -143,6 +185,35 @@ const error = ref(false)
 const now = ref(Date.now())
 // 三个筛选字段通过 defineModel 双向绑定，整体保持 ref 响应性
 const filters = ref<HousingFilters>({ group: 'district', size: 'all', audience: 'all', cycle: 'all' })
+const favorites = ref<string[]>(loadFavorites())
+const favOnly = ref(false)
+type SortMode = 'default' | 'priceAsc' | 'priceDesc' | 'entriesAsc' | 'entriesDesc' | 'scanDesc'
+const sortBy = ref<SortMode>('default')
+// 大区分组默认折叠（>100 条），用户手动切换覆盖默认值
+const groupCollapseOverrides = ref<Record<string, boolean>>({})
+
+function toggleFavorite(key: string): void {
+  favorites.value = favorites.value.includes(key)
+    ? favorites.value.filter((item) => item !== key)
+    : [...favorites.value, key]
+  saveFavorites(favorites.value)
+}
+
+function isCollapsed(groupKey: string): boolean {
+  const override = groupCollapseOverrides.value[groupKey]
+  if (override !== undefined) {
+    return override
+  }
+  const group = plotGroups.value.find((item) => item.key === groupKey)
+  return (group?.plots.length ?? 0) > 100
+}
+
+function toggleGroup(groupKey: string): void {
+  groupCollapseOverrides.value = {
+    ...groupCollapseOverrides.value,
+    [groupKey]: !isCollapsed(groupKey)
+  }
+}
 
 let nowTimer: ReturnType<typeof setInterval> | undefined
 
@@ -301,7 +372,14 @@ interface PlotGroup {
 const filteredPlots = computed<HousingServerData['plots']>(() => {
   const plots = serverData.value?.plots ?? []
   return plots.filter((plot) => {
-    if (filters.value.size !== 'all' && plot.size !== filters.value.size) {
+    if (favOnly.value && !favorites.value.includes(plot.key)) {
+      return false
+    }
+    if (filters.value.size === 'ml') {
+      if (plot.size === 'small') {
+        return false
+      }
+    } else if (filters.value.size !== 'all' && plot.size !== filters.value.size) {
       return false
     }
     if (filters.value.audience !== 'all') {
@@ -323,6 +401,39 @@ const filteredPlots = computed<HousingServerData['plots']>(() => {
     return true
   })
 })
+
+type Plot = HousingServerData['plots'][number]
+
+function byLocation(a: Plot, b: Plot): number {
+  return a.districtId - b.districtId || a.ward - b.ward || a.plot - b.plot
+}
+
+function comparePlots(a: Plot, b: Plot): number {
+  switch (sortBy.value) {
+    case 'priceAsc':
+      return a.price - b.price || byLocation(a, b)
+    case 'priceDesc':
+      return b.price - a.price || byLocation(a, b)
+    case 'entriesAsc': {
+      // 报名数未知的地块排最后，0 人报名优先
+      const av = a.entries === null ? Number.MAX_SAFE_INTEGER : a.entries
+      const bv = b.entries === null ? Number.MAX_SAFE_INTEGER : b.entries
+      return av - bv || byLocation(a, b)
+    }
+    case 'entriesDesc': {
+      const av = a.entries === null ? -1 : a.entries
+      const bv = b.entries === null ? -1 : b.entries
+      return bv - av || byLocation(a, b)
+    }
+    case 'scanDesc': {
+      const av = a.lastUpdatedAt ?? 0
+      const bv = b.lastUpdatedAt ?? 0
+      return bv - av || byLocation(a, b)
+    }
+    default:
+      return byLocation(a, b)
+  }
+}
 
 function districtLabelFor(plot: HousingServerData['plots'][number]): string {
   return plot.districtNameKey ? t(plot.districtNameKey) : plot.districtNameFallback
@@ -347,7 +458,7 @@ const districtGroups = computed<PlotGroup[]>(() => {
   }
   return [...groups.entries()]
     .map(([districtId, plots]) => {
-      plots.sort((a, b) => a.ward - b.ward || a.plot - b.plot)
+      plots.sort(comparePlots)
       return {
         key: String(districtId),
         label: districtLabelFor(plots[0]),
@@ -370,8 +481,7 @@ const sizeGroups = computed<PlotGroup[]>(() => {
     .filter((size) => groups.has(size))
     .map((size) => {
       const plots = groups.get(size) ?? []
-      // 尺寸组内按区域、小区、房号排序
-      plots.sort((a, b) => a.districtId - b.districtId || a.ward - b.ward || a.plot - b.plot)
+      plots.sort(comparePlots)
       return {
         key: size,
         label: sizeLabelFor(plots[0]),
@@ -520,6 +630,76 @@ const summaryText = computed(() => {
   font-size: 12px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
+}
+
+.housing-summary__tools {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.housing-summary__fav {
+  min-height: 28px;
+  padding: 0 10px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-xs);
+  background: var(--ns-color-surface);
+  color: var(--housing-muted);
+  font-family: var(--ns-font-ui);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.housing-summary__fav[aria-pressed='true'] {
+  border-color: color-mix(in srgb, var(--ns-color-accent) 42%, var(--ns-color-border));
+  background: var(--ns-color-accent-soft);
+  color: var(--ns-color-accent-strong);
+}
+
+.housing-summary__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--housing-muted);
+  font-family: var(--ns-font-ui);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.housing-summary__sort select {
+  min-height: 28px;
+  padding: 0 8px;
+  border: var(--ns-line-width) solid var(--ns-color-border);
+  border-radius: var(--ns-radius-xs);
+  background: var(--ns-color-surface);
+  color: var(--housing-ink);
+  font-family: var(--ns-font-ui);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.housing-district__toggle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.housing-district__chevron {
+  color: var(--housing-muted);
+  font-family: var(--ns-font-ui);
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .housing-state {

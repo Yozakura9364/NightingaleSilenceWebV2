@@ -69,3 +69,23 @@ export function saveSelectedServer(region: HousingRegionKey, serverId: number): 
     // ignore
   }
 }
+
+const FAVORITES_KEY = 'ns-housing:favorites'
+
+export function loadFavorites(): string[] {
+  try {
+    const raw = localStorage.getItem(FAVORITES_KEY)
+    const parsed = raw ? JSON.parse(raw) : []
+    return Array.isArray(parsed) ? parsed.filter((item) => typeof item === 'string') : []
+  } catch {
+    return []
+  }
+}
+
+export function saveFavorites(keys: string[]): void {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(keys))
+  } catch {
+    // ignore
+  }
+}

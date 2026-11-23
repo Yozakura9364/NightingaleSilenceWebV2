@@ -28,7 +28,7 @@ import { computed } from 'vue'
 import { housingTextKeys } from '@/locales/keys/housing'
 import { useLocale } from '@/stores/locale'
 
-export type HousingSizeFilter = 'all' | 'small' | 'medium' | 'large'
+export type HousingSizeFilter = 'all' | 'small' | 'medium' | 'large' | 'ml'
 export type HousingAudienceFilter = 'all' | 'individual' | 'freeCompany'
 export type HousingCycleFilter = 'all' | 'current' | 'next'
 export type HousingGroupFilter = 'district' | 'size'
@@ -58,7 +58,8 @@ const filterGroups = computed(() => [
       { value: 'all' as const, label: t(housingTextKeys.filterAll) },
       { value: 'small' as const, label: t(housingTextKeys.sizeSmall) },
       { value: 'medium' as const, label: t(housingTextKeys.sizeMedium) },
-      { value: 'large' as const, label: t(housingTextKeys.sizeLarge) }
+      { value: 'large' as const, label: t(housingTextKeys.sizeLarge) },
+      { value: 'ml' as const, label: t(housingTextKeys.sizeMediumLarge) }
     ]
   },
   {

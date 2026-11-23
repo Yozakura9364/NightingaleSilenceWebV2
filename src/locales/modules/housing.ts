@@ -170,6 +170,90 @@ export const housingUiMessages: UiMessageMap = {
     ja: '大',
     ko: '대형'
   }),
+  'housing.sizeMediumLarge': msg({
+    zh: 'M/L',
+    en: 'M/L',
+    ja: 'M/L',
+    ko: 'M/L'
+  }),
+  'housing.sortLabel': msg({
+    zh: '排序',
+    en: 'Sort',
+    ja: '並び順',
+    ko: '정렬'
+  }),
+  'housing.sortDefault': msg({
+    zh: '区号',
+    en: 'Location',
+    ja: '区画順',
+    ko: '구획 순'
+  }),
+  'housing.sortPriceAsc': msg({
+    zh: '价格从低到高',
+    en: 'Price: low to high',
+    ja: '価格の安い順',
+    ko: '낮은 가격 순'
+  }),
+  'housing.sortPriceDesc': msg({
+    zh: '价格从高到低',
+    en: 'Price: high to low',
+    ja: '価格の高い順',
+    ko: '높은 가격 순'
+  }),
+  'housing.sortEntriesAsc': msg({
+    zh: '报名数从少到多',
+    en: 'Entries: fewest first',
+    ja: '応募数の少ない順',
+    ko: '응모 적은 순'
+  }),
+  'housing.sortEntriesDesc': msg({
+    zh: '报名数从多到少',
+    en: 'Entries: most first',
+    ja: '応募数の多い順',
+    ko: '응모 많은 순'
+  }),
+  'housing.sortScanDesc': msg({
+    zh: '最新扫描优先',
+    en: 'Recently scanned first',
+    ja: '最近スキャン順',
+    ko: '최근 스캔 순'
+  }),
+  'housing.favOnly': msg({
+    zh: '只看收藏',
+    en: 'Watched only',
+    ja: 'お気に入りのみ',
+    ko: '즐겨찾기만'
+  }),
+  'housing.favAdd': msg({
+    zh: '收藏该地块',
+    en: 'Watch this plot',
+    ja: 'お気に入りに追加',
+    ko: '즐겨찾기 추가'
+  }),
+  'housing.favRemove': msg({
+    zh: '取消收藏',
+    en: 'Unwatch this plot',
+    ja: 'お気に入りから削除',
+    ko: '즐겨찾기 해제'
+  }),
+  'housing.favEmpty': msg({
+    zh: '还没有收藏任何地块，点击地块行尾的星标即可收藏',
+    en: 'No watched plots yet. Use the star at the end of a plot row to add one.',
+    ja: 'お気に入りはまだありません。行末の星で追加できます。',
+    ko: '즐겨찾기한 구획이 없습니다. 행 끝의 별을 눌러 추가하세요.'
+  }),
+  'housing.groupExpand': msg({
+    zh: '展开',
+    en: 'Expand',
+    ja: '展開',
+    ko: '펼치기'
+  }),
+  'housing.groupCollapse': msg({
+    zh: '收起',
+    en: 'Collapse',
+    ja: '折りたたむ',
+    ko: '접기'
+  }),
   'housing.audienceIndividual': msg({
     zh: '个人',
     en: 'Individual',
