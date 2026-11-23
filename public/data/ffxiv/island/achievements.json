@@ -1,0 +1,712 @@
+{
+  "schemaVersion": "ffxiv.island.achievements.v1",
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv"
+    },
+    "source_batch_id": "ab7c6761d292ac0273ff514129355851650d83c1fb870f6cc8e5dcf64c8ca3b8",
+    "source_mode": "remote",
+    "detail": "island-sources.json"
+  },
+  "generatedAt": "2026-11-23T15:26:27.180Z",
+  "achievements": [
+    {
+      "id": "3089",
+      "name": "无人岛的资深开拓者",
+      "names": {
+        "zh": "无人岛的资深开拓者",
+        "en": "No Mammet Is an Island",
+        "ja": "無人島のベテラン開拓者",
+        "ko": "무인도의 노련한 개척자",
+        "tc": "無人島的資深開拓者",
+        "fr": "Pas d'île pas de vie",
+        "de": "Spuren im Sand"
+      },
+      "description": "在开拓无人岛的开拓等级升到10级。",
+      "descriptions": {
+        "zh": "在开拓无人岛的开拓等级升到10级。",
+        "en": "Achieve sanctuary rank 10 in your island sanctuary.",
+        "ja": "無人島開拓にて、開拓ランクが10に到達する",
+        "ko": "무인도 개척 랭크 10 달성",
+        "tc": "在開拓無人島的開拓等級升到10級。",
+        "fr": "Atteindre le rang 10 sur la Félicité insulaire.",
+        "de": "Inselstufe 10 in deinem Inselparadies erreicht."
+      },
+      "points": 10,
+      "title": {
+        "id": "645",
+        "name": "无人岛开拓者",
+        "names": {
+          "zh": "无人岛开拓者",
+          "en": "Sanctuary Seeker",
+          "ja": "Sanctuary Seeker",
+          "ko": "무인도 탐험가",
+          "tc": "無人島開拓者",
+          "fr": "Quêteur de vie paisible",
+          "de": "der Zurückgezogene"
+        }
+      },
+      "unlockedItems": [
+        {
+          "shopId": "1770601",
+          "itemId": "38455"
+        }
+      ]
+    },
+    {
+      "id": "3090",
+      "name": "收集大师1",
+      "names": {
+        "zh": "收集大师1",
+        "en": "Sustainable Sourcing I",
+        "ja": "あつめるマスター：ランク1",
+        "ko": "채집 통달: 1단계",
+        "tc": "收集大師1",
+        "fr": "Maître de la collecte I",
+        "de": "Der Insel reiche Schätze I"
+      },
+      "description": "在开拓无人岛的采集环境中采集1000次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的采集环境中采集1000次。",
+        "en": "Gather resources from the wilds of your island sanctuary 1,000 times.",
+        "ja": "無人島開拓の採集環境にて、1,000回採集をする",
+        "ko": "무인도 채집 환경에서 1,000회 채집",
+        "tc": "在開拓無人島的採集環境中採集1000次。",
+        "fr": "Effectuer 1 000 collectes sur les landes de la Félicité insulaire.",
+        "de": "1.000 Mal an Sammelstellen deines Inselparadieses gesammelt."
+      },
+      "points": 5,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3091",
+      "name": "收集大师2",
+      "names": {
+        "zh": "收集大师2",
+        "en": "Sustainable Sourcing II",
+        "ja": "あつめるマスター：ランク2",
+        "ko": "채집 통달: 2단계",
+        "tc": "收集大師2",
+        "fr": "Maître de la collecte II",
+        "de": "Der Insel reiche Schätze II"
+      },
+      "description": "在开拓无人岛的采集环境中采集3000次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的采集环境中采集3000次。",
+        "en": "Gather resources from the wilds of your island sanctuary 3,000 times.",
+        "ja": "無人島開拓の採集環境にて、3,000回採集をする",
+        "ko": "무인도 채집 환경에서 3,000회 채집",
+        "tc": "在開拓無人島的採集環境中採集3000次。",
+        "fr": "Effectuer 3 000 collectes sur les landes de la Félicité insulaire.",
+        "de": "3.000 Mal an Sammelstellen deines Inselparadieses gesammelt."
+      },
+      "points": 10,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3092",
+      "name": "收集大师3",
+      "names": {
+        "zh": "收集大师3",
+        "en": "Sustainable Sourcing III",
+        "ja": "あつめるマスター：ランク3",
+        "ko": "채집 통달: 3단계",
+        "tc": "收集大師3",
+        "fr": "Maître de la collecte III",
+        "de": "Der Insel reiche Schätze III"
+      },
+      "description": "在开拓无人岛的采集环境中采集30000次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的采集环境中采集30000次。",
+        "en": "Gather resources from the wilds of your island sanctuary 30,000 times.",
+        "ja": "無人島開拓の採集環境にて、30,000回採集をする",
+        "ko": "무인도 채집 환경에서 30,000회 채집",
+        "tc": "在開拓無人島的採集環境中採集30000次。",
+        "fr": "Effectuer 30 000 collectes sur les landes de la Félicité insulaire.",
+        "de": "30.000 Mal an Sammelstellen deines Inselparadieses gesammelt."
+      },
+      "points": 20,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3093",
+      "name": "放牧大师1",
+      "names": {
+        "zh": "放牧大师1",
+        "en": "Mine Now I",
+        "ja": "ぼくちくマスター：ランク1",
+        "ko": "목축 통달: 1단계",
+        "tc": "放牧大師1",
+        "fr": "Éleveur né I",
+        "de": "Gut Ding will Weide haben I"
+      },
+      "description": "在开拓无人岛的动物饲养中收获素材100次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的动物饲养中收获素材100次。",
+        "en": "Gather leavings from animals in your island sanctuary pasture 100 times.",
+        "ja": "無人島開拓の動物飼育にて、100回素材収穫をする",
+        "ko": "무인도 동물 사육으로 100회 재료 수확",
+        "tc": "在開拓無人島的動物飼養中收穫素材100次。",
+        "fr": "Récupérer 100 fois des matériaux sur les animaux d'élevage de la Félicité insulaire.",
+        "de": "100 Mal Abwurf auf der Weide deines Inselparadieses gesammelt."
+      },
+      "points": 5,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3094",
+      "name": "放牧大师2",
+      "names": {
+        "zh": "放牧大师2",
+        "en": "Mine Now II",
+        "ja": "ぼくちくマスター：ランク2",
+        "ko": "목축 통달: 2단계",
+        "tc": "放牧大師2",
+        "fr": "Éleveur né II",
+        "de": "Gut Ding will Weide haben II"
+      },
+      "description": "在开拓无人岛的动物饲养中收获素材500次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的动物饲养中收获素材500次。",
+        "en": "Gather leavings from animals in your island sanctuary pasture 500 times.",
+        "ja": "無人島開拓の動物飼育にて、500回素材収穫をする",
+        "ko": "무인도 동물 사육으로 500회 재료 수확",
+        "tc": "在開拓無人島的動物飼養中收穫素材500次。",
+        "fr": "Récupérer 500 fois des matériaux sur les animaux d'élevage de la Félicité insulaire.",
+        "de": "500 Mal Abwurf auf der Weide deines Inselparadieses gesammelt."
+      },
+      "points": 10,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3095",
+      "name": "放牧大师3",
+      "names": {
+        "zh": "放牧大师3",
+        "en": "Mine Now III",
+        "ja": "ぼくちくマスター：ランク3",
+        "ko": "목축 통달: 3단계",
+        "tc": "放牧大師3",
+        "fr": "Éleveur né III",
+        "de": "Gut Ding will Weide haben III"
+      },
+      "description": "在开拓无人岛的动物饲养中收获素材5000次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的动物饲养中收获素材5000次。",
+        "en": "Gather leavings from animals in your island sanctuary pasture 5,000 times.",
+        "ja": "無人島開拓の動物飼育にて、5,000回素材収穫をする",
+        "ko": "무인도 동물 사육으로 5,000회 재료 수확",
+        "tc": "在開拓無人島的動物飼養中收穫素材5000次。",
+        "fr": "Récupérer 5 000 fois des matériaux sur les animaux d'élevage de la Félicité insulaire.",
+        "de": "5.000 Mal Abwurf auf der Weide deines Inselparadieses gesammelt."
+      },
+      "points": 20,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3096",
+      "name": "耕种大师1",
+      "names": {
+        "zh": "耕种大师1",
+        "en": "Agri-cultured I",
+        "ja": "たがやすマスター：ランク1",
+        "ko": "경작 통달: 1단계",
+        "tc": "耕種大師1",
+        "fr": "Main verte I",
+        "de": "Wer anderen ein Gemüse sät I"
+      },
+      "description": "在开拓无人岛的种植中收获作物50次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的种植中收获作物50次。",
+        "en": "Gather produce from your island sanctuary cropland 50 times.",
+        "ja": "無人島開拓の栽培にて、50回作物を収穫する",
+        "ko": "무인도 재배로 50회 작물 수확",
+        "tc": "在開拓無人島的種植中收穫作物50次。",
+        "fr": "Récolter 50 cultures sur la Félicité insulaire.",
+        "de": "50 Mal ein Beet deines Inselparadieses abgeerntet."
+      },
+      "points": 5,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3097",
+      "name": "耕种大师2",
+      "names": {
+        "zh": "耕种大师2",
+        "en": "Agri-cultured II",
+        "ja": "たがやすマスター：ランク2",
+        "ko": "경작 통달: 2단계",
+        "tc": "耕種大師2",
+        "fr": "Main verte II",
+        "de": "Wer anderen ein Gemüse sät II"
+      },
+      "description": "在开拓无人岛的种植中收获作物250次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的种植中收获作物250次。",
+        "en": "Gather produce from your island sanctuary cropland 250 times.",
+        "ja": "無人島開拓の栽培にて、250回作物を収穫する",
+        "ko": "무인도 재배로 250회 작물 수확",
+        "tc": "在開拓無人島的種植中收穫作物250次。",
+        "fr": "Récolter 250 cultures sur la Félicité insulaire.",
+        "de": "250 Mal ein Beet deines Inselparadieses abgeerntet."
+      },
+      "points": 10,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3098",
+      "name": "耕种大师3",
+      "names": {
+        "zh": "耕种大师3",
+        "en": "Agri-cultured III",
+        "ja": "たがやすマスター：ランク3",
+        "ko": "경작 통달: 3단계",
+        "tc": "耕種大師3",
+        "fr": "Main verte III",
+        "de": "Wer anderen ein Gemüse sät III"
+      },
+      "description": "在开拓无人岛的种植中收获作物2500次。",
+      "descriptions": {
+        "zh": "在开拓无人岛的种植中收获作物2500次。",
+        "en": "Gather produce from your island sanctuary cropland 2,500 times.",
+        "ja": "無人島開拓の栽培にて、2,500回作物を収穫する",
+        "ko": "무인도 재배로 2,500회 작물 수확",
+        "tc": "在開拓無人島的種植中收穫作物2500次。",
+        "fr": "Récolter 2 500 cultures sur la Félicité insulaire.",
+        "de": "2.500 Mal ein Beet deines Inselparadieses abgeerntet."
+      },
+      "points": 20,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3099",
+      "name": "屯货大师1",
+      "names": {
+        "zh": "屯货大师1",
+        "en": "But at What Cost I",
+        "ja": "グラナリーマスター：ランク1",
+        "ko": "저장 통달: 1단계",
+        "tc": "囤貨大師1",
+        "fr": "Joueur de la grange I",
+        "de": "Der Insel reichere Schätze I"
+      },
+      "description": "在开拓无人岛的屯货仓库中获得50个稀有素材。",
+      "descriptions": {
+        "zh": "在开拓无人岛的屯货仓库中获得50个稀有素材。",
+        "en": "Collect 50 rare materials via island granary foraging expeditions.",
+        "ja": "無人島開拓のグラナリーオフィスにて、レア素材を50個獲得する",
+        "ko": "무인도 재료 저장고에서 희귀 재료 50개 획득",
+        "tc": "在開拓無人島的囤貨倉庫中獲得50個稀有素材。",
+        "fr": "Récupérer 50 raretés à la grange de la Félicité insulaire.",
+        "de": "50 seltene Funde während einer Expedition deines Inselparadieses gefunden."
+      },
+      "points": 5,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3100",
+      "name": "屯货大师2",
+      "names": {
+        "zh": "屯货大师2",
+        "en": "But at What Cost II",
+        "ja": "グラナリーマスター：ランク2",
+        "ko": "저장 통달: 2단계",
+        "tc": "囤貨大師2",
+        "fr": "Joueur de la grange II",
+        "de": "Der Insel reichere Schätze II"
+      },
+      "description": "在开拓无人岛的屯货仓库中获得200个稀有素材。",
+      "descriptions": {
+        "zh": "在开拓无人岛的屯货仓库中获得200个稀有素材。",
+        "en": "Collect 200 rare materials via island granary foraging expeditions.",
+        "ja": "無人島開拓のグラナリーオフィスにて、レア素材を200個獲得する",
+        "ko": "무인도 재료 저장고에서 희귀 재료 200개 획득",
+        "tc": "在開拓無人島的囤貨倉庫中獲得200個稀有素材。",
+        "fr": "Récupérer 200 raretés à la grange de la Félicité insulaire.",
+        "de": "200 seltene Funde während einer Expedition deines Inselparadieses gefunden."
+      },
+      "points": 10,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3101",
+      "name": "屯货大师3",
+      "names": {
+        "zh": "屯货大师3",
+        "en": "But at What Cost III",
+        "ja": "グラナリーマスター：ランク3",
+        "ko": "저장 통달: 3단계",
+        "tc": "囤貨大師3",
+        "fr": "Joueur de la grange III",
+        "de": "Der Insel reichere Schätze III"
+      },
+      "description": "在开拓无人岛的屯货仓库中获得2000个稀有素材。",
+      "descriptions": {
+        "zh": "在开拓无人岛的屯货仓库中获得2000个稀有素材。",
+        "en": "Collect 2,000 rare materials via island granary foraging expeditions.",
+        "ja": "無人島開拓のグラナリーオフィスにて、レア素材を2,000個獲得する",
+        "ko": "무인도 재료 저장고에서 희귀 재료 2,000개 획득",
+        "tc": "在開拓無人島的囤貨倉庫中獲得2000個稀有素材。",
+        "fr": "Récupérer 2 000 raretés à la grange de la Félicité insulaire.",
+        "de": "2.000 seltene Funde während einer Expedition deines Inselparadieses gefunden."
+      },
+      "points": 20,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3102",
+      "name": "贸易大师1",
+      "names": {
+        "zh": "贸易大师1",
+        "en": "No Rest (Cycle) for the Wicked I",
+        "ja": "ぼうえきマスター：ランク1",
+        "ko": "무역 통달: 1단계",
+        "tc": "貿易大師1",
+        "fr": "Commerçant né I",
+        "de": "Müßiggang ist aller Laster Anfang I"
+      },
+      "description": "在开拓无人岛的群岛贸易中7个生产日的总计营业额达到10000点。",
+      "descriptions": {
+        "zh": "在开拓无人岛的群岛贸易中7个生产日的总计营业额达到10000点。",
+        "en": "Accrue isleworks earnings totaling at least 10,000 cowries across a seven-cycle period.",
+        "ja": "無人島開拓の諸島貿易にて、7サイクル通算売り上げ10,000を達成する",
+        "ko": "무인도 무역으로 제작 주기 7회 동안 매출 10,000 달성",
+        "tc": "在開拓無人島的群島貿易中7個生產日的總計營業額達到10000點。",
+        "fr": "Obtenir 10 000 assignats grâce au commerce insulaire sur une période de 7 cycles.",
+        "de": "Mindestens 10.000 Kauris in sieben Schichten deines Inselateliers verdient."
+      },
+      "points": 10,
+      "title": null,
+      "unlockedItems": []
+    },
+    {
+      "id": "3103",
+      "name": "贸易大师2",
+      "names": {
+        "zh": "贸易大师2",
+        "en": "No Rest (Cycle) for the Wicked II",
+        "ja": "ぼうえきマスター：ランク2",
+        "ko": "무역 통달: 2단계",
+        "tc": "貿易大師2",
+        "fr": "Commerçant né II",
+        "de": "Müßiggang ist aller Laster Anfang II"
+      },
+      "description": "在开拓无人岛的群岛贸易中7个生产日的总计营业额达到17000点。",
+      "descriptions": {
+        "zh": "在开拓无人岛的群岛贸易中7个生产日的总计营业额达到17000点。",
+        "en": "Accrue isleworks earnings totaling at least 17,000 cowries across a seven-cycle period.",
+        "ja": "無人島開拓の諸島貿易にて、7サイクル通算売り上げ17,000を達成する",
+        "ko": "무인도 무역으로 제작 주기 7회 동안 매출 17,000 달성",
+        "tc": "在開拓無人島的群島貿易中7個生產日的總計營業額達到17000點。",
+        "fr": "Obtenir 17 000 assignats grâce au commerce insulaire sur une période de 7 cycles.",
+        "de": "Mindestens 17.000 Kauris in sieben Schichten deines Inselateliers verdient."
+      },
+      "points": 20,
+      "title": {
+        "id": "646",
+        "name": "海岛商人",
+        "names": {
+          "zh": "海岛商人",
+          "en": "Trader of Paradise",
+          "ja": "Trader of Paradise",
+          "ko": "낙원의 상인",
+          "tc": "海島商人",
+          "fr": "Maître des échanges",
+          "de": "Händler des Paradieses"
+        }
+      },
+      "unlockedItems": []
+    },
+    {
+      "id": "3104",
+      "name": "谢尔达莱富豪",
+      "names": {
+        "zh": "谢尔达莱富豪",
+        "en": "Holy Cowrie",
+        "ja": "シェルダレー長者",
+        "ko": "시엘달레 갑부",
+        "tc": "謝爾達萊富豪",
+        "fr": "Plein aux assignats",
+        "de": "Wie Sand am Meer"
+      },
+      "description": "在开拓无人岛中累计获得500000枚谢尔达莱青船币。",
+      "descriptions": {
+        "zh": "在开拓无人岛中累计获得500000枚谢尔达莱青船币。",
+        "en": "Earn a total of 500,000 seafarer's cowries in your island sanctuary.",
+        "ja": "無人島開拓にて、シェルダレースクリップ:青船貨を累計500,000獲得する",
+        "ko": "무인도에서 시엘달레 화폐: 청선화 총 500,000개 획득",
+        "tc": "在開拓無人島中累計獲得500000枚謝爾達萊青船幣。",
+        "fr": "Obtenir un total de 500 000 assignats insulaire azur.",
+        "de": "500.000 blaue Cieldaläen-Kauris in deinem Inselparadies verdient."
+      },
+      "points": 20,
+      "title": {
+        "id": "647",
+        "name": "谢尔达莱富豪",
+        "names": {
+          "zh": "谢尔达莱富豪",
+          "en": "Cieldalaes Connoisseur",
+          "ja": "Cieldalaes Connoisseur",
+          "ko": "시엘달레 갑부",
+          "tc": "謝爾達萊富豪",
+          "fr": "Expert des îles Cieldalaes",
+          "de": "Connaisseur der Cieldaläen"
+        }
+      },
+      "unlockedItems": []
+    },
+    {
+      "id": "3186",
+      "name": "无人岛的天才开拓者",
+      "names": {
+        "zh": "无人岛的天才开拓者",
+        "en": "Mammet Is the Architect",
+        "ja": "無人島のカリスマ開拓者",
+        "ko": "무인도의 비범한 개척자",
+        "tc": "無人島的天才開拓者",
+        "fr": "Paix et Félicité",
+        "de": "Pfade im Sand"
+      },
+      "description": "在开拓无人岛的开拓等级升到12级。",
+      "descriptions": {
+        "zh": "在开拓无人岛的开拓等级升到12级。",
+        "en": "Achieve sanctuary rank 12 in your island sanctuary.",
+        "ja": "無人島開拓にて、開拓ランクが12に到達する",
+        "ko": "무인도 개척 랭크 12 달성",
+        "tc": "在開拓無人島的開拓等級升到12級。",
+        "fr": "Atteindre le rang 12 sur la Félicité insulaire.",
+        "de": "Inselstufe 12 in deinem Inselparadies erreicht."
+      },
+      "points": 10,
+      "title": null,
+      "unlockedItems": [
+        {
+          "shopId": "1770601",
+          "itemId": "39495"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "39252"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "39253"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "39254"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "39255"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "39256"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "39257"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "39258"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "39259"
+        }
+      ]
+    },
+    {
+      "id": "3254",
+      "name": "无人岛的伟大开拓者",
+      "names": {
+        "zh": "无人岛的伟大开拓者",
+        "en": "No Gods or Kings, Only Mammets",
+        "ja": "無人島のグレート開拓者",
+        "ko": "무인도의 위대한 개척자",
+        "tc": "無人島的偉大開拓者",
+        "fr": "Luxe, calme et Félicité",
+        "de": "Schlösser aus Sand"
+      },
+      "description": "在开拓无人岛的开拓等级升到16级。",
+      "descriptions": {
+        "zh": "在开拓无人岛的开拓等级升到16级。",
+        "en": "Achieve sanctuary rank 16 in your island sanctuary.",
+        "ja": "無人島開拓にて、開拓ランクが16に到達する",
+        "ko": "무인도 개척 랭크 16 달성",
+        "tc": "在開拓無人島的開拓等級升到16級。",
+        "fr": "Atteindre le rang 16 sur la Félicité insulaire.",
+        "de": "Inselstufe 16 in deinem Inselparadies erreicht."
+      },
+      "points": 10,
+      "title": null,
+      "unlockedItems": [
+        {
+          "shopId": "1770601",
+          "itemId": "40382"
+        },
+        {
+          "shopId": "1770601",
+          "itemId": "40704"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "40431"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "40432"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "40433"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "40434"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "40435"
+        }
+      ]
+    },
+    {
+      "id": "3255",
+      "name": "贸易大师3",
+      "names": {
+        "zh": "贸易大师3",
+        "en": "No Rest (Cycle) for the Wicked III",
+        "ja": "ぼうえきマスター：ランク3",
+        "ko": "무역 통달: 3단계",
+        "tc": "貿易大師3",
+        "fr": "Commerçant né III",
+        "de": "Müßiggang ist aller Laster Anfang III"
+      },
+      "description": "在开拓无人岛的群岛贸易中7个生产日的总计营业额达到33000点。",
+      "descriptions": {
+        "zh": "在开拓无人岛的群岛贸易中7个生产日的总计营业额达到33000点。",
+        "en": "Accrue isleworks earnings totaling at least 33,000 cowries across a seven-cycle period.",
+        "ja": "無人島開拓の諸島貿易にて、7サイクル通算売り上げ33,000を達成する",
+        "ko": "무인도 무역으로 제작 주기 7회 동안 매출 33,000 달성",
+        "tc": "在開拓無人島的群島貿易中7個生產日的總計營業額達到33000點。",
+        "fr": "Obtenir 33 000 assignats grâce au commerce insulaire sur une période de 7 cycles.",
+        "de": "Mindestens 33.000 Kauris in sieben Schichten deines Inselateliers verdient."
+      },
+      "points": 20,
+      "title": {
+        "id": "678",
+        "name": "安逸街之狼",
+        "names": {
+          "zh": "安逸街之狼",
+          "en": "Wolf of Easy Street",
+          "ja": "Wolf of Easy Street",
+          "ko": "무역 시장의 늑대",
+          "tc": "安逸街之狼",
+          "fr": "Expert du marché",
+          "de": "Kaurikoloss"
+        }
+      },
+      "unlockedItems": []
+    },
+    {
+      "id": "3399",
+      "name": "无人岛的传奇开拓者",
+      "names": {
+        "zh": "无人岛的传奇开拓者",
+        "en": "Mammet Is the Measure of Most Things",
+        "ja": "無人島のレジェンド開拓者",
+        "ko": "무인도의 전설적인 개척자",
+        "tc": "無人島的傳奇開拓者",
+        "fr": "Félicité légendaire",
+        "de": "Krone aus Sand"
+      },
+      "description": "在开拓无人岛的开拓等级升到20级。",
+      "descriptions": {
+        "zh": "在开拓无人岛的开拓等级升到20级。",
+        "en": "Achieve sanctuary rank 20 in your island sanctuary.",
+        "ja": "無人島開拓にて、開拓ランクが20に到達する",
+        "ko": "무인도 개척 랭크 20 달성",
+        "tc": "在開拓無人島的開拓等級升到20級。",
+        "fr": "Atteindre le rang 20 sur la Félicité insulaire.",
+        "de": "Inselstufe 20 in deinem Inselparadies erreicht."
+      },
+      "points": 10,
+      "title": {
+        "id": "707",
+        "name": "尖尖山伯爵",
+        "names": {
+          "zh": "尖尖山伯爵",
+          "en": "Count of Monte Cowrie",
+          "ja": "Count of Monte Cowrie",
+          "ko": "몽테시엘달레 백작",
+          "tc": "尖尖山伯爵",
+          "fr": "Amasseur d'assignats azur",
+          "de": "Graf von Monte Kauri"
+        }
+      },
+      "unlockedItems": [
+        {
+          "shopId": "1770601",
+          "itemId": "41496"
+        },
+        {
+          "shopId": "1770601",
+          "itemId": "46822"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "41576"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "41577"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "41578"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "41579"
+        },
+        {
+          "shopId": "1770659",
+          "itemId": "41580"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2510 @@
+{
+  "schemaVersion": "ffxiv.island.ranks.v1",
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv"
+    },
+    "source_batch_id": "ab7c6761d292ac0273ff514129355851650d83c1fb870f6cc8e5dcf64c8ca3b8",
+    "source_mode": "remote",
+    "detail": "island-sources.json"
+  },
+  "generatedAt": "2026-11-23T15:26:27.180Z",
+  "ranks": [
+    {
+      "rank": 1,
+      "expToNext": 3000
+    },
+    {
+      "rank": 2,
+      "expToNext": 6000
+    },
+    {
+      "rank": 3,
+      "expToNext": 9500
+    },
+    {
+      "rank": 4,
+      "expToNext": 13500
+    },
+    {
+      "rank": 5,
+      "expToNext": 18000
+    },
+    {
+      "rank": 6,
+      "expToNext": 23000
+    },
+    {
+      "rank": 7,
+      "expToNext": 28500
+    },
+    {
+      "rank": 8,
+      "expToNext": 34500
+    },
+    {
+      "rank": 9,
+      "expToNext": 41000
+    },
+    {
+      "rank": 10,
+      "expToNext": 42000
+    },
+    {
+      "rank": 11,
+      "expToNext": 43500
+    },
+    {
+      "rank": 12,
+      "expToNext": 44000
+    },
+    {
+      "rank": 13,
+      "expToNext": 45500
+    },
+    {
+      "rank": 14,
+      "expToNext": 47500
+    },
+    {
+      "rank": 15,
+      "expToNext": 65000
+    },
+    {
+      "rank": 16,
+      "expToNext": 65500
+    },
+    {
+      "rank": 17,
+      "expToNext": 66000
+    },
+    {
+      "rank": 18,
+      "expToNext": 70000
+    },
+    {
+      "rank": 19,
+      "expToNext": 100000
+    },
+    {
+      "rank": 20,
+      "expToNext": 0
+    }
+  ],
+  "progress": [
+    {
+      "id": "1",
+      "vision": "开拓目标：建造小岛木屋",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建造小岛木屋",
+          "en": "The Coziest of Cabins",
+          "ja": "開拓目標：アイランドホールを建築しよう",
+          "ko": "개척 목표: 무인도 회관 건축하기",
+          "tc": "開拓目標：建造小島木屋",
+          "fr": "Objectif de développement : construire votre hutte placide",
+          "de": "Meilenstein: Strandhütte bauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "2",
+      "vision": "开拓目标：建造小岛木屋",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>再次听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建造小岛木屋",
+          "en": "The Coziest of Cabins",
+          "ja": "開拓目標：アイランドホールを建築しよう",
+          "ko": "개척 목표: 무인도 회관 건축하기",
+          "tc": "開拓目標：建造小島木屋",
+          "fr": "Objectif de développement : construire votre hutte placide",
+          "de": "Meilenstein: Strandhütte bauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>再次听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball again.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに再度話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 다시 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>再次聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Reparler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Noch einmal mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "3",
+      "vision": "开拓目标：建造小岛木屋",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在收获模式下收集开拓素材\n向猫耳小员报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建造小岛木屋",
+          "en": "The Coziest of Cabins",
+          "ja": "開拓目標：アイランドホールを建築しよう",
+          "ko": "개척 목표: 무인도 회관 건축하기",
+          "tc": "開拓目標：建造小島木屋",
+          "fr": "Objectif de développement : construire votre hutte placide",
+          "de": "Meilenstein: Strandhütte bauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在收获模式下收集开拓素材\n向猫耳小员报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>With the Gather mode enabled, collect the necessary materials and report back to the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>「収穫モード」で開拓素材を集め\nねこみみさんに報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>'수확 모드'로 개척재료를 모으고\n야옹 선생에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在收穫模式下收集開拓素材\r\n向貓耳小員報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Utiliser le mode “Collecter” pour amasser des matériaux, puis parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Im Sammeln-Modus Material sammeln\nMiaurizius Bericht erstatten<Unknown14>EC</Unknown14>"
+        }
+      }
+    },
+    {
+      "id": "4",
+      "vision": "开拓目标：建造小岛木屋",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在开拓制作面板中制作开拓用石斧\n向猫耳小员报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建造小岛木屋",
+          "en": "The Coziest of Cabins",
+          "ja": "開拓目標：アイランドホールを建築しよう",
+          "ko": "개척 목표: 무인도 회관 건축하기",
+          "tc": "開拓目標：建造小島木屋",
+          "fr": "Objectif de développement : construire votre hutte placide",
+          "de": "Meilenstein: Strandhütte bauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在开拓制作面板中制作开拓用石斧\n向猫耳小员报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Craft an islekeep's stone hatchet and report back to the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>開拓製作で無人島開拓用のストーンハチェットを作り\nねこみみさんに報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척 제작으로 무인도 개척용 돌도끼를 만들고\n야옹 선생에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在開拓製作視窗中製作開拓用石斧\r\n向貓耳小員報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Accéder à l'atelier pour fabriquer une hache en pierre de pionnier, puis parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Eine Steinaxt über das Pionierswerk basteln\nMiaurizius Bericht erstatten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "5",
+      "vision": "开拓目标：建造小岛木屋",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集开拓素材建造小岛木屋<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建造小岛木屋",
+          "en": "The Coziest of Cabins",
+          "ja": "開拓目標：アイランドホールを建築しよう",
+          "ko": "개척 목표: 무인도 회관 건축하기",
+          "tc": "開拓目標：建造小島木屋",
+          "fr": "Objectif de développement : construire votre hutte placide",
+          "de": "Meilenstein: Strandhütte bauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集开拓素材建造小岛木屋<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Construct the cozy cabin after collecting the requisite materials.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>開拓素材を集めてアイランドホールを建築する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척재료를 모아 무인도 회관 건축하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集開拓素材建造小島木屋<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Construire la hutte placide après avoir collecté les matériaux nécéssaires<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Material sammeln und eine Strandhütte bauen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "6",
+      "vision": "开拓目标：建造小岛木屋",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向猫耳小员报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建造小岛木屋",
+          "en": "The Coziest of Cabins",
+          "ja": "開拓目標：アイランドホールを建築しよう",
+          "ko": "개척 목표: 무인도 회관 건축하기",
+          "tc": "開拓目標：建造小島木屋",
+          "fr": "Objectif de développement : construire votre hutte placide",
+          "de": "Meilenstein: Strandhütte bauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向猫耳小员报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Report to the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向貓耳小員報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Miaurizius Bericht erstatten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "7",
+      "vision": "开拓目标：在耕地种植作物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在耕地种植作物",
+          "en": "Top Crops",
+          "ja": "開拓目標：耕作地で作物を育てよう",
+          "ko": "개척 목표: 경작지에서 작물 키우기",
+          "tc": "開拓目標：在耕地種植作物",
+          "fr": "Objectif de développement : cultiver vos champs",
+          "de": "Meilenstein: Feldfrüchte anbauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "8",
+      "vision": "开拓目标：在耕地种植作物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委托耕种小员整地<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在耕地种植作物",
+          "en": "Top Crops",
+          "ja": "開拓目標：耕作地で作物を育てよう",
+          "ko": "개척 목표: 경작지에서 작물 키우기",
+          "tc": "開拓目標：在耕地種植作物",
+          "fr": "Objectif de développement : cultiver vos champs",
+          "de": "Meilenstein: Feldfrüchte anbauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委托耕种小员整地<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Request the produce producer to till the earth.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>たがやすくんに整地を依頼する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>일굼이에게 땅고르기 부탁하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委託耕種小員整地<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Demander à Rodolfermier de préparer les terres arables<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Feldolin bitten, das Land zu roden<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "9",
+      "vision": "开拓目标：在耕地种植作物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取耕种小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在耕地种植作物",
+          "en": "Top Crops",
+          "ja": "開拓目標：耕作地で作物を育てよう",
+          "ko": "개척 목표: 경작지에서 작물 키우기",
+          "tc": "開拓目標：在耕地種植作物",
+          "fr": "Objectif de développement : cultiver vos champs",
+          "de": "Meilenstein: Feldfrüchte anbauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取耕种小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the produce producer.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>たがやすくんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>일굼이와 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取耕種小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Rodolfermier<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Feldolin sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "10",
+      "vision": "开拓目标：在耕地种植作物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用播种模式在耕地种下选好的种子<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在耕地种植作物",
+          "en": "Top Crops",
+          "ja": "開拓目標：耕作地で作物を育てよう",
+          "ko": "개척 목표: 경작지에서 작물 키우기",
+          "tc": "開拓目標：在耕地種植作物",
+          "fr": "Objectif de développement : cultiver vos champs",
+          "de": "Meilenstein: Feldfrüchte anbauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用播种模式在耕地种下选好的种子<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>With the Sow mode enabled, plant seeds in the cropland.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>「種まきモード」で選んだ種を耕作地に植える<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>'씨뿌리기 모드'로 선택한 씨앗을 경작지에 심기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用播種模式在耕地種下選好的種子<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Utiliser le mode “Semer” pour semer des graines dans vos champs<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Im Säen-Modus Feldfrüchte pflanzen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "11",
+      "vision": "开拓目标：在耕地种植作物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用浇水模式为种下的种子浇水<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在耕地种植作物",
+          "en": "Top Crops",
+          "ja": "開拓目標：耕作地で作物を育てよう",
+          "ko": "개척 목표: 경작지에서 작물 키우기",
+          "tc": "開拓目標：在耕地種植作物",
+          "fr": "Objectif de développement : cultiver vos champs",
+          "de": "Meilenstein: Feldfrüchte anbauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用浇水模式为种下的种子浇水<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>With the Water mode enabled, water the seeds you sowed.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>「水やりモード」で植えた種に水を与える<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>'물 주기 모드'로 경작지에 물 주기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用澆水模式為種下的種子澆水<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Utiliser le mode “Arroser” pour asperger vos parcelles d'eau<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Im Gießen-Modus die Felder wässern<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "12",
+      "vision": "开拓目标：在耕地种植作物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向耕种小员报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在耕地种植作物",
+          "en": "Top Crops",
+          "ja": "開拓目標：耕作地で作物を育てよう",
+          "ko": "개척 목표: 경작지에서 작물 키우기",
+          "tc": "開拓目標：在耕地種植作物",
+          "fr": "Objectif de développement : cultiver vos champs",
+          "de": "Meilenstein: Feldfrüchte anbauen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向耕种小员报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Report to the produce producer.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>たがやすくんに報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>일굼이에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向耕種小員報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Rodolfermier<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Feldolin Bericht erstatten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "13",
+      "vision": "开拓目标：在牧场喂食动物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在牧场喂食动物",
+          "en": "Adorable Animals",
+          "ja": "開拓目標：放牧地で動物を飼育しよう",
+          "ko": "개척 목표: 방목지에서 동물 사육하기",
+          "tc": "開拓目標：在牧場餵食動物",
+          "fr": "Objectif de développement : élever des animaux",
+          "de": "Meilenstein: Weidetiere halten"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "14",
+      "vision": "开拓目标：在牧场喂食动物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委托放牧小员整地<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在牧场喂食动物",
+          "en": "Adorable Animals",
+          "ja": "開拓目標：放牧地で動物を飼育しよう",
+          "ko": "개척 목표: 방목지에서 동물 사육하기",
+          "tc": "開拓目標：在牧場餵食動物",
+          "fr": "Objectif de développement : élever des animaux",
+          "de": "Meilenstein: Weidetiere halten"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委托放牧小员整地<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Request the creature comforter to build a pasture.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ぼくちくくんに整地を依頼する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>키움이에게 땅고르기 부탁하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委託放牧小員整地<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Demander à Béberger de préparer le pâturage<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Thierobald bitten, das Land zu roden<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "15",
+      "vision": "开拓目标：在牧场喂食动物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取放牧小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在牧场喂食动物",
+          "en": "Adorable Animals",
+          "ja": "開拓目標：放牧地で動物を飼育しよう",
+          "ko": "개척 목표: 방목지에서 동물 사육하기",
+          "tc": "開拓目標：在牧場餵食動物",
+          "fr": "Objectif de développement : élever des animaux",
+          "de": "Meilenstein: Weidetiere halten"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取放牧小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the creature comforter.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ぼくちくくんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>키움이와 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取放牧小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Béberger<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Thierobald sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "16",
+      "vision": "开拓目标：在牧场喂食动物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用捕兽模式捕捉动物<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在牧场喂食动物",
+          "en": "Adorable Animals",
+          "ja": "開拓目標：放牧地で動物を飼育しよう",
+          "ko": "개척 목표: 방목지에서 동물 사육하기",
+          "tc": "開拓目標：在牧場餵食動物",
+          "fr": "Objectif de développement : élever des animaux",
+          "de": "Meilenstein: Weidetiere halten"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用捕兽模式捕捉动物<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>With the Capture mode enabled, capture a wild animal.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>「捕獲モード」で動物を捕獲する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>'포획 모드'로 동물 포획하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用捕獸模式捕捉動物<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Utiliser le mode “Capturer” pour attraper un animal<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Im Fangen-Modus ein Tier einfangen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "17",
+      "vision": "开拓目标：在牧场喂食动物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取放牧小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在牧场喂食动物",
+          "en": "Adorable Animals",
+          "ja": "開拓目標：放牧地で動物を飼育しよう",
+          "ko": "개척 목표: 방목지에서 동물 사육하기",
+          "tc": "開拓目標：在牧場餵食動物",
+          "fr": "Objectif de développement : élever des animaux",
+          "de": "Meilenstein: Weidetiere halten"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取放牧小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the creature comforter.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ぼくちくくんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>키움이와 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取放牧小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Béberger<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Thierobald sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "18",
+      "vision": "开拓目标：在牧场喂食动物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用喂食模式为动物喂食<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在牧场喂食动物",
+          "en": "Adorable Animals",
+          "ja": "開拓目標：放牧地で動物を飼育しよう",
+          "ko": "개척 목표: 방목지에서 동물 사육하기",
+          "tc": "開拓目標：在牧場餵食動物",
+          "fr": "Objectif de développement : élever des animaux",
+          "de": "Meilenstein: Weidetiere halten"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用喂食模式为动物喂食<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>With the Feed mode enabled, feed an animal in the pasture.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>「餌やりモード」で動物に餌をやる<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>'먹이 주기 모드'로 동물에게 먹이 주기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>使用餵食模式為動物餵食<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Utiliser le mode “Nourrir” pour donner à manger à vos animaux<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Im Füttern-Modus ein Weidetier füttern<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "19",
+      "vision": "开拓目标：在牧场喂食动物",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向放牧小员报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：在牧场喂食动物",
+          "en": "Adorable Animals",
+          "ja": "開拓目標：放牧地で動物を飼育しよう",
+          "ko": "개척 목표: 방목지에서 동물 사육하기",
+          "tc": "開拓目標：在牧場餵食動物",
+          "fr": "Objectif de développement : élever des animaux",
+          "de": "Meilenstein: Weidetiere halten"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向放牧小员报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Report to the creature comforter.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ぼくちくくんに報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>키움이에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向放牧小員報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Béberger<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Thierobald Bericht erstatten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "20",
+      "vision": "开拓目标：建设开拓工房做好贸易的准备",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建设开拓工房做好贸易的准备",
+          "en": "A Workshop of Wonders",
+          "ja": "開拓目標：開拓工房を建てて貿易の準備をしよう",
+          "ko": "개척 목표: 개척공방을 짓고 무역 준비하기",
+          "tc": "開拓目標：建設開拓工坊做好貿易的準備",
+          "fr": "Objectif de développement : construire une fabrique et développer le commerce",
+          "de": "Meilenstein: Inselatelier bauen und Handel treiben"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "21",
+      "vision": "开拓目标：建设开拓工房做好贸易的准备",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委托开拓小员1号整地<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建设开拓工房做好贸易的准备",
+          "en": "A Workshop of Wonders",
+          "ja": "開拓目標：開拓工房を建てて貿易の準備をしよう",
+          "ko": "개척 목표: 개척공방을 짓고 무역 준비하기",
+          "tc": "開拓目標：建設開拓工坊做好貿易的準備",
+          "fr": "Objectif de développement : construire une fabrique et développer le commerce",
+          "de": "Meilenstein: Inselatelier bauen und Handel treiben"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委托开拓小员1号整地<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Request the pathological pathfinder mk. I to level the ground.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>かいたくくん1号に整地を依頼する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척돌이 1호에게 땅고르기 부탁하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>委託開拓小員1號整地<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Demander à Dédéfricheur I d'aménager le terrain<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Siedlund den Ersten bitten, das Land zu roden<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "22",
+      "vision": "开拓目标：建设开拓工房做好贸易的准备",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取开拓小员1号的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建设开拓工房做好贸易的准备",
+          "en": "A Workshop of Wonders",
+          "ja": "開拓目標：開拓工房を建てて貿易の準備をしよう",
+          "ko": "개척 목표: 개척공방을 짓고 무역 준비하기",
+          "tc": "開拓目標：建設開拓工坊做好貿易的準備",
+          "fr": "Objectif de développement : construire une fabrique et développer le commerce",
+          "de": "Meilenstein: Inselatelier bauen und Handel treiben"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取开拓小员1号的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the pathological pathfinder mk. I.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>かいたくくん1号に話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척돌이 1호와 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取開拓小員1號的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Dédéfricheur I<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Siedlund dem Ersten sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "23",
+      "vision": "开拓目标：建设开拓工房做好贸易的准备",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集开拓素材\n在开拓制作面板中制作开拓无人岛用石锤<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建设开拓工房做好贸易的准备",
+          "en": "A Workshop of Wonders",
+          "ja": "開拓目標：開拓工房を建てて貿易の準備をしよう",
+          "ko": "개척 목표: 개척공방을 짓고 무역 준비하기",
+          "tc": "開拓目標：建設開拓工坊做好貿易的準備",
+          "fr": "Objectif de développement : construire une fabrique et développer le commerce",
+          "de": "Meilenstein: Inselatelier bauen und Handel treiben"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集开拓素材\n在开拓制作面板中制作开拓无人岛用石锤<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Craft an islekeep's stone hammer after collecting the requisite materials.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>開拓素材を集めて\n開拓製作で無人島開拓用のストーンハンマーを作る<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척재료를 모으고\n개척 제작으로 무인도 개척용 돌망치 만들기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集開拓素材\r\n在開拓製作視窗中製作開拓無人島用石錘<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Collecter les matériaux nécessaires pour fabriquer un marteau en pierre de pionnier dans l'atelier<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Material sammeln und einen Steinhammer über das Pionierswerk basteln<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "24",
+      "vision": "开拓目标：建设开拓工房做好贸易的准备",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集开拓素材建造开拓工房<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建设开拓工房做好贸易的准备",
+          "en": "A Workshop of Wonders",
+          "ja": "開拓目標：開拓工房を建てて貿易の準備をしよう",
+          "ko": "개척 목표: 개척공방을 짓고 무역 준비하기",
+          "tc": "開拓目標：建設開拓工坊做好貿易的準備",
+          "fr": "Objectif de développement : construire une fabrique et développer le commerce",
+          "de": "Meilenstein: Inselatelier bauen und Handel treiben"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集开拓素材建造开拓工房<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Construct a workshop after collecting the requisite materials.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>開拓素材を集めて開拓工房を建築する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척재료를 모아 개척공방 건축하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>收集開拓素材建造開拓工坊<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Collecter les matériaux nécessaires pour construire une fabrique<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Material sammeln und ein Inselatelier bauen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "25",
+      "vision": "开拓目标：建设开拓工房做好贸易的准备",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向开拓小员1号报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：建设开拓工房做好贸易的准备",
+          "en": "A Workshop of Wonders",
+          "ja": "開拓目標：開拓工房を建てて貿易の準備をしよう",
+          "ko": "개척 목표: 개척공방을 짓고 무역 준비하기",
+          "tc": "開拓目標：建設開拓工坊做好貿易的準備",
+          "fr": "Objectif de développement : construire une fabrique et développer le commerce",
+          "de": "Meilenstein: Inselatelier bauen und Handel treiben"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向开拓小员1号报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Report to the pathological pathfinder mk. I.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>かいたくくん1号に報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척돌이 1호에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向開拓小員1號報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Dédéfricheur I<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Siedlund dem Ersten Bericht erstatten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "26",
+      "vision": "开拓目标：自由开拓无人岛",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：自由开拓无人岛",
+          "en": "The Perfect Paradise",
+          "ja": "開拓目標：自由に無人島を開拓しよう",
+          "ko": "개척 목표: 자유롭게 무인도 개척하기",
+          "tc": "開拓目標：自由開拓無人島",
+          "fr": "Objectif de développement : construire une fabrique et développer le commerce",
+          "de": "Meilenstein: Die Insel frei genießen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "27",
+      "vision": "开拓目标：自由开拓无人岛",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>按照自己的想法开拓小岛<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：自由开拓无人岛",
+          "en": "The Perfect Paradise",
+          "ja": "開拓目標：自由に無人島を開拓しよう",
+          "ko": "개척 목표: 자유롭게 무인도 개척하기",
+          "tc": "開拓目標：自由開拓無人島",
+          "fr": "Objectif de développement : construire une fabrique et développer le commerce",
+          "de": "Meilenstein: Die Insel frei genießen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>按照自己的想法开拓小岛<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Create the hideaway of your dreams.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>思うまま島を開拓し尽くそう<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>마음껏 섬을 탐험하고 개척하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>按照自己的想法開拓小島<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Développer votre île comme bon vous semble<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Deine Insel frei erweitern und gestalten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "28",
+      "vision": "开拓目标：寻找更高的目标",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：寻找更高的目标",
+          "en": "Passionate Pioneering",
+          "ja": "開拓目標：開拓者として高みを目指そう",
+          "ko": "개척 목표: 개척자로서 기량 연마하기",
+          "tc": "開拓目標：尋找更高的目標",
+          "fr": "Objectif de développement : améliorer vos compétences de pionnier",
+          "de": "Meilenstein: Die Insel zu neuen Höhen führen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "29",
+      "vision": "开拓目标：寻找更高的目标",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>按照自己的想法磨炼开拓的本领<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：寻找更高的目标",
+          "en": "Passionate Pioneering",
+          "ja": "開拓目標：開拓者として高みを目指そう",
+          "ko": "개척 목표: 개척자로서 기량 연마하기",
+          "tc": "開拓目標：尋找更高的目標",
+          "fr": "Objectif de développement : améliorer vos compétences de pionnier",
+          "de": "Meilenstein: Die Insel zu neuen Höhen führen"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>按照自己的想法磨炼开拓的本领<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Continue to develop your hideaway.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>思うまま開拓の腕を磨こう<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>마음껏 개척 실력 펼쳐보기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>按照自己的想法磨練開拓的本領<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Développer votre île comme bon vous semble<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Deine Pionierskünste vertiefen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "30",
+      "vision": "开拓目标：调查小岛的传闻",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查小岛的传闻",
+          "en": "Delightful Discovery",
+          "ja": "開拓目標：島の噂を調査しよう",
+          "ko": "개척 목표: 무인도에 대한 소문 조사하기",
+          "tc": "開拓目標：調查小島的傳聞",
+          "fr": "Objectif de développement : enquêter sur les rumeurs autour de l'île",
+          "de": "Meilenstein: Erkunden mit Erkundigunde"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "31",
+      "vision": "开拓目标：调查小岛的传闻",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>调查山脉<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查小岛的传闻",
+          "en": "Delightful Discovery",
+          "ja": "開拓目標：島の噂を調査しよう",
+          "ko": "개척 목표: 무인도에 대한 소문 조사하기",
+          "tc": "開拓目標：調查小島的傳聞",
+          "fr": "Objectif de développement : enquêter sur les rumeurs autour de l'île",
+          "de": "Meilenstein: Erkunden mit Erkundigunde"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>调查山脉<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Investigate the mossy mountains.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>山を調査する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>산 조사하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>調查山脈<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Inspecter les alentours de la montagne moussue<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Den Piz Paradies untersuchen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "32",
+      "vision": "开拓目标：调查小岛的传闻",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向猫耳小员报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查小岛的传闻",
+          "en": "Delightful Discovery",
+          "ja": "開拓目標：島の噂を調査しよう",
+          "ko": "개척 목표: 무인도에 대한 소문 조사하기",
+          "tc": "開拓目標：調查小島的傳聞",
+          "fr": "Objectif de développement : enquêter sur les rumeurs autour de l'île",
+          "de": "Meilenstein: Erkunden mit Erkundigunde"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向猫耳小员报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Report back to the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向貓耳小員報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Miaurizius Bericht erstatten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "33",
+      "vision": "开拓目标：调查小岛的传闻",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取探险小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查小岛的传闻",
+          "en": "Delightful Discovery",
+          "ja": "開拓目標：島の噂を調査しよう",
+          "ko": "개척 목표: 무인도에 대한 소문 조사하기",
+          "tc": "開拓目標：調查小島的傳聞",
+          "fr": "Objectif de développement : enquêter sur les rumeurs autour de l'île",
+          "de": "Meilenstein: Erkunden mit Erkundigunde"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取探险小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the determined digger.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>たんけんくんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>탐험돌이와 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取探險小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Édouarpenteur<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Erkundigunde sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "34",
+      "vision": "开拓目标：调查小岛的传闻",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在开拓制作面板中制作魔法人偶用碎岩设备\n向探险小员报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查小岛的传闻",
+          "en": "Delightful Discovery",
+          "ja": "開拓目標：島の噂を調査しよう",
+          "ko": "개척 목표: 무인도에 대한 소문 조사하기",
+          "tc": "開拓目標：調查小島的傳聞",
+          "fr": "Objectif de développement : enquêter sur les rumeurs autour de l'île",
+          "de": "Meilenstein: Erkunden mit Erkundigunde"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在开拓制作面板中制作魔法人偶用碎岩设备\n向探险小员报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Craft a set of mammet-sized spelunking tools and report back to the determined digger.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>開拓製作で魔法人形用の砕岩装備を作り\nたんけんくんに報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척 제작으로 마법인형용 암석 분쇄기를 만들고,\n탐험돌이에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在開拓製作視窗中製作魔法人偶用碎岩設備\r\n向探險小員報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Fabriquer des outils de forage taille réduite et les donner à Édouarpenteur<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Im Pionierswerk eine Felsbrecher-Ausstattung in Marionettengröße herstellen\nErkundigunde Bericht erstatten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "35",
+      "vision": "开拓目标：进一步充实无人岛",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：进一步充实无人岛",
+          "en": "The Land of Luxury",
+          "ja": "開拓目標：無人島をもっと充実させよう",
+          "ko": "개척 목표: 마음껏 무인도를 꾸미기",
+          "tc": "開拓目標：進一步充實無人島",
+          "fr": "Objectif de développement : rendre votre île encore plus plaisante",
+          "de": "Meilenstein: Mehr Pep im Paradies"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "36",
+      "vision": "开拓目标：进一步充实无人岛",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>进一步按照自己的想法充实无人岛<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：进一步充实无人岛",
+          "en": "The Land of Luxury",
+          "ja": "開拓目標：無人島をもっと充実させよう",
+          "ko": "개척 목표: 마음껏 무인도를 꾸미기",
+          "tc": "開拓目標：進一步充實無人島",
+          "fr": "Objectif de développement : rendre votre île encore plus plaisante",
+          "de": "Meilenstein: Mehr Pep im Paradies"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>进一步按照自己的想法充实无人岛<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Enrich your island experience.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>さらに思うまま島を充実させよう<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>더욱 마음껏 무인도를 꾸미기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>進一步按照自己的想法充實無人島<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Continuer à développer votre île comme bon vous semble<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Deine Insel genießen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "37",
+      "vision": "开拓目标：调查山洞",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查山洞",
+          "en": "A Subterranean Investigation",
+          "ja": "開拓目標：洞窟を調査しよう",
+          "ko": "개척 목표: 동굴 조사하기",
+          "tc": "開拓目標：調查山洞",
+          "fr": "Objectif de développement : explorer la caverne croulante",
+          "de": "Meilenstein: Die Heulenden Höhlen erkunden"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "38",
+      "vision": "开拓目标：调查山洞",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取探险小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查山洞",
+          "en": "A Subterranean Investigation",
+          "ja": "開拓目標：洞窟を調査しよう",
+          "ko": "개척 목표: 동굴 조사하기",
+          "tc": "開拓目標：調查山洞",
+          "fr": "Objectif de développement : explorer la caverne croulante",
+          "de": "Meilenstein: Die Heulenden Höhlen erkunden"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取探险小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the determined digger.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>たんけんくんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>탐험돌이와 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取探險小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Édouarpenteur<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Erkundigunde sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "39",
+      "vision": "开拓目标：调查山洞",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>调查山洞<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查山洞",
+          "en": "A Subterranean Investigation",
+          "ja": "開拓目標：洞窟を調査しよう",
+          "ko": "개척 목표: 동굴 조사하기",
+          "tc": "開拓目標：調查山洞",
+          "fr": "Objectif de développement : explorer la caverne croulante",
+          "de": "Meilenstein: Die Heulenden Höhlen erkunden"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>调查山洞<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Investigate the mountain hollow.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>洞窟を調査する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>동굴 조사하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>調查山洞<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Inspecter la caverne croulante<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Die Heulenden Höhlen erkunden<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "40",
+      "vision": "开拓目标：调查山洞",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向探险小员报告<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查山洞",
+          "en": "A Subterranean Investigation",
+          "ja": "開拓目標：洞窟を調査しよう",
+          "ko": "개척 목표: 동굴 조사하기",
+          "tc": "開拓目標：調查山洞",
+          "fr": "Objectif de développement : explorer la caverne croulante",
+          "de": "Meilenstein: Die Heulenden Höhlen erkunden"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向探险小员报告<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Report to the determined digger.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>たんけんくんに報告する<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>탐험돌이에게 말하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>向探險小員報告<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Édouarpenteur<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Erkundigunde Bericht erstatten<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "41",
+      "vision": "开拓目标：调查山洞",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在开拓制作面板中制作真厉害级魔法人偶用碎岩设备\n交给探险小员<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：调查山洞",
+          "en": "A Subterranean Investigation",
+          "ja": "開拓目標：洞窟を調査しよう",
+          "ko": "개척 목표: 동굴 조사하기",
+          "tc": "開拓目標：調查山洞",
+          "fr": "Objectif de développement : explorer la caverne croulante",
+          "de": "Meilenstein: Die Heulenden Höhlen erkunden"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在开拓制作面板中制作真厉害级魔法人偶用碎岩设备\n交给探险小员<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Craft a set of splendiferous mammet-sized spelunking tools and report back to the determined digger.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>開拓製作で魔法人形用のすごい砕岩装備を作り\nたんけんくんに渡す<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>개척 제작으로 마법인형용 굉장한 암석 분쇄기를 만들고,\n탐험돌이에게 건네기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>在開拓製作視窗中製作真厲害級魔法人偶用碎岩設備\r\n交給探險小員<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Fabriquer des outils de forage supérieurs taille réduite et les donner à Édouarpenteur<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Im Pionierswerk eine fantastische Felsbrecher-Ausstattung in Marionettengröße herstellen\nErkundigunde übergeben<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "42",
+      "vision": "开拓目标：将无人岛开拓到极致",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：将无人岛开拓到极致",
+          "en": "An Idyllic Island",
+          "ja": "開拓目標：無人島開拓を極めよう",
+          "ko": "개척 목표: 무인도를 끝까지 개척하기",
+          "tc": "開拓目標：將無人島開拓到極致",
+          "fr": "Objectif de développement : sublimer votre Félicité insulaire",
+          "de": "Meilenstein: Patentes Pionieren"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>听取猫耳小员的说明<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Speak with the felicitous furball.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>ねこみみさんに話を聞く<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>야옹 선생과 대화하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>聽取貓耳小員的說明<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Parler à Chamoiselle<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Mit Miaurizius sprechen<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    },
+    {
+      "id": "43",
+      "vision": "开拓目标：将无人岛开拓到极致",
+      "objective": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>将无人岛开拓到极致<Unknown14>EC</Unknown14></Color>",
+      "names": {
+        "vision": {
+          "zh": "开拓目标：将无人岛开拓到极致",
+          "en": "An Idyllic Island",
+          "ja": "開拓目標：無人島開拓を極めよう",
+          "ko": "개척 목표: 무인도를 끝까지 개척하기",
+          "tc": "開拓目標：將無人島開拓到極致",
+          "fr": "Objectif de développement : sublimer votre Félicité insulaire",
+          "de": "Meilenstein: Patentes Pionieren"
+        },
+        "objective": {
+          "zh": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>将无人岛开拓到极致<Unknown14>EC</Unknown14></Color>",
+          "en": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Cultivate your hideaway to its very limits.<Unknown14>EC</Unknown14></Color>",
+          "ja": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>島の開拓を極めよう<Unknown14>EC</Unknown14></Color>",
+          "ko": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>섬을 끝까지 개척하기<Unknown14>EC</Unknown14></Color>",
+          "tc": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>將無人島開拓到極致<Unknown14>EC</Unknown14></Color>",
+          "fr": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Développer votre île jusqu'à son niveau maximum<Unknown14>EC</Unknown14></Color>",
+          "de": "<Color(-1)><Unknown14>FEFF0A6992</Unknown14>Die Pionierskünste meistern<Unknown14>EC</Unknown14></Color>"
+        }
+      }
+    }
+  ],
+  "unlocks": {
+    "1": [
+      {
+        "kind": "build",
+        "icon": 53919,
+        "name": "小岛木屋 I",
+        "names": {
+          "zh": "小岛木屋 I",
+          "en": "Cozy Cabin I",
+          "ja": "アイランドホール I",
+          "ko": "무인도 회관 1",
+          "tc": "小島木屋 I",
+          "fr": "Hutte placide I",
+          "de": "Strandhütte I"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 23713,
+        "name": "开拓用石斧",
+        "names": {
+          "zh": "开拓用石斧",
+          "en": "Islekeep's Stone Hatchet",
+          "ja": "開拓用ストーンハチェット",
+          "ko": "개척용 돌도끼",
+          "tc": "開拓用石斧",
+          "fr": "Hache en pierre de pionnier",
+          "de": "Steinaxt des Insulaners"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "通过引导任务开启无人岛开拓",
+          "en": "Unlock the island via the intro quest (Seeking Sanctuary)"
+        }
+      }
+    ],
+    "2": [
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "可建造耕地与牧场；可制作简易捕网（捕捉小型动物）",
+          "en": "Cropland & Pasture buildable; craft Makeshift Net for small animals"
+        }
+      }
+    ],
+    "3": [
+      {
+        "kind": "build",
+        "icon": 53916,
+        "name": "开拓工房 I",
+        "names": {
+          "zh": "开拓工房 I",
+          "en": "Workshop I",
+          "ja": "開拓工房 I",
+          "ko": "개척공방 1",
+          "tc": "開拓工坊 I",
+          "fr": "Fabrique I",
+          "de": "Inselatelier I"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 23712,
+        "name": "开拓用石锤",
+        "names": {
+          "zh": "开拓用石锤",
+          "en": "Islekeep's Stone Hammer",
+          "ja": "開拓用ストーンハンマー",
+          "ko": "개척용 돌망치",
+          "tc": "開拓用石錘",
+          "fr": "Marteau en pierre de pionnier",
+          "de": "Steinhammer des Insulaners"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21209,
+        "name": "无人岛铜矿",
+        "names": {
+          "zh": "无人岛铜矿",
+          "en": "Island Copper Ore",
+          "ja": "無人島の銅鉱",
+          "ko": "무인도 구리 광석",
+          "tc": "無人島銅礦",
+          "fr": "Minerai de cuivre insulaire",
+          "de": "Insel-Kupfererz"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 22615,
+        "name": "无人岛石灰岩",
+        "names": {
+          "zh": "无人岛石灰岩",
+          "en": "Island Limestone",
+          "ja": "無人島の石灰岩",
+          "ko": "무인도 석회암",
+          "tc": "無人島石灰岩",
+          "fr": "Pierre calcaire insulaire",
+          "de": "Insel-Kalkstein"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 22617,
+        "name": "无人岛岩盐",
+        "names": {
+          "zh": "无人岛岩盐",
+          "en": "Island Rock Salt",
+          "ja": "無人島の岩塩",
+          "ko": "무인도 암염",
+          "tc": "無人島岩鹽",
+          "fr": "Sel gemme insulaire",
+          "de": "Insel-Steinsalz"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "解锁寻路者机关 Mk.I（设施用地 I/II）；牧场可放出宠物",
+          "en": "Pathfinder Mk. I (facility plots I/II); minion release at pasture"
+        }
+      }
+    ],
+    "4": [
+      {
+        "kind": "build",
+        "icon": 53920,
+        "name": "小岛木屋 II",
+        "names": {
+          "zh": "小岛木屋 II",
+          "en": "Cozy Cabin II",
+          "ja": "アイランドホール II",
+          "ko": "무인도 회관 2",
+          "tc": "小島木屋 II",
+          "fr": "Hutte placide II",
+          "de": "Strandhütte II"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53914,
+        "name": "风车",
+        "names": {
+          "zh": "风车",
+          "en": "Quixotic Windmill",
+          "ja": "風車",
+          "ko": "풍차",
+          "tc": "風車",
+          "fr": "Moulin",
+          "de": "Windmühle"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53911,
+        "name": "树屋",
+        "names": {
+          "zh": "树屋",
+          "en": "Towering Tree Fort",
+          "ja": "ツリーハウス",
+          "ko": "나무기지",
+          "tc": "樹屋",
+          "fr": "Cabane forestière",
+          "de": "Baumhaus"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "可升级耕地 II 与牧场 II（至多 10 只动物）；开放访客来访",
+          "en": "Cropland II & Pasture II (10 animals); visitor access"
+        }
+      }
+    ],
+    "5": [
+      {
+        "kind": "build",
+        "icon": 53922,
+        "name": "屯货仓库 I",
+        "names": {
+          "zh": "屯货仓库 I",
+          "en": "Granary I",
+          "ja": "グラナリーオフィス I",
+          "ko": "재료 저장고 1",
+          "tc": "囤貨倉庫 I",
+          "fr": "Grange I",
+          "de": "Kornkammer I"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53910,
+        "name": "温泉小屋",
+        "names": {
+          "zh": "温泉小屋",
+          "en": "Boiling Bathhouse",
+          "ja": "温泉小屋",
+          "ko": "온천 오두막",
+          "tc": "溫泉小屋",
+          "fr": "Sources thermales",
+          "de": "Heiße Quelle"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 23716,
+        "name": "开拓用铜铲",
+        "names": {
+          "zh": "开拓用铜铲",
+          "en": "Islekeep's Shovel",
+          "ja": "開拓用シャベル",
+          "ko": "개척용 삽",
+          "tc": "開拓用銅鏟",
+          "fr": "Pelle de pionnier",
+          "de": "Schaufel des Insulaners"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 22634,
+        "name": "无人岛黏土",
+        "names": {
+          "zh": "无人岛黏土",
+          "en": "Island Clay",
+          "ja": "無人島の粘土",
+          "ko": "무인도 점토",
+          "tc": "無人島黏土",
+          "fr": "Argile insulaire",
+          "de": "Insel-Lehm"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21204,
+        "name": "无人岛锡砂",
+        "names": {
+          "zh": "无人岛锡砂",
+          "en": "Island Tinsand",
+          "ja": "無人島の砂錫",
+          "ko": "무인도 사석",
+          "tc": "無人島錫砂",
+          "fr": "Cassitérite insulaire",
+          "de": "Insel-Zinnsand"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 23704,
+        "name": "海岛新薯的芽块",
+        "names": {
+          "zh": "海岛新薯的芽块",
+          "en": "Island Popoto Set",
+          "ja": "アイルポポトの種芋",
+          "ko": "섬 포포토 씨앗",
+          "tc": "海島新薯的芽塊",
+          "fr": "Tubercules de popoto exotique",
+          "de": "Paradiestoffel-Knollen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23708,
+        "name": "海岛高山萝卜的种子",
+        "names": {
+          "zh": "海岛高山萝卜的种子",
+          "en": "Island Parsnip Seeds",
+          "ja": "アイルパースニップの種",
+          "ko": "섬 설탕당근 씨앗",
+          "tc": "海島高山蘿蔔的種子",
+          "fr": "Graines de panais exotique",
+          "de": "Paradiespastinakensamen"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "谷仓远征可为岛屿带回素材",
+          "en": "Granary expeditions bring back materials"
+        }
+      }
+    ],
+    "6": [
+      {
+        "kind": "build",
+        "icon": 53917,
+        "name": "开拓工房 II",
+        "names": {
+          "zh": "开拓工房 II",
+          "en": "Workshop II",
+          "ja": "開拓工房 II",
+          "ko": "개척공방 2",
+          "tc": "開拓工坊 II",
+          "fr": "Fabrique II",
+          "de": "Inselatelier II"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53923,
+        "name": "屯货仓库 II",
+        "names": {
+          "zh": "屯货仓库 II",
+          "en": "Granary II",
+          "ja": "グラナリーオフィス II",
+          "ko": "재료 저장고 2",
+          "tc": "囤貨倉庫 II",
+          "fr": "Grange II",
+          "de": "Kornkammer II"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 38151,
+        "name": "开拓用铜镰",
+        "names": {
+          "zh": "开拓用铜镰",
+          "en": "Islekeep's Copper Scythe",
+          "ja": "開拓用カッパーサイズ",
+          "ko": "개척용 구리낫",
+          "tc": "開拓用銅鐮",
+          "fr": "Faux en cuivre de pionnier",
+          "de": "Kupfersense des Insulaners"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 22452,
+        "name": "无人岛甘蔗",
+        "names": {
+          "zh": "无人岛甘蔗",
+          "en": "Island Sugarcane",
+          "ja": "無人島のサトウキビ",
+          "ko": "무인도 사탕수수",
+          "tc": "無人島甘蔗",
+          "fr": "Canne à sucre insulaire",
+          "de": "Insel-Zuckerrohr"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21652,
+        "name": "无人岛棉花",
+        "names": {
+          "zh": "无人岛棉花",
+          "en": "Island Cotton Boll",
+          "ja": "無人島の綿花",
+          "ko": "무인도 목화",
+          "tc": "無人島棉花",
+          "fr": "Fleur de coton insulaire",
+          "de": "Insel-Baumwollkapsel"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 25213,
+        "name": "无人岛麻",
+        "names": {
+          "zh": "无人岛麻",
+          "en": "Island Hemp",
+          "ja": "無人島の麻",
+          "ko": "무인도 마",
+          "tc": "無人島麻",
+          "fr": "Chanvre insulaire",
+          "de": "Insel-Hanf"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "开拓工房 II：青船币收益 +10%；可制作简易围栏（捕捉中型动物）",
+          "en": "Workshop II (+10% Seafarer's Cowries); Makeshift Restraint for medium animals"
+        }
+      }
+    ],
+    "7": [
+      {
+        "kind": "build",
+        "icon": 53921,
+        "name": "小岛木屋 III",
+        "names": {
+          "zh": "小岛木屋 III",
+          "en": "Cozy Cabin III",
+          "ja": "アイランドホール III",
+          "ko": "무인도 회관 3",
+          "tc": "小島木屋 III",
+          "fr": "Hutte placide III",
+          "de": "Strandhütte III"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 23718,
+        "name": "开拓用青铜渔叉",
+        "names": {
+          "zh": "开拓用青铜渔叉",
+          "en": "Islekeep's Bronze Gig",
+          "ja": "開拓用ブロンズギグ",
+          "ko": "개척용 청동작살",
+          "tc": "開拓用青銅魚叉",
+          "fr": "Harpon en bronze de pionnier",
+          "de": "Bronzeharpune des Insulaners"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 29012,
+        "name": "无人岛海水鱼",
+        "names": {
+          "zh": "无人岛海水鱼",
+          "en": "Islefish",
+          "ja": "無人島の海水魚",
+          "ko": "무인도 바닷물고기",
+          "tc": "無人島海水魚",
+          "fr": "Poisson de mer insulaire",
+          "de": "Insel-Fisch"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 29177,
+        "name": "无人岛乌贼",
+        "names": {
+          "zh": "无人岛乌贼",
+          "en": "Island Squid",
+          "ja": "無人島のスキッド",
+          "ko": "무인도 오징어",
+          "tc": "無人島烏賊",
+          "fr": "Calmar insulaire",
+          "de": "Insel-Kalmar"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 29657,
+        "name": "无人岛水母",
+        "names": {
+          "zh": "无人岛水母",
+          "en": "Island Jellyfish",
+          "ja": "無人島のジェリーフィッシュ",
+          "ko": "무인도 해파리",
+          "tc": "無人島水母",
+          "fr": "Méduse insulaire",
+          "de": "Insel-Qualle"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23701,
+        "name": "海岛莓果的种子",
+        "names": {
+          "zh": "海岛莓果的种子",
+          "en": "Isleberry Seeds",
+          "ja": "アイルベリーの種",
+          "ko": "섬 딸기 씨앗",
+          "tc": "海島莓果的種子",
+          "fr": "Graines de fraise exotique",
+          "de": "Paradiesbeerensamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23705,
+        "name": "海岛洋葱的种子",
+        "names": {
+          "zh": "海岛洋葱的种子",
+          "en": "Island Onion Set",
+          "ja": "アイルオニオンの種",
+          "ko": "섬 양파 씨앗",
+          "tc": "海島洋蔥的種子",
+          "fr": "Graines d'oignon exotique",
+          "de": "Paradieszwiebelsamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23707,
+        "name": "海岛番茄的种子",
+        "names": {
+          "zh": "海岛番茄的种子",
+          "en": "Island Tomato Seeds",
+          "ja": "アイルトマトの種",
+          "ko": "섬 토마토 씨앗",
+          "tc": "海島番茄的種子",
+          "fr": "Graines de tomate exotique",
+          "de": "Paradiesparadeisersamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23714,
+        "name": "海岛小麦的种子",
+        "names": {
+          "zh": "海岛小麦的种子",
+          "en": "Island Wheat Seeds",
+          "ja": "アイル小麦の種",
+          "ko": "섬 밀 씨앗",
+          "tc": "海島小麥的種子",
+          "fr": "Graines de blé exotique",
+          "de": "Paradiesweizensamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23706,
+        "name": "海岛玉米的种子",
+        "names": {
+          "zh": "海岛玉米的种子",
+          "en": "Island Corn Seeds",
+          "ja": "アイルコーンの種",
+          "ko": "섬 옥수수 씨앗",
+          "tc": "海島玉米的種子",
+          "fr": "Graines de maïs exotique",
+          "de": "Paradiesmaissamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23735,
+        "name": "海岛小萝卜的种子",
+        "names": {
+          "zh": "海岛小萝卜的种子",
+          "en": "Island Radish Seeds",
+          "ja": "アイルラディッシュの種",
+          "ko": "섬 빨간무 씨앗",
+          "tc": "海島小蘿蔔的種子",
+          "fr": "Graines de radis exotique",
+          "de": "Paradiesrettichsamen"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "耕地 III 与牧场 III（至多 20 只动物）；耕作/畜牧魔偶工具解锁自动照料（需 III 级设施）",
+          "en": "Cropland III & Pasture III (20 animals); Cropworker's/Pastureworker's Tools unlock automation (needs tier III)"
+        }
+      }
+    ],
+    "8": [
+      {
+        "kind": "build",
+        "icon": 53918,
+        "name": "开拓工房 III",
+        "names": {
+          "zh": "开拓工房 III",
+          "en": "Workshop III",
+          "ja": "開拓工房 III",
+          "ko": "개척공방 3",
+          "tc": "開拓工坊 III",
+          "fr": "Fabrique III",
+          "de": "Inselatelier III"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53924,
+        "name": "屯货仓库 III",
+        "names": {
+          "zh": "屯货仓库 III",
+          "en": "Granary III",
+          "ja": "グラナリーオフィス III",
+          "ko": "재료 저장고 3",
+          "tc": "囤貨倉庫 III",
+          "fr": "Grange III",
+          "de": "Kornkammer III"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 38001,
+        "name": "开拓用鹤嘴锄",
+        "names": {
+          "zh": "开拓用鹤嘴锄",
+          "en": "Islekeep's Bronze Beakaxe",
+          "ja": "開拓用ブロンズピック",
+          "ko": "개척용 청동곡괭이",
+          "tc": "開拓用十字鎬",
+          "fr": "Pioche en bronze de pionnier",
+          "de": "Bronze-Spitzhacke des Insulaners"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 20019,
+        "name": "无人岛石英",
+        "names": {
+          "zh": "无人岛石英",
+          "en": "Island Quartz",
+          "ja": "無人島のクォーツ",
+          "ko": "무인도 석영",
+          "tc": "無人島石英",
+          "fr": "Quartz insulaire",
+          "de": "Insel-Quarz"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21202,
+        "name": "无人岛铁矿",
+        "names": {
+          "zh": "无人岛铁矿",
+          "en": "Island Iron Ore",
+          "ja": "無人島の鉄鉱",
+          "ko": "무인도 철 광석",
+          "tc": "無人島鐵礦",
+          "fr": "Minerai de fer insulaire",
+          "de": "Insel-Eisenerz"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21251,
+        "name": "无人岛花岗岩",
+        "names": {
+          "zh": "无人岛花岗岩",
+          "en": "Island Leucogranite",
+          "ja": "無人島の花崗岩",
+          "ko": "무인도 화강암",
+          "tc": "無人島花崗岩",
+          "fr": "Granite insulaire",
+          "de": "Insel-Granit"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "开拓工房 III：青船币收益 +20%；可制作简易安眠香（捕捉大型动物）",
+          "en": "Workshop III (+20%); Makeshift Soporific for large animals"
+        }
+      }
+    ],
+    "9": [
+      {
+        "kind": "build",
+        "icon": 53913,
+        "name": "灯塔",
+        "names": {
+          "zh": "灯塔",
+          "en": "Lominsan Lighthouse",
+          "ja": "灯台",
+          "ko": "등대",
+          "tc": "燈塔",
+          "fr": "Phare",
+          "de": "Leuchtturm"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53912,
+        "name": "獭獭喷泉",
+        "names": {
+          "zh": "獭獭喷泉",
+          "en": "Water Otter Fountain",
+          "ja": "ウソウソの泉",
+          "ko": "달달이 샘",
+          "tc": "獺獺噴泉",
+          "fr": "Fontaine ressourçante",
+          "de": "Otterborn"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 38121,
+        "name": "开拓用黑铁手斧",
+        "names": {
+          "zh": "开拓用黑铁手斧",
+          "en": "Islekeep's Iron Hatchet",
+          "ja": "開拓用アイアンハチェット",
+          "ko": "개척용 손도끼",
+          "tc": "開拓用鐵斧",
+          "fr": "Hachette en fer de pionnier",
+          "de": "Eisenaxt des Insulaners"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 22638,
+        "name": "无人岛天然树脂",
+        "names": {
+          "zh": "无人岛天然树脂",
+          "en": "Island Resin",
+          "ja": "無人島の天然樹脂",
+          "ko": "무인도 천연수지",
+          "tc": "無人島天然樹脂",
+          "fr": "Résine insulaire",
+          "de": "Insel-Naturharz"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 25323,
+        "name": "无人岛椰子",
+        "names": {
+          "zh": "无人岛椰子",
+          "en": "Island Coconut",
+          "ja": "無人島のココナッツ",
+          "ko": "무인도 코코넛",
+          "tc": "無人島椰子",
+          "fr": "Noix de coco insulaire",
+          "de": "Insel-Kokosnuss"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 22611,
+        "name": "无人岛蜂巢",
+        "names": {
+          "zh": "无人岛蜂巢",
+          "en": "Island Beehive Chip",
+          "ja": "無人島の蜜蜂の巣",
+          "ko": "무인도 벌집",
+          "tc": "無人島蜂巢",
+          "fr": "Ruche d'abeilles insulaires",
+          "de": "Insel-Bienenwabe"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21228,
+        "name": "无人岛木化石",
+        "names": {
+          "zh": "无人岛木化石",
+          "en": "Island Wood Opal",
+          "ja": "無人島のウッドオパール",
+          "ko": "무인도 목단백석",
+          "tc": "無人島木化石",
+          "fr": "Bois opalisé insulaire",
+          "de": "Insel-Holzopal"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "寻路者机关 Mk.V（地标 IV）；铁斧的制作还需小岛木屋/耕地/牧场达 III 级且建成 4 个地标",
+          "en": "Pathfinder Mk. V (Landmark IV); Iron Hatchet additionally requires tier-III cabin/cropland/pasture and four landmarks"
+        }
+      }
+    ],
+    "10": [
+      {
+        "kind": "gather",
+        "icon": 23727,
+        "name": "无人岛色彩缤纷的花",
+        "names": {
+          "zh": "无人岛色彩缤纷的花",
+          "en": "Multicolored Isleblooms",
+          "ja": "無人島の極彩色の花",
+          "ko": "무인도 화려한 꽃",
+          "tc": "無人島色彩繽紛的花",
+          "fr": "Fleur multicolore insulaire",
+          "de": "Bunte Insel-Blumen"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "解锁坐骑飞行",
+          "en": "Flying mounts unlocked"
+        }
+      }
+    ],
+    "11": [
+      {
+        "kind": "seed",
+        "icon": 23729,
+        "name": "海岛韭葱种子",
+        "names": {
+          "zh": "海岛韭葱种子",
+          "en": "Island Leek Set",
+          "ja": "アイルリーキの種",
+          "ko": "섬 대파 씨앗",
+          "tc": "海島韭蔥種子",
+          "fr": "Graines de poireau exotique",
+          "de": "Paradiesporreesamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23728,
+        "name": "海岛红辣椒种子",
+        "names": {
+          "zh": "海岛红辣椒种子",
+          "en": "Island Paprika Seeds",
+          "ja": "アイルパプリカの種",
+          "ko": "섬 파프리카 씨앗",
+          "tc": "海島紅彩椒種子",
+          "fr": "Graines de poivron exotique",
+          "de": "Paradiespaprikasamen"
+        }
+      }
+    ],
+    "12": [
+      {
+        "kind": "build",
+        "icon": 53927,
+        "name": "小岛庭园",
+        "names": {
+          "zh": "小岛庭园",
+          "en": "Gamboling Garden",
+          "ja": "アイランドガーデン",
+          "ko": "무인도 정원",
+          "tc": "小島庭園",
+          "fr": "Jardin insulaire",
+          "de": "Inselgärtchen"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 25412,
+        "name": "无人岛灯火茸",
+        "names": {
+          "zh": "无人岛灯火茸",
+          "en": "Island Glimshroom",
+          "ja": "無人島のトモシビダケ",
+          "ko": "무인도 등불버섯",
+          "tc": "無人島燈火茸",
+          "fr": "Agaric luisant insulaire",
+          "de": "Insel-Leuchtpilz"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21462,
+        "name": "无人岛石炭",
+        "names": {
+          "zh": "无人岛石炭",
+          "en": "Island Coal",
+          "ja": "無人島の石炭",
+          "ko": "무인도 석탄",
+          "tc": "無人島石炭",
+          "fr": "Charbon insulaire",
+          "de": "Insel-Steinkohle"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 22678,
+        "name": "无人岛发泡水",
+        "names": {
+          "zh": "无人岛发泡水",
+          "en": "Island Effervescent Water",
+          "ja": "無人島のソーダ水",
+          "ko": "무인도 탄산수",
+          "tc": "無人島氣泡水",
+          "fr": "Eau pétillante insulaire",
+          "de": "Insel-Sprudelwasser"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "洞穴探查魔偶工具 → 开放深山洞窟采集区与第二个挖矿魔偶",
+          "en": "Spelunking Tools unlock the Mountain Hollow area and a second digging mammet"
+        }
+      }
+    ],
+    "13": [
+      {
+        "kind": "build",
+        "icon": 53928,
+        "name": "小岛木屋 IV",
+        "names": {
+          "zh": "小岛木屋 IV",
+          "en": "Cozy Cabin IV",
+          "ja": "アイランドホール IV",
+          "ko": "무인도 회관 4",
+          "tc": "小島木屋 IV",
+          "fr": "Hutte placide IV",
+          "de": "Strandhütte IV"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53930,
+        "name": "屯货仓库 IV",
+        "names": {
+          "zh": "屯货仓库 IV",
+          "en": "Granary IV",
+          "ja": "グラナリーオフィス IV",
+          "ko": "재료 저장고 4",
+          "tc": "囤貨倉庫 IV",
+          "fr": "Grange IV",
+          "de": "Kornkammer IV"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 23734,
+        "name": "开拓用钢锤",
+        "names": {
+          "zh": "开拓用钢锤",
+          "en": "Islekeep's Steel Hammer",
+          "ja": "開拓用スチールハンマー",
+          "ko": "개척용 강철 망치",
+          "tc": "開拓用鋼錘",
+          "fr": "Marteau en acier de pionnier",
+          "de": "Stahlhammer des Insulaners"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21455,
+        "name": "无人岛堆积岩",
+        "names": {
+          "zh": "无人岛堆积岩",
+          "en": "Island Shale",
+          "ja": "無人島の堆積岩",
+          "ko": "무인도 퇴적암",
+          "tc": "無人島堆積岩",
+          "fr": "Schiste insulaire",
+          "de": "Insel-Schiefer"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21477,
+        "name": "无人岛幻影石",
+        "names": {
+          "zh": "无人岛幻影石",
+          "en": "Island Spectrine",
+          "ja": "無人島の幻影石",
+          "ko": "무인도 환영석",
+          "tc": "無人島幻影石",
+          "fr": "Spectrite insulaire",
+          "de": "Insel-Spektrinit"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21208,
+        "name": "无人岛灵银矿",
+        "names": {
+          "zh": "无人岛灵银矿",
+          "en": "Island Mythril Ore",
+          "ja": "無人島の霊銀鉱",
+          "ko": "무인도 미스릴",
+          "tc": "無人島靈銀礦",
+          "fr": "Minerai de mithril insulaire",
+          "de": "Insel-Mithrilerz"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21487,
+        "name": "无人岛大理石",
+        "names": {
+          "zh": "无人岛大理石",
+          "en": "Island Marble",
+          "ja": "無人島の大理石",
+          "ko": "무인도 대리석",
+          "tc": "無人島大理石",
+          "fr": "Marbre insulaire",
+          "de": "Insel-Marmor"
+        }
+      }
+    ],
+    "14": [
+      {
+        "kind": "build",
+        "icon": 53929,
+        "name": "开拓工房 IV",
+        "names": {
+          "zh": "开拓工房 IV",
+          "en": "Workshop IV",
+          "ja": "開拓工房 IV",
+          "ko": "개척공방 4",
+          "tc": "開拓工坊 IV",
+          "fr": "Fabrique IV",
+          "de": "Inselatelier IV"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23733,
+        "name": "海岛花豆的豆子",
+        "names": {
+          "zh": "海岛花豆的豆子",
+          "en": "Island Runner Bean Seeds",
+          "ja": "アイルラナービーンズの豆",
+          "ko": "섬 적화강낭콩 씨앗",
+          "tc": "海島花豆的豆子",
+          "fr": "Graine de haricot-fleur exotique",
+          "de": "Paradiesfeuerbohnensamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23709,
+        "name": "海岛红菜的种子",
+        "names": {
+          "zh": "海岛红菜的种子",
+          "en": "Island Beet Seeds",
+          "ja": "アイルビーツの種",
+          "ko": "섬 비트 씨앗",
+          "tc": "海島紅菜的種子",
+          "fr": "Graine de betterave exotique",
+          "de": "Rote Paradiesbetesamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23730,
+        "name": "海岛茄子的种子",
+        "names": {
+          "zh": "海岛茄子的种子",
+          "en": "Island Eggplant Seeds",
+          "ja": "アイルエッグプラントの種",
+          "ko": "섬 가지 씨앗",
+          "tc": "海島茄子的種子",
+          "fr": "Graine d'aubergine exotique",
+          "de": "Paradiesauberginensamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23732,
+        "name": "海岛西葫芦的种子",
+        "names": {
+          "zh": "海岛西葫芦的种子",
+          "en": "Island Zucchini Seeds",
+          "ja": "アイルズッキーニの種",
+          "ko": "섬 돼지호박 씨앗",
+          "tc": "海島櫛瓜的種子",
+          "fr": "Graine de courgette exotique",
+          "de": "Paradieszucchinisamen"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "开拓工房 IV：青船币收益 +30%",
+          "en": "Workshop IV (+30%)"
+        }
+      }
+    ],
+    "15": [
+      {
+        "kind": "build",
+        "icon": 53932,
+        "name": "小岛发条钟楼",
+        "names": {
+          "zh": "小岛发条钟楼",
+          "en": "Quaint Clock Tower",
+          "ja": "アイランドクロックタワー",
+          "ko": "시계탑",
+          "tc": "小島發條鐘樓",
+          "fr": "Beffroi insulaire",
+          "de": "Glockenturm"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53931,
+        "name": "船景跳跳乐",
+        "names": {
+          "zh": "船景跳跳乐",
+          "en": "Uncharted Course",
+          "ja": "アイランドアスレチックシップ",
+          "ko": "운동호",
+          "tc": "船景跳跳樂",
+          "fr": "Accrobranche insulaire",
+          "de": "Gymnastikutter"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21207,
+        "name": "无人岛黄铜矿",
+        "names": {
+          "zh": "无人岛黄铜矿",
+          "en": "Island Yellow Copper Ore",
+          "ja": "無人島の黄銅鉱",
+          "ko": "무인도 황동 광석",
+          "tc": "無人島黃銅礦",
+          "fr": "Minerai de cuivre jaune insulaire",
+          "de": "Insel-Kupferkies"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21229,
+        "name": "无人岛鹰眼砂",
+        "names": {
+          "zh": "无人岛鹰眼砂",
+          "en": "Island Hawk's Eye Sand",
+          "ja": "無人島の鷹目砂",
+          "ko": "무인도 응안사",
+          "tc": "無人島鷹眼砂",
+          "fr": "Sable d'œil-de-faucon insulaire",
+          "de": "Insel-Falkenaugensand"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "寻路者机关 Mk.VI（设施 VI / 地标 V）；高级洞穴探查工具 → 富矿脉采集区与第三个挖矿魔偶；家具柜幻化上限 90、宠物栏 50",
+          "en": "Pathfinder Mk. VI (Facility VI/Landmark V); Splendiferous Spelunking Tools unlock the Mother Lode; furnishing glamour cap 90, minion slots 50"
+        }
+      }
+    ],
+    "17": [
+      {
+        "kind": "build",
+        "icon": 53936,
+        "name": "小岛木屋 V",
+        "names": {
+          "zh": "小岛木屋 V",
+          "en": "Cozy Cabin V",
+          "ja": "アイランドホール V",
+          "ko": "무인도 회관 5",
+          "tc": "小島木屋 V",
+          "fr": "Hutte placide V",
+          "de": "Strandhütte V"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 38027,
+        "name": "开拓用秘银鹤嘴锄",
+        "names": {
+          "zh": "开拓用秘银鹤嘴锄",
+          "en": "Islekeep's Mythril Pickaxe",
+          "ja": "開拓用ミスリルピック",
+          "ko": "개척용 미스릴 곡괭이",
+          "tc": "開拓用秘銀十字鎬",
+          "fr": "Pioche en mithril de pionnier",
+          "de": "Mithril-Spitzhacke des Insulaners"
+        }
+      },
+      {
+        "kind": "tool",
+        "icon": 23739,
+        "name": "开拓用凿子",
+        "names": {
+          "zh": "开拓用凿子",
+          "en": "Islekeep's Chisel",
+          "ja": "開拓用チズル",
+          "ko": "개척용 끌",
+          "tc": "開拓用鑿子",
+          "fr": "Burin de pionnier",
+          "de": "Meißel des Insulaners"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21212,
+        "name": "无人岛金矿",
+        "names": {
+          "zh": "无人岛金矿",
+          "en": "Island Gold Ore",
+          "ja": "無人島の金鉱",
+          "ko": "무인도 금 광석",
+          "tc": "無人島金礦",
+          "fr": "Minerai d'or insulaire",
+          "de": "Insel-Golderz"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21242,
+        "name": "无人岛翠银沙",
+        "names": {
+          "zh": "无人岛翠银沙",
+          "en": "Island Durium Sand",
+          "ja": "無人島の翠銀砂",
+          "ko": "무인도 취은 모래",
+          "tc": "無人島翠銀沙",
+          "fr": "Sable de durium insulaire",
+          "de": "Insel-Duriumsand"
+        }
+      },
+      {
+        "kind": "gather",
+        "icon": 21488,
+        "name": "无人岛水晶层",
+        "names": {
+          "zh": "无人岛水晶层",
+          "en": "Island Crystal Formation",
+          "ja": "無人島のクリスタル層",
+          "ko": "무인도 크리스탈층",
+          "tc": "無人島水晶層",
+          "fr": "Cristal insulaire",
+          "de": "Insel-Kristallformation"
+        }
+      }
+    ],
+    "18": [
+      {
+        "kind": "build",
+        "icon": 53938,
+        "name": "屯货仓库 V",
+        "names": {
+          "zh": "屯货仓库 V",
+          "en": "Granary V",
+          "ja": "グラナリーオフィス V",
+          "ko": "재료 저장고 5",
+          "tc": "囤貨倉庫 V",
+          "fr": "Grange V",
+          "de": "Kornkammer V"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23740,
+        "name": "海岛西瓜种子",
+        "names": {
+          "zh": "海岛西瓜种子",
+          "en": "Island Watermelon Seeds",
+          "ja": "アイルウォーターメロンの種",
+          "ko": "섬 수박 씨앗",
+          "tc": "海島西瓜種子",
+          "fr": "Graines de pastèque exotique",
+          "de": "Paradieswassermelonensamen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23741,
+        "name": "海岛甜新薯芽块",
+        "names": {
+          "zh": "海岛甜新薯芽块",
+          "en": "Island Sweet Popoto Set",
+          "ja": "アイルスイートポポトの種芋",
+          "ko": "섬 달콤포포토 씨앗",
+          "tc": "海島甜新薯芽塊",
+          "fr": "Tubercules de popoto douce exotique",
+          "de": "Paradiessüßtoffel-Knollen"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23738,
+        "name": "海岛西兰花苗",
+        "names": {
+          "zh": "海岛西兰花苗",
+          "en": "Island Broccoli Seeds",
+          "ja": "アイルブロッコリーの苗",
+          "ko": "섬 브로콜리 모종",
+          "tc": "海島花椰菜苗",
+          "fr": "Graines de brocoli exotique",
+          "de": "Paradiesbrokkolikeimlinge"
+        }
+      },
+      {
+        "kind": "seed",
+        "icon": 23745,
+        "name": "海岛水牛豆的豆子",
+        "names": {
+          "zh": "海岛水牛豆的豆子",
+          "en": "Island Buffalo Bean Seeds",
+          "ja": "アイルバッファロービーンの豆",
+          "ko": "섬 물소콩 씨앗",
+          "tc": "海島水牛豆種子",
+          "fr": "Graines de haricot buffle exotique",
+          "de": "Paradiesjuckbohnensamen"
+        }
+      }
+    ],
+    "19": [
+      {
+        "kind": "build",
+        "icon": 53937,
+        "name": "开拓工房 V",
+        "names": {
+          "zh": "开拓工房 V",
+          "en": "Workshop V",
+          "ja": "開拓工房 V",
+          "ko": "개척공방 5",
+          "tc": "開拓工坊 V",
+          "fr": "Fabrique V",
+          "de": "Inselatelier V"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53942,
+        "name": "小岛圣堂",
+        "names": {
+          "zh": "小岛圣堂",
+          "en": "Sanctuary Sanctuary",
+          "ja": "アイランドサンクタム",
+          "ko": "예배당",
+          "tc": "小島聖堂",
+          "fr": "Sanctuaire insulaire",
+          "de": "Inselschrein"
+        }
+      },
+      {
+        "kind": "build",
+        "icon": 53943,
+        "name": "小岛魔法树",
+        "names": {
+          "zh": "小岛魔法树",
+          "en": "Aetherial Arbor",
+          "ja": "アイランドマジカルツリー",
+          "ko": "마법 나무",
+          "tc": "小島魔法樹",
+          "fr": "Arbre magique insulaire",
+          "de": "Hagenhain"
+        }
+      },
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "开拓工房 V：青船币收益 +40%；解锁妖精委托（Felicitous Favors）",
+          "en": "Workshop V (+40%); Felicitous Favors unlocked"
+        }
+      }
+    ],
+    "20": [
+      {
+        "kind": "feature",
+        "text": {
+          "zh": "可制作完美捕网/围栏/安眠香（捕获成功率更高）",
+          "en": "Flawless Net/Restraints/Soporifics craftable"
+        }
+      }
+    ]
+  }
+}

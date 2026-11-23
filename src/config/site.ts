@@ -9,6 +9,13 @@ export type RoutePath =
   | '/ffxiv'
   | '/ffxiv/item-card'
   | '/ffxiv/housing'
+  | '/ffxiv/island'
+  | '/ffxiv/island/map'
+  | '/ffxiv/island/codex'
+  | '/ffxiv/island/animals'
+  | '/ffxiv/island/rewards'
+  | '/ffxiv/island/guide'
+  | '/ffxiv/island/ranks'
   | '/ffxiv/glamour'
   | '/ffxiv/glamour/template'
   | '/ffxiv/glamour/equipinfo'
@@ -107,6 +114,13 @@ export const siteRoutes = {
   ffxiv: '/ffxiv',
   itemCard: '/ffxiv/item-card',
   housing: '/ffxiv/housing',
+  island: '/ffxiv/island',
+  islandMap: '/ffxiv/island/map',
+  islandCodex: '/ffxiv/island/codex',
+  islandAnimals: '/ffxiv/island/animals',
+  islandRewards: '/ffxiv/island/rewards',
+  islandGuide: '/ffxiv/island/guide',
+  islandRanks: '/ffxiv/island/ranks',
   glamour: '/ffxiv/glamour',
   glamourTemplate: '/ffxiv/glamour/template',
   glamourEquipInfo: '/ffxiv/glamour/equipinfo',
@@ -238,6 +252,14 @@ export const ffxivTools: ToolEntry[] = [
     route: siteRoutes.fashionCheck,
     summaryKey: textKeys.fashionCheckSummary,
     statusLabelKey: 'fashionCheck.verified'
+  },
+  {
+    id: 'island',
+    titleKey: textKeys.islandTitle,
+    projectName: 'NSIsland',
+    route: siteRoutes.island,
+    summaryKey: textKeys.placeholder,
+    statusLabelKey: textKeys.placeholder
   },
   {
     id: 'itemCard',

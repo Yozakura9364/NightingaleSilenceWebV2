@@ -1,7 +1,7 @@
 import { ffxivTools } from '@/config/site'
 import { getDevToolMeta } from '@/config/devToolMeta'
 
-export type FfxivToolId = 'itemCard' | 'glamour' | 'plate' | 'armoire'
+export type FfxivToolId = 'itemCard' | 'glamour' | 'island' | 'plate' | 'armoire'
 
 export interface ApiBoundary {
   id: FfxivToolId
@@ -17,7 +17,9 @@ export interface ApiBoundary {
 const toolApiBase: Partial<Record<FfxivToolId, string>> = {
   plate: '/api/plate',
   glamour: '/api/glamour',
-  itemCard: '/api/glamour'
+  itemCard: '/api/glamour',
+  // 无人岛物品图标复用幻化的图标服务端点。
+  island: '/api/glamour'
 }
 
 // devPort / sourcePath 来自 dev-only 元数据（src/config/devToolMeta.ts），

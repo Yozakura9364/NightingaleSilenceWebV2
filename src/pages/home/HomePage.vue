@@ -667,7 +667,7 @@ const desktopIcons = [
     icon: ffxivWorkshopIcon,
     tone: 'blue'
   },
-  ...ffxivTools.filter((tool) => tool.id !== 'armoire').map((tool) => ({
+  ...ffxivTools.filter((tool) => tool.id !== 'armoire' && tool.id !== 'island').map((tool) => ({
     id: tool.id,
     labelKey: tool.titleKey,
     route: tool.route,

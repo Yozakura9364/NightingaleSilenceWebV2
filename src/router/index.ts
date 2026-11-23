@@ -17,6 +17,7 @@ const ffxivCategory = getCategory('ffxiv')
 const silenceCategory = getCategory('silence')
 const itemCardTool = getFfxivTool('itemCard')
 const housingTool = getFfxivTool('housing')
+const islandTool = getFfxivTool('island')
 const glamourTool = getFfxivTool('glamour')
 const plateTool = getFfxivTool('plate')
 const armoireTool = getFfxivTool('armoire')
@@ -167,6 +168,49 @@ const router = createRouter({
       name: 'ffxiv-housing',
       meta: { titleKey: housingTool?.titleKey ?? 'housing.title' },
       component: loadLocalizedPage(['housing'], () => import('@/pages/ffxiv/housing/HousingPage.vue'))
+    },
+    {
+      path: siteRoutes.island,
+      alias: '/ffxiv/island-sanctuary',
+      meta: { titleKey: islandTool?.titleKey ?? 'island.title' },
+      component: loadLocalizedPage(['island'], () => import('@/pages/island/IslandPage.vue')),
+      children: [
+        {
+          path: '',
+          name: 'ffxiv-island-goods',
+          component: () => import('@/pages/island/views/IslandGoodsView.vue')
+        },
+        {
+          path: 'map',
+          name: 'ffxiv-island-map',
+          component: () => import('@/pages/island/views/IslandMapView.vue')
+        },
+        {
+          path: 'codex',
+          name: 'ffxiv-island-codex',
+          component: () => import('@/pages/island/views/IslandCodexView.vue')
+        },
+        {
+          path: 'animals',
+          name: 'ffxiv-island-animals',
+          component: () => import('@/pages/island/views/IslandAnimalsView.vue')
+        },
+        {
+          path: 'rewards',
+          name: 'ffxiv-island-rewards',
+          component: () => import('@/pages/island/views/IslandRewardsView.vue')
+        },
+        {
+          path: 'guide',
+          name: 'ffxiv-island-guide',
+          component: () => import('@/pages/island/views/IslandGuideView.vue')
+        },
+        {
+          path: 'ranks',
+          name: 'ffxiv-island-ranks',
+          component: () => import('@/pages/island/views/IslandRanksView.vue')
+        }
+      ]
     },
     {
       path: siteRoutes.glamour,

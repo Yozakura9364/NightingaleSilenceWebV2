@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "ffxiv.island.rankUnlocks.v1",
+  "note": "各开拓等级的具体解锁内容：游戏 CSV 无等级→解锁映射，清单取自社区 wiki 逐级进度表；tool/seed/gather/build 条目由生成器用本仓库数据解析出七语名称与图标，feature 为事实性机制说明（AI 依据 wiki 起草，待维护者审校）。",
+  "source": [
+    {
+      "url": "https://ffxiv.consolegameswiki.com/wiki/Island_Sanctuary",
+      "role": "逐级进度表（建筑/区域/魔偶服务/种子/采集物）",
+      "fetchedAt": "2026-11-23"
+    },
+    {
+      "url": "https://ffxiv.consolegameswiki.com/wiki/Island_Tools",
+      "role": "采集工具解锁等级",
+      "fetchedAt": "2026-11-22"
+    }
+  ],
+  "ranks": {
+    "1": [
+      { "type": "build", "match": "cozy cabin i" },
+      { "type": "tool", "itemId": "37679" },
+      { "type": "feature", "zh": "通过引导任务开启无人岛开拓", "en": "Unlock the island via the intro quest (Seeking Sanctuary)" }
+    ],
+    "2": [
+      { "type": "feature", "zh": "可建造耕地与牧场；可制作简易捕网（捕捉小型动物）", "en": "Cropland & Pasture buildable; craft Makeshift Net for small animals" }
+    ],
+    "3": [
+      { "type": "build", "match": "workshop i" },
+      { "type": "tool", "itemId": "37680" },
+      { "type": "gather", "itemId": "37564" },
+      { "type": "gather", "itemId": "37565" },
+      { "type": "gather", "itemId": "37566" },
+      { "type": "feature", "zh": "解锁寻路者机关 Mk.I（设施用地 I/II）；牧场可放出宠物", "en": "Pathfinder Mk. I (facility plots I/II); minion release at pasture" }
+    ],
+    "4": [
+      { "type": "build", "match": "cozy cabin ii" },
+      { "type": "build", "match": "quixotic windmill" },
+      { "type": "build", "match": "towering tree fort" },
+      { "type": "feature", "zh": "可升级耕地 II 与牧场 II（至多 10 只动物）；开放访客来访", "en": "Cropland II & Pasture II (10 animals); visitor access" }
+    ],
+    "5": [
+      { "type": "build", "match": "granary i" },
+      { "type": "build", "match": "boiling bathhouse" },
+      { "type": "tool", "itemId": "37681" },
+      { "type": "gather", "itemId": "37570" },
+      { "type": "gather", "itemId": "37571" },
+      { "type": "gather", "itemId": "37583" },
+      { "type": "seed", "itemId": "37591" },
+      { "type": "feature", "zh": "谷仓远征可为岛屿带回素材", "en": "Granary expeditions bring back materials" }
+    ],
+    "6": [
+      { "type": "build", "match": "workshop ii" },
+      { "type": "build", "match": "granary ii" },
+      { "type": "tool", "itemId": "37682" },
+      { "type": "gather", "itemId": "37567" },
+      { "type": "gather", "itemId": "37568" },
+      { "type": "gather", "itemId": "37569" },
+      { "type": "feature", "zh": "开拓工房 II：青船币收益 +10%；可制作简易围栏（捕捉中型动物）", "en": "Workshop II (+10% Seafarer's Cowries); Makeshift Restraint for medium animals" }
+    ],
+    "7": [
+      { "type": "build", "match": "cozy cabin iii" },
+      { "type": "tool", "itemId": "37683" },
+      { "type": "gather", "itemId": "37575" },
+      { "type": "gather", "itemId": "37576" },
+      { "type": "gather", "itemId": "37577" },
+      { "type": "seed", "itemId": "37585" },
+      { "type": "seed", "itemId": "37587" },
+      { "type": "seed", "itemId": "37588" },
+      { "type": "seed", "itemId": "37589" },
+      { "type": "seed", "itemId": "37590" },
+      { "type": "seed", "itemId": "37592" },
+      { "type": "feature", "zh": "耕地 III 与牧场 III（至多 20 只动物）；耕作/畜牧魔偶工具解锁自动照料（需 III 级设施）", "en": "Cropland III & Pasture III (20 animals); Cropworker's/Pastureworker's Tools unlock automation (needs tier III)" }
+    ],
+    "8": [
+      { "type": "build", "match": "workshop iii" },
+      { "type": "build", "match": "granary iii" },
+      { "type": "tool", "itemId": "37684" },
+      { "type": "gather", "itemId": "37573" },
+      { "type": "gather", "itemId": "37572" },
+      { "type": "gather", "itemId": "37574" },
+      { "type": "feature", "zh": "开拓工房 III：青船币收益 +20%；可制作简易安眠香（捕捉大型动物）", "en": "Workshop III (+20%); Makeshift Soporific for large animals" }
+    ],
+    "9": [
+      { "type": "build", "match": "lominsan lighthouse" },
+      { "type": "build", "match": "water otter fountain" },
+      { "type": "tool", "itemId": "39233" },
+      { "type": "gather", "itemId": "39224" },
+      { "type": "gather", "itemId": "39225" },
+      { "type": "gather", "itemId": "39226" },
+      { "type": "gather", "itemId": "39227" },
+      { "type": "feature", "zh": "寻路者机关 Mk.V（地标 IV）；铁斧的制作还需小岛木屋/耕地/牧场达 III 级且建成 4 个地标", "en": "Pathfinder Mk. V (Landmark IV); Iron Hatchet additionally requires tier-III cabin/cropland/pasture and four landmarks" }
+    ],
+    "10": [
+      { "type": "gather", "itemId": "39228" },
+      { "type": "feature", "zh": "解锁坐骑飞行", "en": "Flying mounts unlocked" }
+    ],
+    "11": [
+      { "type": "seed", "itemId": "39230" },
+      { "type": "seed", "itemId": "39229" }
+    ],
+    "12": [
+      { "type": "build", "match": "gamboling garden" },
+      { "type": "gather", "itemId": "39889" },
+      { "type": "gather", "itemId": "39887" },
+      { "type": "gather", "itemId": "39892" },
+      { "type": "feature", "zh": "洞穴探查魔偶工具 → 开放深山洞窟采集区与第二个挖矿魔偶", "en": "Spelunking Tools unlock the Mountain Hollow area and a second digging mammet" }
+    ],
+    "13": [
+      { "type": "build", "match": "cozy cabin iv" },
+      { "type": "build", "match": "granary iv" },
+      { "type": "tool", "itemId": "39903" },
+      { "type": "gather", "itemId": "39888" },
+      { "type": "gather", "itemId": "39893" },
+      { "type": "gather", "itemId": "39891" },
+      { "type": "gather", "itemId": "39890" }
+    ],
+    "14": [
+      { "type": "build", "match": "workshop iv" },
+      { "type": "seed", "itemId": "39895" },
+      { "type": "seed", "itemId": "39896" },
+      { "type": "seed", "itemId": "39897" },
+      { "type": "seed", "itemId": "39898" },
+      { "type": "feature", "zh": "开拓工房 IV：青船币收益 +30%", "en": "Workshop IV (+30%)" }
+    ],
+    "15": [
+      { "type": "build", "match": "quaint clock tower" },
+      { "type": "build", "match": "uncharted course" },
+      { "type": "gather", "itemId": "41631" },
+      { "type": "gather", "itemId": "41633" },
+      { "type": "feature", "zh": "寻路者机关 Mk.VI（设施 VI / 地标 V）；高级洞穴探查工具 → 富矿脉采集区与第三个挖矿魔偶；家具柜幻化上限 90、宠物栏 50", "en": "Pathfinder Mk. VI (Facility VI/Landmark V); Splendiferous Spelunking Tools unlock the Mother Lode; furnishing glamour cap 90, minion slots 50" }
+    ],
+    "17": [
+      { "type": "build", "match": "cozy cabin v" },
+      { "type": "tool", "itemId": "41646" },
+      { "type": "tool", "itemId": "41647" },
+      { "type": "gather", "itemId": "41632" },
+      { "type": "gather", "itemId": "41630" },
+      { "type": "gather", "itemId": "41634" }
+    ],
+    "18": [
+      { "type": "build", "match": "granary v" },
+      { "type": "seed", "itemId": "41639" },
+      { "type": "seed", "itemId": "41640" },
+      { "type": "seed", "itemId": "41641" },
+      { "type": "seed", "itemId": "41642" }
+    ],
+    "19": [
+      { "type": "build", "match": "workshop v" },
+      { "type": "build", "match": "sanctuary sanctuary" },
+      { "type": "build", "match": "aetherial arbor" },
+      { "type": "feature", "zh": "开拓工房 V：青船币收益 +40%；解锁妖精委托（Felicitous Favors）", "en": "Workshop V (+40%); Felicitous Favors unlocked" }
+    ],
+    "20": [
+      { "type": "feature", "zh": "可制作完美捕网/围栏/安眠香（捕获成功率更高）", "en": "Flawless Net/Restraints/Soporifics craftable" }
+    ]
+  }
+}

@@ -1,0 +1,1945 @@
+{
+  "schemaVersion": "ffxiv.island.sources.v1",
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv"
+    },
+    "source_batch_id": "ab7c6761d292ac0273ff514129355851650d83c1fb870f6cc8e5dcf64c8ca3b8",
+    "source_mode": "remote"
+  },
+  "generatedAt": "2026-11-23T15:26:27.180Z",
+  "files": {
+    "zh": {
+      "MJIRank": {
+        "locale": "chs",
+        "sheet": "MJIRank",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIRank.csv",
+        "sha256": "e8361473160a5669635b97ab6d31485bd4d7c6d0d31614826593e92d8234a17b",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIProgress": {
+        "locale": "chs",
+        "sheet": "MJIProgress",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIProgress.csv",
+        "sha256": "901e2acec5726cdc4d79bace83910ca83905a93c7326e6bac4ecf604d5f42fe7",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemPouch": {
+        "locale": "chs",
+        "sheet": "MJIItemPouch",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIItemPouch.csv",
+        "sha256": "a1eff446d97f3ddc33e55e090670ce161722cf2dddc5733ff08b18ee11ca3706",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemCategory": {
+        "locale": "chs",
+        "sheet": "MJIItemCategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIItemCategory.csv",
+        "sha256": "854aaef2e6d580bb24775a6155f4a4b3a0890c60397f732ba34df615ea0016de",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringItem": {
+        "locale": "chs",
+        "sheet": "MJIGatheringItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIGatheringItem.csv",
+        "sha256": "8dbd977555ed7909ac1c92984c97616b0d04e02c65646aa98e9a28fa9e8a1225",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringTool": {
+        "locale": "chs",
+        "sheet": "MJIGatheringTool",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIGatheringTool.csv",
+        "sha256": "aa3d22832bc18cd9e91fa8bc39ca88d48628d7757ab87633e1304267002fb429",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipe": {
+        "locale": "chs",
+        "sheet": "MJIRecipe",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIRecipe.csv",
+        "sha256": "0c08fcec5c88a4c4518d4ba8f0f4e848b5d09ed14dda4f53f28f8239a0a55727",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipeMaterial": {
+        "locale": "chs",
+        "sheet": "MJIRecipeMaterial",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIRecipeMaterial.csv",
+        "sha256": "85a04213bbf2ec3c20d74fbf09aa37a12f58eaee4da75325acb301b7d9063dff",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIKeyItem": {
+        "locale": "chs",
+        "sheet": "MJIKeyItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIKeyItem.csv",
+        "sha256": "ebedbc39354897c5f05b33af080ac8af20a237424d6de8a544d61792297caacd",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObject": {
+        "locale": "chs",
+        "sheet": "MJICraftworksObject",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+        "sha256": "82472274f60560a96793393444d8fd88d4d0af37d56bc5d23dbc8e29d1748319",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObjectTheme": {
+        "locale": "chs",
+        "sheet": "MJICraftworksObjectTheme",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObjectTheme.csv",
+        "sha256": "c877092fada551ee02ad94bb0db24276711e677f43c430d77b3a28c2b1849585",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularity": {
+        "locale": "chs",
+        "sheet": "MJICraftworksPopularity",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksPopularity.csv",
+        "sha256": "a3674a351c9e9fb2032019bef6abfef53ee0abec1d388fc2bd39adabc757a829",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularityType": {
+        "locale": "chs",
+        "sheet": "MJICraftworksPopularityType",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksPopularityType.csv",
+        "sha256": "73cd71ed59964defa22617513290a0f918570721a8e3e1b8cd5aad597bc79bdc",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksSupplyDefine": {
+        "locale": "chs",
+        "sheet": "MJICraftworksSupplyDefine",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksSupplyDefine.csv",
+        "sha256": "070a4c09ef617b93754c2e14e76dda6e61b844d321af6fe7f1316d9348de4551",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksRankRatio": {
+        "locale": "chs",
+        "sheet": "MJICraftworksRankRatio",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksRankRatio.csv",
+        "sha256": "31839c00b073380677efea92d49f79c01474704c9018d5ff87281eda5db85ec8",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksTension": {
+        "locale": "chs",
+        "sheet": "MJICraftworksTension",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksTension.csv",
+        "sha256": "a245f3ab187a662e6922b4012b24060dedf108cfc9e6db09a9b628120beaaa6e",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIAnimals": {
+        "locale": "chs",
+        "sheet": "MJIAnimals",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIAnimals.csv",
+        "sha256": "8f23c60c0220d33c50cb5ac12c790c3ecad10fbc9b4cff555408ababa4374e4c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIBuilding": {
+        "locale": "chs",
+        "sheet": "MJIBuilding",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIBuilding.csv",
+        "sha256": "b57fec4d38335c43d162e0afdeaee191b5f896890ac121c70083647f33d36340",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJILandmark": {
+        "locale": "chs",
+        "sheet": "MJILandmark",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJILandmark.csv",
+        "sha256": "3e1ef8285b1f5be7416b6a2fd91531374c84bc6ced8e98afcc317e2941dcc579",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICropSeed": {
+        "locale": "chs",
+        "sheet": "MJICropSeed",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICropSeed.csv",
+        "sha256": "6e0a3480a257c302c855a0217debae46a4eee4e7e88c87258671c13ba03ff158",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopItem": {
+        "locale": "chs",
+        "sheet": "MJIDisposalShopItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIDisposalShopItem.csv",
+        "sha256": "def0bdcb8f01769ce9c5123759b7a5b0e7e9fc6e500032e670ce73395ce6f8eb",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopUICategory": {
+        "locale": "chs",
+        "sheet": "MJIDisposalShopUICategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIDisposalShopUICategory.csv",
+        "sha256": "f5e7b8f3266b8ba2763d4683fd52ad33675b9ec6a3c561e0f2ca2e86d8352070",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementArea": {
+        "locale": "chs",
+        "sheet": "MJIStockyardManagementArea",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIStockyardManagementArea.csv",
+        "sha256": "e4fd5c3513ba8205b1b607da5bbb337bbb61e41bb8bf908ab4a5a59721ff9b95",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementTable": {
+        "locale": "chs",
+        "sheet": "MJIStockyardManagementTable",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIStockyardManagementTable.csv",
+        "sha256": "c384e8888dd0c9d68fbd7468f6c4733f34dd916f0a8b3292b08a531e80c3ae82",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIText": {
+        "locale": "chs",
+        "sheet": "MJIText",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJIText.csv",
+        "sha256": "19f5a267f72e0681753dbb4a3368852491864fce2d944e36e09cf96ecfc49d29",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "EObjName": {
+        "locale": "chs",
+        "sheet": "EObjName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/EObjName.csv",
+        "sha256": "55b7749b2e434973626eb82624e16ce6e19412c3e9d40d5750821fff9e81a8f0",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "BNpcName": {
+        "locale": "chs",
+        "sheet": "BNpcName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/BNpcName.csv",
+        "sha256": "d7e68fcc2f6198a20bc4035c33addd4d2d23a316c099021729da0519350d3a60",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Item": {
+        "locale": "chs",
+        "sheet": "Item",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Item.csv",
+        "sha256": "52b1993d37ddfc03c69614f7161d8f47a50ecc1daead4f85f291ebb683d636c7",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Weather": {
+        "locale": "chs",
+        "sheet": "Weather",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Weather.csv",
+        "sha256": "de2f9fa11a021681de2b45efc946ef72b2d6feea8ec216078b7f5b58786f78ff",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "SpecialShop": {
+        "locale": "chs",
+        "sheet": "SpecialShop",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/SpecialShop.csv",
+        "sha256": "9f4c8dcb69d908d5941d217ad2a3cb347e93c729e92231169720b029866fbcd8",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Achievement": {
+        "locale": "chs",
+        "sheet": "Achievement",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Achievement.csv",
+        "sha256": "0a075c9afa588a37d6f328a1cf91bcef8aba2c846cf87b6f7011ff2125401351",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Title": {
+        "locale": "chs",
+        "sheet": "Title",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Title.csv",
+        "sha256": "6ebd204c28219a2097410ded59b49de33291406009cae8d583732643476f9649",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      }
+    },
+    "en": {
+      "MJIRank": {
+        "locale": "en",
+        "sheet": "MJIRank",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIRank.csv",
+        "sha256": "e8361473160a5669635b97ab6d31485bd4d7c6d0d31614826593e92d8234a17b",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIProgress": {
+        "locale": "en",
+        "sheet": "MJIProgress",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIProgress.csv",
+        "sha256": "14f91015988f4ed865759228b1311f44379559eb257cd64c90c5040ccc1a0bbc",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemPouch": {
+        "locale": "en",
+        "sheet": "MJIItemPouch",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIItemPouch.csv",
+        "sha256": "a1eff446d97f3ddc33e55e090670ce161722cf2dddc5733ff08b18ee11ca3706",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemCategory": {
+        "locale": "en",
+        "sheet": "MJIItemCategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIItemCategory.csv",
+        "sha256": "6a82f7b031cf287326568a4ceba9a2b5d6442110d2a6ef6a8644046a1f1d5248",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringItem": {
+        "locale": "en",
+        "sheet": "MJIGatheringItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIGatheringItem.csv",
+        "sha256": "8dbd977555ed7909ac1c92984c97616b0d04e02c65646aa98e9a28fa9e8a1225",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringTool": {
+        "locale": "en",
+        "sheet": "MJIGatheringTool",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIGatheringTool.csv",
+        "sha256": "aa3d22832bc18cd9e91fa8bc39ca88d48628d7757ab87633e1304267002fb429",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipe": {
+        "locale": "en",
+        "sheet": "MJIRecipe",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIRecipe.csv",
+        "sha256": "0c08fcec5c88a4c4518d4ba8f0f4e848b5d09ed14dda4f53f28f8239a0a55727",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipeMaterial": {
+        "locale": "en",
+        "sheet": "MJIRecipeMaterial",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIRecipeMaterial.csv",
+        "sha256": "85a04213bbf2ec3c20d74fbf09aa37a12f58eaee4da75325acb301b7d9063dff",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIKeyItem": {
+        "locale": "en",
+        "sheet": "MJIKeyItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIKeyItem.csv",
+        "sha256": "ebedbc39354897c5f05b33af080ac8af20a237424d6de8a544d61792297caacd",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObject": {
+        "locale": "en",
+        "sheet": "MJICraftworksObject",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+        "sha256": "82472274f60560a96793393444d8fd88d4d0af37d56bc5d23dbc8e29d1748319",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObjectTheme": {
+        "locale": "en",
+        "sheet": "MJICraftworksObjectTheme",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObjectTheme.csv",
+        "sha256": "5236fa6c35e5f24ee880cb88ab128a39d3df52cac716916cb086a586d76622bb",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularity": {
+        "locale": "en",
+        "sheet": "MJICraftworksPopularity",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksPopularity.csv",
+        "sha256": "a3674a351c9e9fb2032019bef6abfef53ee0abec1d388fc2bd39adabc757a829",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularityType": {
+        "locale": "en",
+        "sheet": "MJICraftworksPopularityType",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksPopularityType.csv",
+        "sha256": "73cd71ed59964defa22617513290a0f918570721a8e3e1b8cd5aad597bc79bdc",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksSupplyDefine": {
+        "locale": "en",
+        "sheet": "MJICraftworksSupplyDefine",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksSupplyDefine.csv",
+        "sha256": "070a4c09ef617b93754c2e14e76dda6e61b844d321af6fe7f1316d9348de4551",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksRankRatio": {
+        "locale": "en",
+        "sheet": "MJICraftworksRankRatio",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksRankRatio.csv",
+        "sha256": "31839c00b073380677efea92d49f79c01474704c9018d5ff87281eda5db85ec8",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksTension": {
+        "locale": "en",
+        "sheet": "MJICraftworksTension",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksTension.csv",
+        "sha256": "a245f3ab187a662e6922b4012b24060dedf108cfc9e6db09a9b628120beaaa6e",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIAnimals": {
+        "locale": "en",
+        "sheet": "MJIAnimals",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIAnimals.csv",
+        "sha256": "8f23c60c0220d33c50cb5ac12c790c3ecad10fbc9b4cff555408ababa4374e4c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIBuilding": {
+        "locale": "en",
+        "sheet": "MJIBuilding",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIBuilding.csv",
+        "sha256": "b57fec4d38335c43d162e0afdeaee191b5f896890ac121c70083647f33d36340",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJILandmark": {
+        "locale": "en",
+        "sheet": "MJILandmark",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJILandmark.csv",
+        "sha256": "3e1ef8285b1f5be7416b6a2fd91531374c84bc6ced8e98afcc317e2941dcc579",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICropSeed": {
+        "locale": "en",
+        "sheet": "MJICropSeed",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICropSeed.csv",
+        "sha256": "6e0a3480a257c302c855a0217debae46a4eee4e7e88c87258671c13ba03ff158",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopItem": {
+        "locale": "en",
+        "sheet": "MJIDisposalShopItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIDisposalShopItem.csv",
+        "sha256": "def0bdcb8f01769ce9c5123759b7a5b0e7e9fc6e500032e670ce73395ce6f8eb",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopUICategory": {
+        "locale": "en",
+        "sheet": "MJIDisposalShopUICategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIDisposalShopUICategory.csv",
+        "sha256": "cd10ae7806f3e2e86fcf60bf3b5532f175ecebaec005b445125da030748d60b1",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementArea": {
+        "locale": "en",
+        "sheet": "MJIStockyardManagementArea",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIStockyardManagementArea.csv",
+        "sha256": "e4fd5c3513ba8205b1b607da5bbb337bbb61e41bb8bf908ab4a5a59721ff9b95",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementTable": {
+        "locale": "en",
+        "sheet": "MJIStockyardManagementTable",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIStockyardManagementTable.csv",
+        "sha256": "c384e8888dd0c9d68fbd7468f6c4733f34dd916f0a8b3292b08a531e80c3ae82",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIText": {
+        "locale": "en",
+        "sheet": "MJIText",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJIText.csv",
+        "sha256": "b2298180c50e123be21cd6a68b2035378d2d4e2d6197828feeaa5c5990a83cbe",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "EObjName": {
+        "locale": "en",
+        "sheet": "EObjName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/EObjName.csv",
+        "sha256": "2d7d03d3958f8c4bc720afcebab18b8b5e36ed8257246d8d342da0f8e418a93a",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "BNpcName": {
+        "locale": "en",
+        "sheet": "BNpcName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/BNpcName.csv",
+        "sha256": "59b764b117f5750610611932a6f1880b60c08320b960f62b94a9fd081bcbacd7",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Item": {
+        "locale": "en",
+        "sheet": "Item",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/Item.csv",
+        "sha256": "965c3d0bcddc63e83e7e7d32fc6785abc54bb8f8215e998c0381d361d518adca",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Weather": {
+        "locale": "en",
+        "sheet": "Weather",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/Weather.csv",
+        "sha256": "d7d2ab91e06614ffa1cae6dd3e3c5c60b817afa44742dad151538bb4c79b78c9",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "SpecialShop": {
+        "locale": "en",
+        "sheet": "SpecialShop",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/SpecialShop.csv",
+        "sha256": "b3052bbe46e2965515beef28d4706b562416cd8fd7dc2293c59c691a1cbbbefb",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Achievement": {
+        "locale": "en",
+        "sheet": "Achievement",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/Achievement.csv",
+        "sha256": "87120949a62e5a72a0b65b5b5c0533c23690dbda94bc99a2091d8fb633f7ed18",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Title": {
+        "locale": "en",
+        "sheet": "Title",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/Title.csv",
+        "sha256": "9e82bfe5112cb85e8dccf1cfc42a86ef3e7113b717b83720c14af8f7560e9797",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      }
+    },
+    "ja": {
+      "MJIRank": {
+        "locale": "ja",
+        "sheet": "MJIRank",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIRank.csv",
+        "sha256": "e8361473160a5669635b97ab6d31485bd4d7c6d0d31614826593e92d8234a17b",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIProgress": {
+        "locale": "ja",
+        "sheet": "MJIProgress",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIProgress.csv",
+        "sha256": "ff78bab69b183750cc7e5254aa8de176ff446c363bd0efd823d04dccbaa02adc",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemPouch": {
+        "locale": "ja",
+        "sheet": "MJIItemPouch",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIItemPouch.csv",
+        "sha256": "a1eff446d97f3ddc33e55e090670ce161722cf2dddc5733ff08b18ee11ca3706",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemCategory": {
+        "locale": "ja",
+        "sheet": "MJIItemCategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIItemCategory.csv",
+        "sha256": "728eccc5166d984eeb966df35740b691a9500102df6312b1d95c2c6a7efd72da",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringItem": {
+        "locale": "ja",
+        "sheet": "MJIGatheringItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIGatheringItem.csv",
+        "sha256": "8dbd977555ed7909ac1c92984c97616b0d04e02c65646aa98e9a28fa9e8a1225",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringTool": {
+        "locale": "ja",
+        "sheet": "MJIGatheringTool",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIGatheringTool.csv",
+        "sha256": "aa3d22832bc18cd9e91fa8bc39ca88d48628d7757ab87633e1304267002fb429",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipe": {
+        "locale": "ja",
+        "sheet": "MJIRecipe",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIRecipe.csv",
+        "sha256": "0c08fcec5c88a4c4518d4ba8f0f4e848b5d09ed14dda4f53f28f8239a0a55727",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipeMaterial": {
+        "locale": "ja",
+        "sheet": "MJIRecipeMaterial",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIRecipeMaterial.csv",
+        "sha256": "85a04213bbf2ec3c20d74fbf09aa37a12f58eaee4da75325acb301b7d9063dff",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIKeyItem": {
+        "locale": "ja",
+        "sheet": "MJIKeyItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIKeyItem.csv",
+        "sha256": "ebedbc39354897c5f05b33af080ac8af20a237424d6de8a544d61792297caacd",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObject": {
+        "locale": "ja",
+        "sheet": "MJICraftworksObject",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+        "sha256": "82472274f60560a96793393444d8fd88d4d0af37d56bc5d23dbc8e29d1748319",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObjectTheme": {
+        "locale": "ja",
+        "sheet": "MJICraftworksObjectTheme",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObjectTheme.csv",
+        "sha256": "65fc57327469d53b823cdc6c44e0bddd6dd83a8cfbbd92b506dbd7161a3ebd8b",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularity": {
+        "locale": "ja",
+        "sheet": "MJICraftworksPopularity",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksPopularity.csv",
+        "sha256": "a3674a351c9e9fb2032019bef6abfef53ee0abec1d388fc2bd39adabc757a829",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularityType": {
+        "locale": "ja",
+        "sheet": "MJICraftworksPopularityType",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksPopularityType.csv",
+        "sha256": "73cd71ed59964defa22617513290a0f918570721a8e3e1b8cd5aad597bc79bdc",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksSupplyDefine": {
+        "locale": "ja",
+        "sheet": "MJICraftworksSupplyDefine",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksSupplyDefine.csv",
+        "sha256": "070a4c09ef617b93754c2e14e76dda6e61b844d321af6fe7f1316d9348de4551",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksRankRatio": {
+        "locale": "ja",
+        "sheet": "MJICraftworksRankRatio",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksRankRatio.csv",
+        "sha256": "31839c00b073380677efea92d49f79c01474704c9018d5ff87281eda5db85ec8",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksTension": {
+        "locale": "ja",
+        "sheet": "MJICraftworksTension",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksTension.csv",
+        "sha256": "a245f3ab187a662e6922b4012b24060dedf108cfc9e6db09a9b628120beaaa6e",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIAnimals": {
+        "locale": "ja",
+        "sheet": "MJIAnimals",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIAnimals.csv",
+        "sha256": "8f23c60c0220d33c50cb5ac12c790c3ecad10fbc9b4cff555408ababa4374e4c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIBuilding": {
+        "locale": "ja",
+        "sheet": "MJIBuilding",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIBuilding.csv",
+        "sha256": "b57fec4d38335c43d162e0afdeaee191b5f896890ac121c70083647f33d36340",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJILandmark": {
+        "locale": "ja",
+        "sheet": "MJILandmark",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJILandmark.csv",
+        "sha256": "3e1ef8285b1f5be7416b6a2fd91531374c84bc6ced8e98afcc317e2941dcc579",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICropSeed": {
+        "locale": "ja",
+        "sheet": "MJICropSeed",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICropSeed.csv",
+        "sha256": "6e0a3480a257c302c855a0217debae46a4eee4e7e88c87258671c13ba03ff158",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopItem": {
+        "locale": "ja",
+        "sheet": "MJIDisposalShopItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIDisposalShopItem.csv",
+        "sha256": "def0bdcb8f01769ce9c5123759b7a5b0e7e9fc6e500032e670ce73395ce6f8eb",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopUICategory": {
+        "locale": "ja",
+        "sheet": "MJIDisposalShopUICategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIDisposalShopUICategory.csv",
+        "sha256": "a10645a34c60c9c837f1d72d0117bcf91c0daa88538f8732eb088ae4bb48fa9a",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementArea": {
+        "locale": "ja",
+        "sheet": "MJIStockyardManagementArea",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIStockyardManagementArea.csv",
+        "sha256": "e4fd5c3513ba8205b1b607da5bbb337bbb61e41bb8bf908ab4a5a59721ff9b95",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementTable": {
+        "locale": "ja",
+        "sheet": "MJIStockyardManagementTable",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIStockyardManagementTable.csv",
+        "sha256": "c384e8888dd0c9d68fbd7468f6c4733f34dd916f0a8b3292b08a531e80c3ae82",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIText": {
+        "locale": "ja",
+        "sheet": "MJIText",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJIText.csv",
+        "sha256": "e66824afd05ebad8203d4d133e8f45a0cae3c9dd427002fdb9170155b6875362",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "EObjName": {
+        "locale": "ja",
+        "sheet": "EObjName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/EObjName.csv",
+        "sha256": "cb7d9aaa0a0498cd81866e21be1c664cc734b92fca1c60797e5beef55787a42e",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "BNpcName": {
+        "locale": "ja",
+        "sheet": "BNpcName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/BNpcName.csv",
+        "sha256": "b0a2ac6d742b8f9b71a19752bfea97a58aebe4333b070f37a0eb5658bac7fc43",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Item": {
+        "locale": "ja",
+        "sheet": "Item",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/Item.csv",
+        "sha256": "6f3fe9dd2260f5cc072998426cce596c0d21f00a2668619f99199ec89e254668",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Weather": {
+        "locale": "ja",
+        "sheet": "Weather",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/Weather.csv",
+        "sha256": "fd73f4acee516c7cacc26c2a5806b1314b0354b4438940d633cec5ba916229c9",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "SpecialShop": {
+        "locale": "ja",
+        "sheet": "SpecialShop",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/SpecialShop.csv",
+        "sha256": "9f8549cf88111d19593d72075e779709ea16d37eae2c03be3364d1099efb2a2c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Achievement": {
+        "locale": "ja",
+        "sheet": "Achievement",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/Achievement.csv",
+        "sha256": "98b1b99e67e509c4a64cd9f98ddb72cd76ff7c4d34b96d3638eb4a6b29993e2d",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Title": {
+        "locale": "ja",
+        "sheet": "Title",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/Title.csv",
+        "sha256": "f61bce750afa49c54ac8dbec984fc4a9f7463b53525f5942330bb64a1fd7e3af",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      }
+    },
+    "ko": {
+      "MJIRank": {
+        "locale": "ko",
+        "sheet": "MJIRank",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIRank.csv",
+        "sha256": "e8361473160a5669635b97ab6d31485bd4d7c6d0d31614826593e92d8234a17b",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIProgress": {
+        "locale": "ko",
+        "sheet": "MJIProgress",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIProgress.csv",
+        "sha256": "8e54bb820409f8e356327e1737eeec66544883c1d9f91e26aae578ade99053b6",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIItemPouch": {
+        "locale": "ko",
+        "sheet": "MJIItemPouch",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIItemPouch.csv",
+        "sha256": "a1eff446d97f3ddc33e55e090670ce161722cf2dddc5733ff08b18ee11ca3706",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIItemCategory": {
+        "locale": "ko",
+        "sheet": "MJIItemCategory",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIItemCategory.csv",
+        "sha256": "a8cc02e3a107570a78013970a5e70457a798a800144c3d72b5213e8c4a31f208",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIGatheringItem": {
+        "locale": "ko",
+        "sheet": "MJIGatheringItem",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIGatheringItem.csv",
+        "sha256": "8dbd977555ed7909ac1c92984c97616b0d04e02c65646aa98e9a28fa9e8a1225",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIGatheringTool": {
+        "locale": "ko",
+        "sheet": "MJIGatheringTool",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIGatheringTool.csv",
+        "sha256": "aa3d22832bc18cd9e91fa8bc39ca88d48628d7757ab87633e1304267002fb429",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIRecipe": {
+        "locale": "ko",
+        "sheet": "MJIRecipe",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIRecipe.csv",
+        "sha256": "0c08fcec5c88a4c4518d4ba8f0f4e848b5d09ed14dda4f53f28f8239a0a55727",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIRecipeMaterial": {
+        "locale": "ko",
+        "sheet": "MJIRecipeMaterial",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIRecipeMaterial.csv",
+        "sha256": "85a04213bbf2ec3c20d74fbf09aa37a12f58eaee4da75325acb301b7d9063dff",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIKeyItem": {
+        "locale": "ko",
+        "sheet": "MJIKeyItem",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIKeyItem.csv",
+        "sha256": "ebedbc39354897c5f05b33af080ac8af20a237424d6de8a544d61792297caacd",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJICraftworksObject": {
+        "locale": "ko",
+        "sheet": "MJICraftworksObject",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+        "sha256": "82472274f60560a96793393444d8fd88d4d0af37d56bc5d23dbc8e29d1748319",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJICraftworksObjectTheme": {
+        "locale": "ko",
+        "sheet": "MJICraftworksObjectTheme",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObjectTheme.csv",
+        "sha256": "748a639eb3ed31fe1972d5a24780ec16221c7715af92928957195e9ca2c0eba5",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJICraftworksPopularity": {
+        "locale": "ko",
+        "sheet": "MJICraftworksPopularity",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksPopularity.csv",
+        "sha256": "a3674a351c9e9fb2032019bef6abfef53ee0abec1d388fc2bd39adabc757a829",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJICraftworksPopularityType": {
+        "locale": "ko",
+        "sheet": "MJICraftworksPopularityType",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksPopularityType.csv",
+        "sha256": "73cd71ed59964defa22617513290a0f918570721a8e3e1b8cd5aad597bc79bdc",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJICraftworksSupplyDefine": {
+        "locale": "ko",
+        "sheet": "MJICraftworksSupplyDefine",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksSupplyDefine.csv",
+        "sha256": "070a4c09ef617b93754c2e14e76dda6e61b844d321af6fe7f1316d9348de4551",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJICraftworksRankRatio": {
+        "locale": "ko",
+        "sheet": "MJICraftworksRankRatio",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksRankRatio.csv",
+        "sha256": "31839c00b073380677efea92d49f79c01474704c9018d5ff87281eda5db85ec8",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJICraftworksTension": {
+        "locale": "ko",
+        "sheet": "MJICraftworksTension",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksTension.csv",
+        "sha256": "a245f3ab187a662e6922b4012b24060dedf108cfc9e6db09a9b628120beaaa6e",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIAnimals": {
+        "locale": "ko",
+        "sheet": "MJIAnimals",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIAnimals.csv",
+        "sha256": "8f23c60c0220d33c50cb5ac12c790c3ecad10fbc9b4cff555408ababa4374e4c",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIBuilding": {
+        "locale": "ko",
+        "sheet": "MJIBuilding",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIBuilding.csv",
+        "sha256": "b57fec4d38335c43d162e0afdeaee191b5f896890ac121c70083647f33d36340",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJILandmark": {
+        "locale": "ko",
+        "sheet": "MJILandmark",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJILandmark.csv",
+        "sha256": "3e1ef8285b1f5be7416b6a2fd91531374c84bc6ced8e98afcc317e2941dcc579",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJICropSeed": {
+        "locale": "ko",
+        "sheet": "MJICropSeed",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICropSeed.csv",
+        "sha256": "6e0a3480a257c302c855a0217debae46a4eee4e7e88c87258671c13ba03ff158",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIDisposalShopItem": {
+        "locale": "ko",
+        "sheet": "MJIDisposalShopItem",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIDisposalShopItem.csv",
+        "sha256": "def0bdcb8f01769ce9c5123759b7a5b0e7e9fc6e500032e670ce73395ce6f8eb",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIDisposalShopUICategory": {
+        "locale": "ko",
+        "sheet": "MJIDisposalShopUICategory",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIDisposalShopUICategory.csv",
+        "sha256": "62ddad55f016a3a787da432598a10a5522fa30a95bcad0a70d591cca8b161968",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIStockyardManagementArea": {
+        "locale": "ko",
+        "sheet": "MJIStockyardManagementArea",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIStockyardManagementArea.csv",
+        "sha256": "e4fd5c3513ba8205b1b607da5bbb337bbb61e41bb8bf908ab4a5a59721ff9b95",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIStockyardManagementTable": {
+        "locale": "ko",
+        "sheet": "MJIStockyardManagementTable",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIStockyardManagementTable.csv",
+        "sha256": "c384e8888dd0c9d68fbd7468f6c4733f34dd916f0a8b3292b08a531e80c3ae82",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "MJIText": {
+        "locale": "ko",
+        "sheet": "MJIText",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJIText.csv",
+        "sha256": "377cadc67932c46edd17b62ea549d54726e190603cd8357d4db86a1001d68033",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "EObjName": {
+        "locale": "ko",
+        "sheet": "EObjName",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/EObjName.csv",
+        "sha256": "007574e068f0cb779e4002cc7cfe2e58693a903ebae121b74b3e1c0f6eb4660f",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "BNpcName": {
+        "locale": "ko",
+        "sheet": "BNpcName",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/BNpcName.csv",
+        "sha256": "c7bed1018de0a6577aebb7dbce0d64dbdc4db99c36d85b38c20a10b94995489b",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "Item": {
+        "locale": "ko",
+        "sheet": "Item",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/Item.csv",
+        "sha256": "aebc37a270f51d3b6c7bafa84286392665d36d93ea274ac1788da91c683a4b6d",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "Weather": {
+        "locale": "ko",
+        "sheet": "Weather",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/Weather.csv",
+        "sha256": "34253463f73d812b85d7d3915dd33ab93c3ab572132d2faa1734bb6d7e5359f3",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "SpecialShop": {
+        "locale": "ko",
+        "sheet": "SpecialShop",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/SpecialShop.csv",
+        "sha256": "d9c2e6a97e24b2931018b638014dadaedbec63af4fcf45bbc5f1df2b8e0b26b4",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "Achievement": {
+        "locale": "ko",
+        "sheet": "Achievement",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/Achievement.csv",
+        "sha256": "5ab58578c53c856dd5f9aaadaea54c0abea773b618b7333153bfd628ad31c2d2",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      },
+      "Title": {
+        "locale": "ko",
+        "sheet": "Title",
+        "source": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/Title.csv",
+        "sha256": "40a5ffed1a4c75ca31c3b1cb3e4ca587fca86563396decf86f3fda218a81c77f",
+        "repository": "Ra-Workspace/ffxiv-datamining-ko",
+        "revision": "f23bc92dab1559ed779c7fbd3c422047e352665b"
+      }
+    },
+    "tc": {
+      "MJIRank": {
+        "locale": "tc",
+        "sheet": "MJIRank",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIRank.csv",
+        "sha256": "159805e465b3a6775a2c5a557d8d3b0b9f8f0a0635e3ef890fc63e64be7689a8",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIProgress": {
+        "locale": "tc",
+        "sheet": "MJIProgress",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIProgress.csv",
+        "sha256": "787dbd78b9f78a0a868815fecc3df5fc16cdc3b2f3e570c074e52c18d940f181",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIItemPouch": {
+        "locale": "tc",
+        "sheet": "MJIItemPouch",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIItemPouch.csv",
+        "sha256": "b77ff9276dff4fdcaaab72c973580cb97552b3cd05fcb66b961930fcd7f218ff",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIItemCategory": {
+        "locale": "tc",
+        "sheet": "MJIItemCategory",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIItemCategory.csv",
+        "sha256": "8f881c502675e60df4188a333120c81d95b7cf199674b507e3fea2443fc04635",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIGatheringItem": {
+        "locale": "tc",
+        "sheet": "MJIGatheringItem",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIGatheringItem.csv",
+        "sha256": "cfcb9d6a891a0ddc3222a261549fda557bf1fa6935c4bc4fa184064b3ba62489",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIGatheringTool": {
+        "locale": "tc",
+        "sheet": "MJIGatheringTool",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIGatheringTool.csv",
+        "sha256": "c33ac953514bbdbf3e1e2755e028a7ff7f5f1f0cae5feeef26bd1b19744260e9",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIRecipe": {
+        "locale": "tc",
+        "sheet": "MJIRecipe",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIRecipe.csv",
+        "sha256": "ef379636b70fc71dd7136b06d61e8175f13e1e5f18d5feee5b1a4b6396553e96",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIRecipeMaterial": {
+        "locale": "tc",
+        "sheet": "MJIRecipeMaterial",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIRecipeMaterial.csv",
+        "sha256": "bf932686468387b9269b5e9c2093fa598acfce77aa3413dec8d75dd4e61ced9f",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIKeyItem": {
+        "locale": "tc",
+        "sheet": "MJIKeyItem",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIKeyItem.csv",
+        "sha256": "c3dcb49b034d5518ca5b122ae12e59dd1bb739170dc3a8dcc343be61b8699f2d",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJICraftworksObject": {
+        "locale": "tc",
+        "sheet": "MJICraftworksObject",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+        "sha256": "f47d3b5729a95dd1d95e421462422df7263a94958e1ac1b30b5373854401be1d",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJICraftworksObjectTheme": {
+        "locale": "tc",
+        "sheet": "MJICraftworksObjectTheme",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObjectTheme.csv",
+        "sha256": "f9e55f87aaba4696138a3e96ac38203a119340b41cdb2a415b5400d820cfeaca",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJICraftworksPopularity": {
+        "locale": "tc",
+        "sheet": "MJICraftworksPopularity",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksPopularity.csv",
+        "sha256": "ed927e2f4d17432290661a69692580c26adb1921d50f6762567a93c478e50949",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJICraftworksPopularityType": {
+        "locale": "tc",
+        "sheet": "MJICraftworksPopularityType",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksPopularityType.csv",
+        "sha256": "e58008e7771eda4125d0af301849526ec75f3b3492e9269a8b9c74f14a5243ef",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJICraftworksSupplyDefine": {
+        "locale": "tc",
+        "sheet": "MJICraftworksSupplyDefine",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksSupplyDefine.csv",
+        "sha256": "849cda3473c184a16a8e6ca37d2b5941136a0e6fef3264bdd9aa33b8174cc9d0",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJICraftworksRankRatio": {
+        "locale": "tc",
+        "sheet": "MJICraftworksRankRatio",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksRankRatio.csv",
+        "sha256": "5a56dac8085ba80ef53c4c92206edf9688b608fef605d862391034a323adacc5",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJICraftworksTension": {
+        "locale": "tc",
+        "sheet": "MJICraftworksTension",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksTension.csv",
+        "sha256": "1636bd2fc764629f3e9157c1c390e02df90502cc115bce9677e3091e365c6bfe",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIAnimals": {
+        "locale": "tc",
+        "sheet": "MJIAnimals",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIAnimals.csv",
+        "sha256": "3b124c8d2f2b695dab8b3633708b1c3c7ac3fd7f35c4d06177637100b387873f",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIBuilding": {
+        "locale": "tc",
+        "sheet": "MJIBuilding",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIBuilding.csv",
+        "sha256": "093289aa4ccc86638ea48c0baf6323e293dee164f721de824ede712cda2e50bd",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJILandmark": {
+        "locale": "tc",
+        "sheet": "MJILandmark",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJILandmark.csv",
+        "sha256": "78f468feab760cb1eee6a547f45e086d234a2c1c2aa13d68e437faee36e19a43",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJICropSeed": {
+        "locale": "tc",
+        "sheet": "MJICropSeed",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICropSeed.csv",
+        "sha256": "327033f57b7ada57cb6b180c3efa4410c84beaaa7af42ff026c8df64d79cd113",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIDisposalShopItem": {
+        "locale": "tc",
+        "sheet": "MJIDisposalShopItem",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIDisposalShopItem.csv",
+        "sha256": "f5aaa2ad49187e076126c1f73bba0cd5488b015798cdc6441825b5f4f4bddab1",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIDisposalShopUICategory": {
+        "locale": "tc",
+        "sheet": "MJIDisposalShopUICategory",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIDisposalShopUICategory.csv",
+        "sha256": "2c4c9fdf14893fc3871758638f5aa2b60fea76bbdcd582af3b5b6eb4de4984cb",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIStockyardManagementArea": {
+        "locale": "tc",
+        "sheet": "MJIStockyardManagementArea",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIStockyardManagementArea.csv",
+        "sha256": "b36d06ba01dfb02336138da4ebede0cff02309e23782ec321a13668033a888ac",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIStockyardManagementTable": {
+        "locale": "tc",
+        "sheet": "MJIStockyardManagementTable",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIStockyardManagementTable.csv",
+        "sha256": "9138693b8931ed9f50bcaf2e8449a274ebaefec1d2e2c3f60bca4272a01b8b46",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "MJIText": {
+        "locale": "tc",
+        "sheet": "MJIText",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJIText.csv",
+        "sha256": "9c4c4f406c01b7334c2fa69d8f33176dea74964ad6062c99547112a1ff79953d",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "EObjName": {
+        "locale": "tc",
+        "sheet": "EObjName",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/EObjName.csv",
+        "sha256": "a28a7f212548711710e8b70352a34a84eff159492d5b36ebfe31ef3862f47ad5",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "BNpcName": {
+        "locale": "tc",
+        "sheet": "BNpcName",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/BNpcName.csv",
+        "sha256": "cb71a80ae47b5182a5d7baf45ce6d6d5f1fdab6bc0912aacca5ef41c9b259b23",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "Item": {
+        "locale": "tc",
+        "sheet": "Item",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/Item.csv",
+        "sha256": "f60cc66cfc99bf1ff485bd012c29909e934e1f9c4f037a81d0eab94e17385559",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "Weather": {
+        "locale": "tc",
+        "sheet": "Weather",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/Weather.csv",
+        "sha256": "2d57800788bf06e4d096057a16dcb3c70efd5b509293234a8be98d85bb7fa6a0",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "SpecialShop": {
+        "locale": "tc",
+        "sheet": "SpecialShop",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/SpecialShop.csv",
+        "sha256": "5220fd8c8a4bb40a3fdaa97a2194c8d42dd1905103b47d0b66a1ababe83af137",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "Achievement": {
+        "locale": "tc",
+        "sheet": "Achievement",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/Achievement.csv",
+        "sha256": "d95061f6ef771e3aab4d9ddbef7e1a2871f4cb195a10a27d5ca48c6f05968350",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      },
+      "Title": {
+        "locale": "tc",
+        "sheet": "Title",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/Title.csv",
+        "sha256": "628477ff62e140bae1e37d277175185b587c542e6fbed7cbfe707d46a641b6bc",
+        "repository": "thewakingsands/ffxiv-datamining-tc",
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
+      }
+    },
+    "fr": {
+      "MJIRank": {
+        "locale": "fr",
+        "sheet": "MJIRank",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIRank.csv",
+        "sha256": "e8361473160a5669635b97ab6d31485bd4d7c6d0d31614826593e92d8234a17b",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIProgress": {
+        "locale": "fr",
+        "sheet": "MJIProgress",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIProgress.csv",
+        "sha256": "1c1f2088ed5065a743f429eabd1f576569715c615532074a9c12d80f8f196db6",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemPouch": {
+        "locale": "fr",
+        "sheet": "MJIItemPouch",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIItemPouch.csv",
+        "sha256": "a1eff446d97f3ddc33e55e090670ce161722cf2dddc5733ff08b18ee11ca3706",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemCategory": {
+        "locale": "fr",
+        "sheet": "MJIItemCategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIItemCategory.csv",
+        "sha256": "e26aba068c84a9797d20c39ea60503b29bccb371213c212559b5f34886ed5be5",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringItem": {
+        "locale": "fr",
+        "sheet": "MJIGatheringItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIGatheringItem.csv",
+        "sha256": "8dbd977555ed7909ac1c92984c97616b0d04e02c65646aa98e9a28fa9e8a1225",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringTool": {
+        "locale": "fr",
+        "sheet": "MJIGatheringTool",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIGatheringTool.csv",
+        "sha256": "aa3d22832bc18cd9e91fa8bc39ca88d48628d7757ab87633e1304267002fb429",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipe": {
+        "locale": "fr",
+        "sheet": "MJIRecipe",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIRecipe.csv",
+        "sha256": "0c08fcec5c88a4c4518d4ba8f0f4e848b5d09ed14dda4f53f28f8239a0a55727",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipeMaterial": {
+        "locale": "fr",
+        "sheet": "MJIRecipeMaterial",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIRecipeMaterial.csv",
+        "sha256": "85a04213bbf2ec3c20d74fbf09aa37a12f58eaee4da75325acb301b7d9063dff",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIKeyItem": {
+        "locale": "fr",
+        "sheet": "MJIKeyItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIKeyItem.csv",
+        "sha256": "ebedbc39354897c5f05b33af080ac8af20a237424d6de8a544d61792297caacd",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObject": {
+        "locale": "fr",
+        "sheet": "MJICraftworksObject",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+        "sha256": "82472274f60560a96793393444d8fd88d4d0af37d56bc5d23dbc8e29d1748319",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObjectTheme": {
+        "locale": "fr",
+        "sheet": "MJICraftworksObjectTheme",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObjectTheme.csv",
+        "sha256": "e296a445a645ed51d107c278321ce0fd70b807392557bbad259eb7cc1555e593",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularity": {
+        "locale": "fr",
+        "sheet": "MJICraftworksPopularity",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksPopularity.csv",
+        "sha256": "a3674a351c9e9fb2032019bef6abfef53ee0abec1d388fc2bd39adabc757a829",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularityType": {
+        "locale": "fr",
+        "sheet": "MJICraftworksPopularityType",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksPopularityType.csv",
+        "sha256": "73cd71ed59964defa22617513290a0f918570721a8e3e1b8cd5aad597bc79bdc",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksSupplyDefine": {
+        "locale": "fr",
+        "sheet": "MJICraftworksSupplyDefine",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksSupplyDefine.csv",
+        "sha256": "070a4c09ef617b93754c2e14e76dda6e61b844d321af6fe7f1316d9348de4551",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksRankRatio": {
+        "locale": "fr",
+        "sheet": "MJICraftworksRankRatio",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksRankRatio.csv",
+        "sha256": "31839c00b073380677efea92d49f79c01474704c9018d5ff87281eda5db85ec8",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksTension": {
+        "locale": "fr",
+        "sheet": "MJICraftworksTension",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksTension.csv",
+        "sha256": "a245f3ab187a662e6922b4012b24060dedf108cfc9e6db09a9b628120beaaa6e",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIAnimals": {
+        "locale": "fr",
+        "sheet": "MJIAnimals",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIAnimals.csv",
+        "sha256": "8f23c60c0220d33c50cb5ac12c790c3ecad10fbc9b4cff555408ababa4374e4c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIBuilding": {
+        "locale": "fr",
+        "sheet": "MJIBuilding",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIBuilding.csv",
+        "sha256": "b57fec4d38335c43d162e0afdeaee191b5f896890ac121c70083647f33d36340",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJILandmark": {
+        "locale": "fr",
+        "sheet": "MJILandmark",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJILandmark.csv",
+        "sha256": "3e1ef8285b1f5be7416b6a2fd91531374c84bc6ced8e98afcc317e2941dcc579",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICropSeed": {
+        "locale": "fr",
+        "sheet": "MJICropSeed",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICropSeed.csv",
+        "sha256": "6e0a3480a257c302c855a0217debae46a4eee4e7e88c87258671c13ba03ff158",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopItem": {
+        "locale": "fr",
+        "sheet": "MJIDisposalShopItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIDisposalShopItem.csv",
+        "sha256": "def0bdcb8f01769ce9c5123759b7a5b0e7e9fc6e500032e670ce73395ce6f8eb",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopUICategory": {
+        "locale": "fr",
+        "sheet": "MJIDisposalShopUICategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIDisposalShopUICategory.csv",
+        "sha256": "0a63b016f774ddaf42db788717f3861709cfa2596ff5ab3ad1e45c32c56dbb7c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementArea": {
+        "locale": "fr",
+        "sheet": "MJIStockyardManagementArea",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIStockyardManagementArea.csv",
+        "sha256": "e4fd5c3513ba8205b1b607da5bbb337bbb61e41bb8bf908ab4a5a59721ff9b95",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementTable": {
+        "locale": "fr",
+        "sheet": "MJIStockyardManagementTable",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIStockyardManagementTable.csv",
+        "sha256": "c384e8888dd0c9d68fbd7468f6c4733f34dd916f0a8b3292b08a531e80c3ae82",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIText": {
+        "locale": "fr",
+        "sheet": "MJIText",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJIText.csv",
+        "sha256": "4486b0e20dabdf7adc10b69be4df79046b2d60be7a4901ba21b89476783d10a5",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "EObjName": {
+        "locale": "fr",
+        "sheet": "EObjName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/EObjName.csv",
+        "sha256": "0d72490068301ad817e9e38f3fb462af3350425ca57fb5efea601301340af8f5",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "BNpcName": {
+        "locale": "fr",
+        "sheet": "BNpcName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/BNpcName.csv",
+        "sha256": "44e128c5f4ad39516a22b54b92da08ae4d472ac0d5e614ed12f69035826049a0",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Item": {
+        "locale": "fr",
+        "sheet": "Item",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/Item.csv",
+        "sha256": "ffbc8e07f91c3e81a0a5880c664a5f074c466ac86df0a6d0288002505037414c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Weather": {
+        "locale": "fr",
+        "sheet": "Weather",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/Weather.csv",
+        "sha256": "dc3827244ad8ee1779e84540dd9b3a601b3c2911fc086a29a6aedc7b67d45056",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "SpecialShop": {
+        "locale": "fr",
+        "sheet": "SpecialShop",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/SpecialShop.csv",
+        "sha256": "7c45079116bc32c7b8fc2773facc168609f089839c481292f036e1897ec1c82c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Achievement": {
+        "locale": "fr",
+        "sheet": "Achievement",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/Achievement.csv",
+        "sha256": "d7258d1cf29d048dea3d1dd6a682445d40741c491c7c53ef2d6eace39dbe6526",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Title": {
+        "locale": "fr",
+        "sheet": "Title",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/Title.csv",
+        "sha256": "8d0b8e8dbd401de31fa3f7e507a42e0987aab8f9ec4f141f589a1e09020f0e45",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      }
+    },
+    "de": {
+      "MJIRank": {
+        "locale": "de",
+        "sheet": "MJIRank",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIRank.csv",
+        "sha256": "e8361473160a5669635b97ab6d31485bd4d7c6d0d31614826593e92d8234a17b",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIProgress": {
+        "locale": "de",
+        "sheet": "MJIProgress",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIProgress.csv",
+        "sha256": "7002f85255b3905b4b03a865ee9ceb844329c089e445c6d6c485260672ece7a8",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemPouch": {
+        "locale": "de",
+        "sheet": "MJIItemPouch",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIItemPouch.csv",
+        "sha256": "a1eff446d97f3ddc33e55e090670ce161722cf2dddc5733ff08b18ee11ca3706",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIItemCategory": {
+        "locale": "de",
+        "sheet": "MJIItemCategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIItemCategory.csv",
+        "sha256": "14c3d8d0faa256094c771aabd9311b65f8ba329e16a8f9fc3548aef561f98902",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringItem": {
+        "locale": "de",
+        "sheet": "MJIGatheringItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIGatheringItem.csv",
+        "sha256": "8dbd977555ed7909ac1c92984c97616b0d04e02c65646aa98e9a28fa9e8a1225",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIGatheringTool": {
+        "locale": "de",
+        "sheet": "MJIGatheringTool",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIGatheringTool.csv",
+        "sha256": "aa3d22832bc18cd9e91fa8bc39ca88d48628d7757ab87633e1304267002fb429",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipe": {
+        "locale": "de",
+        "sheet": "MJIRecipe",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIRecipe.csv",
+        "sha256": "0c08fcec5c88a4c4518d4ba8f0f4e848b5d09ed14dda4f53f28f8239a0a55727",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIRecipeMaterial": {
+        "locale": "de",
+        "sheet": "MJIRecipeMaterial",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIRecipeMaterial.csv",
+        "sha256": "85a04213bbf2ec3c20d74fbf09aa37a12f58eaee4da75325acb301b7d9063dff",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIKeyItem": {
+        "locale": "de",
+        "sheet": "MJIKeyItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIKeyItem.csv",
+        "sha256": "ebedbc39354897c5f05b33af080ac8af20a237424d6de8a544d61792297caacd",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObject": {
+        "locale": "de",
+        "sheet": "MJICraftworksObject",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv",
+        "sha256": "82472274f60560a96793393444d8fd88d4d0af37d56bc5d23dbc8e29d1748319",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksObjectTheme": {
+        "locale": "de",
+        "sheet": "MJICraftworksObjectTheme",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObjectTheme.csv",
+        "sha256": "74a032b7bb0ac5e8b8735fd302ed2edc5e86a5f049f5cfce786ebf4eeefd5495",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularity": {
+        "locale": "de",
+        "sheet": "MJICraftworksPopularity",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksPopularity.csv",
+        "sha256": "a3674a351c9e9fb2032019bef6abfef53ee0abec1d388fc2bd39adabc757a829",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksPopularityType": {
+        "locale": "de",
+        "sheet": "MJICraftworksPopularityType",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksPopularityType.csv",
+        "sha256": "73cd71ed59964defa22617513290a0f918570721a8e3e1b8cd5aad597bc79bdc",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksSupplyDefine": {
+        "locale": "de",
+        "sheet": "MJICraftworksSupplyDefine",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksSupplyDefine.csv",
+        "sha256": "070a4c09ef617b93754c2e14e76dda6e61b844d321af6fe7f1316d9348de4551",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksRankRatio": {
+        "locale": "de",
+        "sheet": "MJICraftworksRankRatio",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksRankRatio.csv",
+        "sha256": "31839c00b073380677efea92d49f79c01474704c9018d5ff87281eda5db85ec8",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICraftworksTension": {
+        "locale": "de",
+        "sheet": "MJICraftworksTension",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksTension.csv",
+        "sha256": "a245f3ab187a662e6922b4012b24060dedf108cfc9e6db09a9b628120beaaa6e",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIAnimals": {
+        "locale": "de",
+        "sheet": "MJIAnimals",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIAnimals.csv",
+        "sha256": "8f23c60c0220d33c50cb5ac12c790c3ecad10fbc9b4cff555408ababa4374e4c",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIBuilding": {
+        "locale": "de",
+        "sheet": "MJIBuilding",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIBuilding.csv",
+        "sha256": "b57fec4d38335c43d162e0afdeaee191b5f896890ac121c70083647f33d36340",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJILandmark": {
+        "locale": "de",
+        "sheet": "MJILandmark",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJILandmark.csv",
+        "sha256": "3e1ef8285b1f5be7416b6a2fd91531374c84bc6ced8e98afcc317e2941dcc579",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJICropSeed": {
+        "locale": "de",
+        "sheet": "MJICropSeed",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICropSeed.csv",
+        "sha256": "6e0a3480a257c302c855a0217debae46a4eee4e7e88c87258671c13ba03ff158",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopItem": {
+        "locale": "de",
+        "sheet": "MJIDisposalShopItem",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIDisposalShopItem.csv",
+        "sha256": "def0bdcb8f01769ce9c5123759b7a5b0e7e9fc6e500032e670ce73395ce6f8eb",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIDisposalShopUICategory": {
+        "locale": "de",
+        "sheet": "MJIDisposalShopUICategory",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIDisposalShopUICategory.csv",
+        "sha256": "a48aefe39e582ee027e75974b78473822bf07958e7fb3977a73bec552f1a24dc",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementArea": {
+        "locale": "de",
+        "sheet": "MJIStockyardManagementArea",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIStockyardManagementArea.csv",
+        "sha256": "e4fd5c3513ba8205b1b607da5bbb337bbb61e41bb8bf908ab4a5a59721ff9b95",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIStockyardManagementTable": {
+        "locale": "de",
+        "sheet": "MJIStockyardManagementTable",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIStockyardManagementTable.csv",
+        "sha256": "c384e8888dd0c9d68fbd7468f6c4733f34dd916f0a8b3292b08a531e80c3ae82",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "MJIText": {
+        "locale": "de",
+        "sheet": "MJIText",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJIText.csv",
+        "sha256": "a94be5912a9dd0789c98f1c121772699a5527aa6c68082c835198f1f7ba80f15",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "EObjName": {
+        "locale": "de",
+        "sheet": "EObjName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/EObjName.csv",
+        "sha256": "6b3184c4644dc63896897cc12255dd783dee3355bbab1c2a125d7397d6c6a6a1",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "BNpcName": {
+        "locale": "de",
+        "sheet": "BNpcName",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/BNpcName.csv",
+        "sha256": "a3fcfe0dc0db3e0ea596cb906533c438004bfa9c4530e03297a6be423e24de63",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Item": {
+        "locale": "de",
+        "sheet": "Item",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/Item.csv",
+        "sha256": "f9d8cdc4f125a7c07b2e015e14471a5e547a1864d712ed3df40f2cf2f67b38f4",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Weather": {
+        "locale": "de",
+        "sheet": "Weather",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/Weather.csv",
+        "sha256": "d11344d61e3bbc753541a73fc7e99b5e1440b356d612666dfbfc1419ed5e7e30",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "SpecialShop": {
+        "locale": "de",
+        "sheet": "SpecialShop",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/SpecialShop.csv",
+        "sha256": "5995155afcd8eef222cc566e6324d656d64ff66bf751ae6867f187a7a26a14c5",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Achievement": {
+        "locale": "de",
+        "sheet": "Achievement",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/Achievement.csv",
+        "sha256": "39b544d7d09f705850d62f33dcd0b96300ca1ef972e06396b32dab0d1b7209e1",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      },
+      "Title": {
+        "locale": "de",
+        "sheet": "Title",
+        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/Title.csv",
+        "sha256": "121259a20bdef75c99c8a8a494f50102fcd7cb08715ce866b54dd510750468a7",
+        "repository": "InfSein/ffxiv-datamining-mixed",
+        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      }
+    }
+  },
+  "references": [
+    {
+      "title": "无人岛工坊岛建阶段作业指南（NGA 玩家社区）",
+      "url": "https://bbs.nga.cn/read.php?tid=34810413",
+      "role": "工房岛建阶段的作业排布方案参考",
+      "fetchedAt": "2026-11-23"
+    },
+    {
+      "title": "开拓无人岛（FF14 中文维基）",
+      "url": "https://ff14.huijiwiki.com/wiki/%E5%BC%80%E6%8B%93%E6%97%A0%E4%BA%BA%E5%B2%9B",
+      "role": "无人岛机制综合参考",
+      "fetchedAt": "2026-11-23"
+    }
+  ],
+  "bridges": [
+    {
+      "schemaVersion": "ffxiv.island.animalNameMap.v1",
+      "note": "MJIAnimals 行 → BNpcName 行的手工桥接：游戏 CSV 中无直接外键，映射取自社区核对数据（ffxiv-teamcraft，MIT）。",
+      "source": {
+        "url": "https://github.com/ffxiv-teamcraft/ffxiv-teamcraft/blob/master/libs/data/src/lib/json/island-animals.json",
+        "project": "ffxiv-teamcraft",
+        "fetchedAt": "2026-11-21"
+      }
+    },
+    {
+      "schemaVersion": "ffxiv.island.animalSpawnMap.v1",
+      "note": "MJIAnimals 行 → 岛上刷新坐标/时段/天气 的手工桥接：刷新窗口不在游戏 CSV 中，映射取自社区核对数据。",
+      "source": {
+        "url": "https://github.com/ffxiv-teamcraft/ffxiv-teamcraft/blob/master/apps/client/src/app/pages/island-animals/animals-spawn-data.ts",
+        "project": "ffxiv-teamcraft",
+        "fetchedAt": "2026-11-22"
+      }
+    },
+    {
+      "schemaVersion": "ffxiv.island.unlockRanks.v1",
+      "note": "采集工具与种子的开拓等级解锁门槛：游戏 CSV 不含购买/制作解锁等级，映射取自社区 wiki 核对数据。crops 键为商店种子物品 id（由 MJIItemPouch.Crop 反查），不是 MJICropSeed.Item 的收获作物 id。",
+      "source": [
+        {
+          "url": "https://ffxiv.consolegameswiki.com/wiki/Island_Tools",
+          "role": "采集工具解锁等级",
+          "fetchedAt": "2026-11-22"
+        },
+        {
+          "url": "https://ffxiv.consolegameswiki.com/wiki/Island_Sanctuary",
+          "role": "种子解锁等级",
+          "fetchedAt": "2026-11-22"
+        }
+      ]
+    },
+    {
+      "schemaVersion": "ffxiv.island.gatheringCoords.v1",
+      "note": "素材采集点坐标（游戏内 0-42 地图刻度）：MJIGatheringItem 的 X/Y/Radius 为原始内部值无法直接展示，坐标取自社区换算数据。",
+      "source": {
+        "url": "https://github.com/ffxiv-teamcraft/ffxiv-teamcraft/blob/master/libs/data/src/lib/json/island-gathering-items.json",
+        "project": "ffxiv-teamcraft",
+        "fetchedAt": "2026-11-22"
+      }
+    },
+    {
+      "schemaVersion": "ffxiv.island.rankUnlocks.v1",
+      "note": "各开拓等级的具体解锁内容：游戏 CSV 无等级→解锁映射，清单取自社区 wiki 逐级进度表；tool/seed/gather/build 条目由生成器用本仓库数据解析出七语名称与图标，feature 为事实性机制说明（AI 依据 wiki 起草，待维护者审校）。",
+      "source": [
+        {
+          "url": "https://ffxiv.consolegameswiki.com/wiki/Island_Sanctuary",
+          "role": "逐级进度表（建筑/区域/魔偶服务/种子/采集物）",
+          "fetchedAt": "2026-11-23"
+        },
+        {
+          "url": "https://ffxiv.consolegameswiki.com/wiki/Island_Tools",
+          "role": "采集工具解锁等级",
+          "fetchedAt": "2026-11-22"
+        }
+      ]
+    },
+    {
+      "schemaVersion": "ffxiv.island.phaseRoutes.v1",
+      "note": "岛建阶段（5~8级）工房固定作业参考路线：名称为 NGA 帖原文简称，由生成器与工房制品中文名包含匹配解析（需唯一命中）；notes 为 NGA 帖机制的忠实摘录（zh）。",
+      "source": [
+        {
+          "url": "https://bbs.nga.cn/read.php?tid=34810413",
+          "role": "5~8级参考路线安排与工房机制说明",
+          "fetchedAt": "2026-11-23"
+        }
+      ]
+    },
+    {
+      "schemaVersion": "ffxiv.island.cropCycle.v1",
+      "note": "农田生长/收获常量：客户端 CSV 无生长时长与产量字段，取社区 wiki 统一口径；只提供全局常量，不逐作物捏造差异。",
+      "source": [
+        {
+          "url": "https://ffxiv.consolegameswiki.com/wiki/Island_Sanctuary",
+          "role": "农田生长时长与产量口径",
+          "fetchedAt": "2026-11-23"
+        }
+      ]
+    },
+    {
+      "schemaVersion": "ffxiv.island.rewardShopGroups.v1",
+      "note": "SpecialShop 中无人岛相关商店的分组名称。票据与货币兑换分组名按 custom/007/CtsMjiSpecialShop_00789 菜单文本归并，来源同批次对话表。",
+      "source": [
+        {
+          "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs/custom/007/CtsMjiSpecialShop_00789.csv",
+          "role": "商店分组菜单文本",
+          "fetchedAt": "2026-11-23"
+        }
+      ]
+    }
+  ]
+}

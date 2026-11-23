@@ -176,6 +176,12 @@ export const coreUiMessages: UiMessageMap = {
     ja: 'ファッションチェック',
     ko: '패션 체크'
   }),
+  'ffxiv.tool.island.title': msg({
+    zh: '无人岛',
+    en: 'Island Sanctuary',
+    ja: '無人島',
+    ko: '무인도'
+  }),
   'ffxiv.tool.fashionCheck.summary': msg({
     zh: '本周方案',
     en: 'Weekly solutions',

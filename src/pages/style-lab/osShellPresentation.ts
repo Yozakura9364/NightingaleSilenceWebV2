@@ -52,7 +52,8 @@ const toolIcons: Record<string, string> = {
 }
 
 export const osShellToolPresentations: OsShellToolPresentation[] = ffxivTools
-  .filter((tool) => tool.id !== 'armoire')
+  // 没有桌面图标的工具（armoire、待提供图标的 island 等）不进入桌面。
+  .filter((tool) => tool.id !== 'armoire' && Boolean(toolIcons[tool.id]))
   .map((tool) => ({
     id: tool.id,
     icon: toolIcons[tool.id],

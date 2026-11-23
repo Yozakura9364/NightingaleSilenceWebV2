@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "ffxiv.island.rewardShopGroups.v1",
+  "note": "SpecialShop 中无人岛相关商店的分组名称。票据与货币兑换分组名按 custom/007/CtsMjiSpecialShop_00789 菜单文本归并，来源同批次对话表。",
+  "source": [
+    {
+      "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/master/chs/custom/007/CtsMjiSpecialShop_00789.csv",
+      "role": "商店分组菜单文本",
+      "fetchedAt": "2026-11-23"
+    }
+  ],
+  "groups": {
+    "1770601": {
+      "zh": "青船币特选品",
+      "en": "Seafarer's Cowrie Specials"
+    },
+    "1770602": {
+      "zh": "绿岛币特选品",
+      "en": "Islander's Cowrie Specials"
+    },
+    "1770659": {
+      "zh": "装备与家具",
+      "en": "Gear & Furnishings"
+    },
+    "1770723": {
+      "zh": "票据兑换",
+      "en": "Ticket Exchange"
+    },
+    "1770604": {
+      "zh": "种子商店",
+      "en": "Seed Shop"
+    },
+    "1770643": {
+      "zh": "种子商店",
+      "en": "Seed Shop"
+    },
+    "1770662": {
+      "zh": "种子商店",
+      "en": "Seed Shop"
+    },
+    "1770709": {
+      "zh": "种子商店",
+      "en": "Seed Shop"
+    },
+    "1770660": {
+      "zh": "消耗品与魔晶石",
+      "en": "Consumables & Materia"
+    }
+  }
+}

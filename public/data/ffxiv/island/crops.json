@@ -1,0 +1,838 @@
+{
+  "schemaVersion": "ffxiv.island.crops.v1",
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv"
+    },
+    "source_batch_id": "ab7c6761d292ac0273ff514129355851650d83c1fb870f6cc8e5dcf64c8ca3b8",
+    "source_mode": "remote",
+    "detail": "island-sources.json"
+  },
+  "generatedAt": "2026-11-23T15:26:27.180Z",
+  "growth": {
+    "hoursPerCycle": 48,
+    "yieldPerPlot": 5,
+    "noteZh": "每株作物固定 48 小时成熟；每块耕地每次收获 5 个产物；耕地 III 每日满产 100 个。",
+    "noteEn": "Each crop matures in 48 hours; each plot yields 5 produce per harvest; Cropland III yields 100 per day at full output."
+  },
+  "crops": [
+    {
+      "id": "1",
+      "seedItemId": "37583",
+      "seedIcon": 23704,
+      "seedName": "海岛新薯的芽块",
+      "seedNames": {
+        "zh": "海岛新薯的芽块",
+        "en": "Island Popoto Set",
+        "ja": "アイルポポトの種芋",
+        "ko": "섬 포포토 씨앗",
+        "tc": "海島新薯的芽塊",
+        "fr": "Tubercules de popoto exotique",
+        "de": "Paradiestoffel-Knollen"
+      },
+      "seedUnlockRank": 1,
+      "crop": {
+        "id": "1",
+        "itemId": "37593",
+        "icon": 25204,
+        "name": "海岛新薯",
+        "names": {
+          "zh": "海岛新薯",
+          "en": "Island Popoto",
+          "ja": "アイルポポト",
+          "ko": "섬 포포토",
+          "tc": "海島新薯",
+          "fr": "Popoto exotique",
+          "de": "Paradiestoffel"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛新薯",
+        "en": "island popoto",
+        "ja": "アイルポポト",
+        "ko": "섬 포포토",
+        "tc": "海島新薯",
+        "fr": "popotos exotiques",
+        "de": "Paradiestoffel"
+      }
+    },
+    {
+      "id": "2",
+      "seedItemId": "37584",
+      "seedIcon": 23703,
+      "seedName": "海岛甘蓝的种子",
+      "seedNames": {
+        "zh": "海岛甘蓝的种子",
+        "en": "Island Cabbage Seeds",
+        "ja": "アイルキャベツの種",
+        "ko": "섬 양배추 씨앗",
+        "tc": "海島甘藍的種子",
+        "fr": "Graines de chou exotique",
+        "de": "Paradieskohlsamen"
+      },
+      "seedUnlockRank": 1,
+      "crop": {
+        "id": "2",
+        "itemId": "37594",
+        "icon": 25208,
+        "name": "海岛甘蓝",
+        "names": {
+          "zh": "海岛甘蓝",
+          "en": "Island Cabbage",
+          "ja": "アイルキャベツ",
+          "ko": "섬 양배추",
+          "tc": "海島甘藍",
+          "fr": "Chou exotique",
+          "de": "Paradieskohlkopf"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛甘蓝",
+        "en": "island cabbage",
+        "ja": "アイルキャベツ",
+        "ko": "섬 양배추",
+        "tc": "海島甘藍",
+        "fr": "choux exotiques",
+        "de": "Paradieskohlkopf"
+      }
+    },
+    {
+      "id": "3",
+      "seedItemId": "37585",
+      "seedIcon": 23701,
+      "seedName": "海岛莓果的种子",
+      "seedNames": {
+        "zh": "海岛莓果的种子",
+        "en": "Isleberry Seeds",
+        "ja": "アイルベリーの種",
+        "ko": "섬 딸기 씨앗",
+        "tc": "海島莓果的種子",
+        "fr": "Graines de fraise exotique",
+        "de": "Paradiesbeerensamen"
+      },
+      "seedUnlockRank": 7,
+      "crop": {
+        "id": "3",
+        "itemId": "37595",
+        "icon": 25306,
+        "name": "海岛莓果",
+        "names": {
+          "zh": "海岛莓果",
+          "en": "Isleberry",
+          "ja": "アイルベリー",
+          "ko": "섬 딸기",
+          "tc": "海島莓果",
+          "fr": "Fraise exotique",
+          "de": "Paradiesbeere"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛莓果",
+        "en": "isleberry",
+        "ja": "アイルベリー",
+        "ko": "섬 딸기",
+        "tc": "海島莓果",
+        "fr": "fraises exotiques",
+        "de": "Paradiesbeere"
+      }
+    },
+    {
+      "id": "4",
+      "seedItemId": "37586",
+      "seedIcon": 23702,
+      "seedName": "海岛南瓜的种子",
+      "seedNames": {
+        "zh": "海岛南瓜的种子",
+        "en": "Island Pumpkin Seeds",
+        "ja": "アイルパンプキンの種",
+        "ko": "섬 호박 씨앗",
+        "tc": "海島南瓜的種子",
+        "fr": "Graines de citrouille exotique",
+        "de": "Paradieskürbissamen"
+      },
+      "seedUnlockRank": 1,
+      "crop": {
+        "id": "4",
+        "itemId": "37596",
+        "icon": 25232,
+        "name": "海岛南瓜",
+        "names": {
+          "zh": "海岛南瓜",
+          "en": "Island Pumpkin",
+          "ja": "アイルパンプキン",
+          "ko": "섬 호박",
+          "tc": "海島南瓜",
+          "fr": "Citrouille exotique",
+          "de": "Paradieskürbis"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛南瓜",
+        "en": "island pumpkin",
+        "ja": "アイルパンプキン",
+        "ko": "섬 호박",
+        "tc": "海島南瓜",
+        "fr": "citrouilles exotiques",
+        "de": "Paradieskürbis"
+      }
+    },
+    {
+      "id": "5",
+      "seedItemId": "37587",
+      "seedIcon": 23705,
+      "seedName": "海岛洋葱的种子",
+      "seedNames": {
+        "zh": "海岛洋葱的种子",
+        "en": "Island Onion Set",
+        "ja": "アイルオニオンの種",
+        "ko": "섬 양파 씨앗",
+        "tc": "海島洋蔥的種子",
+        "fr": "Graines d'oignon exotique",
+        "de": "Paradieszwiebelsamen"
+      },
+      "seedUnlockRank": 7,
+      "crop": {
+        "id": "5",
+        "itemId": "37597",
+        "icon": 25203,
+        "name": "海岛洋葱",
+        "names": {
+          "zh": "海岛洋葱",
+          "en": "Island Onion",
+          "ja": "アイルオニオン",
+          "ko": "섬 양파",
+          "tc": "海島洋蔥",
+          "fr": "Oignon exotique",
+          "de": "Paradieszwiebel"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛洋葱",
+        "en": "island onion",
+        "ja": "アイルオニオン",
+        "ko": "섬 양파",
+        "tc": "海島洋蔥",
+        "fr": "oignons exotiques",
+        "de": "Paradieszwiebel"
+      }
+    },
+    {
+      "id": "6",
+      "seedItemId": "37588",
+      "seedIcon": 23707,
+      "seedName": "海岛番茄的种子",
+      "seedNames": {
+        "zh": "海岛番茄的种子",
+        "en": "Island Tomato Seeds",
+        "ja": "アイルトマトの種",
+        "ko": "섬 토마토 씨앗",
+        "tc": "海島番茄的種子",
+        "fr": "Graines de tomate exotique",
+        "de": "Paradiesparadeisersamen"
+      },
+      "seedUnlockRank": 7,
+      "crop": {
+        "id": "6",
+        "itemId": "37598",
+        "icon": 25209,
+        "name": "海岛番茄",
+        "names": {
+          "zh": "海岛番茄",
+          "en": "Island Tomato",
+          "ja": "アイルトマト",
+          "ko": "섬 토마토",
+          "tc": "海島番茄",
+          "fr": "Tomate exotique",
+          "de": "Paradiesparadeiser"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛番茄",
+        "en": "island tomato",
+        "ja": "アイルトマト",
+        "ko": "섬 토마토",
+        "tc": "海島番茄",
+        "fr": "tomates exotiques",
+        "de": "Paradiesparadeiser"
+      }
+    },
+    {
+      "id": "7",
+      "seedItemId": "37589",
+      "seedIcon": 23714,
+      "seedName": "海岛小麦的种子",
+      "seedNames": {
+        "zh": "海岛小麦的种子",
+        "en": "Island Wheat Seeds",
+        "ja": "アイル小麦の種",
+        "ko": "섬 밀 씨앗",
+        "tc": "海島小麥的種子",
+        "fr": "Graines de blé exotique",
+        "de": "Paradiesweizensamen"
+      },
+      "seedUnlockRank": 7,
+      "crop": {
+        "id": "7",
+        "itemId": "37599",
+        "icon": 25357,
+        "name": "海岛小麦",
+        "names": {
+          "zh": "海岛小麦",
+          "en": "Island Wheat",
+          "ja": "アイル小麦",
+          "ko": "섬 밀",
+          "tc": "海島小麥",
+          "fr": "Blé exotique",
+          "de": "Paradiesweizen"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛小麦",
+        "en": "island wheat",
+        "ja": "アイル小麦",
+        "ko": "섬 밀",
+        "tc": "海島小麥",
+        "fr": "épis de blé exotique",
+        "de": "Bündel[p] Paradiesweizen"
+      }
+    },
+    {
+      "id": "8",
+      "seedItemId": "37590",
+      "seedIcon": 23706,
+      "seedName": "海岛玉米的种子",
+      "seedNames": {
+        "zh": "海岛玉米的种子",
+        "en": "Island Corn Seeds",
+        "ja": "アイルコーンの種",
+        "ko": "섬 옥수수 씨앗",
+        "tc": "海島玉米的種子",
+        "fr": "Graines de maïs exotique",
+        "de": "Paradiesmaissamen"
+      },
+      "seedUnlockRank": 7,
+      "crop": {
+        "id": "8",
+        "itemId": "37600",
+        "icon": 25352,
+        "name": "海岛玉米",
+        "names": {
+          "zh": "海岛玉米",
+          "en": "Island Corn",
+          "ja": "アイルコーン",
+          "ko": "섬 옥수수",
+          "tc": "海島玉米",
+          "fr": "Maïs exotique",
+          "de": "Paradiesmais"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛玉米",
+        "en": "island corn",
+        "ja": "アイルコーン",
+        "ko": "섬 옥수수",
+        "tc": "海島玉米",
+        "fr": "épis de maïs exotique",
+        "de": "Kolben[p] Paradiesmais"
+      }
+    },
+    {
+      "id": "9",
+      "seedItemId": "37591",
+      "seedIcon": 23708,
+      "seedName": "海岛高山萝卜的种子",
+      "seedNames": {
+        "zh": "海岛高山萝卜的种子",
+        "en": "Island Parsnip Seeds",
+        "ja": "アイルパースニップの種",
+        "ko": "섬 설탕당근 씨앗",
+        "tc": "海島高山蘿蔔的種子",
+        "fr": "Graines de panais exotique",
+        "de": "Paradiespastinakensamen"
+      },
+      "seedUnlockRank": 5,
+      "crop": {
+        "id": "9",
+        "itemId": "37601",
+        "icon": 25215,
+        "name": "海岛高山萝卜",
+        "names": {
+          "zh": "海岛高山萝卜",
+          "en": "Island Parsnip",
+          "ja": "アイルパースニップ",
+          "ko": "섬 설탕당근",
+          "tc": "海島高山蘿蔔",
+          "fr": "Panais exotique",
+          "de": "Paradiespastinak"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛高山萝卜",
+        "en": "island parsnip",
+        "ja": "アイルパースニップ",
+        "ko": "섬 설탕당근",
+        "tc": "海島高山蘿蔔",
+        "fr": "panais exotiques",
+        "de": "Paradiespastinak"
+      }
+    },
+    {
+      "id": "10",
+      "seedItemId": "37592",
+      "seedIcon": 23735,
+      "seedName": "海岛小萝卜的种子",
+      "seedNames": {
+        "zh": "海岛小萝卜的种子",
+        "en": "Island Radish Seeds",
+        "ja": "アイルラディッシュの種",
+        "ko": "섬 빨간무 씨앗",
+        "tc": "海島小蘿蔔的種子",
+        "fr": "Graines de radis exotique",
+        "de": "Paradiesrettichsamen"
+      },
+      "seedUnlockRank": 7,
+      "crop": {
+        "id": "10",
+        "itemId": "37602",
+        "icon": 25233,
+        "name": "海岛小萝卜",
+        "names": {
+          "zh": "海岛小萝卜",
+          "en": "Island Radish",
+          "ja": "アイルラディッシュ",
+          "ko": "섬 빨간무",
+          "tc": "海島小蘿蔔",
+          "fr": "Radis exotique",
+          "de": "Paradiesrettich"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛小萝卜",
+        "en": "island radish",
+        "ja": "アイルラディッシュ",
+        "ko": "섬 빨간무",
+        "tc": "海島小蘿蔔",
+        "fr": "radis exotiques",
+        "de": "Paradiesrettich"
+      }
+    },
+    {
+      "id": "11",
+      "seedItemId": "39229",
+      "seedIcon": 23728,
+      "seedName": "海岛红辣椒种子",
+      "seedNames": {
+        "zh": "海岛红辣椒种子",
+        "en": "Island Paprika Seeds",
+        "ja": "アイルパプリカの種",
+        "ko": "섬 파프리카 씨앗",
+        "tc": "海島紅彩椒種子",
+        "fr": "Graines de poivron exotique",
+        "de": "Paradiespaprikasamen"
+      },
+      "seedUnlockRank": 11,
+      "crop": {
+        "id": "11",
+        "itemId": "39231",
+        "icon": 25018,
+        "name": "海岛红辣椒",
+        "names": {
+          "zh": "海岛红辣椒",
+          "en": "Island Paprika",
+          "ja": "アイルパプリカ",
+          "ko": "섬 파프리카",
+          "tc": "海島紅彩椒",
+          "fr": "Poivron exotique",
+          "de": "Paradiespaprika"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛红辣椒",
+        "en": "island paprika",
+        "ja": "アイルパプリカ",
+        "ko": "섬 파프리카",
+        "tc": "海島紅彩椒",
+        "fr": "poivrons exotiques",
+        "de": "Paradiespaprika"
+      }
+    },
+    {
+      "id": "12",
+      "seedItemId": "39230",
+      "seedIcon": 23729,
+      "seedName": "海岛韭葱种子",
+      "seedNames": {
+        "zh": "海岛韭葱种子",
+        "en": "Island Leek Set",
+        "ja": "アイルリーキの種",
+        "ko": "섬 대파 씨앗",
+        "tc": "海島韭蔥種子",
+        "fr": "Graines de poireau exotique",
+        "de": "Paradiesporreesamen"
+      },
+      "seedUnlockRank": 11,
+      "crop": {
+        "id": "12",
+        "itemId": "39232",
+        "icon": 25216,
+        "name": "海岛韭葱",
+        "names": {
+          "zh": "海岛韭葱",
+          "en": "Island Leek",
+          "ja": "アイルリーキ",
+          "ko": "섬 대파",
+          "tc": "海島韭蔥",
+          "fr": "Poireau exotique",
+          "de": "Paradiesporree"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛韭葱",
+        "en": "island leek",
+        "ja": "アイルリーキ",
+        "ko": "섬 대파",
+        "tc": "海島韭蔥",
+        "fr": "poireaux exotiques",
+        "de": "Paradiesporree"
+      }
+    },
+    {
+      "id": "13",
+      "seedItemId": "39895",
+      "seedIcon": 23733,
+      "seedName": "海岛花豆的豆子",
+      "seedNames": {
+        "zh": "海岛花豆的豆子",
+        "en": "Island Runner Bean Seeds",
+        "ja": "アイルラナービーンズの豆",
+        "ko": "섬 적화강낭콩 씨앗",
+        "tc": "海島花豆的豆子",
+        "fr": "Graine de haricot-fleur exotique",
+        "de": "Paradiesfeuerbohnensamen"
+      },
+      "seedUnlockRank": 14,
+      "crop": {
+        "id": "13",
+        "itemId": "39899",
+        "icon": 25234,
+        "name": "海岛花豆",
+        "names": {
+          "zh": "海岛花豆",
+          "en": "Island Runner Beans",
+          "ja": "アイルラナービーンズ",
+          "ko": "섬 적화강낭콩",
+          "tc": "海島花豆",
+          "fr": "Haricot-fleur exotique",
+          "de": "Paradiesfeuerbohnen"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛花豆",
+        "en": "island runner beanstalk",
+        "ja": "アイルラナービーンズ",
+        "ko": "섬 적화강낭콩",
+        "tc": "海島紅花菜豆",
+        "fr": "haricots-fleurs exotiques",
+        "de": "Strauch[p] Paradiesfeuerbohnen"
+      }
+    },
+    {
+      "id": "14",
+      "seedItemId": "39896",
+      "seedIcon": 23709,
+      "seedName": "海岛红菜的种子",
+      "seedNames": {
+        "zh": "海岛红菜的种子",
+        "en": "Island Beet Seeds",
+        "ja": "アイルビーツの種",
+        "ko": "섬 비트 씨앗",
+        "tc": "海島紅菜的種子",
+        "fr": "Graine de betterave exotique",
+        "de": "Rote Paradiesbetesamen"
+      },
+      "seedUnlockRank": 14,
+      "crop": {
+        "id": "14",
+        "itemId": "39900",
+        "icon": 25231,
+        "name": "海岛红菜",
+        "names": {
+          "zh": "海岛红菜",
+          "en": "Island Beet",
+          "ja": "アイルビーツ",
+          "ko": "섬 비트",
+          "tc": "海島紅菜",
+          "fr": "Betterave exotique",
+          "de": "Rote Paradiesbete"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛红菜",
+        "en": "island beet",
+        "ja": "アイルビーツ",
+        "ko": "섬 비트",
+        "tc": "海島紅菜",
+        "fr": "betteraves exotiques",
+        "de": "Rot[a] Paradiesbete"
+      }
+    },
+    {
+      "id": "15",
+      "seedItemId": "39897",
+      "seedIcon": 23730,
+      "seedName": "海岛茄子的种子",
+      "seedNames": {
+        "zh": "海岛茄子的种子",
+        "en": "Island Eggplant Seeds",
+        "ja": "アイルエッグプラントの種",
+        "ko": "섬 가지 씨앗",
+        "tc": "海島茄子的種子",
+        "fr": "Graine d'aubergine exotique",
+        "de": "Paradiesauberginensamen"
+      },
+      "seedUnlockRank": 14,
+      "crop": {
+        "id": "15",
+        "itemId": "39901",
+        "icon": 25205,
+        "name": "海岛茄子",
+        "names": {
+          "zh": "海岛茄子",
+          "en": "Island Eggplant",
+          "ja": "アイルエッグプラント",
+          "ko": "섬 가지",
+          "tc": "海島茄子",
+          "fr": "Aubergine exotique",
+          "de": "Paradiesaubergine"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛茄子",
+        "en": "island eggplant",
+        "ja": "アイルエッグプラント",
+        "ko": "섬 가지",
+        "tc": "海島茄子",
+        "fr": "aubergines exotiques",
+        "de": "Paradiesaubergine"
+      }
+    },
+    {
+      "id": "16",
+      "seedItemId": "39898",
+      "seedIcon": 23732,
+      "seedName": "海岛西葫芦的种子",
+      "seedNames": {
+        "zh": "海岛西葫芦的种子",
+        "en": "Island Zucchini Seeds",
+        "ja": "アイルズッキーニの種",
+        "ko": "섬 돼지호박 씨앗",
+        "tc": "海島櫛瓜的種子",
+        "fr": "Graine de courgette exotique",
+        "de": "Paradieszucchinisamen"
+      },
+      "seedUnlockRank": 14,
+      "crop": {
+        "id": "16",
+        "itemId": "39902",
+        "icon": 25212,
+        "name": "海岛西葫芦",
+        "names": {
+          "zh": "海岛西葫芦",
+          "en": "Island Zucchini",
+          "ja": "アイルズッキーニ",
+          "ko": "섬 돼지호박",
+          "tc": "海島櫛瓜",
+          "fr": "Courgette exotique",
+          "de": "Paradieszucchini"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛西葫芦",
+        "en": "island zucchini",
+        "ja": "アイルズッキーニ",
+        "ko": "섬 돼지호박",
+        "tc": "海島櫛瓜",
+        "fr": "courgettes exotiques",
+        "de": "Paradieszucchini"
+      }
+    },
+    {
+      "id": "17",
+      "seedItemId": "41639",
+      "seedIcon": 23740,
+      "seedName": "海岛西瓜种子",
+      "seedNames": {
+        "zh": "海岛西瓜种子",
+        "en": "Island Watermelon Seeds",
+        "ja": "アイルウォーターメロンの種",
+        "ko": "섬 수박 씨앗",
+        "tc": "海島西瓜種子",
+        "fr": "Graines de pastèque exotique",
+        "de": "Paradieswassermelonensamen"
+      },
+      "seedUnlockRank": 18,
+      "crop": {
+        "id": "17",
+        "itemId": "41635",
+        "icon": 25328,
+        "name": "海岛西瓜",
+        "names": {
+          "zh": "海岛西瓜",
+          "en": "Island Watermelon",
+          "ja": "アイルウォーターメロン",
+          "ko": "섬 수박",
+          "tc": "海島西瓜",
+          "fr": "Pastèque exotique",
+          "de": "Paradieswassermelone"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛西瓜",
+        "en": "island watermelon",
+        "ja": "アイルウォーターメロン",
+        "ko": "섬 수박",
+        "tc": "海島西瓜",
+        "fr": "pastèques exotiques",
+        "de": "Paradieswassermelone"
+      }
+    },
+    {
+      "id": "18",
+      "seedItemId": "41640",
+      "seedIcon": 23741,
+      "seedName": "海岛甜新薯芽块",
+      "seedNames": {
+        "zh": "海岛甜新薯芽块",
+        "en": "Island Sweet Popoto Set",
+        "ja": "アイルスイートポポトの種芋",
+        "ko": "섬 달콤포포토 씨앗",
+        "tc": "海島甜新薯芽塊",
+        "fr": "Tubercules de popoto douce exotique",
+        "de": "Paradiessüßtoffel-Knollen"
+      },
+      "seedUnlockRank": 18,
+      "crop": {
+        "id": "18",
+        "itemId": "41636",
+        "icon": 25236,
+        "name": "海岛甜新薯",
+        "names": {
+          "zh": "海岛甜新薯",
+          "en": "Island Sweet Popoto",
+          "ja": "アイルスイートポポト",
+          "ko": "섬 달콤포포토",
+          "tc": "海島甜新薯",
+          "fr": "Popoto douce exotique",
+          "de": "Paradiessüßtoffel"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛甜新薯",
+        "en": "island sweet popoto",
+        "ja": "アイルスイートポポト",
+        "ko": "섬 달콤포포토",
+        "tc": "海島甜新薯",
+        "fr": "popotos douces exotiques",
+        "de": "Paradiessüßtoffel"
+      }
+    },
+    {
+      "id": "19",
+      "seedItemId": "41641",
+      "seedIcon": 23738,
+      "seedName": "海岛西兰花苗",
+      "seedNames": {
+        "zh": "海岛西兰花苗",
+        "en": "Island Broccoli Seeds",
+        "ja": "アイルブロッコリーの苗",
+        "ko": "섬 브로콜리 모종",
+        "tc": "海島花椰菜苗",
+        "fr": "Graines de brocoli exotique",
+        "de": "Paradiesbrokkolikeimlinge"
+      },
+      "seedUnlockRank": 18,
+      "crop": {
+        "id": "19",
+        "itemId": "41637",
+        "icon": 25237,
+        "name": "海岛西兰花",
+        "names": {
+          "zh": "海岛西兰花",
+          "en": "Island Broccoli",
+          "ja": "アイルブロッコリー",
+          "ko": "섬 브로콜리",
+          "tc": "海島花椰菜",
+          "fr": "Brocoli exotique",
+          "de": "Paradiesbrokkoli"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛西兰花",
+        "en": "island broccoli",
+        "ja": "アイルブロッコリー",
+        "ko": "섬 브로콜리",
+        "tc": "海島花椰菜",
+        "fr": "brocolis exotiques",
+        "de": "Paradiesbrokkoli"
+      }
+    },
+    {
+      "id": "20",
+      "seedItemId": "41642",
+      "seedIcon": 23745,
+      "seedName": "海岛水牛豆的豆子",
+      "seedNames": {
+        "zh": "海岛水牛豆的豆子",
+        "en": "Island Buffalo Bean Seeds",
+        "ja": "アイルバッファロービーンの豆",
+        "ko": "섬 물소콩 씨앗",
+        "tc": "海島水牛豆種子",
+        "fr": "Graines de haricot buffle exotique",
+        "de": "Paradiesjuckbohnensamen"
+      },
+      "seedUnlockRank": 18,
+      "crop": {
+        "id": "20",
+        "itemId": "41638",
+        "icon": 25353,
+        "name": "海岛水牛豆",
+        "names": {
+          "zh": "海岛水牛豆",
+          "en": "Island Buffalo Beans",
+          "ja": "アイルバッファロービーン",
+          "ko": "섬 물소콩",
+          "tc": "海島水牛豆",
+          "fr": "Haricots buffle exotiques",
+          "de": "Paradiesjuckbohnen"
+        }
+      },
+      "fieldNames": {
+        "zh": "海岛水牛豆",
+        "en": "island buffalo beanstalk",
+        "ja": "アイルバッファロービーン",
+        "ko": "섬 물소콩",
+        "tc": "海島水牛豆",
+        "fr": "haricots buffle exotiques",
+        "de": "Strauch[p] Paradiesjuckbohnen"
+      }
+    }
+  ]
+}

@@ -1,0 +1,5679 @@
+{
+  "schemaVersion": "ffxiv.island.materials.v1",
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv"
+    },
+    "source_batch_id": "ab7c6761d292ac0273ff514129355851650d83c1fb870f6cc8e5dcf64c8ca3b8",
+    "source_mode": "remote",
+    "detail": "island-sources.json"
+  },
+  "generatedAt": "2026-11-23T15:26:27.180Z",
+  "materials": [
+    {
+      "id": "0",
+      "itemId": "37551",
+      "icon": 25026,
+      "name": "无人岛棕榈叶",
+      "names": {
+        "zh": "无人岛棕榈叶",
+        "en": "Island Palm Leaf",
+        "ja": "無人島のパームリーフ",
+        "ko": "무인도 야자나무 잎",
+        "tc": "無人島棕櫚葉",
+        "fr": "Palme insulaire",
+        "de": "Insel-Palmwedel"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 18.39,
+        "y": 24.26,
+        "radius": 100
+      }
+    },
+    {
+      "id": "1",
+      "itemId": "37552",
+      "icon": 25308,
+      "name": "无人岛苹果",
+      "names": {
+        "zh": "无人岛苹果",
+        "en": "Island Apple",
+        "ja": "無人島のアップル",
+        "ko": "무인도 사과",
+        "tc": "無人島蘋果",
+        "fr": "Pomme insulaire",
+        "de": "Insel-Apfel"
+      },
+      "categoryId": "1",
+      "toolId": "1",
+      "tool": {
+        "id": "1",
+        "keyItemId": "1",
+        "itemId": "37679",
+        "icon": 23713,
+        "name": "开拓用石斧",
+        "names": {
+          "zh": "开拓用石斧",
+          "en": "Islekeep's Stone Hatchet",
+          "ja": "開拓用ストーンハチェット",
+          "ko": "개척용 돌도끼",
+          "tc": "開拓用石斧",
+          "fr": "Hache en pierre de pionnier",
+          "de": "Steinaxt des Insulaners"
+        },
+        "unlockRank": 1
+      },
+      "gathering": {
+        "map": 0,
+        "x": 21.88,
+        "y": 25.7,
+        "radius": 100
+      }
+    },
+    {
+      "id": "2",
+      "itemId": "37553",
+      "icon": 22416,
+      "name": "无人岛小树枝",
+      "names": {
+        "zh": "无人岛小树枝",
+        "en": "Island Branch",
+        "ja": "無人島の小枝",
+        "ko": "무인도 잔가지",
+        "tc": "無人島小樹枝",
+        "fr": "Branche insulaire",
+        "de": "Insel-Zweig"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 22.3,
+        "y": 25.9,
+        "radius": 100
+      }
+    },
+    {
+      "id": "3",
+      "itemId": "37554",
+      "icon": 21451,
+      "name": "无人岛石材",
+      "names": {
+        "zh": "无人岛石材",
+        "en": "Island Stone",
+        "ja": "無人島の石材",
+        "ko": "무인도 석재",
+        "tc": "無人島石材",
+        "fr": "Pierre insulaire",
+        "de": "Insel-Stein"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 17.55,
+        "y": 23.34,
+        "radius": 80
+      }
+    },
+    {
+      "id": "4",
+      "itemId": "37555",
+      "icon": 29031,
+      "name": "无人岛双壳贝",
+      "names": {
+        "zh": "无人岛双壳贝",
+        "en": "Island Clam",
+        "ja": "無人島の二枚貝",
+        "ko": "무인도 조개",
+        "tc": "無人島雙殼貝",
+        "fr": "Coque insulaire",
+        "de": "Zweischalige Insel-Muschel"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 16.83,
+        "y": 10.36,
+        "radius": 150
+      }
+    },
+    {
+      "id": "5",
+      "itemId": "37556",
+      "icon": 25225,
+      "name": "无人岛海藻",
+      "names": {
+        "zh": "无人岛海藻",
+        "en": "Island Laver",
+        "ja": "無人島の玉藻",
+        "ko": "무인도 구슬말",
+        "tc": "無人島球藻",
+        "fr": "Sargasse tamamo insulaire",
+        "de": "Insel-Alge"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 33.31,
+        "y": 24.58,
+        "radius": 100
+      }
+    },
+    {
+      "id": "6",
+      "itemId": "37557",
+      "icon": 29060,
+      "name": "无人岛珊瑚",
+      "names": {
+        "zh": "无人岛珊瑚",
+        "en": "Island Coral",
+        "ja": "無人島の珊瑚",
+        "ko": "무인도 산호",
+        "tc": "無人島珊瑚",
+        "fr": "Corail insulaire",
+        "de": "Insel-Koralle"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 33.31,
+        "y": 24.58,
+        "radius": 100
+      }
+    },
+    {
+      "id": "7",
+      "itemId": "37558",
+      "icon": 25010,
+      "name": "无人岛草叶",
+      "names": {
+        "zh": "无人岛草叶",
+        "en": "Islewort",
+        "ja": "無人島の草葉",
+        "ko": "무인도 풀잎",
+        "tc": "無人島草葉",
+        "fr": "Feuille d'arbuste insulaire",
+        "de": "Insel-Gras"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 13.03,
+        "y": 12.41,
+        "radius": 100
+      }
+    },
+    {
+      "id": "8",
+      "itemId": "37559",
+      "icon": 21464,
+      "name": "无人岛砂砾",
+      "names": {
+        "zh": "无人岛砂砾",
+        "en": "Island Sand",
+        "ja": "無人島の砂",
+        "ko": "무인도 모래",
+        "tc": "無人島砂礫",
+        "fr": "Sable insulaire",
+        "de": "Insel-Sand"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 22.72,
+        "y": 26.02,
+        "radius": 75
+      }
+    },
+    {
+      "id": "9",
+      "itemId": "37560",
+      "icon": 22407,
+      "name": "无人岛原木",
+      "names": {
+        "zh": "无人岛原木",
+        "en": "Island Log",
+        "ja": "無人島の原木",
+        "ko": "무인도 원목",
+        "tc": "無人島原木",
+        "fr": "Rondin insulaire",
+        "de": "Insel-Holzscheit"
+      },
+      "categoryId": "1",
+      "toolId": "1",
+      "tool": {
+        "id": "1",
+        "keyItemId": "1",
+        "itemId": "37679",
+        "icon": 23713,
+        "name": "开拓用石斧",
+        "names": {
+          "zh": "开拓用石斧",
+          "en": "Islekeep's Stone Hatchet",
+          "ja": "開拓用ストーンハチェット",
+          "ko": "개척용 돌도끼",
+          "tc": "開拓用石斧",
+          "fr": "Hache en pierre de pionnier",
+          "de": "Steinaxt des Insulaners"
+        },
+        "unlockRank": 1
+      },
+      "gathering": {
+        "map": 0,
+        "x": 22.3,
+        "y": 25.9,
+        "radius": 100
+      }
+    },
+    {
+      "id": "10",
+      "itemId": "37561",
+      "icon": 22410,
+      "name": "无人岛棕榈原木",
+      "names": {
+        "zh": "无人岛棕榈原木",
+        "en": "Island Palm Log",
+        "ja": "無人島のパーム原木",
+        "ko": "무인도 야자나무 원목",
+        "tc": "無人島棕櫚原木",
+        "fr": "Rondin de palmier insulaire",
+        "de": "Insel-Palmenholzscheit"
+      },
+      "categoryId": "1",
+      "toolId": "1",
+      "tool": {
+        "id": "1",
+        "keyItemId": "1",
+        "itemId": "37679",
+        "icon": 23713,
+        "name": "开拓用石斧",
+        "names": {
+          "zh": "开拓用石斧",
+          "en": "Islekeep's Stone Hatchet",
+          "ja": "開拓用ストーンハチェット",
+          "ko": "개척용 돌도끼",
+          "tc": "開拓用石斧",
+          "fr": "Hache en pierre de pionnier",
+          "de": "Steinaxt des Insulaners"
+        },
+        "unlockRank": 1
+      },
+      "gathering": {
+        "map": 0,
+        "x": 18.39,
+        "y": 24.26,
+        "radius": 100
+      }
+    },
+    {
+      "id": "11",
+      "itemId": "37562",
+      "icon": 21672,
+      "name": "无人岛藤蔓",
+      "names": {
+        "zh": "无人岛藤蔓",
+        "en": "Island Vine",
+        "ja": "無人島のつる",
+        "ko": "무인도 덩굴",
+        "tc": "無人島藤蔓",
+        "fr": "Sarment insulaire",
+        "de": "Insel-Ranke"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 18,
+        "y": 17.6,
+        "radius": 100
+      }
+    },
+    {
+      "id": "12",
+      "itemId": "37563",
+      "icon": 22642,
+      "name": "无人岛树液",
+      "names": {
+        "zh": "无人岛树液",
+        "en": "Island Sap",
+        "ja": "無人島の樹液",
+        "ko": "무인도 수액",
+        "tc": "無人島樹液",
+        "fr": "Sève insulaire",
+        "de": "Insel-Harz"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 20.87,
+        "y": 24.48,
+        "radius": 100
+      }
+    },
+    {
+      "id": "13",
+      "itemId": "37564",
+      "icon": 21209,
+      "name": "无人岛铜矿",
+      "names": {
+        "zh": "无人岛铜矿",
+        "en": "Island Copper Ore",
+        "ja": "無人島の銅鉱",
+        "ko": "무인도 구리 광석",
+        "tc": "無人島銅礦",
+        "fr": "Minerai de cuivre insulaire",
+        "de": "Insel-Kupfererz"
+      },
+      "categoryId": "1",
+      "toolId": "2",
+      "tool": {
+        "id": "2",
+        "keyItemId": "2",
+        "itemId": "37680",
+        "icon": 23712,
+        "name": "开拓用石锤",
+        "names": {
+          "zh": "开拓用石锤",
+          "en": "Islekeep's Stone Hammer",
+          "ja": "開拓用ストーンハンマー",
+          "ko": "개척용 돌망치",
+          "tc": "開拓用石錘",
+          "fr": "Marteau en pierre de pionnier",
+          "de": "Steinhammer des Insulaners"
+        },
+        "unlockRank": 3
+      },
+      "gathering": {
+        "map": 0,
+        "x": 30.38,
+        "y": 28.52,
+        "radius": 80
+      }
+    },
+    {
+      "id": "14",
+      "itemId": "37565",
+      "icon": 22615,
+      "name": "无人岛石灰岩",
+      "names": {
+        "zh": "无人岛石灰岩",
+        "en": "Island Limestone",
+        "ja": "無人島の石灰岩",
+        "ko": "무인도 석회암",
+        "tc": "無人島石灰岩",
+        "fr": "Pierre calcaire insulaire",
+        "de": "Insel-Kalkstein"
+      },
+      "categoryId": "1",
+      "toolId": "2",
+      "tool": {
+        "id": "2",
+        "keyItemId": "2",
+        "itemId": "37680",
+        "icon": 23712,
+        "name": "开拓用石锤",
+        "names": {
+          "zh": "开拓用石锤",
+          "en": "Islekeep's Stone Hammer",
+          "ja": "開拓用ストーンハンマー",
+          "ko": "개척용 돌망치",
+          "tc": "開拓用石錘",
+          "fr": "Marteau en pierre de pionnier",
+          "de": "Steinhammer des Insulaners"
+        },
+        "unlockRank": 3
+      },
+      "gathering": {
+        "map": 0,
+        "x": 17.55,
+        "y": 23.34,
+        "radius": 80
+      }
+    },
+    {
+      "id": "15",
+      "itemId": "37566",
+      "icon": 22617,
+      "name": "无人岛岩盐",
+      "names": {
+        "zh": "无人岛岩盐",
+        "en": "Island Rock Salt",
+        "ja": "無人島の岩塩",
+        "ko": "무인도 암염",
+        "tc": "無人島岩鹽",
+        "fr": "Sel gemme insulaire",
+        "de": "Insel-Steinsalz"
+      },
+      "categoryId": "1",
+      "toolId": "2",
+      "tool": {
+        "id": "2",
+        "keyItemId": "2",
+        "itemId": "37680",
+        "icon": 23712,
+        "name": "开拓用石锤",
+        "names": {
+          "zh": "开拓用石锤",
+          "en": "Islekeep's Stone Hammer",
+          "ja": "開拓用ストーンハンマー",
+          "ko": "개척용 돌망치",
+          "tc": "開拓用石錘",
+          "fr": "Marteau en pierre de pionnier",
+          "de": "Steinhammer des Insulaners"
+        },
+        "unlockRank": 3
+      },
+      "gathering": {
+        "map": 0,
+        "x": 31.7,
+        "y": 21.13,
+        "radius": 75
+      }
+    },
+    {
+      "id": "16",
+      "itemId": "37567",
+      "icon": 22452,
+      "name": "无人岛甘蔗",
+      "names": {
+        "zh": "无人岛甘蔗",
+        "en": "Island Sugarcane",
+        "ja": "無人島のサトウキビ",
+        "ko": "무인도 사탕수수",
+        "tc": "無人島甘蔗",
+        "fr": "Canne à sucre insulaire",
+        "de": "Insel-Zuckerrohr"
+      },
+      "categoryId": "1",
+      "toolId": "4",
+      "tool": {
+        "id": "4",
+        "keyItemId": "4",
+        "itemId": "37682",
+        "icon": 38151,
+        "name": "开拓用铜镰",
+        "names": {
+          "zh": "开拓用铜镰",
+          "en": "Islekeep's Copper Scythe",
+          "ja": "開拓用カッパーサイズ",
+          "ko": "개척용 구리낫",
+          "tc": "開拓用銅鐮",
+          "fr": "Faux en cuivre de pionnier",
+          "de": "Kupfersense des Insulaners"
+        },
+        "unlockRank": 6
+      },
+      "gathering": {
+        "map": 0,
+        "x": 17.81,
+        "y": 17.37,
+        "radius": 75
+      }
+    },
+    {
+      "id": "17",
+      "itemId": "37568",
+      "icon": 21652,
+      "name": "无人岛棉花",
+      "names": {
+        "zh": "无人岛棉花",
+        "en": "Island Cotton Boll",
+        "ja": "無人島の綿花",
+        "ko": "무인도 목화",
+        "tc": "無人島棉花",
+        "fr": "Fleur de coton insulaire",
+        "de": "Insel-Baumwollkapsel"
+      },
+      "categoryId": "1",
+      "toolId": "4",
+      "tool": {
+        "id": "4",
+        "keyItemId": "4",
+        "itemId": "37682",
+        "icon": 38151,
+        "name": "开拓用铜镰",
+        "names": {
+          "zh": "开拓用铜镰",
+          "en": "Islekeep's Copper Scythe",
+          "ja": "開拓用カッパーサイズ",
+          "ko": "개척용 구리낫",
+          "tc": "開拓用銅鐮",
+          "fr": "Faux en cuivre de pionnier",
+          "de": "Kupfersense des Insulaners"
+        },
+        "unlockRank": 6
+      },
+      "gathering": {
+        "map": 0,
+        "x": 27.52,
+        "y": 29.18,
+        "radius": 75
+      }
+    },
+    {
+      "id": "18",
+      "itemId": "37569",
+      "icon": 25213,
+      "name": "无人岛麻",
+      "names": {
+        "zh": "无人岛麻",
+        "en": "Island Hemp",
+        "ja": "無人島の麻",
+        "ko": "무인도 마",
+        "tc": "無人島麻",
+        "fr": "Chanvre insulaire",
+        "de": "Insel-Hanf"
+      },
+      "categoryId": "1",
+      "toolId": "4",
+      "tool": {
+        "id": "4",
+        "keyItemId": "4",
+        "itemId": "37682",
+        "icon": 38151,
+        "name": "开拓用铜镰",
+        "names": {
+          "zh": "开拓用铜镰",
+          "en": "Islekeep's Copper Scythe",
+          "ja": "開拓用カッパーサイズ",
+          "ko": "개척용 구리낫",
+          "tc": "開拓用銅鐮",
+          "fr": "Faux en cuivre de pionnier",
+          "de": "Kupfersense des Insulaners"
+        },
+        "unlockRank": 6
+      },
+      "gathering": {
+        "map": 0,
+        "x": 29.12,
+        "y": 24.04,
+        "radius": 100
+      }
+    },
+    {
+      "id": "19",
+      "itemId": "37570",
+      "icon": 22634,
+      "name": "无人岛黏土",
+      "names": {
+        "zh": "无人岛黏土",
+        "en": "Island Clay",
+        "ja": "無人島の粘土",
+        "ko": "무인도 점토",
+        "tc": "無人島黏土",
+        "fr": "Argile insulaire",
+        "de": "Insel-Lehm"
+      },
+      "categoryId": "1",
+      "toolId": "3",
+      "tool": {
+        "id": "3",
+        "keyItemId": "3",
+        "itemId": "37681",
+        "icon": 23716,
+        "name": "开拓用铜铲",
+        "names": {
+          "zh": "开拓用铜铲",
+          "en": "Islekeep's Shovel",
+          "ja": "開拓用シャベル",
+          "ko": "개척용 삽",
+          "tc": "開拓用銅鏟",
+          "fr": "Pelle de pionnier",
+          "de": "Schaufel des Insulaners"
+        },
+        "unlockRank": 5
+      },
+      "gathering": {
+        "map": 0,
+        "x": 22.72,
+        "y": 26.04,
+        "radius": 75
+      }
+    },
+    {
+      "id": "20",
+      "itemId": "37571",
+      "icon": 21204,
+      "name": "无人岛锡砂",
+      "names": {
+        "zh": "无人岛锡砂",
+        "en": "Island Tinsand",
+        "ja": "無人島の砂錫",
+        "ko": "무인도 사석",
+        "tc": "無人島錫砂",
+        "fr": "Cassitérite insulaire",
+        "de": "Insel-Zinnsand"
+      },
+      "categoryId": "1",
+      "toolId": "3",
+      "tool": {
+        "id": "3",
+        "keyItemId": "3",
+        "itemId": "37681",
+        "icon": 23716,
+        "name": "开拓用铜铲",
+        "names": {
+          "zh": "开拓用铜铲",
+          "en": "Islekeep's Shovel",
+          "ja": "開拓用シャベル",
+          "ko": "개척용 삽",
+          "tc": "開拓用銅鏟",
+          "fr": "Pelle de pionnier",
+          "de": "Schaufel des Insulaners"
+        },
+        "unlockRank": 5
+      },
+      "gathering": {
+        "map": 0,
+        "x": 18.23,
+        "y": 21.45,
+        "radius": 75
+      }
+    },
+    {
+      "id": "21",
+      "itemId": "37572",
+      "icon": 21202,
+      "name": "无人岛铁矿",
+      "names": {
+        "zh": "无人岛铁矿",
+        "en": "Island Iron Ore",
+        "ja": "無人島の鉄鉱",
+        "ko": "무인도 철 광석",
+        "tc": "無人島鐵礦",
+        "fr": "Minerai de fer insulaire",
+        "de": "Insel-Eisenerz"
+      },
+      "categoryId": "1",
+      "toolId": "6",
+      "tool": {
+        "id": "6",
+        "keyItemId": "6",
+        "itemId": "37684",
+        "icon": 38001,
+        "name": "开拓用鹤嘴锄",
+        "names": {
+          "zh": "开拓用鹤嘴锄",
+          "en": "Islekeep's Bronze Beakaxe",
+          "ja": "開拓用ブロンズピック",
+          "ko": "개척용 청동곡괭이",
+          "tc": "開拓用十字鎬",
+          "fr": "Pioche en bronze de pionnier",
+          "de": "Bronze-Spitzhacke des Insulaners"
+        },
+        "unlockRank": 8
+      },
+      "gathering": {
+        "map": 0,
+        "x": 27.78,
+        "y": 19.27,
+        "radius": 100
+      }
+    },
+    {
+      "id": "22",
+      "itemId": "37573",
+      "icon": 20019,
+      "name": "无人岛石英",
+      "names": {
+        "zh": "无人岛石英",
+        "en": "Island Quartz",
+        "ja": "無人島のクォーツ",
+        "ko": "무인도 석영",
+        "tc": "無人島石英",
+        "fr": "Quartz insulaire",
+        "de": "Insel-Quarz"
+      },
+      "categoryId": "1",
+      "toolId": "6",
+      "tool": {
+        "id": "6",
+        "keyItemId": "6",
+        "itemId": "37684",
+        "icon": 38001,
+        "name": "开拓用鹤嘴锄",
+        "names": {
+          "zh": "开拓用鹤嘴锄",
+          "en": "Islekeep's Bronze Beakaxe",
+          "ja": "開拓用ブロンズピック",
+          "ko": "개척용 청동곡괭이",
+          "tc": "開拓用十字鎬",
+          "fr": "Pioche en bronze de pionnier",
+          "de": "Bronze-Spitzhacke des Insulaners"
+        },
+        "unlockRank": 8
+      },
+      "gathering": {
+        "map": 0,
+        "x": 25.84,
+        "y": 17.05,
+        "radius": 200
+      }
+    },
+    {
+      "id": "23",
+      "itemId": "37574",
+      "icon": 21251,
+      "name": "无人岛花岗岩",
+      "names": {
+        "zh": "无人岛花岗岩",
+        "en": "Island Leucogranite",
+        "ja": "無人島の花崗岩",
+        "ko": "무인도 화강암",
+        "tc": "無人島花崗岩",
+        "fr": "Granite insulaire",
+        "de": "Insel-Granit"
+      },
+      "categoryId": "1",
+      "toolId": "6",
+      "tool": {
+        "id": "6",
+        "keyItemId": "6",
+        "itemId": "37684",
+        "icon": 38001,
+        "name": "开拓用鹤嘴锄",
+        "names": {
+          "zh": "开拓用鹤嘴锄",
+          "en": "Islekeep's Bronze Beakaxe",
+          "ja": "開拓用ブロンズピック",
+          "ko": "개척용 청동곡괭이",
+          "tc": "開拓用十字鎬",
+          "fr": "Pioche en bronze de pionnier",
+          "de": "Bronze-Spitzhacke des Insulaners"
+        },
+        "unlockRank": 8
+      },
+      "gathering": {
+        "map": 0,
+        "x": 30.06,
+        "y": 10.9,
+        "radius": 125
+      }
+    },
+    {
+      "id": "24",
+      "itemId": "37575",
+      "icon": 29012,
+      "name": "无人岛海水鱼",
+      "names": {
+        "zh": "无人岛海水鱼",
+        "en": "Islefish",
+        "ja": "無人島の海水魚",
+        "ko": "무인도 바닷물고기",
+        "tc": "無人島海水魚",
+        "fr": "Poisson de mer insulaire",
+        "de": "Insel-Fisch"
+      },
+      "categoryId": "1",
+      "toolId": "5",
+      "tool": {
+        "id": "5",
+        "keyItemId": "5",
+        "itemId": "37683",
+        "icon": 23718,
+        "name": "开拓用青铜渔叉",
+        "names": {
+          "zh": "开拓用青铜渔叉",
+          "en": "Islekeep's Bronze Gig",
+          "ja": "開拓用ブロンズギグ",
+          "ko": "개척용 청동작살",
+          "tc": "開拓用青銅魚叉",
+          "fr": "Harpon en bronze de pionnier",
+          "de": "Bronzeharpune des Insulaners"
+        },
+        "unlockRank": 7
+      },
+      "gathering": {
+        "map": 0,
+        "x": 16.83,
+        "y": 10.36,
+        "radius": 150
+      }
+    },
+    {
+      "id": "25",
+      "itemId": "37576",
+      "icon": 29177,
+      "name": "无人岛乌贼",
+      "names": {
+        "zh": "无人岛乌贼",
+        "en": "Island Squid",
+        "ja": "無人島のスキッド",
+        "ko": "무인도 오징어",
+        "tc": "無人島烏賊",
+        "fr": "Calmar insulaire",
+        "de": "Insel-Kalmar"
+      },
+      "categoryId": "1",
+      "toolId": "5",
+      "tool": {
+        "id": "5",
+        "keyItemId": "5",
+        "itemId": "37683",
+        "icon": 23718,
+        "name": "开拓用青铜渔叉",
+        "names": {
+          "zh": "开拓用青铜渔叉",
+          "en": "Islekeep's Bronze Gig",
+          "ja": "開拓用ブロンズギグ",
+          "ko": "개척용 청동작살",
+          "tc": "開拓用青銅魚叉",
+          "fr": "Harpon en bronze de pionnier",
+          "de": "Bronzeharpune des Insulaners"
+        },
+        "unlockRank": 7
+      },
+      "gathering": {
+        "map": 0,
+        "x": 33.31,
+        "y": 24.58,
+        "radius": 100
+      }
+    },
+    {
+      "id": "26",
+      "itemId": "37577",
+      "icon": 29657,
+      "name": "无人岛水母",
+      "names": {
+        "zh": "无人岛水母",
+        "en": "Island Jellyfish",
+        "ja": "無人島のジェリーフィッシュ",
+        "ko": "무인도 해파리",
+        "tc": "無人島水母",
+        "fr": "Méduse insulaire",
+        "de": "Insel-Qualle"
+      },
+      "categoryId": "1",
+      "toolId": "5",
+      "tool": {
+        "id": "5",
+        "keyItemId": "5",
+        "itemId": "37683",
+        "icon": 23718,
+        "name": "开拓用青铜渔叉",
+        "names": {
+          "zh": "开拓用青铜渔叉",
+          "en": "Islekeep's Bronze Gig",
+          "ja": "開拓用ブロンズギグ",
+          "ko": "개척용 청동작살",
+          "tc": "開拓用青銅魚叉",
+          "fr": "Harpon en bronze de pionnier",
+          "de": "Bronzeharpune des Insulaners"
+        },
+        "unlockRank": 7
+      },
+      "gathering": {
+        "map": 0,
+        "x": 33.31,
+        "y": 24.58,
+        "radius": 100
+      }
+    },
+    {
+      "id": "27",
+      "itemId": "37578",
+      "icon": 22627,
+      "name": "无人岛香荠",
+      "names": {
+        "zh": "无人岛香荠",
+        "en": "Island Alyssum",
+        "ja": "無人島のアリッサム",
+        "ko": "무인도 꽃냉이",
+        "tc": "無人島香薺",
+        "fr": "Alysson insulaire",
+        "de": "Insel-Steinkraut"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "28",
+      "itemId": "37579",
+      "icon": 21456,
+      "name": "无人岛石榴石原石",
+      "names": {
+        "zh": "无人岛石榴石原石",
+        "en": "Raw Island Garnet",
+        "ja": "無人島のガーネット原石",
+        "ko": "무인도 석류석 원석",
+        "tc": "無人島石榴石原石",
+        "fr": "Grenat brut insulaire",
+        "de": "Insel-Rohgranat"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "29",
+      "itemId": "37580",
+      "icon": 22413,
+      "name": "无人岛云杉原木",
+      "names": {
+        "zh": "无人岛云杉原木",
+        "en": "Island Spruce Log",
+        "ja": "無人島のスプルース原木",
+        "ko": "무인도 가문비나무 원목",
+        "tc": "無人島雲杉原木",
+        "fr": "Rondin d'épicéa insulaire",
+        "de": "Insel-Fichtenholzscheit"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "30",
+      "itemId": "37581",
+      "icon": 29026,
+      "name": "无人岛锤头鲨",
+      "names": {
+        "zh": "无人岛锤头鲨",
+        "en": "Island Hammerhead",
+        "ja": "無人島のハンマーヘッド",
+        "ko": "무인도 망치상어",
+        "tc": "無人島錘頭鯊",
+        "fr": "Requin-marteau insulaire",
+        "de": "Insel-Hammerhai"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "31",
+      "itemId": "37582",
+      "icon": 21211,
+      "name": "无人岛银矿",
+      "names": {
+        "zh": "无人岛银矿",
+        "en": "Island Silver Ore",
+        "ja": "無人島の銀鉱",
+        "ko": "무인도 은 광석",
+        "tc": "無人島銀礦",
+        "fr": "Minerai d'argent insulaire",
+        "de": "Insel-Silbererz"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "32",
+      "itemId": "37583",
+      "icon": 23704,
+      "name": "海岛新薯的芽块",
+      "names": {
+        "zh": "海岛新薯的芽块",
+        "en": "Island Popoto Set",
+        "ja": "アイルポポトの種芋",
+        "ko": "섬 포포토 씨앗",
+        "tc": "海島新薯的芽塊",
+        "fr": "Tubercules de popoto exotique",
+        "de": "Paradiestoffel-Knollen"
+      },
+      "categoryId": "3",
+      "toolId": "3",
+      "tool": {
+        "id": "3",
+        "keyItemId": "3",
+        "itemId": "37681",
+        "icon": 23716,
+        "name": "开拓用铜铲",
+        "names": {
+          "zh": "开拓用铜铲",
+          "en": "Islekeep's Shovel",
+          "ja": "開拓用シャベル",
+          "ko": "개척용 삽",
+          "tc": "開拓用銅鏟",
+          "fr": "Pelle de pionnier",
+          "de": "Schaufel des Insulaners"
+        },
+        "unlockRank": 5
+      },
+      "gathering": {
+        "map": 0,
+        "x": 13.03,
+        "y": 12.41,
+        "radius": 100
+      }
+    },
+    {
+      "id": "33",
+      "itemId": "37584",
+      "icon": 23703,
+      "name": "海岛甘蓝的种子",
+      "names": {
+        "zh": "海岛甘蓝的种子",
+        "en": "Island Cabbage Seeds",
+        "ja": "アイルキャベツの種",
+        "ko": "섬 양배추 씨앗",
+        "tc": "海島甘藍的種子",
+        "fr": "Graines de chou exotique",
+        "de": "Paradieskohlsamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 17.49,
+        "y": 20.29,
+        "radius": 75
+      }
+    },
+    {
+      "id": "34",
+      "itemId": "37585",
+      "icon": 23701,
+      "name": "海岛莓果的种子",
+      "names": {
+        "zh": "海岛莓果的种子",
+        "en": "Isleberry Seeds",
+        "ja": "アイルベリーの種",
+        "ko": "섬 딸기 씨앗",
+        "tc": "海島莓果的種子",
+        "fr": "Graines de fraise exotique",
+        "de": "Paradiesbeerensamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "35",
+      "itemId": "37586",
+      "icon": 23702,
+      "name": "海岛南瓜的种子",
+      "names": {
+        "zh": "海岛南瓜的种子",
+        "en": "Island Pumpkin Seeds",
+        "ja": "アイルパンプキンの種",
+        "ko": "섬 호박 씨앗",
+        "tc": "海島南瓜的種子",
+        "fr": "Graines de citrouille exotique",
+        "de": "Paradieskürbissamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 18.69,
+        "y": 26.46,
+        "radius": 75
+      }
+    },
+    {
+      "id": "36",
+      "itemId": "37587",
+      "icon": 23705,
+      "name": "海岛洋葱的种子",
+      "names": {
+        "zh": "海岛洋葱的种子",
+        "en": "Island Onion Set",
+        "ja": "アイルオニオンの種",
+        "ko": "섬 양파 씨앗",
+        "tc": "海島洋蔥的種子",
+        "fr": "Graines d'oignon exotique",
+        "de": "Paradieszwiebelsamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "37",
+      "itemId": "37588",
+      "icon": 23707,
+      "name": "海岛番茄的种子",
+      "names": {
+        "zh": "海岛番茄的种子",
+        "en": "Island Tomato Seeds",
+        "ja": "アイルトマトの種",
+        "ko": "섬 토마토 씨앗",
+        "tc": "海島番茄的種子",
+        "fr": "Graines de tomate exotique",
+        "de": "Paradiesparadeisersamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "38",
+      "itemId": "37589",
+      "icon": 23714,
+      "name": "海岛小麦的种子",
+      "names": {
+        "zh": "海岛小麦的种子",
+        "en": "Island Wheat Seeds",
+        "ja": "アイル小麦の種",
+        "ko": "섬 밀 씨앗",
+        "tc": "海島小麥的種子",
+        "fr": "Graines de blé exotique",
+        "de": "Paradiesweizensamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "39",
+      "itemId": "37590",
+      "icon": 23706,
+      "name": "海岛玉米的种子",
+      "names": {
+        "zh": "海岛玉米的种子",
+        "en": "Island Corn Seeds",
+        "ja": "アイルコーンの種",
+        "ko": "섬 옥수수 씨앗",
+        "tc": "海島玉米的種子",
+        "fr": "Graines de maïs exotique",
+        "de": "Paradiesmaissamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "40",
+      "itemId": "37591",
+      "icon": 23708,
+      "name": "海岛高山萝卜的种子",
+      "names": {
+        "zh": "海岛高山萝卜的种子",
+        "en": "Island Parsnip Seeds",
+        "ja": "アイルパースニップの種",
+        "ko": "섬 설탕당근 씨앗",
+        "tc": "海島高山蘿蔔的種子",
+        "fr": "Graines de panais exotique",
+        "de": "Paradiespastinakensamen"
+      },
+      "categoryId": "3",
+      "toolId": "3",
+      "tool": {
+        "id": "3",
+        "keyItemId": "3",
+        "itemId": "37681",
+        "icon": 23716,
+        "name": "开拓用铜铲",
+        "names": {
+          "zh": "开拓用铜铲",
+          "en": "Islekeep's Shovel",
+          "ja": "開拓用シャベル",
+          "ko": "개척용 삽",
+          "tc": "開拓用銅鏟",
+          "fr": "Pelle de pionnier",
+          "de": "Schaufel des Insulaners"
+        },
+        "unlockRank": 5
+      },
+      "gathering": {
+        "map": 0,
+        "x": 13.51,
+        "y": 15.05,
+        "radius": 100
+      }
+    },
+    {
+      "id": "41",
+      "itemId": "37592",
+      "icon": 23735,
+      "name": "海岛小萝卜的种子",
+      "names": {
+        "zh": "海岛小萝卜的种子",
+        "en": "Island Radish Seeds",
+        "ja": "アイルラディッシュの種",
+        "ko": "섬 빨간무 씨앗",
+        "tc": "海島小蘿蔔的種子",
+        "fr": "Graines de radis exotique",
+        "de": "Paradiesrettichsamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "42",
+      "itemId": "37593",
+      "icon": 25204,
+      "name": "海岛新薯",
+      "names": {
+        "zh": "海岛新薯",
+        "en": "Island Popoto",
+        "ja": "アイルポポト",
+        "ko": "섬 포포토",
+        "tc": "海島新薯",
+        "fr": "Popoto exotique",
+        "de": "Paradiestoffel"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "43",
+      "itemId": "37594",
+      "icon": 25208,
+      "name": "海岛甘蓝",
+      "names": {
+        "zh": "海岛甘蓝",
+        "en": "Island Cabbage",
+        "ja": "アイルキャベツ",
+        "ko": "섬 양배추",
+        "tc": "海島甘藍",
+        "fr": "Chou exotique",
+        "de": "Paradieskohlkopf"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "44",
+      "itemId": "37595",
+      "icon": 25306,
+      "name": "海岛莓果",
+      "names": {
+        "zh": "海岛莓果",
+        "en": "Isleberry",
+        "ja": "アイルベリー",
+        "ko": "섬 딸기",
+        "tc": "海島莓果",
+        "fr": "Fraise exotique",
+        "de": "Paradiesbeere"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "45",
+      "itemId": "37596",
+      "icon": 25232,
+      "name": "海岛南瓜",
+      "names": {
+        "zh": "海岛南瓜",
+        "en": "Island Pumpkin",
+        "ja": "アイルパンプキン",
+        "ko": "섬 호박",
+        "tc": "海島南瓜",
+        "fr": "Citrouille exotique",
+        "de": "Paradieskürbis"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "46",
+      "itemId": "37597",
+      "icon": 25203,
+      "name": "海岛洋葱",
+      "names": {
+        "zh": "海岛洋葱",
+        "en": "Island Onion",
+        "ja": "アイルオニオン",
+        "ko": "섬 양파",
+        "tc": "海島洋蔥",
+        "fr": "Oignon exotique",
+        "de": "Paradieszwiebel"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "47",
+      "itemId": "37598",
+      "icon": 25209,
+      "name": "海岛番茄",
+      "names": {
+        "zh": "海岛番茄",
+        "en": "Island Tomato",
+        "ja": "アイルトマト",
+        "ko": "섬 토마토",
+        "tc": "海島番茄",
+        "fr": "Tomate exotique",
+        "de": "Paradiesparadeiser"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "48",
+      "itemId": "37599",
+      "icon": 25357,
+      "name": "海岛小麦",
+      "names": {
+        "zh": "海岛小麦",
+        "en": "Island Wheat",
+        "ja": "アイル小麦",
+        "ko": "섬 밀",
+        "tc": "海島小麥",
+        "fr": "Blé exotique",
+        "de": "Paradiesweizen"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "49",
+      "itemId": "37600",
+      "icon": 25352,
+      "name": "海岛玉米",
+      "names": {
+        "zh": "海岛玉米",
+        "en": "Island Corn",
+        "ja": "アイルコーン",
+        "ko": "섬 옥수수",
+        "tc": "海島玉米",
+        "fr": "Maïs exotique",
+        "de": "Paradiesmais"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "50",
+      "itemId": "37601",
+      "icon": 25215,
+      "name": "海岛高山萝卜",
+      "names": {
+        "zh": "海岛高山萝卜",
+        "en": "Island Parsnip",
+        "ja": "アイルパースニップ",
+        "ko": "섬 설탕당근",
+        "tc": "海島高山蘿蔔",
+        "fr": "Panais exotique",
+        "de": "Paradiespastinak"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "51",
+      "itemId": "37602",
+      "icon": 25233,
+      "name": "海岛小萝卜",
+      "names": {
+        "zh": "海岛小萝卜",
+        "en": "Island Radish",
+        "ja": "アイルラディッシュ",
+        "ko": "섬 빨간무",
+        "tc": "海島小蘿蔔",
+        "fr": "Radis exotique",
+        "de": "Paradiesrettich"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "52",
+      "itemId": "37603",
+      "icon": 21655,
+      "name": "牧场动物的绒毛",
+      "names": {
+        "zh": "牧场动物的绒毛",
+        "en": "Sanctuary Fleece",
+        "ja": "飼育動物のフリース",
+        "ko": "사육동물 솜털",
+        "tc": "牧場動物的絨毛",
+        "fr": "Toison d'animal d'élevage",
+        "de": "Weide-Vlies"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "53",
+      "itemId": "37604",
+      "icon": 22301,
+      "name": "牧场动物的尖爪",
+      "names": {
+        "zh": "牧场动物的尖爪",
+        "en": "Sanctuary Claw",
+        "ja": "飼育動物の爪片",
+        "ko": "사육동물 발톱",
+        "tc": "牧場動物的尖爪",
+        "fr": "Griffe d'animal d'élevage",
+        "de": "Weide-Kralle"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "54",
+      "itemId": "37605",
+      "icon": 21624,
+      "name": "牧场动物的兽毛",
+      "names": {
+        "zh": "牧场动物的兽毛",
+        "en": "Sanctuary Fur",
+        "ja": "飼育動物の獣毛",
+        "ko": "사육동물 털",
+        "tc": "牧場動物的獸毛",
+        "fr": "Laine d'animal d'élevage",
+        "de": "Weide-Fell"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "55",
+      "itemId": "37606",
+      "icon": 21908,
+      "name": "牧场动物的羽毛",
+      "names": {
+        "zh": "牧场动物的羽毛",
+        "en": "Sanctuary Feather",
+        "ja": "飼育動物の羽根",
+        "ko": "사육동물 깃털",
+        "tc": "牧場動物的羽毛",
+        "fr": "Plume d'animal d'élevage",
+        "de": "Weide-Feder"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "56",
+      "itemId": "37607",
+      "icon": 25251,
+      "name": "牧场动物的鸟蛋",
+      "names": {
+        "zh": "牧场动物的鸟蛋",
+        "en": "Sanctuary Egg",
+        "ja": "飼育動物の卵",
+        "ko": "사육동물 알",
+        "tc": "牧場動物的鳥蛋",
+        "fr": "Œuf d'animal d'élevage",
+        "de": "Weide-Ei"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "57",
+      "itemId": "37608",
+      "icon": 22257,
+      "name": "牧场动物的甲壳",
+      "names": {
+        "zh": "牧场动物的甲壳",
+        "en": "Sanctuary Carapace",
+        "ja": "飼育動物の脱皮殻",
+        "ko": "사육동물 허물",
+        "tc": "牧場動物的甲殼",
+        "fr": "Exuvie d'animal d'élevage",
+        "de": "Weide-Schuppe"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "58",
+      "itemId": "37609",
+      "icon": 22303,
+      "name": "牧场动物的尖牙",
+      "names": {
+        "zh": "牧场动物的尖牙",
+        "en": "Sanctuary Fang",
+        "ja": "飼育動物の牙",
+        "ko": "사육동물 엄니",
+        "tc": "牧場動物的尖牙",
+        "fr": "Croc d'animal d'élevage",
+        "de": "Weide-Zahn"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "59",
+      "itemId": "37610",
+      "icon": 22206,
+      "name": "牧场动物的角片",
+      "names": {
+        "zh": "牧场动物的角片",
+        "en": "Sanctuary Horn",
+        "ja": "飼育動物の角片",
+        "ko": "사육동물 뿔조각",
+        "tc": "牧場動物的角片",
+        "fr": "Corne d'animal d'élevage",
+        "de": "Weide-Horn"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "60",
+      "itemId": "37611",
+      "icon": 24453,
+      "name": "牧场动物的乳汁",
+      "names": {
+        "zh": "牧场动物的乳汁",
+        "en": "Sanctuary Milk",
+        "ja": "飼育動物の乳",
+        "ko": "사육동물 젖",
+        "tc": "牧場動物的乳汁",
+        "fr": "Lait d'animal d'élevage",
+        "de": "Weide-Milch"
+      },
+      "categoryId": "5",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "61",
+      "itemId": "37612",
+      "icon": 23710,
+      "name": "无人岛果实饲料",
+      "names": {
+        "zh": "无人岛果实饲料",
+        "en": "Island Sweetfeed",
+        "ja": "無人島の果実飼料",
+        "ko": "무인도 과일 사료",
+        "tc": "無人島果實飼料",
+        "fr": "Fruits fourragers insulaires",
+        "de": "Insel-Obstfutter"
+      },
+      "categoryId": "6",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "62",
+      "itemId": "37613",
+      "icon": 27555,
+      "name": "无人岛蔬菜饲料",
+      "names": {
+        "zh": "无人岛蔬菜饲料",
+        "en": "Island Greenfeed",
+        "ja": "無人島の野菜飼料",
+        "ko": "무인도 야채 사료",
+        "tc": "無人島蔬菜飼料",
+        "fr": "Légumes fourragers insulaires",
+        "de": "Insel-Gemüsefutter"
+      },
+      "categoryId": "6",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "63",
+      "itemId": "37614",
+      "icon": 23711,
+      "name": "无人岛高级蔬菜饲料",
+      "names": {
+        "zh": "无人岛高级蔬菜饲料",
+        "en": "Premium Island Greenfeed",
+        "ja": "無人島の野菜飼料：高級",
+        "ko": "무인도 고급 야채 사료",
+        "tc": "無人島高級蔬菜飼料",
+        "fr": "Légumes fourragers insulaires de qualité",
+        "de": "Hochwertiges Insel-Gemüsefutter"
+      },
+      "categoryId": "6",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "64",
+      "itemId": "37615",
+      "icon": 23717,
+      "name": "捕兽网",
+      "names": {
+        "zh": "捕兽网",
+        "en": "Makeshift Net",
+        "ja": "捕獲網",
+        "ko": "포획망",
+        "tc": "捕獸網",
+        "fr": "Filet de capture",
+        "de": "Selbstgemachtes Netz"
+      },
+      "categoryId": "7",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "65",
+      "itemId": "37616",
+      "icon": 23720,
+      "name": "捕兽绳",
+      "names": {
+        "zh": "捕兽绳",
+        "en": "Makeshift Restraint",
+        "ja": "捕獲縄",
+        "ko": "포획줄",
+        "tc": "捕獸繩",
+        "fr": "Lasso de capture",
+        "de": "Selbstgemachtes Seil"
+      },
+      "categoryId": "7",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "66",
+      "itemId": "37617",
+      "icon": 23721,
+      "name": "捕兽用催眠球",
+      "names": {
+        "zh": "捕兽用催眠球",
+        "en": "Makeshift Soporific",
+        "ja": "捕獲睡眠玉",
+        "ko": "포획 수면제",
+        "tc": "捕獸用睡眠球",
+        "fr": "Balle hypodermique",
+        "de": "Selbstgemachter Schlafköder"
+      },
+      "categoryId": "7",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "67",
+      "itemId": "39224",
+      "icon": 22638,
+      "name": "无人岛天然树脂",
+      "names": {
+        "zh": "无人岛天然树脂",
+        "en": "Island Resin",
+        "ja": "無人島の天然樹脂",
+        "ko": "무인도 천연수지",
+        "tc": "無人島天然樹脂",
+        "fr": "Résine insulaire",
+        "de": "Insel-Naturharz"
+      },
+      "categoryId": "1",
+      "toolId": "7",
+      "tool": {
+        "id": "7",
+        "keyItemId": "13",
+        "itemId": "39233",
+        "icon": 38121,
+        "name": "开拓用黑铁手斧",
+        "names": {
+          "zh": "开拓用黑铁手斧",
+          "en": "Islekeep's Iron Hatchet",
+          "ja": "開拓用アイアンハチェット",
+          "ko": "개척용 손도끼",
+          "tc": "開拓用鐵斧",
+          "fr": "Hachette en fer de pionnier",
+          "de": "Eisenaxt des Insulaners"
+        },
+        "unlockRank": 9
+      },
+      "gathering": {
+        "map": 0,
+        "x": 22.3,
+        "y": 25.9,
+        "radius": 100
+      }
+    },
+    {
+      "id": "68",
+      "itemId": "39225",
+      "icon": 25323,
+      "name": "无人岛椰子",
+      "names": {
+        "zh": "无人岛椰子",
+        "en": "Island Coconut",
+        "ja": "無人島のココナッツ",
+        "ko": "무인도 코코넛",
+        "tc": "無人島椰子",
+        "fr": "Noix de coco insulaire",
+        "de": "Insel-Kokosnuss"
+      },
+      "categoryId": "1",
+      "toolId": "7",
+      "tool": {
+        "id": "7",
+        "keyItemId": "13",
+        "itemId": "39233",
+        "icon": 38121,
+        "name": "开拓用黑铁手斧",
+        "names": {
+          "zh": "开拓用黑铁手斧",
+          "en": "Islekeep's Iron Hatchet",
+          "ja": "開拓用アイアンハチェット",
+          "ko": "개척용 손도끼",
+          "tc": "開拓用鐵斧",
+          "fr": "Hachette en fer de pionnier",
+          "de": "Eisenaxt des Insulaners"
+        },
+        "unlockRank": 9
+      },
+      "gathering": {
+        "map": 0,
+        "x": 18.39,
+        "y": 24.26,
+        "radius": 100
+      }
+    },
+    {
+      "id": "69",
+      "itemId": "39226",
+      "icon": 22611,
+      "name": "无人岛蜂巢",
+      "names": {
+        "zh": "无人岛蜂巢",
+        "en": "Island Beehive Chip",
+        "ja": "無人島の蜜蜂の巣",
+        "ko": "무인도 벌집",
+        "tc": "無人島蜂巢",
+        "fr": "Ruche d'abeilles insulaires",
+        "de": "Insel-Bienenwabe"
+      },
+      "categoryId": "1",
+      "toolId": "7",
+      "tool": {
+        "id": "7",
+        "keyItemId": "13",
+        "itemId": "39233",
+        "icon": 38121,
+        "name": "开拓用黑铁手斧",
+        "names": {
+          "zh": "开拓用黑铁手斧",
+          "en": "Islekeep's Iron Hatchet",
+          "ja": "開拓用アイアンハチェット",
+          "ko": "개척용 손도끼",
+          "tc": "開拓用鐵斧",
+          "fr": "Hachette en fer de pionnier",
+          "de": "Eisenaxt des Insulaners"
+        },
+        "unlockRank": 9
+      },
+      "gathering": {
+        "map": 0,
+        "x": 21.88,
+        "y": 25.7,
+        "radius": 100
+      }
+    },
+    {
+      "id": "70",
+      "itemId": "39227",
+      "icon": 21228,
+      "name": "无人岛木化石",
+      "names": {
+        "zh": "无人岛木化石",
+        "en": "Island Wood Opal",
+        "ja": "無人島のウッドオパール",
+        "ko": "무인도 목단백석",
+        "tc": "無人島木化石",
+        "fr": "Bois opalisé insulaire",
+        "de": "Insel-Holzopal"
+      },
+      "categoryId": "1",
+      "toolId": "7",
+      "tool": {
+        "id": "7",
+        "keyItemId": "13",
+        "itemId": "39233",
+        "icon": 38121,
+        "name": "开拓用黑铁手斧",
+        "names": {
+          "zh": "开拓用黑铁手斧",
+          "en": "Islekeep's Iron Hatchet",
+          "ja": "開拓用アイアンハチェット",
+          "ko": "개척용 손도끼",
+          "tc": "開拓用鐵斧",
+          "fr": "Hachette en fer de pionnier",
+          "de": "Eisenaxt des Insulaners"
+        },
+        "unlockRank": 9
+      },
+      "gathering": {
+        "map": 0,
+        "x": 20.87,
+        "y": 24.48,
+        "radius": 100
+      }
+    },
+    {
+      "id": "71",
+      "itemId": "39228",
+      "icon": 23727,
+      "name": "无人岛色彩缤纷的花",
+      "names": {
+        "zh": "无人岛色彩缤纷的花",
+        "en": "Multicolored Isleblooms",
+        "ja": "無人島の極彩色の花",
+        "ko": "무인도 화려한 꽃",
+        "tc": "無人島色彩繽紛的花",
+        "fr": "Fleur multicolore insulaire",
+        "de": "Bunte Insel-Blumen"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 0,
+        "x": 21.88,
+        "y": 16.57,
+        "radius": 75
+      }
+    },
+    {
+      "id": "72",
+      "itemId": "39229",
+      "icon": 23728,
+      "name": "海岛红辣椒种子",
+      "names": {
+        "zh": "海岛红辣椒种子",
+        "en": "Island Paprika Seeds",
+        "ja": "アイルパプリカの種",
+        "ko": "섬 파프리카 씨앗",
+        "tc": "海島紅彩椒種子",
+        "fr": "Graines de poivron exotique",
+        "de": "Paradiespaprikasamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "73",
+      "itemId": "39230",
+      "icon": 23729,
+      "name": "海岛韭葱种子",
+      "names": {
+        "zh": "海岛韭葱种子",
+        "en": "Island Leek Set",
+        "ja": "アイルリーキの種",
+        "ko": "섬 대파 씨앗",
+        "tc": "海島韭蔥種子",
+        "fr": "Graines de poireau exotique",
+        "de": "Paradiesporreesamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "74",
+      "itemId": "39231",
+      "icon": 25018,
+      "name": "海岛红辣椒",
+      "names": {
+        "zh": "海岛红辣椒",
+        "en": "Island Paprika",
+        "ja": "アイルパプリカ",
+        "ko": "섬 파프리카",
+        "tc": "海島紅彩椒",
+        "fr": "Poivron exotique",
+        "de": "Paradiespaprika"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "75",
+      "itemId": "39232",
+      "icon": 25216,
+      "name": "海岛韭葱",
+      "names": {
+        "zh": "海岛韭葱",
+        "en": "Island Leek",
+        "ja": "アイルリーキ",
+        "ko": "섬 대파",
+        "tc": "海島韭蔥",
+        "fr": "Poireau exotique",
+        "de": "Paradiesporree"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "76",
+      "itemId": "39887",
+      "icon": 21462,
+      "name": "无人岛石炭",
+      "names": {
+        "zh": "无人岛石炭",
+        "en": "Island Coal",
+        "ja": "無人島の石炭",
+        "ko": "무인도 석탄",
+        "tc": "無人島石炭",
+        "fr": "Charbon insulaire",
+        "de": "Insel-Steinkohle"
+      },
+      "categoryId": "1",
+      "toolId": "2",
+      "tool": {
+        "id": "2",
+        "keyItemId": "2",
+        "itemId": "37680",
+        "icon": 23712,
+        "name": "开拓用石锤",
+        "names": {
+          "zh": "开拓用石锤",
+          "en": "Islekeep's Stone Hammer",
+          "ja": "開拓用ストーンハンマー",
+          "ko": "개척용 돌망치",
+          "tc": "開拓用石錘",
+          "fr": "Marteau en pierre de pionnier",
+          "de": "Steinhammer des Insulaners"
+        },
+        "unlockRank": 3
+      },
+      "gathering": {
+        "map": 1,
+        "x": 26.1,
+        "y": 19.49,
+        "radius": 80
+      }
+    },
+    {
+      "id": "77",
+      "itemId": "39888",
+      "icon": 21455,
+      "name": "无人岛堆积岩",
+      "names": {
+        "zh": "无人岛堆积岩",
+        "en": "Island Shale",
+        "ja": "無人島の堆積岩",
+        "ko": "무인도 퇴적암",
+        "tc": "無人島堆積岩",
+        "fr": "Schiste insulaire",
+        "de": "Insel-Schiefer"
+      },
+      "categoryId": "1",
+      "toolId": "8",
+      "tool": {
+        "id": "8",
+        "keyItemId": "14",
+        "itemId": "39903",
+        "icon": 23734,
+        "name": "开拓用钢锤",
+        "names": {
+          "zh": "开拓用钢锤",
+          "en": "Islekeep's Steel Hammer",
+          "ja": "開拓用スチールハンマー",
+          "ko": "개척용 강철 망치",
+          "tc": "開拓用鋼錘",
+          "fr": "Marteau en acier de pionnier",
+          "de": "Stahlhammer des Insulaners"
+        },
+        "unlockRank": 13
+      },
+      "gathering": {
+        "map": 1,
+        "x": 26.1,
+        "y": 19.49,
+        "radius": 80
+      }
+    },
+    {
+      "id": "78",
+      "itemId": "39889",
+      "icon": 25412,
+      "name": "无人岛灯火茸",
+      "names": {
+        "zh": "无人岛灯火茸",
+        "en": "Island Glimshroom",
+        "ja": "無人島のトモシビダケ",
+        "ko": "무인도 등불버섯",
+        "tc": "無人島燈火茸",
+        "fr": "Agaric luisant insulaire",
+        "de": "Insel-Leuchtpilz"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 1,
+        "x": 27.16,
+        "y": 16.85,
+        "radius": 80
+      }
+    },
+    {
+      "id": "79",
+      "itemId": "39890",
+      "icon": 21487,
+      "name": "无人岛大理石",
+      "names": {
+        "zh": "无人岛大理石",
+        "en": "Island Marble",
+        "ja": "無人島の大理石",
+        "ko": "무인도 대리석",
+        "tc": "無人島大理石",
+        "fr": "Marbre insulaire",
+        "de": "Insel-Marmor"
+      },
+      "categoryId": "1",
+      "toolId": "8",
+      "tool": {
+        "id": "8",
+        "keyItemId": "14",
+        "itemId": "39903",
+        "icon": 23734,
+        "name": "开拓用钢锤",
+        "names": {
+          "zh": "开拓用钢锤",
+          "en": "Islekeep's Steel Hammer",
+          "ja": "開拓用スチールハンマー",
+          "ko": "개척용 강철 망치",
+          "tc": "開拓用鋼錘",
+          "fr": "Marteau en acier de pionnier",
+          "de": "Stahlhammer des Insulaners"
+        },
+        "unlockRank": 13
+      },
+      "gathering": {
+        "map": 0,
+        "x": 17.55,
+        "y": 23.34,
+        "radius": 80
+      }
+    },
+    {
+      "id": "80",
+      "itemId": "39891",
+      "icon": 21208,
+      "name": "无人岛灵银矿",
+      "names": {
+        "zh": "无人岛灵银矿",
+        "en": "Island Mythril Ore",
+        "ja": "無人島の霊銀鉱",
+        "ko": "무인도 미스릴",
+        "tc": "無人島靈銀礦",
+        "fr": "Minerai de mithril insulaire",
+        "de": "Insel-Mithrilerz"
+      },
+      "categoryId": "1",
+      "toolId": "8",
+      "tool": {
+        "id": "8",
+        "keyItemId": "14",
+        "itemId": "39903",
+        "icon": 23734,
+        "name": "开拓用钢锤",
+        "names": {
+          "zh": "开拓用钢锤",
+          "en": "Islekeep's Steel Hammer",
+          "ja": "開拓用スチールハンマー",
+          "ko": "개척용 강철 망치",
+          "tc": "開拓用鋼錘",
+          "fr": "Marteau en acier de pionnier",
+          "de": "Stahlhammer des Insulaners"
+        },
+        "unlockRank": 13
+      },
+      "gathering": {
+        "map": 0,
+        "x": 30.38,
+        "y": 28.52,
+        "radius": 80
+      }
+    },
+    {
+      "id": "81",
+      "itemId": "39892",
+      "icon": 22678,
+      "name": "无人岛发泡水",
+      "names": {
+        "zh": "无人岛发泡水",
+        "en": "Island Effervescent Water",
+        "ja": "無人島のソーダ水",
+        "ko": "무인도 탄산수",
+        "tc": "無人島氣泡水",
+        "fr": "Eau pétillante insulaire",
+        "de": "Insel-Sprudelwasser"
+      },
+      "categoryId": "1",
+      "toolId": "2",
+      "tool": {
+        "id": "2",
+        "keyItemId": "2",
+        "itemId": "37680",
+        "icon": 23712,
+        "name": "开拓用石锤",
+        "names": {
+          "zh": "开拓用石锤",
+          "en": "Islekeep's Stone Hammer",
+          "ja": "開拓用ストーンハンマー",
+          "ko": "개척용 돌망치",
+          "tc": "開拓用石錘",
+          "fr": "Marteau en pierre de pionnier",
+          "de": "Steinhammer des Insulaners"
+        },
+        "unlockRank": 3
+      },
+      "gathering": {
+        "map": 1,
+        "x": 24.08,
+        "y": 18.87,
+        "radius": 80
+      }
+    },
+    {
+      "id": "82",
+      "itemId": "39893",
+      "icon": 21477,
+      "name": "无人岛幻影石",
+      "names": {
+        "zh": "无人岛幻影石",
+        "en": "Island Spectrine",
+        "ja": "無人島の幻影石",
+        "ko": "무인도 환영석",
+        "tc": "無人島幻影石",
+        "fr": "Spectrite insulaire",
+        "de": "Insel-Spektrinit"
+      },
+      "categoryId": "1",
+      "toolId": "8",
+      "tool": {
+        "id": "8",
+        "keyItemId": "14",
+        "itemId": "39903",
+        "icon": 23734,
+        "name": "开拓用钢锤",
+        "names": {
+          "zh": "开拓用钢锤",
+          "en": "Islekeep's Steel Hammer",
+          "ja": "開拓用スチールハンマー",
+          "ko": "개척용 강철 망치",
+          "tc": "開拓用鋼錘",
+          "fr": "Marteau en acier de pionnier",
+          "de": "Stahlhammer des Insulaners"
+        },
+        "unlockRank": 13
+      },
+      "gathering": {
+        "map": 1,
+        "x": 24.08,
+        "y": 18.87,
+        "radius": 80
+      }
+    },
+    {
+      "id": "83",
+      "itemId": "39894",
+      "icon": 29404,
+      "name": "无人岛长臂虾",
+      "names": {
+        "zh": "无人岛长臂虾",
+        "en": "Island Cave Shrimp",
+        "ja": "無人島のテナガエビ",
+        "ko": "무인도 징거미새우",
+        "tc": "無人島長臂蝦",
+        "fr": "Crevette insulaire à grandes pinces",
+        "de": "Insel-Großarmgarnele"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "84",
+      "itemId": "39895",
+      "icon": 23733,
+      "name": "海岛花豆的豆子",
+      "names": {
+        "zh": "海岛花豆的豆子",
+        "en": "Island Runner Bean Seeds",
+        "ja": "アイルラナービーンズの豆",
+        "ko": "섬 적화강낭콩 씨앗",
+        "tc": "海島花豆的豆子",
+        "fr": "Graine de haricot-fleur exotique",
+        "de": "Paradiesfeuerbohnensamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "85",
+      "itemId": "39896",
+      "icon": 23709,
+      "name": "海岛红菜的种子",
+      "names": {
+        "zh": "海岛红菜的种子",
+        "en": "Island Beet Seeds",
+        "ja": "アイルビーツの種",
+        "ko": "섬 비트 씨앗",
+        "tc": "海島紅菜的種子",
+        "fr": "Graine de betterave exotique",
+        "de": "Rote Paradiesbetesamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "86",
+      "itemId": "39897",
+      "icon": 23730,
+      "name": "海岛茄子的种子",
+      "names": {
+        "zh": "海岛茄子的种子",
+        "en": "Island Eggplant Seeds",
+        "ja": "アイルエッグプラントの種",
+        "ko": "섬 가지 씨앗",
+        "tc": "海島茄子的種子",
+        "fr": "Graine d'aubergine exotique",
+        "de": "Paradiesauberginensamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "87",
+      "itemId": "39898",
+      "icon": 23732,
+      "name": "海岛西葫芦的种子",
+      "names": {
+        "zh": "海岛西葫芦的种子",
+        "en": "Island Zucchini Seeds",
+        "ja": "アイルズッキーニの種",
+        "ko": "섬 돼지호박 씨앗",
+        "tc": "海島櫛瓜的種子",
+        "fr": "Graine de courgette exotique",
+        "de": "Paradieszucchinisamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "88",
+      "itemId": "39899",
+      "icon": 25234,
+      "name": "海岛花豆",
+      "names": {
+        "zh": "海岛花豆",
+        "en": "Island Runner Beans",
+        "ja": "アイルラナービーンズ",
+        "ko": "섬 적화강낭콩",
+        "tc": "海島花豆",
+        "fr": "Haricot-fleur exotique",
+        "de": "Paradiesfeuerbohnen"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "89",
+      "itemId": "39900",
+      "icon": 25231,
+      "name": "海岛红菜",
+      "names": {
+        "zh": "海岛红菜",
+        "en": "Island Beet",
+        "ja": "アイルビーツ",
+        "ko": "섬 비트",
+        "tc": "海島紅菜",
+        "fr": "Betterave exotique",
+        "de": "Rote Paradiesbete"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "90",
+      "itemId": "39901",
+      "icon": 25205,
+      "name": "海岛茄子",
+      "names": {
+        "zh": "海岛茄子",
+        "en": "Island Eggplant",
+        "ja": "アイルエッグプラント",
+        "ko": "섬 가지",
+        "tc": "海島茄子",
+        "fr": "Aubergine exotique",
+        "de": "Paradiesaubergine"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "91",
+      "itemId": "39902",
+      "icon": 25212,
+      "name": "海岛西葫芦",
+      "names": {
+        "zh": "海岛西葫芦",
+        "en": "Island Zucchini",
+        "ja": "アイルズッキーニ",
+        "ko": "섬 돼지호박",
+        "tc": "海島櫛瓜",
+        "fr": "Courgette exotique",
+        "de": "Paradieszucchini"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "92",
+      "itemId": "41630",
+      "icon": 21242,
+      "name": "无人岛翠银沙",
+      "names": {
+        "zh": "无人岛翠银沙",
+        "en": "Island Durium Sand",
+        "ja": "無人島の翠銀砂",
+        "ko": "무인도 취은 모래",
+        "tc": "無人島翠銀沙",
+        "fr": "Sable de durium insulaire",
+        "de": "Insel-Duriumsand"
+      },
+      "categoryId": "1",
+      "toolId": "9",
+      "tool": {
+        "id": "9",
+        "keyItemId": "17",
+        "itemId": "41646",
+        "icon": 38027,
+        "name": "开拓用秘银鹤嘴锄",
+        "names": {
+          "zh": "开拓用秘银鹤嘴锄",
+          "en": "Islekeep's Mythril Pickaxe",
+          "ja": "開拓用ミスリルピック",
+          "ko": "개척용 미스릴 곡괭이",
+          "tc": "開拓用秘銀十字鎬",
+          "fr": "Pioche en mithril de pionnier",
+          "de": "Mithril-Spitzhacke des Insulaners"
+        },
+        "unlockRank": 17
+      },
+      "gathering": {
+        "map": 0,
+        "x": 27.78,
+        "y": 19.27,
+        "radius": 100
+      }
+    },
+    {
+      "id": "93",
+      "itemId": "41631",
+      "icon": 21207,
+      "name": "无人岛黄铜矿",
+      "names": {
+        "zh": "无人岛黄铜矿",
+        "en": "Island Yellow Copper Ore",
+        "ja": "無人島の黄銅鉱",
+        "ko": "무인도 황동 광석",
+        "tc": "無人島黃銅礦",
+        "fr": "Minerai de cuivre jaune insulaire",
+        "de": "Insel-Kupferkies"
+      },
+      "categoryId": "1",
+      "toolId": "6",
+      "tool": {
+        "id": "6",
+        "keyItemId": "6",
+        "itemId": "37684",
+        "icon": 38001,
+        "name": "开拓用鹤嘴锄",
+        "names": {
+          "zh": "开拓用鹤嘴锄",
+          "en": "Islekeep's Bronze Beakaxe",
+          "ja": "開拓用ブロンズピック",
+          "ko": "개척용 청동곡괭이",
+          "tc": "開拓用十字鎬",
+          "fr": "Pioche en bronze de pionnier",
+          "de": "Bronze-Spitzhacke des Insulaners"
+        },
+        "unlockRank": 8
+      },
+      "gathering": {
+        "map": 1,
+        "x": 23.52,
+        "y": 21.6,
+        "radius": 75
+      }
+    },
+    {
+      "id": "94",
+      "itemId": "41632",
+      "icon": 21212,
+      "name": "无人岛金矿",
+      "names": {
+        "zh": "无人岛金矿",
+        "en": "Island Gold Ore",
+        "ja": "無人島の金鉱",
+        "ko": "무인도 금 광석",
+        "tc": "無人島金礦",
+        "fr": "Minerai d'or insulaire",
+        "de": "Insel-Golderz"
+      },
+      "categoryId": "1",
+      "toolId": "9",
+      "tool": {
+        "id": "9",
+        "keyItemId": "17",
+        "itemId": "41646",
+        "icon": 38027,
+        "name": "开拓用秘银鹤嘴锄",
+        "names": {
+          "zh": "开拓用秘银鹤嘴锄",
+          "en": "Islekeep's Mythril Pickaxe",
+          "ja": "開拓用ミスリルピック",
+          "ko": "개척용 미스릴 곡괭이",
+          "tc": "開拓用秘銀十字鎬",
+          "fr": "Pioche en mithril de pionnier",
+          "de": "Mithril-Spitzhacke des Insulaners"
+        },
+        "unlockRank": 17
+      },
+      "gathering": {
+        "map": 1,
+        "x": 23.52,
+        "y": 21.6,
+        "radius": 75
+      }
+    },
+    {
+      "id": "95",
+      "itemId": "41633",
+      "icon": 21229,
+      "name": "无人岛鹰眼砂",
+      "names": {
+        "zh": "无人岛鹰眼砂",
+        "en": "Island Hawk's Eye Sand",
+        "ja": "無人島の鷹目砂",
+        "ko": "무인도 응안사",
+        "tc": "無人島鷹眼砂",
+        "fr": "Sable d'œil-de-faucon insulaire",
+        "de": "Insel-Falkenaugensand"
+      },
+      "categoryId": "1",
+      "toolId": null,
+      "tool": null,
+      "gathering": {
+        "map": 1,
+        "x": 23.52,
+        "y": 21.6,
+        "radius": 75
+      }
+    },
+    {
+      "id": "96",
+      "itemId": "41634",
+      "icon": 21488,
+      "name": "无人岛水晶层",
+      "names": {
+        "zh": "无人岛水晶层",
+        "en": "Island Crystal Formation",
+        "ja": "無人島のクリスタル層",
+        "ko": "무인도 크리스탈층",
+        "tc": "無人島水晶層",
+        "fr": "Cristal insulaire",
+        "de": "Insel-Kristallformation"
+      },
+      "categoryId": "1",
+      "toolId": "10",
+      "tool": {
+        "id": "10",
+        "keyItemId": "18",
+        "itemId": "41647",
+        "icon": 23739,
+        "name": "开拓用凿子",
+        "names": {
+          "zh": "开拓用凿子",
+          "en": "Islekeep's Chisel",
+          "ja": "開拓用チズル",
+          "ko": "개척용 끌",
+          "tc": "開拓用鑿子",
+          "fr": "Burin de pionnier",
+          "de": "Meißel des Insulaners"
+        },
+        "unlockRank": 17
+      },
+      "gathering": {
+        "map": 1,
+        "x": 23.52,
+        "y": 21.6,
+        "radius": 75
+      }
+    },
+    {
+      "id": "97",
+      "itemId": "41639",
+      "icon": 23740,
+      "name": "海岛西瓜种子",
+      "names": {
+        "zh": "海岛西瓜种子",
+        "en": "Island Watermelon Seeds",
+        "ja": "アイルウォーターメロンの種",
+        "ko": "섬 수박 씨앗",
+        "tc": "海島西瓜種子",
+        "fr": "Graines de pastèque exotique",
+        "de": "Paradieswassermelonensamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "98",
+      "itemId": "41640",
+      "icon": 23741,
+      "name": "海岛甜新薯芽块",
+      "names": {
+        "zh": "海岛甜新薯芽块",
+        "en": "Island Sweet Popoto Set",
+        "ja": "アイルスイートポポトの種芋",
+        "ko": "섬 달콤포포토 씨앗",
+        "tc": "海島甜新薯芽塊",
+        "fr": "Tubercules de popoto douce exotique",
+        "de": "Paradiessüßtoffel-Knollen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "99",
+      "itemId": "41641",
+      "icon": 23738,
+      "name": "海岛西兰花苗",
+      "names": {
+        "zh": "海岛西兰花苗",
+        "en": "Island Broccoli Seeds",
+        "ja": "アイルブロッコリーの苗",
+        "ko": "섬 브로콜리 모종",
+        "tc": "海島花椰菜苗",
+        "fr": "Graines de brocoli exotique",
+        "de": "Paradiesbrokkolikeimlinge"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "100",
+      "itemId": "41642",
+      "icon": 23745,
+      "name": "海岛水牛豆的豆子",
+      "names": {
+        "zh": "海岛水牛豆的豆子",
+        "en": "Island Buffalo Bean Seeds",
+        "ja": "アイルバッファロービーンの豆",
+        "ko": "섬 물소콩 씨앗",
+        "tc": "海島水牛豆種子",
+        "fr": "Graines de haricot buffle exotique",
+        "de": "Paradiesjuckbohnensamen"
+      },
+      "categoryId": "3",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "101",
+      "itemId": "41635",
+      "icon": 25328,
+      "name": "海岛西瓜",
+      "names": {
+        "zh": "海岛西瓜",
+        "en": "Island Watermelon",
+        "ja": "アイルウォーターメロン",
+        "ko": "섬 수박",
+        "tc": "海島西瓜",
+        "fr": "Pastèque exotique",
+        "de": "Paradieswassermelone"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "102",
+      "itemId": "41636",
+      "icon": 25236,
+      "name": "海岛甜新薯",
+      "names": {
+        "zh": "海岛甜新薯",
+        "en": "Island Sweet Popoto",
+        "ja": "アイルスイートポポト",
+        "ko": "섬 달콤포포토",
+        "tc": "海島甜新薯",
+        "fr": "Popoto douce exotique",
+        "de": "Paradiessüßtoffel"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "103",
+      "itemId": "41637",
+      "icon": 25237,
+      "name": "海岛西兰花",
+      "names": {
+        "zh": "海岛西兰花",
+        "en": "Island Broccoli",
+        "ja": "アイルブロッコリー",
+        "ko": "섬 브로콜리",
+        "tc": "海島花椰菜",
+        "fr": "Brocoli exotique",
+        "de": "Paradiesbrokkoli"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "104",
+      "itemId": "41638",
+      "icon": 25353,
+      "name": "海岛水牛豆",
+      "names": {
+        "zh": "海岛水牛豆",
+        "en": "Island Buffalo Beans",
+        "ja": "アイルバッファロービーン",
+        "ko": "섬 물소콩",
+        "tc": "海島水牛豆",
+        "fr": "Haricots buffle exotiques",
+        "de": "Paradiesjuckbohnen"
+      },
+      "categoryId": "4",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "105",
+      "itemId": "41643",
+      "icon": 23742,
+      "name": "高级捕兽网",
+      "names": {
+        "zh": "高级捕兽网",
+        "en": "Flawless Net",
+        "ja": "高級捕獲網",
+        "ko": "고급 포획망",
+        "tc": "高級捕獸網",
+        "fr": "Filet de capture supérieur",
+        "de": "Hochwertiges Netz"
+      },
+      "categoryId": "7",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "106",
+      "itemId": "41644",
+      "icon": 23737,
+      "name": "高级捕兽绳",
+      "names": {
+        "zh": "高级捕兽绳",
+        "en": "Flawless Restraint",
+        "ja": "高級捕獲縄",
+        "ko": "고급 포획줄",
+        "tc": "高級捕獸繩",
+        "fr": "Lasso de capture supérieur",
+        "de": "Hochwertiges Seil"
+      },
+      "categoryId": "7",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "107",
+      "itemId": "41645",
+      "icon": 23736,
+      "name": "高级捕兽用催眠球",
+      "names": {
+        "zh": "高级捕兽用催眠球",
+        "en": "Flawless Soporific",
+        "ja": "高級捕獲睡眠玉",
+        "ko": "고급 포획 수면제",
+        "tc": "高級捕獸用睡眠球",
+        "fr": "Balle hypodermique supérieure",
+        "de": "Hochwertiger Schlafköder"
+      },
+      "categoryId": "7",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    },
+    {
+      "id": "108",
+      "itemId": "41668",
+      "icon": 65104,
+      "name": "猫耳小员票据",
+      "names": {
+        "zh": "猫耳小员票据",
+        "en": "Felicitous Token",
+        "ja": "ねこみみさんの手形",
+        "ko": "야옹 선생 증서",
+        "tc": "貓耳小員票據",
+        "fr": "Avoir de Chamoiselle",
+        "de": "Miaurizius' Miarke"
+      },
+      "categoryId": "10",
+      "toolId": null,
+      "tool": null,
+      "gathering": null
+    }
+  ],
+  "tools": [
+    {
+      "id": "1",
+      "keyItemId": "1",
+      "itemId": "37679",
+      "icon": 23713,
+      "name": "开拓用石斧",
+      "names": {
+        "zh": "开拓用石斧",
+        "en": "Islekeep's Stone Hatchet",
+        "ja": "開拓用ストーンハチェット",
+        "ko": "개척용 돌도끼",
+        "tc": "開拓用石斧",
+        "fr": "Hache en pierre de pionnier",
+        "de": "Steinaxt des Insulaners"
+      },
+      "unlockRank": 1
+    },
+    {
+      "id": "2",
+      "keyItemId": "2",
+      "itemId": "37680",
+      "icon": 23712,
+      "name": "开拓用石锤",
+      "names": {
+        "zh": "开拓用石锤",
+        "en": "Islekeep's Stone Hammer",
+        "ja": "開拓用ストーンハンマー",
+        "ko": "개척용 돌망치",
+        "tc": "開拓用石錘",
+        "fr": "Marteau en pierre de pionnier",
+        "de": "Steinhammer des Insulaners"
+      },
+      "unlockRank": 3
+    },
+    {
+      "id": "3",
+      "keyItemId": "3",
+      "itemId": "37681",
+      "icon": 23716,
+      "name": "开拓用铜铲",
+      "names": {
+        "zh": "开拓用铜铲",
+        "en": "Islekeep's Shovel",
+        "ja": "開拓用シャベル",
+        "ko": "개척용 삽",
+        "tc": "開拓用銅鏟",
+        "fr": "Pelle de pionnier",
+        "de": "Schaufel des Insulaners"
+      },
+      "unlockRank": 5
+    },
+    {
+      "id": "4",
+      "keyItemId": "4",
+      "itemId": "37682",
+      "icon": 38151,
+      "name": "开拓用铜镰",
+      "names": {
+        "zh": "开拓用铜镰",
+        "en": "Islekeep's Copper Scythe",
+        "ja": "開拓用カッパーサイズ",
+        "ko": "개척용 구리낫",
+        "tc": "開拓用銅鐮",
+        "fr": "Faux en cuivre de pionnier",
+        "de": "Kupfersense des Insulaners"
+      },
+      "unlockRank": 6
+    },
+    {
+      "id": "5",
+      "keyItemId": "5",
+      "itemId": "37683",
+      "icon": 23718,
+      "name": "开拓用青铜渔叉",
+      "names": {
+        "zh": "开拓用青铜渔叉",
+        "en": "Islekeep's Bronze Gig",
+        "ja": "開拓用ブロンズギグ",
+        "ko": "개척용 청동작살",
+        "tc": "開拓用青銅魚叉",
+        "fr": "Harpon en bronze de pionnier",
+        "de": "Bronzeharpune des Insulaners"
+      },
+      "unlockRank": 7
+    },
+    {
+      "id": "6",
+      "keyItemId": "6",
+      "itemId": "37684",
+      "icon": 38001,
+      "name": "开拓用鹤嘴锄",
+      "names": {
+        "zh": "开拓用鹤嘴锄",
+        "en": "Islekeep's Bronze Beakaxe",
+        "ja": "開拓用ブロンズピック",
+        "ko": "개척용 청동곡괭이",
+        "tc": "開拓用十字鎬",
+        "fr": "Pioche en bronze de pionnier",
+        "de": "Bronze-Spitzhacke des Insulaners"
+      },
+      "unlockRank": 8
+    },
+    {
+      "id": "7",
+      "keyItemId": "13",
+      "itemId": "39233",
+      "icon": 38121,
+      "name": "开拓用黑铁手斧",
+      "names": {
+        "zh": "开拓用黑铁手斧",
+        "en": "Islekeep's Iron Hatchet",
+        "ja": "開拓用アイアンハチェット",
+        "ko": "개척용 손도끼",
+        "tc": "開拓用鐵斧",
+        "fr": "Hachette en fer de pionnier",
+        "de": "Eisenaxt des Insulaners"
+      },
+      "unlockRank": 9
+    },
+    {
+      "id": "8",
+      "keyItemId": "14",
+      "itemId": "39903",
+      "icon": 23734,
+      "name": "开拓用钢锤",
+      "names": {
+        "zh": "开拓用钢锤",
+        "en": "Islekeep's Steel Hammer",
+        "ja": "開拓用スチールハンマー",
+        "ko": "개척용 강철 망치",
+        "tc": "開拓用鋼錘",
+        "fr": "Marteau en acier de pionnier",
+        "de": "Stahlhammer des Insulaners"
+      },
+      "unlockRank": 13
+    },
+    {
+      "id": "9",
+      "keyItemId": "17",
+      "itemId": "41646",
+      "icon": 38027,
+      "name": "开拓用秘银鹤嘴锄",
+      "names": {
+        "zh": "开拓用秘银鹤嘴锄",
+        "en": "Islekeep's Mythril Pickaxe",
+        "ja": "開拓用ミスリルピック",
+        "ko": "개척용 미스릴 곡괭이",
+        "tc": "開拓用秘銀十字鎬",
+        "fr": "Pioche en mithril de pionnier",
+        "de": "Mithril-Spitzhacke des Insulaners"
+      },
+      "unlockRank": 17
+    },
+    {
+      "id": "10",
+      "keyItemId": "18",
+      "itemId": "41647",
+      "icon": 23739,
+      "name": "开拓用凿子",
+      "names": {
+        "zh": "开拓用凿子",
+        "en": "Islekeep's Chisel",
+        "ja": "開拓用チズル",
+        "ko": "개척용 끌",
+        "tc": "開拓用鑿子",
+        "fr": "Burin de pionnier",
+        "de": "Meißel des Insulaners"
+      },
+      "unlockRank": 17
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "开拓素材",
+      "names": {
+        "zh": "开拓素材",
+        "en": "Material",
+        "ja": "開拓素材",
+        "ko": "개척재료",
+        "tc": "開拓素材",
+        "fr": "Matériau",
+        "de": "Material"
+      }
+    },
+    {
+      "id": "2",
+      "name": "稀少开拓素材",
+      "names": {
+        "zh": "稀少开拓素材",
+        "en": "Rare Material",
+        "ja": "希少開拓素材",
+        "ko": "희귀 개척재료",
+        "tc": "稀少開拓素材",
+        "fr": "Rareté",
+        "de": "Seltenes Material"
+      }
+    },
+    {
+      "id": "3",
+      "name": "种子",
+      "names": {
+        "zh": "种子",
+        "en": "Gardening Starter",
+        "ja": "種子類",
+        "ko": "씨앗",
+        "tc": "種子",
+        "fr": "Graine",
+        "de": "Samen"
+      }
+    },
+    {
+      "id": "4",
+      "name": "开拓作物",
+      "names": {
+        "zh": "开拓作物",
+        "en": "Produce",
+        "ja": "開拓作物",
+        "ko": "개척작물",
+        "tc": "開拓作物",
+        "fr": "Culture",
+        "de": "Feldfrucht"
+      }
+    },
+    {
+      "id": "5",
+      "name": "畜牧素材",
+      "names": {
+        "zh": "畜牧素材",
+        "en": "Leavings",
+        "ja": "畜産素材",
+        "ko": "축산재료",
+        "tc": "畜牧素材",
+        "fr": "Ressource animalière",
+        "de": "Weideprodukt"
+      }
+    },
+    {
+      "id": "6",
+      "name": "畜牧饲料",
+      "names": {
+        "zh": "畜牧饲料",
+        "en": "Feed",
+        "ja": "畜産飼料",
+        "ko": "축산사료",
+        "tc": "畜牧飼料",
+        "fr": "Fourrage",
+        "de": "Futter"
+      }
+    },
+    {
+      "id": "7",
+      "name": "捕兽道具",
+      "names": {
+        "zh": "捕兽道具",
+        "en": "Restraint",
+        "ja": "捕獲道具",
+        "ko": "포획도구",
+        "tc": "捕獸道具",
+        "fr": "Outil de capture",
+        "de": "Fallen und Köder"
+      }
+    },
+    {
+      "id": "8",
+      "name": "开拓工具",
+      "names": {
+        "zh": "开拓工具",
+        "en": "Tool",
+        "ja": "開拓ツール",
+        "ko": "개척도구",
+        "tc": "開拓工具",
+        "fr": "Outil",
+        "de": "Werkzeug"
+      }
+    },
+    {
+      "id": "9",
+      "name": "海岛产品",
+      "names": {
+        "zh": "海岛产品",
+        "en": "Isleworks Handicraft",
+        "ja": "島産品",
+        "ko": "특산품",
+        "tc": "海島產品",
+        "fr": "Bien insulaire",
+        "de": "Inselgut"
+      }
+    },
+    {
+      "id": "10",
+      "name": "●手形",
+      "names": {
+        "zh": "●手形",
+        "en": "●手形",
+        "ja": "●手形",
+        "ko": "●手形",
+        "tc": "●手形",
+        "fr": "●手形",
+        "de": "●手形"
+      }
+    }
+  ],
+  "manualRecipes": [
+    {
+      "id": "0",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "1",
+        "itemId": "37679",
+        "icon": 23713,
+        "name": "开拓用石斧",
+        "names": {
+          "zh": "开拓用石斧",
+          "en": "Islekeep's Stone Hatchet",
+          "ja": "開拓用ストーンハチェット",
+          "ko": "개척용 돌도끼",
+          "tc": "開拓用石斧",
+          "fr": "Hache en pierre de pionnier",
+          "de": "Steinaxt des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "2",
+          "itemId": "37553",
+          "icon": 22416,
+          "name": "无人岛小树枝",
+          "names": {
+            "zh": "无人岛小树枝",
+            "en": "Island Branch",
+            "ja": "無人島の小枝",
+            "ko": "무인도 잔가지",
+            "tc": "無人島小樹枝",
+            "fr": "Branche insulaire",
+            "de": "Insel-Zweig"
+          },
+          "amount": 2
+        },
+        {
+          "id": "3",
+          "itemId": "37554",
+          "icon": 21451,
+          "name": "无人岛石材",
+          "names": {
+            "zh": "无人岛石材",
+            "en": "Island Stone",
+            "ja": "無人島の石材",
+            "ko": "무인도 석재",
+            "tc": "無人島石材",
+            "fr": "Pierre insulaire",
+            "de": "Insel-Stein"
+          },
+          "amount": 2
+        },
+        {
+          "id": "0",
+          "itemId": "37551",
+          "icon": 25026,
+          "name": "无人岛棕榈叶",
+          "names": {
+            "zh": "无人岛棕榈叶",
+            "en": "Island Palm Leaf",
+            "ja": "無人島のパームリーフ",
+            "ko": "무인도 야자나무 잎",
+            "tc": "無人島棕櫚葉",
+            "fr": "Palme insulaire",
+            "de": "Insel-Palmwedel"
+          },
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "1",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "2",
+        "itemId": "37680",
+        "icon": 23712,
+        "name": "开拓用石锤",
+        "names": {
+          "zh": "开拓用石锤",
+          "en": "Islekeep's Stone Hammer",
+          "ja": "開拓用ストーンハンマー",
+          "ko": "개척용 돌망치",
+          "tc": "開拓用石錘",
+          "fr": "Marteau en pierre de pionnier",
+          "de": "Steinhammer des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "3",
+          "itemId": "37554",
+          "icon": 21451,
+          "name": "无人岛石材",
+          "names": {
+            "zh": "无人岛石材",
+            "en": "Island Stone",
+            "ja": "無人島の石材",
+            "ko": "무인도 석재",
+            "tc": "無人島石材",
+            "fr": "Pierre insulaire",
+            "de": "Insel-Stein"
+          },
+          "amount": 3
+        },
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 2
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "3",
+        "itemId": "37681",
+        "icon": 23716,
+        "name": "开拓用铜铲",
+        "names": {
+          "zh": "开拓用铜铲",
+          "en": "Islekeep's Shovel",
+          "ja": "開拓用シャベル",
+          "ko": "개척용 삽",
+          "tc": "開拓用銅鏟",
+          "fr": "Pelle de pionnier",
+          "de": "Schaufel des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 3
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "4",
+        "itemId": "37682",
+        "icon": 38151,
+        "name": "开拓用铜镰",
+        "names": {
+          "zh": "开拓用铜镰",
+          "en": "Islekeep's Copper Scythe",
+          "ja": "開拓用カッパーサイズ",
+          "ko": "개척용 구리낫",
+          "tc": "開拓用銅鐮",
+          "fr": "Faux en cuivre de pionnier",
+          "de": "Kupfersense des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "19",
+          "itemId": "37570",
+          "icon": 22634,
+          "name": "无人岛黏土",
+          "names": {
+            "zh": "无人岛黏土",
+            "en": "Island Clay",
+            "ja": "無人島の粘土",
+            "ko": "무인도 점토",
+            "tc": "無人島黏土",
+            "fr": "Argile insulaire",
+            "de": "Insel-Lehm"
+          },
+          "amount": 3
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "5",
+        "itemId": "37683",
+        "icon": 23718,
+        "name": "开拓用青铜渔叉",
+        "names": {
+          "zh": "开拓用青铜渔叉",
+          "en": "Islekeep's Bronze Gig",
+          "ja": "開拓用ブロンズギグ",
+          "ko": "개척용 청동작살",
+          "tc": "開拓用青銅魚叉",
+          "fr": "Harpon en bronze de pionnier",
+          "de": "Bronzeharpune des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 3
+        },
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "6",
+        "itemId": "37684",
+        "icon": 38001,
+        "name": "开拓用鹤嘴锄",
+        "names": {
+          "zh": "开拓用鹤嘴锄",
+          "en": "Islekeep's Bronze Beakaxe",
+          "ja": "開拓用ブロンズピック",
+          "ko": "개척용 청동곡괭이",
+          "tc": "開拓用十字鎬",
+          "fr": "Pioche en bronze de pionnier",
+          "de": "Bronze-Spitzhacke des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 4
+        },
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 4
+        },
+        {
+          "id": "17",
+          "itemId": "37568",
+          "icon": 21652,
+          "name": "无人岛棉花",
+          "names": {
+            "zh": "无人岛棉花",
+            "en": "Island Cotton Boll",
+            "ja": "無人島の綿花",
+            "ko": "무인도 목화",
+            "tc": "無人島棉花",
+            "fr": "Fleur de coton insulaire",
+            "de": "Insel-Baumwollkapsel"
+          },
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "7",
+        "itemId": "37685",
+        "icon": 23724,
+        "name": "魔法人偶用耕种设备",
+        "names": {
+          "zh": "魔法人偶用耕种设备",
+          "en": "Mammet-sized Cropworker's Tools",
+          "ja": "魔法人形用の耕作装備",
+          "ko": "마법인형용 경작 장비",
+          "tc": "魔法人偶用耕種設備",
+          "fr": "Outils de cultivateur taille réduite",
+          "de": "Feldarbeiter-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 6
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 6
+        },
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 6
+        },
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 6
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "8",
+        "itemId": "37686",
+        "icon": 23723,
+        "name": "魔法人偶用饲养设备",
+        "names": {
+          "zh": "魔法人偶用饲养设备",
+          "en": "Mammet-sized Pastureworker's Tools",
+          "ja": "魔法人形用の飼育装備",
+          "ko": "마법인형용 사육 장비",
+          "tc": "魔法人偶用飼養設備",
+          "fr": "Outils de curateur taille réduite",
+          "de": "Tierpfleger-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 6
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 6
+        },
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 6
+        },
+        {
+          "id": "0",
+          "itemId": "37551",
+          "icon": 25026,
+          "name": "无人岛棕榈叶",
+          "names": {
+            "zh": "无人岛棕榈叶",
+            "en": "Island Palm Leaf",
+            "ja": "無人島のパームリーフ",
+            "ko": "무인도 야자나무 잎",
+            "tc": "無人島棕櫚葉",
+            "fr": "Palme insulaire",
+            "de": "Insel-Palmwedel"
+          },
+          "amount": 6
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "product": {
+        "id": "61",
+        "itemId": "37612",
+        "icon": 23710,
+        "name": "无人岛果实饲料",
+        "names": {
+          "zh": "无人岛果实饲料",
+          "en": "Island Sweetfeed",
+          "ja": "無人島の果実飼料",
+          "ko": "무인도 과일 사료",
+          "tc": "無人島果實飼料",
+          "fr": "Fruits fourragers insulaires",
+          "de": "Insel-Obstfutter"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "1",
+          "itemId": "37552",
+          "icon": 25308,
+          "name": "无人岛苹果",
+          "names": {
+            "zh": "无人岛苹果",
+            "en": "Island Apple",
+            "ja": "無人島のアップル",
+            "ko": "무인도 사과",
+            "tc": "無人島蘋果",
+            "fr": "Pomme insulaire",
+            "de": "Insel-Apfel"
+          },
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "product": {
+        "id": "62",
+        "itemId": "37613",
+        "icon": 27555,
+        "name": "无人岛蔬菜饲料",
+        "names": {
+          "zh": "无人岛蔬菜饲料",
+          "en": "Island Greenfeed",
+          "ja": "無人島の野菜飼料",
+          "ko": "무인도 야채 사료",
+          "tc": "無人島蔬菜飼料",
+          "fr": "Légumes fourragers insulaires",
+          "de": "Insel-Gemüsefutter"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "0",
+          "itemId": "37551",
+          "icon": 25026,
+          "name": "无人岛棕榈叶",
+          "names": {
+            "zh": "无人岛棕榈叶",
+            "en": "Island Palm Leaf",
+            "ja": "無人島のパームリーフ",
+            "ko": "무인도 야자나무 잎",
+            "tc": "無人島棕櫚葉",
+            "fr": "Palme insulaire",
+            "de": "Insel-Palmwedel"
+          },
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "product": {
+        "id": "63",
+        "itemId": "37614",
+        "icon": 23711,
+        "name": "无人岛高级蔬菜饲料",
+        "names": {
+          "zh": "无人岛高级蔬菜饲料",
+          "en": "Premium Island Greenfeed",
+          "ja": "無人島の野菜飼料：高級",
+          "ko": "무인도 고급 야채 사료",
+          "tc": "無人島高級蔬菜飼料",
+          "fr": "Légumes fourragers insulaires de qualité",
+          "de": "Hochwertiges Insel-Gemüsefutter"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "0",
+          "itemId": "37551",
+          "icon": 25026,
+          "name": "无人岛棕榈叶",
+          "names": {
+            "zh": "无人岛棕榈叶",
+            "en": "Island Palm Leaf",
+            "ja": "無人島のパームリーフ",
+            "ko": "무인도 야자나무 잎",
+            "tc": "無人島棕櫚葉",
+            "fr": "Palme insulaire",
+            "de": "Insel-Palmwedel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "0",
+          "itemId": "37551",
+          "icon": 25026,
+          "name": "无人岛棕榈叶",
+          "names": {
+            "zh": "无人岛棕榈叶",
+            "en": "Island Palm Leaf",
+            "ja": "無人島のパームリーフ",
+            "ko": "무인도 야자나무 잎",
+            "tc": "無人島棕櫚葉",
+            "fr": "Palme insulaire",
+            "de": "Insel-Palmwedel"
+          },
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "product": {
+        "id": "64",
+        "itemId": "37615",
+        "icon": 23717,
+        "name": "捕兽网",
+        "names": {
+          "zh": "捕兽网",
+          "en": "Makeshift Net",
+          "ja": "捕獲網",
+          "ko": "포획망",
+          "tc": "捕獸網",
+          "fr": "Filet de capture",
+          "de": "Selbstgemachtes Netz"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "2",
+          "itemId": "37553",
+          "icon": 22416,
+          "name": "无人岛小树枝",
+          "names": {
+            "zh": "无人岛小树枝",
+            "en": "Island Branch",
+            "ja": "無人島の小枝",
+            "ko": "무인도 잔가지",
+            "tc": "無人島小樹枝",
+            "fr": "Branche insulaire",
+            "de": "Insel-Zweig"
+          },
+          "amount": 1
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "product": {
+        "id": "65",
+        "itemId": "37616",
+        "icon": 23720,
+        "name": "捕兽绳",
+        "names": {
+          "zh": "捕兽绳",
+          "en": "Makeshift Restraint",
+          "ja": "捕獲縄",
+          "ko": "포획줄",
+          "tc": "捕獸繩",
+          "fr": "Lasso de capture",
+          "de": "Selbstgemachtes Seil"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 3
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "product": {
+        "id": "66",
+        "itemId": "37617",
+        "icon": 23721,
+        "name": "捕兽用催眠球",
+        "names": {
+          "zh": "捕兽用催眠球",
+          "en": "Makeshift Soporific",
+          "ja": "捕獲睡眠玉",
+          "ko": "포획 수면제",
+          "tc": "捕獸用睡眠球",
+          "fr": "Balle hypodermique",
+          "de": "Selbstgemachter Schlafköder"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 2
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 1
+        },
+        {
+          "id": "26",
+          "itemId": "37577",
+          "icon": 29657,
+          "name": "无人岛水母",
+          "names": {
+            "zh": "无人岛水母",
+            "en": "Island Jellyfish",
+            "ja": "無人島のジェリーフィッシュ",
+            "ko": "무인도 해파리",
+            "tc": "無人島水母",
+            "fr": "Méduse insulaire",
+            "de": "Insel-Qualle"
+          },
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "9",
+        "itemId": "37687",
+        "icon": 23722,
+        "name": "魔法人偶用开拓设备",
+        "names": {
+          "zh": "魔法人偶用开拓设备",
+          "en": "Basic Mammet-sized Builder's Tools",
+          "ja": "魔法人形用の開拓装備",
+          "ko": "마법인형용 개척 장비",
+          "tc": "魔法人偶用開拓設備",
+          "fr": "Outils de pionnier taille réduite",
+          "de": "Schlichte Bauarbeiter-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 10
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 10
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "14",
+          "itemId": "37565",
+          "icon": 22615,
+          "name": "无人岛石灰岩",
+          "names": {
+            "zh": "无人岛石灰岩",
+            "en": "Island Limestone",
+            "ja": "無人島の石灰岩",
+            "ko": "무인도 석회암",
+            "tc": "無人島石灰岩",
+            "fr": "Pierre calcaire insulaire",
+            "de": "Insel-Kalkstein"
+          },
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "10",
+        "itemId": "37688",
+        "icon": 23722,
+        "name": "真厉害级魔法人偶用开拓设备",
+        "names": {
+          "zh": "真厉害级魔法人偶用开拓设备",
+          "en": "Better Mammet-sized Builder's Tools",
+          "ja": "魔法人形用のすごい開拓装備",
+          "ko": "마법인형용 굉장한 개척 장비",
+          "tc": "真厲害級魔法人偶用開拓設備",
+          "fr": "Outils de pionnier de bonne qualité taille réduite",
+          "de": "Bessere Bauarbeiter-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "19",
+          "itemId": "37570",
+          "icon": 22634,
+          "name": "无人岛黏土",
+          "names": {
+            "zh": "无人岛黏土",
+            "en": "Island Clay",
+            "ja": "無人島の粘土",
+            "ko": "무인도 점토",
+            "tc": "無人島黏土",
+            "fr": "Argile insulaire",
+            "de": "Insel-Lehm"
+          },
+          "amount": 10
+        },
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 10
+        },
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 10
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "14",
+          "itemId": "37565",
+          "icon": 22615,
+          "name": "无人岛石灰岩",
+          "names": {
+            "zh": "无人岛石灰岩",
+            "en": "Island Limestone",
+            "ja": "無人島の石灰岩",
+            "ko": "무인도 석회암",
+            "tc": "無人島石灰岩",
+            "fr": "Pierre calcaire insulaire",
+            "de": "Insel-Kalkstein"
+          },
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "11",
+        "itemId": "37689",
+        "icon": 23722,
+        "name": "十分厉害级魔法人偶用开拓设备",
+        "names": {
+          "zh": "十分厉害级魔法人偶用开拓设备",
+          "en": "Best Mammet-sized Builder's Tools",
+          "ja": "魔法人形用のものすごい開拓装備",
+          "ko": "마법인형용 엄청난 개척 장비",
+          "tc": "十分厲害級魔法人偶用開拓設備",
+          "fr": "Outils de pionnier de très bonne qualité taille réduite",
+          "de": "Beste Bauarbeiter-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "17",
+          "itemId": "37568",
+          "icon": 21652,
+          "name": "无人岛棉花",
+          "names": {
+            "zh": "无人岛棉花",
+            "en": "Island Cotton Boll",
+            "ja": "無人島の綿花",
+            "ko": "무인도 목화",
+            "tc": "無人島棉花",
+            "fr": "Fleur de coton insulaire",
+            "de": "Insel-Baumwollkapsel"
+          },
+          "amount": 10
+        },
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 10
+        },
+        {
+          "id": "19",
+          "itemId": "37570",
+          "icon": 22634,
+          "name": "无人岛黏土",
+          "names": {
+            "zh": "无人岛黏土",
+            "en": "Island Clay",
+            "ja": "無人島の粘土",
+            "ko": "무인도 점토",
+            "tc": "無人島黏土",
+            "fr": "Argile insulaire",
+            "de": "Insel-Lehm"
+          },
+          "amount": 10
+        },
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 10
+        },
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "12",
+        "itemId": "37690",
+        "icon": 23722,
+        "name": "非常厉害级魔法人偶用开拓设备",
+        "names": {
+          "zh": "非常厉害级魔法人偶用开拓设备",
+          "en": "Bestest Mammet-sized Builder's Tools",
+          "ja": "魔法人形用のすぺしゃるな開拓装備",
+          "ko": "마법인형용 특별한 개척 장비",
+          "tc": "非常厲害級魔法人偶用開拓設備",
+          "fr": "Outils de pionnier d'excellente qualité taille réduite",
+          "de": "Allerbeste Bauarbeiter-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "23",
+          "itemId": "37574",
+          "icon": 21251,
+          "name": "无人岛花岗岩",
+          "names": {
+            "zh": "无人岛花岗岩",
+            "en": "Island Leucogranite",
+            "ja": "無人島の花崗岩",
+            "ko": "무인도 화강암",
+            "tc": "無人島花崗岩",
+            "fr": "Granite insulaire",
+            "de": "Insel-Granit"
+          },
+          "amount": 10
+        },
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 10
+        },
+        {
+          "id": "19",
+          "itemId": "37570",
+          "icon": 22634,
+          "name": "无人岛黏土",
+          "names": {
+            "zh": "无人岛黏土",
+            "en": "Island Clay",
+            "ja": "無人島の粘土",
+            "ko": "무인도 점토",
+            "tc": "無人島黏土",
+            "fr": "Argile insulaire",
+            "de": "Insel-Lehm"
+          },
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "13",
+        "itemId": "39233",
+        "icon": 38121,
+        "name": "开拓用黑铁手斧",
+        "names": {
+          "zh": "开拓用黑铁手斧",
+          "en": "Islekeep's Iron Hatchet",
+          "ja": "開拓用アイアンハチェット",
+          "ko": "개척용 손도끼",
+          "tc": "開拓用鐵斧",
+          "fr": "Hachette en fer de pionnier",
+          "de": "Eisenaxt des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "19",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "15",
+        "itemId": "39904",
+        "icon": 23722,
+        "name": "魔法人偶用碎岩设备",
+        "names": {
+          "zh": "魔法人偶用碎岩设备",
+          "en": "Mammet-sized Spelunking Tools",
+          "ja": "魔法人形用の砕岩装備",
+          "ko": "마법인형용 암석 분쇄기",
+          "tc": "魔法人偶用碎岩設備",
+          "fr": "Outils de forage taille réduite",
+          "de": "Felsbrecher-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 10
+        },
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "67",
+          "itemId": "39224",
+          "icon": 22638,
+          "name": "无人岛天然树脂",
+          "names": {
+            "zh": "无人岛天然树脂",
+            "en": "Island Resin",
+            "ja": "無人島の天然樹脂",
+            "ko": "무인도 천연수지",
+            "tc": "無人島天然樹脂",
+            "fr": "Résine insulaire",
+            "de": "Insel-Naturharz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "70",
+          "itemId": "39227",
+          "icon": 21228,
+          "name": "无人岛木化石",
+          "names": {
+            "zh": "无人岛木化石",
+            "en": "Island Wood Opal",
+            "ja": "無人島のウッドオパール",
+            "ko": "무인도 목단백석",
+            "tc": "無人島木化石",
+            "fr": "Bois opalisé insulaire",
+            "de": "Insel-Holzopal"
+          },
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "14",
+        "itemId": "39903",
+        "icon": 23734,
+        "name": "开拓用钢锤",
+        "names": {
+          "zh": "开拓用钢锤",
+          "en": "Islekeep's Steel Hammer",
+          "ja": "開拓用スチールハンマー",
+          "ko": "개척용 강철 망치",
+          "tc": "開拓用鋼錘",
+          "fr": "Marteau en acier de pionnier",
+          "de": "Stahlhammer des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "70",
+          "itemId": "39227",
+          "icon": 21228,
+          "name": "无人岛木化石",
+          "names": {
+            "zh": "无人岛木化石",
+            "en": "Island Wood Opal",
+            "ja": "無人島のウッドオパール",
+            "ko": "무인도 목단백석",
+            "tc": "無人島木化石",
+            "fr": "Bois opalisé insulaire",
+            "de": "Insel-Holzopal"
+          },
+          "amount": 3
+        },
+        {
+          "id": "76",
+          "itemId": "39887",
+          "icon": 21462,
+          "name": "无人岛石炭",
+          "names": {
+            "zh": "无人岛石炭",
+            "en": "Island Coal",
+            "ja": "無人島の石炭",
+            "ko": "무인도 석탄",
+            "tc": "無人島石炭",
+            "fr": "Charbon insulaire",
+            "de": "Insel-Steinkohle"
+          },
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "21",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "16",
+        "itemId": "39905",
+        "icon": 23722,
+        "name": "空前绝后级魔法人偶用开拓设备",
+        "names": {
+          "zh": "空前绝后级魔法人偶用开拓设备",
+          "en": "Bestestest Mammet-sized Builder's Tools",
+          "ja": "魔法人形用のくうぜんぜつごな開拓装備",
+          "ko": "마법인형용 전무후무한 개척 장비",
+          "tc": "空前絕後級魔法人偶用開拓設備",
+          "fr": "Outils de pionnier de qualité ex<SoftHyphen/>cep<SoftHyphen/>tion<SoftHyphen/>nelle taille réduite",
+          "de": "Allerallerbeste Bauarbeiter-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 10
+        },
+        {
+          "id": "76",
+          "itemId": "39887",
+          "icon": 21462,
+          "name": "无人岛石炭",
+          "names": {
+            "zh": "无人岛石炭",
+            "en": "Island Coal",
+            "ja": "無人島の石炭",
+            "ko": "무인도 석탄",
+            "tc": "無人島石炭",
+            "fr": "Charbon insulaire",
+            "de": "Insel-Steinkohle"
+          },
+          "amount": 10
+        },
+        {
+          "id": "79",
+          "itemId": "39890",
+          "icon": 21487,
+          "name": "无人岛大理石",
+          "names": {
+            "zh": "无人岛大理石",
+            "en": "Island Marble",
+            "ja": "無人島の大理石",
+            "ko": "무인도 대리석",
+            "tc": "無人島大理石",
+            "fr": "Marbre insulaire",
+            "de": "Insel-Marmor"
+          },
+          "amount": 10
+        },
+        {
+          "id": "80",
+          "itemId": "39891",
+          "icon": 21208,
+          "name": "无人岛灵银矿",
+          "names": {
+            "zh": "无人岛灵银矿",
+            "en": "Island Mythril Ore",
+            "ja": "無人島の霊銀鉱",
+            "ko": "무인도 미스릴",
+            "tc": "無人島靈銀礦",
+            "fr": "Minerai de mithril insulaire",
+            "de": "Insel-Mithrilerz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "82",
+          "itemId": "39893",
+          "icon": 21477,
+          "name": "无人岛幻影石",
+          "names": {
+            "zh": "无人岛幻影石",
+            "en": "Island Spectrine",
+            "ja": "無人島の幻影石",
+            "ko": "무인도 환영석",
+            "tc": "無人島幻影石",
+            "fr": "Spectrite insulaire",
+            "de": "Insel-Spektrinit"
+          },
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "22",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "19",
+        "itemId": "41648",
+        "icon": 23722,
+        "name": "真厉害级魔法人偶用碎岩设备",
+        "names": {
+          "zh": "真厉害级魔法人偶用碎岩设备",
+          "en": "Splendiferous Mammet-sized Spelunking Tools",
+          "ja": "魔法人形用のすごい砕岩装備",
+          "ko": "마법인형용 굉장한 암석 분쇄기",
+          "tc": "真厲害級魔法人偶用碎岩設備",
+          "fr": "Outils de forage supérieurs taille réduite",
+          "de": "Fantastische Felsbrecher-Ausstattung in Marionettengröße"
+        }
+      },
+      "materials": [
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 10
+        },
+        {
+          "id": "67",
+          "itemId": "39224",
+          "icon": 22638,
+          "name": "无人岛天然树脂",
+          "names": {
+            "zh": "无人岛天然树脂",
+            "en": "Island Resin",
+            "ja": "無人島の天然樹脂",
+            "ko": "무인도 천연수지",
+            "tc": "無人島天然樹脂",
+            "fr": "Résine insulaire",
+            "de": "Insel-Naturharz"
+          },
+          "amount": 10
+        },
+        {
+          "id": "70",
+          "itemId": "39227",
+          "icon": 21228,
+          "name": "无人岛木化石",
+          "names": {
+            "zh": "无人岛木化石",
+            "en": "Island Wood Opal",
+            "ja": "無人島のウッドオパール",
+            "ko": "무인도 목단백석",
+            "tc": "無人島木化石",
+            "fr": "Bois opalisé insulaire",
+            "de": "Insel-Holzopal"
+          },
+          "amount": 10
+        },
+        {
+          "id": "79",
+          "itemId": "39890",
+          "icon": 21487,
+          "name": "无人岛大理石",
+          "names": {
+            "zh": "无人岛大理石",
+            "en": "Island Marble",
+            "ja": "無人島の大理石",
+            "ko": "무인도 대리석",
+            "tc": "無人島大理石",
+            "fr": "Marbre insulaire",
+            "de": "Insel-Marmor"
+          },
+          "amount": 10
+        },
+        {
+          "id": "80",
+          "itemId": "39891",
+          "icon": 21208,
+          "name": "无人岛灵银矿",
+          "names": {
+            "zh": "无人岛灵银矿",
+            "en": "Island Mythril Ore",
+            "ja": "無人島の霊銀鉱",
+            "ko": "무인도 미스릴",
+            "tc": "無人島靈銀礦",
+            "fr": "Minerai de mithril insulaire",
+            "de": "Insel-Mithrilerz"
+          },
+          "amount": 10
+        }
+      ]
+    },
+    {
+      "id": "23",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "17",
+        "itemId": "41646",
+        "icon": 38027,
+        "name": "开拓用秘银鹤嘴锄",
+        "names": {
+          "zh": "开拓用秘银鹤嘴锄",
+          "en": "Islekeep's Mythril Pickaxe",
+          "ja": "開拓用ミスリルピック",
+          "ko": "개척용 미스릴 곡괭이",
+          "tc": "開拓用秘銀十字鎬",
+          "fr": "Pioche en mithril de pionnier",
+          "de": "Mithril-Spitzhacke des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "67",
+          "itemId": "39224",
+          "icon": 22638,
+          "name": "无人岛天然树脂",
+          "names": {
+            "zh": "无人岛天然树脂",
+            "en": "Island Resin",
+            "ja": "無人島の天然樹脂",
+            "ko": "무인도 천연수지",
+            "tc": "無人島天然樹脂",
+            "fr": "Résine insulaire",
+            "de": "Insel-Naturharz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "80",
+          "itemId": "39891",
+          "icon": 21208,
+          "name": "无人岛灵银矿",
+          "names": {
+            "zh": "无人岛灵银矿",
+            "en": "Island Mythril Ore",
+            "ja": "無人島の霊銀鉱",
+            "ko": "무인도 미스릴",
+            "tc": "無人島靈銀礦",
+            "fr": "Minerai de mithril insulaire",
+            "de": "Insel-Mithrilerz"
+          },
+          "amount": 4
+        },
+        {
+          "id": "95",
+          "itemId": "41633",
+          "icon": 21229,
+          "name": "无人岛鹰眼砂",
+          "names": {
+            "zh": "无人岛鹰眼砂",
+            "en": "Island Hawk's Eye Sand",
+            "ja": "無人島の鷹目砂",
+            "ko": "무인도 응안사",
+            "tc": "無人島鷹眼砂",
+            "fr": "Sable d'œil-de-faucon insulaire",
+            "de": "Insel-Falkenaugensand"
+          },
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "24",
+      "product": {
+        "id": "0",
+        "itemId": "37551",
+        "icon": 25026,
+        "name": "无人岛棕榈叶",
+        "names": {
+          "zh": "无人岛棕榈叶",
+          "en": "Island Palm Leaf",
+          "ja": "無人島のパームリーフ",
+          "ko": "무인도 야자나무 잎",
+          "tc": "無人島棕櫚葉",
+          "fr": "Palme insulaire",
+          "de": "Insel-Palmwedel"
+        }
+      },
+      "keyItem": {
+        "id": "18",
+        "itemId": "41647",
+        "icon": 23739,
+        "name": "开拓用凿子",
+        "names": {
+          "zh": "开拓用凿子",
+          "en": "Islekeep's Chisel",
+          "ja": "開拓用チズル",
+          "ko": "개척용 끌",
+          "tc": "開拓用鑿子",
+          "fr": "Burin de pionnier",
+          "de": "Meißel des Insulaners"
+        }
+      },
+      "materials": [
+        {
+          "id": "76",
+          "itemId": "39887",
+          "icon": 21462,
+          "name": "无人岛石炭",
+          "names": {
+            "zh": "无人岛石炭",
+            "en": "Island Coal",
+            "ja": "無人島の石炭",
+            "ko": "무인도 석탄",
+            "tc": "無人島石炭",
+            "fr": "Charbon insulaire",
+            "de": "Insel-Steinkohle"
+          },
+          "amount": 3
+        },
+        {
+          "id": "92",
+          "itemId": "41630",
+          "icon": 21242,
+          "name": "无人岛翠银沙",
+          "names": {
+            "zh": "无人岛翠银沙",
+            "en": "Island Durium Sand",
+            "ja": "無人島の翠銀砂",
+            "ko": "무인도 취은 모래",
+            "tc": "無人島翠銀沙",
+            "fr": "Sable de durium insulaire",
+            "de": "Insel-Duriumsand"
+          },
+          "amount": 3
+        },
+        {
+          "id": "94",
+          "itemId": "41632",
+          "icon": 21212,
+          "name": "无人岛金矿",
+          "names": {
+            "zh": "无人岛金矿",
+            "en": "Island Gold Ore",
+            "ja": "無人島の金鉱",
+            "ko": "무인도 금 광석",
+            "tc": "無人島金礦",
+            "fr": "Minerai d'or insulaire",
+            "de": "Insel-Golderz"
+          },
+          "amount": 4
+        },
+        {
+          "id": "95",
+          "itemId": "41633",
+          "icon": 21229,
+          "name": "无人岛鹰眼砂",
+          "names": {
+            "zh": "无人岛鹰眼砂",
+            "en": "Island Hawk's Eye Sand",
+            "ja": "無人島の鷹目砂",
+            "ko": "무인도 응안사",
+            "tc": "無人島鷹眼砂",
+            "fr": "Sable d'œil-de-faucon insulaire",
+            "de": "Insel-Falkenaugensand"
+          },
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "25",
+      "product": {
+        "id": "105",
+        "itemId": "41643",
+        "icon": 23742,
+        "name": "高级捕兽网",
+        "names": {
+          "zh": "高级捕兽网",
+          "en": "Flawless Net",
+          "ja": "高級捕獲網",
+          "ko": "고급 포획망",
+          "tc": "高級捕獸網",
+          "fr": "Filet de capture supérieur",
+          "de": "Hochwertiges Netz"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 25
+        },
+        {
+          "id": "92",
+          "itemId": "41630",
+          "icon": 21242,
+          "name": "无人岛翠银沙",
+          "names": {
+            "zh": "无人岛翠银沙",
+            "en": "Island Durium Sand",
+            "ja": "無人島の翠銀砂",
+            "ko": "무인도 취은 모래",
+            "tc": "無人島翠銀沙",
+            "fr": "Sable de durium insulaire",
+            "de": "Insel-Duriumsand"
+          },
+          "amount": 25
+        },
+        {
+          "id": "28",
+          "itemId": "37579",
+          "icon": 21456,
+          "name": "无人岛石榴石原石",
+          "names": {
+            "zh": "无人岛石榴石原石",
+            "en": "Raw Island Garnet",
+            "ja": "無人島のガーネット原石",
+            "ko": "무인도 석류석 원석",
+            "tc": "無人島石榴石原石",
+            "fr": "Grenat brut insulaire",
+            "de": "Insel-Rohgranat"
+          },
+          "amount": 25
+        },
+        {
+          "id": "29",
+          "itemId": "37580",
+          "icon": 22413,
+          "name": "无人岛云杉原木",
+          "names": {
+            "zh": "无人岛云杉原木",
+            "en": "Island Spruce Log",
+            "ja": "無人島のスプルース原木",
+            "ko": "무인도 가문비나무 원목",
+            "tc": "無人島雲杉原木",
+            "fr": "Rondin d'épicéa insulaire",
+            "de": "Insel-Fichtenholzscheit"
+          },
+          "amount": 25
+        },
+        {
+          "id": "31",
+          "itemId": "37582",
+          "icon": 21211,
+          "name": "无人岛银矿",
+          "names": {
+            "zh": "无人岛银矿",
+            "en": "Island Silver Ore",
+            "ja": "無人島の銀鉱",
+            "ko": "무인도 은 광석",
+            "tc": "無人島銀礦",
+            "fr": "Minerai d'argent insulaire",
+            "de": "Insel-Silbererz"
+          },
+          "amount": 25
+        }
+      ]
+    },
+    {
+      "id": "26",
+      "product": {
+        "id": "106",
+        "itemId": "41644",
+        "icon": 23737,
+        "name": "高级捕兽绳",
+        "names": {
+          "zh": "高级捕兽绳",
+          "en": "Flawless Restraint",
+          "ja": "高級捕獲縄",
+          "ko": "고급 포획줄",
+          "tc": "高級捕獸繩",
+          "fr": "Lasso de capture supérieur",
+          "de": "Hochwertiges Seil"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 25
+        },
+        {
+          "id": "93",
+          "itemId": "41631",
+          "icon": 21207,
+          "name": "无人岛黄铜矿",
+          "names": {
+            "zh": "无人岛黄铜矿",
+            "en": "Island Yellow Copper Ore",
+            "ja": "無人島の黄銅鉱",
+            "ko": "무인도 황동 광석",
+            "tc": "無人島黃銅礦",
+            "fr": "Minerai de cuivre jaune insulaire",
+            "de": "Insel-Kupferkies"
+          },
+          "amount": 25
+        },
+        {
+          "id": "27",
+          "itemId": "37578",
+          "icon": 22627,
+          "name": "无人岛香荠",
+          "names": {
+            "zh": "无人岛香荠",
+            "en": "Island Alyssum",
+            "ja": "無人島のアリッサム",
+            "ko": "무인도 꽃냉이",
+            "tc": "無人島香薺",
+            "fr": "Alysson insulaire",
+            "de": "Insel-Steinkraut"
+          },
+          "amount": 25
+        },
+        {
+          "id": "29",
+          "itemId": "37580",
+          "icon": 22413,
+          "name": "无人岛云杉原木",
+          "names": {
+            "zh": "无人岛云杉原木",
+            "en": "Island Spruce Log",
+            "ja": "無人島のスプルース原木",
+            "ko": "무인도 가문비나무 원목",
+            "tc": "無人島雲杉原木",
+            "fr": "Rondin d'épicéa insulaire",
+            "de": "Insel-Fichtenholzscheit"
+          },
+          "amount": 25
+        },
+        {
+          "id": "31",
+          "itemId": "37582",
+          "icon": 21211,
+          "name": "无人岛银矿",
+          "names": {
+            "zh": "无人岛银矿",
+            "en": "Island Silver Ore",
+            "ja": "無人島の銀鉱",
+            "ko": "무인도 은 광석",
+            "tc": "無人島銀礦",
+            "fr": "Minerai d'argent insulaire",
+            "de": "Insel-Silbererz"
+          },
+          "amount": 25
+        }
+      ]
+    },
+    {
+      "id": "27",
+      "product": {
+        "id": "107",
+        "itemId": "41645",
+        "icon": 23736,
+        "name": "高级捕兽用催眠球",
+        "names": {
+          "zh": "高级捕兽用催眠球",
+          "en": "Flawless Soporific",
+          "ja": "高級捕獲睡眠玉",
+          "ko": "고급 포획 수면제",
+          "tc": "高級捕獸用睡眠球",
+          "fr": "Balle hypodermique supérieure",
+          "de": "Hochwertiger Schlafköder"
+        }
+      },
+      "keyItem": null,
+      "materials": [
+        {
+          "id": "26",
+          "itemId": "37577",
+          "icon": 29657,
+          "name": "无人岛水母",
+          "names": {
+            "zh": "无人岛水母",
+            "en": "Island Jellyfish",
+            "ja": "無人島のジェリーフィッシュ",
+            "ko": "무인도 해파리",
+            "tc": "無人島水母",
+            "fr": "Méduse insulaire",
+            "de": "Insel-Qualle"
+          },
+          "amount": 25
+        },
+        {
+          "id": "95",
+          "itemId": "41633",
+          "icon": 21229,
+          "name": "无人岛鹰眼砂",
+          "names": {
+            "zh": "无人岛鹰眼砂",
+            "en": "Island Hawk's Eye Sand",
+            "ja": "無人島の鷹目砂",
+            "ko": "무인도 응안사",
+            "tc": "無人島鷹眼砂",
+            "fr": "Sable d'œil-de-faucon insulaire",
+            "de": "Insel-Falkenaugensand"
+          },
+          "amount": 25
+        },
+        {
+          "id": "27",
+          "itemId": "37578",
+          "icon": 22627,
+          "name": "无人岛香荠",
+          "names": {
+            "zh": "无人岛香荠",
+            "en": "Island Alyssum",
+            "ja": "無人島のアリッサム",
+            "ko": "무인도 꽃냉이",
+            "tc": "無人島香薺",
+            "fr": "Alysson insulaire",
+            "de": "Insel-Steinkraut"
+          },
+          "amount": 25
+        },
+        {
+          "id": "30",
+          "itemId": "37581",
+          "icon": 29026,
+          "name": "无人岛锤头鲨",
+          "names": {
+            "zh": "无人岛锤头鲨",
+            "en": "Island Hammerhead",
+            "ja": "無人島のハンマーヘッド",
+            "ko": "무인도 망치상어",
+            "tc": "無人島錘頭鯊",
+            "fr": "Requin-marteau insulaire",
+            "de": "Insel-Hammerhai"
+          },
+          "amount": 25
+        },
+        {
+          "id": "83",
+          "itemId": "39894",
+          "icon": 29404,
+          "name": "无人岛长臂虾",
+          "names": {
+            "zh": "无人岛长臂虾",
+            "en": "Island Cave Shrimp",
+            "ja": "無人島のテナガエビ",
+            "ko": "무인도 징거미새우",
+            "tc": "無人島長臂蝦",
+            "fr": "Crevette insulaire à grandes pinces",
+            "de": "Insel-Großarmgarnele"
+          },
+          "amount": 25
+        }
+      ]
+    }
+  ]
+}

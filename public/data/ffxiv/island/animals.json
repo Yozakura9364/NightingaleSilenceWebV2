@@ -1,0 +1,2549 @@
+{
+  "schemaVersion": "ffxiv.island.animals.v1",
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv"
+    },
+    "source_batch_id": "ab7c6761d292ac0273ff514129355851650d83c1fb870f6cc8e5dcf64c8ca3b8",
+    "source_mode": "remote",
+    "detail": "island-sources.json"
+  },
+  "generatedAt": "2026-11-23T15:26:27.180Z",
+  "nameBridge": {
+    "url": "https://github.com/ffxiv-teamcraft/ffxiv-teamcraft/blob/master/libs/data/src/lib/json/island-animals.json",
+    "project": "ffxiv-teamcraft",
+    "fetchedAt": "2026-11-21"
+  },
+  "animals": [
+    {
+      "id": "1",
+      "bnpcBaseId": "14906",
+      "icon": 70121,
+      "name": "迷途羊羔",
+      "names": {
+        "zh": "迷途羊羔",
+        "en": "lost lamb",
+        "ja": "シープ",
+        "ko": "양",
+        "tc": "迷途羔羊",
+        "fr": "agneau égaré",
+        "de": "Schaf"
+      },
+      "size": 1,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          }
+        },
+        {
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 20,
+        "y": 23
+      }
+    },
+    {
+      "id": "2",
+      "bnpcBaseId": "14907",
+      "icon": 70122,
+      "name": "黑羊",
+      "names": {
+        "zh": "黑羊",
+        "en": "ornery karakul",
+        "ja": "カラクール",
+        "ko": "검은양",
+        "tc": "黑羊",
+        "fr": "karakul rageur",
+        "de": "Karakul"
+      },
+      "size": 1,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          }
+        },
+        {
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 20,
+        "y": 23,
+        "weather": {
+          "id": 2,
+          "name": "晴朗",
+          "names": {
+            "zh": "晴朗",
+            "en": "Fair Skies",
+            "ja": "晴れ",
+            "ko": "맑음",
+            "tc": "晴朗",
+            "fr": "Clair",
+            "de": "Heiter"
+          }
+        }
+      }
+    },
+    {
+      "id": "3",
+      "bnpcBaseId": "14908",
+      "icon": 70123,
+      "name": "奥猴",
+      "names": {
+        "zh": "奥猴",
+        "en": "opo-opo",
+        "ja": "オポオポ",
+        "ko": "오포오포",
+        "tc": "奧猴",
+        "fr": "opo-opo",
+        "de": "Opo-Opo"
+      },
+      "size": 1,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        },
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 20,
+        "y": 26
+      }
+    },
+    {
+      "id": "4",
+      "bnpcBaseId": "14909",
+      "icon": 70124,
+      "name": "狐猴",
+      "names": {
+        "zh": "狐猴",
+        "en": "lemur",
+        "ja": "レミュー",
+        "ko": "여우원숭이",
+        "tc": "狐猴",
+        "fr": "lémur",
+        "de": "Lori"
+      },
+      "size": 1,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        },
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 20,
+        "y": 26,
+        "spawnHour": 6,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "5",
+      "bnpcBaseId": "14910",
+      "icon": 70125,
+      "name": "碧企鹅",
+      "names": {
+        "zh": "碧企鹅",
+        "en": "apkallu",
+        "ja": "アプカル",
+        "ko": "아프칼루",
+        "tc": "碧企鵝",
+        "fr": "apkallu",
+        "de": "Apkallu"
+      },
+      "size": 1,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          }
+        },
+        {
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 19,
+        "y": 11
+      }
+    },
+    {
+      "id": "6",
+      "bnpcBaseId": "14911",
+      "icon": 70126,
+      "name": "乐园碧企鹅",
+      "names": {
+        "zh": "乐园碧企鹅",
+        "en": "apkallu of paradise",
+        "ja": "パライソアプカル",
+        "ko": "낙원 아프칼루",
+        "tc": "樂園碧企鵝",
+        "fr": "apkallu paradisiaque",
+        "de": "Paradies-Apkallu"
+      },
+      "size": 1,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          }
+        },
+        {
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 19,
+        "y": 11,
+        "spawnHour": 12,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "7",
+      "bnpcBaseId": "14912",
+      "icon": 70127,
+      "name": "松鼠",
+      "names": {
+        "zh": "松鼠",
+        "en": "ground squirrel",
+        "ja": "スクウィレル",
+        "ko": "청설모",
+        "tc": "松鼠",
+        "fr": "écureuil",
+        "de": "Baumhörnchen"
+      },
+      "size": 1,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        },
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 15,
+        "y": 19
+      }
+    },
+    {
+      "id": "8",
+      "bnpcBaseId": "14913",
+      "icon": 70128,
+      "name": "星点栗鼠",
+      "names": {
+        "zh": "星点栗鼠",
+        "en": "star marmot",
+        "ja": "マーモット",
+        "ko": "마멋",
+        "tc": "星點栗鼠",
+        "fr": "marmotte",
+        "de": "Stern-Murmelhörnchen"
+      },
+      "size": 1,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        },
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 15,
+        "y": 19,
+        "spawnHour": 9,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "9",
+      "bnpcBaseId": "14914",
+      "icon": 70129,
+      "name": "矿爬虫",
+      "names": {
+        "zh": "矿爬虫",
+        "en": "coblyn",
+        "ja": "コブラン",
+        "ko": "코브란",
+        "tc": "礦爬蟲",
+        "fr": "coblyn",
+        "de": "Kobalos"
+      },
+      "size": 1,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        },
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 20,
+        "y": 13
+      }
+    },
+    {
+      "id": "10",
+      "bnpcBaseId": "14915",
+      "icon": 70130,
+      "name": "黄色矿爬虫",
+      "names": {
+        "zh": "黄色矿爬虫",
+        "en": "yellow coblyn",
+        "ja": "イエローコブラン",
+        "ko": "노란 코브란",
+        "tc": "黃色礦爬蟲",
+        "fr": "coblyn jaune",
+        "de": "gelb[a] Kobalos"
+      },
+      "size": 1,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        },
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 27,
+        "y": 19,
+        "weather": {
+          "id": 4,
+          "name": "薄雾",
+          "names": {
+            "zh": "薄雾",
+            "en": "Fog",
+            "ja": "霧",
+            "ko": "안개",
+            "tc": "薄霧",
+            "fr": "Brouillard",
+            "de": "Neblig"
+          }
+        }
+      }
+    },
+    {
+      "id": "11",
+      "bnpcBaseId": "14916",
+      "icon": 70131,
+      "name": "渡渡鸟",
+      "names": {
+        "zh": "渡渡鸟",
+        "en": "wild dodo",
+        "ja": "ドードー",
+        "ko": "도도",
+        "tc": "渡渡鳥",
+        "fr": "dodo",
+        "de": "Dodo"
+      },
+      "size": 2,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          }
+        },
+        {
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 16,
+        "y": 12
+      }
+    },
+    {
+      "id": "12",
+      "bnpcBaseId": "14917",
+      "icon": 70132,
+      "name": "乐园渡渡鸟",
+      "names": {
+        "zh": "乐园渡渡鸟",
+        "en": "dodo of paradise",
+        "ja": "パライソドードー",
+        "ko": "낙원 도도",
+        "tc": "樂園渡渡鳥",
+        "fr": "dodo paradisiaque",
+        "de": "Paradies-Dodo"
+      },
+      "size": 2,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          }
+        },
+        {
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 16,
+        "y": 12,
+        "spawnHour": 15,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "13",
+      "bnpcBaseId": "14918",
+      "icon": 70133,
+      "name": "岛屿雌羚羊",
+      "names": {
+        "zh": "岛屿雌羚羊",
+        "en": "island doe",
+        "ja": "アイランド・ドゥ",
+        "ko": "암컷 섬사슴",
+        "tc": "島嶼雌羚羊",
+        "fr": "biche insulaire",
+        "de": "Insel-Antilopenkuh"
+      },
+      "size": 2,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        },
+        {
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 21,
+        "y": 19
+      }
+    },
+    {
+      "id": "14",
+      "bnpcBaseId": "14919",
+      "icon": 70134,
+      "name": "岛屿雄羚羊",
+      "names": {
+        "zh": "岛屿雄羚羊",
+        "en": "island stag",
+        "ja": "アイランド・スタッグ",
+        "ko": "수컷 섬사슴",
+        "tc": "島嶼雄羚羊",
+        "fr": "cerf insulaire",
+        "de": "Insel-Antilopenbock"
+      },
+      "size": 2,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        },
+        {
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 20,
+        "y": 19,
+        "spawnHour": 18,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "15",
+      "bnpcBaseId": "14920",
+      "icon": 70135,
+      "name": "陆行鸟",
+      "names": {
+        "zh": "陆行鸟",
+        "en": "chocobo",
+        "ja": "チョコボ",
+        "ko": "초코보",
+        "tc": "陸行鳥",
+        "fr": "chocobo",
+        "de": "Chocobo"
+      },
+      "size": 2,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        },
+        {
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 20,
+        "y": 21
+      }
+    },
+    {
+      "id": "16",
+      "bnpcBaseId": "14921",
+      "icon": 70136,
+      "name": "黑陆行鸟",
+      "names": {
+        "zh": "黑陆行鸟",
+        "en": "black chocobo",
+        "ja": "黒チョコボ",
+        "ko": "검은 초코보",
+        "tc": "黑陸行鳥",
+        "fr": "chocobo noir",
+        "de": "schwarz[a] Chocobo"
+      },
+      "size": 2,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          }
+        },
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 13,
+        "y": 11,
+        "weather": {
+          "id": 1,
+          "name": "碧空",
+          "names": {
+            "zh": "碧空",
+            "en": "Clear Skies",
+            "ja": "快晴",
+            "ko": "쾌청",
+            "tc": "碧空",
+            "fr": "Dégagé",
+            "de": "Klar"
+          }
+        }
+      }
+    },
+    {
+      "id": "17",
+      "bnpcBaseId": "14922",
+      "icon": 70137,
+      "name": "小雕齿兽",
+      "names": {
+        "zh": "小雕齿兽",
+        "en": "glyptodon pup",
+        "ja": "グリプトドン・カフ",
+        "ko": "어린 글립토돈",
+        "tc": "小雕齒獸",
+        "fr": "bébé glyptodon",
+        "de": "Glyptodon-Jung[a]"
+      },
+      "size": 2,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        },
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 30,
+        "y": 11
+      }
+    },
+    {
+      "id": "18",
+      "bnpcBaseId": "14923",
+      "icon": 70138,
+      "name": "雕齿兽",
+      "names": {
+        "zh": "雕齿兽",
+        "en": "glyptodon",
+        "ja": "グリプトドン",
+        "ko": "글립토돈",
+        "tc": "雕齒獸",
+        "fr": "glyptodon",
+        "de": "Glyptodon"
+      },
+      "size": 2,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        },
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 31,
+        "y": 11,
+        "spawnHour": 0,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "19",
+      "bnpcBaseId": "14924",
+      "icon": 70139,
+      "name": "原牛",
+      "names": {
+        "zh": "原牛",
+        "en": "aurochs",
+        "ja": "オーロックス",
+        "ko": "검은수염소",
+        "tc": "原牛",
+        "fr": "auroch",
+        "de": "Auerochse"
+      },
+      "size": 3,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          }
+        },
+        {
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 12,
+        "y": 17
+      }
+    },
+    {
+      "id": "20",
+      "bnpcBaseId": "14925",
+      "icon": 70140,
+      "name": "巨水牛",
+      "names": {
+        "zh": "巨水牛",
+        "en": "grand buffalo",
+        "ja": "グランバッファロー",
+        "ko": "거대 물소",
+        "tc": "巨水牛",
+        "fr": "grand buffle",
+        "de": "groß[a] Büffel"
+      },
+      "size": 3,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          }
+        },
+        {
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 12,
+        "y": 17,
+        "weather": {
+          "id": 3,
+          "name": "阴云",
+          "names": {
+            "zh": "阴云",
+            "en": "Clouds",
+            "ja": "曇り",
+            "ko": "흐림",
+            "tc": "陰雲",
+            "fr": "Couvert",
+            "de": "Wolkig"
+          }
+        }
+      }
+    },
+    {
+      "id": "21",
+      "bnpcBaseId": "14926",
+      "icon": 70141,
+      "name": "岛屿母山羊",
+      "names": {
+        "zh": "岛屿母山羊",
+        "en": "island nanny",
+        "ja": "アイランド・ナニー",
+        "ko": "암컷 섬염소",
+        "tc": "島嶼母山羊",
+        "fr": "étagne insulaire",
+        "de": "Insel-Geiß"
+      },
+      "size": 3,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          }
+        },
+        {
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 26,
+        "y": 24
+      }
+    },
+    {
+      "id": "22",
+      "bnpcBaseId": "14927",
+      "icon": 70142,
+      "name": "岛屿公山羊",
+      "names": {
+        "zh": "岛屿公山羊",
+        "en": "island billy",
+        "ja": "アイランド・ビリー",
+        "ko": "수컷 섬염소",
+        "tc": "島嶼公山羊",
+        "fr": "bouquetin insulaire",
+        "de": "Insel-Bock"
+      },
+      "size": 3,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          }
+        },
+        {
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 26,
+        "y": 22,
+        "spawnHour": 3,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "23",
+      "bnpcBaseId": "14928",
+      "icon": 70143,
+      "name": "蓝背魔鸟",
+      "names": {
+        "zh": "蓝背魔鸟",
+        "en": "blue back",
+        "ja": "ブルーバック",
+        "ko": "파란등새",
+        "tc": "藍背魔鳥",
+        "fr": "dronte échine-bleue",
+        "de": "Blaurücken"
+      },
+      "size": 3,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          }
+        },
+        {
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 28,
+        "y": 28
+      }
+    },
+    {
+      "id": "24",
+      "bnpcBaseId": "14929",
+      "icon": 70144,
+      "name": "黄金背魔鸟",
+      "names": {
+        "zh": "黄金背魔鸟",
+        "en": "gold back",
+        "ja": "ゴールドバック",
+        "ko": "금빛등새",
+        "tc": "黃金背魔鳥",
+        "fr": "dronte échine-dorée",
+        "de": "Goldrücken"
+      },
+      "size": 3,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          }
+        },
+        {
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 31,
+        "y": 28,
+        "weather": {
+          "id": 7,
+          "name": "小雨",
+          "names": {
+            "zh": "小雨",
+            "en": "Rain",
+            "ja": "雨",
+            "ko": "비",
+            "tc": "小雨",
+            "fr": "Pluie",
+            "de": "Regnerisch"
+          }
+        }
+      }
+    },
+    {
+      "id": "25",
+      "bnpcBaseId": "14930",
+      "icon": 70145,
+      "name": "闪烁毛球",
+      "names": {
+        "zh": "闪烁毛球",
+        "en": "twinklefleece",
+        "ja": "シャインフリース",
+        "ko": "빛복실털",
+        "tc": "閃爍毛球",
+        "fr": "touffeblanche",
+        "de": "Funkelvlies"
+      },
+      "size": 1,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          }
+        },
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 22,
+        "y": 20,
+        "weather": {
+          "id": 4,
+          "name": "薄雾",
+          "names": {
+            "zh": "薄雾",
+            "en": "Fog",
+            "ja": "霧",
+            "ko": "안개",
+            "tc": "薄霧",
+            "fr": "Brouillard",
+            "de": "Neblig"
+          }
+        },
+        "spawnHour": 18,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "26",
+      "bnpcBaseId": "14931",
+      "icon": 70146,
+      "name": "沙滩壳蟹",
+      "names": {
+        "zh": "沙滩壳蟹",
+        "en": "beachcomb",
+        "ja": "ビーチシェル",
+        "ko": "모래톱게",
+        "tc": "沙灘殼蟹",
+        "fr": "coquiplage",
+        "de": "Strandräuber"
+      },
+      "size": 1,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        },
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 17,
+        "y": 12,
+        "weather": {
+          "id": 7,
+          "name": "小雨",
+          "names": {
+            "zh": "小雨",
+            "en": "Rain",
+            "ja": "雨",
+            "ko": "비",
+            "tc": "小雨",
+            "fr": "Pluie",
+            "de": "Regnerisch"
+          }
+        },
+        "spawnHour": 0,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "27",
+      "bnpcBaseId": "14932",
+      "icon": 70147,
+      "name": "猴面雀",
+      "names": {
+        "zh": "猴面雀",
+        "en": "paissa",
+        "ja": "パイッサ",
+        "ko": "파이싸",
+        "tc": "猴面雀",
+        "fr": "païssa",
+        "de": "Paissa"
+      },
+      "size": 2,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        },
+        {
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 25,
+        "y": 28,
+        "weather": {
+          "id": 2,
+          "name": "晴朗",
+          "names": {
+            "zh": "晴朗",
+            "en": "Fair Skies",
+            "ja": "晴れ",
+            "ko": "맑음",
+            "tc": "晴朗",
+            "fr": "Clair",
+            "de": "Heiter"
+          }
+        },
+        "spawnHour": 12,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "28",
+      "bnpcBaseId": "14933",
+      "icon": 70148,
+      "name": "短吻鳄",
+      "names": {
+        "zh": "短吻鳄",
+        "en": "alligator",
+        "ja": "アリゲーター",
+        "ko": "악어",
+        "tc": "短吻鱷",
+        "fr": "alligator",
+        "de": "Alligator"
+      },
+      "size": 3,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        },
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 17,
+        "y": 24,
+        "weather": {
+          "id": 8,
+          "name": "暴雨",
+          "names": {
+            "zh": "暴雨",
+            "en": "Showers",
+            "ja": "暴雨",
+            "ko": "폭우",
+            "tc": "暴雨",
+            "fr": "Pluie torrentielle",
+            "de": "Wolkenbruch"
+          }
+        },
+        "spawnHour": 6,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "29",
+      "bnpcBaseId": "14934",
+      "icon": 70149,
+      "name": "古菩猩猩",
+      "names": {
+        "zh": "古菩猩猩",
+        "en": "goobbue",
+        "ja": "グゥーブー",
+        "ko": "구부",
+        "tc": "古卜",
+        "fr": "goobbue",
+        "de": "Goobbue"
+      },
+      "size": 3,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        },
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 33,
+        "y": 16,
+        "weather": {
+          "id": 3,
+          "name": "阴云",
+          "names": {
+            "zh": "阴云",
+            "en": "Clouds",
+            "ja": "曇り",
+            "ko": "흐림",
+            "tc": "陰雲",
+            "fr": "Couvert",
+            "de": "Wolkig"
+          }
+        },
+        "spawnHour": 9,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "30",
+      "bnpcBaseId": "14935",
+      "icon": 70150,
+      "name": "狮鹫",
+      "names": {
+        "zh": "狮鹫",
+        "en": "griffin",
+        "ja": "グリフィン",
+        "ko": "그리핀",
+        "tc": "獅鷲",
+        "fr": "griffon",
+        "de": "Greif"
+      },
+      "size": 3,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          }
+        },
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 14,
+        "y": 22,
+        "weather": {
+          "id": 1,
+          "name": "碧空",
+          "names": {
+            "zh": "碧空",
+            "en": "Clear Skies",
+            "ja": "快晴",
+            "ko": "쾌청",
+            "tc": "碧空",
+            "fr": "Dégagé",
+            "de": "Klar"
+          }
+        },
+        "spawnHour": 15,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "31",
+      "bnpcBaseId": "16068",
+      "icon": 70151,
+      "name": "乐园虎",
+      "names": {
+        "zh": "乐园虎",
+        "en": "tiger of paradise",
+        "ja": "パライソタイガー",
+        "ko": "낙원 호랑이",
+        "tc": "樂園虎",
+        "fr": "tigre paradisiaque",
+        "de": "Paradies-Tiger"
+      },
+      "size": 2,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        },
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 15,
+        "y": 14,
+        "weather": {
+          "id": 2,
+          "name": "晴朗",
+          "names": {
+            "zh": "晴朗",
+            "en": "Fair Skies",
+            "ja": "晴れ",
+            "ko": "맑음",
+            "tc": "晴朗",
+            "fr": "Clair",
+            "de": "Heiter"
+          }
+        },
+        "spawnHour": 18,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "32",
+      "bnpcBaseId": "16069",
+      "icon": 70152,
+      "name": "魔界花骨朵",
+      "names": {
+        "zh": "魔界花骨朵",
+        "en": "morbol seedling",
+        "ja": "モルボルバルブ",
+        "ko": "몰볼 묘목",
+        "tc": "毛爾波爾骨朵",
+        "fr": "bulbe de morbol",
+        "de": "Morbol-Knolle"
+      },
+      "size": 1,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        },
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 19,
+        "y": 19,
+        "weather": {
+          "id": 3,
+          "name": "阴云",
+          "names": {
+            "zh": "阴云",
+            "en": "Clouds",
+            "ja": "曇り",
+            "ko": "흐림",
+            "tc": "陰雲",
+            "fr": "Couvert",
+            "de": "Wolkig"
+          }
+        },
+        "spawnHour": 3,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "33",
+      "bnpcBaseId": "14936",
+      "icon": 70153,
+      "name": "石英魔石精",
+      "names": {
+        "zh": "石英魔石精",
+        "en": "quartz spriggan",
+        "ja": "スプリガン・アルバ",
+        "ko": "석영 스프리건",
+        "tc": "石英魔石精",
+        "fr": "spriggan albâtre",
+        "de": "Quarz-Spriggan"
+      },
+      "size": 1,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        },
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 26,
+        "y": 20
+      }
+    },
+    {
+      "id": "34",
+      "bnpcBaseId": "14937",
+      "icon": 70154,
+      "name": "紫晶魔石精",
+      "names": {
+        "zh": "紫晶魔石精",
+        "en": "amethyst spriggan",
+        "ja": "スプリガン・リラ",
+        "ko": "자수정 스프리건",
+        "tc": "紫晶魔石精",
+        "fr": "spriggan lilas",
+        "de": "Amethyst-Spriggan"
+      },
+      "size": 1,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        },
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 28,
+        "y": 16,
+        "spawnHour": 21,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "35",
+      "bnpcBaseId": "14938",
+      "icon": 70155,
+      "name": "狂野疣猪",
+      "names": {
+        "zh": "狂野疣猪",
+        "en": "wild boar",
+        "ja": "ワイルドボア",
+        "ko": "야생 멧돼지",
+        "tc": "狂野疣豬",
+        "fr": "sanglier sauvage",
+        "de": "wild[a] Keiler"
+      },
+      "size": 3,
+      "rarity": 1,
+      "rewards": [
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        },
+        {
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 16,
+        "y": 16
+      }
+    },
+    {
+      "id": "36",
+      "bnpcBaseId": "14939",
+      "icon": 70156,
+      "name": "乐园疣猪",
+      "names": {
+        "zh": "乐园疣猪",
+        "en": "boar of paradise",
+        "ja": "パライソボア",
+        "ko": "낙원 멧돼지",
+        "tc": "樂園疣豬",
+        "fr": "sanglier paradisiaque",
+        "de": "Paradies-Keiler"
+      },
+      "size": 3,
+      "rarity": 2,
+      "rewards": [
+        {
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          }
+        },
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 17,
+        "y": 16,
+        "weather": {
+          "id": 8,
+          "name": "暴雨",
+          "names": {
+            "zh": "暴雨",
+            "en": "Showers",
+            "ja": "暴雨",
+            "ko": "폭우",
+            "tc": "暴雨",
+            "fr": "Pluie torrentielle",
+            "de": "Wolkenbruch"
+          }
+        }
+      }
+    },
+    {
+      "id": "37",
+      "bnpcBaseId": "14940",
+      "icon": 70157,
+      "name": "古怪魔石精",
+      "names": {
+        "zh": "古怪魔石精",
+        "en": "weird spriggan",
+        "ja": "ウィアード・スプリガン",
+        "ko": "별난 스프리건",
+        "tc": "古怪魔石精",
+        "fr": "spriggan extravagant",
+        "de": "Weird"
+      },
+      "size": 3,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        },
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 24,
+        "y": 18,
+        "weather": {
+          "id": 4,
+          "name": "薄雾",
+          "names": {
+            "zh": "薄雾",
+            "en": "Fog",
+            "ja": "霧",
+            "ko": "안개",
+            "tc": "薄霧",
+            "fr": "Brouillard",
+            "de": "Neblig"
+          }
+        },
+        "spawnHour": 0,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "38",
+      "bnpcBaseId": "16340",
+      "icon": 70158,
+      "name": "魔菇",
+      "names": {
+        "zh": "魔菇",
+        "en": "funguar",
+        "ja": "ファンガー",
+        "ko": "버섯",
+        "tc": "魔菇",
+        "fr": "fungus",
+        "de": "Fungus"
+      },
+      "size": 1,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          }
+        },
+        {
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 20,
+        "y": 27,
+        "weather": {
+          "id": 7,
+          "name": "小雨",
+          "names": {
+            "zh": "小雨",
+            "en": "Rain",
+            "ja": "雨",
+            "ko": "비",
+            "tc": "小雨",
+            "fr": "Pluie",
+            "de": "Regnerisch"
+          }
+        },
+        "spawnHour": 15,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "39",
+      "bnpcBaseId": "16341",
+      "icon": 70159,
+      "name": "阿尔科诺斯特",
+      "names": {
+        "zh": "阿尔科诺斯特",
+        "en": "alkonost",
+        "ja": "アルコノスト",
+        "ko": "알코노스트",
+        "tc": "阿爾科諾斯特",
+        "fr": "alkonost",
+        "de": "Alkonost"
+      },
+      "size": 2,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          }
+        },
+        {
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 23,
+        "y": 30,
+        "weather": {
+          "id": 1,
+          "name": "碧空",
+          "names": {
+            "zh": "碧空",
+            "en": "Clear Skies",
+            "ja": "快晴",
+            "ko": "쾌청",
+            "tc": "碧空",
+            "fr": "Dégagé",
+            "de": "Klar"
+          }
+        },
+        "spawnHour": 21,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "40",
+      "bnpcBaseId": "16628",
+      "icon": 70163,
+      "name": "魔界花",
+      "names": {
+        "zh": "魔界花",
+        "en": "morbol",
+        "ja": "モルボル",
+        "ko": "몰볼",
+        "tc": "毛爾波爾",
+        "fr": "morbol",
+        "de": "Morbol"
+      },
+      "size": 3,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        },
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 29,
+        "y": 24,
+        "weather": {
+          "id": 8,
+          "name": "暴雨",
+          "names": {
+            "zh": "暴雨",
+            "en": "Showers",
+            "ja": "暴雨",
+            "ko": "폭우",
+            "tc": "暴雨",
+            "fr": "Pluie torrentielle",
+            "de": "Wolkenbruch"
+          }
+        },
+        "spawnHour": 21,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "41",
+      "bnpcBaseId": "16629",
+      "icon": 70160,
+      "name": "精金龟",
+      "names": {
+        "zh": "精金龟",
+        "en": "adamantoise",
+        "ja": "アダマンタス",
+        "ko": "금강거북",
+        "tc": "堅鋼龜",
+        "fr": "adamankhélone",
+        "de": "Adaman-Taimai"
+      },
+      "size": 3,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        },
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 32,
+        "y": 12,
+        "weather": {
+          "id": 4,
+          "name": "薄雾",
+          "names": {
+            "zh": "薄雾",
+            "en": "Fog",
+            "ja": "霧",
+            "ko": "안개",
+            "tc": "薄霧",
+            "fr": "Brouillard",
+            "de": "Neblig"
+          }
+        },
+        "spawnHour": 12,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "42",
+      "bnpcBaseId": "16630",
+      "icon": 70162,
+      "name": "无齿翼龙",
+      "names": {
+        "zh": "无齿翼龙",
+        "en": "pteranodon",
+        "ja": "プテラノドン",
+        "ko": "프테라노돈",
+        "tc": "無齒翼龍",
+        "fr": "ptéranodon",
+        "de": "Pteranodon"
+      },
+      "size": 3,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          }
+        },
+        {
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 25,
+        "y": 16,
+        "weather": {
+          "id": 1,
+          "name": "碧空",
+          "names": {
+            "zh": "碧空",
+            "en": "Clear Skies",
+            "ja": "快晴",
+            "ko": "쾌청",
+            "tc": "碧空",
+            "fr": "Dégagé",
+            "de": "Klar"
+          }
+        },
+        "spawnHour": 9,
+        "durationHours": 3
+      }
+    },
+    {
+      "id": "43",
+      "bnpcBaseId": "16631",
+      "icon": 70161,
+      "name": "巨矿妖虫",
+      "names": {
+        "zh": "巨矿妖虫",
+        "en": "grand doblyn",
+        "ja": "グラン・ドブラン",
+        "ko": "거대 도브란",
+        "tc": "巨礦妖蟲",
+        "fr": "doblyn géant",
+        "de": "Gigandobalos"
+      },
+      "size": 3,
+      "rarity": 3,
+      "rewards": [
+        {
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          }
+        },
+        {
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          }
+        }
+      ],
+      "spawn": {
+        "x": 24,
+        "y": 21,
+        "weather": {
+          "id": 2,
+          "name": "晴朗",
+          "names": {
+            "zh": "晴朗",
+            "en": "Fair Skies",
+            "ja": "晴れ",
+            "ko": "맑음",
+            "tc": "晴朗",
+            "fr": "Clair",
+            "de": "Heiter"
+          }
+        },
+        "spawnHour": 3,
+        "durationHours": 3
+      }
+    }
+  ]
+}

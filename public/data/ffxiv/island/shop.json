@@ -1,0 +1,1538 @@
+{
+  "schemaVersion": "ffxiv.island.shop.v1",
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv"
+    },
+    "source_batch_id": "ab7c6761d292ac0273ff514129355851650d83c1fb870f6cc8e5dcf64c8ca3b8",
+    "source_mode": "remote",
+    "detail": "island-sources.json"
+  },
+  "generatedAt": "2026-11-23T15:26:27.180Z",
+  "currencies": {
+    "0": {
+      "itemId": "37550",
+      "icon": 65097,
+      "name": "谢尔达莱绿岛币",
+      "names": {
+        "zh": "谢尔达莱绿岛币",
+        "en": "Islander's Cowrie",
+        "ja": "シェルダレースクリップ:緑島貨",
+        "ko": "시엘달레 화폐: 녹도화",
+        "tc": "謝爾達萊綠島幣",
+        "fr": "Assignat insulaire émeraude",
+        "de": "Grüne Cieldaläen-Kauri"
+      }
+    },
+    "1": {
+      "itemId": "37549",
+      "icon": 65096,
+      "name": "谢尔达莱青船币",
+      "names": {
+        "zh": "谢尔达莱青船币",
+        "en": "Seafarer's Cowrie",
+        "ja": "シェルダレースクリップ:青船貨",
+        "ko": "시엘달레 화폐: 청선화",
+        "tc": "謝爾達萊青船幣",
+        "fr": "Assignat insulaire azur",
+        "de": "Blaue Cieldaläen-Kauri"
+      }
+    }
+  },
+  "categories": [
+    {
+      "id": "0",
+      "name": "开拓素材",
+      "names": {
+        "zh": "开拓素材",
+        "en": "Materials",
+        "ja": "開拓素材",
+        "ko": "개척재료",
+        "tc": "開拓素材",
+        "fr": "Matériaux",
+        "de": "Material"
+      }
+    },
+    {
+      "id": "1",
+      "name": "稀少开拓素材",
+      "names": {
+        "zh": "稀少开拓素材",
+        "en": "Rare Materials",
+        "ja": "希少開拓素材",
+        "ko": "희귀 개척재료",
+        "tc": "稀少開拓素材",
+        "fr": "Raretés",
+        "de": "Seltene Funde"
+      }
+    },
+    {
+      "id": "2",
+      "name": "开拓作物",
+      "names": {
+        "zh": "开拓作物",
+        "en": "Produce",
+        "ja": "開拓作物",
+        "ko": "개척작물",
+        "tc": "開拓作物",
+        "fr": "Cultures",
+        "de": "Feldfrüchte"
+      }
+    },
+    {
+      "id": "3",
+      "name": "畜牧素材",
+      "names": {
+        "zh": "畜牧素材",
+        "en": "Leavings",
+        "ja": "畜産素材",
+        "ko": "축산재료",
+        "tc": "畜牧素材",
+        "fr": "Ressources animalières",
+        "de": "Weideprodukte"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "0",
+      "itemId": "37551",
+      "icon": 25026,
+      "name": "无人岛棕榈叶",
+      "names": {
+        "zh": "无人岛棕榈叶",
+        "en": "Island Palm Leaf",
+        "ja": "無人島のパームリーフ",
+        "ko": "무인도 야자나무 잎",
+        "tc": "無人島棕櫚葉",
+        "fr": "Palme insulaire",
+        "de": "Insel-Palmwedel"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "1",
+      "itemId": "37552",
+      "icon": 25308,
+      "name": "无人岛苹果",
+      "names": {
+        "zh": "无人岛苹果",
+        "en": "Island Apple",
+        "ja": "無人島のアップル",
+        "ko": "무인도 사과",
+        "tc": "無人島蘋果",
+        "fr": "Pomme insulaire",
+        "de": "Insel-Apfel"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "2",
+      "itemId": "37553",
+      "icon": 22416,
+      "name": "无人岛小树枝",
+      "names": {
+        "zh": "无人岛小树枝",
+        "en": "Island Branch",
+        "ja": "無人島の小枝",
+        "ko": "무인도 잔가지",
+        "tc": "無人島小樹枝",
+        "fr": "Branche insulaire",
+        "de": "Insel-Zweig"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "3",
+      "itemId": "37554",
+      "icon": 21451,
+      "name": "无人岛石材",
+      "names": {
+        "zh": "无人岛石材",
+        "en": "Island Stone",
+        "ja": "無人島の石材",
+        "ko": "무인도 석재",
+        "tc": "無人島石材",
+        "fr": "Pierre insulaire",
+        "de": "Insel-Stein"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "4",
+      "itemId": "37555",
+      "icon": 29031,
+      "name": "无人岛双壳贝",
+      "names": {
+        "zh": "无人岛双壳贝",
+        "en": "Island Clam",
+        "ja": "無人島の二枚貝",
+        "ko": "무인도 조개",
+        "tc": "無人島雙殼貝",
+        "fr": "Coque insulaire",
+        "de": "Zweischalige Insel-Muschel"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "5",
+      "itemId": "37556",
+      "icon": 25225,
+      "name": "无人岛海藻",
+      "names": {
+        "zh": "无人岛海藻",
+        "en": "Island Laver",
+        "ja": "無人島の玉藻",
+        "ko": "무인도 구슬말",
+        "tc": "無人島球藻",
+        "fr": "Sargasse tamamo insulaire",
+        "de": "Insel-Alge"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "6",
+      "itemId": "37557",
+      "icon": 29060,
+      "name": "无人岛珊瑚",
+      "names": {
+        "zh": "无人岛珊瑚",
+        "en": "Island Coral",
+        "ja": "無人島の珊瑚",
+        "ko": "무인도 산호",
+        "tc": "無人島珊瑚",
+        "fr": "Corail insulaire",
+        "de": "Insel-Koralle"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "7",
+      "itemId": "37558",
+      "icon": 25010,
+      "name": "无人岛草叶",
+      "names": {
+        "zh": "无人岛草叶",
+        "en": "Islewort",
+        "ja": "無人島の草葉",
+        "ko": "무인도 풀잎",
+        "tc": "無人島草葉",
+        "fr": "Feuille d'arbuste insulaire",
+        "de": "Insel-Gras"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "8",
+      "itemId": "37559",
+      "icon": 21464,
+      "name": "无人岛砂砾",
+      "names": {
+        "zh": "无人岛砂砾",
+        "en": "Island Sand",
+        "ja": "無人島の砂",
+        "ko": "무인도 모래",
+        "tc": "無人島砂礫",
+        "fr": "Sable insulaire",
+        "de": "Insel-Sand"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "9",
+      "itemId": "37560",
+      "icon": 22407,
+      "name": "无人岛原木",
+      "names": {
+        "zh": "无人岛原木",
+        "en": "Island Log",
+        "ja": "無人島の原木",
+        "ko": "무인도 원목",
+        "tc": "無人島原木",
+        "fr": "Rondin insulaire",
+        "de": "Insel-Holzscheit"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "10",
+      "itemId": "37561",
+      "icon": 22410,
+      "name": "无人岛棕榈原木",
+      "names": {
+        "zh": "无人岛棕榈原木",
+        "en": "Island Palm Log",
+        "ja": "無人島のパーム原木",
+        "ko": "무인도 야자나무 원목",
+        "tc": "無人島棕櫚原木",
+        "fr": "Rondin de palmier insulaire",
+        "de": "Insel-Palmenholzscheit"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "11",
+      "itemId": "37562",
+      "icon": 21672,
+      "name": "无人岛藤蔓",
+      "names": {
+        "zh": "无人岛藤蔓",
+        "en": "Island Vine",
+        "ja": "無人島のつる",
+        "ko": "무인도 덩굴",
+        "tc": "無人島藤蔓",
+        "fr": "Sarment insulaire",
+        "de": "Insel-Ranke"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "12",
+      "itemId": "37563",
+      "icon": 22642,
+      "name": "无人岛树液",
+      "names": {
+        "zh": "无人岛树液",
+        "en": "Island Sap",
+        "ja": "無人島の樹液",
+        "ko": "무인도 수액",
+        "tc": "無人島樹液",
+        "fr": "Sève insulaire",
+        "de": "Insel-Harz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "13",
+      "itemId": "37564",
+      "icon": 21209,
+      "name": "无人岛铜矿",
+      "names": {
+        "zh": "无人岛铜矿",
+        "en": "Island Copper Ore",
+        "ja": "無人島の銅鉱",
+        "ko": "무인도 구리 광석",
+        "tc": "無人島銅礦",
+        "fr": "Minerai de cuivre insulaire",
+        "de": "Insel-Kupfererz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "14",
+      "itemId": "37565",
+      "icon": 22615,
+      "name": "无人岛石灰岩",
+      "names": {
+        "zh": "无人岛石灰岩",
+        "en": "Island Limestone",
+        "ja": "無人島の石灰岩",
+        "ko": "무인도 석회암",
+        "tc": "無人島石灰岩",
+        "fr": "Pierre calcaire insulaire",
+        "de": "Insel-Kalkstein"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "15",
+      "itemId": "37566",
+      "icon": 22617,
+      "name": "无人岛岩盐",
+      "names": {
+        "zh": "无人岛岩盐",
+        "en": "Island Rock Salt",
+        "ja": "無人島の岩塩",
+        "ko": "무인도 암염",
+        "tc": "無人島岩鹽",
+        "fr": "Sel gemme insulaire",
+        "de": "Insel-Steinsalz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "16",
+      "itemId": "37567",
+      "icon": 22452,
+      "name": "无人岛甘蔗",
+      "names": {
+        "zh": "无人岛甘蔗",
+        "en": "Island Sugarcane",
+        "ja": "無人島のサトウキビ",
+        "ko": "무인도 사탕수수",
+        "tc": "無人島甘蔗",
+        "fr": "Canne à sucre insulaire",
+        "de": "Insel-Zuckerrohr"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "17",
+      "itemId": "37568",
+      "icon": 21652,
+      "name": "无人岛棉花",
+      "names": {
+        "zh": "无人岛棉花",
+        "en": "Island Cotton Boll",
+        "ja": "無人島の綿花",
+        "ko": "무인도 목화",
+        "tc": "無人島棉花",
+        "fr": "Fleur de coton insulaire",
+        "de": "Insel-Baumwollkapsel"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "18",
+      "itemId": "37569",
+      "icon": 25213,
+      "name": "无人岛麻",
+      "names": {
+        "zh": "无人岛麻",
+        "en": "Island Hemp",
+        "ja": "無人島の麻",
+        "ko": "무인도 마",
+        "tc": "無人島麻",
+        "fr": "Chanvre insulaire",
+        "de": "Insel-Hanf"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "19",
+      "itemId": "37570",
+      "icon": 22634,
+      "name": "无人岛黏土",
+      "names": {
+        "zh": "无人岛黏土",
+        "en": "Island Clay",
+        "ja": "無人島の粘土",
+        "ko": "무인도 점토",
+        "tc": "無人島黏土",
+        "fr": "Argile insulaire",
+        "de": "Insel-Lehm"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "20",
+      "itemId": "37571",
+      "icon": 21204,
+      "name": "无人岛锡砂",
+      "names": {
+        "zh": "无人岛锡砂",
+        "en": "Island Tinsand",
+        "ja": "無人島の砂錫",
+        "ko": "무인도 사석",
+        "tc": "無人島錫砂",
+        "fr": "Cassitérite insulaire",
+        "de": "Insel-Zinnsand"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "21",
+      "itemId": "37572",
+      "icon": 21202,
+      "name": "无人岛铁矿",
+      "names": {
+        "zh": "无人岛铁矿",
+        "en": "Island Iron Ore",
+        "ja": "無人島の鉄鉱",
+        "ko": "무인도 철 광석",
+        "tc": "無人島鐵礦",
+        "fr": "Minerai de fer insulaire",
+        "de": "Insel-Eisenerz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "22",
+      "itemId": "37573",
+      "icon": 20019,
+      "name": "无人岛石英",
+      "names": {
+        "zh": "无人岛石英",
+        "en": "Island Quartz",
+        "ja": "無人島のクォーツ",
+        "ko": "무인도 석영",
+        "tc": "無人島石英",
+        "fr": "Quartz insulaire",
+        "de": "Insel-Quarz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "23",
+      "itemId": "37574",
+      "icon": 21251,
+      "name": "无人岛花岗岩",
+      "names": {
+        "zh": "无人岛花岗岩",
+        "en": "Island Leucogranite",
+        "ja": "無人島の花崗岩",
+        "ko": "무인도 화강암",
+        "tc": "無人島花崗岩",
+        "fr": "Granite insulaire",
+        "de": "Insel-Granit"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "24",
+      "itemId": "37575",
+      "icon": 29012,
+      "name": "无人岛海水鱼",
+      "names": {
+        "zh": "无人岛海水鱼",
+        "en": "Islefish",
+        "ja": "無人島の海水魚",
+        "ko": "무인도 바닷물고기",
+        "tc": "無人島海水魚",
+        "fr": "Poisson de mer insulaire",
+        "de": "Insel-Fisch"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "25",
+      "itemId": "37576",
+      "icon": 29177,
+      "name": "无人岛乌贼",
+      "names": {
+        "zh": "无人岛乌贼",
+        "en": "Island Squid",
+        "ja": "無人島のスキッド",
+        "ko": "무인도 오징어",
+        "tc": "無人島烏賊",
+        "fr": "Calmar insulaire",
+        "de": "Insel-Kalmar"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "26",
+      "itemId": "37577",
+      "icon": 29657,
+      "name": "无人岛水母",
+      "names": {
+        "zh": "无人岛水母",
+        "en": "Island Jellyfish",
+        "ja": "無人島のジェリーフィッシュ",
+        "ko": "무인도 해파리",
+        "tc": "無人島水母",
+        "fr": "Méduse insulaire",
+        "de": "Insel-Qualle"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "27",
+      "itemId": "37578",
+      "icon": 22627,
+      "name": "无人岛香荠",
+      "names": {
+        "zh": "无人岛香荠",
+        "en": "Island Alyssum",
+        "ja": "無人島のアリッサム",
+        "ko": "무인도 꽃냉이",
+        "tc": "無人島香薺",
+        "fr": "Alysson insulaire",
+        "de": "Insel-Steinkraut"
+      },
+      "price": 25,
+      "currencyId": "0",
+      "categoryId": "1"
+    },
+    {
+      "id": "28",
+      "itemId": "37579",
+      "icon": 21456,
+      "name": "无人岛石榴石原石",
+      "names": {
+        "zh": "无人岛石榴石原石",
+        "en": "Raw Island Garnet",
+        "ja": "無人島のガーネット原石",
+        "ko": "무인도 석류석 원석",
+        "tc": "無人島石榴石原石",
+        "fr": "Grenat brut insulaire",
+        "de": "Insel-Rohgranat"
+      },
+      "price": 25,
+      "currencyId": "0",
+      "categoryId": "1"
+    },
+    {
+      "id": "29",
+      "itemId": "37580",
+      "icon": 22413,
+      "name": "无人岛云杉原木",
+      "names": {
+        "zh": "无人岛云杉原木",
+        "en": "Island Spruce Log",
+        "ja": "無人島のスプルース原木",
+        "ko": "무인도 가문비나무 원목",
+        "tc": "無人島雲杉原木",
+        "fr": "Rondin d'épicéa insulaire",
+        "de": "Insel-Fichtenholzscheit"
+      },
+      "price": 25,
+      "currencyId": "0",
+      "categoryId": "1"
+    },
+    {
+      "id": "30",
+      "itemId": "37581",
+      "icon": 29026,
+      "name": "无人岛锤头鲨",
+      "names": {
+        "zh": "无人岛锤头鲨",
+        "en": "Island Hammerhead",
+        "ja": "無人島のハンマーヘッド",
+        "ko": "무인도 망치상어",
+        "tc": "無人島錘頭鯊",
+        "fr": "Requin-marteau insulaire",
+        "de": "Insel-Hammerhai"
+      },
+      "price": 25,
+      "currencyId": "0",
+      "categoryId": "1"
+    },
+    {
+      "id": "31",
+      "itemId": "37582",
+      "icon": 21211,
+      "name": "无人岛银矿",
+      "names": {
+        "zh": "无人岛银矿",
+        "en": "Island Silver Ore",
+        "ja": "無人島の銀鉱",
+        "ko": "무인도 은 광석",
+        "tc": "無人島銀礦",
+        "fr": "Minerai d'argent insulaire",
+        "de": "Insel-Silbererz"
+      },
+      "price": 25,
+      "currencyId": "0",
+      "categoryId": "1"
+    },
+    {
+      "id": "32",
+      "itemId": "37593",
+      "icon": 25204,
+      "name": "海岛新薯",
+      "names": {
+        "zh": "海岛新薯",
+        "en": "Island Popoto",
+        "ja": "アイルポポト",
+        "ko": "섬 포포토",
+        "tc": "海島新薯",
+        "fr": "Popoto exotique",
+        "de": "Paradiestoffel"
+      },
+      "price": 5,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "33",
+      "itemId": "37594",
+      "icon": 25208,
+      "name": "海岛甘蓝",
+      "names": {
+        "zh": "海岛甘蓝",
+        "en": "Island Cabbage",
+        "ja": "アイルキャベツ",
+        "ko": "섬 양배추",
+        "tc": "海島甘藍",
+        "fr": "Chou exotique",
+        "de": "Paradieskohlkopf"
+      },
+      "price": 4,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "34",
+      "itemId": "37595",
+      "icon": 25306,
+      "name": "海岛莓果",
+      "names": {
+        "zh": "海岛莓果",
+        "en": "Isleberry",
+        "ja": "アイルベリー",
+        "ko": "섬 딸기",
+        "tc": "海島莓果",
+        "fr": "Fraise exotique",
+        "de": "Paradiesbeere"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "35",
+      "itemId": "37596",
+      "icon": 25232,
+      "name": "海岛南瓜",
+      "names": {
+        "zh": "海岛南瓜",
+        "en": "Island Pumpkin",
+        "ja": "アイルパンプキン",
+        "ko": "섬 호박",
+        "tc": "海島南瓜",
+        "fr": "Citrouille exotique",
+        "de": "Paradieskürbis"
+      },
+      "price": 4,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "36",
+      "itemId": "37597",
+      "icon": 25203,
+      "name": "海岛洋葱",
+      "names": {
+        "zh": "海岛洋葱",
+        "en": "Island Onion",
+        "ja": "アイルオニオン",
+        "ko": "섬 양파",
+        "tc": "海島洋蔥",
+        "fr": "Oignon exotique",
+        "de": "Paradieszwiebel"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "37",
+      "itemId": "37598",
+      "icon": 25209,
+      "name": "海岛番茄",
+      "names": {
+        "zh": "海岛番茄",
+        "en": "Island Tomato",
+        "ja": "アイルトマト",
+        "ko": "섬 토마토",
+        "tc": "海島番茄",
+        "fr": "Tomate exotique",
+        "de": "Paradiesparadeiser"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "38",
+      "itemId": "37599",
+      "icon": 25357,
+      "name": "海岛小麦",
+      "names": {
+        "zh": "海岛小麦",
+        "en": "Island Wheat",
+        "ja": "アイル小麦",
+        "ko": "섬 밀",
+        "tc": "海島小麥",
+        "fr": "Blé exotique",
+        "de": "Paradiesweizen"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "39",
+      "itemId": "37600",
+      "icon": 25352,
+      "name": "海岛玉米",
+      "names": {
+        "zh": "海岛玉米",
+        "en": "Island Corn",
+        "ja": "アイルコーン",
+        "ko": "섬 옥수수",
+        "tc": "海島玉米",
+        "fr": "Maïs exotique",
+        "de": "Paradiesmais"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "40",
+      "itemId": "37601",
+      "icon": 25215,
+      "name": "海岛高山萝卜",
+      "names": {
+        "zh": "海岛高山萝卜",
+        "en": "Island Parsnip",
+        "ja": "アイルパースニップ",
+        "ko": "섬 설탕당근",
+        "tc": "海島高山蘿蔔",
+        "fr": "Panais exotique",
+        "de": "Paradiespastinak"
+      },
+      "price": 5,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "41",
+      "itemId": "37602",
+      "icon": 25233,
+      "name": "海岛小萝卜",
+      "names": {
+        "zh": "海岛小萝卜",
+        "en": "Island Radish",
+        "ja": "アイルラディッシュ",
+        "ko": "섬 빨간무",
+        "tc": "海島小蘿蔔",
+        "fr": "Radis exotique",
+        "de": "Paradiesrettich"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "42",
+      "itemId": "37603",
+      "icon": 21655,
+      "name": "牧场动物的绒毛",
+      "names": {
+        "zh": "牧场动物的绒毛",
+        "en": "Sanctuary Fleece",
+        "ja": "飼育動物のフリース",
+        "ko": "사육동물 솜털",
+        "tc": "牧場動物的絨毛",
+        "fr": "Toison d'animal d'élevage",
+        "de": "Weide-Vlies"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "43",
+      "itemId": "37604",
+      "icon": 22301,
+      "name": "牧场动物的尖爪",
+      "names": {
+        "zh": "牧场动物的尖爪",
+        "en": "Sanctuary Claw",
+        "ja": "飼育動物の爪片",
+        "ko": "사육동물 발톱",
+        "tc": "牧場動物的尖爪",
+        "fr": "Griffe d'animal d'élevage",
+        "de": "Weide-Kralle"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "44",
+      "itemId": "37605",
+      "icon": 21624,
+      "name": "牧场动物的兽毛",
+      "names": {
+        "zh": "牧场动物的兽毛",
+        "en": "Sanctuary Fur",
+        "ja": "飼育動物の獣毛",
+        "ko": "사육동물 털",
+        "tc": "牧場動物的獸毛",
+        "fr": "Laine d'animal d'élevage",
+        "de": "Weide-Fell"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "45",
+      "itemId": "37606",
+      "icon": 21908,
+      "name": "牧场动物的羽毛",
+      "names": {
+        "zh": "牧场动物的羽毛",
+        "en": "Sanctuary Feather",
+        "ja": "飼育動物の羽根",
+        "ko": "사육동물 깃털",
+        "tc": "牧場動物的羽毛",
+        "fr": "Plume d'animal d'élevage",
+        "de": "Weide-Feder"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "46",
+      "itemId": "37607",
+      "icon": 25251,
+      "name": "牧场动物的鸟蛋",
+      "names": {
+        "zh": "牧场动物的鸟蛋",
+        "en": "Sanctuary Egg",
+        "ja": "飼育動物の卵",
+        "ko": "사육동물 알",
+        "tc": "牧場動物的鳥蛋",
+        "fr": "Œuf d'animal d'élevage",
+        "de": "Weide-Ei"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "47",
+      "itemId": "37608",
+      "icon": 22257,
+      "name": "牧场动物的甲壳",
+      "names": {
+        "zh": "牧场动物的甲壳",
+        "en": "Sanctuary Carapace",
+        "ja": "飼育動物の脱皮殻",
+        "ko": "사육동물 허물",
+        "tc": "牧場動物的甲殼",
+        "fr": "Exuvie d'animal d'élevage",
+        "de": "Weide-Schuppe"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "48",
+      "itemId": "37609",
+      "icon": 22303,
+      "name": "牧场动物的尖牙",
+      "names": {
+        "zh": "牧场动物的尖牙",
+        "en": "Sanctuary Fang",
+        "ja": "飼育動物の牙",
+        "ko": "사육동물 엄니",
+        "tc": "牧場動物的尖牙",
+        "fr": "Croc d'animal d'élevage",
+        "de": "Weide-Zahn"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "49",
+      "itemId": "37610",
+      "icon": 22206,
+      "name": "牧场动物的角片",
+      "names": {
+        "zh": "牧场动物的角片",
+        "en": "Sanctuary Horn",
+        "ja": "飼育動物の角片",
+        "ko": "사육동물 뿔조각",
+        "tc": "牧場動物的角片",
+        "fr": "Corne d'animal d'élevage",
+        "de": "Weide-Horn"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "50",
+      "itemId": "37611",
+      "icon": 24453,
+      "name": "牧场动物的乳汁",
+      "names": {
+        "zh": "牧场动物的乳汁",
+        "en": "Sanctuary Milk",
+        "ja": "飼育動物の乳",
+        "ko": "사육동물 젖",
+        "tc": "牧場動物的乳汁",
+        "fr": "Lait d'animal d'élevage",
+        "de": "Weide-Milch"
+      },
+      "price": 12,
+      "currencyId": "0",
+      "categoryId": "3"
+    },
+    {
+      "id": "51",
+      "itemId": "39224",
+      "icon": 22638,
+      "name": "无人岛天然树脂",
+      "names": {
+        "zh": "无人岛天然树脂",
+        "en": "Island Resin",
+        "ja": "無人島の天然樹脂",
+        "ko": "무인도 천연수지",
+        "tc": "無人島天然樹脂",
+        "fr": "Résine insulaire",
+        "de": "Insel-Naturharz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "52",
+      "itemId": "39225",
+      "icon": 25323,
+      "name": "无人岛椰子",
+      "names": {
+        "zh": "无人岛椰子",
+        "en": "Island Coconut",
+        "ja": "無人島のココナッツ",
+        "ko": "무인도 코코넛",
+        "tc": "無人島椰子",
+        "fr": "Noix de coco insulaire",
+        "de": "Insel-Kokosnuss"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "53",
+      "itemId": "39226",
+      "icon": 22611,
+      "name": "无人岛蜂巢",
+      "names": {
+        "zh": "无人岛蜂巢",
+        "en": "Island Beehive Chip",
+        "ja": "無人島の蜜蜂の巣",
+        "ko": "무인도 벌집",
+        "tc": "無人島蜂巢",
+        "fr": "Ruche d'abeilles insulaires",
+        "de": "Insel-Bienenwabe"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "54",
+      "itemId": "39227",
+      "icon": 21228,
+      "name": "无人岛木化石",
+      "names": {
+        "zh": "无人岛木化石",
+        "en": "Island Wood Opal",
+        "ja": "無人島のウッドオパール",
+        "ko": "무인도 목단백석",
+        "tc": "無人島木化石",
+        "fr": "Bois opalisé insulaire",
+        "de": "Insel-Holzopal"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "55",
+      "itemId": "39228",
+      "icon": 23727,
+      "name": "无人岛色彩缤纷的花",
+      "names": {
+        "zh": "无人岛色彩缤纷的花",
+        "en": "Multicolored Isleblooms",
+        "ja": "無人島の極彩色の花",
+        "ko": "무인도 화려한 꽃",
+        "tc": "無人島色彩繽紛的花",
+        "fr": "Fleur multicolore insulaire",
+        "de": "Bunte Insel-Blumen"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "56",
+      "itemId": "39231",
+      "icon": 25018,
+      "name": "海岛红辣椒",
+      "names": {
+        "zh": "海岛红辣椒",
+        "en": "Island Paprika",
+        "ja": "アイルパプリカ",
+        "ko": "섬 파프리카",
+        "tc": "海島紅彩椒",
+        "fr": "Poivron exotique",
+        "de": "Paradiespaprika"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "57",
+      "itemId": "39232",
+      "icon": 25216,
+      "name": "海岛韭葱",
+      "names": {
+        "zh": "海岛韭葱",
+        "en": "Island Leek",
+        "ja": "アイルリーキ",
+        "ko": "섬 대파",
+        "tc": "海島韭蔥",
+        "fr": "Poireau exotique",
+        "de": "Paradiesporree"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "58",
+      "itemId": "39887",
+      "icon": 21462,
+      "name": "无人岛石炭",
+      "names": {
+        "zh": "无人岛石炭",
+        "en": "Island Coal",
+        "ja": "無人島の石炭",
+        "ko": "무인도 석탄",
+        "tc": "無人島石炭",
+        "fr": "Charbon insulaire",
+        "de": "Insel-Steinkohle"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "59",
+      "itemId": "39888",
+      "icon": 21455,
+      "name": "无人岛堆积岩",
+      "names": {
+        "zh": "无人岛堆积岩",
+        "en": "Island Shale",
+        "ja": "無人島の堆積岩",
+        "ko": "무인도 퇴적암",
+        "tc": "無人島堆積岩",
+        "fr": "Schiste insulaire",
+        "de": "Insel-Schiefer"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "60",
+      "itemId": "39889",
+      "icon": 25412,
+      "name": "无人岛灯火茸",
+      "names": {
+        "zh": "无人岛灯火茸",
+        "en": "Island Glimshroom",
+        "ja": "無人島のトモシビダケ",
+        "ko": "무인도 등불버섯",
+        "tc": "無人島燈火茸",
+        "fr": "Agaric luisant insulaire",
+        "de": "Insel-Leuchtpilz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "61",
+      "itemId": "39890",
+      "icon": 21487,
+      "name": "无人岛大理石",
+      "names": {
+        "zh": "无人岛大理石",
+        "en": "Island Marble",
+        "ja": "無人島の大理石",
+        "ko": "무인도 대리석",
+        "tc": "無人島大理石",
+        "fr": "Marbre insulaire",
+        "de": "Insel-Marmor"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "62",
+      "itemId": "39891",
+      "icon": 21208,
+      "name": "无人岛灵银矿",
+      "names": {
+        "zh": "无人岛灵银矿",
+        "en": "Island Mythril Ore",
+        "ja": "無人島の霊銀鉱",
+        "ko": "무인도 미스릴",
+        "tc": "無人島靈銀礦",
+        "fr": "Minerai de mithril insulaire",
+        "de": "Insel-Mithrilerz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "63",
+      "itemId": "39892",
+      "icon": 22678,
+      "name": "无人岛发泡水",
+      "names": {
+        "zh": "无人岛发泡水",
+        "en": "Island Effervescent Water",
+        "ja": "無人島のソーダ水",
+        "ko": "무인도 탄산수",
+        "tc": "無人島氣泡水",
+        "fr": "Eau pétillante insulaire",
+        "de": "Insel-Sprudelwasser"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "64",
+      "itemId": "39893",
+      "icon": 21477,
+      "name": "无人岛幻影石",
+      "names": {
+        "zh": "无人岛幻影石",
+        "en": "Island Spectrine",
+        "ja": "無人島の幻影石",
+        "ko": "무인도 환영석",
+        "tc": "無人島幻影石",
+        "fr": "Spectrite insulaire",
+        "de": "Insel-Spektrinit"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "65",
+      "itemId": "39894",
+      "icon": 29404,
+      "name": "无人岛长臂虾",
+      "names": {
+        "zh": "无人岛长臂虾",
+        "en": "Island Cave Shrimp",
+        "ja": "無人島のテナガエビ",
+        "ko": "무인도 징거미새우",
+        "tc": "無人島長臂蝦",
+        "fr": "Crevette insulaire à grandes pinces",
+        "de": "Insel-Großarmgarnele"
+      },
+      "price": 25,
+      "currencyId": "0",
+      "categoryId": "1"
+    },
+    {
+      "id": "66",
+      "itemId": "39899",
+      "icon": 25234,
+      "name": "海岛花豆",
+      "names": {
+        "zh": "海岛花豆",
+        "en": "Island Runner Beans",
+        "ja": "アイルラナービーンズ",
+        "ko": "섬 적화강낭콩",
+        "tc": "海島花豆",
+        "fr": "Haricot-fleur exotique",
+        "de": "Paradiesfeuerbohnen"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "67",
+      "itemId": "39900",
+      "icon": 25231,
+      "name": "海岛红菜",
+      "names": {
+        "zh": "海岛红菜",
+        "en": "Island Beet",
+        "ja": "アイルビーツ",
+        "ko": "섬 비트",
+        "tc": "海島紅菜",
+        "fr": "Betterave exotique",
+        "de": "Rote Paradiesbete"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "68",
+      "itemId": "39901",
+      "icon": 25205,
+      "name": "海岛茄子",
+      "names": {
+        "zh": "海岛茄子",
+        "en": "Island Eggplant",
+        "ja": "アイルエッグプラント",
+        "ko": "섬 가지",
+        "tc": "海島茄子",
+        "fr": "Aubergine exotique",
+        "de": "Paradiesaubergine"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "69",
+      "itemId": "39902",
+      "icon": 25212,
+      "name": "海岛西葫芦",
+      "names": {
+        "zh": "海岛西葫芦",
+        "en": "Island Zucchini",
+        "ja": "アイルズッキーニ",
+        "ko": "섬 돼지호박",
+        "tc": "海島櫛瓜",
+        "fr": "Courgette exotique",
+        "de": "Paradieszucchini"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "70",
+      "itemId": "41630",
+      "icon": 21242,
+      "name": "无人岛翠银沙",
+      "names": {
+        "zh": "无人岛翠银沙",
+        "en": "Island Durium Sand",
+        "ja": "無人島の翠銀砂",
+        "ko": "무인도 취은 모래",
+        "tc": "無人島翠銀沙",
+        "fr": "Sable de durium insulaire",
+        "de": "Insel-Duriumsand"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "71",
+      "itemId": "41631",
+      "icon": 21207,
+      "name": "无人岛黄铜矿",
+      "names": {
+        "zh": "无人岛黄铜矿",
+        "en": "Island Yellow Copper Ore",
+        "ja": "無人島の黄銅鉱",
+        "ko": "무인도 황동 광석",
+        "tc": "無人島黃銅礦",
+        "fr": "Minerai de cuivre jaune insulaire",
+        "de": "Insel-Kupferkies"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "72",
+      "itemId": "41632",
+      "icon": 21212,
+      "name": "无人岛金矿",
+      "names": {
+        "zh": "无人岛金矿",
+        "en": "Island Gold Ore",
+        "ja": "無人島の金鉱",
+        "ko": "무인도 금 광석",
+        "tc": "無人島金礦",
+        "fr": "Minerai d'or insulaire",
+        "de": "Insel-Golderz"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "73",
+      "itemId": "41633",
+      "icon": 21229,
+      "name": "无人岛鹰眼砂",
+      "names": {
+        "zh": "无人岛鹰眼砂",
+        "en": "Island Hawk's Eye Sand",
+        "ja": "無人島の鷹目砂",
+        "ko": "무인도 응안사",
+        "tc": "無人島鷹眼砂",
+        "fr": "Sable d'œil-de-faucon insulaire",
+        "de": "Insel-Falkenaugensand"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "74",
+      "itemId": "41634",
+      "icon": 21488,
+      "name": "无人岛水晶层",
+      "names": {
+        "zh": "无人岛水晶层",
+        "en": "Island Crystal Formation",
+        "ja": "無人島のクリスタル層",
+        "ko": "무인도 크리스탈층",
+        "tc": "無人島水晶層",
+        "fr": "Cristal insulaire",
+        "de": "Insel-Kristallformation"
+      },
+      "price": 3,
+      "currencyId": "1",
+      "categoryId": "0"
+    },
+    {
+      "id": "75",
+      "itemId": "41635",
+      "icon": 25328,
+      "name": "海岛西瓜",
+      "names": {
+        "zh": "海岛西瓜",
+        "en": "Island Watermelon",
+        "ja": "アイルウォーターメロン",
+        "ko": "섬 수박",
+        "tc": "海島西瓜",
+        "fr": "Pastèque exotique",
+        "de": "Paradieswassermelone"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "76",
+      "itemId": "41636",
+      "icon": 25236,
+      "name": "海岛甜新薯",
+      "names": {
+        "zh": "海岛甜新薯",
+        "en": "Island Sweet Popoto",
+        "ja": "アイルスイートポポト",
+        "ko": "섬 달콤포포토",
+        "tc": "海島甜新薯",
+        "fr": "Popoto douce exotique",
+        "de": "Paradiessüßtoffel"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "77",
+      "itemId": "41637",
+      "icon": 25237,
+      "name": "海岛西兰花",
+      "names": {
+        "zh": "海岛西兰花",
+        "en": "Island Broccoli",
+        "ja": "アイルブロッコリー",
+        "ko": "섬 브로콜리",
+        "tc": "海島花椰菜",
+        "fr": "Brocoli exotique",
+        "de": "Paradiesbrokkoli"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    },
+    {
+      "id": "78",
+      "itemId": "41638",
+      "icon": 25353,
+      "name": "海岛水牛豆",
+      "names": {
+        "zh": "海岛水牛豆",
+        "en": "Island Buffalo Beans",
+        "ja": "アイルバッファロービーン",
+        "ko": "섬 물소콩",
+        "tc": "海島水牛豆",
+        "fr": "Haricots buffle exotiques",
+        "de": "Paradiesjuckbohnen"
+      },
+      "price": 6,
+      "currencyId": "0",
+      "categoryId": "2"
+    }
+  ]
+}

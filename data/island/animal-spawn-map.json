@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "ffxiv.island.animalSpawnMap.v1",
+  "note": "MJIAnimals 行 → 岛上刷新坐标/时段/天气 的手工桥接：刷新窗口不在游戏 CSV 中，映射取自社区核对数据。",
+  "source": {
+    "url": "https://github.com/ffxiv-teamcraft/ffxiv-teamcraft/blob/master/apps/client/src/app/pages/island-animals/animals-spawn-data.ts",
+    "project": "ffxiv-teamcraft",
+    "fetchedAt": "2026-11-22"
+  },
+  "map": {
+    "1": {
+      "x": 20,
+      "y": 23
+    },
+    "2": {
+      "x": 20,
+      "y": 23,
+      "weather": 2
+    },
+    "3": {
+      "x": 20,
+      "y": 26
+    },
+    "4": {
+      "x": 20,
+      "y": 26,
+      "spawn": 6,
+      "duration": 3
+    },
+    "5": {
+      "x": 19,
+      "y": 11
+    },
+    "6": {
+      "x": 19,
+      "y": 11,
+      "spawn": 12,
+      "duration": 3
+    },
+    "7": {
+      "x": 15,
+      "y": 19
+    },
+    "8": {
+      "x": 15,
+      "y": 19,
+      "spawn": 9,
+      "duration": 3
+    },
+    "9": {
+      "x": 20,
+      "y": 13
+    },
+    "10": {
+      "x": 27,
+      "y": 19,
+      "weather": 4
+    },
+    "11": {
+      "x": 16,
+      "y": 12
+    },
+    "12": {
+      "x": 16,
+      "y": 12,
+      "spawn": 15,
+      "duration": 3
+    },
+    "13": {
+      "x": 21,
+      "y": 19
+    },
+    "14": {
+      "x": 20,
+      "y": 19,
+      "spawn": 18,
+      "duration": 3
+    },
+    "15": {
+      "x": 20,
+      "y": 21
+    },
+    "16": {
+      "x": 13,
+      "y": 11,
+      "weather": 1
+    },
+    "17": {
+      "x": 30,
+      "y": 11
+    },
+    "18": {
+      "x": 31,
+      "y": 11,
+      "spawn": 0,
+      "duration": 3
+    },
+    "19": {
+      "x": 12,
+      "y": 17
+    },
+    "20": {
+      "x": 12,
+      "y": 17,
+      "weather": 3
+    },
+    "21": {
+      "x": 26,
+      "y": 24
+    },
+    "22": {
+      "x": 26,
+      "y": 22,
+      "spawn": 3,
+      "duration": 3
+    },
+    "23": {
+      "x": 28,
+      "y": 28
+    },
+    "24": {
+      "x": 31,
+      "y": 28,
+      "weather": 7
+    },
+    "25": {
+      "x": 22,
+      "y": 20,
+      "weather": 4,
+      "spawn": 18,
+      "duration": 3
+    },
+    "26": {
+      "x": 17,
+      "y": 12,
+      "weather": 7,
+      "spawn": 0,
+      "duration": 3
+    },
+    "27": {
+      "x": 25,
+      "y": 28,
+      "weather": 2,
+      "spawn": 12,
+      "duration": 3
+    },
+    "28": {
+      "x": 17,
+      "y": 24,
+      "weather": 8,
+      "spawn": 6,
+      "duration": 3
+    },
+    "29": {
+      "x": 33,
+      "y": 16,
+      "weather": 3,
+      "spawn": 9,
+      "duration": 3
+    },
+    "30": {
+      "x": 14,
+      "y": 22,
+      "weather": 1,
+      "spawn": 15,
+      "duration": 3
+    },
+    "31": {
+      "x": 15,
+      "y": 14,
+      "weather": 2,
+      "spawn": 18,
+      "duration": 3
+    },
+    "32": {
+      "x": 19,
+      "y": 19,
+      "weather": 3,
+      "spawn": 3,
+      "duration": 3
+    },
+    "33": {
+      "x": 26,
+      "y": 20
+    },
+    "34": {
+      "x": 28,
+      "y": 16,
+      "spawn": 21,
+      "duration": 3
+    },
+    "35": {
+      "x": 16,
+      "y": 16
+    },
+    "36": {
+      "x": 17,
+      "y": 16,
+      "weather": 8
+    },
+    "37": {
+      "x": 24,
+      "y": 18,
+      "weather": 4,
+      "spawn": 0,
+      "duration": 3
+    },
+    "38": {
+      "x": 20,
+      "y": 27,
+      "weather": 7,
+      "spawn": 15,
+      "duration": 3
+    },
+    "39": {
+      "x": 23,
+      "y": 30,
+      "weather": 1,
+      "spawn": 21,
+      "duration": 3
+    },
+    "40": {
+      "x": 29,
+      "y": 24,
+      "weather": 8,
+      "spawn": 21,
+      "duration": 3
+    },
+    "41": {
+      "x": 32,
+      "y": 12,
+      "weather": 4,
+      "spawn": 12,
+      "duration": 3
+    },
+    "42": {
+      "x": 25,
+      "y": 16,
+      "weather": 1,
+      "spawn": 9,
+      "duration": 3
+    },
+    "43": {
+      "x": 24,
+      "y": 21,
+      "weather": 2,
+      "spawn": 3,
+      "duration": 3
+    }
+  }
+}

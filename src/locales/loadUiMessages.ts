@@ -14,6 +14,7 @@ const messageLoaders: Partial<Record<UiMessageModuleName, UiMessageLoader>> = {
   armoire: () => import('@/locales/modules/armoire').then((module) => module.armoireUiMessages),
   fashionCheck: () =>
     import('@/locales/modules/fashionCheck').then((module) => module.fashionCheckUiMessages),
+  island: () => import('@/locales/modules/island').then((module) => module.islandUiMessages),
   ...(isContentStudioEnabled
     ? {
         contentStudio: () =>

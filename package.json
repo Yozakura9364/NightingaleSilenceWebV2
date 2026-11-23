@@ -24,6 +24,8 @@
     "build:ffxiv-csv-structure": "node scripts/build-ffxiv-csv-structure.mjs",
     "build:item-card-emotes": "node scripts/build-item-card-emotes.mjs",
     "check:item-card-emotes": "node scripts/check-item-card-emotes.mjs",
+    "build:island-catalog": "node scripts/build-island-catalog.mjs",
+    "check:island-catalog": "node scripts/check-island-catalog.mjs",
     "build:fashion-check-history": "node scripts/fashion-check/build-history.mjs",
     "check:fashion-check-history": "node scripts/fashion-check/check-history.mjs",
     "build:fashion-check-tags": "node scripts/fashion-check/build-tag-database.mjs",

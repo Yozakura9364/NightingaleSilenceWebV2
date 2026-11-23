@@ -6,7 +6,7 @@ import ts from 'typescript'
 const rootDir = dirname(dirname(fileURLToPath(import.meta.url)))
 const srcDir = join(rootDir, 'src')
 const localeDir = join(srcDir, 'locales')
-const moduleNames = ['core', 'home', 'plate', 'glamour', 'armoire', 'silence', 'styleLab']
+const moduleNames = ['core', 'home', 'plate', 'glamour', 'armoire', 'silence', 'styleLab', 'island']
 const errors = []
 const messageOwners = new Map()
 let messageCount = 0

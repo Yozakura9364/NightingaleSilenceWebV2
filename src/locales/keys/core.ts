@@ -79,6 +79,7 @@ export const coreTextKeys = {
   plateTitle: 'ffxiv.tool.plate.title',
   fashionCheckTitle: 'ffxiv.tool.fashionCheck.title',
   fashionCheckSummary: 'ffxiv.tool.fashionCheck.summary',
+  islandTitle: 'ffxiv.tool.island.title',
   armoireTitle: 'ffxiv.tool.armoire.title',
   ffxivTermReviewTitle: 'ffxiv.termReview.title',
   ffxivTermReviewKicker: 'ffxiv.termReview.kicker',

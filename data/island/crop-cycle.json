@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "ffxiv.island.cropCycle.v1",
+  "note": "农田生长/收获常量：客户端 CSV 无生长时长与产量字段，取社区 wiki 统一口径；只提供全局常量，不逐作物捏造差异。",
+  "source": [
+    {
+      "url": "https://ffxiv.consolegameswiki.com/wiki/Island_Sanctuary",
+      "role": "农田生长时长与产量口径",
+      "fetchedAt": "2026-11-23"
+    }
+  ],
+  "growth": {
+    "hoursPerCycle": 48,
+    "yieldPerPlot": 5,
+    "noteZh": "每株作物固定 48 小时成熟；每块耕地每次收获 5 个产物；耕地 III 每日满产 100 个。",
+    "noteEn": "Each crop matures in 48 hours; each plot yields 5 produce per harvest; Cropland III yields 100 per day at full output."
+  }
+}

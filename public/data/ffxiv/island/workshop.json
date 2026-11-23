@@ -1,0 +1,6791 @@
+{
+  "schemaVersion": "ffxiv.island.workshop.v1",
+  "version": 1,
+  "source": {
+    "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+    "locale": "zh",
+    "locales": [
+      "zh",
+      "en",
+      "ja",
+      "ko",
+      "tc",
+      "fr",
+      "de"
+    ],
+    "urls": {
+      "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/MJICraftworksObject.csv",
+      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/MJICraftworksObject.csv",
+      "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/MJICraftworksObject.csv",
+      "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/MJICraftworksObject.csv",
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/MJICraftworksObject.csv",
+      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/MJICraftworksObject.csv",
+      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/MJICraftworksObject.csv"
+    },
+    "source_batch_id": "ab7c6761d292ac0273ff514129355851650d83c1fb870f6cc8e5dcf64c8ca3b8",
+    "source_mode": "remote",
+    "detail": "island-sources.json"
+  },
+  "generatedAt": "2026-11-23T15:26:27.180Z",
+  "currency": {
+    "itemId": "37549",
+    "icon": 65096,
+    "name": "谢尔达莱青船币",
+    "names": {
+      "zh": "谢尔达莱青船币",
+      "en": "Seafarer's Cowrie",
+      "ja": "シェルダレースクリップ:青船貨",
+      "ko": "시엘달레 화폐: 청선화",
+      "tc": "謝爾達萊青船幣",
+      "fr": "Assignat insulaire azur",
+      "de": "Blaue Cieldaläen-Kauri"
+    }
+  },
+  "products": [
+    {
+      "id": "1",
+      "itemId": "37628",
+      "icon": 20601,
+      "name": "海岛恢复药",
+      "names": {
+        "zh": "海岛恢复药",
+        "en": "Isleworks Potion",
+        "ja": "アイルポーション",
+        "ko": "섬 포션",
+        "tc": "海島治療劑",
+        "fr": "Potion manufacturée",
+        "de": "Atelier-Trank"
+      },
+      "themeIds": [
+        "8"
+      ],
+      "materials": [
+        {
+          "id": "0",
+          "itemId": "37551",
+          "icon": 25026,
+          "name": "无人岛棕榈叶",
+          "names": {
+            "zh": "无人岛棕榈叶",
+            "en": "Island Palm Leaf",
+            "ja": "無人島のパームリーフ",
+            "ko": "무인도 야자나무 잎",
+            "tc": "無人島棕櫚葉",
+            "fr": "Palme insulaire",
+            "de": "Insel-Palmwedel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 28
+    },
+    {
+      "id": "2",
+      "itemId": "37633",
+      "icon": 22604,
+      "name": "开拓工房火药",
+      "names": {
+        "zh": "开拓工房火药",
+        "en": "Isleworks Firesand",
+        "ja": "開拓工房の火薬",
+        "ko": "개척공방 화약",
+        "tc": "開拓工坊火藥",
+        "fr": "Poudre manufacturée",
+        "de": "Atelier-Feuersandbeutel"
+      },
+      "themeIds": [
+        "8",
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "8",
+          "itemId": "37559",
+          "icon": 21464,
+          "name": "无人岛砂砾",
+          "names": {
+            "zh": "无人岛砂砾",
+            "en": "Island Sand",
+            "ja": "無人島の砂",
+            "ko": "무인도 모래",
+            "tc": "無人島砂礫",
+            "fr": "Sable insulaire",
+            "de": "Insel-Sand"
+          },
+          "amount": 2
+        },
+        {
+          "id": "14",
+          "itemId": "37565",
+          "icon": 22615,
+          "name": "无人岛石灰岩",
+          "names": {
+            "zh": "无人岛石灰岩",
+            "en": "Island Limestone",
+            "ja": "無人島の石灰岩",
+            "ko": "무인도 석회암",
+            "tc": "無人島石灰岩",
+            "fr": "Pierre calcaire insulaire",
+            "de": "Insel-Kalkstein"
+          },
+          "amount": 1
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 28
+    },
+    {
+      "id": "3",
+      "itemId": "37627",
+      "icon": 52453,
+      "name": "海岛座椅",
+      "names": {
+        "zh": "海岛座椅",
+        "en": "Isleworks Wooden Chair",
+        "ja": "アイルウッドチェア",
+        "ko": "섬 나무 의자",
+        "tc": "海島座椅",
+        "fr": "Chaise en bois manufacturée",
+        "de": "Atelier-Holzstuhl"
+      },
+      "themeIds": [
+        "6",
+        "12"
+      ],
+      "materials": [
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 4
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 1,
+      "hours": 6,
+      "value": 42
+    },
+    {
+      "id": "4",
+      "itemId": "37630",
+      "icon": 24332,
+      "name": "开拓工房烤扇贝",
+      "names": {
+        "zh": "开拓工房烤扇贝",
+        "en": "Isleworks Grilled Clam",
+        "ja": "開拓工房の焼き貝",
+        "ko": "개척공방 조개구이",
+        "tc": "開拓工坊烤扇貝",
+        "fr": "Coquillage grillé manufacturé",
+        "de": "Atelier-Grillmuscheln"
+      },
+      "themeIds": [
+        "3",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "4",
+          "itemId": "37555",
+          "icon": 29031,
+          "name": "无人岛双壳贝",
+          "names": {
+            "zh": "无人岛双壳贝",
+            "en": "Island Clam",
+            "ja": "無人島の二枚貝",
+            "ko": "무인도 조개",
+            "tc": "無人島雙殼貝",
+            "fr": "Coque insulaire",
+            "de": "Zweischalige Insel-Muschel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 28
+    },
+    {
+      "id": "5",
+      "itemId": "37629",
+      "icon": 54912,
+      "name": "海岛木制项链",
+      "names": {
+        "zh": "海岛木制项链",
+        "en": "Isleworks Necklace",
+        "ja": "アイルウッドネックレス",
+        "ko": "섬 나무 목걸이",
+        "tc": "海島木製項鍊",
+        "fr": "Collier en bois manufacturé",
+        "de": "Atelier-Halskette"
+      },
+      "themeIds": [
+        "10",
+        "12"
+      ],
+      "materials": [
+        {
+          "id": "2",
+          "itemId": "37553",
+          "icon": 22416,
+          "name": "无人岛小树枝",
+          "names": {
+            "zh": "无人岛小树枝",
+            "en": "Island Branch",
+            "ja": "無人島の小枝",
+            "ko": "무인도 잔가지",
+            "tc": "無人島小樹枝",
+            "fr": "Branche insulaire",
+            "de": "Insel-Zweig"
+          },
+          "amount": 3
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 28
+    },
+    {
+      "id": "6",
+      "itemId": "37631",
+      "icon": 54434,
+      "name": "海岛珊瑚戒指",
+      "names": {
+        "zh": "海岛珊瑚戒指",
+        "en": "Isleworks Coral Ring",
+        "ja": "アイルコーラルリング",
+        "ko": "섬 산호 반지",
+        "tc": "海島珊瑚戒指",
+        "fr": "Bague en corail manufacturée",
+        "de": "Atelier-Korallenring"
+      },
+      "themeIds": [
+        "10",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "6",
+          "itemId": "37557",
+          "icon": 29060,
+          "name": "无人岛珊瑚",
+          "names": {
+            "zh": "无人岛珊瑚",
+            "en": "Island Coral",
+            "ja": "無人島の珊瑚",
+            "ko": "무인도 산호",
+            "tc": "無人島珊瑚",
+            "fr": "Corail insulaire",
+            "de": "Insel-Koralle"
+          },
+          "amount": 3
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 6,
+      "value": 42
+    },
+    {
+      "id": "7",
+      "itemId": "37632",
+      "icon": 40008,
+      "name": "海岛开面盔",
+      "names": {
+        "zh": "海岛开面盔",
+        "en": "Isleworks Barbut",
+        "ja": "アイルバルビュート",
+        "ko": "섬 무장투구",
+        "tc": "海島開面盔",
+        "fr": "Barbute manufacturée",
+        "de": "Atelier-Barbuta"
+      },
+      "themeIds": [
+        "2",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "8",
+          "itemId": "37559",
+          "icon": 21464,
+          "name": "无人岛砂砾",
+          "names": {
+            "zh": "无人岛砂砾",
+            "en": "Island Sand",
+            "ja": "無人島の砂",
+            "ko": "무인도 모래",
+            "tc": "無人島砂礫",
+            "fr": "Sable insulaire",
+            "de": "Insel-Sand"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 6,
+      "value": 42
+    },
+    {
+      "id": "8",
+      "itemId": "37634",
+      "icon": 30417,
+      "name": "海岛石刃棒",
+      "names": {
+        "zh": "海岛石刃棒",
+        "en": "Isleworks Macuahuitl",
+        "ja": "アイルマクアフティル",
+        "ko": "섬 마쿠아후이틀",
+        "tc": "海島石刃棒",
+        "fr": "Macuahuitl manufacturé",
+        "de": "Atelier-Macuahuitl"
+      },
+      "themeIds": [
+        "7",
+        "12"
+      ],
+      "materials": [
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "3",
+          "itemId": "37554",
+          "icon": 21451,
+          "name": "无人岛石材",
+          "names": {
+            "zh": "无人岛石材",
+            "en": "Island Stone",
+            "ja": "無人島の石材",
+            "ko": "무인도 석재",
+            "tc": "無人島石材",
+            "fr": "Pierre insulaire",
+            "de": "Insel-Stein"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 6,
+      "value": 42
+    },
+    {
+      "id": "9",
+      "itemId": "37618",
+      "icon": 24155,
+      "name": "开拓工房酸泡菜",
+      "names": {
+        "zh": "开拓工房酸泡菜",
+        "en": "Isleworks Sauerkraut",
+        "ja": "開拓工房のザワークラウト",
+        "ko": "개척공방 자우어크라우트",
+        "tc": "開拓工坊酸泡菜",
+        "fr": "Choucroute manufacturée",
+        "de": "Atelier-Sauerkraut"
+      },
+      "themeIds": [
+        "1"
+      ],
+      "materials": [
+        {
+          "id": "43",
+          "itemId": "37594",
+          "icon": 25208,
+          "name": "海岛甘蓝",
+          "names": {
+            "zh": "海岛甘蓝",
+            "en": "Island Cabbage",
+            "ja": "アイルキャベツ",
+            "ko": "섬 양배추",
+            "tc": "海島甘藍",
+            "fr": "Chou exotique",
+            "de": "Paradieskohlkopf"
+          },
+          "amount": 1
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 40
+    },
+    {
+      "id": "10",
+      "itemId": "37619",
+      "icon": 24167,
+      "name": "开拓工房烤南瓜",
+      "names": {
+        "zh": "开拓工房烤南瓜",
+        "en": "Isleworks Baked Pumpkin",
+        "ja": "開拓工房の焼きパンプキン",
+        "ko": "개척공방 구운 호박",
+        "tc": "開拓工坊烤南瓜",
+        "fr": "Citrouille grillée manufacturée",
+        "de": "Atelier-Bratkürbis"
+      },
+      "themeIds": [
+        "3"
+      ],
+      "materials": [
+        {
+          "id": "45",
+          "itemId": "37596",
+          "icon": 25232,
+          "name": "海岛南瓜",
+          "names": {
+            "zh": "海岛南瓜",
+            "en": "Island Pumpkin",
+            "ja": "アイルパンプキン",
+            "ko": "섬 호박",
+            "tc": "海島南瓜",
+            "fr": "Citrouille exotique",
+            "de": "Paradieskürbis"
+          },
+          "amount": 1
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 40
+    },
+    {
+      "id": "11",
+      "itemId": "37620",
+      "icon": 42169,
+      "name": "海岛束腰衣",
+      "names": {
+        "zh": "海岛束腰衣",
+        "en": "Isleworks Tunic",
+        "ja": "アイルチュニック",
+        "ko": "섬 튜닉",
+        "tc": "海島束腰衣",
+        "fr": "Tunique manufacturée",
+        "de": "Atelier-Hemd"
+      },
+      "themeIds": [
+        "2",
+        "13"
+      ],
+      "materials": [
+        {
+          "id": "52",
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          },
+          "amount": 2
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 4
+        }
+      ],
+      "levelReq": 1,
+      "hours": 6,
+      "value": 72
+    },
+    {
+      "id": "12",
+      "itemId": "37621",
+      "icon": 35751,
+      "name": "海岛厨刀",
+      "names": {
+        "zh": "海岛厨刀",
+        "en": "Isleworks Culinary Knife",
+        "ja": "アイルクリナリーナイフ",
+        "ko": "섬 요리칼",
+        "tc": "海島廚刀",
+        "fr": "Couteau de cuisine manufacturé",
+        "de": "Atelier-Küchenmesser"
+      },
+      "themeIds": [
+        "5",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "53",
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          },
+          "amount": 1
+        },
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 44
+    },
+    {
+      "id": "13",
+      "itemId": "37622",
+      "icon": 23719,
+      "name": "海岛木刷",
+      "names": {
+        "zh": "海岛木刷",
+        "en": "Isleworks Brush",
+        "ja": "アイルブラシ",
+        "ko": "섬 솔",
+        "tc": "海島木刷",
+        "fr": "Brosse manufacturée",
+        "de": "Atelier-Bürste"
+      },
+      "themeIds": [
+        "5",
+        "12"
+      ],
+      "materials": [
+        {
+          "id": "54",
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          },
+          "amount": 1
+        },
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 44
+    },
+    {
+      "id": "14",
+      "itemId": "37623",
+      "icon": 24255,
+      "name": "开拓工房水煮蛋",
+      "names": {
+        "zh": "开拓工房水煮蛋",
+        "en": "Isleworks Boiled Egg",
+        "ja": "開拓工房のボイルドエッグ",
+        "ko": "개척공방 삶은 달걀",
+        "tc": "開拓工坊水煮蛋",
+        "fr": "Œuf dur manufacturé",
+        "de": "Gekochtes Atelier-Ei"
+      },
+      "themeIds": [
+        "3",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "56",
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          },
+          "amount": 1
+        },
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 44
+    },
+    {
+      "id": "15",
+      "itemId": "37624",
+      "icon": 31007,
+      "name": "海岛骨拳",
+      "names": {
+        "zh": "海岛骨拳",
+        "en": "Isleworks Hora",
+        "ja": "アイルホラ",
+        "ko": "섬 호라",
+        "tc": "海島骨拳",
+        "fr": "Hora manufacturés",
+        "de": "Atelier-Hora"
+      },
+      "themeIds": [
+        "7",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "57",
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          },
+          "amount": 2
+        },
+        {
+          "id": "3",
+          "itemId": "37554",
+          "icon": 21451,
+          "name": "无人岛石材",
+          "names": {
+            "zh": "无人岛石材",
+            "en": "Island Stone",
+            "ja": "無人島の石材",
+            "ko": "무인도 석재",
+            "tc": "無人島石材",
+            "fr": "Pierre insulaire",
+            "de": "Insel-Stein"
+          },
+          "amount": 4
+        }
+      ],
+      "levelReq": 1,
+      "hours": 6,
+      "value": 72
+    },
+    {
+      "id": "16",
+      "itemId": "37625",
+      "icon": 55233,
+      "name": "海岛兽牙耳坠",
+      "names": {
+        "zh": "海岛兽牙耳坠",
+        "en": "Isleworks Earrings",
+        "ja": "アイルファングイヤリング",
+        "ko": "섬 엄니 귀걸이",
+        "tc": "海島獸牙耳墜",
+        "fr": "Boucles d'oreilles en croc manufacturées",
+        "de": "Atelier-Ohrringe"
+      },
+      "themeIds": [
+        "10",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "58",
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          },
+          "amount": 1
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 44
+    },
+    {
+      "id": "17",
+      "itemId": "37626",
+      "icon": 25052,
+      "name": "开拓工房黄油",
+      "names": {
+        "zh": "开拓工房黄油",
+        "en": "Isleworks Butter",
+        "ja": "開拓工房のバター",
+        "ko": "개척공방 버터",
+        "tc": "開拓工坊奶油",
+        "fr": "Beurre manufacturé",
+        "de": "Atelier-Butter"
+      },
+      "themeIds": [
+        "9",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "60",
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          },
+          "amount": 1
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 1,
+      "hours": 4,
+      "value": 44
+    },
+    {
+      "id": "18",
+      "itemId": "37635",
+      "icon": 51695,
+      "name": "海岛砖块柜台",
+      "names": {
+        "zh": "海岛砖块柜台",
+        "en": "Isleworks Brick Counter",
+        "ja": "アイルブリックカウンター",
+        "ko": "섬 벽돌 대면책상",
+        "tc": "海島磚塊櫃台",
+        "fr": "Comptoir en brique manufacturé",
+        "de": "Atelier-Ziegeltheke"
+      },
+      "themeIds": [
+        "6",
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "19",
+          "itemId": "37570",
+          "icon": 22634,
+          "name": "无人岛黏土",
+          "names": {
+            "zh": "无人岛黏土",
+            "en": "Island Clay",
+            "ja": "無人島の粘土",
+            "ko": "무인도 점토",
+            "tc": "無人島黏土",
+            "fr": "Argile insulaire",
+            "de": "Insel-Lehm"
+          },
+          "amount": 2
+        },
+        {
+          "id": "14",
+          "itemId": "37565",
+          "icon": 22615,
+          "name": "无人岛石灰岩",
+          "names": {
+            "zh": "无人岛石灰岩",
+            "en": "Island Limestone",
+            "ja": "無人島の石灰岩",
+            "ko": "무인도 석회암",
+            "tc": "無人島石灰岩",
+            "fr": "Pierre calcaire insulaire",
+            "de": "Insel-Kalkstein"
+          },
+          "amount": 2
+        },
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 5,
+      "hours": 6,
+      "value": 48
+    },
+    {
+      "id": "19",
+      "itemId": "37636",
+      "icon": 23715,
+      "name": "绵羊铜像",
+      "names": {
+        "zh": "绵羊铜像",
+        "en": "Bronze Sheep",
+        "ja": "シープのブロンズ像",
+        "ko": "양 동상",
+        "tc": "綿羊銅像",
+        "fr": "Statue de mouton en bronze manufacturée",
+        "de": "Bronzeschaf"
+      },
+      "themeIds": [
+        "6",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 3
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 5,
+      "hours": 8,
+      "value": 64
+    },
+    {
+      "id": "20",
+      "itemId": "37637",
+      "icon": 22664,
+      "name": "开拓工房植物成长剂",
+      "names": {
+        "zh": "开拓工房植物成长剂",
+        "en": "Isleworks Growth Formula",
+        "ja": "開拓工房のグロースフォーミュラ",
+        "ko": "개척공방 성장 촉진제",
+        "tc": "開拓工坊植物成長劑",
+        "fr": "Formule de croissance manufacturée",
+        "de": "Atelier-Wachstumsformel"
+      },
+      "themeIds": [
+        "8"
+      ],
+      "materials": [
+        {
+          "id": "27",
+          "itemId": "37578",
+          "icon": 22627,
+          "name": "无人岛香荠",
+          "names": {
+            "zh": "无人岛香荠",
+            "en": "Island Alyssum",
+            "ja": "無人島のアリッサム",
+            "ko": "무인도 꽃냉이",
+            "tc": "無人島香薺",
+            "fr": "Alysson insulaire",
+            "de": "Insel-Steinkraut"
+          },
+          "amount": 2
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 3
+        },
+        {
+          "id": "2",
+          "itemId": "37553",
+          "icon": 22416,
+          "name": "无人岛小树枝",
+          "names": {
+            "zh": "无人岛小树枝",
+            "en": "Island Branch",
+            "ja": "無人島の小枝",
+            "ko": "무인도 잔가지",
+            "tc": "無人島小樹枝",
+            "fr": "Branche insulaire",
+            "de": "Insel-Zweig"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 5,
+      "hours": 8,
+      "value": 136
+    },
+    {
+      "id": "21",
+      "itemId": "37638",
+      "icon": 36748,
+      "name": "海岛石榴石刺剑",
+      "names": {
+        "zh": "海岛石榴石刺剑",
+        "en": "Isleworks Garnet Rapier",
+        "ja": "アイルガーネットレイピア",
+        "ko": "섬 석류석 레이피어",
+        "tc": "海島石榴石刺劍",
+        "fr": "Rapière en grenat manufacturée",
+        "de": "Atelier-Granatrapier"
+      },
+      "themeIds": [
+        "7",
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "28",
+          "itemId": "37579",
+          "icon": 21456,
+          "name": "无人岛石榴石原石",
+          "names": {
+            "zh": "无人岛石榴石原石",
+            "en": "Raw Island Garnet",
+            "ja": "無人島のガーネット原石",
+            "ko": "무인도 석류석 원석",
+            "tc": "無人島石榴石原石",
+            "fr": "Grenat brut insulaire",
+            "de": "Insel-Rohgranat"
+          },
+          "amount": 2
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 5,
+      "hours": 8,
+      "value": 136
+    },
+    {
+      "id": "22",
+      "itemId": "37639",
+      "icon": 30243,
+      "name": "海岛云杉圆盾",
+      "names": {
+        "zh": "海岛云杉圆盾",
+        "en": "Isleworks Spruce Round Shield",
+        "ja": "アイルスプルースシールド",
+        "ko": "섬 가문비나무 방패",
+        "tc": "海島雲杉圓盾",
+        "fr": "Bouclier rond en épicéa manufacturé",
+        "de": "Atelier-Fichtenrundschild"
+      },
+      "themeIds": [
+        "2",
+        "12"
+      ],
+      "materials": [
+        {
+          "id": "29",
+          "itemId": "37580",
+          "icon": 22413,
+          "name": "无人岛云杉原木",
+          "names": {
+            "zh": "无人岛云杉原木",
+            "en": "Island Spruce Log",
+            "ja": "無人島のスプルース原木",
+            "ko": "무인도 가문비나무 원목",
+            "tc": "無人島雲杉原木",
+            "fr": "Rondin d'épicéa insulaire",
+            "de": "Insel-Fichtenholzscheit"
+          },
+          "amount": 2
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "3",
+          "itemId": "37554",
+          "icon": 21451,
+          "name": "无人岛石材",
+          "names": {
+            "zh": "无人岛石材",
+            "en": "Island Stone",
+            "ja": "無人島の石材",
+            "ko": "무인도 석재",
+            "tc": "無人島石材",
+            "fr": "Pierre insulaire",
+            "de": "Insel-Stein"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 5,
+      "hours": 8,
+      "value": 136
+    },
+    {
+      "id": "23",
+      "itemId": "37640",
+      "icon": 22636,
+      "name": "开拓工房鲨油",
+      "names": {
+        "zh": "开拓工房鲨油",
+        "en": "Isleworks Shark Oil",
+        "ja": "開拓工房のシャークオイル",
+        "ko": "개척공방 상어 기름",
+        "tc": "開拓工坊鯊油",
+        "fr": "Huile de requin manufacturée",
+        "de": "Atelier-Haifischtran"
+      },
+      "themeIds": [
+        "5",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "30",
+          "itemId": "37581",
+          "icon": 29026,
+          "name": "无人岛锤头鲨",
+          "names": {
+            "zh": "无人岛锤头鲨",
+            "en": "Island Hammerhead",
+            "ja": "無人島のハンマーヘッド",
+            "ko": "무인도 망치상어",
+            "tc": "無人島錘頭鯊",
+            "fr": "Requin-marteau insulaire",
+            "de": "Insel-Hammerhai"
+          },
+          "amount": 2
+        },
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 3
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 5,
+      "hours": 8,
+      "value": 136
+    },
+    {
+      "id": "24",
+      "itemId": "37641",
+      "icon": 55439,
+      "name": "海岛白银耳夹",
+      "names": {
+        "zh": "海岛白银耳夹",
+        "en": "Isleworks Silver Ear Cuffs",
+        "ja": "アイルシルバーイヤーカフ",
+        "ko": "섬 은제 귀찌",
+        "tc": "海島白銀耳夾",
+        "fr": "Bagues d'oreilles en argent manufacturées",
+        "de": "Atelier-Silberkreolen"
+      },
+      "themeIds": [
+        "10",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "31",
+          "itemId": "37582",
+          "icon": 21211,
+          "name": "无人岛银矿",
+          "names": {
+            "zh": "无人岛银矿",
+            "en": "Island Silver Ore",
+            "ja": "無人島の銀鉱",
+            "ko": "무인도 은 광석",
+            "tc": "無人島銀礦",
+            "fr": "Minerai d'argent insulaire",
+            "de": "Insel-Silbererz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "20",
+          "itemId": "37571",
+          "icon": 21204,
+          "name": "无人岛锡砂",
+          "names": {
+            "zh": "无人岛锡砂",
+            "en": "Island Tinsand",
+            "ja": "無人島の砂錫",
+            "ko": "무인도 사석",
+            "tc": "無人島錫砂",
+            "fr": "Cassitérite insulaire",
+            "de": "Insel-Zinnsand"
+          },
+          "amount": 3
+        },
+        {
+          "id": "6",
+          "itemId": "37557",
+          "icon": 29060,
+          "name": "无人岛珊瑚",
+          "names": {
+            "zh": "无人岛珊瑚",
+            "en": "Island Coral",
+            "ja": "無人島の珊瑚",
+            "ko": "무인도 산호",
+            "tc": "無人島珊瑚",
+            "fr": "Corail insulaire",
+            "de": "Insel-Koralle"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 5,
+      "hours": 8,
+      "value": 136
+    },
+    {
+      "id": "25",
+      "itemId": "37642",
+      "icon": 24096,
+      "name": "开拓工房甜新薯",
+      "names": {
+        "zh": "开拓工房甜新薯",
+        "en": "Isleworks Sweet Popoto",
+        "ja": "開拓工房のスイートポポト",
+        "ko": "개척공방 달콤포포토",
+        "tc": "開拓工坊甜新薯",
+        "fr": "Popoto douce manufacturée",
+        "de": "Atelier-Süßtoffel"
+      },
+      "themeIds": [
+        "4"
+      ],
+      "materials": [
+        {
+          "id": "42",
+          "itemId": "37593",
+          "icon": 25204,
+          "name": "海岛新薯",
+          "names": {
+            "zh": "海岛新薯",
+            "en": "Island Popoto",
+            "ja": "アイルポポト",
+            "ko": "섬 포포토",
+            "tc": "海島新薯",
+            "fr": "Popoto exotique",
+            "de": "Paradiestoffel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "60",
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          },
+          "amount": 1
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 5,
+      "hours": 6,
+      "value": 72
+    },
+    {
+      "id": "26",
+      "itemId": "37643",
+      "icon": 24154,
+      "name": "开拓工房高山萝卜沙拉",
+      "names": {
+        "zh": "开拓工房高山萝卜沙拉",
+        "en": "Isleworks Parsnip Salad",
+        "ja": "開拓工房のパースニップサラダ",
+        "ko": "개척공방 설탕당근 샐러드",
+        "tc": "開拓工坊高山蘿蔔沙拉",
+        "fr": "Salade de panais manufacturée",
+        "de": "Atelier-Pastinaksalat"
+      },
+      "themeIds": [
+        "3"
+      ],
+      "materials": [
+        {
+          "id": "50",
+          "itemId": "37601",
+          "icon": 25215,
+          "name": "海岛高山萝卜",
+          "names": {
+            "zh": "海岛高山萝卜",
+            "en": "Island Parsnip",
+            "ja": "アイルパースニップ",
+            "ko": "섬 설탕당근",
+            "tc": "海島高山蘿蔔",
+            "fr": "Panais exotique",
+            "de": "Paradiespastinak"
+          },
+          "amount": 2
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 1
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 5,
+      "hours": 4,
+      "value": 48
+    },
+    {
+      "id": "27",
+      "itemId": "37644",
+      "icon": 24089,
+      "name": "开拓工房焦糖",
+      "names": {
+        "zh": "开拓工房焦糖",
+        "en": "Isleworks Caramels",
+        "ja": "開拓工房のキャラメル",
+        "ko": "개척공방 캐러멜",
+        "tc": "開拓工坊焦糖",
+        "fr": "Caramel exotique",
+        "de": "Atelier-Karamell"
+      },
+      "themeIds": [
+        "4"
+      ],
+      "materials": [
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 4
+        },
+        {
+          "id": "60",
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 6,
+      "hours": 6,
+      "value": 81
+    },
+    {
+      "id": "28",
+      "itemId": "37645",
+      "icon": 54918,
+      "name": "海岛缎带",
+      "names": {
+        "zh": "海岛缎带",
+        "en": "Isleworks Ribbon",
+        "ja": "アイルリボン",
+        "ko": "섬 리본",
+        "tc": "海島緞帶",
+        "fr": "Ruban exotique",
+        "de": "Atelier-Schleife"
+      },
+      "themeIds": [
+        "10",
+        "13"
+      ],
+      "materials": [
+        {
+          "id": "17",
+          "itemId": "37568",
+          "icon": 21652,
+          "name": "无人岛棉花",
+          "names": {
+            "zh": "无人岛棉花",
+            "en": "Island Cotton Boll",
+            "ja": "無人島の綿花",
+            "ko": "무인도 목화",
+            "tc": "無人島棉花",
+            "fr": "Fleur de coton insulaire",
+            "de": "Insel-Baumwollkapsel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 6,
+      "hours": 6,
+      "value": 54
+    },
+    {
+      "id": "29",
+      "itemId": "37646",
+      "icon": 26103,
+      "name": "海岛绳索",
+      "names": {
+        "zh": "海岛绳索",
+        "en": "Isleworks Rope",
+        "ja": "アイルロープ",
+        "ko": "섬 밧줄",
+        "tc": "海島繩索",
+        "fr": "Corde exotique",
+        "de": "Atelier-Seil"
+      },
+      "themeIds": [
+        "5",
+        "13"
+      ],
+      "materials": [
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 2
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 1
+        },
+        {
+          "id": "11",
+          "itemId": "37562",
+          "icon": 21672,
+          "name": "无人岛藤蔓",
+          "names": {
+            "zh": "无人岛藤蔓",
+            "en": "Island Vine",
+            "ja": "無人島のつる",
+            "ko": "무인도 덩굴",
+            "tc": "無人島藤蔓",
+            "fr": "Sarment insulaire",
+            "de": "Insel-Ranke"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 6,
+      "hours": 4,
+      "value": 36
+    },
+    {
+      "id": "30",
+      "itemId": "37647",
+      "icon": 41129,
+      "name": "海岛骑士帽",
+      "names": {
+        "zh": "海岛骑士帽",
+        "en": "Isleworks Cavalier's Hat",
+        "ja": "アイルキャバリエハット",
+        "ko": "섬 근위대 모자",
+        "tc": "海島騎士帽",
+        "fr": "Chapeau de cavalier exotique",
+        "de": "Atelier-Kavaliershut"
+      },
+      "themeIds": [
+        "2",
+        "13"
+      ],
+      "materials": [
+        {
+          "id": "55",
+          "itemId": "37606",
+          "icon": 21908,
+          "name": "牧场动物的羽毛",
+          "names": {
+            "zh": "牧场动物的羽毛",
+            "en": "Sanctuary Feather",
+            "ja": "飼育動物の羽根",
+            "ko": "사육동물 깃털",
+            "tc": "牧場動物的羽毛",
+            "fr": "Plume d'animal d'élevage",
+            "de": "Weide-Feder"
+          },
+          "amount": 2
+        },
+        {
+          "id": "17",
+          "itemId": "37568",
+          "icon": 21652,
+          "name": "无人岛棉花",
+          "names": {
+            "zh": "无人岛棉花",
+            "en": "Island Cotton Boll",
+            "ja": "無人島の綿花",
+            "ko": "무인도 목화",
+            "tc": "無人島棉花",
+            "fr": "Fleur de coton insulaire",
+            "de": "Insel-Baumwollkapsel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 6,
+      "hours": 6,
+      "value": 81
+    },
+    {
+      "id": "31",
+      "itemId": "37648",
+      "icon": 26038,
+      "name": "海岛角笛",
+      "names": {
+        "zh": "海岛角笛",
+        "en": "Isleworks Horn",
+        "ja": "アイルホルン",
+        "ko": "섬 뿔피리",
+        "tc": "海島角笛",
+        "fr": "Cor exotique",
+        "de": "Atelier-Jagdhorn"
+      },
+      "themeIds": [
+        "5",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "59",
+          "itemId": "37610",
+          "icon": 22206,
+          "name": "牧场动物的角片",
+          "names": {
+            "zh": "牧场动物的角片",
+            "en": "Sanctuary Horn",
+            "ja": "飼育動物の角片",
+            "ko": "사육동물 뿔조각",
+            "tc": "牧場動物的角片",
+            "fr": "Corne d'animal d'élevage",
+            "de": "Weide-Horn"
+          },
+          "amount": 2
+        },
+        {
+          "id": "19",
+          "itemId": "37570",
+          "icon": 22634,
+          "name": "无人岛黏土",
+          "names": {
+            "zh": "无人岛黏土",
+            "en": "Island Clay",
+            "ja": "無人島の粘土",
+            "ko": "무인도 점토",
+            "tc": "無人島黏土",
+            "fr": "Argile insulaire",
+            "de": "Insel-Lehm"
+          },
+          "amount": 2
+        },
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 6,
+      "hours": 6,
+      "value": 81
+    },
+    {
+      "id": "32",
+      "itemId": "37649",
+      "icon": 24315,
+      "name": "海岛盐渍鳕鱼",
+      "names": {
+        "zh": "海岛盐渍鳕鱼",
+        "en": "Isleworks Salt Cod",
+        "ja": "アイルソルトコッド",
+        "ko": "섬 대구절임",
+        "tc": "海島鹽漬鱈魚",
+        "fr": "Morue salée exotique",
+        "de": "Atelier-Salzdorsch"
+      },
+      "themeIds": [
+        "1",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "24",
+          "itemId": "37575",
+          "icon": 29012,
+          "name": "无人岛海水鱼",
+          "names": {
+            "zh": "无人岛海水鱼",
+            "en": "Islefish",
+            "ja": "無人島の海水魚",
+            "ko": "무인도 바닷물고기",
+            "tc": "無人島海水魚",
+            "fr": "Poisson de mer insulaire",
+            "de": "Insel-Fisch"
+          },
+          "amount": 4
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 7,
+      "hours": 6,
+      "value": 54
+    },
+    {
+      "id": "33",
+      "itemId": "37650",
+      "icon": 25060,
+      "name": "海岛墨鱼汁",
+      "names": {
+        "zh": "海岛墨鱼汁",
+        "en": "Isleworks Squid Ink",
+        "ja": "アイルインクペースト",
+        "ko": "섬 오징어 먹물",
+        "tc": "海島墨魚汁",
+        "fr": "Pâte d'encre exotique",
+        "de": "Atelier-Tintenfischtinte"
+      },
+      "themeIds": [
+        "9",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "25",
+          "itemId": "37576",
+          "icon": 29177,
+          "name": "无人岛乌贼",
+          "names": {
+            "zh": "无人岛乌贼",
+            "en": "Island Squid",
+            "ja": "無人島のスキッド",
+            "ko": "무인도 오징어",
+            "tc": "無人島烏賊",
+            "fr": "Calmar insulaire",
+            "de": "Insel-Kalmar"
+          },
+          "amount": 2
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 7,
+      "hours": 4,
+      "value": 36
+    },
+    {
+      "id": "34",
+      "itemId": "37651",
+      "icon": 20705,
+      "name": "开拓工房仙药",
+      "names": {
+        "zh": "开拓工房仙药",
+        "en": "Isleworks Essential Draught",
+        "ja": "開拓工房の仙薬",
+        "ko": "개척공방 선약",
+        "tc": "開拓工坊仙藥",
+        "fr": "Breuvage érémitique manufacturé",
+        "de": "Atelier-Maxtrank"
+      },
+      "themeIds": [
+        "8",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "26",
+          "itemId": "37577",
+          "icon": 29657,
+          "name": "无人岛水母",
+          "names": {
+            "zh": "无人岛水母",
+            "en": "Island Jellyfish",
+            "ja": "無人島のジェリーフィッシュ",
+            "ko": "무인도 해파리",
+            "tc": "無人島水母",
+            "fr": "Méduse insulaire",
+            "de": "Insel-Qualle"
+          },
+          "amount": 2
+        },
+        {
+          "id": "0",
+          "itemId": "37551",
+          "icon": 25026,
+          "name": "无人岛棕榈叶",
+          "names": {
+            "zh": "无人岛棕榈叶",
+            "en": "Island Palm Leaf",
+            "ja": "無人島のパームリーフ",
+            "ko": "무인도 야자나무 잎",
+            "tc": "無人島棕櫚葉",
+            "fr": "Palme insulaire",
+            "de": "Insel-Palmwedel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 7,
+      "hours": 6,
+      "value": 54
+    },
+    {
+      "id": "35",
+      "itemId": "37652",
+      "icon": 25110,
+      "name": "海岛莓果酱",
+      "names": {
+        "zh": "海岛莓果酱",
+        "en": "Isleberry Jam",
+        "ja": "アイルベリージャム",
+        "ko": "섬 딸기잼",
+        "tc": "海島莓果醬",
+        "fr": "Confiture de fraises exotiques",
+        "de": "Atelier-Paradiesbeerenmarmelade"
+      },
+      "themeIds": [
+        "9"
+      ],
+      "materials": [
+        {
+          "id": "44",
+          "itemId": "37595",
+          "icon": 25306,
+          "name": "海岛莓果",
+          "names": {
+            "zh": "海岛莓果",
+            "en": "Isleberry",
+            "ja": "アイルベリー",
+            "ko": "섬 딸기",
+            "tc": "海島莓果",
+            "fr": "Fraise exotique",
+            "de": "Paradiesbeere"
+          },
+          "amount": 3
+        },
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 2
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 7,
+      "hours": 6,
+      "value": 78
+    },
+    {
+      "id": "36",
+      "itemId": "37654",
+      "icon": 25101,
+      "name": "海岛番茄酱",
+      "names": {
+        "zh": "海岛番茄酱",
+        "en": "Isleworks Tomato Relish",
+        "ja": "アイルトマトケチャップ",
+        "ko": "섬 토마토 케첩",
+        "tc": "海島番茄醬",
+        "fr": "Condiment épicé à la tomate exotique",
+        "de": "Atelier-Paradeiserwürze"
+      },
+      "themeIds": [
+        "9"
+      ],
+      "materials": [
+        {
+          "id": "47",
+          "itemId": "37598",
+          "icon": 25209,
+          "name": "海岛番茄",
+          "names": {
+            "zh": "海岛番茄",
+            "en": "Island Tomato",
+            "ja": "アイルトマト",
+            "ko": "섬 토마토",
+            "tc": "海島番茄",
+            "fr": "Tomate exotique",
+            "de": "Paradiesparadeiser"
+          },
+          "amount": 2
+        },
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 1
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 7,
+      "hours": 4,
+      "value": 52
+    },
+    {
+      "id": "37",
+      "itemId": "37653",
+      "icon": 24124,
+      "name": "开拓工房洋葱汤",
+      "names": {
+        "zh": "开拓工房洋葱汤",
+        "en": "Isleworks Onion Soup",
+        "ja": "開拓工房のオニオンスープ",
+        "ko": "개척공방 양파 수프",
+        "tc": "開拓工坊洋蔥湯",
+        "fr": "Soupe d'oignons manufacturée",
+        "de": "Atelier-Zwiebelsuppe"
+      },
+      "themeIds": [
+        "3"
+      ],
+      "materials": [
+        {
+          "id": "46",
+          "itemId": "37597",
+          "icon": 25203,
+          "name": "海岛洋葱",
+          "names": {
+            "zh": "海岛洋葱",
+            "en": "Island Onion",
+            "ja": "アイルオニオン",
+            "ko": "섬 양파",
+            "tc": "海島洋蔥",
+            "fr": "Oignon exotique",
+            "de": "Paradieszwiebel"
+          },
+          "amount": 3
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 7,
+      "hours": 6,
+      "value": 78
+    },
+    {
+      "id": "38",
+      "itemId": "37655",
+      "icon": 24052,
+      "name": "开拓工房鱼派",
+      "names": {
+        "zh": "开拓工房鱼派",
+        "en": "Islefish Pie",
+        "ja": "開拓工房のフィッシュパイ",
+        "ko": "개척공방 생선파이",
+        "tc": "開拓工坊魚派",
+        "fr": "Tarte au poisson manufacturée",
+        "de": "Atelier-Fischpastete"
+      },
+      "themeIds": [
+        "4",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "48",
+          "itemId": "37599",
+          "icon": 25357,
+          "name": "海岛小麦",
+          "names": {
+            "zh": "海岛小麦",
+            "en": "Island Wheat",
+            "ja": "アイル小麦",
+            "ko": "섬 밀",
+            "tc": "海島小麥",
+            "fr": "Blé exotique",
+            "de": "Paradiesweizen"
+          },
+          "amount": 3
+        },
+        {
+          "id": "24",
+          "itemId": "37575",
+          "icon": 29012,
+          "name": "无人岛海水鱼",
+          "names": {
+            "zh": "无人岛海水鱼",
+            "en": "Islefish",
+            "ja": "無人島の海水魚",
+            "ko": "무인도 바닷물고기",
+            "tc": "無人島海水魚",
+            "fr": "Poisson de mer insulaire",
+            "de": "Insel-Fisch"
+          },
+          "amount": 2
+        },
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 7,
+      "hours": 6,
+      "value": 78
+    },
+    {
+      "id": "39",
+      "itemId": "37656",
+      "icon": 25061,
+      "name": "开拓工房玉米片",
+      "names": {
+        "zh": "开拓工房玉米片",
+        "en": "Isleworks Corn Flakes",
+        "ja": "開拓工房のコーンフレーク",
+        "ko": "개척공방 콘플레이크",
+        "tc": "開拓工坊玉米片",
+        "fr": "Céréales manufacturées",
+        "de": "Atelier-Müsli"
+      },
+      "themeIds": [
+        "1"
+      ],
+      "materials": [
+        {
+          "id": "49",
+          "itemId": "37600",
+          "icon": 25352,
+          "name": "海岛玉米",
+          "names": {
+            "zh": "海岛玉米",
+            "en": "Island Corn",
+            "ja": "アイルコーン",
+            "ko": "섬 옥수수",
+            "tc": "海島玉米",
+            "fr": "Maïs exotique",
+            "de": "Paradiesmais"
+          },
+          "amount": 2
+        },
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 7,
+      "hours": 4,
+      "value": 52
+    },
+    {
+      "id": "40",
+      "itemId": "37657",
+      "icon": 24168,
+      "name": "开拓工房腌小萝卜",
+      "names": {
+        "zh": "开拓工房腌小萝卜",
+        "en": "Isleworks Pickled Radish",
+        "ja": "開拓工房のラディッシュピクルス",
+        "ko": "개척공방 빨간무 절임",
+        "tc": "開拓工坊醃小蘿蔔",
+        "fr": "Radis mariné manufacturé",
+        "de": "Atelier-Gewürzrettich"
+      },
+      "themeIds": [
+        "1"
+      ],
+      "materials": [
+        {
+          "id": "51",
+          "itemId": "37602",
+          "icon": 25233,
+          "name": "海岛小萝卜",
+          "names": {
+            "zh": "海岛小萝卜",
+            "en": "Island Radish",
+            "ja": "アイルラディッシュ",
+            "ko": "섬 빨간무",
+            "tc": "海島小蘿蔔",
+            "fr": "Radis exotique",
+            "de": "Paradiesrettich"
+          },
+          "amount": 4
+        },
+        {
+          "id": "1",
+          "itemId": "37552",
+          "icon": 25308,
+          "name": "无人岛苹果",
+          "names": {
+            "zh": "无人岛苹果",
+            "en": "Island Apple",
+            "ja": "無人島のアップル",
+            "ko": "무인도 사과",
+            "tc": "無人島蘋果",
+            "fr": "Pomme insulaire",
+            "de": "Insel-Apfel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 7,
+      "hours": 8,
+      "value": 104
+    },
+    {
+      "id": "41",
+      "itemId": "37658",
+      "icon": 31402,
+      "name": "海岛铁斧",
+      "names": {
+        "zh": "海岛铁斧",
+        "en": "Isleworks Iron Axe",
+        "ja": "アイルアイアンアクス",
+        "ko": "섬 철도끼",
+        "tc": "海島鐵斧",
+        "fr": "Hache de fer manufacturée",
+        "de": "Atelier-Eisenaxt"
+      },
+      "themeIds": [
+        "7",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "8",
+          "itemId": "37559",
+          "icon": 21464,
+          "name": "无人岛砂砾",
+          "names": {
+            "zh": "无人岛砂砾",
+            "en": "Island Sand",
+            "ja": "無人島の砂",
+            "ko": "무인도 모래",
+            "tc": "無人島砂礫",
+            "fr": "Sable insulaire",
+            "de": "Insel-Sand"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 8,
+      "hours": 8,
+      "value": 72
+    },
+    {
+      "id": "42",
+      "itemId": "37659",
+      "icon": 54411,
+      "name": "海岛石英戒指",
+      "names": {
+        "zh": "海岛石英戒指",
+        "en": "Isleworks Quartz Ring",
+        "ja": "アイルクォーツリング",
+        "ko": "섬 석영 반지",
+        "tc": "海島石英戒指",
+        "fr": "Anneau en quartz exotique",
+        "de": "Atelier-Quarzring"
+      },
+      "themeIds": [
+        "10",
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "3",
+          "itemId": "37554",
+          "icon": 21451,
+          "name": "无人岛石材",
+          "names": {
+            "zh": "无人岛石材",
+            "en": "Island Stone",
+            "ja": "無人島の石材",
+            "ko": "무인도 석재",
+            "tc": "無人島石材",
+            "fr": "Pierre insulaire",
+            "de": "Insel-Stein"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 8,
+      "hours": 8,
+      "value": 72
+    },
+    {
+      "id": "43",
+      "itemId": "37660",
+      "icon": 53188,
+      "name": "开拓工房瓷罐",
+      "names": {
+        "zh": "开拓工房瓷罐",
+        "en": "Isleworks Porcelain Vase",
+        "ja": "開拓工房の磁器壺",
+        "ko": "개척공방 청화백자",
+        "tc": "開拓工坊瓷罐",
+        "fr": "Vase en porcelaine manufacturé",
+        "de": "Atelier-Porzellanvase"
+      },
+      "themeIds": [
+        "5",
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "23",
+          "itemId": "37574",
+          "icon": 21251,
+          "name": "无人岛花岗岩",
+          "names": {
+            "zh": "无人岛花岗岩",
+            "en": "Island Leucogranite",
+            "ja": "無人島の花崗岩",
+            "ko": "무인도 화강암",
+            "tc": "無人島花崗岩",
+            "fr": "Granite insulaire",
+            "de": "Insel-Granit"
+          },
+          "amount": 3
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "19",
+          "itemId": "37570",
+          "icon": 22634,
+          "name": "无人岛黏土",
+          "names": {
+            "zh": "无人岛黏土",
+            "en": "Island Clay",
+            "ja": "無人島の粘土",
+            "ko": "무인도 점토",
+            "tc": "無人島黏土",
+            "fr": "Argile insulaire",
+            "de": "Insel-Lehm"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 8,
+      "hours": 8,
+      "value": 72
+    },
+    {
+      "id": "44",
+      "itemId": "37661",
+      "icon": 24413,
+      "name": "开拓工房果蔬汁",
+      "names": {
+        "zh": "开拓工房果蔬汁",
+        "en": "Isleworks Vegetable Juice",
+        "ja": "開拓工房の野菜ジュース",
+        "ko": "개척공방 야채 주스",
+        "tc": "開拓工坊果蔬汁",
+        "fr": "Jus de légumes manufacturé",
+        "de": "Atelier-Gemüsesaft"
+      },
+      "themeIds": [
+        "8"
+      ],
+      "materials": [
+        {
+          "id": "43",
+          "itemId": "37594",
+          "icon": 25208,
+          "name": "海岛甘蓝",
+          "names": {
+            "zh": "海岛甘蓝",
+            "en": "Island Cabbage",
+            "ja": "アイルキャベツ",
+            "ko": "섬 양배추",
+            "tc": "海島甘藍",
+            "fr": "Chou exotique",
+            "de": "Paradieskohlkopf"
+          },
+          "amount": 3
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 2
+        },
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 8,
+      "hours": 6,
+      "value": 78
+    },
+    {
+      "id": "45",
+      "itemId": "37662",
+      "icon": 24075,
+      "name": "开拓工房南瓜布丁",
+      "names": {
+        "zh": "开拓工房南瓜布丁",
+        "en": "Isleworks Pumpkin Pudding",
+        "ja": "開拓工房のパンプキンプディング",
+        "ko": "개척공방 호박 푸딩",
+        "tc": "開拓工坊南瓜布丁",
+        "fr": "Flan à la citrouille manufacturé",
+        "de": "Atelier-Kürbispudding"
+      },
+      "themeIds": [
+        "4"
+      ],
+      "materials": [
+        {
+          "id": "45",
+          "itemId": "37596",
+          "icon": 25232,
+          "name": "海岛南瓜",
+          "names": {
+            "zh": "海岛南瓜",
+            "en": "Island Pumpkin",
+            "ja": "アイルパンプキン",
+            "ko": "섬 호박",
+            "tc": "海島南瓜",
+            "fr": "Citrouille exotique",
+            "de": "Paradieskürbis"
+          },
+          "amount": 3
+        },
+        {
+          "id": "56",
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          },
+          "amount": 1
+        },
+        {
+          "id": "60",
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 8,
+      "hours": 6,
+      "value": 78
+    },
+    {
+      "id": "46",
+      "itemId": "37663",
+      "icon": 52002,
+      "name": "海岛绵羊地毯",
+      "names": {
+        "zh": "海岛绵羊地毯",
+        "en": "Isleworks Sheepfluff Rug",
+        "ja": "アイルシープラグ",
+        "ko": "섬 양 깔개",
+        "tc": "海島綿羊地毯",
+        "fr": "Tapis moutonnant exotique",
+        "de": "Atelier-Hirtenteppich"
+      },
+      "themeIds": [
+        "6",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "52",
+          "itemId": "37603",
+          "icon": 21655,
+          "name": "牧场动物的绒毛",
+          "names": {
+            "zh": "牧场动物的绒毛",
+            "en": "Sanctuary Fleece",
+            "ja": "飼育動物のフリース",
+            "ko": "사육동물 솜털",
+            "tc": "牧場動物的絨毛",
+            "fr": "Toison d'animal d'élevage",
+            "de": "Weide-Vlies"
+          },
+          "amount": 3
+        },
+        {
+          "id": "17",
+          "itemId": "37568",
+          "icon": 21652,
+          "name": "无人岛棉花",
+          "names": {
+            "zh": "无人岛棉花",
+            "en": "Island Cotton Boll",
+            "ja": "無人島の綿花",
+            "ko": "무인도 목화",
+            "tc": "無人島棉花",
+            "fr": "Fleur de coton insulaire",
+            "de": "Insel-Baumwollkapsel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "18",
+          "itemId": "37569",
+          "icon": 25213,
+          "name": "无人岛麻",
+          "names": {
+            "zh": "无人岛麻",
+            "en": "Island Hemp",
+            "ja": "無人島の麻",
+            "ko": "무인도 마",
+            "tc": "無人島麻",
+            "fr": "Chanvre insulaire",
+            "de": "Insel-Hanf"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 8,
+      "hours": 6,
+      "value": 90
+    },
+    {
+      "id": "47",
+      "itemId": "37664",
+      "icon": 38158,
+      "name": "海岛园艺镰",
+      "names": {
+        "zh": "海岛园艺镰",
+        "en": "Isleworks Garden Scythe",
+        "ja": "アイルガーデンサイズ",
+        "ko": "섬 정원낫",
+        "tc": "海島園藝鐮",
+        "fr": "Faux de jardinage exotique",
+        "de": "Atelier-Gartensense"
+      },
+      "themeIds": [
+        "5",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "53",
+          "itemId": "37604",
+          "icon": 22301,
+          "name": "牧场动物的尖爪",
+          "names": {
+            "zh": "牧场动物的尖爪",
+            "en": "Sanctuary Claw",
+            "ja": "飼育動物の爪片",
+            "ko": "사육동물 발톱",
+            "tc": "牧場動物的尖爪",
+            "fr": "Griffe d'animal d'élevage",
+            "de": "Weide-Kralle"
+          },
+          "amount": 3
+        },
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 9,
+      "hours": 6,
+      "value": 90
+    },
+    {
+      "id": "48",
+      "itemId": "37665",
+      "icon": 52462,
+      "name": "海岛床",
+      "names": {
+        "zh": "海岛床",
+        "en": "Isleworks Bed",
+        "ja": "アイルベッド",
+        "ko": "섬 침대",
+        "tc": "海島床",
+        "fr": "Lit exotique",
+        "de": "Atelier-Bett"
+      },
+      "themeIds": [
+        "6",
+        "13"
+      ],
+      "materials": [
+        {
+          "id": "54",
+          "itemId": "37605",
+          "icon": 21624,
+          "name": "牧场动物的兽毛",
+          "names": {
+            "zh": "牧场动物的兽毛",
+            "en": "Sanctuary Fur",
+            "ja": "飼育動物の獣毛",
+            "ko": "사육동물 털",
+            "tc": "牧場動物的獸毛",
+            "fr": "Laine d'animal d'élevage",
+            "de": "Weide-Fell"
+          },
+          "amount": 4
+        },
+        {
+          "id": "17",
+          "itemId": "37568",
+          "icon": 21652,
+          "name": "无人岛棉花",
+          "names": {
+            "zh": "无人岛棉花",
+            "en": "Island Cotton Boll",
+            "ja": "無人島の綿花",
+            "ko": "무인도 목화",
+            "tc": "無人島棉花",
+            "fr": "Fleur de coton insulaire",
+            "de": "Insel-Baumwollkapsel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 9,
+      "hours": 8,
+      "value": 120
+    },
+    {
+      "id": "49",
+      "itemId": "37666",
+      "icon": 48387,
+      "name": "海岛鳞指套",
+      "names": {
+        "zh": "海岛鳞指套",
+        "en": "Isleworks Scale Fingers",
+        "ja": "アイルスケイルフィンガー",
+        "ko": "섬 미늘장갑",
+        "tc": "海島鱗指套",
+        "fr": "Garde-doigts d'écailles exotiques",
+        "de": "Atelier-Schuppen-Fingerhandschuhe"
+      },
+      "themeIds": [
+        "2",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "57",
+          "itemId": "37608",
+          "icon": 22257,
+          "name": "牧场动物的甲壳",
+          "names": {
+            "zh": "牧场动物的甲壳",
+            "en": "Sanctuary Carapace",
+            "ja": "飼育動物の脱皮殻",
+            "ko": "사육동물 허물",
+            "tc": "牧場動物的甲殼",
+            "fr": "Exuvie d'animal d'élevage",
+            "de": "Weide-Schuppe"
+          },
+          "amount": 4
+        },
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "17",
+          "itemId": "37568",
+          "icon": 21652,
+          "name": "无人岛棉花",
+          "names": {
+            "zh": "无人岛棉花",
+            "en": "Island Cotton Boll",
+            "ja": "無人島の綿花",
+            "ko": "무인도 목화",
+            "tc": "無人島棉花",
+            "fr": "Fleur de coton insulaire",
+            "de": "Insel-Baumwollkapsel"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 9,
+      "hours": 8,
+      "value": 120
+    },
+    {
+      "id": "50",
+      "itemId": "37667",
+      "icon": 32665,
+      "name": "海岛手杖",
+      "names": {
+        "zh": "海岛手杖",
+        "en": "Isleworks Crook",
+        "ja": "アイルクルーク",
+        "ko": "섬 홀장",
+        "tc": "海島手杖",
+        "fr": "Crosse exotique",
+        "de": "Atelier-Hirtenstock"
+      },
+      "themeIds": [
+        "7",
+        "12"
+      ],
+      "materials": [
+        {
+          "id": "58",
+          "itemId": "37609",
+          "icon": 22303,
+          "name": "牧场动物的尖牙",
+          "names": {
+            "zh": "牧场动物的尖牙",
+            "en": "Sanctuary Fang",
+            "ja": "飼育動物の牙",
+            "ko": "사육동물 엄니",
+            "tc": "牧場動物的尖牙",
+            "fr": "Croc d'animal d'élevage",
+            "de": "Weide-Zahn"
+          },
+          "amount": 4
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "9",
+          "itemId": "37560",
+          "icon": 22407,
+          "name": "无人岛原木",
+          "names": {
+            "zh": "无人岛原木",
+            "en": "Island Log",
+            "ja": "無人島の原木",
+            "ko": "무인도 원목",
+            "tc": "無人島原木",
+            "fr": "Rondin insulaire",
+            "de": "Insel-Holzscheit"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 9,
+      "hours": 8,
+      "value": 120
+    },
+    {
+      "id": "51",
+      "itemId": "39349",
+      "icon": 23725,
+      "name": "开拓工房珊瑚剑",
+      "names": {
+        "zh": "开拓工房珊瑚剑",
+        "en": "Isleworks Coral Sword",
+        "ja": "開拓工房の珊瑚の剣",
+        "ko": "개척공방 산호검",
+        "tc": "開拓工坊珊瑚劍",
+        "fr": "Épée de corail manufacturée",
+        "de": "Atelier-Korallenschwert"
+      },
+      "themeIds": [
+        "7",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "6",
+          "itemId": "37557",
+          "icon": 29060,
+          "name": "无人岛珊瑚",
+          "names": {
+            "zh": "无人岛珊瑚",
+            "en": "Island Coral",
+            "ja": "無人島の珊瑚",
+            "ko": "무인도 산호",
+            "tc": "無人島珊瑚",
+            "fr": "Corail insulaire",
+            "de": "Insel-Koralle"
+          },
+          "amount": 3
+        },
+        {
+          "id": "67",
+          "itemId": "39224",
+          "icon": 22638,
+          "name": "无人岛天然树脂",
+          "names": {
+            "zh": "无人岛天然树脂",
+            "en": "Island Resin",
+            "ja": "無人島の天然樹脂",
+            "ko": "무인도 천연수지",
+            "tc": "無人島天然樹脂",
+            "fr": "Résine insulaire",
+            "de": "Insel-Naturharz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 10,
+      "hours": 8,
+      "value": 72
+    },
+    {
+      "id": "52",
+      "itemId": "39350",
+      "icon": 53440,
+      "name": "开拓工房椰汁",
+      "names": {
+        "zh": "开拓工房椰汁",
+        "en": "Isleworks Coconut Juice",
+        "ja": "開拓工房のココナッツジュース",
+        "ko": "개척공방 코코넛 주스",
+        "tc": "開拓工坊椰汁",
+        "fr": "Jus de coco manufacturé",
+        "de": "Atelier-Kokosnusssaft"
+      },
+      "themeIds": [
+        "4",
+        "8"
+      ],
+      "materials": [
+        {
+          "id": "68",
+          "itemId": "39225",
+          "icon": 25323,
+          "name": "无人岛椰子",
+          "names": {
+            "zh": "无人岛椰子",
+            "en": "Island Coconut",
+            "ja": "無人島のココナッツ",
+            "ko": "무인도 코코넛",
+            "tc": "無人島椰子",
+            "fr": "Noix de coco insulaire",
+            "de": "Insel-Kokosnuss"
+          },
+          "amount": 2
+        },
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 10,
+      "hours": 4,
+      "value": 36
+    },
+    {
+      "id": "53",
+      "itemId": "39351",
+      "icon": 25102,
+      "name": "开拓工房蜂蜜",
+      "names": {
+        "zh": "开拓工房蜂蜜",
+        "en": "Isleworks Honey",
+        "ja": "開拓工房の蜂蜜",
+        "ko": "개척공방 벌꿀",
+        "tc": "開拓工坊蜂蜜",
+        "fr": "Miel manufacturé",
+        "de": "Atelier-Honig"
+      },
+      "themeIds": [
+        "4",
+        "9"
+      ],
+      "materials": [
+        {
+          "id": "69",
+          "itemId": "39226",
+          "icon": 22611,
+          "name": "无人岛蜂巢",
+          "names": {
+            "zh": "无人岛蜂巢",
+            "en": "Island Beehive Chip",
+            "ja": "無人島の蜜蜂の巣",
+            "ko": "무인도 벌집",
+            "tc": "無人島蜂巢",
+            "fr": "Ruche d'abeilles insulaires",
+            "de": "Insel-Bienenwabe"
+          },
+          "amount": 2
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 10,
+      "hours": 4,
+      "value": 36
+    },
+    {
+      "id": "54",
+      "itemId": "39352",
+      "icon": 21276,
+      "name": "海岛蓝蛋白石",
+      "names": {
+        "zh": "海岛蓝蛋白石",
+        "en": "Isleworks Seashine Opal",
+        "ja": "アイルブルーオパール",
+        "ko": "섬 청단백석",
+        "tc": "海島藍蛋白石",
+        "fr": "Opale bleue insulaire",
+        "de": "Atelier-Tiefseeopal"
+      },
+      "themeIds": [
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "70",
+          "itemId": "39227",
+          "icon": 21228,
+          "name": "无人岛木化石",
+          "names": {
+            "zh": "无人岛木化石",
+            "en": "Island Wood Opal",
+            "ja": "無人島のウッドオパール",
+            "ko": "무인도 목단백석",
+            "tc": "無人島木化石",
+            "fr": "Bois opalisé insulaire",
+            "de": "Insel-Holzopal"
+          },
+          "amount": 4
+        },
+        {
+          "id": "8",
+          "itemId": "37559",
+          "icon": 21464,
+          "name": "无人岛砂砾",
+          "names": {
+            "zh": "无人岛砂砾",
+            "en": "Island Sand",
+            "ja": "無人島の砂",
+            "ko": "무인도 모래",
+            "tc": "無人島砂礫",
+            "fr": "Sable insulaire",
+            "de": "Insel-Sand"
+          },
+          "amount": 4
+        }
+      ],
+      "levelReq": 10,
+      "hours": 8,
+      "value": 80
+    },
+    {
+      "id": "55",
+      "itemId": "39353",
+      "icon": 23726,
+      "name": "开拓工房干花",
+      "names": {
+        "zh": "开拓工房干花",
+        "en": "Isleworks Dried Flowers",
+        "ja": "開拓工房のドライフラワー",
+        "ko": "개척공방 말린 꽃",
+        "tc": "開拓工坊乾燥花",
+        "fr": "Fleurs séchées manufacturées",
+        "de": "Atelier-Trockenblumen"
+      },
+      "themeIds": [
+        "5",
+        "6"
+      ],
+      "materials": [
+        {
+          "id": "71",
+          "itemId": "39228",
+          "icon": 23727,
+          "name": "无人岛色彩缤纷的花",
+          "names": {
+            "zh": "无人岛色彩缤纷的花",
+            "en": "Multicolored Isleblooms",
+            "ja": "無人島の極彩色の花",
+            "ko": "무인도 화려한 꽃",
+            "tc": "無人島色彩繽紛的花",
+            "fr": "Fleur multicolore insulaire",
+            "de": "Bunte Insel-Blumen"
+          },
+          "amount": 3
+        },
+        {
+          "id": "68",
+          "itemId": "39225",
+          "icon": 25323,
+          "name": "无人岛椰子",
+          "names": {
+            "zh": "无人岛椰子",
+            "en": "Island Coconut",
+            "ja": "無人島のココナッツ",
+            "ko": "무인도 코코넛",
+            "tc": "無人島椰子",
+            "fr": "Noix de coco insulaire",
+            "de": "Insel-Kokosnuss"
+          },
+          "amount": 2
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 10,
+      "hours": 6,
+      "value": 54
+    },
+    {
+      "id": "56",
+      "itemId": "39354",
+      "icon": 22648,
+      "name": "开拓工房辣椒粉",
+      "names": {
+        "zh": "开拓工房辣椒粉",
+        "en": "Isleworks Powdered Paprika",
+        "ja": "開拓工房のパプリカパウダー",
+        "ko": "개척공방 파프리카 가루",
+        "tc": "開拓工坊辣彩粉",
+        "fr": "Paprika manufacturé",
+        "de": "Atelier-Paprikapulver"
+      },
+      "themeIds": [
+        "9",
+        "8"
+      ],
+      "materials": [
+        {
+          "id": "74",
+          "itemId": "39231",
+          "icon": 25018,
+          "name": "海岛红辣椒",
+          "names": {
+            "zh": "海岛红辣椒",
+            "en": "Island Paprika",
+            "ja": "アイルパプリカ",
+            "ko": "섬 파프리카",
+            "tc": "海島紅彩椒",
+            "fr": "Poivron exotique",
+            "de": "Paradiespaprika"
+          },
+          "amount": 2
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 11,
+      "hours": 4,
+      "value": 52
+    },
+    {
+      "id": "57",
+      "itemId": "39355",
+      "icon": 24104,
+      "name": "开拓工房韭葱洋葱汤",
+      "names": {
+        "zh": "开拓工房韭葱洋葱汤",
+        "en": "Isleworks Cawl Cennin",
+        "ja": "開拓工房のカウルケニン",
+        "ko": "개척공방 대파 수프",
+        "tc": "開拓工坊韭蔥洋蔥湯",
+        "fr": "Soupe de poireaux manufacturée",
+        "de": "Atelier-Cawl Cennin"
+      },
+      "themeIds": [
+        "8",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "75",
+          "itemId": "39232",
+          "icon": 25216,
+          "name": "海岛韭葱",
+          "names": {
+            "zh": "海岛韭葱",
+            "en": "Island Leek",
+            "ja": "アイルリーキ",
+            "ko": "섬 대파",
+            "tc": "海島韭蔥",
+            "fr": "Poireau exotique",
+            "de": "Paradiesporree"
+          },
+          "amount": 3
+        },
+        {
+          "id": "60",
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          },
+          "amount": 1
+        },
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 11,
+      "hours": 6,
+      "value": 90
+    },
+    {
+      "id": "58",
+      "itemId": "39356",
+      "icon": 24037,
+      "name": "开拓工房无人面包",
+      "names": {
+        "zh": "开拓工房无人面包",
+        "en": "Isleworks Isloaf",
+        "ja": "開拓工房の無人パン",
+        "ko": "개척공방 무인빵",
+        "tc": "開拓工坊無人麵包",
+        "fr": "Pain de Félicité manufacturé",
+        "de": "Atelier-Inselbrot"
+      },
+      "themeIds": [
+        "3",
+        "8"
+      ],
+      "materials": [
+        {
+          "id": "48",
+          "itemId": "37599",
+          "icon": 25357,
+          "name": "海岛小麦",
+          "names": {
+            "zh": "海岛小麦",
+            "en": "Island Wheat",
+            "ja": "アイル小麦",
+            "ko": "섬 밀",
+            "tc": "海島小麥",
+            "fr": "Blé exotique",
+            "de": "Paradiesweizen"
+          },
+          "amount": 2
+        },
+        {
+          "id": "24",
+          "itemId": "37575",
+          "icon": 29012,
+          "name": "无人岛海水鱼",
+          "names": {
+            "zh": "无人岛海水鱼",
+            "en": "Islefish",
+            "ja": "無人島の海水魚",
+            "ko": "무인도 바닷물고기",
+            "tc": "無人島海水魚",
+            "fr": "Poisson de mer insulaire",
+            "de": "Insel-Fisch"
+          },
+          "amount": 1
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 11,
+      "hours": 4,
+      "value": 52
+    },
+    {
+      "id": "59",
+      "itemId": "39357",
+      "icon": 24164,
+      "name": "开拓工房新薯沙拉",
+      "names": {
+        "zh": "开拓工房新薯沙拉",
+        "en": "Isleworks Popoto Salad",
+        "ja": "開拓工房のポポトサラダ",
+        "ko": "개척공방 포포토 샐러드",
+        "tc": "開拓工坊新薯沙拉",
+        "fr": "Salade de popotos manufacturée",
+        "de": "Atelier-Toffelsalat"
+      },
+      "themeIds": [
+        "3"
+      ],
+      "materials": [
+        {
+          "id": "42",
+          "itemId": "37593",
+          "icon": 25204,
+          "name": "海岛新薯",
+          "names": {
+            "zh": "海岛新薯",
+            "en": "Island Popoto",
+            "ja": "アイルポポト",
+            "ko": "섬 포포토",
+            "tc": "海島新薯",
+            "fr": "Popoto exotique",
+            "de": "Paradiestoffel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "1",
+          "itemId": "37552",
+          "icon": 25308,
+          "name": "无人岛苹果",
+          "names": {
+            "zh": "无人岛苹果",
+            "en": "Island Apple",
+            "ja": "無人島のアップル",
+            "ko": "무인도 사과",
+            "tc": "無人島蘋果",
+            "fr": "Pomme insulaire",
+            "de": "Insel-Apfel"
+          },
+          "amount": 1
+        },
+        {
+          "id": "7",
+          "itemId": "37558",
+          "icon": 25010,
+          "name": "无人岛草叶",
+          "names": {
+            "zh": "无人岛草叶",
+            "en": "Islewort",
+            "ja": "無人島の草葉",
+            "ko": "무인도 풀잎",
+            "tc": "無人島草葉",
+            "fr": "Feuille d'arbuste insulaire",
+            "de": "Insel-Gras"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 11,
+      "hours": 4,
+      "value": 52
+    },
+    {
+      "id": "60",
+      "itemId": "39358",
+      "icon": 25107,
+      "name": "开拓工房调味汁",
+      "names": {
+        "zh": "开拓工房调味汁",
+        "en": "Isleworks Dressing",
+        "ja": "開拓工房のドレッシング",
+        "ko": "개척공방 드레싱",
+        "tc": "開拓工坊調味汁",
+        "fr": "Vinaigrette manufacturée",
+        "de": "Atelier-Salatsoße"
+      },
+      "themeIds": [
+        "9"
+      ],
+      "materials": [
+        {
+          "id": "46",
+          "itemId": "37597",
+          "icon": 25203,
+          "name": "海岛洋葱",
+          "names": {
+            "zh": "海岛洋葱",
+            "en": "Island Onion",
+            "ja": "アイルオニオン",
+            "ko": "섬 양파",
+            "tc": "海島洋蔥",
+            "fr": "Oignon exotique",
+            "de": "Paradieszwiebel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "12",
+          "itemId": "37563",
+          "icon": 22642,
+          "name": "无人岛树液",
+          "names": {
+            "zh": "无人岛树液",
+            "en": "Island Sap",
+            "ja": "無人島の樹液",
+            "ko": "무인도 수액",
+            "tc": "無人島樹液",
+            "fr": "Sève insulaire",
+            "de": "Insel-Harz"
+          },
+          "amount": 1
+        },
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 11,
+      "hours": 4,
+      "value": 52
+    },
+    {
+      "id": "61",
+      "itemId": "40740",
+      "icon": 26593,
+      "name": "海岛暖炉",
+      "names": {
+        "zh": "海岛暖炉",
+        "en": "Isleworks Stove",
+        "ja": "アイルストーブ",
+        "ko": "섬 난로",
+        "tc": "海島暖爐",
+        "fr": "Poêle manufacturé",
+        "de": "Atelier-Herd"
+      },
+      "themeIds": [
+        "6",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "76",
+          "itemId": "39887",
+          "icon": 21462,
+          "name": "无人岛石炭",
+          "names": {
+            "zh": "无人岛石炭",
+            "en": "Island Coal",
+            "ja": "無人島の石炭",
+            "ko": "무인도 석탄",
+            "tc": "無人島石炭",
+            "fr": "Charbon insulaire",
+            "de": "Insel-Steinkohle"
+          },
+          "amount": 2
+        },
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "23",
+          "itemId": "37574",
+          "icon": 21251,
+          "name": "无人岛花岗岩",
+          "names": {
+            "zh": "无人岛花岗岩",
+            "en": "Island Leucogranite",
+            "ja": "無人島の花崗岩",
+            "ko": "무인도 화강암",
+            "tc": "無人島花崗岩",
+            "fr": "Granite insulaire",
+            "de": "Insel-Granit"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 12,
+      "hours": 6,
+      "value": 54
+    },
+    {
+      "id": "62",
+      "itemId": "40741",
+      "icon": 53285,
+      "name": "海岛提灯",
+      "names": {
+        "zh": "海岛提灯",
+        "en": "Isleworks Lantern",
+        "ja": "アイルランタン",
+        "ko": "섬 등롱",
+        "tc": "海島提燈",
+        "fr": "Lanterne manufacturée",
+        "de": "Atelier-Laterne"
+      },
+      "themeIds": [
+        "5"
+      ],
+      "materials": [
+        {
+          "id": "78",
+          "itemId": "39889",
+          "icon": 25412,
+          "name": "无人岛灯火茸",
+          "names": {
+            "zh": "无人岛灯火茸",
+            "en": "Island Glimshroom",
+            "ja": "無人島のトモシビダケ",
+            "ko": "무인도 등불버섯",
+            "tc": "無人島燈火茸",
+            "fr": "Agaric luisant insulaire",
+            "de": "Insel-Leuchtpilz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 12,
+      "hours": 8,
+      "value": 80
+    },
+    {
+      "id": "63",
+      "itemId": "40742",
+      "icon": 22616,
+      "name": "开拓工房泡碱",
+      "names": {
+        "zh": "开拓工房泡碱",
+        "en": "Isleworks Natron",
+        "ja": "開拓工房の重曹",
+        "ko": "개척공방 베이킹 소다",
+        "tc": "開拓工坊泡鹼",
+        "fr": "Bicarbonate de soude manufacturé",
+        "de": "Atelier-Natron"
+      },
+      "themeIds": [
+        "5",
+        "8"
+      ],
+      "materials": [
+        {
+          "id": "81",
+          "itemId": "39892",
+          "icon": 22678,
+          "name": "无人岛发泡水",
+          "names": {
+            "zh": "无人岛发泡水",
+            "en": "Island Effervescent Water",
+            "ja": "無人島のソーダ水",
+            "ko": "무인도 탄산수",
+            "tc": "無人島氣泡水",
+            "fr": "Eau pétillante insulaire",
+            "de": "Insel-Sprudelwasser"
+          },
+          "amount": 2
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 12,
+      "hours": 4,
+      "value": 36
+    },
+    {
+      "id": "64",
+      "itemId": "40743",
+      "icon": 24111,
+      "name": "开拓工房五海杂烩汤",
+      "names": {
+        "zh": "开拓工房五海杂烩汤",
+        "en": "Isleworks Bouillabaisse",
+        "ja": "開拓工房のブイヤベース",
+        "ko": "개척공방 해물 수프",
+        "tc": "開拓工坊五海雜燴湯",
+        "fr": "Bouillabaisse manufacturée",
+        "de": "Atelier-Bouillabaisse"
+      },
+      "themeIds": [
+        "3",
+        "15"
+      ],
+      "materials": [
+        {
+          "id": "83",
+          "itemId": "39894",
+          "icon": 29404,
+          "name": "无人岛长臂虾",
+          "names": {
+            "zh": "无人岛长臂虾",
+            "en": "Island Cave Shrimp",
+            "ja": "無人島のテナガエビ",
+            "ko": "무인도 징거미새우",
+            "tc": "無人島長臂蝦",
+            "fr": "Crevette insulaire à grandes pinces",
+            "de": "Insel-Großarmgarnele"
+          },
+          "amount": 2
+        },
+        {
+          "id": "4",
+          "itemId": "37555",
+          "icon": 29031,
+          "name": "无人岛双壳贝",
+          "names": {
+            "zh": "无人岛双壳贝",
+            "en": "Island Clam",
+            "ja": "無人島の二枚貝",
+            "ko": "무인도 조개",
+            "tc": "無人島雙殼貝",
+            "fr": "Coque insulaire",
+            "de": "Zweischalige Insel-Muschel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "25",
+          "itemId": "37576",
+          "icon": 29177,
+          "name": "无人岛乌贼",
+          "names": {
+            "zh": "无人岛乌贼",
+            "en": "Island Squid",
+            "ja": "無人島のスキッド",
+            "ko": "무인도 오징어",
+            "tc": "無人島烏賊",
+            "fr": "Calmar insulaire",
+            "de": "Insel-Kalmar"
+          },
+          "amount": 2
+        },
+        {
+          "id": "47",
+          "itemId": "37598",
+          "icon": 25209,
+          "name": "海岛番茄",
+          "names": {
+            "zh": "海岛番茄",
+            "en": "Island Tomato",
+            "ja": "アイルトマト",
+            "ko": "섬 토마토",
+            "tc": "海島番茄",
+            "fr": "Tomate exotique",
+            "de": "Paradiesparadeiser"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 12,
+      "hours": 8,
+      "value": 136
+    },
+    {
+      "id": "65",
+      "itemId": "40744",
+      "icon": 23731,
+      "name": "开拓工房化石标本",
+      "names": {
+        "zh": "开拓工房化石标本",
+        "en": "Isleworks Fossil Display",
+        "ja": "開拓工房の化石標本",
+        "ko": "개척공방 화석 표본",
+        "tc": "開拓工坊化石標本",
+        "fr": "Cadre de fossile manufacturé",
+        "de": "Atelier-Ausstellfossil"
+      },
+      "themeIds": [
+        "14",
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "77",
+          "itemId": "39888",
+          "icon": 21455,
+          "name": "无人岛堆积岩",
+          "names": {
+            "zh": "无人岛堆积岩",
+            "en": "Island Shale",
+            "ja": "無人島の堆積岩",
+            "ko": "무인도 퇴적암",
+            "tc": "無人島堆積岩",
+            "fr": "Schiste insulaire",
+            "de": "Insel-Schiefer"
+          },
+          "amount": 3
+        },
+        {
+          "id": "10",
+          "itemId": "37561",
+          "icon": 22410,
+          "name": "无人岛棕榈原木",
+          "names": {
+            "zh": "无人岛棕榈原木",
+            "en": "Island Palm Log",
+            "ja": "無人島のパーム原木",
+            "ko": "무인도 야자나무 원목",
+            "tc": "無人島棕櫚原木",
+            "fr": "Rondin de palmier insulaire",
+            "de": "Insel-Palmenholzscheit"
+          },
+          "amount": 2
+        },
+        {
+          "id": "17",
+          "itemId": "37568",
+          "icon": 21652,
+          "name": "无人岛棉花",
+          "names": {
+            "zh": "无人岛棉花",
+            "en": "Island Cotton Boll",
+            "ja": "無人島の綿花",
+            "ko": "무인도 목화",
+            "tc": "無人島棉花",
+            "fr": "Fleur de coton insulaire",
+            "de": "Insel-Baumwollkapsel"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 13,
+      "hours": 6,
+      "value": 54
+    },
+    {
+      "id": "66",
+      "itemId": "40745",
+      "icon": 52445,
+      "name": "海岛浴缸",
+      "names": {
+        "zh": "海岛浴缸",
+        "en": "Isleworks Bathtub",
+        "ja": "アイルバスタブ",
+        "ko": "섬 욕조",
+        "tc": "海島浴缸",
+        "fr": "Baignoire manufacturée",
+        "de": "Atelier-Badewanne"
+      },
+      "themeIds": [
+        "6",
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "79",
+          "itemId": "39890",
+          "icon": 21487,
+          "name": "无人岛大理石",
+          "names": {
+            "zh": "无人岛大理石",
+            "en": "Island Marble",
+            "ja": "無人島の大理石",
+            "ko": "무인도 대리석",
+            "tc": "無人島大理石",
+            "fr": "Marbre insulaire",
+            "de": "Insel-Marmor"
+          },
+          "amount": 4
+        },
+        {
+          "id": "23",
+          "itemId": "37574",
+          "icon": 21251,
+          "name": "无人岛花岗岩",
+          "names": {
+            "zh": "无人岛花岗岩",
+            "en": "Island Leucogranite",
+            "ja": "無人島の花崗岩",
+            "ko": "무인도 화강암",
+            "tc": "無人島花崗岩",
+            "fr": "Granite insulaire",
+            "de": "Insel-Granit"
+          },
+          "amount": 2
+        },
+        {
+          "id": "19",
+          "itemId": "37570",
+          "icon": 22634,
+          "name": "无人岛黏土",
+          "names": {
+            "zh": "无人岛黏土",
+            "en": "Island Clay",
+            "ja": "無人島の粘土",
+            "ko": "무인도 점토",
+            "tc": "無人島黏土",
+            "fr": "Argile insulaire",
+            "de": "Insel-Lehm"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 13,
+      "hours": 8,
+      "value": 72
+    },
+    {
+      "id": "67",
+      "itemId": "40746",
+      "icon": 40900,
+      "name": "海岛眼镜",
+      "names": {
+        "zh": "海岛眼镜",
+        "en": "Isleworks Spectacles",
+        "ja": "アイルスペクタクルズ",
+        "ko": "섬 안경",
+        "tc": "海島眼鏡",
+        "fr": "Lunettes manufacturées",
+        "de": "Atelier-Brille"
+      },
+      "themeIds": [
+        "2",
+        "5"
+      ],
+      "materials": [
+        {
+          "id": "80",
+          "itemId": "39891",
+          "icon": 21208,
+          "name": "无人岛灵银矿",
+          "names": {
+            "zh": "无人岛灵银矿",
+            "en": "Island Mythril Ore",
+            "ja": "無人島の霊銀鉱",
+            "ko": "무인도 미스릴",
+            "tc": "無人島靈銀礦",
+            "fr": "Minerai de mithril insulaire",
+            "de": "Insel-Mithrilerz"
+          },
+          "amount": 3
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 13,
+      "hours": 6,
+      "value": 54
+    },
+    {
+      "id": "68",
+      "itemId": "40747",
+      "icon": 22651,
+      "name": "开拓工房隔热玻璃",
+      "names": {
+        "zh": "开拓工房隔热玻璃",
+        "en": "Isleworks Cooling Glass",
+        "ja": "開拓工房の断熱ガラス",
+        "ko": "개척공방 단열 유리",
+        "tc": "開拓工坊隔熱玻璃",
+        "fr": "Verre isolant manufacturé",
+        "de": "Atelier-Isolierglas"
+      },
+      "themeIds": [
+        "16"
+      ],
+      "materials": [
+        {
+          "id": "82",
+          "itemId": "39893",
+          "icon": 21477,
+          "name": "无人岛幻影石",
+          "names": {
+            "zh": "无人岛幻影石",
+            "en": "Island Spectrine",
+            "ja": "無人島の幻影石",
+            "ko": "무인도 환영석",
+            "tc": "無人島幻影石",
+            "fr": "Spectrite insulaire",
+            "de": "Insel-Spektrinit"
+          },
+          "amount": 4
+        },
+        {
+          "id": "8",
+          "itemId": "37559",
+          "icon": 21464,
+          "name": "无人岛砂砾",
+          "names": {
+            "zh": "无人岛砂砾",
+            "en": "Island Sand",
+            "ja": "無人島の砂",
+            "ko": "무인도 모래",
+            "tc": "無人島砂礫",
+            "fr": "Sable insulaire",
+            "de": "Insel-Sand"
+          },
+          "amount": 4
+        }
+      ],
+      "levelReq": 13,
+      "hours": 8,
+      "value": 80
+    },
+    {
+      "id": "69",
+      "itemId": "40748",
+      "icon": 24152,
+      "name": "开拓工房煎红花菜豆",
+      "names": {
+        "zh": "开拓工房煎红花菜豆",
+        "en": "Isleworks Runner Bean Saute",
+        "ja": "開拓工房のラナービーンズソテー",
+        "ko": "개척공방 적화강낭콩 볶음",
+        "tc": "開拓工坊煎紅花菜豆",
+        "fr": "Sauté de haricots-fleurs manufacturé",
+        "de": "Atelier-Feuerbohnentopf"
+      },
+      "themeIds": [
+        "3"
+      ],
+      "materials": [
+        {
+          "id": "88",
+          "itemId": "39899",
+          "icon": 25234,
+          "name": "海岛花豆",
+          "names": {
+            "zh": "海岛花豆",
+            "en": "Island Runner Beans",
+            "ja": "アイルラナービーンズ",
+            "ko": "섬 적화강낭콩",
+            "tc": "海島花豆",
+            "fr": "Haricot-fleur exotique",
+            "de": "Paradiesfeuerbohnen"
+          },
+          "amount": 2
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 14,
+      "hours": 4,
+      "value": 52
+    },
+    {
+      "id": "70",
+      "itemId": "40749",
+      "icon": 24123,
+      "name": "开拓工房红菜汤",
+      "names": {
+        "zh": "开拓工房红菜汤",
+        "en": "Isleworks Beet Soup",
+        "ja": "開拓工房のビーツスープ",
+        "ko": "개척공방 비트 수프",
+        "tc": "開拓工坊紅菜湯",
+        "fr": "Soupe de betterave manufacturée",
+        "de": "Rote Atelier-Betesuppe"
+      },
+      "themeIds": [
+        "3"
+      ],
+      "materials": [
+        {
+          "id": "89",
+          "itemId": "39900",
+          "icon": 25231,
+          "name": "海岛红菜",
+          "names": {
+            "zh": "海岛红菜",
+            "en": "Island Beet",
+            "ja": "アイルビーツ",
+            "ko": "섬 비트",
+            "tc": "海島紅菜",
+            "fr": "Betterave exotique",
+            "de": "Rote Paradiesbete"
+          },
+          "amount": 3
+        },
+        {
+          "id": "42",
+          "itemId": "37593",
+          "icon": 25204,
+          "name": "海岛新薯",
+          "names": {
+            "zh": "海岛新薯",
+            "en": "Island Popoto",
+            "ja": "アイルポポト",
+            "ko": "섬 포포토",
+            "tc": "海島新薯",
+            "fr": "Popoto exotique",
+            "de": "Paradiestoffel"
+          },
+          "amount": 1
+        },
+        {
+          "id": "60",
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 14,
+      "hours": 6,
+      "value": 78
+    },
+    {
+      "id": "71",
+      "itemId": "40750",
+      "icon": 24162,
+      "name": "海岛僧厥镶茄子",
+      "names": {
+        "zh": "海岛僧厥镶茄子",
+        "en": "Isleworks Imam Bayildi",
+        "ja": "アイルパトゥルジャン・イマム・バユルドゥ",
+        "ko": "섬 이맘 바이을드",
+        "tc": "海島僧厥鑲茄子",
+        "fr": "Imam bayildi manufacturé",
+        "de": "Atelier-Imam Bayildi"
+      },
+      "themeIds": [
+        "3"
+      ],
+      "materials": [
+        {
+          "id": "90",
+          "itemId": "39901",
+          "icon": 25205,
+          "name": "海岛茄子",
+          "names": {
+            "zh": "海岛茄子",
+            "en": "Island Eggplant",
+            "ja": "アイルエッグプラント",
+            "ko": "섬 가지",
+            "tc": "海島茄子",
+            "fr": "Aubergine exotique",
+            "de": "Paradiesaubergine"
+          },
+          "amount": 2
+        },
+        {
+          "id": "46",
+          "itemId": "37597",
+          "icon": 25203,
+          "name": "海岛洋葱",
+          "names": {
+            "zh": "海岛洋葱",
+            "en": "Island Onion",
+            "ja": "アイルオニオン",
+            "ko": "섬 양파",
+            "tc": "海島洋蔥",
+            "fr": "Oignon exotique",
+            "de": "Paradieszwiebel"
+          },
+          "amount": 2
+        },
+        {
+          "id": "47",
+          "itemId": "37598",
+          "icon": 25209,
+          "name": "海岛番茄",
+          "names": {
+            "zh": "海岛番茄",
+            "en": "Island Tomato",
+            "ja": "アイルトマト",
+            "ko": "섬 토마토",
+            "tc": "海島番茄",
+            "fr": "Tomate exotique",
+            "de": "Paradiesparadeiser"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 14,
+      "hours": 6,
+      "value": 90
+    },
+    {
+      "id": "72",
+      "itemId": "40751",
+      "icon": 24169,
+      "name": "开拓工房腌西葫芦",
+      "names": {
+        "zh": "开拓工房腌西葫芦",
+        "en": "Isleworks Pickled Zucchini",
+        "ja": "開拓工房のズッキーニピクルス",
+        "ko": "개척공방 돼지호박 절임",
+        "tc": "開拓工坊醃櫛瓜",
+        "fr": "Saumure de courgettes manufacturée",
+        "de": "Eingelegte Atelier-Zucchini"
+      },
+      "themeIds": [
+        "1"
+      ],
+      "materials": [
+        {
+          "id": "91",
+          "itemId": "39902",
+          "icon": 25212,
+          "name": "海岛西葫芦",
+          "names": {
+            "zh": "海岛西葫芦",
+            "en": "Island Zucchini",
+            "ja": "アイルズッキーニ",
+            "ko": "섬 돼지호박",
+            "tc": "海島櫛瓜",
+            "fr": "Courgette exotique",
+            "de": "Paradieszucchini"
+          },
+          "amount": 4
+        },
+        {
+          "id": "5",
+          "itemId": "37556",
+          "icon": 25225,
+          "name": "无人岛海藻",
+          "names": {
+            "zh": "无人岛海藻",
+            "en": "Island Laver",
+            "ja": "無人島の玉藻",
+            "ko": "무인도 구슬말",
+            "tc": "無人島球藻",
+            "fr": "Sargasse tamamo insulaire",
+            "de": "Insel-Alge"
+          },
+          "amount": 2
+        },
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 14,
+      "hours": 8,
+      "value": 104
+    },
+    {
+      "id": "73",
+      "itemId": "41674",
+      "icon": 26105,
+      "name": "海岛黄铜餐盘",
+      "names": {
+        "zh": "海岛黄铜餐盘",
+        "en": "Isleworks Brass Serving Dish",
+        "ja": "アイルブラスディッシュ",
+        "ko": "섬 황동 접시",
+        "tc": "海島黃銅餐盤",
+        "fr": "Plat en laiton insulaire",
+        "de": "Atelier-Messingteller"
+      },
+      "themeIds": [
+        "5",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "93",
+          "itemId": "41631",
+          "icon": 21207,
+          "name": "无人岛黄铜矿",
+          "names": {
+            "zh": "无人岛黄铜矿",
+            "en": "Island Yellow Copper Ore",
+            "ja": "無人島の黄銅鉱",
+            "ko": "무인도 황동 광석",
+            "tc": "無人島黃銅礦",
+            "fr": "Minerai de cuivre jaune insulaire",
+            "de": "Insel-Kupferkies"
+          },
+          "amount": 2
+        },
+        {
+          "id": "13",
+          "itemId": "37564",
+          "icon": 21209,
+          "name": "无人岛铜矿",
+          "names": {
+            "zh": "无人岛铜矿",
+            "en": "Island Copper Ore",
+            "ja": "無人島の銅鉱",
+            "ko": "무인도 구리 광석",
+            "tc": "無人島銅礦",
+            "fr": "Minerai de cuivre insulaire",
+            "de": "Insel-Kupfererz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 16,
+      "hours": 4,
+      "value": 36
+    },
+    {
+      "id": "74",
+      "itemId": "41676",
+      "icon": 35357,
+      "name": "海岛砂轮机",
+      "names": {
+        "zh": "海岛砂轮机",
+        "en": "Island Grinding Wheel",
+        "ja": "アイルグラインディングホイール",
+        "ko": "섬 연삭기",
+        "tc": "海島砂輪機",
+        "fr": "Meule insulaire",
+        "de": "Atelier-Schleifrad"
+      },
+      "themeIds": [
+        "5"
+      ],
+      "materials": [
+        {
+          "id": "95",
+          "itemId": "41633",
+          "icon": 21229,
+          "name": "无人岛鹰眼砂",
+          "names": {
+            "zh": "无人岛鹰眼砂",
+            "en": "Island Hawk's Eye Sand",
+            "ja": "無人島の鷹目砂",
+            "ko": "무인도 응안사",
+            "tc": "無人島鷹眼砂",
+            "fr": "Sable d'œil-de-faucon insulaire",
+            "de": "Insel-Falkenaugensand"
+          },
+          "amount": 2
+        },
+        {
+          "id": "80",
+          "itemId": "39891",
+          "icon": 21208,
+          "name": "无人岛灵银矿",
+          "names": {
+            "zh": "无人岛灵银矿",
+            "en": "Island Mythril Ore",
+            "ja": "無人島の霊銀鉱",
+            "ko": "무인도 미스릴",
+            "tc": "無人島靈銀礦",
+            "fr": "Minerai de mithril insulaire",
+            "de": "Insel-Mithrilerz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "8",
+          "itemId": "37559",
+          "icon": 21464,
+          "name": "无人岛砂砾",
+          "names": {
+            "zh": "无人岛砂砾",
+            "en": "Island Sand",
+            "ja": "無人島の砂",
+            "ko": "무인도 모래",
+            "tc": "無人島砂礫",
+            "fr": "Sable insulaire",
+            "de": "Insel-Sand"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 16,
+      "hours": 6,
+      "value": 60
+    },
+    {
+      "id": "75",
+      "itemId": "41673",
+      "icon": 36268,
+      "name": "海岛翠银环刃",
+      "names": {
+        "zh": "海岛翠银环刃",
+        "en": "Island Durium Tathlums",
+        "ja": "アイルダリウムタスラム",
+        "ko": "섬 취은 타흘룸",
+        "tc": "海島翠銀環刃",
+        "fr": "Tathlums en durium insulaire",
+        "de": "Atelier-Duriumchakrams"
+      },
+      "themeIds": [
+        "7",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "92",
+          "itemId": "41630",
+          "icon": 21242,
+          "name": "无人岛翠银沙",
+          "names": {
+            "zh": "无人岛翠银沙",
+            "en": "Island Durium Sand",
+            "ja": "無人島の翠銀砂",
+            "ko": "무인도 취은 모래",
+            "tc": "無人島翠銀沙",
+            "fr": "Sable de durium insulaire",
+            "de": "Insel-Duriumsand"
+          },
+          "amount": 2
+        },
+        {
+          "id": "21",
+          "itemId": "37572",
+          "icon": 21202,
+          "name": "无人岛铁矿",
+          "names": {
+            "zh": "无人岛铁矿",
+            "en": "Island Iron Ore",
+            "ja": "無人島の鉄鉱",
+            "ko": "무인도 철 광석",
+            "tc": "無人島鐵礦",
+            "fr": "Minerai de fer insulaire",
+            "de": "Insel-Eisenerz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 17,
+      "hours": 6,
+      "value": 54
+    },
+    {
+      "id": "76",
+      "itemId": "41675",
+      "icon": 23743,
+      "name": "开拓工房金发饰",
+      "names": {
+        "zh": "开拓工房金发饰",
+        "en": "Isleworks Gold Hairpin",
+        "ja": "開拓工房の金の髪飾り",
+        "ko": "개척공방 황금 머리장식",
+        "tc": "開拓工坊金髮飾",
+        "fr": "Épingle à cheveux manufacturée",
+        "de": "Atelier-Goldhaarnadel"
+      },
+      "themeIds": [
+        "10",
+        "11"
+      ],
+      "materials": [
+        {
+          "id": "94",
+          "itemId": "41632",
+          "icon": 21212,
+          "name": "无人岛金矿",
+          "names": {
+            "zh": "无人岛金矿",
+            "en": "Island Gold Ore",
+            "ja": "無人島の金鉱",
+            "ko": "무인도 금 광석",
+            "tc": "無人島金礦",
+            "fr": "Minerai d'or insulaire",
+            "de": "Insel-Golderz"
+          },
+          "amount": 4
+        },
+        {
+          "id": "93",
+          "itemId": "41631",
+          "icon": 21207,
+          "name": "无人岛黄铜矿",
+          "names": {
+            "zh": "无人岛黄铜矿",
+            "en": "Island Yellow Copper Ore",
+            "ja": "無人島の黄銅鉱",
+            "ko": "무인도 황동 광석",
+            "tc": "無人島黃銅礦",
+            "fr": "Minerai de cuivre jaune insulaire",
+            "de": "Insel-Kupferkies"
+          },
+          "amount": 2
+        },
+        {
+          "id": "22",
+          "itemId": "37573",
+          "icon": 20019,
+          "name": "无人岛石英",
+          "names": {
+            "zh": "无人岛石英",
+            "en": "Island Quartz",
+            "ja": "無人島のクォーツ",
+            "ko": "무인도 석영",
+            "tc": "無人島石英",
+            "fr": "Quartz insulaire",
+            "de": "Insel-Quarz"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 17,
+      "hours": 8,
+      "value": 72
+    },
+    {
+      "id": "77",
+      "itemId": "41677",
+      "icon": 23744,
+      "name": "开拓者水晶像",
+      "names": {
+        "zh": "开拓者水晶像",
+        "en": "Mammet of the Cycle Award",
+        "ja": "開拓者のクリスタル像",
+        "ko": "개척자의 크리스탈 조각상",
+        "tc": "開拓者水晶像",
+        "fr": "Statue de pionnier en cristal",
+        "de": "Atelier-Kristallstatue"
+      },
+      "themeIds": [
+        "6"
+      ],
+      "materials": [
+        {
+          "id": "96",
+          "itemId": "41634",
+          "icon": 21488,
+          "name": "无人岛水晶层",
+          "names": {
+            "zh": "无人岛水晶层",
+            "en": "Island Crystal Formation",
+            "ja": "無人島のクリスタル層",
+            "ko": "무인도 크리스탈층",
+            "tc": "無人島水晶層",
+            "fr": "Cristal insulaire",
+            "de": "Insel-Kristallformation"
+          },
+          "amount": 2
+        },
+        {
+          "id": "82",
+          "itemId": "39893",
+          "icon": 21477,
+          "name": "无人岛幻影石",
+          "names": {
+            "zh": "无人岛幻影石",
+            "en": "Island Spectrine",
+            "ja": "無人島の幻影石",
+            "ko": "무인도 환영석",
+            "tc": "無人島幻影石",
+            "fr": "Spectrite insulaire",
+            "de": "Insel-Spektrinit"
+          },
+          "amount": 2
+        },
+        {
+          "id": "80",
+          "itemId": "39891",
+          "icon": 21208,
+          "name": "无人岛灵银矿",
+          "names": {
+            "zh": "无人岛灵银矿",
+            "en": "Island Mythril Ore",
+            "ja": "無人島の霊銀鉱",
+            "ko": "무인도 미스릴",
+            "tc": "無人島靈銀礦",
+            "fr": "Minerai de mithril insulaire",
+            "de": "Insel-Mithrilerz"
+          },
+          "amount": 2
+        },
+        {
+          "id": "79",
+          "itemId": "39890",
+          "icon": 21487,
+          "name": "无人岛大理石",
+          "names": {
+            "zh": "无人岛大理石",
+            "en": "Island Marble",
+            "ja": "無人島の大理石",
+            "ko": "무인도 대리석",
+            "tc": "無人島大理石",
+            "fr": "Marbre insulaire",
+            "de": "Insel-Marmor"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 17,
+      "hours": 8,
+      "value": 80
+    },
+    {
+      "id": "78",
+      "itemId": "41669",
+      "icon": 24099,
+      "name": "海岛水果捞",
+      "names": {
+        "zh": "海岛水果捞",
+        "en": "Isleworks Fruit Punch",
+        "ja": "アイルフルーツポンチ",
+        "ko": "섬 과일 화채",
+        "tc": "海島水果撈",
+        "fr": "Salade de fruits exotiques",
+        "de": "Atelier-Fruchtpunsch"
+      },
+      "themeIds": [
+        "4"
+      ],
+      "materials": [
+        {
+          "id": "101",
+          "itemId": "41635",
+          "icon": 25328,
+          "name": "海岛西瓜",
+          "names": {
+            "zh": "海岛西瓜",
+            "en": "Island Watermelon",
+            "ja": "アイルウォーターメロン",
+            "ko": "섬 수박",
+            "tc": "海島西瓜",
+            "fr": "Pastèque exotique",
+            "de": "Paradieswassermelone"
+          },
+          "amount": 1
+        },
+        {
+          "id": "44",
+          "itemId": "37595",
+          "icon": 25306,
+          "name": "海岛莓果",
+          "names": {
+            "zh": "海岛莓果",
+            "en": "Isleberry",
+            "ja": "アイルベリー",
+            "ko": "섬 딸기",
+            "tc": "海島莓果",
+            "fr": "Fraise exotique",
+            "de": "Paradiesbeere"
+          },
+          "amount": 1
+        },
+        {
+          "id": "1",
+          "itemId": "37552",
+          "icon": 25308,
+          "name": "无人岛苹果",
+          "names": {
+            "zh": "无人岛苹果",
+            "en": "Island Apple",
+            "ja": "無人島のアップル",
+            "ko": "무인도 사과",
+            "tc": "無人島蘋果",
+            "fr": "Pomme insulaire",
+            "de": "Insel-Apfel"
+          },
+          "amount": 1
+        },
+        {
+          "id": "68",
+          "itemId": "39225",
+          "icon": 25323,
+          "name": "无人岛椰子",
+          "names": {
+            "zh": "无人岛椰子",
+            "en": "Island Coconut",
+            "ja": "無人島のココナッツ",
+            "ko": "무인도 코코넛",
+            "tc": "無人島椰子",
+            "fr": "Noix de coco insulaire",
+            "de": "Insel-Kokosnuss"
+          },
+          "amount": 1
+        }
+      ],
+      "levelReq": 18,
+      "hours": 4,
+      "value": 52
+    },
+    {
+      "id": "79",
+      "itemId": "41670",
+      "icon": 24225,
+      "name": "海岛甜新薯挞",
+      "names": {
+        "zh": "海岛甜新薯挞",
+        "en": "Isleworks Sweet Popoto Pie",
+        "ja": "アイル・スイートポポトタルト",
+        "ko": "섬 달콤포포토 타르트",
+        "tc": "海島甜新薯塔",
+        "fr": "Tarte à la popoto douce exotique",
+        "de": "Atelier-Süßtoffeltörtchen"
+      },
+      "themeIds": [
+        "3",
+        "4"
+      ],
+      "materials": [
+        {
+          "id": "102",
+          "itemId": "41636",
+          "icon": 25236,
+          "name": "海岛甜新薯",
+          "names": {
+            "zh": "海岛甜新薯",
+            "en": "Island Sweet Popoto",
+            "ja": "アイルスイートポポト",
+            "ko": "섬 달콤포포토",
+            "tc": "海島甜新薯",
+            "fr": "Popoto douce exotique",
+            "de": "Paradiessüßtoffel"
+          },
+          "amount": 3
+        },
+        {
+          "id": "48",
+          "itemId": "37599",
+          "icon": 25357,
+          "name": "海岛小麦",
+          "names": {
+            "zh": "海岛小麦",
+            "en": "Island Wheat",
+            "ja": "アイル小麦",
+            "ko": "섬 밀",
+            "tc": "海島小麥",
+            "fr": "Blé exotique",
+            "de": "Paradiesweizen"
+          },
+          "amount": 1
+        },
+        {
+          "id": "56",
+          "itemId": "37607",
+          "icon": 25251,
+          "name": "牧场动物的鸟蛋",
+          "names": {
+            "zh": "牧场动物的鸟蛋",
+            "en": "Sanctuary Egg",
+            "ja": "飼育動物の卵",
+            "ko": "사육동물 알",
+            "tc": "牧場動物的鳥蛋",
+            "fr": "Œuf d'animal d'élevage",
+            "de": "Weide-Ei"
+          },
+          "amount": 1
+        },
+        {
+          "id": "16",
+          "itemId": "37567",
+          "icon": 22452,
+          "name": "无人岛甘蔗",
+          "names": {
+            "zh": "无人岛甘蔗",
+            "en": "Island Sugarcane",
+            "ja": "無人島のサトウキビ",
+            "ko": "무인도 사탕수수",
+            "tc": "無人島甘蔗",
+            "fr": "Canne à sucre insulaire",
+            "de": "Insel-Zuckerrohr"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 18,
+      "hours": 8,
+      "value": 120
+    },
+    {
+      "id": "80",
+      "itemId": "41671",
+      "icon": 24044,
+      "name": "海岛风味拌细面",
+      "names": {
+        "zh": "海岛风味拌细面",
+        "en": "Isleworks Peperoncino",
+        "ja": "アイルペペロンチーノ",
+        "ko": "섬 페페론치노",
+        "tc": "海島風味拌細麵",
+        "fr": "Pâtes aux piments exotiques",
+        "de": "Atelier-Spaghetti Peperoncino"
+      },
+      "themeIds": [
+        "3"
+      ],
+      "materials": [
+        {
+          "id": "103",
+          "itemId": "41637",
+          "icon": 25237,
+          "name": "海岛西兰花",
+          "names": {
+            "zh": "海岛西兰花",
+            "en": "Island Broccoli",
+            "ja": "アイルブロッコリー",
+            "ko": "섬 브로콜리",
+            "tc": "海島花椰菜",
+            "fr": "Brocoli exotique",
+            "de": "Paradiesbrokkoli"
+          },
+          "amount": 2
+        },
+        {
+          "id": "48",
+          "itemId": "37599",
+          "icon": 25357,
+          "name": "海岛小麦",
+          "names": {
+            "zh": "海岛小麦",
+            "en": "Island Wheat",
+            "ja": "アイル小麦",
+            "ko": "섬 밀",
+            "tc": "海島小麥",
+            "fr": "Blé exotique",
+            "de": "Paradiesweizen"
+          },
+          "amount": 1
+        },
+        {
+          "id": "15",
+          "itemId": "37566",
+          "icon": 22617,
+          "name": "无人岛岩盐",
+          "names": {
+            "zh": "无人岛岩盐",
+            "en": "Island Rock Salt",
+            "ja": "無人島の岩塩",
+            "ko": "무인도 암염",
+            "tc": "無人島岩鹽",
+            "fr": "Sel gemme insulaire",
+            "de": "Insel-Steinsalz"
+          },
+          "amount": 3
+        }
+      ],
+      "levelReq": 18,
+      "hours": 6,
+      "value": 75
+    },
+    {
+      "id": "81",
+      "itemId": "41672",
+      "icon": 24171,
+      "name": "海岛水牛豆沙拉",
+      "names": {
+        "zh": "海岛水牛豆沙拉",
+        "en": "Isleworks Buffalo Bean Salad",
+        "ja": "アイルバッファロービーンサラダ",
+        "ko": "섬 물소콩 샐러드",
+        "tc": "海島水牛豆沙拉",
+        "fr": "Salade de haricots buffle exotiques",
+        "de": "Juckbohnensalat"
+      },
+      "themeIds": [
+        "3",
+        "14"
+      ],
+      "materials": [
+        {
+          "id": "104",
+          "itemId": "41638",
+          "icon": 25353,
+          "name": "海岛水牛豆",
+          "names": {
+            "zh": "海岛水牛豆",
+            "en": "Island Buffalo Beans",
+            "ja": "アイルバッファロービーン",
+            "ko": "섬 물소콩",
+            "tc": "海島水牛豆",
+            "fr": "Haricots buffle exotiques",
+            "de": "Paradiesjuckbohnen"
+          },
+          "amount": 2
+        },
+        {
+          "id": "60",
+          "itemId": "37611",
+          "icon": 24453,
+          "name": "牧场动物的乳汁",
+          "names": {
+            "zh": "牧场动物的乳汁",
+            "en": "Sanctuary Milk",
+            "ja": "飼育動物の乳",
+            "ko": "사육동물 젖",
+            "tc": "牧場動物的乳汁",
+            "fr": "Lait d'animal d'élevage",
+            "de": "Weide-Milch"
+          },
+          "amount": 2
+        }
+      ],
+      "levelReq": 18,
+      "hours": 4,
+      "value": 52
+    }
+  ],
+  "themes": [
+    {
+      "id": "1",
+      "name": "耐储存食品",
+      "names": {
+        "zh": "耐储存食品",
+        "en": "Preserved Food",
+        "ja": "保存食",
+        "ko": "보존식",
+        "tc": "耐儲存食品",
+        "fr": "À longue conservation",
+        "de": "Haltbares"
+      }
+    },
+    {
+      "id": "2",
+      "name": "防具",
+      "names": {
+        "zh": "防具",
+        "en": "Attire",
+        "ja": "防具",
+        "ko": "방어구",
+        "tc": "防具",
+        "fr": "Armure",
+        "de": "Rüstung"
+      }
+    },
+    {
+      "id": "3",
+      "name": "菜肴",
+      "names": {
+        "zh": "菜肴",
+        "en": "Foodstuffs",
+        "ja": "料理",
+        "ko": "요리",
+        "tc": "菜餚",
+        "fr": "Plat",
+        "de": "Gericht"
+      }
+    },
+    {
+      "id": "4",
+      "name": "点心",
+      "names": {
+        "zh": "点心",
+        "en": "Confections",
+        "ja": "菓子",
+        "ko": "과자",
+        "tc": "點心",
+        "fr": "Pâtisserie",
+        "de": "Süßigkeit"
+      }
+    },
+    {
+      "id": "5",
+      "name": "日用品",
+      "names": {
+        "zh": "日用品",
+        "en": "Sundries",
+        "ja": "日用品",
+        "ko": "일용품",
+        "tc": "日用品",
+        "fr": "Article du quotidien",
+        "de": "Täglicher Bedarf"
+      }
+    },
+    {
+      "id": "6",
+      "name": "家具",
+      "names": {
+        "zh": "家具",
+        "en": "Furnishings",
+        "ja": "調度品",
+        "ko": "가구",
+        "tc": "傢俱",
+        "fr": "Meuble",
+        "de": "Möbelstück"
+      }
+    },
+    {
+      "id": "7",
+      "name": "武器",
+      "names": {
+        "zh": "武器",
+        "en": "Arms",
+        "ja": "武器",
+        "ko": "무기",
+        "tc": "武器",
+        "fr": "Arme",
+        "de": "Waffe"
+      }
+    },
+    {
+      "id": "8",
+      "name": "药品",
+      "names": {
+        "zh": "药品",
+        "en": "Concoctions",
+        "ja": "薬品",
+        "ko": "약품",
+        "tc": "藥品",
+        "fr": "Concoction",
+        "de": "Präparat"
+      }
+    },
+    {
+      "id": "9",
+      "name": "调料",
+      "names": {
+        "zh": "调料",
+        "en": "Ingredients",
+        "ja": "調味料",
+        "ko": "조미료",
+        "tc": "調味料",
+        "fr": "Condiment",
+        "de": "Zutat"
+      }
+    },
+    {
+      "id": "10",
+      "name": "饰品",
+      "names": {
+        "zh": "饰品",
+        "en": "Accessories",
+        "ja": "アクセサリ",
+        "ko": "장신구",
+        "tc": "飾品",
+        "fr": "Accessoire",
+        "de": "Accessoire"
+      }
+    },
+    {
+      "id": "11",
+      "name": "金属制品",
+      "names": {
+        "zh": "金属制品",
+        "en": "Metalworks",
+        "ja": "金属製品",
+        "ko": "금속제품",
+        "tc": "金屬製品",
+        "fr": "En métal",
+        "de": "Metallarbeit"
+      }
+    },
+    {
+      "id": "12",
+      "name": "木工制品",
+      "names": {
+        "zh": "木工制品",
+        "en": "Woodworks",
+        "ja": "木工製品",
+        "ko": "목공제품",
+        "tc": "木工製品",
+        "fr": "En bois",
+        "de": "Holzarbeit"
+      }
+    },
+    {
+      "id": "13",
+      "name": "纺织制品",
+      "names": {
+        "zh": "纺织制品",
+        "en": "Textiles",
+        "ja": "布製品",
+        "ko": "방직제품",
+        "tc": "紡織製品",
+        "fr": "Textile",
+        "de": "Textilarbeit"
+      }
+    },
+    {
+      "id": "14",
+      "name": "动物制品",
+      "names": {
+        "zh": "动物制品",
+        "en": "Creature Creations",
+        "ja": "動物製品",
+        "ko": "동물제품",
+        "tc": "動物製品",
+        "fr": "Animalier",
+        "de": "Tierprodukt"
+      }
+    },
+    {
+      "id": "15",
+      "name": "海产制品",
+      "names": {
+        "zh": "海产制品",
+        "en": "Marine Merchandise",
+        "ja": "海産製品",
+        "ko": "해산제품",
+        "tc": "海產製品",
+        "fr": "Marin",
+        "de": "Meeresprodukt"
+      }
+    },
+    {
+      "id": "16",
+      "name": "窑炉制品",
+      "names": {
+        "zh": "窑炉制品",
+        "en": "Unburied Treasures",
+        "ja": "窯業製品",
+        "ko": "요업제품",
+        "tc": "窯爐製品",
+        "fr": "En céramique",
+        "de": "Keramik"
+      }
+    }
+  ],
+  "phaseRoutes": {
+    "notes": [
+      "工房每个周期（周二16:00~下周二16:00）作5休2，休息日可自行调整；已开始的日程无法改动，没有制作的工作日也不会自己变成休息日。",
+      "建议将登岛首周的休息日放在工房升级的日子，让工房以全新的姿态迎接收益更高的商品。",
+      "连续制造相同分类的不同物品会触发组合生产光环，使产量翻倍并提供干劲加成；排程应确保触发组合生产并填满 24 小时。",
+      "无人岛等级 5~9 级会解锁新配方；登岛初期使用稀有材料比较奢侈，建议以普通采集材料配方为主。",
+      "9 级配方均需牧场材料，此处不列举。"
+    ],
+    "source": [
+      {
+        "url": "https://bbs.nga.cn/read.php?tid=34810413",
+        "role": "5~8级参考路线安排与工房机制说明",
+        "fetchedAt": "2026-11-23"
+      }
+    ],
+    "ranks": [
+      {
+        "rank": 5,
+        "newProducts": [
+          {
+            "id": "18",
+            "icon": 51695,
+            "name": "海岛砖块柜台",
+            "names": {
+              "zh": "海岛砖块柜台",
+              "en": "Isleworks Brick Counter",
+              "ja": "アイルブリックカウンター",
+              "ko": "섬 벽돌 대면책상",
+              "tc": "海島磚塊櫃台",
+              "fr": "Comptoir en brique manufacturé",
+              "de": "Atelier-Ziegeltheke"
+            }
+          },
+          {
+            "id": "19",
+            "icon": 23715,
+            "name": "绵羊铜像",
+            "names": {
+              "zh": "绵羊铜像",
+              "en": "Bronze Sheep",
+              "ja": "シープのブロンズ像",
+              "ko": "양 동상",
+              "tc": "綿羊銅像",
+              "fr": "Statue de mouton en bronze manufacturée",
+              "de": "Bronzeschaf"
+            }
+          }
+        ],
+        "routes": [
+          [
+            {
+              "id": "1",
+              "icon": 20601,
+              "name": "海岛恢复药",
+              "names": {
+                "zh": "海岛恢复药",
+                "en": "Isleworks Potion",
+                "ja": "アイルポーション",
+                "ko": "섬 포션",
+                "tc": "海島治療劑",
+                "fr": "Potion manufacturée",
+                "de": "Atelier-Trank"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "2",
+              "icon": 22604,
+              "name": "开拓工房火药",
+              "names": {
+                "zh": "开拓工房火药",
+                "en": "Isleworks Firesand",
+                "ja": "開拓工房の火薬",
+                "ko": "개척공방 화약",
+                "tc": "開拓工坊火藥",
+                "fr": "Poudre manufacturée",
+                "de": "Atelier-Feuersandbeutel"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "18",
+              "icon": 51695,
+              "name": "海岛砖块柜台",
+              "names": {
+                "zh": "海岛砖块柜台",
+                "en": "Isleworks Brick Counter",
+                "ja": "アイルブリックカウンター",
+                "ko": "섬 벽돌 대면책상",
+                "tc": "海島磚塊櫃台",
+                "fr": "Comptoir en brique manufacturé",
+                "de": "Atelier-Ziegeltheke"
+              },
+              "hours": 6,
+              "value": 48
+            },
+            {
+              "id": "2",
+              "icon": 22604,
+              "name": "开拓工房火药",
+              "names": {
+                "zh": "开拓工房火药",
+                "en": "Isleworks Firesand",
+                "ja": "開拓工房の火薬",
+                "ko": "개척공방 화약",
+                "tc": "開拓工坊火藥",
+                "fr": "Poudre manufacturée",
+                "de": "Atelier-Feuersandbeutel"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "18",
+              "icon": 51695,
+              "name": "海岛砖块柜台",
+              "names": {
+                "zh": "海岛砖块柜台",
+                "en": "Isleworks Brick Counter",
+                "ja": "アイルブリックカウンター",
+                "ko": "섬 벽돌 대면책상",
+                "tc": "海島磚塊櫃台",
+                "fr": "Comptoir en brique manufacturé",
+                "de": "Atelier-Ziegeltheke"
+              },
+              "hours": 6,
+              "value": 48
+            }
+          ],
+          [
+            {
+              "id": "2",
+              "icon": 22604,
+              "name": "开拓工房火药",
+              "names": {
+                "zh": "开拓工房火药",
+                "en": "Isleworks Firesand",
+                "ja": "開拓工房の火薬",
+                "ko": "개척공방 화약",
+                "tc": "開拓工坊火藥",
+                "fr": "Poudre manufacturée",
+                "de": "Atelier-Feuersandbeutel"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "18",
+              "icon": 51695,
+              "name": "海岛砖块柜台",
+              "names": {
+                "zh": "海岛砖块柜台",
+                "en": "Isleworks Brick Counter",
+                "ja": "アイルブリックカウンター",
+                "ko": "섬 벽돌 대면책상",
+                "tc": "海島磚塊櫃台",
+                "fr": "Comptoir en brique manufacturé",
+                "de": "Atelier-Ziegeltheke"
+              },
+              "hours": 6,
+              "value": 48
+            },
+            {
+              "id": "19",
+              "icon": 23715,
+              "name": "绵羊铜像",
+              "names": {
+                "zh": "绵羊铜像",
+                "en": "Bronze Sheep",
+                "ja": "シープのブロンズ像",
+                "ko": "양 동상",
+                "tc": "綿羊銅像",
+                "fr": "Statue de mouton en bronze manufacturée",
+                "de": "Bronzeschaf"
+              },
+              "hours": 8,
+              "value": 64
+            },
+            {
+              "id": "7",
+              "icon": 40008,
+              "name": "海岛开面盔",
+              "names": {
+                "zh": "海岛开面盔",
+                "en": "Isleworks Barbut",
+                "ja": "アイルバルビュート",
+                "ko": "섬 무장투구",
+                "tc": "海島開面盔",
+                "fr": "Barbute manufacturée",
+                "de": "Atelier-Barbuta"
+              },
+              "hours": 6,
+              "value": 42
+            }
+          ],
+          [
+            {
+              "id": "3",
+              "icon": 52453,
+              "name": "海岛座椅",
+              "names": {
+                "zh": "海岛座椅",
+                "en": "Isleworks Wooden Chair",
+                "ja": "アイルウッドチェア",
+                "ko": "섬 나무 의자",
+                "tc": "海島座椅",
+                "fr": "Chaise en bois manufacturée",
+                "de": "Atelier-Holzstuhl"
+              },
+              "hours": 6,
+              "value": 42
+            },
+            {
+              "id": "18",
+              "icon": 51695,
+              "name": "海岛砖块柜台",
+              "names": {
+                "zh": "海岛砖块柜台",
+                "en": "Isleworks Brick Counter",
+                "ja": "アイルブリックカウンター",
+                "ko": "섬 벽돌 대면책상",
+                "tc": "海島磚塊櫃台",
+                "fr": "Comptoir en brique manufacturé",
+                "de": "Atelier-Ziegeltheke"
+              },
+              "hours": 6,
+              "value": 48
+            },
+            {
+              "id": "3",
+              "icon": 52453,
+              "name": "海岛座椅",
+              "names": {
+                "zh": "海岛座椅",
+                "en": "Isleworks Wooden Chair",
+                "ja": "アイルウッドチェア",
+                "ko": "섬 나무 의자",
+                "tc": "海島座椅",
+                "fr": "Chaise en bois manufacturée",
+                "de": "Atelier-Holzstuhl"
+              },
+              "hours": 6,
+              "value": 42
+            },
+            {
+              "id": "18",
+              "icon": 51695,
+              "name": "海岛砖块柜台",
+              "names": {
+                "zh": "海岛砖块柜台",
+                "en": "Isleworks Brick Counter",
+                "ja": "アイルブリックカウンター",
+                "ko": "섬 벽돌 대면책상",
+                "tc": "海島磚塊櫃台",
+                "fr": "Comptoir en brique manufacturé",
+                "de": "Atelier-Ziegeltheke"
+              },
+              "hours": 6,
+              "value": 48
+            }
+          ]
+        ]
+      },
+      {
+        "rank": 6,
+        "newProducts": [
+          {
+            "id": "28",
+            "icon": 54918,
+            "name": "海岛缎带",
+            "names": {
+              "zh": "海岛缎带",
+              "en": "Isleworks Ribbon",
+              "ja": "アイルリボン",
+              "ko": "섬 리본",
+              "tc": "海島緞帶",
+              "fr": "Ruban exotique",
+              "de": "Atelier-Schleife"
+            }
+          },
+          {
+            "id": "29",
+            "icon": 26103,
+            "name": "海岛绳索",
+            "names": {
+              "zh": "海岛绳索",
+              "en": "Isleworks Rope",
+              "ja": "アイルロープ",
+              "ko": "섬 밧줄",
+              "tc": "海島繩索",
+              "fr": "Corde exotique",
+              "de": "Atelier-Seil"
+            }
+          }
+        ],
+        "routes": [
+          [
+            {
+              "id": "29",
+              "icon": 26103,
+              "name": "海岛绳索",
+              "names": {
+                "zh": "海岛绳索",
+                "en": "Isleworks Rope",
+                "ja": "アイルロープ",
+                "ko": "섬 밧줄",
+                "tc": "海島繩索",
+                "fr": "Corde exotique",
+                "de": "Atelier-Seil"
+              },
+              "hours": 4,
+              "value": 36
+            },
+            {
+              "id": "28",
+              "icon": 54918,
+              "name": "海岛缎带",
+              "names": {
+                "zh": "海岛缎带",
+                "en": "Isleworks Ribbon",
+                "ja": "アイルリボン",
+                "ko": "섬 리본",
+                "tc": "海島緞帶",
+                "fr": "Ruban exotique",
+                "de": "Atelier-Schleife"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "5",
+              "icon": 54912,
+              "name": "海岛木制项链",
+              "names": {
+                "zh": "海岛木制项链",
+                "en": "Isleworks Necklace",
+                "ja": "アイルウッドネックレス",
+                "ko": "섬 나무 목걸이",
+                "tc": "海島木製項鍊",
+                "fr": "Collier en bois manufacturé",
+                "de": "Atelier-Halskette"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "6",
+              "icon": 54434,
+              "name": "海岛珊瑚戒指",
+              "names": {
+                "zh": "海岛珊瑚戒指",
+                "en": "Isleworks Coral Ring",
+                "ja": "アイルコーラルリング",
+                "ko": "섬 산호 반지",
+                "tc": "海島珊瑚戒指",
+                "fr": "Bague en corail manufacturée",
+                "de": "Atelier-Korallenring"
+              },
+              "hours": 6,
+              "value": 42
+            },
+            {
+              "id": "4",
+              "icon": 24332,
+              "name": "开拓工房烤扇贝",
+              "names": {
+                "zh": "开拓工房烤扇贝",
+                "en": "Isleworks Grilled Clam",
+                "ja": "開拓工房の焼き貝",
+                "ko": "개척공방 조개구이",
+                "tc": "開拓工坊烤扇貝",
+                "fr": "Coquillage grillé manufacturé",
+                "de": "Atelier-Grillmuscheln"
+              },
+              "hours": 4,
+              "value": 28
+            }
+          ],
+          [
+            {
+              "id": "28",
+              "icon": 54918,
+              "name": "海岛缎带",
+              "names": {
+                "zh": "海岛缎带",
+                "en": "Isleworks Ribbon",
+                "ja": "アイルリボン",
+                "ko": "섬 리본",
+                "tc": "海島緞帶",
+                "fr": "Ruban exotique",
+                "de": "Atelier-Schleife"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "6",
+              "icon": 54434,
+              "name": "海岛珊瑚戒指",
+              "names": {
+                "zh": "海岛珊瑚戒指",
+                "en": "Isleworks Coral Ring",
+                "ja": "アイルコーラルリング",
+                "ko": "섬 산호 반지",
+                "tc": "海島珊瑚戒指",
+                "fr": "Bague en corail manufacturée",
+                "de": "Atelier-Korallenring"
+              },
+              "hours": 6,
+              "value": 42
+            },
+            {
+              "id": "28",
+              "icon": 54918,
+              "name": "海岛缎带",
+              "names": {
+                "zh": "海岛缎带",
+                "en": "Isleworks Ribbon",
+                "ja": "アイルリボン",
+                "ko": "섬 리본",
+                "tc": "海島緞帶",
+                "fr": "Ruban exotique",
+                "de": "Atelier-Schleife"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "6",
+              "icon": 54434,
+              "name": "海岛珊瑚戒指",
+              "names": {
+                "zh": "海岛珊瑚戒指",
+                "en": "Isleworks Coral Ring",
+                "ja": "アイルコーラルリング",
+                "ko": "섬 산호 반지",
+                "tc": "海島珊瑚戒指",
+                "fr": "Bague en corail manufacturée",
+                "de": "Atelier-Korallenring"
+              },
+              "hours": 6,
+              "value": 42
+            }
+          ],
+          [
+            {
+              "id": "5",
+              "icon": 54912,
+              "name": "海岛木制项链",
+              "names": {
+                "zh": "海岛木制项链",
+                "en": "Isleworks Necklace",
+                "ja": "アイルウッドネックレス",
+                "ko": "섬 나무 목걸이",
+                "tc": "海島木製項鍊",
+                "fr": "Collier en bois manufacturé",
+                "de": "Atelier-Halskette"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "28",
+              "icon": 54918,
+              "name": "海岛缎带",
+              "names": {
+                "zh": "海岛缎带",
+                "en": "Isleworks Ribbon",
+                "ja": "アイルリボン",
+                "ko": "섬 리본",
+                "tc": "海島緞帶",
+                "fr": "Ruban exotique",
+                "de": "Atelier-Schleife"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "29",
+              "icon": 26103,
+              "name": "海岛绳索",
+              "names": {
+                "zh": "海岛绳索",
+                "en": "Isleworks Rope",
+                "ja": "アイルロープ",
+                "ko": "섬 밧줄",
+                "tc": "海島繩索",
+                "fr": "Corde exotique",
+                "de": "Atelier-Seil"
+              },
+              "hours": 4,
+              "value": 36
+            },
+            {
+              "id": "28",
+              "icon": 54918,
+              "name": "海岛缎带",
+              "names": {
+                "zh": "海岛缎带",
+                "en": "Isleworks Ribbon",
+                "ja": "アイルリボン",
+                "ko": "섬 리본",
+                "tc": "海島緞帶",
+                "fr": "Ruban exotique",
+                "de": "Atelier-Schleife"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "5",
+              "icon": 54912,
+              "name": "海岛木制项链",
+              "names": {
+                "zh": "海岛木制项链",
+                "en": "Isleworks Necklace",
+                "ja": "アイルウッドネックレス",
+                "ko": "섬 나무 목걸이",
+                "tc": "海島木製項鍊",
+                "fr": "Collier en bois manufacturé",
+                "de": "Atelier-Halskette"
+              },
+              "hours": 4,
+              "value": 28
+            }
+          ]
+        ]
+      },
+      {
+        "rank": 7,
+        "newProducts": [
+          {
+            "id": "32",
+            "icon": 24315,
+            "name": "海岛盐渍鳕鱼",
+            "names": {
+              "zh": "海岛盐渍鳕鱼",
+              "en": "Isleworks Salt Cod",
+              "ja": "アイルソルトコッド",
+              "ko": "섬 대구절임",
+              "tc": "海島鹽漬鱈魚",
+              "fr": "Morue salée exotique",
+              "de": "Atelier-Salzdorsch"
+            }
+          },
+          {
+            "id": "33",
+            "icon": 25060,
+            "name": "海岛墨鱼汁",
+            "names": {
+              "zh": "海岛墨鱼汁",
+              "en": "Isleworks Squid Ink",
+              "ja": "アイルインクペースト",
+              "ko": "섬 오징어 먹물",
+              "tc": "海島墨魚汁",
+              "fr": "Pâte d'encre exotique",
+              "de": "Atelier-Tintenfischtinte"
+            }
+          },
+          {
+            "id": "34",
+            "icon": 20705,
+            "name": "开拓工房仙药",
+            "names": {
+              "zh": "开拓工房仙药",
+              "en": "Isleworks Essential Draught",
+              "ja": "開拓工房の仙薬",
+              "ko": "개척공방 선약",
+              "tc": "開拓工坊仙藥",
+              "fr": "Breuvage érémitique manufacturé",
+              "de": "Atelier-Maxtrank"
+            }
+          }
+        ],
+        "routes": [
+          [
+            {
+              "id": "4",
+              "icon": 24332,
+              "name": "开拓工房烤扇贝",
+              "names": {
+                "zh": "开拓工房烤扇贝",
+                "en": "Isleworks Grilled Clam",
+                "ja": "開拓工房の焼き貝",
+                "ko": "개척공방 조개구이",
+                "tc": "開拓工坊烤扇貝",
+                "fr": "Coquillage grillé manufacturé",
+                "de": "Atelier-Grillmuscheln"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "33",
+              "icon": 25060,
+              "name": "海岛墨鱼汁",
+              "names": {
+                "zh": "海岛墨鱼汁",
+                "en": "Isleworks Squid Ink",
+                "ja": "アイルインクペースト",
+                "ko": "섬 오징어 먹물",
+                "tc": "海島墨魚汁",
+                "fr": "Pâte d'encre exotique",
+                "de": "Atelier-Tintenfischtinte"
+              },
+              "hours": 4,
+              "value": 36
+            },
+            {
+              "id": "32",
+              "icon": 24315,
+              "name": "海岛盐渍鳕鱼",
+              "names": {
+                "zh": "海岛盐渍鳕鱼",
+                "en": "Isleworks Salt Cod",
+                "ja": "アイルソルトコッド",
+                "ko": "섬 대구절임",
+                "tc": "海島鹽漬鱈魚",
+                "fr": "Morue salée exotique",
+                "de": "Atelier-Salzdorsch"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "33",
+              "icon": 25060,
+              "name": "海岛墨鱼汁",
+              "names": {
+                "zh": "海岛墨鱼汁",
+                "en": "Isleworks Squid Ink",
+                "ja": "アイルインクペースト",
+                "ko": "섬 오징어 먹물",
+                "tc": "海島墨魚汁",
+                "fr": "Pâte d'encre exotique",
+                "de": "Atelier-Tintenfischtinte"
+              },
+              "hours": 4,
+              "value": 36
+            },
+            {
+              "id": "32",
+              "icon": 24315,
+              "name": "海岛盐渍鳕鱼",
+              "names": {
+                "zh": "海岛盐渍鳕鱼",
+                "en": "Isleworks Salt Cod",
+                "ja": "アイルソルトコッド",
+                "ko": "섬 대구절임",
+                "tc": "海島鹽漬鱈魚",
+                "fr": "Morue salée exotique",
+                "de": "Atelier-Salzdorsch"
+              },
+              "hours": 6,
+              "value": 54
+            }
+          ],
+          [
+            {
+              "id": "34",
+              "icon": 20705,
+              "name": "开拓工房仙药",
+              "names": {
+                "zh": "开拓工房仙药",
+                "en": "Isleworks Essential Draught",
+                "ja": "開拓工房の仙薬",
+                "ko": "개척공방 선약",
+                "tc": "開拓工坊仙藥",
+                "fr": "Breuvage érémitique manufacturé",
+                "de": "Atelier-Maxtrank"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "6",
+              "icon": 54434,
+              "name": "海岛珊瑚戒指",
+              "names": {
+                "zh": "海岛珊瑚戒指",
+                "en": "Isleworks Coral Ring",
+                "ja": "アイルコーラルリング",
+                "ko": "섬 산호 반지",
+                "tc": "海島珊瑚戒指",
+                "fr": "Bague en corail manufacturée",
+                "de": "Atelier-Korallenring"
+              },
+              "hours": 6,
+              "value": 42
+            },
+            {
+              "id": "34",
+              "icon": 20705,
+              "name": "开拓工房仙药",
+              "names": {
+                "zh": "开拓工房仙药",
+                "en": "Isleworks Essential Draught",
+                "ja": "開拓工房の仙薬",
+                "ko": "개척공방 선약",
+                "tc": "開拓工坊仙藥",
+                "fr": "Breuvage érémitique manufacturé",
+                "de": "Atelier-Maxtrank"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "6",
+              "icon": 54434,
+              "name": "海岛珊瑚戒指",
+              "names": {
+                "zh": "海岛珊瑚戒指",
+                "en": "Isleworks Coral Ring",
+                "ja": "アイルコーラルリング",
+                "ko": "섬 산호 반지",
+                "tc": "海島珊瑚戒指",
+                "fr": "Bague en corail manufacturée",
+                "de": "Atelier-Korallenring"
+              },
+              "hours": 6,
+              "value": 42
+            }
+          ],
+          [
+            {
+              "id": "2",
+              "icon": 22604,
+              "name": "开拓工房火药",
+              "names": {
+                "zh": "开拓工房火药",
+                "en": "Isleworks Firesand",
+                "ja": "開拓工房の火薬",
+                "ko": "개척공방 화약",
+                "tc": "開拓工坊火藥",
+                "fr": "Poudre manufacturée",
+                "de": "Atelier-Feuersandbeutel"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "34",
+              "icon": 20705,
+              "name": "开拓工房仙药",
+              "names": {
+                "zh": "开拓工房仙药",
+                "en": "Isleworks Essential Draught",
+                "ja": "開拓工房の仙薬",
+                "ko": "개척공방 선약",
+                "tc": "開拓工坊仙藥",
+                "fr": "Breuvage érémitique manufacturé",
+                "de": "Atelier-Maxtrank"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "4",
+              "icon": 24332,
+              "name": "开拓工房烤扇贝",
+              "names": {
+                "zh": "开拓工房烤扇贝",
+                "en": "Isleworks Grilled Clam",
+                "ja": "開拓工房の焼き貝",
+                "ko": "개척공방 조개구이",
+                "tc": "開拓工坊烤扇貝",
+                "fr": "Coquillage grillé manufacturé",
+                "de": "Atelier-Grillmuscheln"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "33",
+              "icon": 25060,
+              "name": "海岛墨鱼汁",
+              "names": {
+                "zh": "海岛墨鱼汁",
+                "en": "Isleworks Squid Ink",
+                "ja": "アイルインクペースト",
+                "ko": "섬 오징어 먹물",
+                "tc": "海島墨魚汁",
+                "fr": "Pâte d'encre exotique",
+                "de": "Atelier-Tintenfischtinte"
+              },
+              "hours": 4,
+              "value": 36
+            },
+            {
+              "id": "34",
+              "icon": 20705,
+              "name": "开拓工房仙药",
+              "names": {
+                "zh": "开拓工房仙药",
+                "en": "Isleworks Essential Draught",
+                "ja": "開拓工房の仙薬",
+                "ko": "개척공방 선약",
+                "tc": "開拓工坊仙藥",
+                "fr": "Breuvage érémitique manufacturé",
+                "de": "Atelier-Maxtrank"
+              },
+              "hours": 6,
+              "value": 54
+            }
+          ]
+        ]
+      },
+      {
+        "rank": 8,
+        "newProducts": [
+          {
+            "id": "41",
+            "icon": 31402,
+            "name": "海岛铁斧",
+            "names": {
+              "zh": "海岛铁斧",
+              "en": "Isleworks Iron Axe",
+              "ja": "アイルアイアンアクス",
+              "ko": "섬 철도끼",
+              "tc": "海島鐵斧",
+              "fr": "Hache de fer manufacturée",
+              "de": "Atelier-Eisenaxt"
+            }
+          },
+          {
+            "id": "42",
+            "icon": 54411,
+            "name": "海岛石英戒指",
+            "names": {
+              "zh": "海岛石英戒指",
+              "en": "Isleworks Quartz Ring",
+              "ja": "アイルクォーツリング",
+              "ko": "섬 석영 반지",
+              "tc": "海島石英戒指",
+              "fr": "Anneau en quartz exotique",
+              "de": "Atelier-Quarzring"
+            }
+          },
+          {
+            "id": "43",
+            "icon": 53188,
+            "name": "开拓工房瓷罐",
+            "names": {
+              "zh": "开拓工房瓷罐",
+              "en": "Isleworks Porcelain Vase",
+              "ja": "開拓工房の磁器壺",
+              "ko": "개척공방 청화백자",
+              "tc": "開拓工坊瓷罐",
+              "fr": "Vase en porcelaine manufacturé",
+              "de": "Atelier-Porzellanvase"
+            }
+          }
+        ],
+        "routes": [
+          [
+            {
+              "id": "2",
+              "icon": 22604,
+              "name": "开拓工房火药",
+              "names": {
+                "zh": "开拓工房火药",
+                "en": "Isleworks Firesand",
+                "ja": "開拓工房の火薬",
+                "ko": "개척공방 화약",
+                "tc": "開拓工坊火藥",
+                "fr": "Poudre manufacturée",
+                "de": "Atelier-Feuersandbeutel"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "43",
+              "icon": 53188,
+              "name": "开拓工房瓷罐",
+              "names": {
+                "zh": "开拓工房瓷罐",
+                "en": "Isleworks Porcelain Vase",
+                "ja": "開拓工房の磁器壺",
+                "ko": "개척공방 청화백자",
+                "tc": "開拓工坊瓷罐",
+                "fr": "Vase en porcelaine manufacturé",
+                "de": "Atelier-Porzellanvase"
+              },
+              "hours": 8,
+              "value": 72
+            },
+            {
+              "id": "2",
+              "icon": 22604,
+              "name": "开拓工房火药",
+              "names": {
+                "zh": "开拓工房火药",
+                "en": "Isleworks Firesand",
+                "ja": "開拓工房の火薬",
+                "ko": "개척공방 화약",
+                "tc": "開拓工坊火藥",
+                "fr": "Poudre manufacturée",
+                "de": "Atelier-Feuersandbeutel"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "43",
+              "icon": 53188,
+              "name": "开拓工房瓷罐",
+              "names": {
+                "zh": "开拓工房瓷罐",
+                "en": "Isleworks Porcelain Vase",
+                "ja": "開拓工房の磁器壺",
+                "ko": "개척공방 청화백자",
+                "tc": "開拓工坊瓷罐",
+                "fr": "Vase en porcelaine manufacturé",
+                "de": "Atelier-Porzellanvase"
+              },
+              "hours": 8,
+              "value": 72
+            }
+          ],
+          [
+            {
+              "id": "5",
+              "icon": 54912,
+              "name": "海岛木制项链",
+              "names": {
+                "zh": "海岛木制项链",
+                "en": "Isleworks Necklace",
+                "ja": "アイルウッドネックレス",
+                "ko": "섬 나무 목걸이",
+                "tc": "海島木製項鍊",
+                "fr": "Collier en bois manufacturé",
+                "de": "Atelier-Halskette"
+              },
+              "hours": 4,
+              "value": 28
+            },
+            {
+              "id": "28",
+              "icon": 54918,
+              "name": "海岛缎带",
+              "names": {
+                "zh": "海岛缎带",
+                "en": "Isleworks Ribbon",
+                "ja": "アイルリボン",
+                "ko": "섬 리본",
+                "tc": "海島緞帶",
+                "fr": "Ruban exotique",
+                "de": "Atelier-Schleife"
+              },
+              "hours": 6,
+              "value": 54
+            },
+            {
+              "id": "42",
+              "icon": 54411,
+              "name": "海岛石英戒指",
+              "names": {
+                "zh": "海岛石英戒指",
+                "en": "Isleworks Quartz Ring",
+                "ja": "アイルクォーツリング",
+                "ko": "섬 석영 반지",
+                "tc": "海島石英戒指",
+                "fr": "Anneau en quartz exotique",
+                "de": "Atelier-Quarzring"
+              },
+              "hours": 8,
+              "value": 72
+            },
+            {
+              "id": "28",
+              "icon": 54918,
+              "name": "海岛缎带",
+              "names": {
+                "zh": "海岛缎带",
+                "en": "Isleworks Ribbon",
+                "ja": "アイルリボン",
+                "ko": "섬 리본",
+                "tc": "海島緞帶",
+                "fr": "Ruban exotique",
+                "de": "Atelier-Schleife"
+              },
+              "hours": 6,
+              "value": 54
+            }
+          ],
+          [
+            {
+              "id": "41",
+              "icon": 31402,
+              "name": "海岛铁斧",
+              "names": {
+                "zh": "海岛铁斧",
+                "en": "Isleworks Iron Axe",
+                "ja": "アイルアイアンアクス",
+                "ko": "섬 철도끼",
+                "tc": "海島鐵斧",
+                "fr": "Hache de fer manufacturée",
+                "de": "Atelier-Eisenaxt"
+              },
+              "hours": 8,
+              "value": 72
+            },
+            {
+              "id": "19",
+              "icon": 23715,
+              "name": "绵羊铜像",
+              "names": {
+                "zh": "绵羊铜像",
+                "en": "Bronze Sheep",
+                "ja": "シープのブロンズ像",
+                "ko": "양 동상",
+                "tc": "綿羊銅像",
+                "fr": "Statue de mouton en bronze manufacturée",
+                "de": "Bronzeschaf"
+              },
+              "hours": 8,
+              "value": 64
+            },
+            {
+              "id": "41",
+              "icon": 31402,
+              "name": "海岛铁斧",
+              "names": {
+                "zh": "海岛铁斧",
+                "en": "Isleworks Iron Axe",
+                "ja": "アイルアイアンアクス",
+                "ko": "섬 철도끼",
+                "tc": "海島鐵斧",
+                "fr": "Hache de fer manufacturée",
+                "de": "Atelier-Eisenaxt"
+              },
+              "hours": 8,
+              "value": 72
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "popularityTypes": [
+    {
+      "id": "1",
+      "ratio": 140
+    },
+    {
+      "id": "2",
+      "ratio": 120
+    },
+    {
+      "id": "3",
+      "ratio": 100
+    },
+    {
+      "id": "4",
+      "ratio": 80
+    }
+  ],
+  "supplyDefines": [
+    {
+      "id": "1",
+      "ratio": 130,
+      "supply": 10
+    },
+    {
+      "id": "2",
+      "ratio": 100,
+      "supply": 2
+    },
+    {
+      "id": "3",
+      "ratio": 80,
+      "supply": -6
+    },
+    {
+      "id": "4",
+      "ratio": 60,
+      "supply": -999
+    }
+  ],
+  "rankRatios": [
+    {
+      "id": "1",
+      "ratio": 100
+    },
+    {
+      "id": "2",
+      "ratio": 110
+    },
+    {
+      "id": "3",
+      "ratio": 120
+    },
+    {
+      "id": "4",
+      "ratio": 130
+    },
+    {
+      "id": "5",
+      "ratio": 140
+    }
+  ],
+  "tensionLevels": [
+    {
+      "id": "0",
+      "bonus": 0
+    },
+    {
+      "id": "1",
+      "bonus": 0
+    },
+    {
+      "id": "2",
+      "bonus": 0
+    },
+    {
+      "id": "3",
+      "bonus": 0
+    },
+    {
+      "id": "4",
+      "bonus": 0
+    },
+    {
+      "id": "5",
+      "bonus": 0
+    }
+  ]
+}
