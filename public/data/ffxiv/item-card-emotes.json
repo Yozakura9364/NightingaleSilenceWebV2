@@ -14,14 +14,14 @@
     ],
     "urls": {
       "zh": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Emote.csv",
-      "en": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/Emote.csv",
+      "en": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/en/Emote.csv",
       "ja": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/ja/Emote.csv",
       "ko": "https://raw.githubusercontent.com/Ra-Workspace/ffxiv-datamining-ko/f23bc92dab1559ed779c7fbd3c422047e352665b/csv/Emote.csv",
-      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/1cf1f9fb735bad0748848dbd3f4de05721fe619a/Emote.csv",
-      "fr": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/Emote.csv",
-      "de": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/Emote.csv"
+      "tc": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/Emote.csv",
+      "fr": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/fr/Emote.csv",
+      "de": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/de/Emote.csv"
     },
-    "source_batch_id": "c4dbf755c35e2fc676771ff512cc27cec7bdb7abb5b2495e35337ee9f890e6df",
+    "source_batch_id": "cc0680649b1e5d2ef21b2e38010ae09039fe6ae6e153a94453c9572d6b0c205a",
     "source_mode": "hybrid",
     "files": {
       "zh": {
@@ -35,10 +35,10 @@
       "en": {
         "locale": "en",
         "sheet": "Emote",
-        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/en/Emote.csv",
-        "sha256": "c6e0a555779be0ad9077fdab8df3ad6513a8c0448a8f5528837ef0f95f3a8aec",
-        "repository": "InfSein/ffxiv-datamining-mixed",
-        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+        "source": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/en/Emote.csv",
+        "sha256": "60608087d685bdf6b336a2c68421db02267847442af892ba4b23df9ae7291cb4",
+        "repository": "Yozakura9364/ffxiv-datamining",
+        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135"
       },
       "ja": {
         "locale": "ja",
@@ -59,30 +59,30 @@
       "tc": {
         "locale": "tc",
         "sheet": "Emote",
-        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/1cf1f9fb735bad0748848dbd3f4de05721fe619a/Emote.csv",
-        "sha256": "7d242b70d73b27c77f1d36565b2da51666a6186a3a9596f608f5d5bdf6d144ba",
+        "source": "https://raw.githubusercontent.com/thewakingsands/ffxiv-datamining-tc/8adc04cbe4eb469017025a80d9a439451805523d/Emote.csv",
+        "sha256": "b2a638504b922026e8efec8c1302dfb874e13e5e9f5bdb47946f0f19ac0ce0b8",
         "repository": "thewakingsands/ffxiv-datamining-tc",
-        "revision": "1cf1f9fb735bad0748848dbd3f4de05721fe619a"
+        "revision": "8adc04cbe4eb469017025a80d9a439451805523d"
       },
       "fr": {
         "locale": "fr",
         "sheet": "Emote",
-        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/fr/Emote.csv",
-        "sha256": "d4796723a5111de5dee82173f46ff964a321ce65fcb08c9429573a798a8137b2",
-        "repository": "InfSein/ffxiv-datamining-mixed",
-        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+        "source": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/fr/Emote.csv",
+        "sha256": "0b4bce00484f15a263289563c8038fd518add6b0dc52a6ceb8a5914921906825",
+        "repository": "Yozakura9364/ffxiv-datamining",
+        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135"
       },
       "de": {
         "locale": "de",
         "sheet": "Emote",
-        "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/de/Emote.csv",
-        "sha256": "b7fbc9bbd86c7f58047b51be56ace0cb269b3bab5986a243ce76eb58a0db09c2",
-        "repository": "InfSein/ffxiv-datamining-mixed",
-        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+        "source": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/de/Emote.csv",
+        "sha256": "a4a11edd67888ae991055a93c39cd7f763e84b510915014f5a3d8eeaea67296f",
+        "repository": "Yozakura9364/ffxiv-datamining",
+        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135"
       }
     }
   },
-  "generatedAt": "2026-11-14T12:04:18.077Z",
+  "generatedAt": "2026-11-25T18:23:58.450Z",
   "items": [
     {
       "id": "1",
@@ -4651,6 +4651,7 @@
         "en": "Gridanian Sip",
         "ja": "森都風マグカップで飲む",
         "ko": "삼림도시풍 머그컵 마시기",
+        "tc": "用森都風格馬克杯喝",
         "fr": "Tasse gridanienne",
         "de": "Gridanisches Schlückchen"
       }
@@ -4667,6 +4668,7 @@
         "en": "Ul'dahn Sip",
         "ja": "砂都風マグカップで飲む",
         "ko": "사막도시풍 머그컵 마시기",
+        "tc": "用沙都風格馬克杯喝",
         "fr": "Tasse uldienne",
         "de": "Ul'dhisches Schlückchen"
       }
@@ -4683,6 +4685,7 @@
         "en": "Lominsan Sip",
         "ja": "海都風マグカップで飲む",
         "ko": "바다도시풍 머그컵 마시기",
+        "tc": "用海都風格馬克杯喝",
         "fr": "Tasse limséenne",
         "de": "Limsisches Schlückchen"
       }
@@ -4699,6 +4702,7 @@
         "en": "Gridanian Gulp",
         "ja": "森都風マグカップで飲み続ける",
         "ko": "삼림도시풍 머그컵 계속 마시기",
+        "tc": "持續用森都風格馬克杯喝",
         "fr": "Tasse gridanienne (continu)",
         "de": "Gridanischer Schluck"
       }
@@ -4715,6 +4719,7 @@
         "en": "Ul'dahn Gulp",
         "ja": "砂都風マグカップで飲み続ける",
         "ko": "사막도시풍 머그컵 계속 마시기",
+        "tc": "持續用沙都風格馬克杯喝",
         "fr": "Tasse uldienne (continu)",
         "de": "Ul'dhischer Schluck"
       }
@@ -4731,6 +4736,7 @@
         "en": "Lominsan Gulp",
         "ja": "海都風マグカップで飲み続ける",
         "ko": "바다도시풍 머그컵 계속 마시기",
+        "tc": "持續用海都風格馬克杯喝",
         "fr": "Tasse limséenne (continu)",
         "de": "Limsischer Schluck"
       }
@@ -4747,6 +4753,7 @@
         "en": "Limber Up",
         "ja": "張り切る",
         "ko": "준비 운동",
+        "tc": "躍躍欲試",
         "fr": "S'échauffer",
         "de": "Lockern"
       }
@@ -4795,6 +4802,7 @@
         "en": "Pen",
         "ja": "羽根ペンで記述する",
         "ko": "깃펜으로 쓰기",
+        "tc": "用羽毛筆記錄",
         "fr": "Écrire avec une plume",
         "de": "Beschwingt notieren"
       }
