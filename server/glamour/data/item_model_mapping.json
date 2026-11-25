@@ -20,16 +20,16 @@
       "de": "de"
     },
     "source_mode": "batch",
-    "source_batch_id": "cc0680649b1e5d2ef21b2e38010ae09039fe6ae6e153a94453c9572d6b0c205a",
+    "source_batch_id": "05e0b7df587c39e9dcc96d3b136cb548319091d61b078211f49a4f8f2f5833ec",
     "item_sources": {
       "zh": {
         "locale": "chs",
         "sheet": "Item",
         "path": "csv/chs/Item.csv",
-        "sha256": "52b1993d37ddfc03c69614f7161d8f47a50ecc1daead4f85f291ebb683d636c7",
-        "repository": "InfSein/ffxiv-datamining-mixed",
-        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9",
-        "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Item.csv"
+        "sha256": "8e52b1224108c0af8743b81058865f9161e8ce7135d00e91e423f101eaba5909",
+        "repository": "Yozakura9364/ffxiv-datamining",
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/chs/Item.csv"
       },
       "en": {
         "locale": "en",
@@ -37,8 +37,8 @@
         "path": "csv/en/Item.csv",
         "sha256": "d77735c7dd4fc531a31b38f48305a06e01b755da5724d09be76a5740bf5c356a",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/en/Item.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/en/Item.csv"
       },
       "ja": {
         "locale": "ja",
@@ -73,8 +73,8 @@
         "path": "csv/fr/Item.csv",
         "sha256": "c9b90eca68ca2c61bc0ea680828878b94c866b2cc6e05be2a8d8b175bbe72774",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/fr/Item.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/fr/Item.csv"
       },
       "de": {
         "locale": "de",
@@ -82,8 +82,8 @@
         "path": "csv/de/Item.csv",
         "sha256": "e5c2f6c1866c0d3be773ec49dbe7d3274608ce639be534ebe50df3727ea4dd7f",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/de/Item.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/de/Item.csv"
       }
     },
     "stain_sources": {
@@ -91,10 +91,10 @@
         "locale": "chs",
         "sheet": "Stain",
         "path": "csv/chs/Stain.csv",
-        "sha256": "9bebdb42ed46614f8c5cdba09d9e319e5c85a31b88a864c68bb2bdc025cccee0",
-        "repository": "InfSein/ffxiv-datamining-mixed",
-        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9",
-        "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Stain.csv"
+        "sha256": "c63d61ea780040dee0cc6f08ea8ab2d49dbf88565e9594db67208a3c8a8b29ee",
+        "repository": "Yozakura9364/ffxiv-datamining",
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/chs/Stain.csv"
       },
       "en": {
         "locale": "en",
@@ -102,8 +102,8 @@
         "path": "csv/en/Stain.csv",
         "sha256": "66a900117709db0bf938f651db1f39a629e5abefa75ef0670c465661bb0abecd",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/en/Stain.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/en/Stain.csv"
       },
       "ja": {
         "locale": "ja",
@@ -138,8 +138,8 @@
         "path": "csv/fr/Stain.csv",
         "sha256": "6dea0892648d41b2e7aad623054720b03fce30f0623dedbeea40c1320a7cc0d1",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/fr/Stain.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/fr/Stain.csv"
       },
       "de": {
         "locale": "de",
@@ -147,8 +147,8 @@
         "path": "csv/de/Stain.csv",
         "sha256": "84dfeabef44ffd7d6266b071f0c1d1e4208d28ecd1724f04d530b15a837c6349",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/de/Stain.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/de/Stain.csv"
       }
     },
     "addon_sources": {
@@ -156,10 +156,10 @@
         "locale": "chs",
         "sheet": "Addon",
         "path": "csv/chs/Addon.csv",
-        "sha256": "63bfcb1c5f41437557cbfc8ff9e807054b6f8f923e1c998e661b579539f50f9c",
-        "repository": "InfSein/ffxiv-datamining-mixed",
-        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9",
-        "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Addon.csv"
+        "sha256": "b1582c161877babb368ed3fd23fb85c1825806e000d2d2a9c3cb79f0917dac5a",
+        "repository": "Yozakura9364/ffxiv-datamining",
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/chs/Addon.csv"
       },
       "en": {
         "locale": "en",
@@ -167,8 +167,8 @@
         "path": "csv/en/Addon.csv",
         "sha256": "534042d0f29fdc1411eebef2ef2c7ecb524e617319071a0020e3591f8aded106",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/en/Addon.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/en/Addon.csv"
       },
       "ja": {
         "locale": "ja",
@@ -203,8 +203,8 @@
         "path": "csv/fr/Addon.csv",
         "sha256": "916310c7193a78a14f51f5bae3d26339127a42e55cab5b4e1f9892090dc371ae",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/fr/Addon.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/fr/Addon.csv"
       },
       "de": {
         "locale": "de",
@@ -212,8 +212,8 @@
         "path": "csv/de/Addon.csv",
         "sha256": "f1395f43d400f8e3ad8cbf03b88547d823fbf66f9682b011a85d21591c29db2c",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/de/Addon.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/de/Addon.csv"
       }
     },
     "glasses_sources": {
@@ -221,10 +221,10 @@
         "locale": "chs",
         "sheet": "Glasses",
         "path": "csv/chs/Glasses.csv",
-        "sha256": "0673d86aca5d506f7d2e3c5ab8f3ffc452feaa4d5f134e64152e559e1f4241d2",
-        "repository": "InfSein/ffxiv-datamining-mixed",
-        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9",
-        "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Glasses.csv"
+        "sha256": "2a690ce2cb0270082500629b2b71e8b36da482d1d2236531202099b12a98762c",
+        "repository": "Yozakura9364/ffxiv-datamining",
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/chs/Glasses.csv"
       },
       "en": {
         "locale": "en",
@@ -232,8 +232,8 @@
         "path": "csv/en/Glasses.csv",
         "sha256": "524b0b860c80b52d0d3c563b8d4ea291f9370683fdd08fae1de667a2598c5d0a",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/en/Glasses.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/en/Glasses.csv"
       },
       "ja": {
         "locale": "ja",
@@ -268,8 +268,8 @@
         "path": "csv/fr/Glasses.csv",
         "sha256": "b653497639116cbdc59fdd65980b2942b3dcb61f8735b5b6f39f15729ced6027",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/fr/Glasses.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/fr/Glasses.csv"
       },
       "de": {
         "locale": "de",
@@ -277,8 +277,8 @@
         "path": "csv/de/Glasses.csv",
         "sha256": "fce20eb1a3764a7df27690a9bb0bad96c2c0a17983cda6ed33b1dc149119690d",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/de/Glasses.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/de/Glasses.csv"
       }
     },
     "ornament_sources": {
@@ -286,10 +286,10 @@
         "locale": "chs",
         "sheet": "Ornament",
         "path": "csv/chs/Ornament.csv",
-        "sha256": "90cd10ea3a64ba5aab99fd0e0551826aaea97238df706e5c042f3b27b07ddc22",
-        "repository": "InfSein/ffxiv-datamining-mixed",
-        "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9",
-        "url": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Ornament.csv"
+        "sha256": "641a6598777310f11dc2f3f472fe90834009848f649f905b64f31b9b5173f26e",
+        "repository": "Yozakura9364/ffxiv-datamining",
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/chs/Ornament.csv"
       },
       "en": {
         "locale": "en",
@@ -297,8 +297,8 @@
         "path": "csv/en/Ornament.csv",
         "sha256": "1e74bfb46cd14cba6b01395c38cfc2e391d19f404cb9756c797befde8c96a49a",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/en/Ornament.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/en/Ornament.csv"
       },
       "ja": {
         "locale": "ja",
@@ -333,8 +333,8 @@
         "path": "csv/fr/Ornament.csv",
         "sha256": "8391e2b499b812377effcf5b9d7ff60384809d1f855a11d4f2437541d9cce680",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/fr/Ornament.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/fr/Ornament.csv"
       },
       "de": {
         "locale": "de",
@@ -342,8 +342,8 @@
         "path": "csv/de/Ornament.csv",
         "sha256": "f58395f794a85f2fad96984730b7e99bb183a3c00dcc39dfa54d7518100e6c04",
         "repository": "Yozakura9364/ffxiv-datamining",
-        "revision": "67830414a5d8db8cb389d81067d5ee1634fa4135",
-        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/67830414a5d8db8cb389d81067d5ee1634fa4135/de/Ornament.csv"
+        "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0",
+        "url": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/de/Ornament.csv"
       }
     }
   },

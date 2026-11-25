@@ -1,16 +1,16 @@
 {
   "schemaVersion": "ffxiv.dyeCatalog.v1",
-  "generatedAt": "2026-11-25T18:21:47.673419+00:00",
+  "generatedAt": "2026-11-25T19:14:13.497347+00:00",
   "source": {
     "note": "FFXIV 染剂分类共享数据（general/extra1/extra2/storeSpecial），供时尚品鉴等模块消费；原 NSArmoire 模块产物，2026-08-01 迁入 ffxiv 共享层。",
-    "source_batch_id": "cc0680649b1e5d2ef21b2e38010ae09039fe6ae6e153a94453c9572d6b0c205a",
+    "source_batch_id": "05e0b7df587c39e9dcc96d3b136cb548319091d61b078211f49a4f8f2f5833ec",
     "stain": {
       "locale": "chs",
       "sheet": "Stain",
-      "source": "https://raw.githubusercontent.com/InfSein/ffxiv-datamining-mixed/2e3a10255badeeec1d9bd347665b45c6a5b635e9/chs/Stain.csv",
-      "sha256": "9bebdb42ed46614f8c5cdba09d9e319e5c85a31b88a864c68bb2bdc025cccee0",
-      "repository": "InfSein/ffxiv-datamining-mixed",
-      "revision": "2e3a10255badeeec1d9bd347665b45c6a5b635e9"
+      "source": "https://raw.githubusercontent.com/Yozakura9364/ffxiv-datamining/c3eb7afa698bd9b969fd6f80fa6b305611f15eb0/chs/Stain.csv",
+      "sha256": "c63d61ea780040dee0cc6f08ea8ab2d49dbf88565e9594db67208a3c8a8b29ee",
+      "repository": "Yozakura9364/ffxiv-datamining",
+      "revision": "c3eb7afa698bd9b969fd6f80fa6b305611f15eb0"
     },
     "missing_stain_ids": [],
     "manual_category_missing": []
@@ -305,7 +305,7 @@
     },
     "36": {
       "dyeId": 36,
-      "name": "陆行鸟黄",
+      "name": "沙漠黄",
       "color": "#DBB457",
       "shade": 6,
       "subOrder": 3,
