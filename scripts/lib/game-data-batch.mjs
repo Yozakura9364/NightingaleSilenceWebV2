@@ -16,7 +16,7 @@ function checkProvenance(record, mode, revisions) {
     return
   }
   const isMenuSheet = record.sheet.includes('content/') || record.sheet.includes('custom/')
-  const isOwn = ['chs', 'en', 'de', 'fr'].includes(record.locale) && !isMenuSheet && record.sheet !== 'CharaMakeType'
+  const isOwn = ['chs', 'en', 'de', 'fr'].includes(record.locale) && !isMenuSheet && !['CharaMakeType', 'HairMakeType'].includes(record.sheet)
   const [repository, prefix] = record.locale === 'ko' ? ['Ra-Workspace/ffxiv-datamining-ko', 'csv/'] : record.locale === 'tc' ? ['thewakingsands/ffxiv-datamining-tc', ''] : (isOwn ? ['Yozakura9364/ffxiv-datamining', `${record.locale}/`] : ['InfSein/ffxiv-datamining-mixed', `${record.locale}/`])
   if (!/^[0-9a-f]{40}$/.test(record.revision) || record.repository !== repository || record.url !== `https://raw.githubusercontent.com/${repository}/${record.revision}/${prefix}${record.sheet}.csv`) throw new Error('Remote source provenance must use a pinned official repository')
   if (revisions.has(repository) && revisions.get(repository) !== record.revision) throw new Error('Source provenance mixes revisions of one repository')

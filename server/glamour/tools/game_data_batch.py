@@ -20,7 +20,7 @@ def _provenance(entry, mode, revisions):
             raise ValueError("Hybrid local source must carry game_version only")
         return
     locale, sheet, revision = entry["locale"], entry["sheet"], entry.get("revision")
-    own = locale in ("chs", "en", "de", "fr") and sheet != "CharaMakeType" and "content/" not in sheet and "custom/" not in sheet
+    own = locale in ("chs", "en", "de", "fr") and sheet not in ("CharaMakeType", "HairMakeType") and "content/" not in sheet and "custom/" not in sheet
     repo, prefix = (("Ra-Workspace/ffxiv-datamining-ko", "csv/") if locale == "ko" else
                     ("thewakingsands/ffxiv-datamining-tc", "") if locale == "tc" else
                     ("Yozakura9364/ffxiv-datamining", locale + "/") if own else
